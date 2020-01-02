@@ -6,12 +6,39 @@
 	objectVersion = 50;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		25D680B423BE94DD00C83CC5 /* xplanemp2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2502C17A23BE8A1600578919 /* xplanemp2.framework */; };
+		25D680B923BE95FB00C83CC5 /* XPCAircraft.h in Headers */ = {isa = PBXBuildFile; fileRef = 25D680B623BE95FB00C83CC5 /* XPCAircraft.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		25D680BA23BE95FB00C83CC5 /* XPMPMultiplayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 25D680B723BE95FB00C83CC5 /* XPMPMultiplayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		25D680BB23BE95FB00C83CC5 /* XPMPPlaneRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 25D680B823BE95FB00C83CC5 /* XPMPPlaneRenderer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		25D680B323BE94C800C83CC5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /Users/birger/Programming/Frameworks;
+			dstSubfolderSpec = 0;
+			files = (
+				25D680B423BE94DD00C83CC5 /* xplanemp2.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		2502C16823BE3CFC00578919 /* libxplanemp2.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libxplanemp2.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2502C17A23BE8A1600578919 /* xplanemp2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = xplanemp2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		25D680B123BE936B00C83CC5 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		25D680B623BE95FB00C83CC5 /* XPCAircraft.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = XPCAircraft.h; sourceTree = "<group>"; };
+		25D680B723BE95FB00C83CC5 /* XPMPMultiplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPMPMultiplayer.h; sourceTree = "<group>"; };
+		25D680B823BE95FB00C83CC5 /* XPMPPlaneRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPMPPlaneRenderer.h; sourceTree = "<group>"; };
+		25D680BE23BE9BB900C83CC5 /* xplanemp2.doxygen */ = {isa = PBXFileReference; lastKnownFileType = text; path = xplanemp2.doxygen; sourceTree = "<group>"; };
+		25D680BF23BE9BB900C83CC5 /* MainPage.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = MainPage.md; sourceTree = "<group>"; };
+		25D680C023BE9D3200C83CC5 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		2502C16623BE3CFC00578919 /* Frameworks */ = {
+		2502C17723BE8A1600578919 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -24,6 +51,11 @@
 		2502C15F23BE3CFC00578919 = {
 			isa = PBXGroup;
 			children = (
+				25D680C023BE9D3200C83CC5 /* .gitignore */,
+				25D680BD23BE9B7900C83CC5 /* docs */,
+				25D680BC23BE9B5700C83CC5 /* src */,
+				25D680B523BE95FB00C83CC5 /* inc */,
+				25D680B123BE936B00C83CC5 /* Info.plist */,
 				2502C16923BE3CFC00578919 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -31,31 +63,62 @@
 		2502C16923BE3CFC00578919 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2502C16823BE3CFC00578919 /* libxplanemp2.a */,
+				2502C17A23BE8A1600578919 /* xplanemp2.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		25D680B523BE95FB00C83CC5 /* inc */ = {
+			isa = PBXGroup;
+			children = (
+				25D680B623BE95FB00C83CC5 /* XPCAircraft.h */,
+				25D680B723BE95FB00C83CC5 /* XPMPMultiplayer.h */,
+				25D680B823BE95FB00C83CC5 /* XPMPPlaneRenderer.h */,
+			);
+			path = inc;
+			sourceTree = "<group>";
+		};
+		25D680BC23BE9B5700C83CC5 /* src */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		25D680BD23BE9B7900C83CC5 /* docs */ = {
+			isa = PBXGroup;
+			children = (
+				25D680BF23BE9BB900C83CC5 /* MainPage.md */,
+				25D680BE23BE9BB900C83CC5 /* xplanemp2.doxygen */,
+			);
+			path = docs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		2502C16423BE3CFC00578919 /* Headers */ = {
+		2502C17523BE8A1600578919 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25D680BB23BE95FB00C83CC5 /* XPMPPlaneRenderer.h in Headers */,
+				25D680BA23BE95FB00C83CC5 /* XPMPMultiplayer.h in Headers */,
+				25D680B923BE95FB00C83CC5 /* XPCAircraft.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		2502C16723BE3CFC00578919 /* xplanemp2 */ = {
+		2502C17923BE8A1600578919 /* xplanemp2 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2502C16C23BE3CFC00578919 /* Build configuration list for PBXNativeTarget "xplanemp2" */;
+			buildConfigurationList = 2502C17F23BE8A1700578919 /* Build configuration list for PBXNativeTarget "xplanemp2" */;
 			buildPhases = (
-				2502C16423BE3CFC00578919 /* Headers */,
-				2502C16523BE3CFC00578919 /* Sources */,
-				2502C16623BE3CFC00578919 /* Frameworks */,
+				2502C17523BE8A1600578919 /* Headers */,
+				2502C17623BE8A1600578919 /* Sources */,
+				2502C17723BE8A1600578919 /* Frameworks */,
+				2502C17823BE8A1600578919 /* Resources */,
+				25D680B323BE94C800C83CC5 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -63,8 +126,8 @@
 			);
 			name = xplanemp2;
 			productName = xplanemp2;
-			productReference = 2502C16823BE3CFC00578919 /* libxplanemp2.a */;
-			productType = "com.apple.product-type.library.static";
+			productReference = 2502C17A23BE8A1600578919 /* xplanemp2.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -75,7 +138,7 @@
 				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = TwinFan;
 				TargetAttributes = {
-					2502C16723BE3CFC00578919 = {
+					2502C17923BE8A1600578919 = {
 						CreatedOnToolsVersion = 11.3;
 					};
 				};
@@ -93,13 +156,23 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2502C16723BE3CFC00578919 /* xplanemp2 */,
+				2502C17923BE8A1600578919 /* xplanemp2 */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		2502C17823BE8A1600578919 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
-		2502C16523BE3CFC00578919 /* Sources */ = {
+		2502C17623BE8A1600578919 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -115,11 +188,14 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_ATOMIC_IMPLICIT_SEQ_CST = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -129,6 +205,8 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_FLOAT_CONVERSION = YES;
+				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
@@ -137,33 +215,68 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CLANG_WARN__EXIT_TIME_DESTRUCTORS = YES;
+				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 0.1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = W5UR4ZV2BP;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
+				FRAMEWORK_VERSION = 0.1;
+				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
-					"$(inherited)",
+					"SLOT_DEBUG=1",
+					"APL=1",
+					"IBM=0",
+					"LIN=0",
+					"XPLM200=1",
+					"XPLM210=1",
+					"__MACH__=1",
+					"XUTILS_EXCLUDE_MAC_CRAP=1",
+					"XPMP_CLIENT_NAME='\"LT\"'",
+					"XPMP_CLIENT_LONGNAME='\"LiveTraffic\"'",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				HEADER_SEARCH_PATHS = inc;
+				INFOPLIST_FILE = Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.twinfan.xplanemp2;
+				PRODUCT_NAME = xplanemp2;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "$(XPSDK_ROOT)/CHeaders/XPLM";
+				XPSDK_ROOT = /Users/birger/Programming/XPlane/SDK;
 			};
 			name = Debug;
 		};
@@ -173,11 +286,14 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_ATOMIC_IMPLICIT_SEQ_CST = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -187,6 +303,8 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_FLOAT_CONVERSION = YES;
+				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
@@ -195,47 +313,100 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CLANG_WARN__EXIT_TIME_DESTRUCTORS = YES;
+				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 0.1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = W5UR4ZV2BP;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
+				FRAMEWORK_VERSION = 0.1;
+				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"APL=1",
+					"IBM=0",
+					"LIN=0",
+					"XPLM200=1",
+					"XPLM210=1",
+					"__MACH__=1",
+					"XUTILS_EXCLUDE_MAC_CRAP=1",
+					"XPMP_CLIENT_NAME='\"LT\"'",
+					"XPMP_CLIENT_LONGNAME='\"LiveTraffic\"'",
+				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				HEADER_SEARCH_PATHS = inc;
+				INFOPLIST_FILE = Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.twinfan.xplanemp2;
+				PRODUCT_NAME = xplanemp2;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "$(XPSDK_ROOT)/CHeaders/XPLM";
+				XPSDK_ROOT = /Users/birger/Programming/XPlane/SDK;
 			};
 			name = Release;
 		};
-		2502C16D23BE3CFC00578919 /* Debug */ = {
+		2502C18023BE8A1700578919 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = W5UR4ZV2BP;
-				EXECUTABLE_PREFIX = lib;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "$(INSTALL_PATH)";
+				INSTALL_PATH = "@loader_path";
+				LD_DYLIB_INSTALL_NAME = "$(DYLIB_INSTALL_NAME_BASE:standardizepath)/$(PRODUCT_MODULE_NAME)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
-		2502C16E23BE3CFC00578919 /* Release */ = {
+		2502C18123BE8A1700578919 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = W5UR4ZV2BP;
-				EXECUTABLE_PREFIX = lib;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "$(INSTALL_PATH)";
+				INSTALL_PATH = "@loader_path";
+				LD_DYLIB_INSTALL_NAME = "$(DYLIB_INSTALL_NAME_BASE:standardizepath)/$(PRODUCT_MODULE_NAME)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -252,11 +423,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2502C16C23BE3CFC00578919 /* Build configuration list for PBXNativeTarget "xplanemp2" */ = {
+		2502C17F23BE8A1700578919 /* Build configuration list for PBXNativeTarget "xplanemp2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2502C16D23BE3CFC00578919 /* Debug */,
-				2502C16E23BE3CFC00578919 /* Release */,
+				2502C18023BE8A1700578919 /* Debug */,
+				2502C18123BE8A1700578919 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

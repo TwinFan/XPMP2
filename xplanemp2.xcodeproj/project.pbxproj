@@ -11,6 +11,7 @@
 		25D680B923BE95FB00C83CC5 /* XPCAircraft.h in Headers */ = {isa = PBXBuildFile; fileRef = 25D680B623BE95FB00C83CC5 /* XPCAircraft.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		25D680BA23BE95FB00C83CC5 /* XPMPMultiplayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 25D680B723BE95FB00C83CC5 /* XPMPMultiplayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		25D680BB23BE95FB00C83CC5 /* XPMPPlaneRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 25D680B823BE95FB00C83CC5 /* XPMPPlaneRenderer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		25D680C523BE9DBD00C83CC5 /* XPMPMultiplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 25D680C423BE9DBD00C83CC5 /* XPMPMultiplayer.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -35,6 +36,7 @@
 		25D680BE23BE9BB900C83CC5 /* xplanemp2.doxygen */ = {isa = PBXFileReference; lastKnownFileType = text; path = xplanemp2.doxygen; sourceTree = "<group>"; };
 		25D680BF23BE9BB900C83CC5 /* MainPage.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = MainPage.md; sourceTree = "<group>"; };
 		25D680C023BE9D3200C83CC5 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		25D680C423BE9DBD00C83CC5 /* XPMPMultiplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XPMPMultiplayer.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 		25D680BC23BE9B5700C83CC5 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				25D680C423BE9DBD00C83CC5 /* XPMPMultiplayer.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -176,6 +179,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25D680C523BE9DBD00C83CC5 /* XPMPMultiplayer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

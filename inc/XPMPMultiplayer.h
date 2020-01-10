@@ -1,11 +1,11 @@
 /// @file       XPMPMultiplayer.h
 /// @brief      Initialization and general control functions for xplanemp2
-/// @note       This file bases on and is compatible to the header
+/// @note       This file bases on and should be compile-compatible to the header
 ///             provided with the original libxplanemp.
 /// @author     Ben Supnik and Chris Serio
 /// @copyright  Copyright (c) 2004, Ben Supnik and Chris Serio.
 /// @author     Birger Hoppe
-/// @copyright  (c) 2018-2020 Birger Hoppe
+/// @copyright  (c) 2020 Birger Hoppe
 /// @copyright  Permission is hereby granted, free of charge, to any person obtaining a
 ///             copy of this software and associated documentation files (the "Software"),
 ///             to deal in the Software without restriction, including without limitation
@@ -28,11 +28,11 @@
 #include "XPLMDefs.h"
 
 #ifndef XPMP_CLIENT_NAME
-#define XPMP_CLIENT_NAME "A_PLUGIN"
+#error You must define a short name for your plugin in preprocessor macro XPMP_CLIENT_NAME.
 #endif
 
 #ifndef XPMP_CLIENT_LONGNAME
-#define XPMP_CLIENT_LONGNAME "A Plugin"
+#error You must define a long name for your plugin in preprocessor macro XPMP_CLIENT_LONGNAME.
 #endif
 
 #ifdef __cplusplus
@@ -90,11 +90,19 @@ struct XPMPPlanePosition_t {
     char    label[32]       = "";                       ///< label to show with the aircraft
     float   offsetScale     = 0.0f;                     ///< how much of the surface contact correction offset should be applied [0..1]
     bool    clampToGround   = true;                     ///< enables ground-clamping for this aircraft
-    int     aiPrio          = 0;                        ///< Priority for AI/TCAS consideration, the lower the earlier
+    int     aiPrio          = 1;                        ///< Priority for AI/TCAS consideration, the lower the earlier
     float   label_color[4]  = {1.0f,1.0f,0.0f,1.0f};    ///< label base color (RGB)
     int     multiIdx        = 0;                        ///< OUT: set by xplanemp to inform application about multiplay index in use
 };
 
+
+/// @brief Light flash patterns
+/// @note Unused in XPMP2
+enum XPMPLightsPattern : unsigned int {
+    xpmp_Lights_Pattern_Default     = 0,    ///< Jets: one strobe flash, short beacon (-*---*---*---)
+    xpmp_Lights_Pattern_EADS        = 1,    ///< Airbus+EADS: strobe flashes twice (-*-*-----*-*--), short beacon
+    xpmp_Lights_Pattern_GA          = 2     ///< GA: one strobe flash, long beacon (-*--------*---)
+};
 
 /*
  * XPMPLightStatus
@@ -106,61 +114,50 @@ struct XPMPPlanePosition_t {
  * flashing at different times.
  */
 union xpmp_LightStatus {
-    unsigned int lightFlags;
+    unsigned int lightFlags = 0;
     struct {
-        unsigned int timeOffset : 16;
+        unsigned int timeOffset : 16;       ///< time offset to avoid lights across planes blink in sync (unused in XPMP2)
         
-        unsigned int taxiLights : 1;
-        unsigned int landLights : 1;
-        unsigned int bcnLights  : 1;
-        unsigned int strbLights : 1;
-        unsigned int navLights  : 1;
+        unsigned int taxiLights : 1;        ///< taxi lights on?
+        unsigned int landLights : 1;        ///< landing lights on?
+        unsigned int bcnLights  : 1;        ///< beacon on?
+        unsigned int strbLights : 1;        ///< strobe lights on?
+        unsigned int navLights  : 1;        ///< navigation lights on?
         
-        unsigned int flashPattern   : 4;
+        ///< light pattern (unused in XPMP2)
+        XPMPLightsPattern flashPattern   : 4;
     };
 };
 
-/*
- * Light flash patterns
- */
-enum {
-    xpmp_Lights_Pattern_Default     = 0,    // Jets: one strobe flash, short beacon (-*---*---*---)
-    xpmp_Lights_Pattern_EADS        = 1,    // Airbus+EADS: strobe flashes twice (-*-*-----*-*--), short beacon
-    xpmp_Lights_Pattern_GA          = 2     // GA: one strobe flash, long beacon (-*--------*---)
-};
-
-
-/*
- * XPMPPlaneSurfaces_t
- *
- * This data structure will contain information about the external physical configuration of the plane,
- * things you would notice if you are seeing it from outside.  This includes flap position, gear position,
- * etc.
- *
- * Lights is a 32 bit field with flags as defined in XPMPLightStatus
- *
- */
+/// @brief External physical configuration of the plane
+/// @details    This data structure will contain information about the external physical configuration of the plane,
+///             things you would notice if you are seeing it from outside.  This includes flap position, gear position,
+///             etc.
 struct XPMPPlaneSurfaces_t {
     long                  size = sizeof(XPMPPlaneSurfaces_t);   ///< structure size
-    float                 gearPosition      = 0.0f;             ///< gear position 0.0...1.0
-    float                 flapRatio         = 0.0f;             ///< flap extension ratio 0.0...1.0
-    float                 spoilerRatio      = 0.0f;             ///< spoiler extension ratio 0.0...1.0
-    float                 speedBrakeRatio   = 0.0f;             ///< speed brake extension ratio 0.0...1.0
-    float                 slatRatio         = 0.0f;             ///< slats extension ratio 0.0...1.0
-    float                 wingSweep         = 0.0f;
-    float                 thrust            = 0.0f;             ///< thrust ratio 0.0...1.0
-    float                 yokePitch         = 0.0f;
-    float                 yokeHeading       = 0.0f;
-    float                 yokeRoll          = 0.0f;
-    xpmp_LightStatus      lights;
+    float                 gearPosition      = 0.0f;             ///< gear position [0..1]
+    float                 flapRatio         = 0.0f;             ///< flap extension ratio [0..1]
+    float                 spoilerRatio      = 0.0f;             ///< spoiler extension ratio [0..1]
+    float                 speedBrakeRatio   = 0.0f;             ///< speed brake extension ratio [0..1]
+    float                 slatRatio         = 0.0f;             ///< slats extension ratio [0..1]
+    float                 wingSweep         = 0.0f;             ///< wing sweep ratio [0..1]
+    float                 thrust            = 0.0f;             ///< thrust ratio [0..1]
+    float                 yokePitch         = 0.0f;             ///< yoke pitch ratio [0..1]
+    float                 yokeHeading       = 0.0f;             ///< yoke heading ratio [0..1]
+    float                 yokeRoll          = 0.0f;             ///< yoke roll ratio [0..1]
+    
+    xpmp_LightStatus      lights;                               ///< status of lights
+    
     float                 tireDeflect       = 0.0f;             ///< tire deflection (meters)
     float                 tireRotDegree     = 0.0f;             ///< tire rotation angle (degrees 0..360)
     float                 tireRotRpm        = 0.0f;             ///< tire rotation speed (rpm)
+    
     float                 engRotDegree      = 0.0f;             ///< engine rotation angle (degrees 0..360)
     float                 engRotRpm         = 0.0f;             ///< engine rotation speed (rpm)
     float                 propRotDegree     = 0.0f;             ///< prop rotation angle (degrees 0..360)
     float                 propRotRpm        = 0.0f;             ///< prop rotation speed (rpm)
     float                 reversRatio       = 0.0f;             ///< thrust reversers ratio
+    
     bool                  touchDown = false;                    ///< just now is moment of touch down?
 };
 
@@ -171,12 +168,14 @@ struct XPMPPlaneSurfaces_t {
  * These enumerations define the way the transponder of a given plane is operating.
  *
  */
+/// @note Only information used by XPMP2 is `"mode != xpmpTransponderMode_Standby"`,
+///       in which case the plane is considered for TCAS display.
 enum XPMPTransponderMode {
-    xpmpTransponderMode_Standby,
-    xpmpTransponderMode_Mode3A,
-    xpmpTransponderMode_ModeC,
-    xpmpTransponderMode_ModeC_Low,
-    xpmpTransponderMode_ModeC_Ident
+    xpmpTransponderMode_Standby,        ///< transponder is in standby, not currently sending ->plane  not visible on TCAS
+    xpmpTransponderMode_Mode3A,         ///< transponder is on
+    xpmpTransponderMode_ModeC,          ///< transponder is on
+    xpmpTransponderMode_ModeC_Low,      ///< transponder is on
+    xpmpTransponderMode_ModeC_Ident     ///< transponder is on
 };
 
 /*
@@ -186,10 +185,12 @@ enum XPMPTransponderMode {
  * information about radar profiles, stealth technology, radar jamming, etc.
  *
  */
+/// @note Only information used by XPMP2 is `"mode != xpmpTransponderMode_Standby"`,
+///       in which case the plane is considered for TCAS display.
 struct XPMPPlaneRadar_t {
-    long                    size;
-    long                    code;
-    XPMPTransponderMode     mode;
+    long                    size = sizeof(XPMPPlaneRadar_t);    ///< structure size
+    long                    code = 0;                           ///< current radar code
+    XPMPTransponderMode     mode = xpmpTransponderMode_ModeC;   ///< current radar mode
 };
 
 /*
@@ -201,31 +202,29 @@ struct XPMPPlaneRadar_t {
  *
  */
 struct XPMPInfoTexts_t {
-    long size;
-    char tailNum[10];               // registration, tail number
-    char icaoAcType[5];             // ICAO aircraft type, 3-4 chars
-    char manufacturer[40];          // a/c manufacturer, human readable
-    char model[40];                 // a/c model, human readable
-    char icaoAirline[4];            // ICAO airline code
-    char airline[40];               // airline, human readable
-    char flightNum [10];            // flight number
-    char aptFrom [5];               // Origin airport (ICAO)
-    char aptTo [5];                 // Destination airport (ICAO)
+    long size = sizeof(XPMPInfoTexts_t);
+    char tailNum[10]       = {0};       ///< registration, tail number
+    char icaoAcType[5]     = {0};       ///< ICAO aircraft type, 3-4 chars
+    char manufacturer[40]  = {0};       ///< a/c manufacturer, human readable
+    char model[40]         = {0};       ///< a/c model, human readable
+    char icaoAirline[4]    = {0};       ///< ICAO airline code
+    char airline[40]       = {0};       ///< airline, human readable
+    char flightNum [10]    = {0};       ///< flight number
+    char aptFrom [5]       = {0};       ///< Origin airport (ICAO)
+    char aptTo [5]         = {0};       ///< Destination airport (ICAO)
 };
 
-/*
- * XPMPPlaneData
- *
- * This enum defines the different categories of aircraft information we can query about.
- * Any combination of the following values is possible:
- */
-enum {
-    xpmpDataType_Position   = 1L << 1,
-    xpmpDataType_Surfaces   = 1L << 2,
-    xpmpDataType_Radar      = 1L << 3,
-    xpmpDataType_InfoTexts  = 1L << 4,
+/// @brief This enum defines the different categories of aircraft information we can query about.
+/// @note While these enums are defined in a way that they could be combined together,
+///       there is no place, which makes use of this possibility. Each value will be used
+///       individually only. Because of this, the definition has been changed in XPMP2
+///       to an actual enum type for clarity.
+enum XPMPPlaneDataType {
+    xpmpDataType_Position   = 1L << 1,  ///< position data in XPMPPlanePosition_t
+    xpmpDataType_Surfaces   = 1L << 2,  ///< physical appearance in XPMPPlaneSurfaces_t
+    xpmpDataType_Radar      = 1L << 3,  ///< radar information in XPMPPlaneRadar_t
+    xpmpDataType_InfoTexts  = 1L << 4,  ///< informational texts in XPMPInfoTexts_t
 };
-typedef int         XPMPPlaneDataType;
 
 /*
  * XPMPPlaneCallbackResult
@@ -239,12 +238,10 @@ enum XPMPPlaneCallbackResult {
     xpmpData_NewData = 2        /* The information has changed this sim cycle. */
 };
 
-/*
- * XPMPPlaneID
- *
- * This is a unique ID for an aircraft created by a plug-in.
- *
- */
+
+/// @brief Unique ID for an aircraft created by a plugin.
+/// @note In XPMP2 this value is longer a pointer to an internal memory address,
+///       but just an ever increasing number. Don't use it as a pointer.
 typedef void *      XPMPPlaneID;
 
 /************************************************************************************
@@ -257,7 +254,7 @@ void removeUserVertOffset(const char *inMtlCode);
 
 
 /************************************************************************************
-* INITIALIZATION
+* MARK: INITIALIZATION
 ************************************************************************************/
 
 /*
@@ -292,14 +289,13 @@ void removeUserVertOffset(const char *inMtlCode);
  * Instead, make separate calls to XPMPLoadCSLPackages and XPMPSetDefaultPlaneICAO.
  *
  */
-const char *    XPMPMultiplayerInitLegacyData(
-                                              const char * inCSLFolder,
-                                              const char * inRelatedPath,
-                                              const char * inTexturePath,
-                                              const char * inDoc8643,
-                                              const char * inDefaltICAO,
-                                              int (* inIntPrefsFunc)(const char *, const char *, int),
-                                              float (* inFloatPrefsFunc)(const char *, const char *, float));
+const char *    XPMPMultiplayerInitLegacyData(const char * inCSLFolder      = nullptr,
+                                              const char * inRelatedPath    = nullptr,
+                                              const char * inTexturePath    = nullptr,
+                                              const char * inDoc8643        = nullptr,
+                                              const char * inDefaultICAO    = nullptr,
+                                              int (* inIntPrefsFunc)(const char *, const char *, int)       = nullptr,
+                                              float (* inFloatPrefsFunc)(const char *, const char *, float) = nullptr);
 
 /*
  * XPMPMultiplayerInit
@@ -309,8 +305,12 @@ const char *    XPMPMultiplayerInitLegacyData(
  * needed:
  *
  * section  key                 type    default description
- * planes   full_distance       float   3.0
- * planes   max_full_count      int     50
+ * planes   full_distance       float   3.0     (unused in XPMP2)
+ * planes   max_full_count      int     100     (unused in XPMP2)
+ * planes   clamp_all_to_ground int     0
+ * planes   dr_libxplanemp      int     1
+ * debug    model_matching      int     0
+ * debug    log_level           int     2       (new in XPMP2, 2 = Warning, see Utilities.h::logLevelTy)
  *
  * Additionally takes a string path to the resource directory of the calling plugin for storing the
  * user vertical offset config file.
@@ -321,10 +321,9 @@ const char *    XPMPMultiplayerInitLegacyData(
  * Call this once, typically from your XPluginStart routine.
  *
  */
-const char *    XPMPMultiplayerInit(
-                                    int (* inIntPrefsFunc)(const char *, const char *, int),
-                                    float (* inFloatPrefsFunc)(const char *, const char *, float),
-                                    const char * resourceDir);
+const char *    XPMPMultiplayerInit(int (* inIntPrefsFunc)(const char *, const char *, int)         = nullptr,
+                                    float (* inFloatPrefsFunc)(const char *, const char *, float)   = nullptr,
+                                    const char * resourceDir = nullptr);
 
 /*
  * XPMPMultiplayerCleanup
@@ -346,7 +345,7 @@ void XPMPMultiplayerCleanup();
 const char * XPMPMultiplayerOBJ7SupportEnable(const char * inTexturePath);
 
 /************************************************************************************
-* AI / Multiplayer plane control
+* MARK: AI / Multiplayer plane control
 ************************************************************************************/
 
 /*
@@ -376,7 +375,7 @@ void XPMPMultiplayerDisable();
 bool XPMPHasControlOfAIAircraft();
 
 /************************************************************************************
-* CSL Package Handling
+* MARK: CSL Package Handling
 ************************************************************************************/
 
 /*
@@ -398,8 +397,8 @@ bool XPMPHasControlOfAIAircraft();
  *
  */
 const char *    XPMPLoadCSLPackage(const char * inCSLFolder,
-                                   const char * inRelatedPath,
-                                   const char * inDoc8643);
+                                   const char * inRelatedPath   = nullptr,
+                                   const char * inDoc8643       = nullptr);
 
 /*
  * XPMPLoadPlanesIfNecessary
@@ -457,6 +456,9 @@ bool            XPMPIsICAOValid(const char *                inICAO);
  * MARK: PLANE CREATION API
  ************************************************************************************/
 
+// TODO: Provide versions which return Aircraft*
+
+
 /*
  * XPMPPlaneData_f
  *
@@ -479,6 +481,7 @@ typedef XPMPPlaneCallbackResult (* XPMPPlaneData_f)(
  * a livery string and a data function for fetching dynamic information.
  *
  */
+[[deprecated("Subclass XPMP2::Aircraft instead")]]
 XPMPPlaneID XPMPCreatePlane(
                             const char *            inICAOCode,
                             const char *            inAirline,
@@ -486,6 +489,7 @@ XPMPPlaneID XPMPCreatePlane(
                             XPMPPlaneData_f         inDataFunc,
                             void *                  inRefcon);
 
+[[deprecated("Subclass XPMP2::Aircraft instead")]]
 XPMPPlaneID XPMPCreatePlaneWithModelName(
                                          const char *           inModelName,
                                          const char *           inICAOCode,
@@ -494,12 +498,9 @@ XPMPPlaneID XPMPCreatePlaneWithModelName(
                                          XPMPPlaneData_f            inDataFunc,
                                          void *                  inRefcon);
 
-/*
- * XPMPDestroyPlane
- *
- * This function deallocates a created aircraft.
- *
- */
+/// @brief [Deprecated] Deallocates a created aircraft.
+/// @deprecated Delete subclassed XPMP2::Aircraft object instead.
+[[deprecated("Delete subclassed XPMP2::Aircraft object instead")]]
 void            XPMPDestroyPlane(XPMPPlaneID);
 
 /*
@@ -555,6 +556,11 @@ void            XPMPGetPlaneICAOAndLivery(
  * data, old data, or we have no data at all.
  *
  */
+/// @note   Not supported in XPMP2!
+///         In the legacy library this is actually more like an internal function,
+///         calling all callback functions for querying aircraft data
+///         (much like XPCAircraft::UpdatePosition() is now in XPMP2).
+///         I doubt that it was intended to be called from the outside in the first place.
 XPMPPlaneCallbackResult XPMPGetPlaneData(
                                          XPMPPlaneID                    inPlane,
                                          XPMPPlaneDataType          inDataType,
@@ -599,6 +605,8 @@ void    XPMPSetDefaultPlaneICAO(
 /************************************************************************************
  * MARK: PLANE OBSERVATION API
  ************************************************************************************/
+
+// TODO: Provide versions which return Aircraft*
 
 /*
  * XPMPPlaneNotification
@@ -646,7 +654,7 @@ void            XPMPUnregisterPlaneNotifierFunc(
                                                 void *                  inRefcon);
 
 /************************************************************************************
- * MARK: PLANE RENDERING API
+ * MARK: PLANE RENDERING API (unsued in XPMP2)
  ************************************************************************************/
 
 /*
@@ -688,11 +696,11 @@ void        XPMPDumpOneCycle(void);
  * These functions enable and disable the drawing of aircraft labels above the aircraft
  *
  */
-void                  XPMPEnableAircraftLabels(void);
+void XPMPEnableAircraftLabels (bool _enable = true);
 
-void                  XPMPDisableAircraftLabels(void);
+void XPMPDisableAircraftLabels();
 
-bool                  XPMPDrawingAircraftLabels(void);
+bool XPMPDrawingAircraftLabels();
 
 #ifdef __cplusplus
 }

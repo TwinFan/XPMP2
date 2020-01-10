@@ -4,7 +4,7 @@
 ///             provided with the original libxplanemp.
 /// @author     Birger Hoppe
 /// @copyright  Copyright (c) 2005, Ben Supnik and Chris Serio.
-/// @copyright  (c) 2018-2020 Birger Hoppe
+/// @copyright  (c) 2020 Birger Hoppe
 /// @copyright  Permission is hereby granted, free of charge, to any person obtaining a
 ///             copy of this software and associated documentation files (the "Software"),
 ///             to deal in the Software without restriction, including without limitation
@@ -28,9 +28,9 @@
 // function (although in practice this isn't real useful.
 // These functions do "the drawing" once per frame.
 
-void 			XPMPInitDefaultPlaneRenderer(void);
-void			XPMPDefaultPlaneRenderer(int is_blend);
-void			XPMPDeinitDefaultPlaneRenderer(void);
+void            XPMPInitDefaultPlaneRenderer(void);
+void            XPMPDefaultPlaneRenderer(int is_blend);
+void            XPMPDeinitDefaultPlaneRenderer(void);
 void            XPMPInitMultiplayerDataRefs(void);
 
 #endif

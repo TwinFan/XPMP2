@@ -7,21 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		25D680B423BE94DD00C83CC5 /* xplanemp2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2502C17A23BE8A1600578919 /* xplanemp2.framework */; };
+		253485AA23C289E5002BA65A /* XPMPAircraft.h in Headers */ = {isa = PBXBuildFile; fileRef = 253485A923C289E4002BA65A /* XPMPAircraft.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2599B91923BF636E00F92BB5 /* Aircraft.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2599B91823BF636E00F92BB5 /* Aircraft.cpp */; };
+		2599B92223BF63F600F92BB5 /* xplanemp2.h in Headers */ = {isa = PBXBuildFile; fileRef = 2599B92123BF63F600F92BB5 /* xplanemp2.h */; };
 		25D680B923BE95FB00C83CC5 /* XPCAircraft.h in Headers */ = {isa = PBXBuildFile; fileRef = 25D680B623BE95FB00C83CC5 /* XPCAircraft.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		25D680BA23BE95FB00C83CC5 /* XPMPMultiplayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 25D680B723BE95FB00C83CC5 /* XPMPMultiplayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		25D680BB23BE95FB00C83CC5 /* XPMPPlaneRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 25D680B823BE95FB00C83CC5 /* XPMPPlaneRenderer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		25D680C523BE9DBD00C83CC5 /* XPMPMultiplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 25D680C423BE9DBD00C83CC5 /* XPMPMultiplayer.cpp */; };
+		25EC1C4023BF6DF1000940BB /* CSLModels.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 25EC1C3F23BF6DF1000940BB /* CSLModels.cpp */; };
+		25EC1C4223BF6DFA000940BB /* CSLModels.h in Headers */ = {isa = PBXBuildFile; fileRef = 25EC1C4123BF6DFA000940BB /* CSLModels.h */; };
+		25EC1C4423BF7112000940BB /* xplanemp2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2502C17A23BE8A1600578919 /* xplanemp2.framework */; };
+		25EC1C4723BF7569000940BB /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 25EC1C4523BF7569000940BB /* Utilities.cpp */; };
+		25EC1C4823BF7569000940BB /* Utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 25EC1C4623BF7569000940BB /* Utilities.h */; };
+		25FF33FE23BFF250001B0AB4 /* Aircraft.h in Headers */ = {isa = PBXBuildFile; fileRef = 25FF33FD23BFF250001B0AB4 /* Aircraft.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		25D680B323BE94C800C83CC5 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /Users/birger/Programming/Frameworks;
+			dstPath = /Users/birger/Programming/XPlane/LiveTraffic/Lib/xplanemp2;
 			dstSubfolderSpec = 0;
 			files = (
-				25D680B423BE94DD00C83CC5 /* xplanemp2.framework in CopyFiles */,
+				25EC1C4423BF7112000940BB /* xplanemp2.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -29,6 +37,9 @@
 
 /* Begin PBXFileReference section */
 		2502C17A23BE8A1600578919 /* xplanemp2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = xplanemp2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		253485A923C289E4002BA65A /* XPMPAircraft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPMPAircraft.h; sourceTree = "<group>"; };
+		2599B91823BF636E00F92BB5 /* Aircraft.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Aircraft.cpp; sourceTree = "<group>"; };
+		2599B92123BF63F600F92BB5 /* xplanemp2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xplanemp2.h; sourceTree = "<group>"; };
 		25D680B123BE936B00C83CC5 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		25D680B623BE95FB00C83CC5 /* XPCAircraft.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = XPCAircraft.h; sourceTree = "<group>"; };
 		25D680B723BE95FB00C83CC5 /* XPMPMultiplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPMPMultiplayer.h; sourceTree = "<group>"; };
@@ -37,6 +48,11 @@
 		25D680BF23BE9BB900C83CC5 /* MainPage.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = MainPage.md; sourceTree = "<group>"; };
 		25D680C023BE9D3200C83CC5 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		25D680C423BE9DBD00C83CC5 /* XPMPMultiplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XPMPMultiplayer.cpp; sourceTree = "<group>"; };
+		25EC1C3F23BF6DF1000940BB /* CSLModels.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSLModels.cpp; sourceTree = "<group>"; };
+		25EC1C4123BF6DFA000940BB /* CSLModels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSLModels.h; sourceTree = "<group>"; };
+		25EC1C4523BF7569000940BB /* Utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utilities.cpp; sourceTree = "<group>"; };
+		25EC1C4623BF7569000940BB /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
+		25FF33FD23BFF250001B0AB4 /* Aircraft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Aircraft.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				25D680B623BE95FB00C83CC5 /* XPCAircraft.h */,
+				253485A923C289E4002BA65A /* XPMPAircraft.h */,
 				25D680B723BE95FB00C83CC5 /* XPMPMultiplayer.h */,
 				25D680B823BE95FB00C83CC5 /* XPMPPlaneRenderer.h */,
 			);
@@ -83,6 +100,13 @@
 		25D680BC23BE9B5700C83CC5 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				2599B91823BF636E00F92BB5 /* Aircraft.cpp */,
+				25FF33FD23BFF250001B0AB4 /* Aircraft.h */,
+				25EC1C3F23BF6DF1000940BB /* CSLModels.cpp */,
+				25EC1C4123BF6DFA000940BB /* CSLModels.h */,
+				25EC1C4523BF7569000940BB /* Utilities.cpp */,
+				25EC1C4623BF7569000940BB /* Utilities.h */,
+				2599B92123BF63F600F92BB5 /* xplanemp2.h */,
 				25D680C423BE9DBD00C83CC5 /* XPMPMultiplayer.cpp */,
 			);
 			path = src;
@@ -104,7 +128,12 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25EC1C4223BF6DFA000940BB /* CSLModels.h in Headers */,
+				2599B92223BF63F600F92BB5 /* xplanemp2.h in Headers */,
 				25D680BB23BE95FB00C83CC5 /* XPMPPlaneRenderer.h in Headers */,
+				25EC1C4823BF7569000940BB /* Utilities.h in Headers */,
+				25FF33FE23BFF250001B0AB4 /* Aircraft.h in Headers */,
+				253485AA23C289E5002BA65A /* XPMPAircraft.h in Headers */,
 				25D680BA23BE95FB00C83CC5 /* XPMPMultiplayer.h in Headers */,
 				25D680B923BE95FB00C83CC5 /* XPCAircraft.h in Headers */,
 			);
@@ -117,9 +146,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2502C17F23BE8A1700578919 /* Build configuration list for PBXNativeTarget "xplanemp2" */;
 			buildPhases = (
-				2502C17523BE8A1600578919 /* Headers */,
 				2502C17623BE8A1600578919 /* Sources */,
 				2502C17723BE8A1600578919 /* Frameworks */,
+				2502C17523BE8A1600578919 /* Headers */,
 				2502C17823BE8A1600578919 /* Resources */,
 				25D680B323BE94C800C83CC5 /* CopyFiles */,
 			);
@@ -179,7 +208,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25EC1C4023BF6DF1000940BB /* CSLModels.cpp in Sources */,
 				25D680C523BE9DBD00C83CC5 /* XPMPMultiplayer.cpp in Sources */,
+				25EC1C4723BF7569000940BB /* Utilities.cpp in Sources */,
+				2599B91923BF636E00F92BB5 /* Aircraft.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,6 +270,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"SLOT_DEBUG=1",
@@ -334,6 +367,7 @@
 				FRAMEWORK_VERSION = 0.1;
 				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"APL=1",
 					"IBM=0",
@@ -380,10 +414,13 @@
 		2502C18023BE8A1700578919 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "$(INSTALL_PATH)";
+				GCC_PREFIX_HEADER = src/xplanemp2.h;
 				INSTALL_PATH = "@loader_path";
 				LD_DYLIB_INSTALL_NAME = "$(DYLIB_INSTALL_NAME_BASE:standardizepath)/$(PRODUCT_MODULE_NAME)";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -399,10 +436,13 @@
 		2502C18123BE8A1700578919 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "$(INSTALL_PATH)";
+				GCC_PREFIX_HEADER = src/xplanemp2.h;
 				INSTALL_PATH = "@loader_path";
 				LD_DYLIB_INSTALL_NAME = "$(DYLIB_INSTALL_NAME_BASE:standardizepath)/$(PRODUCT_MODULE_NAME)";
 				LD_RUNPATH_SEARCH_PATHS = (

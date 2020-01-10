@@ -1,7 +1,7 @@
 /// @file       XPMPMultiplayer.cpp
 /// @brief      Initialization and general control functions for xplanemp2
 /// @author     Birger Hoppe
-/// @copyright  (c) 2018-2020 Birger Hoppe
+/// @copyright  (c) 2020 Birger Hoppe
 /// @copyright  Permission is hereby granted, free of charge, to any person obtaining a
 ///             copy of this software and associated documentation files (the "Software"),
 ///             to deal in the Software without restriction, including without limitation
@@ -18,13 +18,23 @@
 ///             OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 ///             THE SOFTWARE.
 
-#include "XPMPMultiplayer.h"
+#include "xplanemp2.h"
 
+#include <cstring>
 
+#define INFO_DEFAULT_ICAO       "Default ICAO aircraft type now is %s"
+#define INFO_LOAD_CSL_PACKAGE   "Loading CSL package from %s"
+
+#define DEBUG_ENABLE_AC_LABELS  "Aircraft labels %s"
+
+// The global functions implemented here are not in our namespace for legacy reasons,
+// but we use our namespace a lot:
+using namespace XPMP2;
 
 // MARK: Vertical offset stuff
 // TODO: Probably to be moved elsewhere
 
+/*
 void actualVertOffsetInfo(const char *inMtl, char *outType, double *outOffset)
 {}
 
@@ -33,16 +43,41 @@ void setUserVertOffset(const char *inMtlCode, double inOffset)
 
 void removeUserVertOffset(const char *inMtlCode)
 {}
+ */
+
+//
+// MARK: Initialization
+//
 
 // This routine initializes legacy portions of the multiplayer library
 const char *    XPMPMultiplayerInitLegacyData(const char * inCSLFolder,
                                               const char * inRelatedPath,
-                                              const char * inTexturePath,
+                                              const char * /*inTexturePath*/,
                                               const char * inDoc8643,
-                                              const char * inDefaltICAO,
+                                              const char * inDefaultICAO,
                                               int (* inIntPrefsFunc)(const char *, const char *, int),
                                               float (* inFloatPrefsFunc)(const char *, const char *, float))
 {
+    // We just pass on the calls to the individual functions:
+    
+    // Internal init first
+    const char* ret = XPMPMultiplayerInit (inIntPrefsFunc,
+                                           inFloatPrefsFunc,
+                                           NULL);
+    if (ret[0])                                     // failed?
+        return ret;
+    
+    // Then try loading the first set of CSL models
+    ret = XPMPLoadCSLPackage(inCSLFolder,
+                             inRelatedPath,
+                             inDoc8643);
+    if (ret[0])                                     // failed?
+        return ret;
+    
+    // Define the default ICAO aircraft type
+    XPMPSetDefaultPlaneICAO(inDefaultICAO);
+    
+    // Success
     return "";
 }
 
@@ -52,12 +87,39 @@ const char *    XPMPMultiplayerInit(int (* inIntPrefsFunc)(const char *, const c
                                     float (* inFloatPrefsFunc)(const char *, const char *, float),
                                     const char * resourceDir)
 {
+    LOG_MSG(logINFO, "XPMP2 Initializing...")
+    
+    // Store the pointers to the configuration callback functions
+    glob.prefsFuncInt   = inIntPrefsFunc    ? inIntPrefsFunc    : PrefsFuncIntDefault;
+    glob.prefsFuncFloat = inFloatPrefsFunc  ? inFloatPrefsFunc  : PrefsFuncFloatDefault;
+    glob.ReadLogLvl();
+    
+    // Save the resource dir, if it exists
+    if (resourceDir)
+    {
+        if (ExistsFile(resourceDir)) {
+            glob.resourceDir = resourceDir;
+        } else {
+            LOG_MSG(logWARN, WARN_RSRC_DIR_UNAVAIL, resourceDir);
+        }
+    }
+    
+    // Initialize all modules
+    CSLModelsInit();
+    AcInit();
+    
     return "";
 }
 
 // Undoes above init functions
 void XPMPMultiplayerCleanup()
-{}
+{
+    LOG_MSG(logINFO, "XPMP2 cleaning up...")
+
+    // Cleanup all modules in revers order of initialization
+    AcCleanup();
+    CSLModelsCleanup();
+}
 
 // OBJ7 is not supported
 const char * XPMPMultiplayerOBJ7SupportEnable(const char *)
@@ -94,6 +156,13 @@ const char *    XPMPLoadCSLPackage(const char * inCSLFolder,
                                    const char * inRelatedPath,
                                    const char * inDoc8643)
 {
+    LOG_MSG(logINFO, INFO_LOAD_CSL_PACKAGE, inCSLFolder ? inCSLFolder : "<null>");
+    
+    // Do load the CSL Models in the given path
+    const char* ret = CSLModelsLoad(inCSLFolder);
+    if (ret[0])
+        return ret;
+    
     return "";
 }
 
@@ -104,16 +173,34 @@ void            XPMPLoadPlanesIfNecessary()
 // returns the number of found models
 int XPMPGetNumberOfInstalledModels()
 {
-    return 0;
+    return (int)glob.mapCSLModels.size();
 }
 
 // return model info
 void XPMPGetModelInfo(int inIndex, const char **outModelName, const char **outIcao, const char **outAirline, const char **outLivery)
-{}
+{
+    // sanity check: index to high?
+    if (inIndex >= XPMPGetNumberOfInstalledModels()) {
+        LOG_MSG(logDEBUG, "inIndex %d too high, have only %d models",
+                inIndex, (int)XPMPGetNumberOfInstalledModels());
+        return;
+    }
+    
+    // get the inIndex-th model
+    mapCSLModelTy::const_iterator iterMdl = glob.mapCSLModels.cbegin();
+    std::advance(iterMdl, inIndex);
+    LOG_ASSERT(iterMdl != glob.mapCSLModels.cend());
+    
+    // Copy string pointers back. We just pass back pointers into our CSL Model object
+    // as we can assume that the CSL Model object exists quite long.
+    if (outModelName)   *outModelName   = iterMdl->second.GetId().data();
+    if (outIcao)        *outIcao        = iterMdl->second.GetIcaoType().data();
+    if (outAirline)     *outAirline     = iterMdl->second.GetIcaoAirline().data();
+    if (outLivery)      *outLivery      = iterMdl->second.GetLivery().data();
+}
 
 // test model match quality for given parameters
-int         XPMPModelMatchQuality(
-                                  const char *              inICAO,
+int         XPMPModelMatchQuality(const char *              inICAO,
                                   const char *              inAirline,
                                   const char *              inLivery)
 {
@@ -137,23 +224,40 @@ XPMPPlaneID XPMPCreatePlane(const char *            inICAOCode,
                             XPMPPlaneData_f         inDataFunc,
                             void *                  inRefcon)
 {
-    return nullptr;
+    // forward to XPMPCreatePlaneWithModelName with no model name
+    return XPMPCreatePlaneWithModelName(nullptr,        // no model name
+                                        inICAOCode,
+                                        inAirline,
+                                        inLivery,
+                                        inDataFunc,
+                                        inRefcon);
 }
 
 // Create a new plane, providing a model
-XPMPPlaneID XPMPCreatePlaneWithModelName(const char *           inModelName,
-                                         const char *           inICAOCode,
-                                         const char *           inAirline,
-                                         const char *           inLivery,
-                                         XPMPPlaneData_f            inDataFunc,
-                                         void *                  inRefcon)
+XPMPPlaneID XPMPCreatePlaneWithModelName(const char *       inModelName,
+                                         const char *       inICAOCode,
+                                         const char *       inAirline,
+                                         const char *       inLivery,
+                                         XPMPPlaneData_f    inDataFunc,
+                                         void *             inRefcon)
 {
-    return nullptr;
+    LegacyAircraft* pAc = new LegacyAircraft(inICAOCode,
+                                             inAirline,
+                                             inLivery,
+                                             inDataFunc,
+                                             inRefcon,
+                                             inModelName);
+    // This is not leaking memory, the pointer is in glob.mapAc
+    return pAc->GetPlaneID();
 }
 
-// Destroy a plane
-void XPMPDestroyPlane(XPMPPlaneID)
-{}
+// Destroy a plane by just deleting the object, the destructor takes care of the rest
+void XPMPDestroyPlane(XPMPPlaneID _id)
+{
+    Aircraft* pAc = AcFindByID(_id);
+    if (pAc)
+        delete pAc;
+}
 
 // Change a plane's model
 int     XPMPChangePlaneModel(XPMPPlaneID                inPlaneID,
@@ -169,21 +273,38 @@ int     XPMPGetPlaneModelName(XPMPPlaneID             inPlaneID,
                               char *                  outTxtBuf,
                               int                     outTxtBufSize)
 {
-    return 0;
+    Aircraft* pAc = AcFindByID(inPlaneID);
+    if (pAc) {
+        std::string mdlName = pAc->GetModelName();
+        if (outTxtBuf && outTxtBufSize > 0) {
+            strncpy(outTxtBuf, mdlName.c_str(), (size_t)outTxtBufSize);
+            outTxtBuf[outTxtBufSize-1] = 0;         // safety measure: ensure zero-termination
+        }
+        return (int)mdlName.length();
+    } else {
+        return -1;
+    }
 }
 
 // return plane's ICAO / livery
-void            XPMPGetPlaneICAOAndLivery(XPMPPlaneID               inPlane,
-                                          char *                    outICAOCode,    // Can be NULL
-                                          char *                    outLivery)      // Can be NULL
-{}
-
-// fetch plane data
-XPMPPlaneCallbackResult XPMPGetPlaneData(
-                                         XPMPPlaneID                    inPlane,
-                                         XPMPPlaneDataType          inDataType,
-                                         void *                     outData)
+void XPMPGetPlaneICAOAndLivery(XPMPPlaneID inPlane,
+                               char *      outICAOCode,    // Can be NULL
+                               char *      outLivery)      // Can be NULL
 {
+    Aircraft* pAc = AcFindByID(inPlane);
+    if (pAc) {
+        // this is not a safe operation...but the way the legay interface was defined:
+        if (outICAOCode) strcpy (outICAOCode, pAc->acIcaoType.c_str());
+        if (outLivery)   strcpy (outLivery,   pAc->acLivery.c_str());
+    }
+}
+
+// fetch plane data (unsupported in XPMP2)
+XPMPPlaneCallbackResult XPMPGetPlaneData(XPMPPlaneID,
+                                         XPMPPlaneDataType,
+                                         void *)
+{
+    LOG_MSG(logERR, "Calling this function from the outside should not be needed!");
     return xpmpData_Unavailable;
 }
 
@@ -194,9 +315,9 @@ int         XPMPGetPlaneModelQuality(XPMPPlaneID                inPlane)
 }
 
 // number of planes in existence
-long            XPMPCountPlanes()
+long XPMPCountPlanes()
 {
-    return 0;
+    return (long)glob.mapAc.size();
 }
 
 // return nth plane
@@ -207,8 +328,14 @@ XPMPPlaneID XPMPGetNthPlane(long index)
 
 
 // Set default ICAO if model couldn't be derived at all
-void    XPMPSetDefaultPlaneICAO(const char *            inICAO)
-{}
+void    XPMPSetDefaultPlaneICAO(const char * inICAO)
+{
+    if (!inICAO) return;
+    
+    // TODO: Verify against DOC8643
+    glob.defaultICAO = inICAO;
+    LOG_MSG(logINFO, INFO_DEFAULT_ICAO, inICAO);
+}
 
 //
 // MARK: Plane Observation
@@ -248,13 +375,21 @@ void        XPMPDumpOneCycle(void)
 {}
 
 // Enable/Disable/Query drawing of labels
-void                  XPMPEnableAircraftLabels(void)
-{}
-
-void                  XPMPDisableAircraftLabels(void)
-{}
-
-bool                  XPMPDrawingAircraftLabels(void)
+void XPMPEnableAircraftLabels (bool _enable)
 {
-    return false;
+    // Only do anything if this actually is a change to prevent log spamming
+    if (glob.bDrawLabels != _enable) {
+        LOG_MSG(logDEBUG, DEBUG_ENABLE_AC_LABELS, _enable ? "enabled" : "disabled");
+        glob.bDrawLabels = _enable;
+    }
+}
+
+void XPMPDisableAircraftLabels()
+{
+    XPMPEnableAircraftLabels(false);
+}
+
+bool XPMPDrawingAircraftLabels()
+{
+    return glob.bDrawLabels;
 }

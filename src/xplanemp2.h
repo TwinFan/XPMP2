@@ -32,6 +32,7 @@
 #include "XPLMScenery.h"
 #include "XPLMProcessing.h"
 #include "XPLMGraphics.h"
+#include "XPLMDataAccess.h"
 
 // Standard C
 #include <sys/stat.h>
@@ -39,8 +40,11 @@
 
 // Standard C++
 #include <string>
-#include <algorithm>
+#include <list>
 #include <map>
+#include <vector>
+#include <algorithm>
+#include <fstream>
 
 // XPlaneMP 2 - Internal Header Files
 #include "Utilities.h"
@@ -70,6 +74,8 @@ public:
     /// Configuration callback for float values
     float (*prefsFuncFloat)(const char *, const char *, float) = XPMP2::PrefsFuncFloatDefault;
 
+    /// Global map of all CSL Packages, indexed by `xsb_aircraft.txt::EXPORT_NAME`
+    mapCSLPackageTy mapCSLPkgs;
     /// Global map of all CSL Models, indexed by ID (xsb_aircraft.txt::OBJ8_AIRCRAFT)
     mapCSLModelTy   mapCSLModels;
     /// Default ICAO model type if no match can be found

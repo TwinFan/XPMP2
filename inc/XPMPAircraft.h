@@ -28,6 +28,7 @@
 #include <string>
 #include <chrono>
 #include <array>
+#include <list>
 
 //
 // MARK: XPMP2 New Definitions
@@ -129,8 +130,8 @@ protected:
     // This is needed to reduce jitter in external camera applications.
     XPMPPlanePosition_t acCurrPos;
     
-    /// X-Plane instance handle
-    XPLMInstanceRef     hInstance = nullptr;
+    /// X-Plane instance handles for all objects making up the model
+    std::list<XPLMInstanceRef> listInst;
     /// Which sim/multiplayer/plane-index used last?
     int                 multiIdx = -1;
     
@@ -173,8 +174,11 @@ protected:
     /// Internal: Flight loop callback function
     static float FlightLoopCB (float, float, int, void*);
     /// Internal: This puts the instance into XP's sky and makes it move
-    void         DoMove ();
-    
+    void DoMove ();
+    /// Create the instances, return if successful
+    bool CreateInstances ();
+    /// Destroy all instances
+    void DestroyInstances ();
 };
 
 };  // namespace XPMP2

@@ -25,9 +25,6 @@
 
 #include "xplanemp2.h"
 
-// TODO: Remove?
-#include "XPLMDataAccess.h"
-
 using namespace XPMP2;
 
 //
@@ -119,6 +116,9 @@ mPlane(glob.NextPlaneId())              // assign the next synthetic plane id
     // TODO: Here, matching must happen
     LOG_ASSERT(pCSLMdl);
     
+    // Increase the reference counter of the CSL model to track that the object is being used
+    pCSLMdl->IncRefCnt();
+    
     // add the aircraft to our global map
     glob.mapAc.emplace(mPlane,this);
     
@@ -149,13 +149,11 @@ mPlane(glob.NextPlaneId())              // assign the next synthetic plane id
 Aircraft::~Aircraft ()
 {
     // Remove the instance
-    if (hInstance) {
-        XPLMDestroyInstance(hInstance);
-        hInstance = nullptr;
-        LOG_MSG(logDEBUG, DEBUG_INSTANCE_DESTRYD,
-                (long long unsigned)mPlane);
-    }
+    DestroyInstances();
     
+    // Decrease the reference counter of the CSL model
+    pCSLMdl->DecRefCnt();
+
     // remove myself from the global map of planes
     glob.mapAc.erase(mPlane);
 }
@@ -207,32 +205,60 @@ float Aircraft::FlightLoopCB (float, float, int, void* refCon)
 // This puts the instance into XP's sky and makes it move
 void Aircraft::DoMove ()
 {
-    // If we don't have an instance yet
-    if (!hInstance) {
-        // Get the handle to the loaded object of the CSL Model
-        LOG_ASSERT(pCSLMdl);
-        XPLMObjectRef hObj = pCSLMdl->GetAndLoadXPObj ();
-        
-        // This might be NULL if the object hasn't finished loading yet
-        if (!hObj) return;
-        
+    // Already have instances? Or succeeded in now creating them?
+    if (!listInst.empty() || CreateInstances()) {
+        // Move the instances (this is probably the single most important line of code ;-) )
+        for (XPLMInstanceRef hInst: listInst)
+            XPLMInstanceSetPosition(hInst, &drawInfo, v.data());
+    }
+}
+
+
+// Create the instances, return if successful
+bool Aircraft::CreateInstances ()
+{
+    // If we have instances already we just return
+    if (!listInst.empty()) return true;
+
+    // Let's see if we can get ALL object handles:
+    LOG_ASSERT(pCSLMdl);
+    std::list<XPLMObjectRef> listObj = pCSLMdl->GetAllObjRefs();
+    if (listObj.empty())                    // we couldn't...
+        return false;
+    
+    // OK, we got a complete list of objects, so let's instanciate them:
+    for (XPLMObjectRef hObj: listObj) {
         // Create a (new) instance of this CSL Model object,
         // registering all the dataRef names we support
-        hInstance = XPLMCreateInstance (hObj, DR_NAMES);
+        XPLMInstanceRef hInst = XPLMCreateInstance (hObj, DR_NAMES);
         
         // Didn't work???
-        if (!hInstance) {
+        if (!hInst) {
             LOG_MSG(logERR, ERR_CREATE_INSTANCE, pCSLMdl->GetId().c_str());
-            return;
-        } else {
-            LOG_MSG(logDEBUG, DEBUG_INSTANCE_CREATED,
-                    (long long unsigned)mPlane);
+            DestroyInstances();             // remove other instances we might have created already
+            return false;
         }
+
+        // Save the instance
+        listInst.push_back(hInst);
     }
     
-    // Move the instance (this is probably the single most important line of code ;-) )
-    XPLMInstanceSetPosition(hInstance, &drawInfo, v.data());
+    // Success!
+    LOG_MSG(logDEBUG, DEBUG_INSTANCE_CREATED, (long long unsigned)mPlane);
+    return true;
 }
+
+// Destroy all instances
+void Aircraft::DestroyInstances ()
+{
+    while (!listInst.empty()) {
+        XPLMDestroyInstance(listInst.back());
+        listInst.pop_back();
+    }
+    LOG_MSG(logDEBUG, DEBUG_INSTANCE_DESTRYD,
+            (long long unsigned)mPlane);
+}
+
 
 // Converts world coordinates to local coordinates, writes to `drawInfo`
 void Aircraft::SetLocation(double lat, double lon, double alt_f)

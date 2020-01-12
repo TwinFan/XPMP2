@@ -160,8 +160,10 @@ const char *    XPMPLoadCSLPackage(const char * inCSLFolder,
     
     // Do load the CSL Models in the given path
     const char* ret = CSLModelsLoad(inCSLFolder);
-    if (ret[0])
+    if (ret[0]) {
+        LOG_MSG(logWARN, ret);
         return ret;
+    }
     
     return "";
 }

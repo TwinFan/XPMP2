@@ -23,19 +23,74 @@
 
 namespace XPMP2 {
 
+/// Map of CSLPackages: Maps an id to the base path (path ends on forward slash)
+typedef std::map<std::string,std::string> mapCSLPackageTy;
+
+/// State of the X-Plane object: Is it being loaded or available?
+enum ObjLoadStateTy {
+    OLS_INVALID = -1,       ///< loading once failed -> invalid!
+    OLS_UNAVAIL = 0,        ///< Not yet tried loading the CSL object
+    OLS_LOADING,            ///< async load underway
+    OLS_AVAILABLE,          ///< X-Plane object available in `xpObj`
+};
+
+/// One `.obj` file of a CSL model (of which it can have multiple)
+class CSLObj
+{
+public:
+    std::string cslId;      ///< id of the CSL model this belongs to
+    std::string path;       ///< full path to the `.obj` file
+    std::string texture;    ///< texture file if defined, to be used in the TEXTURE line of the .obj file
+    std::string text_lit;   ///< texture_lit file if defined, to be used in the TEXTURE_LIT line of the .obj file
+
+protected:
+    /// The X-Plane object reference to the loaded model as requested with XPLMLoadObjectAsync
+    XPLMObjectRef       xpObj = NULL;
+    /// State of the X-Plane object: Is it being loaded or available?
+    ObjLoadStateTy xpObjState = OLS_UNAVAIL;
+
+public:
+    /// Constructor doesn't do much
+    CSLObj (const std::string& _id,
+            const std::string& _path) : cslId(_id), path(_path) {}
+    /// Generate standard move constructor
+    CSLObj (CSLObj&& o) = default;
+    CSLObj& operator = (CSLObj&& o) = default;
+    /// Destructor makes sure the XP object is removed, too
+    ~CSLObj ();
+    
+    /// State of the X-Plane object: Is it being loaded or available?
+    ObjLoadStateTy GetObjState () const         { return xpObjState; }
+    /// Is invalid?
+    bool IsInvalid () const                     { return xpObjState == OLS_INVALID; }
+
+    /// @brief Load and return the underlying X-Plane objects.
+    /// @note Can return NULL while async load is underway!
+    XPLMObjectRef GetAndLoadObj ();
+    /// Starts loading the XP object
+    void Load ();
+    /// Free up the object
+    void Unload ();
+
+protected:
+    /// callback function called when loading is done
+    static void XPObjLoadedCB (XPLMObjectRef inObject,
+                               void *        inRefcon);
+    /// Marks the CSL Model invalid in case object loading once failed
+    void Invalidate ();
+};
+
+/// List of objects
+typedef std::list<CSLObj> listCSLObjTy;
+
+typedef std::pair<std::string,std::string> pairOfStrTy;
+
 /// Represetns a CSL model as it is saved on disk
 class CSLModel
 {
 public:
-    /// State of the X-Plane object: Is it being loaded or available?
-    enum ObjLoadStateTy {
-        OLS_UNAVAIL = 0,        ///< Not yet tried loading the CSL object
-        OLS_LOADING,            ///< async load underway
-        OLS_AVAILABLE,          ///< X-Plane object available in `xpObj`
-        OLS_INVALID,            ///< loading once failed -> invalid!
-    };
 
-protected:
+public:
     /// id, just an arbitrary label read from `xsb_aircraft.txt::OBJ8_AIRCRAFT`
     std::string         cslId;
     /// ICAO aircraft type this model represents: `xsb_aircraft.txt::ICAO`
@@ -44,59 +99,59 @@ protected:
     std::string         icaoAirline;
     /// Livery code this model represents: `xsb_aircraft.txt::LIVERY`
     std::string         livery;
-    
-    /// Full path to the `.obj` file representing this model
-    std::string         path;
-    
+    /// list of objects representing this model
+    listCSLObjTy        listObj;
     /// Vertical offset to be applied [m]
     float               vertOfs = 3.0f;
-    
-    /// The X-Plane object reference to the loaded model as requested with XPLMLoadObjectAsync
-    XPLMObjectRef       xpObj = NULL;
-    /// State of the X-Plane object: Is it being loaded or available?
-    ObjLoadStateTy xpObjState = OLS_UNAVAIL;
+
+protected:
+    /// Reference counter: Number of Aircraft actively using this model
+    unsigned refCnt = 0;
     
 public:
-    /// Constructor
-    CSLModel (const std::string& _id,
-              const std::string& _type,
-              const std::string& _airline,
-              const std::string& _livery,
-              const std::string& _path);
-    
+    /// Constructor does nothing
+    CSLModel () {}
+    /// Generate standard move constructor
+    CSLModel (CSLModel&& o) = default;
+    CSLModel& operator = (CSLModel&& o) = default;
+
     /// Destructor frees resources
     virtual ~CSLModel ();
+    
+    /// Minimum requirement for using this object is: id, type, path
+    bool IsValid () const { return !cslId.empty() && !icaoType.empty() && !listObj.empty(); }
     
     const std::string& GetId () const           { return cslId; }
     const std::string& GetIcaoType () const     { return icaoType; }
     const std::string& GetIcaoAirline () const  { return icaoAirline; }
     const std::string& GetLivery () const       { return livery; }
-    const std::string& GetPath () const         { return path; }
     
     /// Vertical Offset to be applied to aircraft model
     float GetVertOfs () const                   { return vertOfs; }
+        
+    /// (Minimum) )State of the X-Plane objects: Is it being loaded or available?
+    ObjLoadStateTy GetObjState () const;
+    /// (Minimum) )State of the X-Plane object: Is it invalid?
+    bool IsObjInvalid () const                  { return GetObjState() == OLS_INVALID; }
     
-    /// @brief Load and return the underlying X-Plane object.
-    /// @note Can return NULL while async load is underway!
-    XPLMObjectRef GetAndLoadXPObj ();
+    /// Try get ALL object handles, only returns anything if it is the complete list
+    std::list<XPLMObjectRef> GetAllObjRefs ();
     
-    ObjLoadStateTy GetObjState () const         { return xpObjState; }
-    bool IsInvalid () const                     { return xpObjState == OLS_INVALID; }
-    
+    /// Increase the reference counter for Aircraft usage
+    void IncRefCnt () { ++refCnt; }
+    /// Decrease the reference counter for Aircraft usage
+    void DecRefCnt () { if (refCnt>0) --refCnt; }
+    /// Current reference counter
+    unsigned GetRefCnt () const { return refCnt; }
+
 protected:
-    /// Starts loading the XP object
-    void XPObjLoad ();
-    /// callback function called when loading is done
-    static void XPObjLoadedCB (XPLMObjectRef inObject,
-                               void *        inRefcon);
-    /// Marks the CSL Model invalid in case object loading once failed
-    void XPObjInvalidate ();
-    /// Free up the object
-    void XPObjUnload ();
-    
+    /// Start loading all objects
+    void Load ();
+    /// Unload all objects
+    void Unload ();
 };
 
-/// Map of CSLModels (owning the object(
+/// Map of CSLModels (owning the object)
 typedef std::map<std::string,CSLModel> mapCSLModelTy;
 
 /// Map of pointers to CSLModels (for lookup by different sorting keys)
@@ -112,10 +167,12 @@ void CSLModelsInit ();
 /// Grace cleanup
 void CSLModelsCleanup ();
 
-/// @brief Read the CSL Models from one given path
+/// @brief Read the CSL Models found in the given path and below
 /// @param _path Path to a folder, which will be searched hierarchically for `xsb_aircraft.txt` files
+/// @param _maxDepth Search shall go how many folders deep at max?
 /// @return An empty string on success, otherwise a human-readable error message
-const char* CSLModelsLoad (const std::string& _path);
+const char* CSLModelsLoad (const std::string& _path,
+                           int _maxDepth = 5);
 
 /// Find a model by name
 CSLModel* CSLModelByName (const std::string& _mdlName);

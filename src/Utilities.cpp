@@ -78,6 +78,95 @@ bool ExistsFile (const std::string& filename)
     return (stat (filename.c_str(), &buffer) == 0);
 }
 
+// Is path a directory?
+bool IsDir (const std::string& path)
+{
+    struct stat buffer;
+    if (stat (path.c_str(), &buffer) != 0)  // get stats...error?
+        return false;                       // doesn't exist...no directory either
+    return S_ISDIR(buffer.st_mode);         // check for S_IFDIR mode flag
+}
+
+// List of files in a directory (wrapper around XPLMGetDirectoryContents)
+std::list<std::string> GetDirContents (const std::string& path)
+{
+    std::list<std::string> l;               // the list to be returned
+    char szNames[4048];                     // buffer for file names
+    char* indices[256];                     // buffer for indices to beginnings of names
+    int start = 0;                          // first file to return
+    int numFiles = 0;                       // number of files returned (per batch)
+    bool bFinished = false;
+    
+    // Call XPLMGetDirectoryContents as often as needed to read all directory content
+    do {
+        numFiles = 0;
+        bFinished = XPLMGetDirectoryContents(path.c_str(),
+                                             start,
+                                             szNames, sizeof(szNames),
+                                             indices, sizeof(indices)/sizeof(*indices),
+                                             NULL, &numFiles);
+        // process (the batch of) files we received now
+        for (int i = 0; i < numFiles; ++i)
+            if (indices[i][0] != '.')           // skip parent_dir and hidden entries
+                l.push_back(indices[i]);
+        // next batch start (if needed)
+        start += numFiles;
+    } while(!bFinished);
+    
+    // return the list of files
+    return l;
+}
+
+/// @details Read a text line, handling both Windows (CRLF) and Unix (LF) ending
+/// Code makes use of the fact that in both cases LF is the terminal character.
+/// So we read from file until LF (_without_ widening!).
+/// In case of CRLF files there then is a trailing CR, which we just remove.
+std::istream& safeGetline(std::istream& is, std::string& t)
+{
+    // read a line until LF
+    std::getline(is, t, '\n');
+    
+    // if last character is CR then remove it
+    if (t.back() == '\r')
+        t.pop_back();
+    
+    return is;
+}
+
+//
+// MARK: String helpers
+//
+
+// change a string to lowercase
+std::string& str_tolower(std::string& s) {
+    std::transform(s.begin(), s.end(), s.begin(),
+                   [](unsigned char c) -> unsigned char { return (unsigned char) tolower(c); });
+    return s;
+}
+
+// separates string into tokens
+std::vector<std::string> str_tokenize (const std::string s,
+                                       const std::string tokens,
+                                       bool bSkipEmpty)
+{
+    std::vector<std::string> v;
+ 
+    // find all tokens before the last
+    size_t b = 0;                                   // begin
+    for (size_t e = s.find_first_of(tokens);        // end
+         e != std::string::npos;
+         b = e+1, e = s.find_first_of(tokens, b))
+    {
+        if (!bSkipEmpty || e != b)
+            v.emplace_back(s.substr(b, e-b));
+    }
+    
+    // add the last one: the remainder of the string (could be empty!)
+    v.emplace_back(s.substr(b));
+    
+    return v;
+}
+
 //
 // MARK: LiveTraffic Exception classes
 //

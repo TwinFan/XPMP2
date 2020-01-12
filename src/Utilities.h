@@ -54,6 +54,52 @@ float   PrefsFuncFloatDefault   (const char *, const char *, float _default);
 /// Does a file path exist?
 bool ExistsFile (const std::string& filename);
 
+/// Is path a directory?
+bool IsDir (const std::string& path);
+
+/// List of files in a directory (wrapper around XPLMGetDirectoryContents)
+std::list<std::string> GetDirContents (const std::string& path);
+
+/// Read a line from a text file, no matter if ending on CRLF or LF
+std::istream& safeGetline(std::istream& is, std::string& t);
+
+//
+// MARK: String helpers
+//
+
+#define WHITESPACE              " \t\f\v\r\n"
+
+/// change a std::string to uppercase
+std::string& str_tolower(std::string& s);
+
+/// @brief trimming of string (from right)
+/// @see https://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
+inline std::string& rtrim(std::string& s, const char* t = WHITESPACE)
+{
+    s.erase(s.find_last_not_of(t) + 1);
+    return s;
+}
+
+/// @brief trimming of string (from left)
+/// @see https://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
+inline std::string& ltrim(std::string& s, const char* t = WHITESPACE)
+{
+    s.erase(0, s.find_first_not_of(t));
+    return s;
+}
+
+/// @brief trimming of string (from both ends)
+/// @see https://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring
+inline std::string& trim(std::string& s, const char* t = WHITESPACE)
+{
+    return ltrim(rtrim(s, t), t);
+}
+
+/// separates string into tokens
+std::vector<std::string> str_tokenize (const std::string s,
+                                       const std::string tokens,
+                                       bool bSkipEmpty = true);
+
 //
 // MARK: Logging Support
 //

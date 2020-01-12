@@ -18,3 +18,9 @@ Original libxplanemp:
     - <a href="https://github.com/TwinFan/libxplanemp/wiki">wiki explaining differences to the kuroneko fork</a>
 - <a href="https://github.com/kuroneko/libxplanemp">kuroneko's original fork on GitHub</a>
     - <a href="https://github.com/kuroneko/libxplanemp/wiki">kuroneko's wiki</a> including notes on CSL development
+
+Original libxplanemp:
+- [TwinFan's libxplanemp fork](https://github.com/TwinFan/libxplanemp) on GitHub
+    - [wiki explaining differences to the kuroneko fork](https://github.com/TwinFan/libxplanemp/wiki)
+- [kuroneko's fork](https://github.com/kuroneko/libxplanemp) on GitHub, a long-time standard and basis of other important forks
+    - [kuroneko's wiki](https://github.com/kuroneko/libxplanemp/wiki) including notes on CSL development

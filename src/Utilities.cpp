@@ -46,8 +46,8 @@ float   PrefsFuncFloatDefault   (const char *, const char *, float _default)
     return _default;
 }
 
-// Update setting for logging level by calling prefsFuncInt
-void GlobVars::ReadLogLvl ()
+// Update all config values, e.g. for logging level, by calling prefsFuncInt
+void GlobVars::UpdateCfgVals ()
 {
     LOG_ASSERT(prefsFuncInt);
     
@@ -63,7 +63,16 @@ void GlobVars::ReadLogLvl ()
         logLvl = logLevelTy(i);
     
     // Ask for model matching logging
-    bLogMdlMatch = prefsFuncInt(CFG_SEC_DEBUG, CFG_ITM_MODELMATCHING, 0) != 0;
+    bLogMdlMatch = prefsFuncInt(CFG_SEC_DEBUG, CFG_ITM_MODELMATCHING,
+#if DEBUG
+                                1
+#else
+                                0
+#endif
+                                ) != 0;
+    
+    // Ask for clam-to-ground config
+    bClampAll = prefsFuncInt(CFG_SEC_PLANES, CFG_ITM_CLAMPALL, 0) != 0;
 }
 
 //

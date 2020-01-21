@@ -240,7 +240,7 @@ enum XPMPPlaneCallbackResult {
 
 
 /// @brief Unique ID for an aircraft created by a plugin.
-/// @note In XPMP2 this value is longer a pointer to an internal memory address,
+/// @note In XPMP2 this value is no longer a pointer to an internal memory address,
 ///       but just an ever increasing number. Don't use it as a pointer.
 typedef void *      XPMPPlaneID;
 
@@ -676,6 +676,8 @@ typedef void (* XPMPRenderPlanes_f)(
  * the default renderer.
  *
  */
+/// @warning Unsupported in XPMP2. The function is available to stay compile-time compatible, but it does nothing.
+[[deprecated("Unsupported")]]
 void        XPMPSetPlaneRenderer(
                                  XPMPRenderPlanes_f         inRenderer,
                                  void *                         inRef);

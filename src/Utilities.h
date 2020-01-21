@@ -34,7 +34,6 @@ namespace XPMP2 {
 // Config items read via preferences callback functions
 #define CFG_SEC_PLANES          "planes"
 #define CFG_ITM_CLAMPALL        "clamp_all_to_ground"
-#define CFG_ITM_DR_LIBXPLANEMP  "dr_libxplanemp"
 
 #define CFG_SEC_DEBUG           "debug"
 #define CFG_ITM_LOGLEVEL        "log_level"
@@ -155,7 +154,15 @@ public:
 /// @note First parameter after lvl must be the message text,
 ///       which can be a format string with its parameters following like in sprintf
 #define LOG_MSG(lvl,...)  {                                         \
-    if (lvl >= glob.logLvl)                                             \
+    if (lvl >= glob.logLvl)                                         \
+    {LogMsg(__FILE__, __LINE__, __func__, lvl, __VA_ARGS__);}       \
+}
+
+/// @brief Log a message about matching if logging of model matching is enabled
+/// @note First parameter after lvl must be the message text,
+///       which can be a format string with its parameters following like in sprintf
+#define LOG_MATCHING(lvl,...)  {                                    \
+    if (glob.bLogMdlMatch && lvl >= glob.logLvl)                                          \
     {LogMsg(__FILE__, __LINE__, __func__, lvl, __VA_ARGS__);}       \
 }
 
@@ -177,9 +184,32 @@ throw XPMP2Error(__FILE__, __LINE__, __func__, lvl, __VA_ARGS__);
 //
 
 #if APL == 1 || LIN == 1
+// not quite the same but close enough for our purposes
+inline void strcpy_s(char * dest, size_t destsz, const char * src)
+{ strncpy(dest, src, destsz); dest[destsz-1]=0; }
+inline void strcat_s(char * dest, size_t destsz, const char * src)
+{ strncat(dest, src, destsz - strlen(dest) - 1); }
+
 // these simulate the VC++ version, not the C standard versions!
 inline struct tm *gmtime_s(struct tm * result, const time_t * time)
 { return gmtime_r(time, result); }
+inline struct tm *localtime_s(struct tm * result, const time_t * time)
+{ return localtime_r(time, result); }
+
+#endif
+
+/// Simpler access to strcpy_s if dest is a char array (not a pointer!)
+#define STRCPY_S(dest,src) strcpy_s(dest,sizeof(dest),src)
+#define STRCPY_ATMOST(dest,src) strcpy_s(dest,sizeof(dest),strAtMost(src,sizeof(dest)-1).c_str())
+
+#if APL == 1
+// XCode/Linux don't provide the _s functions, not even with __STDC_WANT_LIB_EXT1__ 1
+inline int strerror_s( char *buf, size_t bufsz, int errnum )
+{ return strerror_r(errnum, buf, bufsz); }
+#endif
+#if LIN == 1
+inline int strerror_s( char *buf, size_t bufsz, int errnum )
+{ strcpy_s(buf,bufsz,strerror(errnum)); return 0; }
 #endif
 
 }

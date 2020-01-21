@@ -31,9 +31,10 @@ using namespace XPMP2;
 // MARK: Globals
 //
 
-#define ERR_CREATE_INSTANCE     "Create Instance FAILED for CSL Model %s"
-#define DEBUG_INSTANCE_CREATED  "Instance created for aircraft %llu"
-#define DEBUG_INSTANCE_DESTRYD  "Instance destroyed for aircraft %llu"
+#define ERR_CREATE_INSTANCE     "Aircraft %llu: Create Instance FAILED for CSL Model %s"
+#define DEBUG_INSTANCE_CREATED  "Aircraft %llu: Instance created"
+#define DEBUG_INSTANCE_DESTRYD  "Aircraft %llu: Instance destroyed"
+#define INFO_MODEL_CHANGE       "Aircraft %llu: Changing model from %s to %s"
 
 namespace XPMP2 {
 
@@ -100,9 +101,6 @@ Aircraft::Aircraft(const std::string& _icaoType,
                    const std::string& _icaoAirline,
                    const std::string& _livery,
                    const std::string& _modelName) :
-acIcaoType(_icaoType),
-acIcaoAirline(_icaoAirline),
-acLivery(_livery),
 mPlane(glob.NextPlaneId())              // assign the next synthetic plane id
 {
     // if given try to find the CSL model to use by its name
@@ -110,17 +108,22 @@ mPlane(glob.NextPlaneId())              // assign the next synthetic plane id
         pCSLMdl = CSLModelByName(_modelName);
         if (!pCSLMdl) {
             LOG_MSG(logWARN, WARN_MODEL_NOT_FOUND, _modelName.c_str());
+        } else {
+            matchQuality = 0;
         }
     }
     
-    // TODO: Here, matching must happen
+    // Let Matching happen
+    if (!pCSLMdl)
+        ChangeModel(_icaoType, _icaoAirline, _livery);
     LOG_ASSERT(pCSLMdl);
     
     // Increase the reference counter of the CSL model to track that the object is being used
     pCSLMdl->IncRefCnt();
     
-    // add the aircraft to our global map
+    // add the aircraft to our global map and inform observers
     glob.mapAc.emplace(mPlane,this);
+    XPMPSendNotification(*this, xpmp_PlaneNotification_Created);
     
     // make sure the flight loop callback gets called if this was the first a/c
     if (glob.mapAc.size() == 1) {
@@ -148,6 +151,9 @@ mPlane(glob.NextPlaneId())              // assign the next synthetic plane id
 // Destructor cleans up all resources acquired
 Aircraft::~Aircraft ()
 {
+    // inform observers
+    XPMPSendNotification(*this, xpmp_PlaneNotification_Destroyed);
+    
     // Remove the instance
     DestroyInstances();
     
@@ -156,6 +162,75 @@ Aircraft::~Aircraft ()
 
     // remove myself from the global map of planes
     glob.mapAc.erase(mPlane);
+}
+
+
+// (Potentially) change the plane's model after doing a new match attempt
+int Aircraft::ChangeModel (const std::string& _icaoType,
+                           const std::string& _icaoAirline,
+                           const std::string& _livery)
+{
+    // Let matching happen
+    CSLModel* pMdl = nullptr;
+    int q = CSLModelMatching(_icaoType,
+                             _icaoAirline,
+                             _livery,
+                             pMdl);
+    // Found a model?
+    if (pMdl) {
+        // Is this a change to the currently used model?
+        const bool bChangeExisting = (pCSLMdl && pMdl != pCSLMdl);
+        if (bChangeExisting) {
+            // remove the current instance (which is based on the previous model)
+            LOG_MSG(logINFO, INFO_MODEL_CHANGE,
+                    (long long unsigned)mPlane,
+                    pCSLMdl->GetId().c_str(),
+                    pMdl->GetId().c_str());
+            DestroyInstances();
+        }
+        
+        // save the newly selected model
+        pCSLMdl         = pMdl;
+        matchQuality    = q;
+        acIcaoType      = _icaoType;
+        acIcaoAirline   = _icaoAirline;
+        acLivery        = _livery;
+
+        // inform observers in case this was an actual replacement change
+        if (bChangeExisting)
+            XPMPSendNotification(*this, xpmp_PlaneNotification_ModelChanged);
+    }
+    return q;
+}
+
+
+// Assigns the given model per name, returns if successful
+bool Aircraft::AssignModel (const std::string& _modelName)
+{
+    // try finding the model by name
+    CSLModel* pMdl = CSLModelByName(_modelName);
+    if (!pMdl) {                            // nothing changes if not found
+        LOG_MSG(logWARN, WARN_MODEL_NOT_FOUND, _modelName.c_str());
+        return false;
+    }
+
+    // Is this a change to the currently used model?
+    if (pMdl && pCSLMdl && pMdl != pCSLMdl) {
+        LOG_MSG(logINFO, INFO_MODEL_CHANGE,
+                (long long unsigned)mPlane,
+                pCSLMdl->GetId().c_str(),
+                pMdl->GetId().c_str());
+        DestroyInstances();                 // remove the current instance (which is based on the previous model)
+        pCSLMdl         = pMdl;             // save the newly selected model
+        matchQuality    = 0;
+        acIcaoType      = pCSLMdl->GetIcaoType();
+        acIcaoAirline   = pCSLMdl->GetIcaoAirline();
+        acLivery        = pCSLMdl->GetLivery();
+
+        // inform observers
+        XPMPSendNotification(*this, xpmp_PlaneNotification_ModelChanged);
+    }
+    return true;
 }
 
 
@@ -180,6 +255,9 @@ float Aircraft::FlightLoopCB (float, float, int, void* refCon)
     
     switch (phase) {
         case xplm_FlightLoop_Phase_BeforeFlightModel:
+            // Update configuration
+            glob.UpdateCfgVals();
+            
             // Move all planes
             for (mapAcTy::value_type& pair: glob.mapAc)
                 pair.second->DoMove();
@@ -234,7 +312,9 @@ bool Aircraft::CreateInstances ()
         
         // Didn't work???
         if (!hInst) {
-            LOG_MSG(logERR, ERR_CREATE_INSTANCE, pCSLMdl->GetId().c_str());
+            LOG_MSG(logERR, ERR_CREATE_INSTANCE,
+                    (long long unsigned)mPlane,
+                    pCSLMdl->GetId().c_str());
             DestroyInstances();             // remove other instances we might have created already
             return false;
         }
@@ -376,6 +456,11 @@ void XPCAircraft::UpdatePosition()
         v[V_CONTROLS_NAV_LITES_ON                ] = acSurfaces.lights.navLights;
         v[V_CONTROLS_TAXI_LITES_ON               ] = acSurfaces.lights.taxiLights;
         
+        v[V_GEAR_TIRE_VERTICAL_DEFLECTION_MTR    ] = acSurfaces.tireDeflect;
+        v[V_GEAR_TIRE_ROTATION_ANGLE_DEG         ] = acSurfaces.tireRotDegree;
+        v[V_GEAR_TIRE_ROTATION_SPEED_RPM         ] = acSurfaces.tireRotRpm;
+        v[V_GEAR_TIRE_ROTATION_SPEED_RAD_SEC     ] = acSurfaces.tireRotRpm * RPM_to_RADs;
+        
         v[V_ENGINES_ENGINE_ROTATION_ANGLE_DEG    ] = acSurfaces.engRotDegree;
         v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM    ] = acSurfaces.engRotRpm;
         v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC] = acSurfaces.engRotRpm * RPM_to_RADs;
@@ -423,19 +508,20 @@ void AcInit ()
 {
     memset(ahDataRefs, 0, sizeof(ahDataRefs));
     
-    // Register all our dataRefs
-    int i = 0;
-    for (const char* drName: DR_NAMES) {
-        if (!drName) break;
-         ahDataRefs[i++] = XPLMRegisterDataAccessor(
-                    drName,
-                    xplmType_Float|xplmType_FloatArray, 0,
-                    NULL, NULL,
-                    obj_get_float, NULL,
-                    NULL, NULL,
-                    NULL, NULL,
-                    obj_get_float_array, NULL,
-                    NULL, NULL, (void*)drName, NULL);
+    // Register all our dataRefs, if not done already
+    if (!ahDataRefs[0]) {
+        int i = 0;
+        for (const char* drName: DR_NAMES) {
+            if (!drName) break;
+            ahDataRefs[i++] = XPLMRegisterDataAccessor(drName,
+                                                       xplmType_Float|xplmType_FloatArray, 0,
+                                                       NULL, NULL,
+                                                       obj_get_float, NULL,
+                                                       NULL, NULL,
+                                                       NULL, NULL,
+                                                       obj_get_float_array, NULL,
+                                                       NULL, NULL, (void*)drName, NULL);
+        }
     }
 }
 

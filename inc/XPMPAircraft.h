@@ -151,6 +151,12 @@ public:
     /// return the last used sim/multiplayer/plane-index
     int         GetMultiIdx () const { return multiIdx; }
     
+    /// (Potentially) change the plane's model after doing a new match attempt
+    int ChangeModel (const std::string& _icaoType,
+                     const std::string& _icaoAirline,
+                     const std::string& _livery);
+    /// Assigns the given model per name, returns if successful
+    bool AssignModel (const std::string& _modelName);
     /// return the name of the CSL model in use
     std::string GetModelName () const;
     /// quality of the match with the CSL model

@@ -92,7 +92,7 @@ const char *    XPMPMultiplayerInit(int (* inIntPrefsFunc)(const char *, const c
     // Store the pointers to the configuration callback functions
     glob.prefsFuncInt   = inIntPrefsFunc    ? inIntPrefsFunc    : PrefsFuncIntDefault;
     glob.prefsFuncFloat = inFloatPrefsFunc  ? inFloatPrefsFunc  : PrefsFuncFloatDefault;
-    glob.ReadLogLvl();
+    glob.UpdateCfgVals();
     
     // Save the resource dir, if it exists
     if (resourceDir)
@@ -156,16 +156,26 @@ const char *    XPMPLoadCSLPackage(const char * inCSLFolder,
                                    const char * inRelatedPath,
                                    const char * inDoc8643)
 {
-    LOG_MSG(logINFO, INFO_LOAD_CSL_PACKAGE, inCSLFolder ? inCSLFolder : "<null>");
+    const char* ret = "";
     
-    // Do load the CSL Models in the given path
-    const char* ret = CSLModelsLoad(inCSLFolder);
-    if (ret[0]) {
-        LOG_MSG(logWARN, ret);
-        return ret;
+    // If given, load the `related.txt` file
+    if (inRelatedPath)
+        ret = RelatedLoad(inRelatedPath);
+    
+    // If given, load the `doc8643.txt` file
+    if (inDoc8643) {
+        const char* r = Doc8643Load(inDoc8643);
+        if (r[0]) ret = r;
     }
     
-    return "";
+    // Do load the CSL Models in the given path
+    if (inCSLFolder) {
+        LOG_MSG(logINFO, INFO_LOAD_CSL_PACKAGE, inCSLFolder);
+        const char* r = CSLModelsLoad(inCSLFolder);
+        if (r[0]) ret = r;
+    }
+    
+    return ret;
 }
 
 // checks what planes are loaded and loads any that we didn't get
@@ -206,13 +216,19 @@ int         XPMPModelMatchQuality(const char *              inICAO,
                                   const char *              inAirline,
                                   const char *              inLivery)
 {
-    return -1;
+    CSLModel* pModel;
+    return CSLModelMatching(inICAO      ? inICAO : "",
+                            inAirline   ? inAirline : "",
+                            inLivery    ? inLivery : "",
+                            pModel);
 }
 
 // is ICAO a valid one according to our records?
 bool            XPMPIsICAOValid(const char *                inICAO)
 {
-    return false;
+    if (!inICAO) return false;
+    const Doc8643& doc8643 = Doc8643Get(inICAO);
+    return !doc8643.empty();
 }
 
 //
@@ -249,7 +265,7 @@ XPMPPlaneID XPMPCreatePlaneWithModelName(const char *       inModelName,
                                              inDataFunc,
                                              inRefcon,
                                              inModelName);
-    // This is not leaking memory, the pointer is in glob.mapAc
+    // This is not leaking memory, the pointer is in glob.mapAc as taken care of by the constructor
     return pAc->GetPlaneID();
 }
 
@@ -262,12 +278,18 @@ void XPMPDestroyPlane(XPMPPlaneID _id)
 }
 
 // Change a plane's model
-int     XPMPChangePlaneModel(XPMPPlaneID                inPlaneID,
-                             const char *           inICAOCode,
+int     XPMPChangePlaneModel(XPMPPlaneID            _id,
+                             const char *           inICAO,
                              const char *           inAirline,
                              const char *           inLivery)
 {
-    return -1;
+    Aircraft* pAc = AcFindByID(_id);
+    if (pAc)
+        return pAc->ChangeModel(inICAO      ? inICAO : "",
+                                inAirline   ? inAirline : "",
+                                inLivery    ? inLivery : "");
+    else
+        return -1;
 }
 
 // return the name of the model in use
@@ -311,9 +333,13 @@ XPMPPlaneCallbackResult XPMPGetPlaneData(XPMPPlaneID,
 }
 
 // This function returns the quality level for the nominated plane's
-int         XPMPGetPlaneModelQuality(XPMPPlaneID                inPlane)
+int         XPMPGetPlaneModelQuality(XPMPPlaneID _inPlane)
 {
-    return -1;
+    Aircraft* pAc = AcFindByID(_inPlane);
+    if (pAc)
+        return pAc->GetMatchQuality();
+    else
+        return -1;
 }
 
 // number of planes in existence
@@ -325,7 +351,11 @@ long XPMPCountPlanes()
 // return nth plane
 XPMPPlaneID XPMPGetNthPlane(long index)
 {
-    return nullptr;
+    if (index < 0 || index >= XPMPCountPlanes())
+        return nullptr;
+    auto iter = glob.mapAc.cbegin();
+    std::advance(iter, index);
+    return iter->second->GetPlaneID();
 }
 
 
@@ -351,7 +381,14 @@ void    XPMPSetDefaultPlaneICAO(const char * inICAO)
  */
 void            XPMPRegisterPlaneNotifierFunc(XPMPPlaneNotifier_f       inFunc,
                                               void *                    inRefcon)
-{}
+{
+    // Avoid duplicate entries
+    XPMPPlaneNotifierTy observer (inFunc, inRefcon);
+    if (std::find(glob.listObservers.begin(),
+                  glob.listObservers.end(),
+                  observer) == glob.listObservers.end())
+        glob.listObservers.emplace_back(std::move(observer));
+}
 
 /*
  * XPMPUnregisterPlaneCreateDestroyFunc
@@ -361,16 +398,35 @@ void            XPMPRegisterPlaneNotifierFunc(XPMPPlaneNotifier_f       inFunc,
  */
 void            XPMPUnregisterPlaneNotifierFunc(XPMPPlaneNotifier_f     inFunc,
                                                 void *                  inRefcon)
-{}
+{
+    auto iter = std::find(glob.listObservers.begin(),
+                          glob.listObservers.end(),
+                          XPMPPlaneNotifierTy (inFunc, inRefcon));
+    if (iter != glob.listObservers.cend())
+        glob.listObservers.erase(iter);
+}
+
+namespace XPMP2 {
+// Send a notification to all observers
+void XPMPSendNotification (const Aircraft& plane, XPMPPlaneNotification _notification)
+{
+    for (const XPMPPlaneNotifierTy& n: glob.listObservers)
+        n.func(plane.GetPlaneID(),
+               _notification,
+               n.refcon);
+}
+}
+
 
 //
 // MARK: PLANE RENDERING API
 //
 
 // This function setse the plane renderer.  You can pass NULL for the function to restore defaults.
-void        XPMPSetPlaneRenderer(XPMPRenderPlanes_f         inRenderer,
-                                 void *                         inRef)
-{}
+void        XPMPSetPlaneRenderer(XPMPRenderPlanes_f, void *)
+{
+    LOG_MSG(logERR, "XPMPSetPlaneRenderer() is NOT SUPPORTED in XPMP2");
+}
 
 // Dump debug info to the error.out for one cycle
 void        XPMPDumpOneCycle(void)

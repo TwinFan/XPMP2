@@ -42,12 +42,15 @@
 #include <string>
 #include <list>
 #include <map>
+#include <unordered_map>
 #include <vector>
 #include <algorithm>
 #include <fstream>
+#include <regex>
 
 // XPlaneMP 2 - Internal Header Files
 #include "Utilities.h"
+#include "RelatedDoc8643.h"
 #include "CSLModels.h"
 #include "Aircraft.h"
 
@@ -56,6 +59,23 @@
 //
 
 namespace XPMP2 {
+
+/// Stores the function and refcon pointer for plane creation/destrcution notifications
+struct XPMPPlaneNotifierTy {
+    XPMPPlaneNotifier_f func    = nullptr;
+    void*               refcon  = nullptr;
+    
+    XPMPPlaneNotifierTy (XPMPPlaneNotifier_f _func = nullptr, void* _refcon = nullptr) :
+    func(_func), refcon(_refcon) {}
+    
+    bool operator == (const XPMPPlaneNotifierTy& o)
+    { return func == o.func && refcon == o.refcon; }
+};
+
+typedef std::list<XPMPPlaneNotifierTy> listXPMPPlaneNotifierTy;
+
+/// Send a notification to all observers
+void XPMPSendNotification (const Aircraft& plane, XPMPPlaneNotification _notification);
 
 /// All global config settings and variables are kept in one structure for convenient access and central definition
 struct GlobVars {
@@ -66,18 +86,27 @@ public:
     bool            bLogMdlMatch= false;
     /// Clamp all planes to the ground?
     bool            bClampAll   = false;
-    /// Register also always in addition the standard dataRef root "libxplanemp/"?
-    bool            bDrStdToo   = true;
 
     /// Configuration callback for integer values
     int (*prefsFuncInt)(const char *, const char *, int) = XPMP2::PrefsFuncIntDefault;
     /// Configuration callback for float values
     float (*prefsFuncFloat)(const char *, const char *, float) = XPMP2::PrefsFuncFloatDefault;
+    /// List of notifier functions registered for being notified of creation/destruction/model change
+    listXPMPPlaneNotifierTy listObservers;
+    
+    /// Content of `Doc8643.txt` file
+    mapDoc8643Ty    mapDoc8643;
+    /// Content of `related.txt` file as a map of type codes to group id
+    mapRelatedTy    mapRelated;
 
     /// Global map of all CSL Packages, indexed by `xsb_aircraft.txt::EXPORT_NAME`
     mapCSLPackageTy mapCSLPkgs;
     /// Global map of all CSL Models, indexed by ID (xsb_aircraft.txt::OBJ8_AIRCRAFT)
     mapCSLModelTy   mapCSLModels;
+    /// Map used for type-based matching, includes the models indexed by type/airline/livery
+    mapCSLModelPTy  mapCSLbyType;
+    /// Map used for related-group-based matching, includes the models indexed by related group/airline/livery
+    mapCSLModelPTy  mapCSLbyRelated;
     /// Default ICAO model type if no match can be found
     std::string     defaultICAO = "A320";
     /// Resource directory, to store local definitions of vertical offsets (clamping)
@@ -98,8 +127,8 @@ public:
 public:
     /// Constructor
     GlobVars (logLevelTy _logLvl = logWARN) : logLvl(_logLvl) {}
-    /// Update setting for logging level by calling prefsFuncInt
-    void ReadLogLvl ();
+    /// Update all settings, e.g. for logging level, by calling prefsFuncInt
+    void UpdateCfgVals ();
 };
 
 /// The one and only global variable structure

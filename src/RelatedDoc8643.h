@@ -1,0 +1,92 @@
+/// @file       RelatedDoc8643.h
+/// @brief      Handling the `related.txt` file for creating groups of similar looking aircraft types,
+///             and Doc8643, the official list of ICAO aircraft type codes.
+/// @details    A related group is declared simply by a line of ICAO a/c type codes read from the file.
+///             Internally, the group is just identified by its line number in `related.txt`.
+///             So the group "44" might be "A306 A30B A310", the Airbus A300 series.
+/// @details    Doc8643 is a list of information maintained by the ICAO
+///             to list all registered aircraft types. Each type designator can appear multiple times
+///             in the dataset for slightly differing models, but the classification und the WTC
+///             will be the same in all those listing.\n
+///             XPMP2 is only interested in type designator, classification, and WTC.
+/// @author     Birger Hoppe
+/// @copyright  (c) 2020 Birger Hoppe
+/// @copyright  Permission is hereby granted, free of charge, to any person obtaining a
+///             copy of this software and associated documentation files (the "Software"),
+///             to deal in the Software without restriction, including without limitation
+///             the rights to use, copy, modify, merge, publish, distribute, sublicense,
+///             and/or sell copies of the Software, and to permit persons to whom the
+///             Software is furnished to do so, subject to the following conditions:\n
+///             The above copyright notice and this permission notice shall be included in
+///             all copies or substantial portions of the Software.\n
+///             THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+///             IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+///             FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+///             AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+///             LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+///             OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+///             THE SOFTWARE.
+
+#ifndef _RelatedDoc8643_h_
+#define _RelatedDoc8643_h_
+
+namespace XPMP2 {
+
+//
+// MARK: related.txt
+//
+
+/// Map of group membership: ICAO a/c type maps to line in related.txt
+typedef std::map<std::string, int> mapRelatedTy;
+
+/// Read the `related.txt` file, full path passed in
+const char* RelatedLoad (const std::string& _path);
+
+/// Find the related group for an ICAO a/c type, 0 if none
+int RelatedGet (const std::string& _acType);
+
+//
+// MARK: Doc843.txt
+//
+
+/// @brief Represents a line in the Doc8643.txt file, of which we use only classification and WTC
+/// @details Each line has Example lines:
+///     `(ANY)    Glider    GLID    -    -`
+///     `AAMSA    A-9 Quail    A9    L1P    L`
+///     `AIRBUS    A-380-800    A388    L4J    H`
+///     `CESSNA    172    C172    L1P    L`
+///     `CESSNA    172 Skyhawk    C172    L1P    L`
+///     `FAIRCHILD (1)    C-26 Metro    SW4    L2T    L/M`
+///     `SOLAR IMPULSE    1    SOL1    L4E    L`
+///     `SOLOY    Bell 47    B47T    H1T    L`
+struct Doc8643 {
+public:
+    char classification[4]  = {0,0,0,0};
+    char wtc[4]             = {0,0,0,0};
+public:
+    Doc8643 () {}
+    Doc8643 (const std::string& _classification,
+             const std::string& _wtc);
+    
+    /// Is empty, doesn't contain anything?
+    bool empty () const { return wtc[0] == 0; }
+    
+    char GetClassSize () const      { return classification[0]; }
+    char GetClassNumEng () const    { return classification[1]; }
+    char GetClassEngType () const   { return classification[2]; }
+};
+
+/// Map of Doc8643 information, key is the (icao) type code
+typedef std::unordered_map<std::string, Doc8643> mapDoc8643Ty;
+
+/// Load the content of the provided `Doc8643.txt` file
+const char* Doc8643Load (const std::string& _path);
+
+/// @brief Return a reference to the matching Doc8643 object.
+/// @return If no match can be found a reference to a standard empty object is returned.
+const Doc8643& Doc8643Get (const std::string& _type);
+
+
+};
+
+#endif

@@ -89,12 +89,8 @@ typedef std::pair<std::string,std::string> pairOfStrTy;
 class CSLModel
 {
 public:
-
-public:
     /// id, just an arbitrary label read from `xsb_aircraft.txt::OBJ8_AIRCRAFT`
     std::string         cslId;
-    /// ICAO aircraft type this model represents: `xsb_aircraft.txt::ICAO`
-    std::string         icaoType;
     /// ICAO Airline code this model represents: `xsb_aircraft.txt::AIRLINE`
     std::string         icaoAirline;
     /// Livery code this model represents: `xsb_aircraft.txt::LIVERY`
@@ -105,11 +101,17 @@ public:
     float               vertOfs = 3.0f;
 
 protected:
+    /// ICAO aircraft type this model represents: `xsb_aircraft.txt::ICAO`
+    std::string         icaoType;
+    /// Proper Doc8643 entry for this model
+    const Doc8643*      doc8643 = nullptr;
+    /// "related" group for this model (a group of alike plane models), or 0
+    int                 related = 0;
     /// Reference counter: Number of Aircraft actively using this model
     unsigned refCnt = 0;
     
 public:
-    /// Constructor does nothing
+    /// Constructor
     CSLModel () {}
     /// Generate standard move constructor
     CSLModel (CSLModel&& o) = default;
@@ -118,14 +120,25 @@ public:
     /// Destructor frees resources
     virtual ~CSLModel ();
     
+    /// Set the a/c type model, which also fills `doc8643` and `related`
+    void SetIcaoType (const std::string& _type);
+    
     /// Minimum requirement for using this object is: id, type, path
     bool IsValid () const { return !cslId.empty() && !icaoType.empty() && !listObj.empty(); }
     
-    const std::string& GetId () const           { return cslId; }
-    const std::string& GetIcaoType () const     { return icaoType; }
-    const std::string& GetIcaoAirline () const  { return icaoAirline; }
-    const std::string& GetLivery () const       { return livery; }
-    
+    const std::string& GetId () const           { return cslId; }       ///< id, just an arbitrary label read from `xsb_aircraft.txt::OBJ8_AIRCRAFT`
+    const std::string& GetIcaoType () const     { return icaoType; }    ///< ICAO aircraft type this model represents: `xsb_aircraft.txt::ICAO`
+    const std::string& GetIcaoAirline () const  { return icaoAirline; } ///< ICAO Airline code this model represents: `xsb_aircraft.txt::AIRLINE`
+    const std::string& GetLivery () const       { return livery; }      ///< Livery code this model represents: `xsb_aircraft.txt::LIVERY`
+    int GetRelatedGrp () const                  { return related; }     ///< "related" group for this model (a group of alike plane models), or 0
+
+    // Data from Doc8643
+    const Doc8643& GetDoc8643 () const          { return *doc8643; }    ///< Classification (like "L2P" or "L4J") and WTC (like "H" or "L/M")
+    const char* GetWTC () const                 { return doc8643->wtc; }///< Wake turbulence category
+    char GetClassSize () const                  { return doc8643->classification[0]; }
+    char GetClassNumEng () const                { return doc8643->classification[1]; }
+    char GetClassEngType () const               { return doc8643->classification[2]; }
+
     /// Vertical Offset to be applied to aircraft model
     float GetVertOfs () const                   { return vertOfs; }
         
@@ -157,6 +170,9 @@ typedef std::map<std::string,CSLModel> mapCSLModelTy;
 /// Map of pointers to CSLModels (for lookup by different sorting keys)
 typedef std::map<std::string,CSLModel*> mapCSLModelPTy;
 
+/// List of pointers to CSLModels
+typedef std::list<CSLModel*> listCSLModelPTy;
+
 //
 // MARK: Global Functions
 //
@@ -176,6 +192,17 @@ const char* CSLModelsLoad (const std::string& _path,
 
 /// Find a model by name
 CSLModel* CSLModelByName (const std::string& _mdlName);
+
+/// @brief Find a matching model
+/// @param _type ICAO aircraft type like "A319"
+/// @param _airline ICAO airline code like "DLH"
+/// @param _livery Any specific livery code, in LiveTraffic e.g. the tail number
+/// @param[out] pModel Receives the pointer to the matching CSL model, or NULL if nothing found
+/// @return The number of passes needed to find a match, the lower the better the quality
+int CSLModelMatching (const std::string& _type,
+                      const std::string& _airline,
+                      const std::string& _livery,
+                      CSLModel* &pModel);
 
 };
 

@@ -42,8 +42,7 @@ public:
     XPCAircraft(const char* inICAOCode,
                 const char* inAirline,
                 const char* inLivery,
-                const char* inModelName = "Robinson R22 FireBird"); // this new parameter is defaulted, so that old code should compile
-#warning Remove this A320_DLH and replace with nullptr
+                const char* inModelName = nullptr);     // this new parameter is defaulted, so that old code should compile
     
     /// Legacy: Called before rendering to query plane's current position, overwrite to provide your implementation
     virtual XPMPPlaneCallbackResult GetPlanePosition(XPMPPlanePosition_t* outPosition) = 0;

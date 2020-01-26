@@ -143,6 +143,90 @@ std::istream& safeGetline(std::istream& is, std::string& t)
 }
 
 //
+// MARK: HFS-to-Posix path conversion (Mac only)
+//
+
+#if APL
+
+#include <Carbon/Carbon.h>
+
+// Funnily, even Apple deprecated HFS style...we need to ignore that warning here
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
+/// Convert a path from HFS (colon separated) to Posix (slash separated)
+bool HFS2PosixPath(const char *path, char *result, int resultLen);
+/// Convert a path from Posix (slash separated) to HFS (colon separated)
+bool Posix2HFSPath(const char *path, char *result, int resultLen);
+
+/// A simple smart pointer structure, which makes sure to correctly release a CF pointer
+template <typename T>
+struct CFSmartPtr {
+    CFSmartPtr(T p) : p_(p) {                          }
+    ~CFSmartPtr()             { if (p_) CFRelease(p_); }
+    operator T ()             { return p_; }
+    T p_;
+};
+
+
+bool HFS2PosixPath(const char *path, char *result, int resultSize)
+{
+    bool is_dir = (path[strlen(path)-1] == ':');
+
+    CFSmartPtr<CFStringRef>        inStr(CFStringCreateWithCString(kCFAllocatorDefault, path ,kCFStringEncodingMacRoman));
+    if (inStr == NULL) return false;
+    
+    CFSmartPtr<CFURLRef>        url(CFURLCreateWithFileSystemPath(kCFAllocatorDefault, inStr, kCFURLHFSPathStyle,0));
+    if (url == NULL) return false;
+    
+    CFSmartPtr<CFStringRef>        outStr(CFURLCopyFileSystemPath(url, kCFURLPOSIXPathStyle));
+    if (outStr == NULL) return false;
+    
+    if (!CFStringGetCString(outStr, result, resultSize, kCFStringEncodingMacRoman))
+        return false;
+
+    if(is_dir) strcat(result, "/");
+
+    return true;
+}
+
+bool Posix2HFSPath(const char *path, char *result, int resultSize)
+{
+    CFSmartPtr<CFStringRef>        inStr(CFStringCreateWithCString(kCFAllocatorDefault, path ,kCFStringEncodingMacRoman));
+    if (inStr == NULL) return false;
+    
+    CFSmartPtr<CFURLRef>        url(CFURLCreateWithFileSystemPath(kCFAllocatorDefault, inStr, kCFURLPOSIXPathStyle,0));
+    if (url == NULL) return false;
+    
+    CFSmartPtr<CFStringRef>        outStr(CFURLCopyFileSystemPath(url, kCFURLHFSPathStyle));
+    if (outStr == NULL) return false;
+    
+    if (!CFStringGetCString(outStr, result, resultSize, kCFStringEncodingMacRoman))
+        return false;
+
+    return true;
+}
+
+// Checks how XPLM_USE_NATIVE_PATHS is set (recommended to use), and if not set converts the path
+std::string TOPOSIX (const std::string& p)
+{
+    // no actual conversion if XPLM_USE_NATIVE_PATHS is activated
+    if (XPLMIsFeatureEnabled("XPLM_USE_NATIVE_PATHS"))
+        return p;
+    else {
+        char posix[1024];
+        if (HFS2PosixPath(p.c_str(), posix, sizeof(posix)))
+            return posix;
+        else
+            return p;
+    }
+}
+
+#pragma clang diagnostic pop
+
+#endif
+
+//
 // MARK: String helpers
 //
 
@@ -238,11 +322,11 @@ const char* LogGetString (const char* szPath, int ln, const char* szFunc,
         const char* szFile = strrchr(szPath,'/');   // extract file from path
         if ( !szFile ) szFile = szPath; else szFile++;
         snprintf(aszMsg, sizeof(aszMsg), "%s/xplanemp2 %sZ %s %s:%d/%s: ",
-                 XPMP_CLIENT_LONGNAME, tZuluS, LOG_LEVEL[lvl],
+                 glob.pluginName.c_str(), tZuluS, LOG_LEVEL[lvl],
                  szFile, ln, szFunc);
     }
     else
-        snprintf(aszMsg, sizeof(aszMsg), "%s/xplanemp2: ", XPMP_CLIENT_LONGNAME);
+        snprintf(aszMsg, sizeof(aszMsg), "%s/xplanemp2: ", glob.pluginName.c_str());
     
     // append given message
     if (args) {

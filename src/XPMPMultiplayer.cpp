@@ -87,6 +87,12 @@ const char *    XPMPMultiplayerInit(int (* inIntPrefsFunc)(const char *, const c
                                     float (* inFloatPrefsFunc)(const char *, const char *, float),
                                     const char * resourceDir)
 {
+    // Get the plugin's name and store it for later reference
+    if (glob.pluginName == UNKNOWN_PLUGIN_NAME) {
+        char szPluginName[256];
+        XPLMGetPluginInfo(XPLMGetMyID(), szPluginName, nullptr, nullptr, nullptr);
+        glob.pluginName = szPluginName;
+    }
     LOG_MSG(logINFO, "XPMP2 Initializing...")
     
     // Store the pointers to the configuration callback functions
@@ -97,10 +103,11 @@ const char *    XPMPMultiplayerInit(int (* inIntPrefsFunc)(const char *, const c
     // Save the resource dir, if it exists
     if (resourceDir)
     {
-        if (ExistsFile(resourceDir)) {
-            glob.resourceDir = resourceDir;
+        const std::string psxResDir = TOPOSIX(resourceDir);
+        if (ExistsFile(psxResDir)) {
+            glob.resourceDir = psxResDir;
         } else {
-            LOG_MSG(logWARN, WARN_RSRC_DIR_UNAVAIL, resourceDir);
+            LOG_MSG(logWARN, WARN_RSRC_DIR_UNAVAIL, psxResDir.c_str());
         }
     }
     
@@ -109,6 +116,13 @@ const char *    XPMPMultiplayerInit(int (* inIntPrefsFunc)(const char *, const c
     AcInit();
     
     return "";
+}
+
+// Overrides the plugin's name to be used in Log output
+void XPMPSetPluginName (const char* inPluginName)
+{
+    if (inPluginName)
+        glob.pluginName = inPluginName;
 }
 
 // Undoes above init functions
@@ -159,20 +173,22 @@ const char *    XPMPLoadCSLPackage(const char * inCSLFolder,
     const char* ret = "";
     
     // If given, load the `related.txt` file
-    if (inRelatedPath)
+    if (inRelatedPath) {
         ret = RelatedLoad(inRelatedPath);
+        if (ret[0]) return ret;
+    }
     
     // If given, load the `doc8643.txt` file
     if (inDoc8643) {
-        const char* r = Doc8643Load(inDoc8643);
-        if (r[0]) ret = r;
+        ret = Doc8643Load(inDoc8643);
+        if (ret[0]) return ret;
     }
     
     // Do load the CSL Models in the given path
     if (inCSLFolder) {
         LOG_MSG(logINFO, INFO_LOAD_CSL_PACKAGE, inCSLFolder);
-        const char* r = CSLModelsLoad(inCSLFolder);
-        if (r[0]) ret = r;
+        ret = CSLModelsLoad(inCSLFolder);
+        if (ret[0]) return ret;
     }
     
     return ret;
@@ -259,14 +275,25 @@ XPMPPlaneID XPMPCreatePlaneWithModelName(const char *       inModelName,
                                          XPMPPlaneData_f    inDataFunc,
                                          void *             inRefcon)
 {
-    LegacyAircraft* pAc = new LegacyAircraft(inICAOCode,
-                                             inAirline,
-                                             inLivery,
-                                             inDataFunc,
-                                             inRefcon,
-                                             inModelName);
-    // This is not leaking memory, the pointer is in glob.mapAc as taken care of by the constructor
-    return pAc->GetPlaneID();
+    try {
+        LegacyAircraft* pAc = new LegacyAircraft(inICAOCode,
+                                                 inAirline,
+                                                 inLivery,
+                                                 inDataFunc,
+                                                 inRefcon,
+                                                 inModelName);
+        // This is not leaking memory, the pointer is in glob.mapAc as taken care of by the constructor
+        return pAc->GetPlaneID();
+    }
+    catch (const XPMP2Error& e) {
+        // This might be thrown in case of problems creating the object
+        LOG_MSG(logERR, "Could not create plane object for %s/%s/%s/%s!",
+                inICAOCode  ? inICAOCode    : "<null>",
+                inAirline   ? inAirline     : "<null>",
+                inLivery    ? inLivery      : "<null>",
+                inModelName ? inModelName   : "<null>");
+        return nullptr;
+    }
 }
 
 // Destroy a plane by just deleting the object, the destructor takes care of the rest
@@ -386,8 +413,11 @@ void            XPMPRegisterPlaneNotifierFunc(XPMPPlaneNotifier_f       inFunc,
     XPMPPlaneNotifierTy observer (inFunc, inRefcon);
     if (std::find(glob.listObservers.begin(),
                   glob.listObservers.end(),
-                  observer) == glob.listObservers.end())
+                  observer) == glob.listObservers.end()) {
         glob.listObservers.emplace_back(std::move(observer));
+        LOG_MSG(logDEBUG, "%lu observers registered",
+                (unsigned long)glob.listObservers.size());
+    }
 }
 
 /*
@@ -402,8 +432,11 @@ void            XPMPUnregisterPlaneNotifierFunc(XPMPPlaneNotifier_f     inFunc,
     auto iter = std::find(glob.listObservers.begin(),
                           glob.listObservers.end(),
                           XPMPPlaneNotifierTy (inFunc, inRefcon));
-    if (iter != glob.listObservers.cend())
+    if (iter != glob.listObservers.cend()) {
         glob.listObservers.erase(iter);
+        LOG_MSG(logDEBUG, "%lu observers registered",
+                (unsigned long)glob.listObservers.size());
+    }
 }
 
 namespace XPMP2 {

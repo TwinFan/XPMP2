@@ -1,0 +1,383 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2572C40623D88802006A7726 /* XPMP2-Sample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2572C40523D88802006A7726 /* XPMP2-Sample.cpp */; };
+		2572C41123D89283006A7726 /* xplanemp2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2572C41023D89283006A7726 /* xplanemp2.framework */; };
+		D6A7BDAA16A1DEA200D1426A /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6A7BDA916A1DEA200D1426A /* OpenGL.framework */; };
+		D6A7BDC116A1DEC000D1426A /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6A7BDC016A1DEC000D1426A /* CoreFoundation.framework */; };
+		D6A7BDF116A1DED200D1426A /* XPLM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6A7BDF016A1DED200D1426A /* XPLM.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2572C40523D88802006A7726 /* XPMP2-Sample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "XPMP2-Sample.cpp"; sourceTree = "<group>"; };
+		2572C41023D89283006A7726 /* xplanemp2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = xplanemp2.framework; path = lib/xplanemp2.framework; sourceTree = "<group>"; };
+		D607B19909A556E400699BC3 /* XPMP2-Sample.xpl */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "XPMP2-Sample.xpl"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D6A7BDA916A1DEA200D1426A /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		D6A7BDC016A1DEC000D1426A /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		D6A7BDF016A1DED200D1426A /* XPLM.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XPLM.framework; path = SDK/Libraries/Mac/XPLM.framework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D607B19709A556E400699BC3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2572C41123D89283006A7726 /* xplanemp2.framework in Frameworks */,
+				D6A7BDAA16A1DEA200D1426A /* OpenGL.framework in Frameworks */,
+				D6A7BDC116A1DEC000D1426A /* CoreFoundation.framework in Frameworks */,
+				D6A7BDF116A1DED200D1426A /* XPLM.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AC4E46B809C2E0B3006B7E1B /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				2572C40523D88802006A7726 /* XPMP2-Sample.cpp */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		D607B15F09A5563000699BC3 = {
+			isa = PBXGroup;
+			children = (
+				D6A7BDAD16A1DEA700D1426A /* Frameworks */,
+				AC4E46B809C2E0B3006B7E1B /* Source */,
+				D607B19A09A556E400699BC3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D607B19A09A556E400699BC3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D607B19909A556E400699BC3 /* XPMP2-Sample.xpl */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D6A7BDAD16A1DEA700D1426A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2572C41023D89283006A7726 /* xplanemp2.framework */,
+				D6A7BDC016A1DEC000D1426A /* CoreFoundation.framework */,
+				D6A7BDA916A1DEA200D1426A /* OpenGL.framework */,
+				D6A7BDF016A1DED200D1426A /* XPLM.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D607B19809A556E400699BC3 /* XPMP2-Sample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D607B19B09A556E400699BC3 /* Build configuration list for PBXNativeTarget "XPMP2-Sample" */;
+			buildPhases = (
+				D607B19609A556E400699BC3 /* Sources */,
+				D607B19709A556E400699BC3 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "XPMP2-Sample";
+			productName = StarterPlugin;
+			productReference = D607B19909A556E400699BC3 /* XPMP2-Sample.xpl */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D607B16109A5563100699BC3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1130;
+			};
+			buildConfigurationList = D607B16209A5563100699BC3 /* Build configuration list for PBXProject "XPMP2-Sample" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D607B15F09A5563000699BC3;
+			productRefGroup = D607B19A09A556E400699BC3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D607B19809A556E400699BC3 /* XPMP2-Sample */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D607B19609A556E400699BC3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2572C40623D88802006A7726 /* XPMP2-Sample.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		D607B16309A5563100699BC3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_ATOMIC_IMPLICIT_SEQ_CST = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_FLOAT_CONVERSION = YES;
+				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 0.1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DSTROOT = "$(XPLANE11_ROOT)/Resources/plugins/$(PROJECT)";
+				DYLIB_COMPATIBILITY_VERSION = "";
+				DYLIB_CURRENT_VERSION = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				EXECUTABLE_EXTENSION = xpl;
+				FRAMEWORK_SEARCH_PATHS = (
+					lib,
+					SDK/Libraries/Mac,
+				);
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"APL=1",
+					"IBM=0",
+					"LIN=0",
+					"XPLM200=1",
+					"XPLM210=1",
+					"XPLM300=1",
+					"XPLM301=1",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					SDK/CHeaders/XPLM,
+					lib/xplanemp2.framework/Headers,
+					"$(HEADER_SEARCH_PATHS)",
+				);
+				MACH_O_TYPE = mh_bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"$(OTHER_LDFLAGS)",
+					"-Wl,-exported_symbol",
+					"-Wl,_XPluginStart",
+					"-Wl,-exported_symbol",
+					"-Wl,_XPluginEnable",
+					"-Wl,-exported_symbol",
+					"-Wl,_XPluginReceiveMessage",
+					"-Wl,-exported_symbol",
+					"-Wl,_XPluginDisable",
+					"-Wl,-exported_symbol",
+					"-Wl,_XPluginStop",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.twinfan.XPMP2-Sample";
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = macosx;
+				XPLANE11_ROOT = "/Users/birger/Applications/X-Plane 11";
+			};
+			name = Debug;
+		};
+		D607B16409A5563100699BC3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_ATOMIC_IMPLICIT_SEQ_CST = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_FLOAT_CONVERSION = YES;
+				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 0.1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DSTROOT = "$(XPLANE11_ROOT)/Resources/plugins/$(PROJECT)";
+				DYLIB_COMPATIBILITY_VERSION = "";
+				DYLIB_CURRENT_VERSION = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				EXECUTABLE_EXTENSION = xpl;
+				FRAMEWORK_SEARCH_PATHS = (
+					lib,
+					SDK/Libraries/Mac,
+				);
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"APL=1",
+					"IBM=0",
+					"LIN=0",
+					"XPLM200=1",
+					"XPLM210=1",
+					"XPLM300=1",
+					"XPLM301=1",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					SDK/CHeaders/XPLM,
+					lib/xplanemp2.framework/Headers,
+					"$(HEADER_SEARCH_PATHS)",
+				);
+				MACH_O_TYPE = mh_bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				OTHER_LDFLAGS = (
+					"$(OTHER_LDFLAGS)",
+					"-Wl,-exported_symbol",
+					"-Wl,_XPluginStart",
+					"-Wl,-exported_symbol",
+					"-Wl,_XPluginEnable",
+					"-Wl,-exported_symbol",
+					"-Wl,_XPluginReceiveMessage",
+					"-Wl,-exported_symbol",
+					"-Wl,_XPluginDisable",
+					"-Wl,-exported_symbol",
+					"-Wl,_XPluginStop",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.twinfan.XPMP2-Sample";
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = macosx;
+				XPLANE11_ROOT = "/Users/birger/Applications/X-Plane 11";
+			};
+			name = Release;
+		};
+		D607B19C09A556E400699BC3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				DEPLOYMENT_LOCATION = YES;
+				INSTALL_PATH = mac_x64;
+				VALID_ARCHS = x86_64;
+			};
+			name = Debug;
+		};
+		D607B19D09A556E400699BC3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				DEPLOYMENT_LOCATION = YES;
+				INSTALL_PATH = mac_x64;
+				VALID_ARCHS = x86_64;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D607B16209A5563100699BC3 /* Build configuration list for PBXProject "XPMP2-Sample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D607B16309A5563100699BC3 /* Debug */,
+				D607B16409A5563100699BC3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D607B19B09A556E400699BC3 /* Build configuration list for PBXNativeTarget "XPMP2-Sample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D607B19C09A556E400699BC3 /* Debug */,
+				D607B19D09A556E400699BC3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D607B16109A5563100699BC3 /* Project object */;
+}

@@ -24,8 +24,8 @@ namespace XPMP2 {
 
 #define WARN_ASYNC_LOAD_ONGOING "Async load operation ongoing while object is being destroyed for %s"
 #define WARN_REF_CNT            "Reference counter is %u while object is being destroyed for %s"
-#define DEBUG_OBJ_LOADING       "Async load starting  for %s / %s"
-#define DEBUG_OBJ_LOADED        "Async load succeeded for %s / %s"
+#define DEBUG_OBJ_LOADING       "Async load starting  for %s from %s"
+#define DEBUG_OBJ_LOADED        "Async load succeeded for %s from %s"
 #define DEBUG_OBJ_UNLOADED      "Object %s / %s unloaded"
 #define ERR_OBJ_OBJ_NOT_FOUND   "Async load for %s: CSLObj in CSLModel object not found!"
 #define ERR_OBJ_NOT_FOUND       "Async load for %s: CSLModel object not found!"
@@ -34,6 +34,7 @@ namespace XPMP2 {
 /// The file holding package information
 #define XSB_AIRCRAFT_TXT        "xsb_aircraft.txt"
 #define INFO_XSBACTXT_READ      "Processing %s"
+#define INFO_TOTAL_NUM_MODELS   "Total number of known models now is %lu"
 #define WARN_NO_XSBACTXT_FOUND  "No xsb_aircraft.txt found"
 #define WARN_DUP_PKG_NAME       "Package name (EXPORT_NAME) '%s' in folder '%s' is already in use by '%s'"
 #define WARN_DUP_MODEL          "Duplicate model '%s', additional definitions ignored"
@@ -85,9 +86,14 @@ void CSLObj::Load ()
     // Prepare to load the CSL model from the .obj file
     LOG_MSG(logDEBUG, DEBUG_OBJ_LOADING,
             cslId.c_str(), path.c_str());
-    XPLMLoadObjectAsync(path.c_str(),               // path to .obj
-                        &XPObjLoadedCB,             // static callback function
-                        new pairOfStrTy(cslId.c_str(), // _copy_ of the id string
+    
+    // Based on experience it seems XPLMLoadObjectAsync() does not
+    // properly support HFS file paths. It just replaces all ':' with '/',
+    // which is incomplete.
+    // So we always convert to POSIX here on purpose:
+    XPLMLoadObjectAsync(TOPOSIX(path).c_str(),          // path to .obj
+                        &XPObjLoadedCB,                 // static callback function
+                        new pairOfStrTy(cslId.c_str(),  // _copy_ of the id string
                                         path.c_str()));
     xpObjState = OLS_LOADING;
 }
@@ -345,14 +351,24 @@ std::string CSLModelsConvPackagePath (const std::string& pkgPath,
         return "";
     }
     
-    // Found the package, so now let's make a proper path, all with forward slashes
-    std::string path = pkgIter->second + pkgPath.substr(pos+1);
-    std::replace_if(path.begin(), path.end(),
-                    [](char c){return c==':' || c=='\\';},
-                    '/');
+    // Found the package, so now let's make a proper path
+    // The relative path to the file is
+    std::string relFilePath = pkgPath.substr(pos+1);
+    // All 'wrong' path separators need to be changed to the correct separator
+    std::replace_if(relFilePath.begin(), relFilePath.end(),
+                    [](char c)
+                    {
+                        if (c == XPLMGetDirectorySeparator()[0])        // don't touch correct directory separator
+                            return false;
+                        return c==':' || c=='\\' || c=='/';             // but do touch all others
+                    },
+                    XPLMGetDirectorySeparator()[0]);    // replace with 'correct' dir separator
+
+    // Full path is package path plus relative path
+    std::string path = pkgIter->second + relFilePath;
     
     // We do check here already if that target really exists
-    if (!ExistsFile(path)) {
+    if (!ExistsFile(TOPOSIX(path))) {
         LOG_MSG(logERR, ERR_OBJ_FILE_NOT_FOUND, lnNr,
                 pkgPath.c_str(), path.c_str());
         return "";
@@ -393,8 +409,8 @@ void CSLModelsAdd (CSLModel& _csl)
 const char* CSLModelsReadPkgId (const std::string& path)
 {
     // Open the xsb_aircraft.txt file
-    const std::string xsbName (path + "/" XSB_AIRCRAFT_TXT);
-    std::ifstream fAc (xsbName);
+    const std::string xsbName (path + XPLMGetDirectorySeparator()[0] + XSB_AIRCRAFT_TXT);
+    std::ifstream fAc (TOPOSIX(xsbName));
     if (!fAc || !fAc.is_open())
         return WARN_NO_XSBACTXT_FOUND;
     
@@ -417,7 +433,7 @@ const char* CSLModelsReadPkgId (const std::string& path)
             tokens[0] == "EXPORT_NAME")
         {
             // Found a package id -> save an entry for a package
-            auto p = glob.mapCSLPkgs.insert(std::make_pair(tokens[1], path + "/"));
+            auto p = glob.mapCSLPkgs.insert(std::make_pair(tokens[1], path + XPLMGetDirectorySeparator()[0]));
             if (!p.second) {                // not inserted, ie. package name existed already?
                 LOG_MSG(logWARN, WARN_DUP_PKG_NAME,
                         tokens[1].c_str(), path.c_str(),
@@ -447,8 +463,8 @@ const char* CSLModelsProcessAcFile (const std::string& path)
     CSLModel csl;
     
     // Open the xsb_aircraft.txt file
-    const std::string xsbName (path + "/" XSB_AIRCRAFT_TXT);
-    std::ifstream fAc (xsbName);
+    const std::string xsbName (path + XPLMGetDirectorySeparator()[0] + XSB_AIRCRAFT_TXT);
+    std::ifstream fAc (TOPOSIX(xsbName));
     if (!fAc || !fAc.is_open())
         return WARN_NO_XSBACTXT_FOUND;
     
@@ -552,8 +568,8 @@ const char* CSLModelsFindPkgs (const std::string& _path,
     if (_maxDepth > 0) {
         // The let's see if there were some directories
         for (const std::string& f: files) {
-            const std::string nextPath(_path + "/" + f);
-            if (IsDir(nextPath)) {
+            const std::string nextPath(_path + XPLMGetDirectorySeparator()[0] + f);
+            if (IsDir(TOPOSIX(nextPath))) {
                 // recuresively call myself, allow one level of hierarchy less
                 const char* res = CSLModelsFindPkgs(nextPath, paths, _maxDepth-1);
                 // Not the message "nothing found"?
@@ -717,6 +733,9 @@ const char* CSLModelsLoad (const std::string& _path,
             LOG_MSG(logWARN, res);      // also report it to the log
         }
     }
+    
+    // How many models do we now have in total?
+    LOG_MSG(logINFO, INFO_TOTAL_NUM_MODELS, (unsigned long)glob.mapCSLModels.size())
     
     // return the final result
     return res;
@@ -887,7 +906,7 @@ int CSLModelMatching (const std::string& _type,
     pModel = nullptr;
     
     // ...and let's stop right away if there is _absolutely no model_
-    if (glob.mapCSLPkgs.empty()) {
+    if (glob.mapCSLModels.empty()) {
         LOG_MSG(logERR, ERR_MATCH_NO_MODELS);
         return -1;
     }

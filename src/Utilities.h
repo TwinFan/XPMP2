@@ -212,6 +212,15 @@ inline int strerror_s( char *buf, size_t bufsz, int errnum )
 { strcpy_s(buf,bufsz,strerror(errnum)); return 0; }
 #endif
 
+// In case of Mac we need to prepare for HFS-to-Posix path conversion
+#if APL
+/// Checks how XPLM_USE_NATIVE_PATHS is set (recommended to use), and if not set converts the path
+std::string TOPOSIX (const std::string& p);
+#else
+/// On Lin/Win there is no need for a conversion, but we do treat `p` now as `std::string`
+inline std::string TOPOSIX (const std::string& p) { return p; }
+#endif
+
 }
 
 #endif

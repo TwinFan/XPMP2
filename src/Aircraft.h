@@ -65,9 +65,6 @@ void AcInit ();
 /// Grace cleanup, esp. remove all aircraft
 void AcCleanup ();
 
-/// Find aircraft by its plane ID, can return nullptr
-Aircraft* AcFindByID (XPMPPlaneID _id);
-
 };
 
 #endif

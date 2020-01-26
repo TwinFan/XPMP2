@@ -89,8 +89,8 @@ const char * DR_NAMES[] = {
 constexpr int DR_NAMES_COUNT = sizeof(DR_NAMES)/sizeof(DR_NAMES[0]) - 1;
 static_assert(DR_NAMES_COUNT == V_COUNT, "Number of dataRef strings does not match number of enums and array length of `Aircraft::v");
 
-/// Registered dataRefs
-XPLMDataRef ahDataRefs[DR_NAMES_COUNT];
+/// Registered dataRefs (only the first element is guaranteed to be zero, but that's sufficient)
+XPLMDataRef ahDataRefs[DR_NAMES_COUNT] = {0};
 
 //
 // MARK: XPMP2 New Definitions
@@ -506,8 +506,6 @@ static int obj_get_float_array(
 // Initialize the module
 void AcInit ()
 {
-    memset(ahDataRefs, 0, sizeof(ahDataRefs));
-    
     // Register all our dataRefs, if not done already
     if (!ahDataRefs[0]) {
         int i = 0;
@@ -543,6 +541,7 @@ void AcCleanup ()
     for (XPLMDataRef dr: ahDataRefs)
         if (dr)
             XPLMUnregisterDataAccessor(dr);
+    memset(ahDataRefs, 0, sizeof(ahDataRefs));
 }
 
 // Find aircraft by its plane ID, can return nullptr

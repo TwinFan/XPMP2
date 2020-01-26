@@ -51,7 +51,7 @@ const char* RelatedLoad (const std::string& _path)
 {
     // Open the related.txt file
     LOG_MSG(logDEBUG, DEBUG_READ_RELATED, _path.c_str());
-    std::ifstream fRelated (_path);
+    std::ifstream fRelated (TOPOSIX(_path));
     if (!fRelated || !fRelated.is_open())
         return ERR_RELATED_NOT_FOUND;
     
@@ -125,7 +125,7 @@ Doc8643::Doc8643 (const std::string& _classification,
 const char* Doc8643Load (const std::string& _path)
 {
     // open the file for reading
-    std::ifstream fIn (_path);
+    std::ifstream fIn (TOPOSIX(_path));
     if (!fIn || !fIn.is_open())
         return ERR_DOC8643_NOT_FOUND;
     LOG_MSG(logDEBUG, DEBUG_READ_DOC8643, _path.c_str());

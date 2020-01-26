@@ -187,6 +187,9 @@ protected:
     void DestroyInstances ();
 };
 
+/// Find aircraft by its plane ID, can return nullptr
+Aircraft* AcFindByID (XPMPPlaneID _id);
+
 };  // namespace XPMP2
 
 #endif

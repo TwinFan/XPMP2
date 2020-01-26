@@ -27,14 +27,6 @@
 
 #include "XPLMDefs.h"
 
-#ifndef XPMP_CLIENT_NAME
-#error You must define a short name for your plugin in preprocessor macro XPMP_CLIENT_NAME.
-#endif
-
-#ifndef XPMP_CLIENT_LONGNAME
-#error You must define a long name for your plugin in preprocessor macro XPMP_CLIENT_LONGNAME.
-#endif
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -324,6 +316,11 @@ const char *    XPMPMultiplayerInitLegacyData(const char * inCSLFolder      = nu
 const char *    XPMPMultiplayerInit(int (* inIntPrefsFunc)(const char *, const char *, int)         = nullptr,
                                     float (* inFloatPrefsFunc)(const char *, const char *, float)   = nullptr,
                                     const char * resourceDir = nullptr);
+
+/// @brief Overrides the plugin's name to be used in Log output
+/// @details The name in use defaults to the plugin's name as set in XPluginStart().
+///          Replaces the compile-time macro `XPMP_CLIENT_LONGNAME` from earlier releases.
+void XPMPSetPluginName (const char* inPluginName);
 
 /*
  * XPMPMultiplayerCleanup

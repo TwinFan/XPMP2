@@ -33,6 +33,7 @@
 #include "XPLMProcessing.h"
 #include "XPLMGraphics.h"
 #include "XPLMDataAccess.h"
+#include "XPLMPlugin.h"
 
 // Standard C
 #include <sys/stat.h>
@@ -57,6 +58,8 @@
 //
 // MARK: Global Configurations and variables
 //
+
+#define UNKNOWN_PLUGIN_NAME "(unknown)"
 
 namespace XPMP2 {
 
@@ -86,6 +89,8 @@ public:
     bool            bLogMdlMatch= false;
     /// Clamp all planes to the ground?
     bool            bClampAll   = false;
+    /// Name of the plugin we are serving (mostly for Log.txt output formatting)
+    std::string     pluginName  = UNKNOWN_PLUGIN_NAME;
 
     /// Configuration callback for integer values
     int (*prefsFuncInt)(const char *, const char *, int) = XPMP2::PrefsFuncIntDefault;

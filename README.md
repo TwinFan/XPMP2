@@ -89,24 +89,24 @@ I considered no longer required:
 - `.acf` and OBJ7 models are no longer supported: XPMP2 requires OBJ8 models.
    These are the by far most used models nowadays, identified by the `OBJ8` command
    in the `xsb_aircraft.txt` file.
-   - Only one `.obj` file is supported per model, the `OBJ8 SOLID` model. XP11's instancing
-       takes care of drawing and performance optimization, so support for multiple models
-       for different scenarios has not been considered.
 
 TODOs
 --
 
+- Model loading / unloading
+    - check if reference counting works with model change (it originally didn't...I might have fixed that already)
+    - add garbage collection to models with reference counter zero, not used for a few minutes
+- Add "visible" option
+    - Remove object temporarily, but not the reference counter for the loaded model
+    - pay special attention when model change occurs during invisible times
+- Label writing
+    - 3D-to-2D coordinate conversion to be taken over from original lib...I still don't understand this conversion
+- AI/Multiplayer dataRefs (logic can be taken over from original library, it's my code anyway)
+    - Selecting priority planes 
+    - Standard X-Plane dataRefs
+    - Shared dataRefs for providing textual information (test with FSTramp)
 - Test with camera...might still jitter
-- Simple demonstration and test application
-    - No `XPLM_USE_NATIVE_PATHS`
-    - Legacy direct C style
-    - Legacy `XPCAircraft` style
-    - Modern `XPMP2::Aircraft` style
-- Make it work _without_ `XPLM_USE_NATIVE_PATHS`, which in turn will need
-    - Posix2HFSPath()
-    - HFS2PosixPath()
-    - and new macros providing on-the-fily conversion
-    - also test deep xsb_aircraft.txt searching
+    - Test with ABC
 - Support replacing textures with the extended syntax `OBJ8 SOLID YES <obj> <texture> <texture_lit>`
     - basically do what CSL2XSB.py does with respect to TEXTURE / TEXTURE_LIT
     - definition should already be read from `xsb_aircraft.txt`

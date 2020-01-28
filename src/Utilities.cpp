@@ -266,29 +266,19 @@ std::vector<std::string> str_tokenize (const std::string s,
 
 // standard constructor
 XPMP2Error::XPMP2Error (const char* _szFile, int _ln, const char* _szFunc,
-                  logLevelTy _lvl,
-                  const char* _szMsg, ...) :
-std::logic_error(LogGetString(_szFile, _ln, _szFunc, _lvl, _szMsg, NULL)),
-fileName(_szFile), ln(_ln), funcName(_szFunc),
-lvl(_lvl)
+                        const char* _szMsg, ...) :
+std::logic_error(LogGetString(_szFile, _ln, _szFunc, logFATAL, _szMsg, NULL)),
+fileName(_szFile), ln(_ln), funcName(_szFunc)
 {
     va_list args;
     va_start (args, _szMsg);
-    msg = LogGetString(_szFile, _ln, _szFunc, _lvl, _szMsg, args);
+    msg = LogGetString(_szFile, _ln, _szFunc, logFATAL, _szMsg, args);
     va_end (args);
     
     // write to log (flushed immediately -> expensive!)
-    if (_lvl >= glob.logLvl)
+    if (logFATAL >= glob.logLvl)
         XPLMDebugString ( msg.c_str() );
 }
-
-// protected constructor, only called by LTErrorFD
-XPMP2Error::XPMP2Error (const char* _szFile, int _ln, const char* _szFunc,
-                  logLevelTy _lvl) :
-std::logic_error(LogGetString(_szFile, _ln, _szFunc, _lvl, "", NULL)),
-fileName(_szFile), ln(_ln), funcName(_szFunc),
-lvl(_lvl)
-{}
 
 const char* XPMP2Error::what() const noexcept
 {

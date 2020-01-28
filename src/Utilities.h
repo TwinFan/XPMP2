@@ -120,33 +120,6 @@ const char* LogGetString ( const char* szFile, int ln, const char* szFunc, logLe
 void LogMsg ( const char* szFile, int ln, const char* szFunc, logLevelTy lvl, const char* szMsg, ... );
 
 //
-// MARK: XPlaneMP2 Exception class
-//
-class XPMP2Error : public std::logic_error {
-protected:
-    std::string fileName;
-    int ln;
-    std::string funcName;
-    logLevelTy lvl;
-    std::string msg;
-public:
-    XPMP2Error (const char* szFile, int ln, const char* szFunc, logLevelTy lvl,
-             const char* szMsg, ...);
-protected:
-    XPMP2Error (const char* szFile, int ln, const char* szFunc, logLevelTy lvl);
-public:
-    // returns msg.c_str()
-    virtual const char* what() const noexcept;
-    
-public:
-    // copy/move constructor/assignment as per default
-    XPMP2Error (const XPMP2Error& o) = default;
-    XPMP2Error (XPMP2Error&& o) = default;
-    XPMP2Error& operator = (const XPMP2Error& o) = default;
-    XPMP2Error& operator = (XPMP2Error&& o) = default;
-};
-
-//
 // MARK: Logging macros
 //
 
@@ -169,14 +142,14 @@ public:
 /// @brief Throws an exception using XPMP2Error
 /// @note First parameter after lvl must be the message text,
 ///       which can be a format string with its parameters following like in sprintf
-#define THROW_ERROR(lvl,...)                                        \
-throw XPMP2Error(__FILE__, __LINE__, __func__, lvl, __VA_ARGS__);
+#define THROW_ERROR(...)                                            \
+throw XPMP2Error(__FILE__, __LINE__, __func__, __VA_ARGS__);
 
 /// @brief Throw in an assert-style (logging takes place in XPMP2Error constructor)
 /// @note This conditional check _always_ takes place, independend of any build or logging settings!
 #define LOG_ASSERT(cond)                                            \
     if (!(cond)) {                                                  \
-        THROW_ERROR(logFATAL,ERR_ASSERT,#cond);                     \
+        THROW_ERROR(ERR_ASSERT,#cond);                              \
     }
 
 //

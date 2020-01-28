@@ -80,7 +80,7 @@ struct XPMPPlanePosition_t {
     float   roll            = 0.0f;                     ///< roll [degrees, positive right]
     float   heading         = 0.0f;                     ///< heading [degrees]
     char    label[32]       = "";                       ///< label to show with the aircraft
-    float   offsetScale     = 0.0f;                     ///< how much of the surface contact correction offset should be applied [0..1]
+    float   offsetScale     = 1.0f;                     ///< how much of the surface contact correction offset should be applied [0..1]
     bool    clampToGround   = true;                     ///< enables ground-clamping for this aircraft
     int     aiPrio          = 1;                        ///< Priority for AI/TCAS consideration, the lower the earlier
     float   label_color[4]  = {1.0f,1.0f,0.0f,1.0f};    ///< label base color (RGB)
@@ -106,7 +106,7 @@ enum XPMPLightsPattern : unsigned int {
  * flashing at different times.
  */
 union xpmp_LightStatus {
-    unsigned int lightFlags = 0;
+    unsigned int lightFlags = 0x150000;     ///< this defaults to taxi | beacon | nav lights on
     struct {
         unsigned int timeOffset : 16;       ///< time offset to avoid lights across planes blink in sync (unused in XPMP2)
         

@@ -38,6 +38,11 @@ namespace XPMP2 {
 
 class CSLModel;
 
+/// Convert revolutions-per-minute (RPM) to radians per second (rad/s) by multiplying with PI/30
+constexpr float RPM_to_RADs = 0.10471975511966f;
+/// Convert feet to meters, e.g. for altitude calculations
+constexpr double M_per_FT   = 0.3048;   // meter per 1 foot
+
 /// The dataRefs provided by XPMP2 to the CSL models
 enum DR_VALS {
     V_CONTROLS_GEAR_RATIO = 0,                  ///< libxplanemp/controls/gear_ratio
@@ -189,6 +194,34 @@ protected:
 
 /// Find aircraft by its plane ID, can return nullptr
 Aircraft* AcFindByID (XPMPPlaneID _id);
+
+//
+// MARK: XPlaneMP2 Exception class
+//
+
+/// XPlaneMP2 Exception class, e.g. thrown if there are no CSL models when creating an Aircraft
+class XPMP2Error : public std::logic_error {
+protected:
+    std::string fileName;           ///< filename of the line of code where exception occurred
+    int ln;                         ///< line number of the line of code where exception occurred
+    std::string funcName;           ///< function of the line of code where exception occurred
+    std::string msg;                ///< additional text message
+public:
+    /// Constructor puts together a formatted exception text
+    XPMP2Error (const char* szFile, int ln, const char* szFunc, const char* szMsg, ...);
+public:
+    /// returns msg.c_str()
+    virtual const char* what() const noexcept;
+    
+public:
+    // copy/move constructor/assignment as per default
+    XPMP2Error (const XPMP2Error& o) = default;
+    XPMP2Error (XPMP2Error&& o) = default;
+    XPMP2Error& operator = (const XPMP2Error& o) = default;
+    XPMP2Error& operator = (XPMP2Error&& o) = default;
+};
+
+
 
 };  // namespace XPMP2
 

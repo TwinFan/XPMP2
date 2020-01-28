@@ -38,11 +38,6 @@ using namespace XPMP2;
 
 namespace XPMP2 {
 
-/// Convert revolutions-per-minute (RPM) to radians per second (rad/s) by multiplying with PI/30
-constexpr float RPM_to_RADs = 0.10471975511966f;
-/// Convert feet to meters, e.g. for altitude calculations
-constexpr double M_per_FT   = 0.3048;   // meter per 1 foot
-
 /// The ids of our flight loop callbacks
 XPLMFlightLoopID gFlightLoopID[2] = {nullptr, nullptr};
 
@@ -103,6 +98,9 @@ Aircraft::Aircraft(const std::string& _icaoType,
                    const std::string& _modelName) :
 mPlane(glob.NextPlaneId())              // assign the next synthetic plane id
 {
+    // Size of drawInfo
+    drawInfo.structSize = sizeof(drawInfo);
+    
     // if given try to find the CSL model to use by its name
     if (!_modelName.empty()) {
         pCSLMdl = CSLModelByName(_modelName);
@@ -416,24 +414,19 @@ Aircraft(inICAOCode, inAirline, inLivery, inModelName ? inModelName : "")
 // Just calls all 4 previous `Get...` functions and copies the provided values into `drawInfo` and `v`
 void XPCAircraft::UpdatePosition()
 {
-    // temporary legacy-style storage for all information
-    // (is initialized with values as per definition in header files)
-    XPMPPlanePosition_t acNextPos;
-    XPMPPlaneSurfaces_t acSurfaces;
-    
     // Call the "callback" virtual functions and then update the core variables
-    acNextPos.multiIdx = GetMultiIdx();         // provide the multiplayer index back to the plugin
-    if (GetPlanePosition(&acNextPos) == xpmpData_NewData) {
+    acPos.multiIdx = GetMultiIdx();             // provide the multiplayer index back to the plugin
+    if (GetPlanePosition(&acPos) == xpmpData_NewData) {
         // Set the position and orientation
-        SetLocation(acNextPos.lat, acNextPos.lon, acNextPos.elevation);
-        drawInfo.pitch      = acNextPos.pitch;
-        drawInfo.roll       = acNextPos.roll;
-        drawInfo.heading    = acNextPos.heading;
+        SetLocation(acPos.lat, acPos.lon, acPos.elevation);
+        drawInfo.pitch      = acPos.pitch;
+        drawInfo.roll       = acPos.roll;
+        drawInfo.heading    = acPos.heading;
         // Update the other values from acNextPos
-        label               = acNextPos.label;
-        memmove(colLabel, acNextPos.label_color, sizeof(colLabel));
-        vertOfsRatio        = acNextPos.clampToGround ? acNextPos.offsetScale : 0.0f;
-        aiPrio              = acNextPos.aiPrio;
+        label               = acPos.label;
+        memmove(colLabel, acPos.label_color, sizeof(colLabel));
+        vertOfsRatio        = acPos.clampToGround ? acPos.offsetScale : 0.0f;
+        aiPrio              = acPos.aiPrio;
     }
     
     if (GetPlaneSurfaces(&acSurfaces) == xpmpData_NewData) {

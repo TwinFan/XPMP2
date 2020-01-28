@@ -37,6 +37,12 @@ class [[deprecated("Subclass XPMP2::Aircraft instead")]]
 XPCAircraft : public XPMP2::Aircraft {
     
 public:
+    /// Last position data. GetPlanePosition() passes a pointer to this member variable
+    XPMPPlanePosition_t acPos;
+    /// Last surface data. GetPlaneSurfaces() passes a pointer to this member variable
+    XPMPPlaneSurfaces_t acSurfaces;
+
+public:
     
     /// Legacy constructor creates a plane and puts it under control of XPlaneMP
     XPCAircraft(const char* inICAOCode,

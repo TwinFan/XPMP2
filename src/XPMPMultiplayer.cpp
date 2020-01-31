@@ -25,8 +25,6 @@
 #define INFO_DEFAULT_ICAO       "Default ICAO aircraft type now is %s"
 #define INFO_LOAD_CSL_PACKAGE   "Loading CSL package from %s"
 
-#define DEBUG_ENABLE_AC_LABELS  "Aircraft labels %s"
-
 // The global functions implemented here are not in our namespace for legacy reasons,
 // but we use our namespace a lot:
 using namespace XPMP2;
@@ -114,6 +112,7 @@ const char *    XPMPMultiplayerInit(int (* inIntPrefsFunc)(const char *, const c
     // Initialize all modules
     CSLModelsInit();
     AcInit();
+    TwoDInit();
     
     return "";
 }
@@ -131,6 +130,7 @@ void XPMPMultiplayerCleanup()
     LOG_MSG(logINFO, "XPMP2 cleaning up...")
 
     // Cleanup all modules in revers order of initialization
+    TwoDCleanup();
     AcCleanup();
     CSLModelsCleanup();
 }
@@ -304,6 +304,14 @@ void XPMPDestroyPlane(XPMPPlaneID _id)
         delete pAc;
 }
 
+// Show/Hide the aircraft temporarily without destroying the object
+void XPMPSetPlaneVisibility(XPMPPlaneID _id, bool _bVisible)
+{
+    Aircraft* pAc = AcFindByID(_id);
+    if (pAc)
+        pAc->SetVisible(_bVisible);
+}
+
 // Change a plane's model
 int     XPMPChangePlaneModel(XPMPPlaneID            _id,
                              const char *           inICAO,
@@ -465,22 +473,3 @@ void        XPMPSetPlaneRenderer(XPMPRenderPlanes_f, void *)
 void        XPMPDumpOneCycle(void)
 {}
 
-// Enable/Disable/Query drawing of labels
-void XPMPEnableAircraftLabels (bool _enable)
-{
-    // Only do anything if this actually is a change to prevent log spamming
-    if (glob.bDrawLabels != _enable) {
-        LOG_MSG(logDEBUG, DEBUG_ENABLE_AC_LABELS, _enable ? "enabled" : "disabled");
-        glob.bDrawLabels = _enable;
-    }
-}
-
-void XPMPDisableAircraftLabels()
-{
-    XPMPEnableAircraftLabels(false);
-}
-
-bool XPMPDrawingAircraftLabels()
-{
-    return glob.bDrawLabels;
-}

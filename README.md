@@ -94,13 +94,12 @@ TODOs
 --
 
 - Model loading / unloading
-    - check if reference counting works with model change (it originally didn't...I might have fixed that already)
     - add garbage collection to models with reference counter zero, not used for a few minutes
-- Add "visible" option
-    - Remove object temporarily, but not the reference counter for the loaded model
-    - pay special attention when model change occurs during invisible times
 - Label writing
     - 3D-to-2D coordinate conversion to be taken over from original lib...I still don't understand this conversion
+    - Optimze matrix calculation using std::valarray and std::inner_product()
+    - IsSphereVisible(), DistToCamera() and ConvertTo2d() can be combined; their first matrix product is the same. Maybe put it into m?
+    - Expose maxLabelDist to some config function 
 - AI/Multiplayer dataRefs (logic can be taken over from original library, it's my code anyway)
     - Selecting priority planes 
     - Standard X-Plane dataRefs

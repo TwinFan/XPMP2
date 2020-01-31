@@ -123,17 +123,14 @@ public:
     XPMPInfoTexts_t acInfoTexts;
     
 protected:
+    bool bVisible               = true;     ///< Shall this plane be drawn at the moment?
+    
     XPMP2::CSLModel*    pCSLMdl = nullptr;  ///< the CSL model in use
     int                 matchQuality = -1;  ///< quality of the match with the CSL model
     
     // this is data from about a second ago to calculate cartesian velocities
     double              prev_x = 0.0f, prev_y = 0.0f, prev_z = 0.0f;
     std::chrono::steady_clock::time_point prev_ts;
-    
-    // Current pos is just a copy of acNextPos,
-    // but one drawing frame late behind.
-    // This is needed to reduce jitter in external camera applications.
-    XPMPPlanePosition_t acCurrPos;
     
     /// X-Plane instance handles for all objects making up the model
     std::list<XPLMInstanceRef> listInst;
@@ -180,6 +177,11 @@ public:
     /// @param lon Longitude in degrees -180..180
     /// @param alt_ft Altitude in feet above MSL
     void SetLocation (double lat, double lon, double alt_ft);
+    
+    /// Make the plane (in)visible
+    virtual void SetVisible (bool _bVisible);
+    /// Is the plane visible?
+    bool IsVisible () const { return bVisible; }
     
 protected:
     /// Internal: Flight loop callback function

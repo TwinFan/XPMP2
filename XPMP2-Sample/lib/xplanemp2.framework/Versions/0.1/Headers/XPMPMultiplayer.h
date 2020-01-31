@@ -116,7 +116,7 @@ union xpmp_LightStatus {
         unsigned int strbLights : 1;        ///< strobe lights on?
         unsigned int navLights  : 1;        ///< navigation lights on?
         
-        ///< light pattern (unused in XPMP2)
+        /// light pattern (unused in XPMP2)
         XPMPLightsPattern flashPattern   : 4;
     };
 };
@@ -499,6 +499,11 @@ XPMPPlaneID XPMPCreatePlaneWithModelName(
 /// @deprecated Delete subclassed XPMP2::Aircraft object instead.
 [[deprecated("Delete subclassed XPMP2::Aircraft object instead")]]
 void            XPMPDestroyPlane(XPMPPlaneID);
+
+
+/// @brief Show/Hide the aircraft temporarily without destroying the object
+void            XPMPSetPlaneVisibility(XPMPPlaneID _id, bool _bVisible);
+
 
 /*
  * XPMPChangePlaneModel

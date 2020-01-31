@@ -34,6 +34,8 @@
 #include "XPLMGraphics.h"
 #include "XPLMDataAccess.h"
 #include "XPLMPlugin.h"
+#include "XPLMDisplay.h"
+#include "XPLMCamera.h"
 
 // Standard C
 #include <sys/stat.h>
@@ -54,6 +56,7 @@
 #include "RelatedDoc8643.h"
 #include "CSLModels.h"
 #include "Aircraft.h"
+#include "2D.h"
 
 //
 // MARK: Global Configurations and variables
@@ -121,6 +124,8 @@ public:
     mapAcTy         mapAc;
     /// Shall we draw aircraft labels?
     bool            bDrawLabels = true;
+    /// Maximum distance for drawing labels? [m]
+    float           maxLabelDist = 5000.0f;
     
 protected:
     /// Current plane ID counter

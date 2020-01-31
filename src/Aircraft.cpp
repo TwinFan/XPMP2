@@ -185,6 +185,8 @@ int Aircraft::ChangeModel (const std::string& _icaoType,
                     pCSLMdl->GetId().c_str(),
                     pMdl->GetId().c_str());
             DestroyInstances();
+            // Decrease the reference counter of the CSL model
+            pCSLMdl->DecRefCnt();
         }
         
         // save the newly selected model
@@ -193,6 +195,9 @@ int Aircraft::ChangeModel (const std::string& _icaoType,
         acIcaoType      = _icaoType;
         acIcaoAirline   = _icaoAirline;
         acLivery        = _livery;
+
+        // Increase the reference counter of the CSL model to track that the object is being used
+        pCSLMdl->IncRefCnt();
 
         // inform observers in case this was an actual replacement change
         if (bChangeExisting)
@@ -281,11 +286,14 @@ float Aircraft::FlightLoopCB (float, float, int, void* refCon)
 // This puts the instance into XP's sky and makes it move
 void Aircraft::DoMove ()
 {
-    // Already have instances? Or succeeded in now creating them?
-    if (!listInst.empty() || CreateInstances()) {
-        // Move the instances (this is probably the single most important line of code ;-) )
-        for (XPLMInstanceRef hInst: listInst)
-            XPLMInstanceSetPosition(hInst, &drawInfo, v.data());
+    // Only for visible planes
+    if (bVisible) {
+        // Already have instances? Or succeeded in now creating them?
+        if (!listInst.empty() || CreateInstances()) {
+            // Move the instances (this is probably the single most important line of code ;-) )
+            for (XPLMInstanceRef hInst: listInst)
+                XPLMInstanceSetPosition(hInst, &drawInfo, v.data());
+        }
     }
 }
 
@@ -351,6 +359,22 @@ void Aircraft::SetLocation(double lat, double lon, double alt_f)
     drawInfo.x = float(x);
     drawInfo.y = float(y) + GetVertOfs();
     drawInfo.z = float(z);
+}
+
+
+// Make the plane (in)visible
+void Aircraft::SetVisible (bool _bVisible)
+{
+    // no change?
+    if (bVisible == _bVisible)
+        return;
+    
+    // Set the flag
+    bVisible = _bVisible;
+    
+    // In case of _now_ being invisible remove the instances
+    if (!bVisible)
+        DestroyInstances();
 }
 
 //

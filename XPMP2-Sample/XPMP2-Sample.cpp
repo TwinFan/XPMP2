@@ -10,10 +10,11 @@
 ///             3. Using direct C functions. This plane always rolls on the ground, no matter how
 ///             high the user plane flies.
 ///
-///             Two menu items are provided:
+///             Three menu items are provided:
 ///
-///             1. Toggle Plane Visibility creates/removes the planes.
-///             2. Cycle Models changes the CSL model used per plane.
+///             1. "Toggle Planes" creates/removes the planes.
+///             2. "Toggle Visibility" shows/temporary hides the planes without destroying them.
+///             3. "Cycle Models" changes the CSL model used per plane.
 ///
 ///             For the plugin to work properly some CSL models are necessary in some folders
 ///             under `Resources` (all folders under `Resources` are scanned for
@@ -706,11 +707,14 @@ XPMPPlaneCallbackResult CBPlaneData (XPMPPlaneID         inPlane,
 /// menu id of our plugin's menu
 XPLMMenuID hMenu = nullptr;
 
+/// Planes currently visible?
+bool gbVisible = true;
+
 /// for cycling CSL models: what is the index used for the first plane?
 int gModelIdxBase = 0;
 
-/// Is any plane visible?
-inline bool IsPlaneVisible () { return pSamplePlane || pLegacyPlane || hStdPlane; }
+/// Is any plane object created?
+inline bool ArePlanesCreated () { return pSamplePlane || pLegacyPlane || hStdPlane; }
 
 /// Create our 3 planes (if they don't exist already)
 void PlanesCreate ()
@@ -747,7 +751,8 @@ void PlanesCreate ()
                                     CBPlaneData, NULL);
     
     // Put a checkmark in front of menu item if planes are visible
-    XPLMCheckMenuItem(hMenu, 0, IsPlaneVisible() ? xplm_Menu_Checked : xplm_Menu_Unchecked);
+    XPLMCheckMenuItem(hMenu, 0, ArePlanesCreated()  ? xplm_Menu_Checked : xplm_Menu_Unchecked);
+    XPLMCheckMenuItem(hMenu, 1, gbVisible           ? xplm_Menu_Checked : xplm_Menu_Unchecked);
 }
 
 /// Remove all planes
@@ -770,6 +775,22 @@ void PlanesRemove ()
 
     // Remove the checkmark in front of menu item
     XPLMCheckMenuItem(hMenu, 0, xplm_Menu_Unchecked);
+    XPLMCheckMenuItem(hMenu, 1, xplm_Menu_Unchecked);
+}
+
+/// Show/hide the planes (temporarily, without destroying the plane objects)
+void PlanesShowHide ()
+{
+    gbVisible = !gbVisible;             // toggle setting
+    if (pSamplePlane)
+        pSamplePlane->SetVisible(gbVisible);
+    if (pLegacyPlane)
+        pLegacyPlane->SetVisible(gbVisible);
+    if (hStdPlane)
+        XPMPSetPlaneVisibility(hStdPlane, gbVisible);
+
+    // Put a checkmark in front of menu item if planes are visible
+    XPLMCheckMenuItem(hMenu, 1, gbVisible           ? xplm_Menu_Checked : xplm_Menu_Unchecked);
 }
 
 /// Cycle the CSL models of the 3 planes
@@ -801,13 +822,18 @@ void CBMenu (void* /*inMenuRef*/, void* inItemRef)
     // Toggle plane visibility?
     if (inItemRef == (void*)1)
     {
-        if (IsPlaneVisible())
+        if (ArePlanesCreated())
             PlanesRemove();
         else
             PlanesCreate();
     }
-    // Cycle Models?
+    // Show/Hide Planes?
     else if (inItemRef == (void*)2)
+    {
+        PlanesShowHide();
+    }
+    // Cycle Models?
+    else if (inItemRef == (void*)3)
     {
         PlanesCycleModels();
     }
@@ -827,8 +853,9 @@ PLUGIN_API int XPluginStart(char* outName, char* outSig, char* outDesc)
     // Create the menu for the plugin
     int my_slot = XPLMAppendMenuItem(XPLMFindPluginsMenu(), "XPMP2 Sample", NULL, 0);
     hMenu = XPLMCreateMenu("XPMP2 Sample", XPLMFindPluginsMenu(), my_slot, CBMenu, NULL);
-    XPLMAppendMenuItem(hMenu, "Toggle Plane Visibility",    (void*)1, 0);
-    XPLMAppendMenuItem(hMenu, "Cycle Models",               (void*)2, 0);
+    XPLMAppendMenuItem(hMenu, "Toggle Planes",      (void*)1, 0);
+    XPLMAppendMenuItem(hMenu, "Toggle Visibility",  (void*)2, 0);
+    XPLMAppendMenuItem(hMenu, "Cycle Models",       (void*)3, 0);
     
 	return 1;
 }

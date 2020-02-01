@@ -58,24 +58,47 @@ namespace XPMP2 {
 // MARK: 2-D projection calculations
 //
 
+/// Copies a standard C array into a valarray
+template<class T>
+std::valarray<T>& copyToValarray (std::valarray<T>& dest, const T* src, size_t size)
+{
+    // asserten correct valarray size
+    if (dest.size() != size)
+        dest.resize(size);
+    // do the copy
+    for (size_t i = 0; i < size; ++i)
+        dest[i] = src[i];
+    return dest;
+}
+
 /// This structure keeps the required OpenGL matrix definitions (parts taken over from otiginal libxplanemp's `cull_info_t`)
 struct matrixesTy {
     /// The model view matrix, to get from local OpenGL to eye coordinates.
-    float    modelView[16]  = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+    std::valarray<float> modelView;
     /// Projection matrix
-    float    proj[16]       = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+    std::valarray<float> proj;
     
     ///< Four clip planes in the form of Ax + By + Cz + D = 0 (ABCD are in the array.
     ///< They are oriented so the positive side of the clip plane is INSIDE the view volume.
-    float    neaClip[4]     = {0.0f, 0.0f, 0.0f, 0.0f};
-    float    farClip[4]     = {0.0f, 0.0f, 0.0f, 0.0f};
-    float    lftClip[4]     = {0.0f, 0.0f, 0.0f, 0.0f};
-    float    rgtClip[4]     = {0.0f, 0.0f, 0.0f, 0.0f};
-    float    botClip[4]     = {0.0f, 0.0f, 0.0f, 0.0f};
-    float    topClip[4]     = {0.0f, 0.0f, 0.0f, 0.0f};
+    std::valarray<float> neaClip;
+    std::valarray<float> farClip;
+    std::valarray<float> lftClip;
+    std::valarray<float> rgtClip;
+    std::valarray<float> botClip;
+    std::valarray<float> topClip;
     
     /// viewport
-    GLint    viewport[4]    = {0, 0, 0, 0};
+    std::valarray<GLint> viewport;
+    
+    /// Constructor ensure correct valarray sizes
+    matrixesTy () :
+    modelView(0.0f, 16), proj(0.0f, 16),
+    neaClip(0.0f, 4), farClip(0.0f, 4),
+    lftClip(0.0f, 4), rgtClip(0.0f, 4),
+    botClip(0.0f, 4), topClip(0.0f, 4),
+    viewport(0, 4)
+    {}
+
 };
 
 // a few dataRefs we need:
@@ -86,6 +109,8 @@ XPLMDataRef drMSAAXRatio        = nullptr;  ///< sim/private/controls/hdr/fsaa_r
 XPLMDataRef drMSAAYRatio        = nullptr;  ///< sim/private/controls/hdr/fsaa_ratio_y
 XPLMDataRef drHDROnRef          = nullptr;  ///< sim/graphics/settings/HDR_on
 XPLMDataRef drVisibility        = nullptr;  ///< sim/graphics/view/visibility_effective_m or sim/weather/visibility_effective_m
+XPLMDataRef drWorldRenderTy     = nullptr;  ///< sim/graphics/view/world_render_type
+XPLMDataRef drPlaneRenderTy     = nullptr;  ///< sim/graphics/view/plane_render_type
 
 /// @brief Sets up model-view and projection matrix for OpenGL drawing
 /// @see `setup_cull_info` and `XPMPDefaultPlaneRenderer` of original libxplanemp, of which this is an adapted version
@@ -97,12 +122,17 @@ void SetupCullInfo(matrixesTy& m)
     //
     // if our X-Plane version supports it, pull it from the daatrefs to avoid a
     // potential driver stall.
+    float af[16];
     if (!drModelviewMatrix || !drProjectionMatrix) {
-        glGetFloatv(GL_MODELVIEW_MATRIX,  m.modelView);
-        glGetFloatv(GL_PROJECTION_MATRIX, m.proj);
+        glGetFloatv(GL_MODELVIEW_MATRIX,  af);
+        copyToValarray(m.modelView, af, 16);
+        glGetFloatv(GL_PROJECTION_MATRIX, af);
+        copyToValarray(m.proj,      af, 16);
     } else {
-        XPLMGetDatavf(drModelviewMatrix,  m.modelView, 0, 16);
-        XPLMGetDatavf(drProjectionMatrix, m.proj,      0, 16);
+        XPLMGetDatavf(drModelviewMatrix,  af, 0, 16);
+        copyToValarray(m.modelView, af, 16);
+        XPLMGetDatavf(drProjectionMatrix, af, 0, 16);
+        copyToValarray(m.proj,      af, 16);
     }
     
     // Now...what the heck is this?  Here's the deal: the clip planes have values in "clip" coordinates of: Left = (1,0,0,1)
@@ -132,17 +162,18 @@ void SetupCullInfo(matrixesTy& m)
     m.farClip[0] =-m.proj[2]+m.proj[3];    m.farClip[1] =-m.proj[6]+m.proj[7];    m.farClip[2] =-m.proj[10]+m.proj[11];   m.farClip[3] =-m.proj[14]+m.proj[15];
 
     // Determine the viewport
+    int vpInt[4] = {0,0,0,0};
     if (drViewport != nullptr) {
         // sim/graphics/view/viewport    int[4]    n    Pixels    Current OpenGL viewport in device window coordinates.
         // Note that this is left, bottom, right top, NOT left, bottom, width, height!!
-        int vpInt[4] = {0,0,0,0};
         XPLMGetDatavi(drViewport, vpInt, 0, 4);
         m.viewport[0] = vpInt[0];
         m.viewport[1] = vpInt[1];
         m.viewport[2] = vpInt[2] - vpInt[0];
         m.viewport[3] = vpInt[3] - vpInt[1];
     } else {
-        glGetIntegerv(GL_VIEWPORT, m.viewport);
+        glGetIntegerv(GL_VIEWPORT, vpInt);
+        copyToValarray(m.viewport, vpInt, 4);
     }
 
 }
@@ -150,12 +181,15 @@ void SetupCullInfo(matrixesTy& m)
 /// @brief Determines if a given sphere is visible in the user's current view
 /// @see `sphere_is_visible` of original libxplanemp, of which this is an adapted copy
 /// @author Ben Supnik, Chris Serio, and Chris Collins
-bool IsSphereVisible (const matrixesTy& m, float x, float y, float z, float r)
+bool IsSphereVisible (const matrixesTy& m, std::valarray<float>& pt_mv, float r)
 {
     // First: we transform our coordinate into eye coordinates from model-view.
-    float xp = x * m.modelView[0] + y * m.modelView[4] + z * m.modelView[ 8] + m.modelView[12];
-    float yp = x * m.modelView[1] + y * m.modelView[5] + z * m.modelView[ 9] + m.modelView[13];
-    float zp = x * m.modelView[2] + y * m.modelView[6] + z * m.modelView[10] + m.modelView[14];
+
+    // The following is already pre-computed in 'pt_mv'
+    // float xp = x * m.modelView[0] + y * m.modelView[4] + z * m.modelView[ 8] + m.modelView[12];
+    // float yp = x * m.modelView[1] + y * m.modelView[5] + z * m.modelView[ 9] + m.modelView[13];
+    // float zp = x * m.modelView[2] + y * m.modelView[6] + z * m.modelView[10] + m.modelView[14];
+    pt_mv[3] = 1.0f;
 
     // Now - we apply the "plane equation" of each clip plane to see how far from the clip plane our point is.
     // The clip planes are directed: positive number distances mean we are INSIDE our viewing area by some distance;
@@ -163,44 +197,50 @@ bool IsSphereVisible (const matrixesTy& m, float x, float y, float z, float r)
     // We are not visible!  We do the near clip plane, then sides, then far, in an attempt to try the planes
     // that will eliminate the most geometry first...half the world is behind the near clip plane, but not much is
     // behind the far clip plane on sunny day.
-    if ((xp * m.neaClip[0] + yp * m.neaClip[1] + zp * m.neaClip[2] + m.neaClip[3] + r) < 0)    return false;
-    if ((xp * m.botClip[0] + yp * m.botClip[1] + zp * m.botClip[2] + m.botClip[3] + r) < 0)    return false;
-    if ((xp * m.topClip[0] + yp * m.topClip[1] + zp * m.topClip[2] + m.topClip[3] + r) < 0)    return false;
-    if ((xp * m.lftClip[0] + yp * m.lftClip[1] + zp * m.lftClip[2] + m.lftClip[3] + r) < 0)    return false;
-    if ((xp * m.rgtClip[0] + yp * m.rgtClip[1] + zp * m.rgtClip[2] + m.rgtClip[3] + r) < 0)    return false;
-    if ((xp * m.farClip[0] + yp * m.farClip[1] + zp * m.farClip[2] + m.farClip[3] + r) < 0)    return false;
+    // if ((pt_mv[0] * m.neaClip[0] + pt_mv[1] * m.neaClip[1] + pt_mv[2] * m.neaClip[2] + pt_mv[3] * m.neaClip[3]) < -r)    return false;
+    // if ((pt_mv[0] * m.botClip[0] + pt_mv[1] * m.botClip[1] + pt_mv[2] * m.botClip[2] + pt_mv[3] * m.botClip[3]) < -r)    return false;
+    // if ((pt_mv[0] * m.topClip[0] + pt_mv[1] * m.topClip[1] + pt_mv[2] * m.topClip[2] + pt_mv[3] * m.topClip[3]) < -r)    return false;
+    // if ((pt_mv[0] * m.lftClip[0] + pt_mv[1] * m.lftClip[1] + pt_mv[2] * m.lftClip[2] + pt_mv[3] * m.lftClip[3]) < -r)    return false;
+    // if ((pt_mv[0] * m.rgtClip[0] + pt_mv[1] * m.rgtClip[1] + pt_mv[2] * m.rgtClip[2] + pt_mv[3] * m.rgtClip[3]) < -r)    return false;
+    // if ((pt_mv[0] * m.farClip[0] + pt_mv[1] * m.farClip[1] + pt_mv[2] * m.farClip[2] + pt_mv[3] * m.farClip[3]) < -r)    return false;
+    if ((pt_mv * m.neaClip).sum() < -r)    return false;
+    if ((pt_mv * m.botClip).sum() < -r)    return false;
+    if ((pt_mv * m.topClip).sum() < -r)    return false;
+    if ((pt_mv * m.lftClip).sum() < -r)    return false;
+    if ((pt_mv * m.rgtClip).sum() < -r)    return false;
+    if ((pt_mv * m.farClip).sum() < -r)    return false;
     return true;
 }
 
 /// @brief Calculates distance of the given point to the camera (in meter as coordinates are local coordinates)
 /// @see `sphere_distance_sqr` of original libxplanemp, of which this is an adapted copy
 /// @author Ben Supnik, Chris Serio, and Chris Collins
-float DistToCamera (const matrixesTy& m, float x, float y, float z)
+float DistToCamera (std::valarray<float>& pt_mv)
 {
-    const float xp = x * m.modelView[0] + y * m.modelView[4] + z * m.modelView[ 8] + m.modelView[12];
-    const float yp = x * m.modelView[1] + y * m.modelView[5] + z * m.modelView[ 9] + m.modelView[13];
-    const float zp = x * m.modelView[2] + y * m.modelView[6] + z * m.modelView[10] + m.modelView[14];
-    return std::sqrt(xp*xp + yp*yp + zp*zp);
+    pt_mv[3] = 0.0f;
+    return std::sqrt((pt_mv * pt_mv).sum());
 }
 
 /// @brief Calculates the 2D location, which maps to the given 3D location (imagine placing a label at that position: it shall be close to the 3D plane drawn there)
 /// @see `convert_to_2d` of original libxplanemp, of which this is an adapted copy
 /// @author Ben Supnik, Chris Serio, and Chris Collins
-void ConvertTo2d (matrixesTy& m, float x, float y, float z, float w, float& out_x, float& out_y)
+void ConvertTo2d (const matrixesTy& m, std::valarray<float>& pt_mv, float& out_x, float& out_y)
 {
-    float xe = x * m.modelView[0] + y * m.modelView[4] + z * m.modelView[ 8] + w * m.modelView[12];
-    float ye = x * m.modelView[1] + y * m.modelView[5] + z * m.modelView[ 9] + w * m.modelView[13];
-    float ze = x * m.modelView[2] + y * m.modelView[6] + z * m.modelView[10] + w * m.modelView[14];
-    float we = x * m.modelView[3] + y * m.modelView[7] + z * m.modelView[11] + w * m.modelView[15];
-
-    float xc = xe * m.proj[0] + ye * m.proj[4] + ze * m.proj[ 8] + we * m.proj[12];
-    float yc = xe * m.proj[1] + ye * m.proj[5] + ze * m.proj[ 9] + we * m.proj[13];
-    //    float zc = xe * m.proj[2] + ye * m.proj[6] + ze * m.proj[10] + we * m.proj[14];
-    float wc = xe * m.proj[3] + ye * m.proj[7] + ze * m.proj[11] + we * m.proj[15];
+    // The following is already pre-computed in 'pt_mv'
+    // float xe = x * m.modelView[0] + y * m.modelView[4] + z * m.modelView[ 8] + w * m.modelView[12];
+    // float ye = x * m.modelView[1] + y * m.modelView[5] + z * m.modelView[ 9] + w * m.modelView[13];
+    // float ze = x * m.modelView[2] + y * m.modelView[6] + z * m.modelView[10] + w * m.modelView[14];
+    // float we = x * m.modelView[3] + y * m.modelView[7] + z * m.modelView[11] + w * m.modelView[15];
     
-    xc /= wc;
-    yc /= wc;
-    //    zc /= wc;
+
+    // float xc = xe * m.proj[0] + ye * m.proj[4] + ze * m.proj[ 8] + we * m.proj[12];
+    // float yc = xe * m.proj[1] + ye * m.proj[5] + ze * m.proj[ 9] + we * m.proj[13];
+    // float zc = xe * m.proj[2] + ye * m.proj[6] + ze * m.proj[10] + we * m.proj[14];
+    // float wc = xe * m.proj[3] + ye * m.proj[7] + ze * m.proj[11] + we * m.proj[15];
+    const float wc = (pt_mv * m.proj[std::slice(3,4,4)]).sum();
+    const float xc = (pt_mv * m.proj[std::slice(0,4,4)]).sum() / wc;
+    const float yc = (pt_mv * m.proj[std::slice(1,4,4)]).sum() / wc;
+    //    float zc = (pt_mv * m.proj[std::slice(2,4,4)]).sum() / wc;
 
     out_x = float(m.viewport[0]) + (1.0f + xc) * float(m.viewport[2]) / 2.0f;
     out_y = float(m.viewport[1]) + (1.0f + yc) * float(m.viewport[3]) / 2.0f;
@@ -264,20 +304,35 @@ void TwoDDrawLabels ()
         if (!ac.IsVisible())
             continue;
         
+        // The aircraft's location
+        const std::valarray<float> acPos = {ac.drawInfo.x, ac.drawInfo.y, ac.drawInfo.z, 1.0f};
+        
+        // This vector is used in all 3 calculations (DistToCamera, IsSphereVisible, ConvertTo2d)
+        // float xp = x * m.modelView[0] + y * m.modelView[4] + z * m.modelView[ 8] + m.modelView[12];
+        // float yp = x * m.modelView[1] + y * m.modelView[5] + z * m.modelView[ 9] + m.modelView[13];
+        // float zp = x * m.modelView[2] + y * m.modelView[6] + z * m.modelView[10] + m.modelView[14];
+        std::valarray<float> pt_mv = {
+            (acPos * std::valarray<float>(m.modelView[std::slice(0, 4, 4)])).sum(),
+            (acPos * std::valarray<float>(m.modelView[std::slice(1, 4, 4)])).sum(),
+            (acPos * std::valarray<float>(m.modelView[std::slice(2, 4, 4)])).sum(),
+            1.0f                // this is overwritten for the call to ConvertTo2d() only later
+        };
+        
         // determine aircraft's distance to camera, exit if father away than we would draw labels for
-        const float acDist = DistToCamera(m, ac.drawInfo.x, ac.drawInfo.y, ac.drawInfo.z);
+        const float acDist = DistToCamera(pt_mv);
         if (acDist > maxLabelDist)
             continue;
         
         // Calculate the heading from the camera to the target (hor, vert).
         // Calculate the angles between the camera angles and the real angles.
         // Cull (ie. skip) if we exceed half the FOV.
-        if (!IsSphereVisible(m, ac.drawInfo.x, ac.drawInfo.y, ac.drawInfo.z, 50.0f))
+        if (!IsSphereVisible(m, pt_mv, 50.0f))
             continue;
         
         // Map the 3D coordinates of the aircraft to 2D coordinates of the flat screen
         float x = 0.0f, y = 0.0f;
-        ConvertTo2d(m, ac.drawInfo.x, ac.drawInfo.y, ac.drawInfo.z, 1.0f, x, y);
+        pt_mv[3] = (acPos * std::valarray<float>(m.modelView[std::slice(3, 4, 4)])).sum();
+        ConvertTo2d(m, pt_mv, x, y);
 
         // Determine text color:
         // It stays as defined by application for half the way to maxLabelDist.
@@ -312,9 +367,12 @@ int CPLabelDrawing (XPLMDrawingPhase     /*inPhase*/,
                     int                  /*inIsBefore*/,
                     void *               /*inRefcon*/)
 {
+    const bool bShadow = XPLMGetDatai(drWorldRenderTy) != 0;
+    const bool bBlend  = XPLMGetDatai(drPlaneRenderTy) == 2;
+    
     // just do it...
-    // TODO: Check for double execution, original has fancy `is_blend` detection
-    TwoDDrawLabels();
+    if (!bShadow && bBlend)
+        TwoDDrawLabels();
     return 1;
 }
 
@@ -352,7 +410,9 @@ void TwoDInit ()
     drVisibility        = XPLMFindDataRef("sim/graphics/view/visibility_effective_m");
     if (!drVisibility)
         drVisibility    = XPLMFindDataRef("sim/weather/visibility_effective_m");
-    
+    drWorldRenderTy     = XPLMFindDataRef("sim/graphics/view/world_render_type");
+    drPlaneRenderTy     = XPLMFindDataRef("sim/graphics/view/plane_render_type");
+
     // Register the drawing callback if need be
     if (glob.bDrawLabels)
         TwoDActivate();

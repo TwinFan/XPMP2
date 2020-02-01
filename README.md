@@ -96,9 +96,6 @@ TODOs
 - Model loading / unloading
     - add garbage collection to models with reference counter zero, not used for a few minutes
 - Label writing
-    - 3D-to-2D coordinate conversion to be taken over from original lib...I still don't understand this conversion
-    - Optimze matrix calculation using std::valarray and std::inner_product()
-    - IsSphereVisible(), DistToCamera() and ConvertTo2d() can be combined; their first matrix product is the same. Maybe put it into m?
     - Expose maxLabelDist to some config function 
 - AI/Multiplayer dataRefs (logic can be taken over from original library, it's my code anyway)
     - Selecting priority planes 

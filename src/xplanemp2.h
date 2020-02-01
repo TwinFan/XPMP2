@@ -47,7 +47,9 @@
 #include <map>
 #include <unordered_map>
 #include <vector>
+#include <valarray>
 #include <algorithm>
+#include <numeric>
 #include <fstream>
 #include <regex>
 

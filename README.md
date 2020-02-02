@@ -103,6 +103,7 @@ TODOs
     - Shared dataRefs for providing textual information (test with FSTramp)
 - Test with camera...might still jitter
     - Test with ABC
+    - Consider a "next position" and also multiplayer dataRef handling in AIMultiUpdate()
 - Support replacing textures with the extended syntax `OBJ8 SOLID YES <obj> <texture> <texture_lit>`
     - basically do what CSL2XSB.py does with respect to TEXTURE / TEXTURE_LIT
     - definition should already be read from `xsb_aircraft.txt`

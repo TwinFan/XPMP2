@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		252C01F423E62040007C231F /* AIMultiplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 252C01F223E62040007C231F /* AIMultiplayer.cpp */; };
+		252C01F523E62040007C231F /* AIMultiplayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 252C01F323E62040007C231F /* AIMultiplayer.h */; };
 		253485AA23C289E5002BA65A /* XPMPAircraft.h in Headers */ = {isa = PBXBuildFile; fileRef = 253485A923C289E4002BA65A /* XPMPAircraft.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		25687EA323D8BA5E0084A28B /* xplanemp2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2502C17A23BE8A1600578919 /* xplanemp2.framework */; };
 		2589B84A23CB4D6F005B76B8 /* RelatedDoc8643.h in Headers */ = {isa = PBXBuildFile; fileRef = 2589B84823CB4D6F005B76B8 /* RelatedDoc8643.h */; };
@@ -52,6 +54,8 @@
 
 /* Begin PBXFileReference section */
 		2502C17A23BE8A1600578919 /* xplanemp2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = xplanemp2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		252C01F223E62040007C231F /* AIMultiplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AIMultiplayer.cpp; sourceTree = "<group>"; };
+		252C01F323E62040007C231F /* AIMultiplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIMultiplayer.h; sourceTree = "<group>"; };
 		253485A923C289E4002BA65A /* XPMPAircraft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPMPAircraft.h; sourceTree = "<group>"; };
 		2589B84823CB4D6F005B76B8 /* RelatedDoc8643.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RelatedDoc8643.h; sourceTree = "<group>"; };
 		2589B84923CB4D6F005B76B8 /* RelatedDoc8643.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RelatedDoc8643.cpp; sourceTree = "<group>"; };
@@ -121,6 +125,8 @@
 		25D680BC23BE9B5700C83CC5 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				252C01F223E62040007C231F /* AIMultiplayer.cpp */,
+				252C01F323E62040007C231F /* AIMultiplayer.h */,
 				25AE8CB323E376E1000BE21E /* 2D.cpp */,
 				25AE8CB423E376E2000BE21E /* 2D.h */,
 				2589B84923CB4D6F005B76B8 /* RelatedDoc8643.cpp */,
@@ -161,6 +167,7 @@
 				253485AA23C289E5002BA65A /* XPMPAircraft.h in Headers */,
 				25D680BA23BE95FB00C83CC5 /* XPMPMultiplayer.h in Headers */,
 				25D680B923BE95FB00C83CC5 /* XPCAircraft.h in Headers */,
+				252C01F523E62040007C231F /* AIMultiplayer.h in Headers */,
 				2589B84A23CB4D6F005B76B8 /* RelatedDoc8643.h in Headers */,
 				25AE8CB623E376E2000BE21E /* 2D.h in Headers */,
 			);
@@ -241,6 +248,7 @@
 				25AE8CB523E376E2000BE21E /* 2D.cpp in Sources */,
 				25D680C523BE9DBD00C83CC5 /* XPMPMultiplayer.cpp in Sources */,
 				25EC1C4723BF7569000940BB /* Utilities.cpp in Sources */,
+				252C01F423E62040007C231F /* AIMultiplayer.cpp in Sources */,
 				2599B91923BF636E00F92BB5 /* Aircraft.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

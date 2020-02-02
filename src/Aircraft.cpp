@@ -116,9 +116,6 @@ mPlane(glob.NextPlaneId())              // assign the next synthetic plane id
         ChangeModel(_icaoType, _icaoAirline, _livery);
     LOG_ASSERT(pCSLMdl);
     
-    // Increase the reference counter of the CSL model to track that the object is being used
-    pCSLMdl->IncRefCnt();
-    
     // add the aircraft to our global map and inform observers
     glob.mapAc.emplace(mPlane,this);
     XPMPSendNotification(*this, xpmp_PlaneNotification_Created);
@@ -267,9 +264,20 @@ float Aircraft::FlightLoopCB (float, float, int, void* refCon)
             break;
 
         case xplm_FlightLoop_Phase_AfterFlightModel:
+            // Need the camera's position to calculate the a/c's distance to it
+            XPLMCameraPosition_t posCamera;
+            XPLMReadCameraPosition(&posCamera);
+            
             // Update positional and configurational values
-            for (mapAcTy::value_type& pair: glob.mapAc)
+            for (mapAcTy::value_type& pair: glob.mapAc) {
                 pair.second->UpdatePosition();
+                // Update plane's distance
+                pair.second->UpdateDistCamera(posCamera);
+            }
+            
+            // Publish aircraft data on the AI/multiplayer dataRefs
+            AIMultiUpdate();
+            
             break;
     }
     
@@ -295,6 +303,14 @@ void Aircraft::DoMove ()
                 XPLMInstanceSetPosition(hInst, &drawInfo, v.data());
         }
     }
+}
+
+
+// Internal: Update the plane's distance from the camera location
+void Aircraft::UpdateDistCamera (const XPLMCameraPosition_t& posCam)
+{
+    distCamera = dist(posCam.x,   posCam.y,   posCam.z,
+                      drawInfo.x, drawInfo.y, drawInfo.z);
 }
 
 
@@ -372,9 +388,11 @@ void Aircraft::SetVisible (bool _bVisible)
     // Set the flag
     bVisible = _bVisible;
     
-    // In case of _now_ being invisible remove the instances
-    if (!bVisible)
+    // In case of _now_ being invisible remove the instances and any AI slot
+    if (!bVisible) {
         DestroyInstances();
+        AISlotClear();
+    }
 }
 
 //

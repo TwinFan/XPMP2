@@ -24,6 +24,7 @@
 
 #include "XPMPMultiplayer.h"
 #include "XPLMInstance.h"
+#include "XPLMCamera.h"
 
 #include <string>
 #include <chrono>
@@ -42,6 +43,8 @@ class CSLModel;
 constexpr float RPM_to_RADs = 0.10471975511966f;
 /// Convert feet to meters, e.g. for altitude calculations
 constexpr double M_per_FT   = 0.3048;   // meter per 1 foot
+/// Convert nautical miles to meters
+constexpr int M_per_NM      = 1852;     // meter per one nautical mile
 
 /// The dataRefs provided by XPMP2 to the CSL models
 enum DR_VALS {
@@ -136,9 +139,10 @@ protected:
     std::list<XPLMInstanceRef> listInst;
     /// Which sim/multiplayer/plane-index used last?
     int                 multiIdx = -1;
+
+    /// Distance to camera in meters (updated internally with every flightloop callback)
+    float               distCamera = 0.0f;
     
-    /// The list of dataRef values to be forwarded to the XP instance.
-    /// Order of fields is very relevant and needs to be in sync with `DR_NAMES` in Aircraft.cpp:
 public:
     /// Constructor
     Aircraft (const std::string& _icaoType,
@@ -152,6 +156,8 @@ public:
     XPMPPlaneID GetPlaneID () const { return mPlane; }
     /// return the last used sim/multiplayer/plane-index
     int         GetMultiIdx () const { return multiIdx; }
+    /// Will this plane show up on TCAS / in multiplayer views? (It will if transponder is not switched off)
+    bool        ShowAsAIPlane () const { return IsVisible() && acRadar.mode != xpmpTransponderMode_Standby; }
     
     /// (Potentially) change the plane's model after doing a new match attempt
     int ChangeModel (const std::string& _icaoType,
@@ -170,6 +176,8 @@ public:
     /// @details Abstract virtual function. Override in derived classes and fill
     ///          `drawInfo`, the `v` array of dataRefs, `label`, and `infoTexts` with current values.
     virtual void UpdatePosition () = 0;
+    /// Distance to camera [m]
+    float GetDistToCamera () const { return distCamera; }
     
     /// @brief Converts world coordinates to local coordinates, writes to `drawInfo`
     /// @note Alternatively, the calling plugin can set local coordinates in `drawInfo`directly
@@ -188,10 +196,20 @@ protected:
     static float FlightLoopCB (float, float, int, void*);
     /// Internal: This puts the instance into XP's sky and makes it move
     void DoMove ();
+    /// Internal: Update the plane's distance from the camera location
+    void UpdateDistCamera (const XPLMCameraPosition_t& posCam);
     /// Create the instances, return if successful
     bool CreateInstances ();
     /// Destroy all instances
     void DestroyInstances ();
+
+    // The following functions are implemented in AIMultiplayer.cpp:
+    /// AI/Multiplayer handling: Find next AI slot
+    int  AISlotReserve ();
+    /// AI/Multiplayer handling: Clear AI slot
+    void AISlotClear ();
+    // These functions are called from AIMultiUpdate()
+    friend void AIMultiUpdate ();
 };
 
 /// Find aircraft by its plane ID, can return nullptr

@@ -113,6 +113,7 @@ const char *    XPMPMultiplayerInit(int (* inIntPrefsFunc)(const char *, const c
     CSLModelsInit();
     AcInit();
     TwoDInit();
+    AIMultiInit();
     
     return "";
 }
@@ -130,6 +131,7 @@ void XPMPMultiplayerCleanup()
     LOG_MSG(logINFO, "XPMP2 cleaning up...")
 
     // Cleanup all modules in revers order of initialization
+    AIMultiCleanup();
     TwoDCleanup();
     AcCleanup();
     CSLModelsCleanup();
@@ -139,26 +141,6 @@ void XPMPMultiplayerCleanup()
 const char * XPMPMultiplayerOBJ7SupportEnable(const char *)
 {
     return "OBJ7 format is no longer supported";
-}
-
-//
-// MARK: AI/Multiplayer control
-//
-
-// Acquire control of multiplayer aircraft
-const char *    XPMPMultiplayerEnable()
-{
-    return "";
-}
-
-// Release control of multiplayer aircraft
-void XPMPMultiplayerDisable()
-{}
-
-// Do we control AI planes?
-bool XPMPHasControlOfAIAircraft()
-{
-    return false;
 }
 
 //

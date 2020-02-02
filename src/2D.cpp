@@ -39,7 +39,7 @@
 
 #include "xplanemp2.h"
 
-// OpenGL headers
+// This is the only file using OpenGL
 #if IBM
 #include <GL/gl.h>
 #elif APL
@@ -212,15 +212,6 @@ bool IsSphereVisible (const matrixesTy& m, std::valarray<float>& pt_mv, float r)
     return true;
 }
 
-/// @brief Calculates distance of the given point to the camera (in meter as coordinates are local coordinates)
-/// @see `sphere_distance_sqr` of original libxplanemp, of which this is an adapted copy
-/// @author Ben Supnik, Chris Serio, and Chris Collins
-float DistToCamera (std::valarray<float>& pt_mv)
-{
-    pt_mv[3] = 0.0f;
-    return std::sqrt((pt_mv * pt_mv).sum());
-}
-
 /// @brief Calculates the 2D location, which maps to the given 3D location (imagine placing a label at that position: it shall be close to the 3D plane drawn there)
 /// @see `convert_to_2d` of original libxplanemp, of which this is an adapted copy
 /// @author Ben Supnik, Chris Serio, and Chris Collins
@@ -318,9 +309,8 @@ void TwoDDrawLabels ()
             1.0f                // this is overwritten for the call to ConvertTo2d() only later
         };
         
-        // determine aircraft's distance to camera, exit if father away than we would draw labels for
-        const float acDist = DistToCamera(pt_mv);
-        if (acDist > maxLabelDist)
+        // Exit if aircraft is father away from camera than we would draw labels for
+        if (ac.GetDistToCamera() > maxLabelDist)
             continue;
         
         // Calculate the heading from the camera to the target (hor, vert).
@@ -338,8 +328,8 @@ void TwoDDrawLabels ()
         // It stays as defined by application for half the way to maxLabelDist.
         // For the other half, it gradually fades to gray.
         // `rat` determines how much it faded already (factor from 0..1)
-        const float rat = acDist < maxLabelDist / 2.0f ? 0.0f :     // first half: no fading
-            (acDist - maxLabelDist/2.0f) / (maxLabelDist/2.0f);     // Second hald: fade to gray (remember: acDist <= maxLabelDist!)
+        const float rat = ac.GetDistToCamera() < maxLabelDist / 2.0f ? 0.0f :     // first half: no fading
+            (ac.GetDistToCamera() - maxLabelDist/2.0f) / (maxLabelDist/2.0f);     // Second hald: fade to gray (remember: acDist <= maxLabelDist!)
         constexpr float gray[4] = {0.6f, 0.6f, 0.6f, 1.0f};
         float c[4] = {
             (1.0f-rat) * ac.colLabel[0] + rat * gray[0],     // red

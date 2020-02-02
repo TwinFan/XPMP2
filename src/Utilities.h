@@ -100,6 +100,22 @@ std::vector<std::string> str_tokenize (const std::string s,
                                        bool bSkipEmpty = true);
 
 //
+// MARK: Math helpers
+//
+
+/// Square
+template <class T>
+inline T sqr (const T a) { return a*a; }
+
+/// Pythagorean distance between two points in a 3-D world
+template <class T>
+inline T dist (const T x1, const T y1, const T z1,
+               const T x2, const T y2, const T z2)
+{
+    return std::sqrt(sqr(x1-x2) + sqr(y1-y2) + sqr(z1-z2));
+}
+
+//
 // MARK: Logging Support
 //
 

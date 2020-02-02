@@ -36,6 +36,7 @@
 #include "XPLMPlugin.h"
 #include "XPLMDisplay.h"
 #include "XPLMCamera.h"
+#include "XPLMPlanes.h"
 
 // Standard C
 #include <sys/stat.h>
@@ -59,6 +60,7 @@
 #include "CSLModels.h"
 #include "Aircraft.h"
 #include "2D.h"
+#include "AIMultiplayer.h"
 
 //
 // MARK: Global Configurations and variables
@@ -128,6 +130,9 @@ public:
     bool            bDrawLabels = true;
     /// Maximum distance for drawing labels? [m]
     float           maxLabelDist = 5000.0f;
+    
+    /// Do we control X-Plane's AI/Multiplayer planes?
+    bool            bHasControlOfAIAircraft = false;
     
 protected:
     /// Current plane ID counter

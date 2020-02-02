@@ -18,8 +18,8 @@
 ///             OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 ///             THE SOFTWARE.
 
-#ifndef _Labels_h_
-#define _Labels_h_
+#ifndef _2D_h_
+#define _2D_h_
 
 namespace XPMP2 {
 

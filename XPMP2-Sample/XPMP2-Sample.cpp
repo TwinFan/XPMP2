@@ -322,7 +322,7 @@ public:
         
         // further attitude information
         drawInfo.pitch      =  0.0f;
-        drawInfo.heading    = 90.0f + angle;
+        drawInfo.heading    = std::fmod(90.0f + angle, 360.0f);
         drawInfo.roll       = 20.0f;
         
         // Plane configuration info
@@ -425,7 +425,7 @@ public:
         
         outPosition->pitch          = 0.0f;
         outPosition->roll           =20.0f;             // rolled 20° right (tight curve!)
-        outPosition->heading        = angle + 90.0f;
+        outPosition->heading        = std::fmod(90.0f + angle, 360.0f);
         strcpy ( outPosition->label, "XPCAircraft subclassed");
         outPosition->offsetScale    = 1.0f;             // so that full vertical offset is applied and plane sits on its wheels (should probably always be 1.0)
         outPosition->clampToGround  = true;
@@ -569,7 +569,7 @@ XPMPPlaneCallbackResult SetPositionData (XPMPPlanePosition_t& data)
     
     data.pitch          = 0.0f;             // plane stays level
     data.roll           = 0.0f;
-    data.heading        = angle + 90.0f;
+    data.heading        = std::fmod(90.0f + angle, 360.0f);
     strcpy ( data.label, "Standard C");
     data.offsetScale    = 1.0f;             // so that full vertical offset is applied and plane sits on its wheels (should probably always be 1.0)
     data.clampToGround  = true;
@@ -890,6 +890,14 @@ PLUGIN_API int XPluginEnable(void)
         return 0;
     }
     
+    // Now we also try to get control of AI planes. That's optional, though,
+    // other plugins (like LiveTraffic, XSquawkBox, X-IvAp...)
+    // could have control already
+    res = XPMPMultiplayerEnable();
+    if (res[0]) {
+        LogMsg("XPMP2-Sample: Could not enable AI planes: %s", res);
+    }
+    
     // Register the plane notifer function
     // (this is rarely used in actual applications, but used here for
     //  demonstration and testing purposes)
@@ -907,6 +915,9 @@ PLUGIN_API void XPluginDisable(void)
 {
     // Remove the planes
     PlanesRemove();
+    
+    // Give up AI plane control
+    XPMPMultiplayerDisable();
         
     // Unregister plane notifier (must match function _and_ refcon)
     XPMPUnregisterPlaneNotifierFunc(CBPlaneNotifier, NULL);

@@ -204,6 +204,6 @@ int CSLModelMatching (const std::string& _type,
                       const std::string& _livery,
                       CSLModel* &pModel);
 
-};
+}       // namespace XPMP2
 
 #endif

@@ -90,11 +90,15 @@ struct XPMPPlanePosition_t {
 
 /// @brief Light flash patterns
 /// @note Unused in XPMP2
-enum XPMPLightsPattern : unsigned int {
+/// @note Not changed to proper enum type as it is used in bitfields in xpmp_LightStatus,
+///       which causes misleading, non-suppressable warnings in gcc:\n
+///       https://gcc.gnu.org/bugzilla/show_bug.cgi?id=51242
+enum {
     xpmp_Lights_Pattern_Default     = 0,    ///< Jets: one strobe flash, short beacon (-*---*---*---)
     xpmp_Lights_Pattern_EADS        = 1,    ///< Airbus+EADS: strobe flashes twice (-*-*-----*-*--), short beacon
     xpmp_Lights_Pattern_GA          = 2     ///< GA: one strobe flash, long beacon (-*--------*---)
 };
+typedef unsigned int XPMPLightsPattern;
 
 /*
  * XPMPLightStatus
@@ -105,6 +109,8 @@ enum XPMPLightsPattern : unsigned int {
  * with a random number by the application. This number will be used to have strobes
  * flashing at different times.
  */
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
 union xpmp_LightStatus {
     unsigned int lightFlags = 0x150000;     ///< this defaults to taxi | beacon | nav lights on
     struct {
@@ -120,6 +126,7 @@ union xpmp_LightStatus {
         XPMPLightsPattern flashPattern   : 4;
     };
 };
+#pragma GCC diagnostic pop
 
 /// @brief External physical configuration of the plane
 /// @details    This data structure will contain information about the external physical configuration of the plane,

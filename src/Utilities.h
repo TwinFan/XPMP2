@@ -210,6 +210,6 @@ std::string TOPOSIX (const std::string& p);
 inline std::string TOPOSIX (const std::string& p) { return p; }
 #endif
 
-}
+}       // namespace XPMP2
 
 #endif

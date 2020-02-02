@@ -32,6 +32,6 @@ void AIMultiCleanup ();
 /// Updates all multiplayer dataRefs, both standard X-Plane, as well as additional shared dataRefs for text publishing
 void AIMultiUpdate ();
 
-};
+}       // namespace XPMP2
 
 #endif

@@ -190,4 +190,4 @@ const Doc8643& Doc8643Get (const std::string& _type)
     catch (const std::out_of_range&) { return DOC8643_EMPTY; }
 }
 
-};
+}   // namespace XPMP2

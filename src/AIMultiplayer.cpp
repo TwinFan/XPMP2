@@ -540,7 +540,7 @@ void AIMultiCleanup ()
 }
 
 
-};  // namespace XPMP2
+}  // namespace XPMP2
 
 //
 // MARK: General API functions outside XPMP2 namespace

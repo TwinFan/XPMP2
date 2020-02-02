@@ -990,4 +990,4 @@ int CSLModelMatching (const std::string& _type,
     }
 }
 
-};
+}       // namespace XPMP2

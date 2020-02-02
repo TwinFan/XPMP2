@@ -65,6 +65,6 @@ void AcInit ();
 /// Grace cleanup, esp. remove all aircraft
 void AcCleanup ();
 
-};
+}   // namespace XPMP2
 
 #endif

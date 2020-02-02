@@ -33,6 +33,6 @@ void TwoDInit ();
 void TwoDCleanup ();
 
 
-};
+}
 
 #endif

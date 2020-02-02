@@ -243,6 +243,6 @@ public:
 
 
 
-};  // namespace XPMP2
+}   // namespace XPMP2
 
 #endif

@@ -41,6 +41,7 @@
 // Standard C
 #include <sys/stat.h>
 #include <cmath>
+#include <cstdarg>
 
 // Standard C++
 #include <string>
@@ -151,6 +152,6 @@ public:
 /// The one and only global variable structure
 extern GlobVars glob;
 
-}
+}       // namespace XPMP2
 
 #endif

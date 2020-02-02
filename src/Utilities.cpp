@@ -23,11 +23,11 @@
 namespace XPMP2 {
 
 // The one and only global variable structure
-GlobVars glob
+
 #if DEBUG
-               (logDEBUG);
+GlobVars glob (logDEBUG);
 #else
-               ();
+GlobVars glob;
 #endif
 
 //
@@ -348,5 +348,4 @@ void LogMsg ( const char* szPath, int ln, const char* szFunc, logLevelTy lvl, co
     va_end (args);
 }
 
-};
-
+}       // namespace XPMP2

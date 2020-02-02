@@ -592,4 +592,4 @@ Aircraft* AcFindByID (XPMPPlaneID _id)
     }
 }
 
-};
+}   // namespace XPMP2

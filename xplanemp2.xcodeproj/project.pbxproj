@@ -56,6 +56,11 @@
 		2502C17A23BE8A1600578919 /* xplanemp2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = xplanemp2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		252C01F223E62040007C231F /* AIMultiplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AIMultiplayer.cpp; sourceTree = "<group>"; };
 		252C01F323E62040007C231F /* AIMultiplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIMultiplayer.h; sourceTree = "<group>"; };
+		252C01F623E6D63D007C231F /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		252C01F823E6D64F007C231F /* Dockerfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Dockerfile; sourceTree = "<group>"; };
+		252C01F923E6D64F007C231F /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		252C01FA23E6D64F007C231F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		252C01FB23E6D64F007C231F /* build.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = "<group>"; };
 		253485A923C289E4002BA65A /* XPMPAircraft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPMPAircraft.h; sourceTree = "<group>"; };
 		2589B84823CB4D6F005B76B8 /* RelatedDoc8643.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RelatedDoc8643.h; sourceTree = "<group>"; };
 		2589B84923CB4D6F005B76B8 /* RelatedDoc8643.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RelatedDoc8643.cpp; sourceTree = "<group>"; };
@@ -93,12 +98,14 @@
 		2502C15F23BE3CFC00578919 = {
 			isa = PBXGroup;
 			children = (
-				25D1D25523C9285300D20D58 /* README.md */,
 				25D680C023BE9D3200C83CC5 /* .gitignore */,
-				25D680BD23BE9B7900C83CC5 /* docs */,
-				25D680BC23BE9B5700C83CC5 /* src */,
-				25D680B523BE95FB00C83CC5 /* inc */,
+				252C01F623E6D63D007C231F /* CMakeLists.txt */,
 				25D680B123BE936B00C83CC5 /* Info.plist */,
+				25D1D25523C9285300D20D58 /* README.md */,
+				252C01F723E6D64F007C231F /* docker */,
+				25D680BD23BE9B7900C83CC5 /* docs */,
+				25D680B523BE95FB00C83CC5 /* inc */,
+				25D680BC23BE9B5700C83CC5 /* src */,
 				2502C16923BE3CFC00578919 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -109,6 +116,17 @@
 				2502C17A23BE8A1600578919 /* xplanemp2.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		252C01F723E6D64F007C231F /* docker */ = {
+			isa = PBXGroup;
+			children = (
+				252C01F823E6D64F007C231F /* Dockerfile */,
+				252C01F923E6D64F007C231F /* Makefile */,
+				252C01FA23E6D64F007C231F /* README.md */,
+				252C01FB23E6D64F007C231F /* build.sh */,
+			);
+			path = docker;
 			sourceTree = "<group>";
 		};
 		25D680B523BE95FB00C83CC5 /* inc */ = {

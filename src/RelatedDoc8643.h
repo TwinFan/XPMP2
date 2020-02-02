@@ -87,6 +87,6 @@ const char* Doc8643Load (const std::string& _path);
 const Doc8643& Doc8643Get (const std::string& _type);
 
 
-};
+}
 
 #endif

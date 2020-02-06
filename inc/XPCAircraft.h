@@ -1,8 +1,8 @@
 /// @file       XPCAircraft.h
-/// @brief      XPMP2::Aircraft / XPCAircraft represent an aircraft as managed by xplanemp2
+/// @brief      XPMP2::Aircraft / XPCAircraft represent an aircraft as managed by XPMP2
 /// @deprecated XPCAircraft bases on and is compile-compatible to the XPCAircraft wrapper
 ///             class provided with the original libxplanemp.
-///             In xplanemp2, however, this class is not a wrapper but derived from
+///             In XPMP2, however, this class is not a wrapper but derived from
 ///             XPMP2::Aircraft, which is the actual means of managing aircraft,
 ///             Hence, it includes a lot more members.\n
 ///             New implementations should derive directly from XPMP2::Aircraft.

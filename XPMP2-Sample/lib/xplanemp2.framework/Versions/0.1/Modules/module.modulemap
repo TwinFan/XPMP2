@@ -1,6 +1,0 @@
-framework module xplanemp2 {
-  umbrella header "xplanemp2.h"
-
-  export *
-  module * { export * }
-}

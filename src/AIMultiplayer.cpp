@@ -26,7 +26,7 @@
 ///             OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 ///             THE SOFTWARE.
 
-#include "xplanemp2.h"
+#include "XPMP2.h"
 
 #define WARN_NO_AI_CONTROL      "Could NOT acquire AI/Multiplayer plane control! Some other multiplayer plugin controls them. Therefore, our planes will NOT appear on TCAS or maps."
 #define DEBUG_AI_SLOT_ASSIGN    "Aircraft %llu: ASSIGNING AI Slot %d (%s, %s, %s)"

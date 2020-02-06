@@ -1,5 +1,5 @@
 /// @file       XPMPAircraft.h
-/// @brief      XPMP2::Aircraft represent an aircraft as managed by xplanemp2
+/// @brief      XPMP2::Aircraft represent an aircraft as managed by XPMP2
 /// @details    New implementations should derive directly from XPMP2::Aircraft.
 /// @author     Birger Hoppe
 /// @copyright  (c) 2020 Birger Hoppe
@@ -89,7 +89,7 @@ enum DR_VALS {
 class Aircraft {
     
 protected:
-    /// Legacy: The id of the represented plane (in XPlaneMP2, this now is an arbitrary, ever increasing number)
+    /// Legacy: The id of the represented plane (in XPMP2, this now is an arbitrary, ever increasing number)
     XPMPPlaneID         mPlane = 0;
     
 public:
@@ -216,10 +216,10 @@ protected:
 Aircraft* AcFindByID (XPMPPlaneID _id);
 
 //
-// MARK: XPlaneMP2 Exception class
+// MARK: XPMP2 Exception class
 //
 
-/// XPlaneMP2 Exception class, e.g. thrown if there are no CSL models when creating an Aircraft
+/// XPMP2 Exception class, e.g. thrown if there are no CSL models when creating an Aircraft
 class XPMP2Error : public std::logic_error {
 protected:
     std::string fileName;           ///< filename of the line of code where exception occurred

@@ -37,7 +37,7 @@
 ///             OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 ///             THE SOFTWARE.
 
-#include "xplanemp2.h"
+#include "XPMP2.h"
 
 // This is the only file using OpenGL
 #if IBM

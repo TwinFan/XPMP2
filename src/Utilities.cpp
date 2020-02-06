@@ -18,7 +18,7 @@
 ///             OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 ///             THE SOFTWARE.
 
-#include "xplanemp2.h"
+#include "XPMP2.h"
 
 namespace XPMP2 {
 
@@ -311,12 +311,12 @@ const char* LogGetString (const char* szPath, int ln, const char* szFunc,
     {
         const char* szFile = strrchr(szPath,'/');   // extract file from path
         if ( !szFile ) szFile = szPath; else szFile++;
-        snprintf(aszMsg, sizeof(aszMsg), "%s/xplanemp2 %sZ %s %s:%d/%s: ",
+        snprintf(aszMsg, sizeof(aszMsg), "%s/XPMP2 %sZ %s %s:%d/%s: ",
                  glob.pluginName.c_str(), tZuluS, LOG_LEVEL[lvl],
                  szFile, ln, szFunc);
     }
     else
-        snprintf(aszMsg, sizeof(aszMsg), "%s/xplanemp2: ", glob.pluginName.c_str());
+        snprintf(aszMsg, sizeof(aszMsg), "%s/XPMP2: ", glob.pluginName.c_str());
     
     // append given message
     if (args) {

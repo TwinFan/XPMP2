@@ -1,5 +1,5 @@
 /// @file       XPMPMultiplayer.cpp
-/// @brief      Initialization and general control functions for xplanemp2
+/// @brief      Initialization and general control functions for XPMP2
 /// @author     Birger Hoppe
 /// @copyright  (c) 2020 Birger Hoppe
 /// @copyright  Permission is hereby granted, free of charge, to any person obtaining a
@@ -18,7 +18,7 @@
 ///             OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 ///             THE SOFTWARE.
 
-#include "xplanemp2.h"
+#include "XPMP2.h"
 
 #include <cstring>
 

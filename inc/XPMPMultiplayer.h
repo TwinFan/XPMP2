@@ -1,5 +1,5 @@
 /// @file       XPMPMultiplayer.h
-/// @brief      Initialization and general control functions for xplanemp2
+/// @brief      Initialization and general control functions for XPMP2
 /// @note       This file bases on and should be compile-compatible to the header
 ///             provided with the original libxplanemp.
 /// @author     Ben Supnik and Chris Serio

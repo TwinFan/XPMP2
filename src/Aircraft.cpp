@@ -1,8 +1,8 @@
 /// @file       Aircraft.cpp
-/// @brief      XPCAircraft represents an aircraft as managed by xplanemp2
+/// @brief      XPCAircraft represents an aircraft as managed by XPMP2
 /// @note       This class bases on and is compatible to the XPCAircraft wrapper
 ///             class provided with the original libxplanemp.
-///             In xplanemp2, however, this class is not a wrapper but the actual
+///             In XPMP2, however, this class is not a wrapper but the actual
 ///             means of managing aircraft. Hence, it includes a lot more members.
 /// @author     Birger Hoppe
 /// @copyright  The original XPCAircraft.h file in libxplanemp had no copyright note.
@@ -23,7 +23,7 @@
 ///             OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 ///             THE SOFTWARE.
 
-#include "xplanemp2.h"
+#include "XPMP2.h"
 
 using namespace XPMP2;
 

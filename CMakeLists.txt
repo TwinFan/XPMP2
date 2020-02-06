@@ -2,55 +2,50 @@
 #         mingw is not (yet) suitable to compile C++ 17 with full C++ library support
 #         MacOS might work...just didn't get around configuring Docker to compile a framework
 
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.9)
 
 project(XPMP2 LANGUAGES C CXX)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules" ${CMAKE_MODULE_PATH})
 
-# Requires X-Plane 11 SDK
-# add_definitions(-DXPLM200=1 -DXPLM210=1 -DXPLM300=1 -DXPLM301=1)
-set(XPMP2_DEFINES ${XPMP2_DEFINES} XPLM200=1 XPLM210=1 XPLM300=1 XPLM301=1)
+# Enable all X-Plane SDK APIs up to the newest version.
+add_definitions(-DXPLM200=1 -DXPLM210=1 -DXPLM300=1 -DXPLM301=1)
 
-# We don't need deprecation warnings for the code we declared
-# deprecated ourself
-add_definitions(-Wall -Wextra -pedantic -Wno-deprecated-declarations)
+# Define platform macros.
+add_definitions(-DAPL=$<BOOL:${APPLE}> -DIBM=$<BOOL:${WIN32}> -DLIN=$<AND:$<BOOL:${UNIX}>,$<NOT:$<BOOL:${APPLE}>>>)
+
+# Force-enable exception support. This is most likely redundant, although for C
+# code the default is the opposite. Since we are mixing C++ and C libraries,
+# safer to set it on?
+add_compile_options(-fexceptions -fpermissive)
+
+# On UNIX systems this makes symbols non-exported by default. On Windows this
+# option is simply ignored, since symbol visibility works differently there.
+add_compile_options(-fvisibility=hidden)
+
+# Enable stricter warnings and then disable some we are not interested in.
+add_compile_options(-Wall -Wshadow -Wfloat-equal -Wextra)
+
+# For XPMP2 compile, we don't need to be warned about our self-defined depreciations
+add_compile_options(-Wno-deprecated-declarations)
+
+# Always use position-independent code and highest optimization level (FPS!).
+add_compile_options(-O3 -fPIC)
 
 # Debug build?
 if(CMAKE_BUILD_TYPE MATCHES "Debug")
-	set(XPMP2_DEFINES ${XPMP2_DEFINES} DEBUG=1)
+    add_definitons(-DDEBUG=1)
 	set(XPMP2_DEBUG ON)
 else()
 	set(XPMP2_DEBUG OFF)
 endif()
 
-if(CMAKE_SYSTEM_NAME MATCHES "Linux")
-    if(NOT CMAKE_BUILD_TYPE MATCHES "Debug")
-        # highest optimization level in Release builds
-        add_compile_options(-O3 -fPIC)
-	endif()
-    set(XPMP2_DEFINES ${XPMP2_DEFINES} LIN=1)
-
-elseif(CMAKE_SYSTEM_NAME MATCHES "Windows")
-    if(NOT CMAKE_BUILD_TYPE MATCHES "Debug")
-        # Use highest optimization level in Release builds
-        add_compile_options(/GL)
-    endif()
-	set(XPMP2_DEFINES ${XPMP2_DEFINES} IBM=1 _CRT_SECURE_NO_WARNINGS)
-	set(XPMP_PLATFORM_LIBRARIES opengl32 glu32)
-
-elseif(CMAKE_SYSTEM_NAME MATCHES "Darwin")
-	set(XPMP2_DEFINES ${XPMP2_DEFINES} APL=1)
-	find_library(OPENGL OpenGL)
-	set(XPMP_PLATFORM_LIBRARIES ${OPENGL})
-endif()
-
 # Source list
-add_library(XPMP2
+add_library(XPMP2 STATIC
     inc/XPCAircraft.h
     inc/XPMPAircraft.h
     inc/XPMPMultiplayer.h
     inc/XPMPPlaneRenderer.h
-    src/xplanemp2.h
+    src/XPMP2.h
     src/2D.h
     src/AIMultiplayer.h
     src/Aircraft.h
@@ -75,6 +70,50 @@ target_include_directories(XPMP2
 		${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
-target_compile_definitions(XPMP2 PRIVATE ${XPMP2_DEFINES})
+if(APPLE)
+    target_compile_options(XPMP2 PUBLIC -mmacosx-version-min=10.10)
+    target_link_libraries(XPMP2 -mmacosx-version-min=10.10)
+    
+    # make it a framework
+    list(APPEND XPMP2_PUB_HEADERS
+        ../inc/XPCAircraft.h
+        ../inc/XPMPAircraft.h
+        ../inc/XPMPMultiplayer.h
+        ../inc/XPMPPlaneRenderer.h
+    )
+    
+    set_target_properties(XPMP2 PROPERTIES
+      FRAMEWORK TRUE
+      FRAMEWORK_VERSION 1.0
+      MACOSX_FRAMEWORK_IDENTIFIER com.twinfan.XPMP2
+      MACOSX_FRAMEWORK_INFO_PLIST ../Info.plist
+      VERSION 0.1.0
+      SOVERSION 0.1.0
+      PUBLIC_HEADER "${XPMP2_PUB_HEADERS}"
+    )
+
+elseif(WIN32)
+    if(NOT CMAKE_BUILD_TYPE MATCHES "Debug")
+        # Use highest optimization level in Release builds
+        add_compile_options(/GL)
+    endif()
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+
+endif()
+
 set_property(TARGET XPMP2 PROPERTY CXX_STANDARD_REQUIRED 17)
 set_property(TARGET XPMP2 PROPERTY CXX_STANDARD 17)
+
+# Copy the resulting framework/library also into the 'lib' directory of the sample plugin
+if(APPLE)
+    add_custom_command(TARGET XPMP2 POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2.framework
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2.framework
+        # While the following does copy the framework it does not retain the symbolic links, but produces copies. Still...it works for the purpose
+        COMMAND ${CMAKE_COMMAND} -E copy_directory $<TARGET_FILE_DIR:XPMP2>/../.. ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2.framework
+    )
+elseif(UNIX)
+    add_custom_command(TARGET XPMP2 POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:XPMP2> ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib
+    )
+endif()

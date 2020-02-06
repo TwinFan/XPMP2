@@ -15,8 +15,12 @@ At the same time, using instancing marks basically all parts of the original ren
 of the library outdated...it is basically replaced by one line of code calling
 `XPLMInstanceSetPosition`.
 
-Concepts like the "language" of the `xsb_aircraft.txt` file or certainly the idea of an
+Concepts like the syntax of the `xsb_aircraft.txt` file or certainly the idea of an
 multi-pass matching to find a good model are retained, though re-implemented (read: can have new bugs).
+
+Status
+--
+**This is work in progress and not yet ready to be used!**
 
 New Implementations
 --

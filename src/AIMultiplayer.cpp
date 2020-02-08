@@ -8,6 +8,12 @@
 ///             However, the post and file, in which he suggested this addition,
 ///             is no longer available on forums.x-plane.org. Still, XPMP2
 ///             fullfills the earlier definition.
+/// @warning    The "TCAS hack" depends on the drawing callback functionality of X-Plane via
+///             [XPLMRegisterDrawCallback](https://developer.x-plane.com/sdk/XPLMDisplay/#XPLMRegisterDrawCallback).
+///             which is "likely [to] be removed during the X-Plane 11 run as part of the transition to Vulkan/Metal/etc."
+///             Ping-ponging the number of AI planes between 1 (so X-Plane won't draw
+///             AI planes at our positions) and the actual number would need to move elsewhere then.
+///             See AIControlPlaneCount().
 /// @author     Birger Hoppe
 /// @copyright  (c) 2020 Birger Hoppe
 /// @copyright  Permission is hereby granted, free of charge, to any person obtaining a
@@ -273,7 +279,7 @@ void AIMultiUpdate ()
         
     // Fill multiplayer dataRefs for the planes relevant for TCAS
     size_t multiCount = 0;      // number of dataRefs set, just to exit loop early
-    size_t maxMultiIdxUsed = 0; // maximum AI index used
+    glob.maxMultiIdxUsed = 0;   // we figure out the max idx during the loop
     
     for (const auto& pair: glob.mapAc) {
         Aircraft& ac = *pair.second;
@@ -367,8 +373,8 @@ void AIMultiUpdate ()
         }
         
         // remember the highest idx used
-        if (multiIdx > maxMultiIdxUsed)
-            maxMultiIdxUsed = multiIdx;
+        if (multiIdx > glob.maxMultiIdxUsed)
+            glob.maxMultiIdxUsed = multiIdx;
         
         // count number of multiplayer planes reported...we can stop early if
         // all slots have been filled
@@ -381,9 +387,6 @@ void AIMultiUpdate ()
         // if not used reset all values
         if (!mdr.bSlotTaken)
             AIMultiClearDataRefs(mdr);
-
-    // Tell X-Plane the highest slot number we are actually really using
-    XPLMSetActiveAircraftCount(int(maxMultiIdxUsed+1));
 }
 
 //
@@ -540,6 +543,28 @@ void AIMultiCleanup ()
 }
 
 
+/// @brief      Ping-pongs the count of AI/Multiplayer aircraft
+/// @details    This is a core part of the "TCAS hack":
+///             Right _before_ X-Plane renders its plane(s),
+///             we set the count of planes to 1 (ie. the user's own plane only)
+///             so that X-Plane does not draw any AI planes on our positions.\n
+///             Right _after_ the aircraft drawing phase we set the number of planes
+///             to the actual number of AI planes (strictly speaking:
+///             to the highest index in use) so that functions/plugins depending
+///             on this count are aware of our aircraft and read their positions.
+int AIControlPlaneCount (XPLMDrawingPhase,  // inPhase
+                         int                inIsBefore,
+                         void *)            // inRefcon
+{
+    // only if we are in control
+    if (XPMPHasControlOfAIAircraft()) {
+        XPLMSetActiveAircraftCount(inIsBefore ? 1 :
+                                   1 + int(glob.maxMultiIdxUsed));
+    }
+    return 1;
+}
+
+
 }  // namespace XPMP2
 
 //
@@ -574,6 +599,17 @@ const char *    XPMPMultiplayerEnable()
         // Cleanup multiplayer values...we are in control now
         XPMPInitMultiplayerDataRefs();
         
+        // Register the plane count control calls.
+        // TODO: These are a deprecated calls!
+        XPLMRegisterDrawCallback(AIControlPlaneCount,
+                                 xplm_Phase_Airplanes,
+                                 1,             // before
+                                 nullptr);
+        XPLMRegisterDrawCallback(AIControlPlaneCount,
+                                 xplm_Phase_Airplanes,
+                                 0,             // after
+                                 nullptr);
+        
         // Success
         return "";
     }
@@ -590,6 +626,17 @@ void XPMPMultiplayerDisable()
     // short-cut if we are not in control
     if (!XPMPHasControlOfAIAircraft())
         return;
+    
+    // Unregister the plane count control calls.
+    // TODO: These are a deprecated calls!
+    XPLMUnregisterDrawCallback(AIControlPlaneCount,
+                               xplm_Phase_Airplanes,
+                               1,             // before
+                               nullptr);
+    XPLMUnregisterDrawCallback(AIControlPlaneCount,
+                               xplm_Phase_Airplanes,
+                               0,             // after
+                               nullptr);
     
     // Cleanup our values
     XPLMSetActiveAircraftCount(1);

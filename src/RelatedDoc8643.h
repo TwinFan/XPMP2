@@ -71,13 +71,13 @@ public:
     /// Is empty, doesn't contain anything?
     bool empty () const { return wtc[0] == 0; }
     
-    char GetClassSize () const      { return classification[0]; }
+    char GetClassType () const      { return classification[0]; }
     char GetClassNumEng () const    { return classification[1]; }
     char GetClassEngType () const   { return classification[2]; }
 };
 
 /// Map of Doc8643 information, key is the (icao) type code
-typedef std::unordered_map<std::string, Doc8643> mapDoc8643Ty;
+typedef std::map<std::string, Doc8643> mapDoc8643Ty;
 
 /// Load the content of the provided `Doc8643.txt` file
 const char* Doc8643Load (const std::string& _path);

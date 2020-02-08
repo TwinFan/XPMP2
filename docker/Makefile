@@ -4,7 +4,7 @@ platforms=lin mac
 container=xpmp2-cross-compile-env
 
 # all: mac lin win
-all: lin
+all: $(platforms)
 
 .image: Dockerfile build.sh
 	docker build . -t $(container)

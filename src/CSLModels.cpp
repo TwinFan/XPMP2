@@ -822,14 +822,14 @@ bool CSLMatchDoc8643 (const std::string& _type,
         if (wtc == p.second.GetWTC())  {            // WTC matches?
             // save the important comparisons
             const bool bAirline     = p.second.GetIcaoAirline() == _airline;
-            const bool bClassSize   = p.second.GetClassSize()   == doc8643.GetClassSize();
+            const bool bClassType   = p.second.GetClassType()   == doc8643.GetClassType();
             const bool bClassNumEng = p.second.GetClassNumEng() == doc8643.GetClassNumEng();
             const bool bClassEngType= p.second.GetClassEngType()== doc8643.GetClassEngType();
 
             // Now add the model to all lists where the conditions per pass meet
-            if (bAirline && bClassSize && bClassNumEng && bClassEngType) lst[0].push_back(&p.second);
+            if (bAirline && bClassType && bClassNumEng && bClassEngType) lst[0].push_back(&p.second);
             if (bAirline               && bClassNumEng && bClassEngType) lst[1].push_back(&p.second);
-            if (            bClassSize && bClassNumEng && bClassEngType) lst[2].push_back(&p.second);
+            if (            bClassType && bClassNumEng && bClassEngType) lst[2].push_back(&p.second);
             if (                          bClassNumEng && bClassEngType) lst[3].push_back(&p.second);
             if (bAirline               && bClassNumEng                 ) lst[4].push_back(&p.second);
             if (bAirline                               && bClassEngType) lst[5].push_back(&p.second);

@@ -1,4 +1,4 @@
-XPlaneMP 2
+XPMP 2
 ========================
 
 Quick Links:

@@ -371,6 +371,7 @@ int CPLabelDrawing (XPLMDrawingPhase     /*inPhase*/,
 void TwoDActivate ()
 {
     // Register the actual drawing func.
+    // TODO: This is a deprecated call!
     if (!XPLMRegisterDrawCallback(CPLabelDrawing,
                                   xplm_Phase_Airplanes,
                                   0,                        // after
@@ -383,6 +384,7 @@ void TwoDActivate ()
 void TwoDDeactivate ()
 {
     // Unregister the drawing callback
+    // TODO: This is a deprecated call!
     XPLMUnregisterDrawCallback(CPLabelDrawing, xplm_Phase_Airplanes, 0, nullptr);
 }
 

@@ -22,26 +22,14 @@
 
 #include <cstring>
 
+#define WARN_MAP_ICON_UNAVAIL   "Map icons file '%s' does not exist!"
+#define WARN_RSRC_DIR_UNAVAIL   "Resource directory '%s' does not exist!"
 #define INFO_DEFAULT_ICAO       "Default ICAO aircraft type now is %s"
 #define INFO_LOAD_CSL_PACKAGE   "Loading CSL package from %s"
 
 // The global functions implemented here are not in our namespace for legacy reasons,
 // but we use our namespace a lot:
 using namespace XPMP2;
-
-// MARK: Vertical offset stuff
-// TODO: Probably to be moved elsewhere
-
-/*
-void actualVertOffsetInfo(const char *inMtl, char *outType, double *outOffset)
-{}
-
-void setUserVertOffset(const char *inMtlCode, double inOffset)
-{}
-
-void removeUserVertOffset(const char *inMtlCode)
-{}
- */
 
 //
 // MARK: Initialization
@@ -54,8 +42,20 @@ const char *    XPMPMultiplayerInitLegacyData(const char * inCSLFolder,
                                               const char * inDoc8643,
                                               const char * inDefaultICAO,
                                               int (* inIntPrefsFunc)(const char *, const char *, int),
-                                              float (* inFloatPrefsFunc)(const char *, const char *, float))
+                                              float (* inFloatPrefsFunc)(const char *, const char *, float),
+                                              const char * inMapIconFile)
 {
+    // Save the path to the map icons file, if it exists
+    if (inMapIconFile)
+    {
+        std::string mapIcnF = TOPOSIX(inMapIconFile);
+        if (ExistsFile(mapIcnF)) {
+            glob.mapIconsFileName = std::move(mapIcnF);
+        } else {
+            LOG_MSG(logERR, WARN_MAP_ICON_UNAVAIL, mapIcnF.c_str());
+        }
+    }
+    
     // We just pass on the calls to the individual functions:
     
     // Internal init first
@@ -101,9 +101,9 @@ const char *    XPMPMultiplayerInit(int (* inIntPrefsFunc)(const char *, const c
     // Save the resource dir, if it exists
     if (resourceDir)
     {
-        const std::string psxResDir = TOPOSIX(resourceDir);
+        std::string psxResDir = TOPOSIX(resourceDir);
         if (ExistsFile(psxResDir)) {
-            glob.resourceDir = psxResDir;
+            glob.resourceDir = std::move(psxResDir);
         } else {
             LOG_MSG(logWARN, WARN_RSRC_DIR_UNAVAIL, psxResDir.c_str());
         }
@@ -114,6 +114,7 @@ const char *    XPMPMultiplayerInit(int (* inIntPrefsFunc)(const char *, const c
     AcInit();
     TwoDInit();
     AIMultiInit();
+    MapInit();
     
     return "";
 }
@@ -131,6 +132,7 @@ void XPMPMultiplayerCleanup()
     LOG_MSG(logINFO, "XPMP2 cleaning up...")
 
     // Cleanup all modules in revers order of initialization
+    MapCleanup();
     AIMultiCleanup();
     TwoDCleanup();
     AcCleanup();
@@ -380,8 +382,6 @@ XPMPPlaneID XPMPGetNthPlane(long index)
 void    XPMPSetDefaultPlaneICAO(const char * inICAO)
 {
     if (!inICAO) return;
-    
-    // TODO: Verify against DOC8643
     glob.defaultICAO = inICAO;
     LOG_MSG(logINFO, INFO_DEFAULT_ICAO, inICAO);
 }

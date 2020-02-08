@@ -31,6 +31,7 @@ using namespace XPMP2;
 // MARK: Globals
 //
 
+#define WARN_MODEL_NOT_FOUND    "Named CSL Model '%s' not found"
 #define ERR_CREATE_INSTANCE     "Aircraft %llu: Create Instance FAILED for CSL Model %s"
 #define DEBUG_INSTANCE_CREATED  "Aircraft %llu: Instance created"
 #define DEBUG_INSTANCE_DESTRYD  "Aircraft %llu: Instance destroyed"
@@ -196,6 +197,9 @@ int Aircraft::ChangeModel (const std::string& _icaoType,
         // Increase the reference counter of the CSL model to track that the object is being used
         pCSLMdl->IncRefCnt();
 
+        // Determin map icon based on icao type
+        FindMapIcon();
+        
         // inform observers in case this was an actual replacement change
         if (bChangeExisting)
             XPMPSendNotification(*this, xpmp_PlaneNotification_ModelChanged);
@@ -377,6 +381,15 @@ void Aircraft::SetLocation(double lat, double lon, double alt_f)
     drawInfo.z = float(z);
 }
 
+
+
+// Converts aircraft's local coordinates to lat/lon values
+void Aircraft::GetLocation (double& lat, double& lon, double& alt_ft) const
+{
+    XPLMLocalToWorld(drawInfo.x, drawInfo.y, drawInfo.z,
+                     &lat, &lon, &alt_ft);
+    alt_ft /= M_per_FT;
+}
 
 // Make the plane (in)visible
 void Aircraft::SetVisible (bool _bVisible)

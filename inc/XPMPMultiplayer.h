@@ -294,7 +294,8 @@ const char *    XPMPMultiplayerInitLegacyData(const char * inCSLFolder      = nu
                                               const char * inDoc8643        = nullptr,
                                               const char * inDefaultICAO    = nullptr,
                                               int (* inIntPrefsFunc)(const char *, const char *, int)       = nullptr,
-                                              float (* inFloatPrefsFunc)(const char *, const char *, float) = nullptr);
+                                              float (* inFloatPrefsFunc)(const char *, const char *, float) = nullptr,
+                                              const char * inMapIconFile    = nullptr);
 
 /*
  * XPMPMultiplayerInit
@@ -712,6 +713,14 @@ void XPMPEnableAircraftLabels (bool _enable = true);
 void XPMPDisableAircraftLabels();
 
 bool XPMPDrawingAircraftLabels();
+
+//
+// MARK: MAP
+//       Enable or disable the drawing of icons on maps
+//
+
+/// Enable or disable the drawing of aircraft icons on X-Plane's map in a separate Layer names after the plugin
+void XPMPEnableMap (bool _bEnable);
 
 #ifdef __cplusplus
 }

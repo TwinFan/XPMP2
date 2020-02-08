@@ -101,10 +101,10 @@ TODOs
     - add garbage collection to models with reference counter zero, not used for a few minutes
 - Label writing
     - Expose maxLabelDist to some config function 
-- AI/Multiplayer dataRefs (logic can be taken over from original library, it's my code anyway)
-    - DEFECT: X-Planes draws its own multiplayer planes when we write multiplayer dataRefs, so we have to set number of planes down to 1 at certain times as before to fool XP  
+- AI/Multiplayer dataRefs
     - Standard X-Plane dataRefs
     - Shared dataRefs for providing textual information (test with FSTramp)
+- Add VERT_OFS auto detection
 - Test with camera...might still jitter
     - Test with ABC
     - Consider a "next position" and also multiplayer dataRef handling in AIMultiUpdate()

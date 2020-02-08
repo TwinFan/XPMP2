@@ -45,19 +45,21 @@ add_library(XPMP2 STATIC
     inc/XPMPAircraft.h
     inc/XPMPMultiplayer.h
     inc/XPMPPlaneRenderer.h
-    src/XPMP2.h
     src/2D.h
-    src/AIMultiplayer.h
-    src/Aircraft.h
-    src/CSLModels.h
-    src/RelatedDoc8643.h
-    src/Utilities.h
     src/2D.cpp
+    src/AIMultiplayer.h
     src/AIMultiplayer.cpp
+    src/Aircraft.h
     src/Aircraft.cpp
+    src/CSLModels.h
     src/CSLModels.cpp
+    src/Map.h
+    src/Map.cpp
+    src/RelatedDoc8643.h
     src/RelatedDoc8643.cpp
+    src/Utilities.h
     src/Utilities.cpp
+    src/XPMP2.h
     src/XPMPMultiplayer.cpp
 )
 

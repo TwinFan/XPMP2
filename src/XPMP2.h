@@ -37,6 +37,7 @@
 #include "XPLMDisplay.h"
 #include "XPLMCamera.h"
 #include "XPLMPlanes.h"
+#include "XPLMMap.h"
 
 // Standard C
 #include <sys/stat.h>
@@ -47,7 +48,6 @@
 #include <string>
 #include <list>
 #include <map>
-#include <unordered_map>
 #include <vector>
 #include <valarray>
 #include <algorithm>
@@ -62,6 +62,7 @@
 #include "Aircraft.h"
 #include "2D.h"
 #include "AIMultiplayer.h"
+#include "Map.h"
 
 //
 // MARK: Global Configurations and variables
@@ -134,6 +135,15 @@ public:
     
     /// Do we control X-Plane's AI/Multiplayer planes?
     bool            bHasControlOfAIAircraft = false;
+    /// maximum AI index used
+    size_t          maxMultiIdxUsed = 0;
+    
+    /// Do we feed X-Plane's maps with our aircraft positions?
+    bool            bMapEnabled = true;
+    /// Map of map layer ids, i.e. for each map this is the id of the corresponding layer of ours
+    mapMapLayerIDTy mapMapLayers;
+    /// path to file containing plane icons for map display
+    std::string     mapIconsFileName;
     
 protected:
     /// Current plane ID counter

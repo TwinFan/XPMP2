@@ -135,9 +135,9 @@ public:
     // Data from Doc8643
     const Doc8643& GetDoc8643 () const          { return *doc8643; }    ///< Classification (like "L2P" or "L4J") and WTC (like "H" or "L/M")
     const char* GetWTC () const                 { return doc8643->wtc; }///< Wake turbulence category
-    char GetClassSize () const                  { return doc8643->classification[0]; }
-    char GetClassNumEng () const                { return doc8643->classification[1]; }
-    char GetClassEngType () const               { return doc8643->classification[2]; }
+    char GetClassType () const                  { return doc8643->GetClassType(); }
+    char GetClassNumEng () const                { return doc8643->GetClassNumEng(); }
+    char GetClassEngType () const               { return doc8643->GetClassEngType(); }
 
     /// Vertical Offset to be applied to aircraft model
     float GetVertOfs () const                   { return vertOfs; }

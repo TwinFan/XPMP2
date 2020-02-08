@@ -25,6 +25,7 @@
 #include "XPMPMultiplayer.h"
 #include "XPLMInstance.h"
 #include "XPLMCamera.h"
+#include "XPLMMap.h"
 
 #include <string>
 #include <chrono>
@@ -143,6 +144,9 @@ protected:
     /// Distance to camera in meters (updated internally with every flightloop callback)
     float               distCamera = 0.0f;
     
+    int                 mapX = 0;       ///< map icon coordinates, row
+    int                 mapY = 0;       ///< map icon coordinates, column
+    
 public:
     /// Constructor
     Aircraft (const std::string& _icaoType,
@@ -186,6 +190,10 @@ public:
     /// @param alt_ft Altitude in feet above MSL
     void SetLocation (double lat, double lon, double alt_ft);
     
+    /// @brief Converts aircraft's local coordinates to lat/lon values
+    /// @warning This isn't exactly precice. If you need precise location keep it in your derived class yourself.
+    void GetLocation (double& lat, double& lon, double& alt_ft) const;
+    
     /// Make the plane (in)visible
     virtual void SetVisible (bool _bVisible);
     /// Is the plane visible?
@@ -210,6 +218,17 @@ protected:
     void AISlotClear ();
     // These functions are called from AIMultiUpdate()
     friend void AIMultiUpdate ();
+    
+    // The following is implemented in Map.cpp:
+    /// Determine which map icon to use for this aircraft
+    void FindMapIcon ();
+    friend void MapIconDrawingCB (XPLMMapLayerID,
+                                  const float *,
+                                  float,
+                                  float,
+                                  XPLMMapStyle,
+                                  XPLMMapProjectionID,
+                                  void *);
 };
 
 /// Find aircraft by its plane ID, can return nullptr

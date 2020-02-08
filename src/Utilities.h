@@ -28,8 +28,6 @@ namespace XPMP2 {
 //
 
 #define ERR_ASSERT              "ASSERT FAILED: %s"
-#define WARN_RSRC_DIR_UNAVAIL   "Resource directory '%s' does not exist!"
-#define WARN_MODEL_NOT_FOUND    "Named CSL Model '%s' not found"
 
 // Config items read via preferences callback functions
 #define CFG_SEC_PLANES          "planes"

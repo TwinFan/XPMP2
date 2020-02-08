@@ -78,8 +78,7 @@
 
 /// @see https://forums.x-plane.org/index.php?/files/file/37041-bluebell-obj8-csl-packages/ for the Bluebell package, which includes the models named here
 std::string PLANE_MODEL[3][3] = {
-//    { "B06",  "TXB", "" },
-    { "E135", "HAF", "" },
+    { "B06",  "TXB", "" },
     { "AT76", "NOK", "" },
     { "A321", "DLH", "" },
 };
@@ -722,7 +721,7 @@ inline bool ArePlanesCreated () { return pSamplePlane || pLegacyPlane || hStdPla
 /// Create our 3 planes (if they don't exist already)
 void PlanesCreate ()
 {
- /*   // 1. New interface of XPMP2::Aircraft class
+    // 1. New interface of XPMP2::Aircraft class
     if (!pSamplePlane) try {
         pSamplePlane = new SampleAircraft(PLANE_MODEL[gModelIdxBase][0],  // type
                                           PLANE_MODEL[gModelIdxBase][1],  // airline
@@ -732,7 +731,7 @@ void PlanesCreate ()
         LogMsg("Could not create object of type SampleAircraft: %s", e.what());
         pSamplePlane = nullptr;
     }
-*/
+
     // 2. Subclassing the Legacy XPCAircraft class
     
     // Creating the plane can now (this is new in XPMP2) throw an exception
@@ -887,7 +886,9 @@ PLUGIN_API int XPluginEnable(void)
                                                      nullptr,       // TexturePath is no longer used
                                                      (resourcePath + pathSep + "Doc8643.txt").c_str(),
                                                      "C172",        // default model ICAO
-                                                     CBIntPrefsFunc);
+                                                     CBIntPrefsFunc,
+                                                     nullptr,
+                                                     (resourcePath + pathSep + "MapIcons.png").c_str());
     if (res[0]) {
         LogMsg("XPMP2-Sample: Initialization of XPMP2 failed: %s", res);
         return 0;

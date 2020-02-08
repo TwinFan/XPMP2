@@ -497,12 +497,12 @@ void XPCAircraft::UpdatePosition()
         v[V_CONTROLS_YOKE_ROLL_RATIO             ] = acSurfaces.yokeRoll;
         v[V_CONTROLS_THRUST_REVERS               ] = acSurfaces.thrust < 0.0f ? 1.0f : 0.0f;
         
-        v[V_CONTROLS_TAXI_LITES_ON               ] = acSurfaces.lights.taxiLights;
-        v[V_CONTROLS_LANDING_LITES_ON            ] = acSurfaces.lights.landLights;
-        v[V_CONTROLS_BEACON_LITES_ON             ] = acSurfaces.lights.bcnLights;
-        v[V_CONTROLS_STROBE_LITES_ON             ] = acSurfaces.lights.strbLights;
-        v[V_CONTROLS_NAV_LITES_ON                ] = acSurfaces.lights.navLights;
-        v[V_CONTROLS_TAXI_LITES_ON               ] = acSurfaces.lights.taxiLights;
+        v[V_CONTROLS_TAXI_LITES_ON               ] = (float)acSurfaces.lights.taxiLights;
+        v[V_CONTROLS_LANDING_LITES_ON            ] = (float)acSurfaces.lights.landLights;
+        v[V_CONTROLS_BEACON_LITES_ON             ] = (float)acSurfaces.lights.bcnLights;
+        v[V_CONTROLS_STROBE_LITES_ON             ] = (float)acSurfaces.lights.strbLights;
+        v[V_CONTROLS_NAV_LITES_ON                ] = (float)acSurfaces.lights.navLights;
+        v[V_CONTROLS_TAXI_LITES_ON               ] = (float)acSurfaces.lights.taxiLights;
         
         v[V_GEAR_TIRE_VERTICAL_DEFLECTION_MTR    ] = acSurfaces.tireDeflect;
         v[V_GEAR_TIRE_ROTATION_ANGLE_DEG         ] = acSurfaces.tireRotDegree;

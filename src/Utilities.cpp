@@ -79,6 +79,11 @@ void GlobVars::UpdateCfgVals ()
 // MARK: File access helpers
 //
 
+// Windows is missing a few simple macro definitions
+#if !defined(S_ISDIR)
+#define S_ISDIR(m) (((m) & _S_IFMT) == _S_IFDIR)
+#endif
+
 // Does a file path exist? (in absence of <filesystem>, which XCode refuses to ship)
 /// @see https://stackoverflow.com/a/51301928
 bool ExistsFile (const std::string& filename)

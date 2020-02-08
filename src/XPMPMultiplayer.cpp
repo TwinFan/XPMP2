@@ -201,8 +201,16 @@ void XPMPGetModelInfo(int inIndex, const char **outModelName, const char **outIc
     // get the inIndex-th model
     mapCSLModelTy::const_iterator iterMdl = glob.mapCSLModels.cbegin();
     std::advance(iterMdl, inIndex);
+#if IBM
+#pragma warning(push)
+    // I don't know why, but in this function, and only in this, MS warns about throwing an exception
+#pragma warning(disable: 4297)
+#endif
     LOG_ASSERT(iterMdl != glob.mapCSLModels.cend());
-    
+#if IBM
+#pragma warning(pop)
+#endif
+
     // Copy string pointers back. We just pass back pointers into our CSL Model object
     // as we can assume that the CSL Model object exists quite long.
     if (outModelName)   *outModelName   = iterMdl->second.GetId().data();
@@ -269,7 +277,7 @@ XPMPPlaneID XPMPCreatePlaneWithModelName(const char *       inModelName,
         // This is not leaking memory, the pointer is in glob.mapAc as taken care of by the constructor
         return pAc->GetPlaneID();
     }
-    catch (const XPMP2Error& e) {
+    catch (const XPMP2Error&) {
         // This might be thrown in case of problems creating the object
         LOG_MSG(logERR, "Could not create plane object for %s/%s/%s/%s!",
                 inICAOCode  ? inICAOCode    : "<null>",

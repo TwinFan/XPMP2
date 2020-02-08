@@ -13,23 +13,23 @@ add_definitions(-DXPLM200=1 -DXPLM210=1 -DXPLM300=1 -DXPLM301=1)
 # Define platform macros.
 add_definitions(-DAPL=$<BOOL:${APPLE}> -DIBM=$<BOOL:${WIN32}> -DLIN=$<AND:$<BOOL:${UNIX}>,$<NOT:$<BOOL:${APPLE}>>>)
 
-# Force-enable exception support. This is most likely redundant, although for C
-# code the default is the opposite. Since we are mixing C++ and C libraries,
-# safer to set it on?
-add_compile_options(-fexceptions -fpermissive)
-
-# On UNIX systems this makes symbols non-exported by default. On Windows this
-# option is simply ignored, since symbol visibility works differently there.
-add_compile_options(-fvisibility=hidden)
-
 # Enable stricter warnings and then disable some we are not interested in.
-add_compile_options(-Wall -Wshadow -Wfloat-equal -Wextra)
-
 # For XPMP2 compile, we don't need to be warned about our self-defined depreciations
-add_compile_options(-Wno-deprecated-declarations)
+if (WIN32)
+    add_compile_options(/wd4996)
+else()
+    add_compile_options(-Wall -Wshadow -Wfloat-equal -Wextra -Wno-deprecated-declarations)
 
-# Always use position-independent code and highest optimization level (FPS!).
-add_compile_options(-O3 -fPIC)
+    # Force-enable exception support. This is most likely redundant, although for C
+    # code the default is the opposite. Since we are mixing C++ and C libraries,
+    # safer to set it on?
+    add_compile_options(-fexceptions -fpermissive)
+
+    # On UNIX systems this makes symbols non-exported by default. On Windows this
+    # option is simply ignored, since symbol visibility works differently there.
+    add_compile_options(-fvisibility=hidden)
+endif()
+
 
 # Debug build?
 if(CMAKE_BUILD_TYPE MATCHES "Debug")
@@ -37,6 +37,11 @@ if(CMAKE_BUILD_TYPE MATCHES "Debug")
 	set(XPMP2_DEBUG ON)
 else()
 	set(XPMP2_DEBUG OFF)
+
+    if (UNIX)
+        # Use position-independent code and highest optimization level (FPS!).
+        add_compile_options(-O3 -fPIC)
+    endif()
 endif()
 
 # Source list
@@ -114,7 +119,7 @@ if(APPLE)
         # While the following does copy the framework it does not retain the symbolic links, but produces copies. Still...it works for the purpose
         COMMAND ${CMAKE_COMMAND} -E copy_directory $<TARGET_FILE_DIR:XPMP2>/../.. ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2.framework
     )
-elseif(UNIX)
+elseif(UNIX OR WIN32)
     add_custom_command(TARGET XPMP2 POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:XPMP2> ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib
     )

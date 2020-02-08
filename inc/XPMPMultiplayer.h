@@ -109,8 +109,13 @@ typedef unsigned int XPMPLightsPattern;
  * with a random number by the application. This number will be used to have strobes
  * flashing at different times.
  */
+#if LIN
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpedantic" // because we don't want to change the anonymous structure following here as that would require code change in legacy plugins
+#elif IBM
+#pragma warning(push)
+#pragma warning(disable: 4202)
+#endif
 union xpmp_LightStatus {
     unsigned int lightFlags = 0x150000;     ///< this defaults to taxi | beacon | nav lights on
     struct {
@@ -126,7 +131,11 @@ union xpmp_LightStatus {
         XPMPLightsPattern flashPattern   : 4;
     };
 };
+#if LIN
 #pragma GCC diagnostic pop
+#elif IBM
+#pragma warning(pop)
+#endif
 
 /// @brief External physical configuration of the plane
 /// @details    This data structure will contain information about the external physical configuration of the plane,

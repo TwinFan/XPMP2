@@ -766,7 +766,7 @@ CSLModel* CSLModelByName (const std::string& _mdlName)
 template <class IteratorT>
 IteratorT iterRnd (IteratorT lower, IteratorT upper)
 {
-    const long dist = std::distance(lower, upper);
+    const long dist = (long)std::distance(lower, upper);
     // Does the range (cslUpper excluded!) not contain anything?
     if (dist <= 0)
         return upper;

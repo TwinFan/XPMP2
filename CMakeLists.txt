@@ -1,6 +1,5 @@
-# XPMP2 - Only set up to compile on Linux.
-#         mingw is not (yet) suitable to compile C++ 17 with full C++ library support
-#         MacOS might work...just didn't get around configuring Docker to compile a framework
+# XPMP2 - Set up to be used in the provided docker environment to build lin and mac
+#         Set up to be used in a Visual Studio environment to build win (File > Open > Folder, then VS recognized the CMAKE configuration)
 
 cmake_minimum_required(VERSION 3.9)
 
@@ -33,7 +32,7 @@ endif()
 
 # Debug build?
 if(CMAKE_BUILD_TYPE MATCHES "Debug")
-    add_definitons(-DDEBUG=1)
+    add_compile_options(-DDEBUG=1)
 	set(XPMP2_DEBUG ON)
 else()
 	set(XPMP2_DEBUG OFF)

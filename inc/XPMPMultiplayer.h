@@ -114,7 +114,7 @@ typedef unsigned int XPMPLightsPattern;
 #pragma GCC diagnostic ignored "-Wpedantic" // because we don't want to change the anonymous structure following here as that would require code change in legacy plugins
 #elif IBM
 #pragma warning(push)
-#pragma warning(disable: 4202)
+#pragma warning(disable: 4202 4201)
 #endif
 union xpmp_LightStatus {
     unsigned int lightFlags = 0x150000;     ///< this defaults to taxi | beacon | nav lights on

@@ -1,6 +1,5 @@
-# XPMP2-Sample - Only set up to compile on Linux.
-#                mingw is not (yet) suitable to compile C++ 17 with full C++ library support
-#                MacOS might work...just didn't get around configuring Docker to compile a framework
+# XPMP2 - Set up to be used in the provided docker environment to build lin and mac
+#         Set up to be used in a Visual Studio environment to build win (File > Open > Folder, then VS recognized the CMAKE configuration)
 
 cmake_minimum_required(VERSION 3.9)
 project(XPMP2-Sample DESCRIPTION "XPMP2-Sample X-Plane plugin" LANGUAGES C CXX)
@@ -16,21 +15,26 @@ add_definitions(-DXPLM200=1 -DXPLM210=1 -DXPLM300=1 -DXPLM301=1)
 # Define platform macros.
 add_definitions(-DAPL=$<BOOL:${APPLE}> -DIBM=$<BOOL:${WIN32}> -DLIN=$<AND:$<BOOL:${UNIX}>,$<NOT:$<BOOL:${APPLE}>>>)
 
-# Force-enable exception support. This is most likely redundant, although for C
-# code the default is the opposite. Since we are mixing C++ and C libraries,
-# safer to set it on?
-add_compile_options(-fexceptions -fpermissive)
+if (UNIX OR APPLE)
+    # Force-enable exception support. This is most likely redundant, although for C
+    # code the default is the opposite. Since we are mixing C++ and C libraries,
+    # safer to set it on?
+    add_compile_options(-fexceptions -fpermissive)
 
-# On UNIX systems this makes symbols non-exported by default. On Windows this
-# option is simply ignored, since symbol visibility works differently there.
-add_compile_options(-fvisibility=hidden)
+    # On UNIX systems this makes symbols non-exported by default. On Windows this
+    # option is simply ignored, since symbol visibility works differently there.
+    add_compile_options(-fvisibility=hidden)
 
-# Enable stricter warnings and then disable some we are not interested in.
-add_compile_options(-Wall -Wshadow -Wfloat-equal -Wextra)
-add_compile_options(-Wno-unused)
+    # Enable stricter warnings and then disable some we are not interested in.
+    add_compile_options(-Wall -Wshadow -Wfloat-equal -Wextra)
+    add_compile_options(-Wno-unused)
 
-# Always use position-independent code and highest optimization level (FPS!).
-add_compile_options(-O3 -fPIC)
+    # Always use position-independent code and highest optimization level (FPS!).
+    add_compile_options(-O3 -fPIC)
+elseif(WIN32)
+    # Deprecation warning: once is enough
+    add_compile_options(/wo4996)
+endif()
 
 ################################################################################
 # Source Files
@@ -63,19 +67,18 @@ endif ()
 # Find the XPMP2 library
 if (APPLE)
     find_library(XPMP2_LIBRARY NAMES XPMP2)
-    target_link_libraries(XPMP2-Sample ${XPMP2_LIBRARY})
 elseif (UNIX)
     find_library(XPMP2_LIBRARY NAMES libXPMP2.a)
-    target_link_libraries(XPMP2-Sample ${XPMP2_LIBRARY})
+elseif (WIN32)
+    find_library(XPMP2_LIBRARY NAMES XPMP2.lib)
 endif ()
+target_link_libraries(XPMP2-Sample ${XPMP2_LIBRARY})
 
-# Link OpenGL and OpenAL related libraries.
+# Link OpenGL
 set(OpenGL_GL_PREFERENCE GLVND)
 find_package(OpenGL REQUIRED)  # apt install freeglut3-dev
-if ( OpenGL_FOUND )
-    include_directories( ${OpenGL_INCLUDE_DIRS} )
-    target_link_libraries( XPMP2-Sample ${OpenGL_LIBRARIES} )
-endif( OpenGL_FOUND )
+include_directories( ${OpenGL_INCLUDE_DIRS} )
+target_link_libraries( XPMP2-Sample OpenGL::GL )
 
 # Link X-Plane plugin system libraries. They are only provided for OS X and Windows.
 if (WIN32 OR APPLE)
@@ -102,10 +105,10 @@ endif ()
 
 if (WIN32)
     # Unlike OS X and Linux we build standard libraries statically since X-Plane does not provide them.
-    target_link_libraries(XPMP2-Sample -static-libgcc -static-libstdc++ opengl32)
+    # target_link_libraries(XPMP2-Sample -static-libgcc -static-libstdc++ opengl32)
     # MSYS2 for some reason always links against winpthread, so we have to work around it by statically linking the
     # entire plugin. This allows building the plugin nativaly on Windows.
-    target_link_libraries(XPMP2-Sample -static)
+    # target_link_libraries(XPMP2-Sample -static)
 elseif (APPLE)
     # X-Plane supports OS X 10.10+, so this should ensure FlyWithLua can run on
     # all supported versions.

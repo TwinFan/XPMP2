@@ -47,7 +47,7 @@ original library: The original header files are still provided with the same nam
 All original public functions are still there. The original `XPCAircraft` class is still there,
 now derived from `XPMP2::Aircraft`.
 
-A few changes are there for clarity and future proveness, though, which should not
+A few changes are there, though, for clarity and to be future-proof. They should not
 hinder a proper implementation to compile successfully, albeit with some new warnings:
 - All enumerations are now proper `enum` definitions, i.e. `enum typeName {...}` instead of
   `typedef int typeName`.
@@ -66,8 +66,13 @@ hinder a proper implementation to compile successfully, albeit with some new war
   `inMapIconFile`, which defines the full path to the `MapIcons.png` file,
   which contains the icons shown in X-Plane's maps.\n
   Its parameter `inTexturePath` is no longer required and can be `nullptr`.
-- It is no longer necessary to define the compile-time macros  
-The new function 
+- It is no longer necessary to define the compile-time macros `XPMP_CLIENT_NAME`
+  and `XPMP_CLIENT_LONGNAME`. Instead, you can use the new function
+  `XPMPSetPluginName` to set the plugin's name from within your plugin,
+  ideally as the very first call even before `XPMPMultiplayerInitLegacyData`.
+  (XPMP2 tries to guess the plugin's name if no call to `XPMPSetPluginName`
+  is made.)
+  This allows using the provided libraries directly without the need to recompile.
 
 I tested the compile-time compatibility with LiveTraffic successfully. LiveTraffic has
 always used subclassing of `XPCAircraft`, so I am very sure that
@@ -79,14 +84,29 @@ Limits
 
 To keep the reimplementation streamlined, this library no longer supports some aspects
 I considered no longer required:
+- Requires X-Plane 11.
 - `.acf` and OBJ7 models are no longer supported: XPMP2 requires OBJ8 models.
    These are the by far most used models nowadays, identified by the `OBJ8` command
    in the `xsb_aircraft.txt` file.
    
 New Features
 --
-- Shows all aircraft in X-Plane's map views, with icons roughly related to the
-  plane's type and size.
+- XPMP2 shows all aircraft in X-Plane's map views, with icons roughly related to the
+  plane's type and size. The map layer is called by its plugin name (see
+  `XPMPSetPluginName`).
+- `XPMPLoadCSLPackage` walks directories hierarchically up to 5 levels deep
+  to search for `xsb_aircraft.txt` files. In complex multi-CSL-package setups,
+  it might now be sufficient to pass in some higher-level directory instead calling the
+  function several times per package.
+
+Sample Plugin
+--
+This package comes with a sample plugin in the `XPMP2-Sample` folder. It is a complete
+plugin including build projects and CMake setup. It displays 3 aircraft flying circles
+in front of the user's plane. Each of the 3 aircraft is using a different technology:
+the now recommended way of subclassing `XPMP2::Aircraft`, the legacy way
+of subclassing `XPCAircraft` (as used by LiveTraffic v1.x), and by calling
+standard C functions.
 
 TODOs
 --
@@ -107,10 +127,6 @@ TODOs
     - definition should already be read from `xsb_aircraft.txt`
     - before loading the object, the .obj file needs to be rewritten
     - devise a reproducible name scheme, so that replacement .obj file is written just once and found again next time without generation
-- X-Plane 10 compatibility (?)
-    - The <a href="">instancing compatibility wrapper</a> is a start but is lacking
-    - support for non-writeable dataRefs (basically all in the case of XPLM2)
-    - proper wrapping of in XP10 unavailable functions XPLM*Instance* via XPLMFindSymbol
 
 Links to outside locations:
 --

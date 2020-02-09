@@ -49,7 +49,6 @@
 #endif
 
 
-#define ERR_REGISTER_DRAW_CB    "Could not register drawing callback. Labels will not draw!"
 #define DEBUG_ENABLE_AC_LABELS  "Aircraft labels %s"
 
 namespace XPMP2 {
@@ -372,11 +371,10 @@ void TwoDActivate ()
 {
     // Register the actual drawing func.
     // TODO: This is a deprecated call!
-    if (!XPLMRegisterDrawCallback(CPLabelDrawing,
-                                  xplm_Phase_Airplanes,
-                                  0,                        // after
-                                  nullptr))
-        LOG_MSG(logERR, ERR_REGISTER_DRAW_CB);
+    XPLMRegisterDrawCallback(CPLabelDrawing,
+                             xplm_Phase_Airplanes,
+                             0,                        // after
+                             nullptr);
 }
 
 

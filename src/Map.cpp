@@ -38,7 +38,7 @@ constexpr int MAP_ICON_WIDTH = 3;
 constexpr int MAP_ICON_HEIGHT = 3;
 
 /// Minimum icon size in map in UI units
-constexpr int   MAP_MIN_ICON_SIZE = 50;
+constexpr int   MAP_MIN_ICON_SIZE = 40;
 /// Assumed size of an aircraft in m
 constexpr float MAP_AC_SIZE = 30.0f;
 
@@ -52,22 +52,29 @@ std::array<const char*, 2> ALL_MAPS = {
 // MARK: Map Drawing
 //
 
+/// Tests if x/y lies within the rect, given as a float[4] array
+bool IsInRect (float x, float y, const float bounds_ltrb[4])
+{
+    return ((bounds_ltrb[0] <= x) && (x < bounds_ltrb[2]) &&
+            (bounds_ltrb[3] <= y) && (y < bounds_ltrb[1]));
+}
+
 // Determine which map icon to use for this aircraft
 /// @details    MapIcon.png has the following models:\n
 ///             y\x  0     1      2                 \n
 ///             2   H1T   H2T    GLID       \n
 ///             1   L1P   L2P    L4P            \n
 ///             0 Default L2J    L4J            \n
-void Aircraft::FindMapIcon ()
+void Aircraft::MapFindIcon ()
 {
     // special cases based on icao type directly
     if (acIcaoType == "GLID" ||
         acIcaoType == "PARA" ||
         acIcaoType == "ULAC")
-    { mapX=2; mapY=2; }
+    { mapIconRow=2; mapIconCol=2; }
     else if (acIcaoType == "GYRO" ||
              acIcaoType == "UHEL")
-    { mapX=2; mapY=0; }
+    { mapIconRow=2; mapIconCol=0; }
     // now determine based on type and number of engines
     else {
         const Doc8643& doc8643 = Doc8643Get(acIcaoType);
@@ -79,37 +86,80 @@ void Aircraft::FindMapIcon ()
             case 'S':
             case 'T':
                 // Pick row based on Jet or no Jet
-                mapY = doc8643.GetClassEngType() == 'J' ? 0 : 1;
+                mapIconCol = doc8643.GetClassEngType() == 'J' ? 0 : 1;
                 // Pick column based on number of engines
-                mapX = doc8643.GetClassNumEng() >= '4' ? 2 :
+                mapIconRow = doc8643.GetClassNumEng() >= '4' ? 2 :
                        doc8643.GetClassNumEng() >= '2' ? 1 : 0;
                 break;
                 
                 // planes with rotos
             case 'H':
             case 'G':
-                mapY = 2;
+                mapIconCol = 2;
                 // Pick column based on number of engines
-                mapX = doc8643.GetClassNumEng() >= '2' ? 1 : 0;
+                mapIconRow = doc8643.GetClassNumEng() >= '2' ? 1 : 0;
                 break;
                 
                 // default
             default:
-                mapX = mapY = 0;
+                mapIconRow = mapIconCol = 0;
         }
     }
-
-
 }
 
-/// Tests if x/y lies within the rect, given as a float[4] array
-bool IsInRect (float x, float y, const float bounds_ltrb[4])
+// Prepare map coordinates
+void Aircraft::MapPreparePos (XPLMMapProjectionID  projection,
+                              const float boundsLTRB[4])
 {
-    {    return ((bounds_ltrb[0] <= x) && (x < bounds_ltrb[2]) &&
-                 (bounds_ltrb[3] <= y) && (y < bounds_ltrb[1])); }
+    if (IsVisible()) {
+        // Convert longitude/latitude to map coordinates
+        double lat = 0.0, lon = 0.0, alt_ft = 0.0;
+        GetLocation(lat, lon, alt_ft);
+        XPLMMapProject(projection, lat, lon, &mapX, &mapY);
+
+        // visible in current map? - Good!
+        if (IsInRect(mapX, mapY, boundsLTRB))
+            return;
+    }
+
+    // not visible (either hidden or out of visibility bounds)
+    mapX = mapY = NAN;
 }
+
+// Actually draw the map icon
+void Aircraft::MapDrawIcon (XPLMMapLayerID inLayer, const float acSize)
+{
+    // draw only if said to be visible on this map
+    if (!std::isnan(mapX) && !std::isnan(mapY)) {
+        XPLMDrawMapIconFromSheet(inLayer,
+                                 glob.mapIconsFileName.c_str(),
+                                 mapIconRow, mapIconCol,
+                                 MAP_ICON_WIDTH, MAP_ICON_HEIGHT,
+                                 mapX, mapY,
+                                 xplm_MapOrientation_Map,
+                                 drawInfo.heading,
+                                 acSize);
+    }
+}
+
+// Actually draw the map icon
+void Aircraft::MapDrawLabel (XPLMMapLayerID inLayer, float yOfs)
+{
+    // draw only if said to be visible on this map
+    if (!std::isnan(mapX) && !std::isnan(mapY)) {
+        XPLMDrawMapLabel(inLayer,
+                         label.c_str(),
+                         mapX, mapY + yOfs,
+                         xplm_MapOrientation_UI,
+                         0.0f);
+    }
+}
+
 
 /// Actually draw the icons into the map
+/// @details This call computes the labels location on the map
+///          and puts this info into the aircraft object.
+///          MapLabelDrawingCB() reuses the cached location info.
 void MapIconDrawingCB (XPLMMapLayerID       inLayer,
                        const float *        inMapBoundsLeftTopRightBottom,
                        float                , // zoomRatio,
@@ -126,43 +176,34 @@ void MapIconDrawingCB (XPLMMapLayerID       inLayer,
                                   // But to be able to identify an icon it needs a minimum size
                                   MAP_MIN_ICON_SIZE * mapUnitsPerUserInterfaceUnit);
 
-    // Draw icons for all visible aircraft
+    // Draw icons for all (visible) aircraft
     for (const auto& p: glob.mapAc) {
-        // Only for visible aircrafts
-        const Aircraft& ac = *p.second;
-        if (!ac.IsVisible())
-            continue;
-        
-        // Convert longitude/latitude to map coordinates
-        double lat = 0.0, lon = 0.0, alt_ft = 0.0;
-        float x = 0.0f, y = 0.0f;
-        ac.GetLocation(lat, lon, alt_ft);
-        XPLMMapProject(projection, lat, lon, &x, &y);
-        
-        // Draw the icon if position is visible
-        if (IsInRect(x, y, inMapBoundsLeftTopRightBottom))
-            XPLMDrawMapIconFromSheet(inLayer,
-                                     glob.mapIconsFileName.c_str(),
-                                     ac.mapX, ac.mapY,
-                                     MAP_ICON_WIDTH, MAP_ICON_HEIGHT,
-                                     x, y,
-                                     xplm_MapOrientation_Map,
-                                     ac.drawInfo.heading,
-                                     acSize);
-        
+        p.second->MapPreparePos(projection, inMapBoundsLeftTopRightBottom);
+        p.second->MapDrawIcon(inLayer, acSize);
     }
 }
 
 /// Actually draw the labels into th emap
 void MapLabelDrawingCB (XPLMMapLayerID       inLayer,
                         const float *        inMapBoundsLeftTopRightBottom,
-                        float                zoomRatio,
+                        float,               // zoomRatio,
                         float                mapUnitsPerUserInterfaceUnit,
-                        XPLMMapStyle         mapStyle,
-                        XPLMMapProjectionID  projection,
+                        XPLMMapStyle,        // mapStyle,
+                        XPLMMapProjectionID projection,
                         void *               )      // refcon
 {
-    
+    // How many map units does one a/c have "in reality"
+    const float m_per_mu = XPLMMapScaleMeter(projection,
+                                             inMapBoundsLeftTopRightBottom[2] - inMapBoundsLeftTopRightBottom[0],
+                                             inMapBoundsLeftTopRightBottom[1] - inMapBoundsLeftTopRightBottom[3]);
+    // Based on icon size determine how much the label needs to be put below the icon
+    const float yOfs = std::max(MAP_AC_SIZE * m_per_mu,
+                                // But to be able to identify an icon it needs a minimum size
+                                MAP_MIN_ICON_SIZE * mapUnitsPerUserInterfaceUnit) / -1.75f;
+
+    // Draw labels for all (visible) aircraft
+    for (const auto& p: glob.mapAc)
+        p.second->MapDrawLabel(inLayer, yOfs);
 }
 
 //

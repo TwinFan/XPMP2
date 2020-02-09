@@ -198,7 +198,7 @@ int Aircraft::ChangeModel (const std::string& _icaoType,
         pCSLMdl->IncRefCnt();
 
         // Determin map icon based on icao type
-        FindMapIcon();
+        MapFindIcon();
         
         // inform observers in case this was an actual replacement change
         if (bChangeExisting)

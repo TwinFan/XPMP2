@@ -144,8 +144,11 @@ protected:
     /// Distance to camera in meters (updated internally with every flightloop callback)
     float               distCamera = 0.0f;
     
-    int                 mapX = 0;       ///< map icon coordinates, row
-    int                 mapY = 0;       ///< map icon coordinates, column
+    // Data used for drawing icons in X-Plane's map
+    int                 mapIconRow = 0;     ///< map icon coordinates, row
+    int                 mapIconCol = 0;     ///< map icon coordinates, column
+    float               mapX = 0.0f;        ///< temporary: map coordinates (NAN = not to be drawn)
+    float               mapY = 0.0f;        ///< temporary: map coordinates (NAN = not to be drawn)
     
 public:
     /// Constructor
@@ -199,6 +202,17 @@ public:
     /// Is the plane visible?
     bool IsVisible () const { return bVisible; }
     
+    // The following is implemented in Map.cpp:
+    /// Determine which map icon to use for this aircraft
+    void MapFindIcon ();
+    /// Prepare map coordinates
+    void MapPreparePos (XPLMMapProjectionID  projection,
+                        const float boundsLTRB[4]);
+    /// Actually draw the map icon
+    void MapDrawIcon (XPLMMapLayerID inLayer, float acSize);
+    /// Actually draw the map label
+    void MapDrawLabel (XPLMMapLayerID inLayer, float yOfs);
+
 protected:
     /// Internal: Flight loop callback function
     static float FlightLoopCB (float, float, int, void*);
@@ -218,17 +232,6 @@ protected:
     void AISlotClear ();
     // These functions are called from AIMultiUpdate()
     friend void AIMultiUpdate ();
-    
-    // The following is implemented in Map.cpp:
-    /// Determine which map icon to use for this aircraft
-    void FindMapIcon ();
-    friend void MapIconDrawingCB (XPLMMapLayerID,
-                                  const float *,
-                                  float,
-                                  float,
-                                  XPLMMapStyle,
-                                  XPLMMapProjectionID,
-                                  void *);
 };
 
 /// Find aircraft by its plane ID, can return nullptr

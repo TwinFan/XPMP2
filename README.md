@@ -58,32 +58,21 @@ hinder a proper implementation to compile successfully, albeit with some new war
    `XPMPLoadCSLPackage`. If your code calls both `XPMPMultiplayerInitLegacyData` and
    `XPMPMultiplayerInit` you could remove the latter...but it should still work, just
    does some stuff twice.
-- `XPMPLoadCSLPackage` walks directries hierarchically up to 5 levels until it
+- `XPMPLoadCSLPackage` walks directories hierarchically up to 5 levels until it
    finds an `xsb_aircraft.txt` file. This should not affect classic usages,
    where such a path was just one level away from the `xsb_aircraft.txt` file.
    It would just also search deeper if needed.
+- `XPMPMultiplayerInitLegacyData` can take one more optional parameter,
+  `inMapIconFile`, which defines the full path to the `MapIcons.png` file,
+  which contains the icons shown in X-Plane's maps.\n
+  Its parameter `inTexturePath` is no longer required and can be `nullptr`.
+- It is no longer necessary to define the compile-time macros  
+The new function 
 
 I tested the compile-time compatibility with LiveTraffic successfully. LiveTraffic has
 always used subclassing of `XPCAircraft`, so I am very sure that
 implementations basing on this implementation model will just compile.
 There have been a lot less tests with the direct C-style interface using `XPMPCreatePlane()` et al.
-
-Compatibility with X-Plane 10 (planned)
---
-
-I am planning to even make this library compatible with XP10 to a certain extent.
-XP10 has no instancing, so most of the performance benefits are lost.
-The XP10 compatibility will base on the idea of the
-[instancing compatibility wrapper](https://developer.x-plane.com/code-sample/x-plane-10-instancing-compatibility-wrapper/),
-enhanced by support for non-writeable dataRefs and especially
-for dynamically identifying XP11 vs. XP10 by resolving function pointers
-using `XPLMFindSymbol`. The latter is practised already by LiveTraffic,
-which makes use of XP11 feature if available, but still runs on XP10, so there's
-quite some experience with it...
-
-The original library had quite exentensive code to avoid drawing in unnecessary cases.
-Instancing takes care of all that in XP11, so that code is not taken over. Be prepared that XPMP2
-will be less performant on XP10 than the original library is.
 
 Limits
 --
@@ -93,6 +82,11 @@ I considered no longer required:
 - `.acf` and OBJ7 models are no longer supported: XPMP2 requires OBJ8 models.
    These are the by far most used models nowadays, identified by the `OBJ8` command
    in the `xsb_aircraft.txt` file.
+   
+New Features
+--
+- Shows all aircraft in X-Plane's map views, with icons roughly related to the
+  plane's type and size.
 
 TODOs
 --
@@ -100,9 +94,9 @@ TODOs
 - Model loading / unloading
     - add garbage collection to models with reference counter zero, not used for a few minutes
 - Label writing
+    - Map: Make label writing configurable 
     - Expose maxLabelDist to some config function 
 - AI/Multiplayer dataRefs
-    - Standard X-Plane dataRefs
     - Shared dataRefs for providing textual information (test with FSTramp)
 - Add VERT_OFS auto detection
 - Test with camera...might still jitter

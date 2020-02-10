@@ -121,12 +121,8 @@ public:
 
     /// Global map of all CSL Packages, indexed by `xsb_aircraft.txt::EXPORT_NAME`
     mapCSLPackageTy mapCSLPkgs;
-    /// Global map of all CSL Models, indexed by ID (xsb_aircraft.txt::OBJ8_AIRCRAFT)
+    /// Global map of all CSL Models, indexed by related group, aircraft type, and model id
     mapCSLModelTy   mapCSLModels;
-    /// Map used for type-based matching, includes the models indexed by type/airline/livery
-    mapCSLModelPTy  mapCSLbyType;
-    /// Map used for related-group-based matching, includes the models indexed by related group/airline/livery
-    mapCSLModelPTy  mapCSLbyRelated;
     /// Default ICAO model type if no match can be found
     std::string     defaultICAO = "A320";
     /// Resource directory, to store local definitions of vertical offsets (clamping)
@@ -146,6 +142,8 @@ public:
     
     /// Do we feed X-Plane's maps with our aircraft positions?
     bool            bMapEnabled = true;
+    /// Do we show labels with the aircraft icons?
+    bool            bMapLabels = true;
     /// Map of map layer ids, i.e. for each map this is the id of the corresponding layer of ours
     mapMapLayerIDTy mapMapLayers;
     /// path to file containing plane icons for map display

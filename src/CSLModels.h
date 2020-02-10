@@ -109,6 +109,8 @@ protected:
     int                 related = 0;
     /// Reference counter: Number of Aircraft actively using this model
     unsigned refCnt = 0;
+    /// Time point when refCnt reached 0 (used in garbage collection)
+    std::chrono::steady_clock::time_point refZeroTs;
     
 public:
     /// Constructor
@@ -131,6 +133,7 @@ public:
     const std::string& GetIcaoAirline () const  { return icaoAirline; } ///< ICAO Airline code this model represents: `xsb_aircraft.txt::AIRLINE`
     const std::string& GetLivery () const       { return livery; }      ///< Livery code this model represents: `xsb_aircraft.txt::LIVERY`
     int GetRelatedGrp () const                  { return related; }     ///< "related" group for this model (a group of alike plane models), or 0
+    std::string GetKeyString () const;          ///< compiles the string used as key in the CSL model map
 
     // Data from Doc8643
     const Doc8643& GetDoc8643 () const          { return *doc8643; }    ///< Classification (like "L2P" or "L4J") and WTC (like "H" or "L/M")
@@ -138,6 +141,7 @@ public:
     char GetClassType () const                  { return doc8643->GetClassType(); }
     char GetClassNumEng () const                { return doc8643->GetClassNumEng(); }
     char GetClassEngType () const               { return doc8643->GetClassEngType(); }
+    bool HasRotor () const                      { return doc8643->HasRotor(); }
 
     /// Vertical Offset to be applied to aircraft model
     float GetVertOfs () const                   { return vertOfs; }
@@ -153,9 +157,15 @@ public:
     /// Increase the reference counter for Aircraft usage
     void IncRefCnt () { ++refCnt; }
     /// Decrease the reference counter for Aircraft usage
-    void DecRefCnt () { if (refCnt>0) --refCnt; }
+    void DecRefCnt ();
     /// Current reference counter
     unsigned GetRefCnt () const { return refCnt; }
+    
+    /// Unload all objects which haven't been used for a while
+    static float GarbageCollection (float  inElapsedSinceLastCall,
+                                    float  inElapsedTimeSinceLastFlightLoop,
+                                    int    inCounter,
+                                    void * inRefcon);
 
 protected:
     /// Start loading all objects
@@ -164,14 +174,11 @@ protected:
     void Unload ();
 };
 
-/// Map of CSLModels (owning the object)
+/// Map of CSLModels (owning the object), ordered by related group / type
 typedef std::map<std::string,CSLModel> mapCSLModelTy;
 
-/// Map of pointers to CSLModels (for lookup by different sorting keys)
-typedef std::map<std::string,CSLModel*> mapCSLModelPTy;
-
-/// List of pointers to CSLModels
-typedef std::list<CSLModel*> listCSLModelPTy;
+/// Multimap of pointers to CSLModels for matching purposes
+typedef std::multimap<unsigned long,CSLModel*> mmapCSLModelPTy;
 
 //
 // MARK: Global Functions
@@ -190,15 +197,19 @@ void CSLModelsCleanup ();
 const char* CSLModelsLoad (const std::string& _path,
                            int _maxDepth = 5);
 
-/// Find a model by name
-CSLModel* CSLModelByName (const std::string& _mdlName);
+/// @brief Find a model by name
+/// @param _mdlName The model's name (aka id) to search for
+/// @param[out] _pOutIter Optional pointer to an iterator variable, receiving the iterator position of the found model
+CSLModel* CSLModelByName (const std::string& _mdlName,
+                          mapCSLModelTy::iterator* _pOutIter = nullptr);
 
 /// @brief Find a matching model
 /// @param _type ICAO aircraft type like "A319"
 /// @param _airline ICAO airline code like "DLH"
 /// @param _livery Any specific livery code, in LiveTraffic e.g. the tail number
 /// @param[out] pModel Receives the pointer to the matching CSL model, or NULL if nothing found
-/// @return The number of passes needed to find a match, the lower the better the quality
+/// @return The number of passes needed to find a match, the lower the better the quality,
+///         negative is error.
 int CSLModelMatching (const std::string& _type,
                       const std::string& _airline,
                       const std::string& _livery,

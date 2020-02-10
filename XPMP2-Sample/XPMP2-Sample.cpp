@@ -15,6 +15,7 @@
 ///             1. "Toggle Planes" creates/removes the planes.
 ///             2. "Toggle Visibility" shows/temporary hides the planes without destroying them.
 ///             3. "Cycle Models" changes the CSL model used per plane.
+///                 Also, it flips the visibility of labels in the map view...just for a change.
 ///
 ///             For the plugin to work properly some CSL models are necessary in some folders
 ///             under `Resources` (all folders under `Resources` are scanned for
@@ -79,8 +80,8 @@
 /// @see https://forums.x-plane.org/index.php?/files/file/37041-bluebell-obj8-csl-packages/ for the Bluebell package, which includes the models named here
 std::string PLANE_MODEL[3][3] = {
     { "B06",  "TXB", "" },
-    { "AT76", "NOK", "" },
-    { "A321", "DLH", "" },
+    { "DH8A", "BER", "" },
+    { "A321", "", "" },         // Not specifying the airline means: XPMP2 will randomly take any airline's model - with every switch of models
 };
 
 //
@@ -712,6 +713,9 @@ XPLMMenuID hMenu = nullptr;
 /// Planes currently visible?
 bool gbVisible = true;
 
+/// Labels currently shown in map view?
+bool gbMapLabels = true;
+
 /// for cycling CSL models: what is the index used for the first plane?
 int gModelIdxBase = 0;
 
@@ -816,6 +820,11 @@ void PlanesCycleModels ()
                              PLANE_MODEL[(gModelIdxBase+2)%3][0].c_str(),  // type
                              PLANE_MODEL[(gModelIdxBase+2)%3][1].c_str(),  // airline
                              PLANE_MODEL[(gModelIdxBase+2)%3][2].c_str()); // livery
+    
+    // Completely unrelated...just for a change and for testing that functionality:
+    // We also toggle the display of labels in the map:
+    gbMapLabels = !gbMapLabels;
+    XPMPEnableMap(true, gbMapLabels);
 }
 
 /// Callback function for menu

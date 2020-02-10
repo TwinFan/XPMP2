@@ -190,4 +190,11 @@ const Doc8643& Doc8643Get (const std::string& _type)
     catch (const std::out_of_range&) { return DOC8643_EMPTY; }
 }
 
+// Is the given aircraft type a valid ICAO type as per Doc8643?
+bool Doc8643IsTypeValid (const std::string& _type)
+{
+    return glob.mapDoc8643.count(_type) > 0;
+}
+
+
 }   // namespace XPMP2

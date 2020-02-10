@@ -728,8 +728,12 @@ bool XPMPDrawingAircraftLabels();
 //       Enable or disable the drawing of icons on maps
 //
 
-/// Enable or disable the drawing of aircraft icons on X-Plane's map in a separate Layer names after the plugin
-void XPMPEnableMap (bool _bEnable);
+/// @brief Enable or disable the drawing of aircraft icons on X-Plane's map
+/// @param _bEnable Enable or disable entire map functionality
+/// @param _bLabels If map is enabled, shall also labels be drawn?
+/// @details XPMP2 creates a separate Map Layer named after the plugin for this purposes.
+///          By default, the map functionality is enabled including label writing.
+void XPMPEnableMap (bool _bEnable, bool _bLabels = true);
 
 #ifdef __cplusplus
 }

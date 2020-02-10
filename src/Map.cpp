@@ -192,6 +192,9 @@ void MapLabelDrawingCB (XPLMMapLayerID       inLayer,
                         XPLMMapProjectionID projection,
                         void *               )      // refcon
 {
+    // Return at once if label drawing is off
+    if (!glob.bMapLabels) return;
+    
     // How many map units does one a/c have "in reality"
     const float m_per_mu = XPLMMapScaleMeter(projection,
                                              inMapBoundsLeftTopRightBottom[2] - inMapBoundsLeftTopRightBottom[0],
@@ -312,8 +315,11 @@ void MapCleanup ()
 using namespace XPMP2;
 
 // Enable or disable the drawing of aircraft icons on X-Plane's map in a separate Layer names after the plugin
-void XPMPEnableMap (bool _bEnable)
+void XPMPEnableMap (bool _bEnable, bool _bLabels)
 {
+    // The label setting is just to be saved, no matter what
+    glob.bMapLabels = _bLabels;
+    
     // Short cut for no change
     if (glob.bMapEnabled == _bEnable) return;
     

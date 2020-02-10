@@ -47,14 +47,19 @@ namespace XPMP2 {
 #define WARN_IGNORED_COMMANDS   "Following commands ignored: "
 
 #define ERR_MATCH_NO_MODELS     "MATCH ABORTED - There is not any single CSL model available!"
-#define DEBUG_MATCH_START       "MATCH START   - Type=%s Airline=%s Livery=%s Group=%d"
-#define DEBUG_MATCH_DOC8643     " MATCH DOC8643 - WTC=%s Classification=%s Airline=%s"
-#define DEBUG_MATCH_PASS        "    MATCH PASS %2d - key=%s"
-#define DEBUG_MATCH_FOUND       "MATCH FOUND   - %s %s %s - model %s - quality %d"
-#define DEBUG_MATCH_NOTFOUND    "MATCH NOT FOUND, using a RANDOM model: %s %s %s - model %s"
+#define DEBUG_MATCH_INPUT       "MATCH INPUT: Type=%s (WTC=%s,Class=%s,Related=%d), Airline=%s, Livery=%s"
+#define DEBUG_MATCH_FOUND       "MATCH FOUND: Type=%s (WTC=%s,Class=%s,Related=%d), Airline=%s, Livery=%s / Quality = %d"
+#define DEBUG_MATCH_NOTFOUND    "MATCH ERROR: Using a RANDOM model: %s %s %s - model %s"
+
+/// The ids of our garbage collection flight loop callback
+XPLMFlightLoopID gGarbageCollectionID = nullptr;
+/// How often to call the garbage collection [s]
+constexpr float GARBAGE_COLLECTION_PERIOD = 60.0f;
+/// Unload an unused object after how many seconds?
+constexpr int GARBAGE_COLLECTION_TIMEOUT = 180;
 
 //
-// MARK: CSLModel Implementation
+// MARK: CSL Object Implementation
 //
 
 // Destructor makes sure the XP object is removed, too
@@ -117,17 +122,24 @@ void CSLObj::XPObjLoadedCB (XPLMObjectRef inObject,
     pairOfStrTy* p = reinterpret_cast<pairOfStrTy*>(inRefcon);
     
     // try finding the CSL model object in the global map
-    try {
-        CSLModel& csl = glob.mapCSLModels.at(p->first);
-        
+    mapCSLModelTy::iterator cslIter;
+    CSLModel* pCsl = CSLModelByName(p->first, &cslIter);
+    if (!pCsl) {
+        // CSL model not found in global map -> release the X-Plane object right away
+        LOG_MSG(logERR, ERR_OBJ_NOT_FOUND, p->first.c_str());
+        if (inObject)
+            XPLMUnloadObject(inObject);
+    }
+    else
+    {
         // find the object by path
-        listCSLObjTy::iterator iter = std::find_if(csl.listObj.begin(),
-                                                   csl.listObj.end(),
+        listCSLObjTy::iterator iter = std::find_if(pCsl->listObj.begin(),
+                                                   pCsl->listObj.end(),
                                                    [p](const CSLObj& o)
                                                    { return o.path == p->second; });
         
         // found?
-        if (iter != csl.listObj.end()) {
+        if (iter != pCsl->listObj.end()) {
             // Loading succeeded -> save the object and state
             if (inObject) {
                 iter->xpObj      = inObject;
@@ -135,19 +147,16 @@ void CSLObj::XPObjLoadedCB (XPLMObjectRef inObject,
                 LOG_MSG(logDEBUG, DEBUG_OBJ_LOADED,
                         iter->cslId.c_str(), iter->path.c_str());
             }
-            // Loading failed!
+            // Loading of CSL object failed! -> remove the entire CSL model
+            // so we don't try again and don't use it in matching
             else {
                 iter->Invalidate();
+                glob.mapCSLModels.erase(cslIter);
             }
         } else {
             LOG_MSG(logERR, ERR_OBJ_OBJ_NOT_FOUND, p->first.c_str());
             XPLMUnloadObject(inObject);
         }
-    }
-    // CSL model not found in global map -> release the X-Plane object right away
-    catch (const std::out_of_range&) {
-        LOG_MSG(logERR, ERR_OBJ_NOT_FOUND, p->first.c_str());
-        XPLMUnloadObject(inObject);
     }
     
     // free up the memory for the copy of the ids
@@ -160,17 +169,44 @@ void CSLObj::Invalidate ()
     xpObj       = NULL;
     xpObjState  = OLS_INVALID;
     LOG_MSG(logERR, ERR_OBJ_NOT_LOADED, cslId.c_str(), path.c_str());
-
-    // TODO: Remove the CLSModel entirely, or at least from matching
 }
 
 //
 // MARK: CSLModel Implementation
 //
 
+std::string CSLModelGetKeyStr (int _related,
+                               const std::string& _type,
+                               const std::string& _id)
+{
+    char buf[255];
+    snprintf(buf, sizeof(buf), "%04d|%s|%s",
+             _related,
+             _type.c_str(),
+             _id.c_str());
+    
+    // remove trailing pipe symbols, need for proper lower-bound search
+    while (buf[strlen(buf)-1] == '|')
+        buf[strlen(buf)-1] = '\0';
+    
+    return buf;
+}
+
 // Destructor frees resources
 CSLModel::~CSLModel ()
 {
+    // All aircrafts that still use me need a new model!
+    // (Note: During shutdown, wenn all destructors are called,
+    //        all aircraft should already be gone anyway and, hence,
+    //        this loop is actually empty. This is only a safeguard
+    //        during operations, e.g. due to invalidation after
+    //        a failed object load, which is a rare case.)
+    // Note: This assumes, that the model to-be-deleted is already
+    //       technically removed from the map of models.
+    for (auto& p: glob.mapAc)
+        if (p.second->GetModel() == this)
+            p.second->ReMatchModel();
+    
     // last chance to unload the objects
     Unload();
     
@@ -190,6 +226,12 @@ void CSLModel::SetIcaoType (const std::string& _type)
     icaoType = _type;
     doc8643 = & Doc8643Get(_type);
     related = RelatedGet(_type);
+}
+
+// compiles the string used as key in the CSL model map
+std::string CSLModel::GetKeyString () const
+{
+    return CSLModelGetKeyStr(related, icaoType, cslId);
 }
 
 // (Minimum) )State of the X-Plane objects: Is it being loaded or available?
@@ -225,6 +267,35 @@ std::list<XPLMObjectRef> CSLModel::GetAllObjRefs ()
     return bFullyLoaded ? l : std::list<XPLMObjectRef>();
 }
 
+// Decrease the reference counter for Aircraft usage
+void CSLModel::DecRefCnt ()
+ {
+     if (refCnt>0) {
+         if (--refCnt == 0) {
+             // reached zero...remember when for later garbage collection
+             refZeroTs = std::chrono::steady_clock::now();
+         }
+     }
+ }
+
+// Static functions: Unload all objects which haven't been used for a while
+float CSLModel::GarbageCollection (float, float, int, void*)
+{
+    const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+    // loop all models
+    for (auto& p: glob.mapCSLModels) {
+        CSLModel& mdl = p.second;
+        // loaded, but reference counter zero, and timeout reached
+        if (mdl.GetObjState() == OLS_AVAILABLE &&
+            mdl.GetRefCnt() == 0 &&
+            now - mdl.refZeroTs > std::chrono::seconds(GARBAGE_COLLECTION_TIMEOUT))
+            // unload the object
+            mdl.Unload();
+    }
+    
+    return GARBAGE_COLLECTION_PERIOD;
+}
+
 // Start loading all objects
 void CSLModel::Load ()
 {
@@ -248,18 +319,6 @@ void CSLModel::Unload ()
 ///          into a full path pointing to a concrete file and verifies the file's existence.
 /// @return Empty if any validation fails, otherwise a full path to an existing .obj file
 std::string CSLModelsConvPackagePath (const std::string& pkgPath, int lnNr, bool bPkgOptional = false);
-
-/// returns a 3-part matching string
-inline std::string MATCH_STR(const std::string& _t, const std::string& _a, const std::string& _l)
-{
-    if (!_a.empty() || !_l.empty())         // _a or _l are defined, or both?
-        return _t + '|' + _a + '|' + _l;
-    else
-        return _t;                          // neither _a nor _l are defined
-}
-
-/// A string that should be larger than any ASCII text
-#define MATCH_HIGH "~~~~"
 
 /// Adds a readily defined CSL model to all the necessary maps
 void CSLModelsAdd (CSLModel& csl);
@@ -301,22 +360,6 @@ void AcTxtLine_MATCHES (CSLModel& csl,
 void AcTxtLine_OBJECT_AIRCRAFT (CSLModel& csl,
                                 const std::string& ln,
                                 int lnNr);
-
-/// Finds the matching range according to given parameters in the given map, then returns a random element from that range
-/// @return Anything found, ie. `pModel` filled?
-bool CSLMatchFind (const std::string& _type,
-                   const std::string& _airline,
-                   const std::string& _livery,
-                   const int quality,
-                   const mapCSLModelPTy& map,
-                   CSLModel* &pModel);
-
-/// Finds a model according to matching with WTC and Classification as taken from Doc8643
-bool CSLMatchDoc8643 (const std::string& _type,
-                      const std::string& _airline,
-                      int& quality,
-                      CSLModel* &pModel);
-
 
 //
 // MARK: Internal Functions
@@ -382,26 +425,14 @@ std::string CSLModelsConvPackagePath (const std::string& pkgPath,
 // Adds a readily defined CSL model to all the necessary maps, resets passed-in reference
 void CSLModelsAdd (CSLModel& _csl)
 {
-    // the main map, which actually "owns" the object, indexed by model id
-    auto p = glob.mapCSLModels.emplace(_csl.GetId(), std::move(_csl));
+    // the main map, which actually "owns" the object, indexed by key
+    auto p = glob.mapCSLModels.emplace(_csl.GetKeyString(), std::move(_csl));
     if (!p.second) {                    // not inserted, ie. not a new entry!
         LOG_MSG(logWARN, WARN_DUP_MODEL, p.first->second.GetId().c_str());
         return;
     }
     // properly reset the passed-in reference
     _csl = CSLModel();
-    
-    // the newly inserted object
-    CSLModel& csl = p.first->second;
-    
-    // the matching map, indexed by aircraft type | airline | livery
-    glob.mapCSLbyType.emplace(MATCH_STR(csl.GetIcaoType(), csl.GetIcaoAirline(), csl.GetLivery()),
-                              &csl);
-    
-    // the matching map, indexed by related group | airline | livery
-    std::string relGrp = std::to_string(csl.GetRelatedGrp());
-    glob.mapCSLbyRelated.emplace(MATCH_STR(relGrp, csl.GetIcaoAirline(), csl.GetLivery()),
-                                 &csl);
 }
 
 
@@ -700,12 +731,32 @@ void AcTxtLine_MATCHES (CSLModel& csl,
 
 // Initialization
 void CSLModelsInit ()
-{}
+{
+    // Create the flight loop callback (unscheduled) if not yet there
+    if (!gGarbageCollectionID) {
+        XPLMCreateFlightLoop_t cfl = {
+            sizeof(XPLMCreateFlightLoop_t),                 // size
+            xplm_FlightLoop_Phase_AfterFlightModel,         // phase
+            CSLModel::GarbageCollection,                    // callback function
+            nullptr                                         // refcon
+        };
+        gGarbageCollectionID = XPLMCreateFlightLoop(&cfl);
+    }
+    
+    // Schedule the flight loop callback to be called next flight loop cycle
+    XPLMScheduleFlightLoop(gGarbageCollectionID, GARBAGE_COLLECTION_PERIOD, 1);
+}
 
 
 // Grace cleanup
 void CSLModelsCleanup ()
 {
+    // stop the garbage collection
+    if (gGarbageCollectionID) {
+        XPLMDestroyFlightLoop(gGarbageCollectionID);
+        gGarbageCollectionID = nullptr;
+    }
+    
     // Clear out all model objects, will in turn unload all X-Plane objects
     glob.mapCSLModels.clear();
     // Clear out all packages
@@ -743,19 +794,26 @@ const char* CSLModelsLoad (const std::string& _path,
 
 
 // Find a model by name
-CSLModel* CSLModelByName (const std::string& _mdlName)
+CSLModel* CSLModelByName (const std::string& _mdlName,
+                          mapCSLModelTy::iterator* _pOutIter)
 {
     // try finding the model by name
-    try {
-        CSLModel& mdl = glob.mapCSLModels.at(_mdlName);
-        if (mdl.IsObjInvalid())            // don't return invalid models
-            return nullptr;
-        return &mdl;
-    }
-    catch (const std::out_of_range&) {
-        // Model not found
+    mapCSLModelTy::iterator iter =
+    std::find_if(glob.mapCSLModels.begin(),
+                 glob.mapCSLModels.end(),
+                 [_mdlName](const mapCSLModelTy::value_type& csl)
+                 { return csl.second.GetId() == _mdlName; });
+    
+    // If requested, also return the iterator itself
+    if (_pOutIter)
+        *_pOutIter = iter;
+    
+    // not found, or invalid?
+    if (iter == glob.mapCSLModels.end() || iter->second.IsObjInvalid())
         return nullptr;
-    }
+    
+    // Success
+    return &iter->second;
 }
 
 //
@@ -783,117 +841,153 @@ IteratorT iterRnd (IteratorT lower, IteratorT upper)
     return lower;
 }
 
-// Tries dinding a match using Doc8643 data like WTC and classification
-/// @details    There are no pre-filled maps like in normal matching.
-///             Doc8643 matching is used less often and would require many maps,
-///             So we just scan all models once and keep lists of models that match
-/// @details    The following quality levels are considered:
-///             1. airline, WTC, full configuration (size, engines, engine type)
-///             2. airline, WTC, number of engines, engine type
-///             3. WTC, full configuration
-///             4. WTC, number of engines, engine type
-///             5. airline, WTC, number of engines
-///             6. airline, WTC, engine type
-///             7. WTC, number of engines
-///             8. WTC, engine type
-///             9. airline, WTC
-///             10. WTC
-bool CSLMatchDoc8643 (const std::string& _type,
-                      const std::string& _airline,
-                      int& quality,
-                      CSLModel* &pModel)
+/// @brief      Tries finding a match using both aircraft and Doc8643 attributes
+/// @details    Each attribute is represented by a bit in a bit mask.
+///             Lower priority attributes are represented by low value bits,
+///             and vice versa high prio match criteria by high value bits.
+///             The bit is 0 if the attribute matches and 1 if not.
+///             The resulting numeric value of the bitmask is considered
+///             the match quality: The lower the number the better the quality.
+bool CSLFindMatch (const std::string& _type,
+                   const std::string& _airline,
+                   const std::string& _livery,
+                   bool bIgnoreNoMatch,
+                   int& quality,
+                   CSLModel* &pModel)
 {
+    // How many parameters will we compare?
+    constexpr unsigned DOC8643_MATCH_PARAMS = 9;
+    constexpr unsigned DOC8643_MATCH_WORST_QUAL = 2 << DOC8643_MATCH_PARAMS;
+    
+    // if there aren't any models we won't find any either
+    if (glob.mapCSLModels.empty()) {
+        quality += DOC8643_MATCH_WORST_QUAL;
+        return false;
+    }
+
     // The Doc8643 definition for the wanted aircraft type
     const Doc8643& doc8643 = Doc8643Get(_type);
-    if (doc8643.empty())                    // if we don't know the wanted type it makes no sense trying to match it
-        return false;
+    const bool bDocEmpty = doc8643.empty();
     
-    LOG_MATCHING(logINFO, DEBUG_MATCH_DOC8643,
-                 doc8643.wtc, doc8643.classification, _airline.c_str());
+    // The related group depends on the ICAO aircraft type and can be zero
+    // (zero = not part of any related-group)
+    const int related = RelatedGet(_type);
+    
+    LOG_MATCHING(logINFO, DEBUG_MATCH_INPUT,
+                 _type.c_str(),
+                 doc8643.wtc, doc8643.classification, related,
+                 _airline.c_str(),
+                 _livery.c_str());
     
     // A string copy makes comparisons easier later on
     const std::string wtc = doc8643.wtc;
     
-    // We do a full scan of the complete map of models
+    // We can do a full scan of the complete set of all models
     // and save models that match per pass.
-    listCSLModelPTy lst[10];
-    for (auto& p: glob.mapCSLModels)
+    // The folloing multimap stores potential models, with matching pass as the key
+    mmapCSLModelPTy mm;
+    unsigned long bestMatchYet = DOC8643_MATCH_WORST_QUAL;
+    
+    // However, most matches are done with ICAO aircraft type given,
+    // which implies a "related" group.
+    // We can narrow down the set of models to scan if we find one with
+    // matching group/type.
+    
+    // 1. Related Group + Type
+    std::string key = CSLModelGetKeyStr(related, _type, "");
+    mapCSLModelTy::iterator mStart = glob.mapCSLModels.lower_bound(key);
+    key = CSLModelGetKeyStr(related, _type, "~~~~");
+    mapCSLModelTy::iterator mEnd = glob.mapCSLModels.upper_bound(key);
+    // no models found matching the specific type?
+    if (mStart == mEnd) {
+        // 2. Related Group only, irrespective of type
+        key = CSLModelGetKeyStr(related, "", "");
+        mStart = glob.mapCSLModels.lower_bound(key);
+        key = CSLModelGetKeyStr(related, "~~~~", "~~~~");
+        mEnd = glob.mapCSLModels.upper_bound(key);
+        // No models found matching the related group?
+        if (mStart == mEnd) {
+            // well, then search all models
+            mStart = glob.mapCSLModels.begin();
+            mEnd   = glob.mapCSLModels.end();
+        }
+    }
+
+    // Now scan all CSL models in the defined range
+    for (mapCSLModelTy::iterator mIter = mStart;
+         mIter != mEnd;
+         ++mIter)
     {
-        if (wtc == p.second.GetWTC())  {            // WTC matches?
-            // save the important comparisons
-            const bool bAirline     = p.second.GetIcaoAirline() == _airline;
-            const bool bClassType   = p.second.GetClassType()   == doc8643.GetClassType();
-            const bool bClassNumEng = p.second.GetClassNumEng() == doc8643.GetClassNumEng();
-            const bool bClassEngType= p.second.GetClassEngType()== doc8643.GetClassEngType();
+        CSLModel& mdl = mIter->second;
 
-            // Now add the model to all lists where the conditions per pass meet
-            if (bAirline && bClassType && bClassNumEng && bClassEngType) lst[0].push_back(&p.second);
-            if (bAirline               && bClassNumEng && bClassEngType) lst[1].push_back(&p.second);
-            if (            bClassType && bClassNumEng && bClassEngType) lst[2].push_back(&p.second);
-            if (                          bClassNumEng && bClassEngType) lst[3].push_back(&p.second);
-            if (bAirline               && bClassNumEng                 ) lst[4].push_back(&p.second);
-            if (bAirline                               && bClassEngType) lst[5].push_back(&p.second);
-            if (                          bClassNumEng                 ) lst[6].push_back(&p.second);
-            if (                                          bClassEngType) lst[7].push_back(&p.second);
-            if (bAirline                                               ) lst[8].push_back(&p.second);
-            lst[9].push_back(&p.second);            // All are pass 10 candidates (as WTC match is a precondition to get here)
-        } // WTC
+        // Now we calculate match quality. Consider each of the following
+        // comparisions to represent a bit in the final quality,
+        // with lowest priority (livery) in the lowest bit and
+        // highest (has rotor) in the highest  (most significant) bit.
+        // Bit is zero if matches, non-zero if not => lowest number is best quality
+        std::bitset<DOC8643_MATCH_PARAMS> matchQual;
+        // Lower part matches on very detailed parameters
+        matchQual.set(0, _livery.empty()    || mdl.GetLivery()      != _livery);
+        matchQual.set(1, _airline.empty()   || mdl.GetIcaoAirline() != _airline);
+        matchQual.set(2, _type.empty()      || mdl.GetIcaoType()    != _type);
+        matchQual.set(3, related == 0       || mdl.GetRelatedGrp()  != related);
+        // Upper part matches on generic "size/type of aircraft" parameters,
+        // which are expected to match anyway if the above (like group/ICAO type) match
+        matchQual.set(4, bDocEmpty          || mdl.GetClassEngType()!= doc8643.GetClassEngType());
+        matchQual.set(5, bDocEmpty          || mdl.GetClassNumEng() != doc8643.GetClassNumEng());
+        matchQual.set(6, bDocEmpty          || mdl.GetWTC()         != wtc);
+        matchQual.set(7, bDocEmpty          || mdl.GetClassType()   != doc8643.GetClassType());
+        matchQual.set(8, bDocEmpty          || mdl.HasRotor()       != doc8643.HasRotor());
+        
+        // If we are to ignore the doc8643 matches (in case of no doc8643 found)
+        // then we completely ignore models which don't match at all
+        if (!bIgnoreNoMatch || !matchQual.all())
+        {
+            // Add the model into the map (if we do not already
+            // have better-category matches: We don't need to store
+            // quality 32 any longer if we know we already found a quality 1 match)
+            if (matchQual.to_ulong() <= bestMatchYet) {
+                bestMatchYet = matchQual.to_ulong();
+                mm.emplace(bestMatchYet, &mdl);
+            }
+        }
     }
     
-    // In which pass did we find a match first?
-    int i = 0;
-    for (; i < 10 && lst[i].empty(); ++i);
-
-    // Nowhere!
-    if (i >= 10) {
-        quality += 10;
+    // Potentially, we didn't find anything if we were to ignore some matches
+    if (bIgnoreNoMatch && mm.empty()) {
+        quality += DOC8643_MATCH_WORST_QUAL;
         return false;
     }
     
-    // We use any more or less random model in that list of possible models
-    pModel = *(iterRnd(lst[i].cbegin(), lst[i].cend()));
-    quality += i+1;
-    return true;
-}
-
-// Finds the matching range according to given parameters in the given map,
-// then returns a random element from that range
-bool CSLMatchFind (const std::string& _type,
-                   const std::string& _airline,
-                   const std::string& _livery,
-                   const int quality,
-                   const mapCSLModelPTy& map,
-                   CSLModel* &pModel)
-{
-    const std::string mStr = MATCH_STR(_type, _airline, _livery);
-    LOG_MATCHING(logDEBUG, DEBUG_MATCH_PASS, quality, mStr.c_str());
-    // find first matching element (if any), then the upper bound
-    // (by replacing empty values with HIGH values)
-    mapCSLModelPTy::const_iterator cslLower = map.lower_bound(mStr);
-    const std::string uStr = MATCH_STR(_type,
-                                       _airline.empty() ? MATCH_HIGH : _airline,
-                                       _livery.empty()  ? MATCH_HIGH : _livery);
-    mapCSLModelPTy::const_iterator cslUpper = map.upper_bound(uStr);
+    // So: We _must_ have found something
+    LOG_ASSERT(bestMatchYet < DOC8643_MATCH_WORST_QUAL);
+    quality += bestMatchYet;
+    quality++;                  // ...because bestMatchYet is zero-based
     
-    // found nothing?
-    if (cslLower == cslUpper)
-        return false;
+    // Of those relevant (having the best possible match quality)
+    // we return any more or less randomly chosen model out of that list of possible models
+    auto pairIter = mm.equal_range(bestMatchYet);
+    pModel = iterRnd(pairIter.first, pairIter.second)->second;
+    
+    LOG_MATCHING(logINFO, DEBUG_MATCH_FOUND,
+                 pModel->GetIcaoType().c_str(),
+                 pModel->GetWTC(),
+                 pModel->GetDoc8643().classification,
+                 pModel->GetRelatedGrp(),
+                 pModel->GetIcaoAirline().c_str(),
+                 pModel->GetLivery().c_str(),
+                 quality);
 
-    // We use any more or less random model in that range [lower, uppper)
-    pModel = iterRnd(cslLower, cslUpper)->second;
     return true;
 }
 
-/// @details    Matching happens in the following passes:
-/// @details    type/related group/airline/livery-related:\n
-///             1. Match of type / airline / livery\n
-///             2. Match of type / airline
-///             3. Match of related group / airline / livery
-///             4. Match of related group / airline
-///             5. Match of type\n
-///             6. Match of related group\n
-///             7.-16. Match against WTC/Classification as per Doc8643 (see CSLMatchDoc8643())
-///             17.-32. Another round of the same match attempts, but now based on the default ICAO
+/// @details    Matching happens usually in just one pass by calling
+///             CSLFindMatch().\n
+///             The only exception is if the passed-in aircraft type is _not_ an official
+///             ICAO type (which is what doc8643-matching bases on).
+///             In that case, the first pass is done without doc8643-matching.
+///             If that pass found no actual match,
+///             then there is a second pass based on the default ICAO type.
 int CSLModelMatching (const std::string& _type,
                       const std::string& _airline,
                       const std::string& _livery,
@@ -906,59 +1000,22 @@ int CSLModelMatching (const std::string& _type,
     pModel = nullptr;
     
     // ...and let's stop right away if there is _absolutely no model_
+    // (otherwise we will return one, no matter of how bad the matching quality is)
     if (glob.mapCSLModels.empty()) {
         LOG_MSG(logERR, ERR_MATCH_NO_MODELS);
         return -1;
     }
-
-    // Loop is primarily for early exit via `break`,
-    // but also for 2 passes, one for _type, one for glob.defaultICAO
-    for (std::string type = _type;;)
+    
+    // Loop is for trying the given type, plus occasionally also the default type.
+    // If no type is given at all we use the default type:
+    for (std::string type = _type.empty() ? glob.defaultICAO : _type;;)
     {
-        // the "related" group of the current type (_type or defaultICAO)
-        const int related = RelatedGet(type);
-        const std::string relGrp = std::to_string(related);
-        LOG_MATCHING(logINFO, DEBUG_MATCH_START,
-                     type.c_str(), _airline.c_str(), _livery.c_str(), related);
+        if (CSLFindMatch(type, _airline, _livery,
+                         // First pass not using Doc8643 matching?
+                         type != glob.defaultICAO && !Doc8643IsTypeValid(type),
+                         quality, pModel))
+            return quality;
         
-        // -- 1. Exact Match of type / airline / livery --
-        if (!_livery.empty() && !_airline.empty()) {
-            if (CSLMatchFind(type, _airline, _livery, ++quality, glob.mapCSLbyType, pModel))
-                break;
-        } else { ++quality; }
-        
-        // -- 2. Range Match of type / airline (across any livery)
-        if (!_airline.empty()) {
-            if (CSLMatchFind(type, _airline, "", ++quality, glob.mapCSLbyType, pModel))
-                break;
-        } else { ++quality; }
-        
-        if (!_livery.empty() && !_airline.empty() && related > 0) {
-            // -- 3. Exact Match of related group / airline / livery
-            if (CSLMatchFind(relGrp, _airline, _livery, ++quality, glob.mapCSLbyRelated, pModel))
-                break;
-        } else { ++quality; }
-        
-        // -- 4. Range Match of related group / airline (across any livery)
-        if (!_airline.empty() && related > 0) {
-            if (CSLMatchFind(relGrp, _airline, "", ++quality, glob.mapCSLbyRelated, pModel))
-                break;
-        } else { ++quality; }
-
-        // -- 5. Range Match of type, across any airline and livery
-        if (CSLMatchFind(type, "", "", ++quality, glob.mapCSLbyType, pModel))
-            break;
-        
-        // -- 6. Range Match of related group, across any airline and livery (only if there is a group defined!)
-        if (related > 0) {
-            if (CSLMatchFind(relGrp, "", "", ++quality, glob.mapCSLbyRelated, pModel))
-                break;
-        } else { ++quality; }
-        
-        // -- 7.-16. Match against WTC/Classification as per Doc8643 (see CSLMatchDoc8643())
-        if (CSLMatchDoc8643(type, _airline, quality, pModel))
-            break;
-
         // Can we do another loop, now with the default ICAO?
         if (type == glob.defaultICAO)
             break;                          // no, already identical (or just done)
@@ -967,27 +1024,19 @@ int CSLModelMatching (const std::string& _type,
         type = glob.defaultICAO;
     } // outer for loop
     
-    // Now...found anything?
-    if (pModel) {
-        LOG_MATCHING(logINFO, DEBUG_MATCH_FOUND,
-                     pModel->GetIcaoType().c_str(),
-                     pModel->GetIcaoAirline().c_str(),
-                     pModel->GetLivery().c_str(),
-                     pModel->GetId().c_str(),
-                     quality);
-        // return the quality, ie. the number of passes required before successful
-        return quality;
-    } else {
-        // Found no matching model...as a last resort we just use _any random_ model
-        pModel = iterRnd(glob.mapCSLbyType.cbegin(),
-                         glob.mapCSLbyType.cend())->second;
-        LOG_MATCHING(logWARN, DEBUG_MATCH_NOTFOUND,
-                     pModel->GetIcaoType().c_str(),
-                     pModel->GetIcaoAirline().c_str(),
-                     pModel->GetLivery().c_str(),
-                     pModel->GetId().c_str());
-        return -1;
-    }
+    // Actually...we must not get here. CSLFindMatch will return any model
+    // if `bIgnoreNoMatch` is `false`. And it is `false` latest in the
+    // second round.
+
+    // ...as a last resort we just use _any random_ model
+    pModel = &(iterRnd(glob.mapCSLModels.begin(),
+                       glob.mapCSLModels.end())->second);
+    LOG_MATCHING(logWARN, DEBUG_MATCH_NOTFOUND,
+                 pModel->GetIcaoType().c_str(),
+                 pModel->GetIcaoAirline().c_str(),
+                 pModel->GetLivery().c_str(),
+                 pModel->GetId().c_str());
+    return quality+1;
 }
 
 }       // namespace XPMP2

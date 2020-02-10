@@ -77,7 +77,8 @@ hinder a proper implementation to compile successfully, albeit with some new war
 I tested the compile-time compatibility with LiveTraffic successfully. LiveTraffic has
 always used subclassing of `XPCAircraft`, so I am very sure that
 implementations basing on this implementation model will just compile.
-There have been a lot less tests with the direct C-style interface using `XPMPCreatePlane()` et al.
+There have been less tests with the direct C-style interface using `XPMPCreatePlane()` et al.,
+mostly using the sample plugin included in the package.
 
 Limits
 --
@@ -111,8 +112,6 @@ standard C functions.
 TODOs
 --
 
-- Model loading / unloading
-    - add garbage collection to models with reference counter zero, not used for a few minutes
 - Label writing
     - Map: Make label writing configurable 
     - Expose maxLabelDist to some config function 

@@ -103,16 +103,10 @@ mPlane(glob.NextPlaneId())              // assign the next synthetic plane id
     drawInfo.structSize = sizeof(drawInfo);
     
     // if given try to find the CSL model to use by its name
-    if (!_modelName.empty()) {
-        pCSLMdl = CSLModelByName(_modelName);
-        if (!pCSLMdl) {
-            LOG_MSG(logWARN, WARN_MODEL_NOT_FOUND, _modelName.c_str());
-        } else {
-            matchQuality = 0;
-        }
-    }
+    if (!_modelName.empty())
+        AssignModel(_modelName);
     
-    // Let Matching happen
+    // Let Matching happen, if we still don't have a model
     if (!pCSLMdl)
         ChangeModel(_icaoType, _icaoAirline, _livery);
     LOG_ASSERT(pCSLMdl);
@@ -219,21 +213,32 @@ bool Aircraft::AssignModel (const std::string& _modelName)
     }
 
     // Is this a change to the currently used model?
-    if (pMdl && pCSLMdl && pMdl != pCSLMdl) {
+    const bool bChangeExisting = (pCSLMdl && pMdl != pCSLMdl);
+    if (bChangeExisting) {
         LOG_MSG(logINFO, INFO_MODEL_CHANGE,
                 (long long unsigned)mPlane,
                 pCSLMdl->GetId().c_str(),
                 pMdl->GetId().c_str());
         DestroyInstances();                 // remove the current instance (which is based on the previous model)
-        pCSLMdl         = pMdl;             // save the newly selected model
-        matchQuality    = 0;
-        acIcaoType      = pCSLMdl->GetIcaoType();
-        acIcaoAirline   = pCSLMdl->GetIcaoAirline();
-        acLivery        = pCSLMdl->GetLivery();
-
-        // inform observers
-        XPMPSendNotification(*this, xpmp_PlaneNotification_ModelChanged);
+        // Decrease the reference counter of the CSL model
+        pCSLMdl->DecRefCnt();
     }
+    pCSLMdl         = pMdl;             // save the newly selected model
+    matchQuality    = 0;
+    acIcaoType      = pCSLMdl->GetIcaoType();
+    acIcaoAirline   = pCSLMdl->GetIcaoAirline();
+    acLivery        = pCSLMdl->GetLivery();
+
+    // Increase the reference counter of the CSL model to track that the object is being used
+    pCSLMdl->IncRefCnt();
+
+    // Determin map icon based on icao type
+    MapFindIcon();
+    
+    // inform observers
+    if (bChangeExisting)
+        XPMPSendNotification(*this, xpmp_PlaneNotification_ModelChanged);
+
     return true;
 }
 

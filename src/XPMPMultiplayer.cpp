@@ -45,6 +45,9 @@ const char *    XPMPMultiplayerInitLegacyData(const char * inCSLFolder,
                                               float (* inFloatPrefsFunc)(const char *, const char *, float),
                                               const char * inMapIconFile)
 {
+    // Initialize random number generator
+    std::srand(unsigned(std::time(nullptr)));
+    
     // Save the path to the map icons file, if it exists
     if (inMapIconFile)
     {
@@ -235,8 +238,7 @@ int         XPMPModelMatchQuality(const char *              inICAO,
 bool            XPMPIsICAOValid(const char *                inICAO)
 {
     if (!inICAO) return false;
-    const Doc8643& doc8643 = Doc8643Get(inICAO);
-    return !doc8643.empty();
+    return Doc8643IsTypeValid(inICAO);
 }
 
 //

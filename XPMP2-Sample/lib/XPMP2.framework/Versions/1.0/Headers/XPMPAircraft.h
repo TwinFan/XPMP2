@@ -170,8 +170,12 @@ public:
     int ChangeModel (const std::string& _icaoType,
                      const std::string& _icaoAirline,
                      const std::string& _livery);
+    /// Find a match again, using the existing parameters, eg. after more models have been loaded
+    int ReMatchModel () { return ChangeModel(acIcaoType,acIcaoAirline,acLivery); }
     /// Assigns the given model per name, returns if successful
     bool AssignModel (const std::string& _modelName);
+    /// return a pointer to the CSL model in use (Note: The CSLModel structure is not public.)
+    XPMP2::CSLModel* GetModel () const { return pCSLMdl; }
     /// return the name of the CSL model in use
     std::string GetModelName () const;
     /// quality of the match with the CSL model

@@ -74,6 +74,8 @@ public:
     char GetClassType () const      { return classification[0]; }
     char GetClassNumEng () const    { return classification[1]; }
     char GetClassEngType () const   { return classification[2]; }
+    bool HasRotor () const          { return (classification[0] == 'H' ||
+                                              classification[0] == 'G'); }
 };
 
 /// Map of Doc8643 information, key is the (icao) type code
@@ -86,6 +88,8 @@ const char* Doc8643Load (const std::string& _path);
 /// @return If no match can be found a reference to a standard empty object is returned.
 const Doc8643& Doc8643Get (const std::string& _type);
 
+/// Is the given aircraft type a valid ICAO type as per Doc8643?
+bool Doc8643IsTypeValid (const std::string& _type);
 
 }
 

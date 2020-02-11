@@ -112,9 +112,6 @@ standard C functions.
 TODOs
 --
 
-- BUG: CSLModels seem to point to wrong Doc8643, at least with LiveTraffic!
-That will affect matching! Double loading...? Actually...we must not refresh the
-structure as models might already point to the Doc8643 entries.
 - Label writing
     - Map: Make label writing configurable 
     - Expose maxLabelDist to some config function 

@@ -49,14 +49,15 @@ constexpr size_t SERR_LEN = 255;
 // Read the `related.txt` file, full path passed in
 const char* RelatedLoad (const std::string& _path)
 {
+    // No need to read more than once
+    if (!glob.mapRelated.empty())
+        return "";
+    
     // Open the related.txt file
     LOG_MSG(logDEBUG, DEBUG_READ_RELATED, _path.c_str());
     std::ifstream fRelated (TOPOSIX(_path));
     if (!fRelated || !fRelated.is_open())
         return ERR_RELATED_NOT_FOUND;
-    
-    // Reset our knowledge
-    glob.mapRelated.clear();
     
     // read the file line by line and keep track of the line number as the internal id
     for (int lnNr = 1; fRelated; ++lnNr)
@@ -124,15 +125,17 @@ Doc8643::Doc8643 (const std::string& _classification,
 // reads the Doc8643 file into mapDoc8643
 const char* Doc8643Load (const std::string& _path)
 {
+    // must not read more than once!
+    // CSLModels might already refer to these objects if already loaded.
+    if (!glob.mapDoc8643.empty())
+        return "";
+    
     // open the file for reading
     std::ifstream fIn (TOPOSIX(_path));
     if (!fIn || !fIn.is_open())
         return ERR_DOC8643_NOT_FOUND;
     LOG_MSG(logDEBUG, DEBUG_READ_DOC8643, _path.c_str());
 
-    // clear the map, just in case
-    glob.mapDoc8643.clear();
-    
     // regular expression to extract individual values, separated by TABs
     enum { DOC_MANU=1, DOC_MODEL, DOC_TYPE, DOC_CLASS, DOC_WTC, DOC_EXPECTED };
     const std::regex re("^([^\\t]+)\\t"                   // manufacturer

@@ -8,8 +8,8 @@ RUN apt-get install -y --no-install-recommends build-essential ninja-build sudo 
   && curl -sSL https://cmake.org/files/v3.12/cmake-3.12.3-Linux-x86_64.tar.gz \
      | tar -xz -C /usr/local/ --strip-components=1
 
-# XPMP2 - Only set up to compile on Linux and MacOS.
-#         mingw is not (yet) suitable to compile C++ 17 with full C++ library support
+# Only set up to compile on Linux and MacOS.
+# mingw is not (yet) suitable to compile C++ 17 with full C++ library support
 
 # Install Windows cross-compiling toolchain (MinGW).
 # RUN apt-get install -y --no-install-recommends mingw-w64 g++-mingw-w64 && apt-get clean

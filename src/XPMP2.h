@@ -149,6 +149,14 @@ public:
     /// path to file containing plane icons for map display
     std::string     mapIconsFileName;
     
+#ifdef DEBUG
+    /// Current XP cycle number (see XPLMGetCycleNumber())
+    int             xpCycleNum = 0;
+#define UPDATE_CYCLE_NUM glob.xpCycleNum=XPLMGetCycleNumber();
+#else
+#define UPDATE_CYCLE_NUM
+#endif
+    
 protected:
     /// Current plane ID counter
     unsigned long long  planeId = 0;
@@ -167,5 +175,7 @@ public:
 extern GlobVars glob;
 
 }       // namespace XPMP2
+
+
 
 #endif

@@ -39,8 +39,8 @@ using namespace XPMP2;
 
 namespace XPMP2 {
 
-/// The ids of our flight loop callbacks
-XPLMFlightLoopID gFlightLoopID[2] = {nullptr, nullptr};
+/// The id of our flight loop callback
+XPLMFlightLoopID gFlightLoopID = nullptr;
 
 /// The list of dataRefs we support to be read by the CSL Model (for gear, flaps, lights etc.)
 const char * DR_NAMES[] = {
@@ -118,23 +118,19 @@ mPlane(glob.NextPlaneId())              // assign the next synthetic plane id
     // make sure the flight loop callback gets called if this was the first a/c
     if (glob.mapAc.size() == 1) {
         // Create the flight loop callback (unscheduled) if not yet there
-        if (!gFlightLoopID[0]) {
+        if (!gFlightLoopID) {
             XPLMCreateFlightLoop_t cfl = {
                 sizeof(XPLMCreateFlightLoop_t),                 // size
                 xplm_FlightLoop_Phase_BeforeFlightModel,        // phase
                 FlightLoopCB,                                   // callback function
                 (void*)xplm_FlightLoop_Phase_BeforeFlightModel  // refcon
             };
-            gFlightLoopID[0] = XPLMCreateFlightLoop(&cfl);
-            cfl.phase = xplm_FlightLoop_Phase_AfterFlightModel;
-            cfl.refcon = (void*)xplm_FlightLoop_Phase_AfterFlightModel;
-            gFlightLoopID[1] = XPLMCreateFlightLoop(&cfl);
+            gFlightLoopID = XPLMCreateFlightLoop(&cfl);
         }
         
         // Schedule the flight loop callback to be called next flight loop cycle
-        XPLMScheduleFlightLoop(gFlightLoopID[0], -1.0f, 0);
-        XPLMScheduleFlightLoop(gFlightLoopID[1], -1.0f, 0);
-        LOG_MSG(logDEBUG, "Flight loop callbacks started");
+        XPLMScheduleFlightLoop(gFlightLoopID, -1.0f, 0);
+        LOG_MSG(logDEBUG, "Flight loop callback started");
     }
 }
 
@@ -257,39 +253,31 @@ float Aircraft::GetVertOfs () const
 }
 
 // Static: Flight loop callback function
-float Aircraft::FlightLoopCB (float, float, int, void* refCon)
+float Aircraft::FlightLoopCB (float, float, int, void*)
 {
-    // as a refCon, we receive the flight loop phase
-    XPLMFlightLoopPhaseType phase = (XPLMFlightLoopPhaseType)(long long)refCon;
+    UPDATE_CYCLE_NUM;               // DEBUG only: Store current cycle number in glob.xpCycleNum
     
-    switch (phase) {
-        case xplm_FlightLoop_Phase_BeforeFlightModel:
-            // Update configuration
-            glob.UpdateCfgVals();
-            
-            // Move all planes
-            for (mapAcTy::value_type& pair: glob.mapAc)
-                pair.second->DoMove();
-            break;
-
-        case xplm_FlightLoop_Phase_AfterFlightModel:
-            // Need the camera's position to calculate the a/c's distance to it
-            XPLMCameraPosition_t posCamera;
-            XPLMReadCameraPosition(&posCamera);
-            
-            // Update positional and configurational values
-            for (mapAcTy::value_type& pair: glob.mapAc) {
-                pair.second->UpdatePosition();
-                // Update plane's distance
-                pair.second->UpdateDistCamera(posCamera);
-            }
-            
-            // Publish aircraft data on the AI/multiplayer dataRefs
-            AIMultiUpdate();
-            
-            break;
+    // Update configuration
+    glob.UpdateCfgVals();
+    
+    // Need the camera's position to calculate the a/c's distance to it
+    XPLMCameraPosition_t posCamera;
+    XPLMReadCameraPosition(&posCamera);
+    
+    // Update positional and configurational values
+    for (mapAcTy::value_type& pair: glob.mapAc) {
+        pair.second->UpdatePosition();
+        // Update plane's distance
+        pair.second->UpdateDistCamera(posCamera);
     }
     
+    // Move all planes
+    for (mapAcTy::value_type& pair: glob.mapAc)
+        pair.second->DoMove();
+
+    // Publish aircraft data on the AI/multiplayer dataRefs
+    AIMultiUpdate();
+            
     // Don't call me again if there are no more aircraft,
     if (glob.mapAc.empty()) {
         LOG_MSG(logDEBUG, "Flight loop callback ended");
@@ -475,7 +463,7 @@ Aircraft(inICAOCode, inAirline, inLivery, inModelName ? inModelName : "")
 void XPCAircraft::UpdatePosition()
 {
     // Call the "callback" virtual functions and then update the core variables
-    acPos.multiIdx = GetMultiIdx();             // provide the multiplayer index back to the plugin
+    acPos.multiIdx = 			GetMultiIdx();             // provide the multiplayer index back to the plugin
     if (GetPlanePosition(&acPos) == xpmpData_NewData) {
         // Set the position and orientation
         SetLocation(acPos.lat, acPos.lon, acPos.elevation);
@@ -583,11 +571,9 @@ void AcCleanup ()
     glob.mapAc.clear();
     
     // Destroy flight loop
-    if (gFlightLoopID[0]) {
-        XPLMDestroyFlightLoop(gFlightLoopID[0]);
-        XPLMDestroyFlightLoop(gFlightLoopID[1]);
-        gFlightLoopID[0] = nullptr;
-        gFlightLoopID[1] = nullptr;
+    if (gFlightLoopID) {
+        XPLMDestroyFlightLoop(gFlightLoopID);
+        gFlightLoopID = nullptr;
     }
     
     // Unregister dataRefs

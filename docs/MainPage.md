@@ -10,6 +10,17 @@ Quick Links:
 
 - <a href=files.html>File List</a>
 
+Order of Callback Execution per Cycle
+--
+
+1. Aircraft::FlightLoopCB(), `xplm_FlightLoop_Phase_BeforeFlightModel`
+3. AIControlPlaneCount(), `inIsBefore = 1`
+4. AIControlPlaneCount(), `inIsBefore = 0`
+5. CPLabelDrawing()
+6. AIControlPlaneCount(), `inIsBefore = 1`
+7. AIControlPlaneCount(), `inIsBefore = 0`
+8. CPLabelDrawing()
+
 Links to outside locations:
 --
 

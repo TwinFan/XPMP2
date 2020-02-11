@@ -556,10 +556,12 @@ int AIControlPlaneCount (XPLMDrawingPhase,  // inPhase
                          int                inIsBefore,
                          void *)            // inRefcon
 {
+    UPDATE_CYCLE_NUM;               // DEBUG only: Store current cycle number in glob.xpCycleNum
     // only if we are in control
     if (XPMPHasControlOfAIAircraft()) {
         XPLMSetActiveAircraftCount(inIsBefore ? 1 :
-                                   1 + int(glob.maxMultiIdxUsed));
+                                   // "+2" because one plane is the user's plane, and also maxMultiIdxUsed is zero based
+                                   2 + int(glob.maxMultiIdxUsed));
     }
     return 1;
 }

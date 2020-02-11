@@ -112,15 +112,15 @@ standard C functions.
 TODOs
 --
 
+- BUG: CSLModels seem to point to wrong Doc8643, at least with LiveTraffic!
+That will affect matching! Double loading...? Actually...we must not refresh the
+structure as models might already point to the Doc8643 entries.
 - Label writing
     - Map: Make label writing configurable 
     - Expose maxLabelDist to some config function 
 - AI/Multiplayer dataRefs
     - Shared dataRefs for providing textual information (test with FSTramp)
 - Add VERT_OFS auto detection
-- Test with camera...might still jitter
-    - Test with ABC
-    - Consider a "next position" and also multiplayer dataRef handling in AIMultiUpdate()
 - Support replacing textures with the extended syntax `OBJ8 SOLID YES <obj> <texture> <texture_lit>`
     - basically do what CSL2XSB.py does with respect to TEXTURE / TEXTURE_LIT
     - definition should already be read from `xsb_aircraft.txt`

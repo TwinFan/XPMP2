@@ -112,8 +112,9 @@ if (WIN32)
 elseif (APPLE)
     # X-Plane supports OS X 10.10+, so this should ensure FlyWithLua can run on
     # all supported versions.
-    target_compile_options(XPMP2-Sample PUBLIC -mmacosx-version-min=10.10)
-    target_link_libraries(XPMP2-Sample -mmacosx-version-min=10.10)
+    target_compile_options(XPMP2-Sample PUBLIC -mmacosx-version-min=10.11)
+    target_link_libraries(XPMP2-Sample -mmacosx-version-min=10.11)
+    
     # Restrict set of symbols exported from the plugin. This reduces changes of
     # conflict with other plugins, in particular ones with Lua interpreter
     # embedded.

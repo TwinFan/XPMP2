@@ -356,6 +356,7 @@ int CPLabelDrawing (XPLMDrawingPhase     /*inPhase*/,
                     int                  /*inIsBefore*/,
                     void *               /*inRefcon*/)
 {
+    UPDATE_CYCLE_NUM;               // DEBUG only: Store current cycle number in glob.xpCycleNum
     const bool bShadow = XPLMGetDatai(drWorldRenderTy) != 0;
     const bool bBlend  = XPLMGetDatai(drPlaneRenderTy) == 2;
     

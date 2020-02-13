@@ -102,7 +102,7 @@ public:
     logLevelTy      logLvl      = logWARN;
     /// Debug model matching?
     bool            bLogMdlMatch= false;
-    /// Clamp all planes to the ground?
+    /// Clamp all planes to the ground? Default is `false` as clamping is kinda expensive due to Y-Testing.
     bool            bClampAll   = false;
     /// Name of the plugin we are serving (mostly for Log.txt output formatting)
     std::string     pluginName  = UNKNOWN_PLUGIN_NAME;
@@ -134,6 +134,8 @@ public:
     bool            bDrawLabels = true;
     /// Maximum distance for drawing labels? [m]
     float           maxLabelDist = 5000.0f;
+    /// Label font scaling factor
+    float           labelFontScaling = 1.0f;
     
     /// Do we control X-Plane's AI/Multiplayer planes?
     bool            bHasControlOfAIAircraft = false;
@@ -166,7 +168,8 @@ public:
 
 public:
     /// Constructor
-    GlobVars (logLevelTy _logLvl = logWARN) : logLvl(_logLvl) {}
+    GlobVars (logLevelTy _logLvl = logWARN, bool _logMdlMatch = false) :
+    logLvl(_logLvl), bLogMdlMatch(_logMdlMatch) {}
     /// Update all settings, e.g. for logging level, by calling prefsFuncInt
     void UpdateCfgVals ();
 };

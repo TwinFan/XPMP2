@@ -109,7 +109,7 @@ std::vector<multiDataRefsTy>        gMultiRef;
 typedef std::map<float,Aircraft&> mapAcByDistTy;
 
 // Resets all actual values of the AI/multiplayer dataRefs of one plane to something initial
-void AIMultiClearDataRefs (multiDataRefsTy& mdr);
+void AIMultiClearDataRefs (multiDataRefsTy& mdr, bool bDeactivateToZero = false);
 
 // Find and reserve an AI slot for the given aircraft
 int Aircraft::AISlotReserve ()
@@ -394,12 +394,14 @@ void AIMultiUpdate ()
 //
 
 /// Resets all actual values of the AI/multiplayer dataRefs of one plane to something initial
-void AIMultiClearDataRefs (multiDataRefsTy& mdr)
+void AIMultiClearDataRefs (multiDataRefsTy& mdr,
+                           bool bDeactivateToZero)
 {
     mdr.bSlotTaken = false;
-    XPLMSetDataf(mdr.X, FAR_AWAY_VAL_GL);       // a "far away" location
-    XPLMSetDataf(mdr.Y, FAR_AWAY_VAL_GL);
-    XPLMSetDataf(mdr.Z, FAR_AWAY_VAL_GL);
+    // either a "far away" location or standard 0, which is, however, a valid location somewhere!
+    XPLMSetDataf(mdr.X, bDeactivateToZero ? 0.0f : FAR_AWAY_VAL_GL);
+    XPLMSetDataf(mdr.Y, bDeactivateToZero ? 0.0f : FAR_AWAY_VAL_GL);
+    XPLMSetDataf(mdr.Z, bDeactivateToZero ? 0.0f : FAR_AWAY_VAL_GL);
     
     XPLMSetDataf(mdr.v_x, 0.0f);                // zero speed
     XPLMSetDataf(mdr.v_y, 0.0f);
@@ -642,7 +644,7 @@ void XPMPMultiplayerDisable()
     
     // Cleanup our values
     XPLMSetActiveAircraftCount(1);
-    XPMPInitMultiplayerDataRefs();
+    XPMPInitMultiplayerDataRefs(true);
 
     // Then fully release AI/multiplayer planes
     XPLMReleasePlanes();
@@ -656,10 +658,10 @@ bool XPMPHasControlOfAIAircraft()
 }
 
 /// Reset all (controlled) multiplayer dataRef values of all planes
-void XPMPInitMultiplayerDataRefs()
+void XPMPInitMultiplayerDataRefs(bool bDeactivateToZero)
 {
     if (XPMPHasControlOfAIAircraft())
         for (multiDataRefsTy& mdr : gMultiRef)
-            AIMultiClearDataRefs(mdr);
+            AIMultiClearDataRefs(mdr, bDeactivateToZero);
 }
 

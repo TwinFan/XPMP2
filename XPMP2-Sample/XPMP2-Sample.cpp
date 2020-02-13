@@ -104,20 +104,14 @@ void LogMsg (const char* szMsg, ... )
 
 /// This is a callback the XPMP2 calls regularly to learn about configuration settings.
 /// Only 3 are left, all of them integers.
-int CBIntPrefsFunc (const char * section, const char * item, int defaultVal)
+int CBIntPrefsFunc (const char *, const char * item, int defaultVal)
 {
-    if (!strcmp(section, "planes")) {
-        // We always want clamping to ground
-        if (!strcmp(item, "clamp_all_to_ground")) return 1;
-    }
 #if DEBUG
     // in debug version of the plugin we provide most complete log output
-    else if (!strcmp(section, "debug")) {
-        if (!strcmp(item, "model_matching")) return 1;
-        if (!strcmp(item, "log_level")) return 0;       // DEBUG logging level
-    }
+    if (!strcmp(item, "model_matching")) return 1;
+    if (!strcmp(item, "log_level")) return 0;       // DEBUG logging level
 #endif
-    // For any other settings we accept defaults
+    // Otherwise we just accept defaults
     return defaultVal;
 }
 
@@ -218,28 +212,6 @@ positionTy FindCenterPos (float dist)
     pos.z -= cos(head_rad) * dist;              // south axis
     
     return pos;
-}
-
-/// Find ground altitude, i.e. change the position to be at ground altitude
-void PlaceOnGround (positionTy& pos)
-{
-    // first call, don't have handle?
-    static XPLMProbeRef hProbe = nullptr;
-    if (!hProbe)
-        hProbe = XPLMCreateProbe(xplm_ProbeY);
-    
-    // let the probe drop...
-    XPLMProbeInfo_t probeInfo { sizeof(probeInfo), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    if (XPLMProbeTerrainXYZ(hProbe,
-                            (float)pos.x,
-                            (float)pos.y,
-                            (float)pos.z,
-                            &probeInfo) != xplm_ProbeError) {
-        // transfer the result back
-        pos.x = probeInfo.locationX;
-        pos.y = probeInfo.locationY;
-        pos.z = probeInfo.locationZ;
-    }
 }
 
 /// Put the position on a circle around itself
@@ -429,7 +401,7 @@ public:
         outPosition->heading        = std::fmod(90.0f + angle, 360.0f);
         strcpy ( outPosition->label, "XPCAircraft subclassed");
         outPosition->offsetScale    = 1.0f;             // so that full vertical offset is applied and plane sits on its wheels (should probably always be 1.0)
-        outPosition->clampToGround  = true;
+        outPosition->clampToGround  = false;
         outPosition->aiPrio         = 1;
         outPosition->label_color[0] = 1.0f;             // yellow
         outPosition->label_color[1] = 1.0f;
@@ -551,7 +523,6 @@ XPMPPlaneCallbackResult SetPositionData (XPMPPlanePosition_t& data)
     const float angle = std::fmod(240.0f + 360.0f * GetTimeFragment(), 360.0f);
     positionTy pos = FindCenterPos(PLANE_DIST_M);               // relative to user's plane
     CirclePos(pos, angle, PLANE_RADIUS_M);                      // turning around a circle
-    PlaceOnGround(pos);                                         // this one is always on the ground
 
     // fill the XPMP2 data structure
     
@@ -566,14 +537,16 @@ XPMPPlaneCallbackResult SetPositionData (XPMPPlanePosition_t& data)
                      &data.lat,
                      &data.lon,
                      &data.elevation);      // elevation is now given in meter
-    data.elevation /= M_per_FT;             // put it is expected in feet!
-    
+
+    // We place this plane firmly on the ground using XPMP2's "ground clamping"
+    data.elevation = -500.0f;               // below ground
+    data.clampToGround  = true;             // move on ground
+
     data.pitch          = 0.0f;             // plane stays level
     data.roll           = 0.0f;
     data.heading        = std::fmod(90.0f + angle, 360.0f);
     strcpy ( data.label, "Standard C");
     data.offsetScale    = 1.0f;             // so that full vertical offset is applied and plane sits on its wheels (should probably always be 1.0)
-    data.clampToGround  = true;
     data.aiPrio         = 1;
     data.label_color[0] = 1.0f;             // yellow
     data.label_color[1] = 1.0f;
@@ -888,20 +861,21 @@ PLUGIN_API int XPluginEnable(void)
     std::string resourcePath = szPath;
     resourcePath += "Resources";            // should now be something like ".../Resources/plugins/XPMP2-Sample/Resources"
 
-    // Try initializing XPMP2. Although the function is "...Legacy..."
-    // it actually includes all infos in just one go...
-    const char *res = XPMPMultiplayerInitLegacyData (resourcePath.c_str(),
-                                                     (resourcePath + pathSep + "related.txt").c_str(),
-                                                     nullptr,       // TexturePath is no longer used
-                                                     (resourcePath + pathSep + "Doc8643.txt").c_str(),
-                                                     "C172",        // default model ICAO
-                                                     CBIntPrefsFunc,
-                                                     nullptr,
-                                                     (resourcePath + pathSep + "MapIcons.png").c_str());
+    // Try initializing XPMP2:
+    const char *res = XPMPMultiplayerInit (CBIntPrefsFunc, nullptr, // configuration callback function
+                                           resourcePath.c_str(),    // path to write userVertOfs.txt to
+                                           "XPMP2-Sample",          // plugin name
+                                           "C172",                  // default ICAO type
+                                           (resourcePath + pathSep + "MapIcons.png").c_str());
     if (res[0]) {
         LogMsg("XPMP2-Sample: Initialization of XPMP2 failed: %s", res);
         return 0;
     }
+    
+    // Load our CSL models
+    res = XPMPLoadCSLPackage(resourcePath.c_str(),      // CSL folder root path
+                             (resourcePath + pathSep + "related.txt").c_str(),
+                             (resourcePath + pathSep + "Doc8643.txt").c_str());
     
     // Now we also try to get control of AI planes. That's optional, though,
     // other plugins (like LiveTraffic, XSquawkBox, X-IvAp...)

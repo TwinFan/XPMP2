@@ -25,7 +25,7 @@ namespace XPMP2 {
 // The one and only global variable structure
 
 #if DEBUG
-GlobVars glob (logDEBUG);
+GlobVars glob (logDEBUG, true);
 #else
 GlobVars glob;
 #endif
@@ -49,30 +49,25 @@ float   PrefsFuncFloatDefault   (const char *, const char *, float _default)
 // Update all config values, e.g. for logging level, by calling prefsFuncInt
 void GlobVars::UpdateCfgVals ()
 {
+    // Let's not do it too often, shall we?
+    static time_t timLstCheck = 0;
+    time_t now = time(nullptr);
+    if (now < timLstCheck+2)        // at most every 2 seconds
+        return;
+    timLstCheck = now;
+    
     LOG_ASSERT(prefsFuncInt);
     
     // Ask for logging level
-    int i = prefsFuncInt(CFG_SEC_DEBUG, CFG_ITM_LOGLEVEL,
-#if DEBUG
-                         logDEBUG
-#else
-                         logWARN
-#endif
-                         );
+    int i = prefsFuncInt(XPMP_CFG_SEC_DEBUG, XPMP_CFG_ITM_LOGLEVEL, logLvl);
     if (logDEBUG <= i && i <= logINFO)
         logLvl = logLevelTy(i);
     
     // Ask for model matching logging
-    bLogMdlMatch = prefsFuncInt(CFG_SEC_DEBUG, CFG_ITM_MODELMATCHING,
-#if DEBUG
-                                1
-#else
-                                0
-#endif
-                                ) != 0;
+    bLogMdlMatch = prefsFuncInt(XPMP_CFG_SEC_DEBUG, XPMP_CFG_ITM_MODELMATCHING, bLogMdlMatch) != 0;
     
     // Ask for clam-to-ground config
-    bClampAll = prefsFuncInt(CFG_SEC_PLANES, CFG_ITM_CLAMPALL, 0) != 0;
+    bClampAll = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_CLAMPALL, bClampAll) != 0;
 }
 
 //

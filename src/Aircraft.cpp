@@ -36,6 +36,7 @@ using namespace XPMP2;
 #define DEBUG_INSTANCE_CREATED  "Aircraft %llu: Instance created"
 #define DEBUG_INSTANCE_DESTRYD  "Aircraft %llu: Instance destroyed"
 #define INFO_MODEL_CHANGE       "Aircraft %llu: Changing model from %s to %s"
+#define ERR_YPROBE              "Aircraft %llu: Could not create Y-Probe for terrain testing!"
 
 namespace XPMP2 {
 
@@ -148,6 +149,12 @@ Aircraft::~Aircraft ()
 
     // remove myself from the global map of planes
     glob.mapAc.erase(mPlane);
+    
+    // remove the Y Probe
+    if (hProbe) {
+        XPLMDestroyProbe(hProbe);
+        hProbe = nullptr;
+    }
 }
 
 
@@ -266,15 +273,18 @@ float Aircraft::FlightLoopCB (float, float, int, void*)
     
     // Update positional and configurational values
     for (mapAcTy::value_type& pair: glob.mapAc) {
-        pair.second->UpdatePosition();
+        // Have the aircraft provide up-to-date position and orientation values
+        Aircraft& ac = *pair.second;
+        ac.UpdatePosition();
+        // If request, clamp to ground, ie. make sure it is not below ground
+        if (ac.bClampToGround || glob.bClampAll)
+            ac.ClampToGround();
         // Update plane's distance
-        pair.second->UpdateDistCamera(posCamera);
+        ac.UpdateDistCamera(posCamera);
+        // Actually move the plane, ie. the instance that represents it
+        ac.DoMove();
     }
     
-    // Move all planes
-    for (mapAcTy::value_type& pair: glob.mapAc)
-        pair.second->DoMove();
-
     // Publish aircraft data on the AI/multiplayer dataRefs
     AIMultiUpdate();
             
@@ -302,6 +312,37 @@ void Aircraft::DoMove ()
     }
 }
 
+// Clamp to ground: Make sure the plane is not below ground, corrects Aircraft::drawInfo if needed.
+void Aircraft::ClampToGround ()
+{
+    // Make sure we have a probe object
+    if (!hProbe)
+        hProbe = XPLMCreateProbe(xplm_ProbeY);
+    if (!hProbe) {
+        LOG_MSG(logERR, ERR_YPROBE, (long long unsigned)mPlane);
+        bClampToGround = false;
+        return;
+    }
+    
+    // Where's the ground?
+    XPLMProbeInfo_t infoProbe = {
+        sizeof(XPLMProbeInfo_t),            // structSIze
+        0.0f, 0.0f, 0.0f,                   // location
+        0.0f, 0.0f, 0.0f,                   // normal vector
+        0.0f, 0.0f, 0.0f,                   // velocity vector
+        0                                   // is_wet
+    };
+    if (XPLMProbeTerrainXYZ(hProbe,
+                            drawInfo.x, drawInfo.y, drawInfo.z,
+                            &infoProbe) == xplm_ProbeHitTerrain)
+    {
+        // if currently the aircraft would be below ground,
+        // then lift it on the ground
+        infoProbe.locationY += GetVertOfs();
+        if (drawInfo.y < infoProbe.locationY)
+            drawInfo.y = infoProbe.locationY;
+    }
+}
 
 // Internal: Update the plane's distance from the camera location
 void Aircraft::UpdateDistCamera (const XPLMCameraPosition_t& posCam)
@@ -470,11 +511,12 @@ void XPCAircraft::UpdatePosition()
         drawInfo.pitch      = acPos.pitch;
         drawInfo.roll       = acPos.roll;
         drawInfo.heading    = acPos.heading;
-        // Update the other values from acNextPos
+        // Update the other values from acPos
         label               = acPos.label;
-        memmove(colLabel, acPos.label_color, sizeof(colLabel));
-        vertOfsRatio        = acPos.clampToGround ? acPos.offsetScale : 0.0f;
+        vertOfsRatio        = acPos.offsetScale;
+        bClampToGround      = acPos.clampToGround;
         aiPrio              = acPos.aiPrio;
+        memmove(colLabel, acPos.label_color, sizeof(colLabel));
     }
     
     if (GetPlaneSurfaces(&acSurfaces) == xpmpData_NewData) {

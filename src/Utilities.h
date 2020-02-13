@@ -29,14 +29,6 @@ namespace XPMP2 {
 
 #define ERR_ASSERT              "ASSERT FAILED: %s"
 
-// Config items read via preferences callback functions
-#define CFG_SEC_PLANES          "planes"
-#define CFG_ITM_CLAMPALL        "clamp_all_to_ground"
-
-#define CFG_SEC_DEBUG           "debug"
-#define CFG_ITM_LOGLEVEL        "log_level"
-#define CFG_ITM_MODELMATCHING   "model_matching"
-
 //
 // MARK: Default configuration callbacks
 //

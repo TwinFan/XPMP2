@@ -59,12 +59,13 @@ bool IsInRect (float x, float y, const float bounds_ltrb[4])
             (bounds_ltrb[3] <= y) && (y < bounds_ltrb[1]));
 }
 
-// Determine which map icon to use for this aircraft
+/// @brief Determine which map icon to use for this aircraft
 /// @details    MapIcon.png has the following models:\n
-///             y\x  0     1      2                 \n
-///             2   H1T   H2T    GLID       \n
-///             1   L1P   L2P    L4P            \n
-///             0 Default L2J    L4J            \n
+///             `y \ x | 0       | 1   | 2    `\n
+///             `----- | ------- | --- | ---- `\n
+///             `2     | H1T     | H2T | GLID `\n
+///             `1     | L1P     | L2P | L4P  `\n
+///             `0     | Default | L2J | L4J  `\n
 void Aircraft::MapFindIcon ()
 {
     // special cases based on icao type directly

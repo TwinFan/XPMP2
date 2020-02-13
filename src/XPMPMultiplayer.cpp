@@ -45,8 +45,57 @@ const char *    XPMPMultiplayerInitLegacyData(const char * inCSLFolder,
                                               float (* inFloatPrefsFunc)(const char *, const char *, float),
                                               const char * inMapIconFile)
 {
+    // We just pass on the calls to the individual functions:
+    
+    // Internal init first
+    const char* ret = XPMPMultiplayerInit (inIntPrefsFunc,
+                                           inFloatPrefsFunc,
+                                           NULL,                // resourceDir unknown
+                                           inDefaultICAO,
+                                           inMapIconFile);
+    if (ret[0])                                     // failed?
+        return ret;
+    
+    // Then try loading the first set of CSL models
+    ret = XPMPLoadCSLPackage(inCSLFolder,
+                             inRelatedPath,
+                             inDoc8643);
+    if (ret[0])                                     // failed?
+        return ret;
+    
+    // Success
+    return "";
+}
+
+// Init preference callback functions
+// and storage location for user vertical offset config file
+const char *    XPMPMultiplayerInit(int (* inIntPrefsFunc)(const char *, const char *, int),
+                                    float (* inFloatPrefsFunc)(const char *, const char *, float),
+                                    const char * resourceDir,
+                                    const char* inPluginName,
+                                    const char* inDefaultICAO,
+                                    const char* inMapIconFile)
+{
     // Initialize random number generator
     std::srand(unsigned(std::time(nullptr)));
+    
+    // Store the pointers to the configuration callback functions
+    glob.prefsFuncInt   = inIntPrefsFunc    ? inIntPrefsFunc    : PrefsFuncIntDefault;
+    glob.prefsFuncFloat = inFloatPrefsFunc  ? inFloatPrefsFunc  : PrefsFuncFloatDefault;
+    // And get initial config values (defines, e.g., log level, which we'll need soon)
+    glob.UpdateCfgVals();
+    
+    // Get the plugin's name and store it for later reference
+    XPMPSetPluginName(inPluginName);
+    if (glob.pluginName == UNKNOWN_PLUGIN_NAME) {
+        char szPluginName[256];
+        XPLMGetPluginInfo(XPLMGetMyID(), szPluginName, nullptr, nullptr, nullptr);
+        glob.pluginName = szPluginName;
+    }
+    LOG_MSG(logINFO, "XPMP2 Initializing...")
+    
+    // Define the default ICAO aircraft type
+    XPMPSetDefaultPlaneICAO(inDefaultICAO);
     
     // Save the path to the map icons file, if it exists
     if (inMapIconFile)
@@ -58,48 +107,6 @@ const char *    XPMPMultiplayerInitLegacyData(const char * inCSLFolder,
             LOG_MSG(logERR, WARN_MAP_ICON_UNAVAIL, mapIcnF.c_str());
         }
     }
-    
-    // We just pass on the calls to the individual functions:
-    
-    // Internal init first
-    const char* ret = XPMPMultiplayerInit (inIntPrefsFunc,
-                                           inFloatPrefsFunc,
-                                           NULL);
-    if (ret[0])                                     // failed?
-        return ret;
-    
-    // Then try loading the first set of CSL models
-    ret = XPMPLoadCSLPackage(inCSLFolder,
-                             inRelatedPath,
-                             inDoc8643);
-    if (ret[0])                                     // failed?
-        return ret;
-    
-    // Define the default ICAO aircraft type
-    XPMPSetDefaultPlaneICAO(inDefaultICAO);
-    
-    // Success
-    return "";
-}
-
-// Init preference callback functions
-// and storage location for user vertical offset config file
-const char *    XPMPMultiplayerInit(int (* inIntPrefsFunc)(const char *, const char *, int),
-                                    float (* inFloatPrefsFunc)(const char *, const char *, float),
-                                    const char * resourceDir)
-{
-    // Get the plugin's name and store it for later reference
-    if (glob.pluginName == UNKNOWN_PLUGIN_NAME) {
-        char szPluginName[256];
-        XPLMGetPluginInfo(XPLMGetMyID(), szPluginName, nullptr, nullptr, nullptr);
-        glob.pluginName = szPluginName;
-    }
-    LOG_MSG(logINFO, "XPMP2 Initializing...")
-    
-    // Store the pointers to the configuration callback functions
-    glob.prefsFuncInt   = inIntPrefsFunc    ? inIntPrefsFunc    : PrefsFuncIntDefault;
-    glob.prefsFuncFloat = inFloatPrefsFunc  ? inFloatPrefsFunc  : PrefsFuncFloatDefault;
-    glob.UpdateCfgVals();
     
     // Save the resource dir, if it exists
     if (resourceDir)

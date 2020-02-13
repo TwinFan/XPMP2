@@ -62,16 +62,15 @@ hinder a proper implementation to compile successfully, albeit with some new war
    finds an `xsb_aircraft.txt` file. This should not affect classic usages,
    where such a path was just one level away from the `xsb_aircraft.txt` file.
    It would just also search deeper if needed.
-- `XPMPMultiplayerInitLegacyData` can take one more optional parameter,
+- `XPMPMultiplayerInit(LegacyData)` can take one more optional parameter,
   `inMapIconFile`, which defines the full path to the `MapIcons.png` file,
   which contains the icons shown in X-Plane's maps.\n
   Its parameter `inTexturePath` is no longer required and can be `nullptr`.
 - It is no longer necessary to define the compile-time macros `XPMP_CLIENT_NAME`
-  and `XPMP_CLIENT_LONGNAME`. Instead, you can use the new function
-  `XPMPSetPluginName` to set the plugin's name from within your plugin,
-  ideally as the very first call even before `XPMPMultiplayerInitLegacyData`.
-  (XPMP2 tries to guess the plugin's name if no call to `XPMPSetPluginName`
-  is made.)
+  and `XPMP_CLIENT_LONGNAME`. Instead, you can use the new parameter
+  `inPluginName` in the call to `XPMPMultiplayerInit` or the function
+  `XPMPSetPluginName` to set the plugin's name from within your plugin.
+  XPMP2 tries to guess the plugin's name if no name is explicitely set.
   This allows using the provided libraries directly without the need to recompile.
 
 I tested the compile-time compatibility with LiveTraffic successfully. LiveTraffic has
@@ -113,8 +112,8 @@ TODOs
 --
 
 - Label writing
-    - Map: Make label writing configurable 
     - Expose maxLabelDist to some config function 
+    - Scale Fonts
 - AI/Multiplayer dataRefs
     - Shared dataRefs for providing textual information (test with FSTramp)
 - Add VERT_OFS auto detection

@@ -37,7 +37,7 @@ namespace XPMP2 {
 #define INFO_TOTAL_NUM_MODELS   "Total number of known models now is %lu"
 #define WARN_NO_XSBACTXT_FOUND  "No xsb_aircraft.txt found"
 #define WARN_DUP_PKG_NAME       "Package name (EXPORT_NAME) '%s' in folder '%s' is already in use by '%s'"
-#define WARN_DUP_MODEL          "Duplicate model '%s', additional definitions ignored"
+#define WARN_DUP_MODEL          "Duplicate model '%s', additional definitions ignored, originally defined in line %d of %s"
 #define WARN_OBJ8_ONLY          "Line %d: Only supported format is OBJ8, ignoring model definition %s"
 #define WARN_PKG_DPDCY_FAILED   "Line %d: Dependent package '%s' not known! May lead to follow-up issues when proessing this package."
 #define ERR_TOO_FEW_PARAM       "Line %d: %s expects at least %d parameters"
@@ -312,64 +312,16 @@ void CSLModel::Unload ()
 }
 
 //
-// MARK: Internal Function Definitions
+// MARK: Internal Functions
 //
 
 /// @brief Turn a relative package path into a full path
 /// @details Turns a relative package path in `xsb_aircraft.txt` (like "__Bluebell_Airbus:A306/A306_AAW.obj")
 ///          into a full path pointing to a concrete file and verifies the file's existence.
 /// @return Empty if any validation fails, otherwise a full path to an existing .obj file
-std::string CSLModelsConvPackagePath (const std::string& pkgPath, int lnNr, bool bPkgOptional = false);
-
-/// Adds a readily defined CSL model to all the necessary maps
-void CSLModelsAdd (CSLModel& csl);
-
-/// Scans an `xsb_aircraft.txt` file for `EXPORT_NAME` entries to fill the list of packages
-const char* CSLModelsReadPkgId (const std::string& path);
-
-/// Process one `xsb_aircraft.txt` file for importing OBJ8 models
-const char* CSLModelsProcessAcFile (const std::string& path);
-
-/// @brief Recursively scans folders to find `xsb_aircraft.txt` files of CSL packages
-/// @param _path The path to start the search in
-/// @param[out] paths List of paths in which an xsb_aircraft.txt file has actually been found
-/// @param _maxDepth How deep into the folder hierarchy shall we search? (defaults to 5)
-const char* CSLModelsFindPkgs (const std::string& _path,
-                               std::vector<std::string>& paths,
-                               int _maxDepth = 5);
-
-/// Process an DEPENDENCY line of an `xsb_aircraft.txt` file
-void AcTxtLine_DEPENDENCY (std::vector<std::string>& tokens,
-                           int lnNr);
-/// Process an OBJ8_AIRCRAFT line of an `xsb_aircraft.txt` file
-void AcTxtLine_OBJ8_AIRCRAFT (CSLModel& csl,
-                              const std::string& ln,
-                              int lnNr);
-/// Process an OBJ8 line of an `xsb_aircraft.txt` file
-void AcTxtLine_OBJ8 (CSLModel& csl,
-                     std::vector<std::string>& tokens,
-                     int lnNr);
-/// Process an VERT_OFFSET line of an `xsb_aircraft.txt` file
-void AcTxtLine_VERT_OFFSET (CSLModel& csl,
-                            std::vector<std::string>& tokens,
-                            int lnNr);
-/// Process an ICAO, AIRLINE, LIVERY, or MATCHES line of an `xsb_aircraft.txt` file
-void AcTxtLine_MATCHES (CSLModel& csl,
-                        std::vector<std::string>& tokens,
-                        int lnNr);
-/// Process an OBJECT or AIRCRAFT  line of an `xsb_aircraft.txt` file (which are no longer supported)
-void AcTxtLine_OBJECT_AIRCRAFT (CSLModel& csl,
-                                const std::string& ln,
-                                int lnNr);
-
-//
-// MARK: Internal Functions
-//
-
-// Turn a relative package path into a full path
 std::string CSLModelsConvPackagePath (const std::string& pkgPath,
                                       int lnNr,
-                                      bool bPkgOptional)
+                                      bool bPkgOptional = false)
 {
     // find the first element, which shall be the package
     std::string::size_type pos = pkgPath.find_first_of(":/\\");
@@ -423,13 +375,15 @@ std::string CSLModelsConvPackagePath (const std::string& pkgPath,
 }
 
 
-// Adds a readily defined CSL model to all the necessary maps, resets passed-in reference
+/// Adds a readily defined CSL model to all the necessary maps, resets passed-in reference
 void CSLModelsAdd (CSLModel& _csl)
 {
     // the main map, which actually "owns" the object, indexed by key
     auto p = glob.mapCSLModels.emplace(_csl.GetKeyString(), std::move(_csl));
     if (!p.second) {                    // not inserted, ie. not a new entry!
-        LOG_MSG(logWARN, WARN_DUP_MODEL, p.first->second.GetId().c_str());
+        LOG_MSG(logWARN, WARN_DUP_MODEL, p.first->second.GetId().c_str(),
+                p.first->second.xsbAircraftLn,
+                p.first->second.xsbAircraftPath.c_str());
         return;
     }
     // properly reset the passed-in reference
@@ -437,7 +391,7 @@ void CSLModelsAdd (CSLModel& _csl)
 }
 
 
-// Scans an `xsb_aircraft.txt` file for `EXPORT_NAME` entries to fill the list of packages
+/// Scans an `xsb_aircraft.txt` file for `EXPORT_NAME` entries to fill the list of packages
 const char* CSLModelsReadPkgId (const std::string& path)
 {
     // Open the xsb_aircraft.txt file
@@ -484,8 +438,159 @@ const char* CSLModelsReadPkgId (const std::string& path)
     return "";
 }
 
+/// @brief Recursively scans folders to find `xsb_aircraft.txt` files of CSL packages
+/// @param _path The path to start the search in
+/// @param[out] paths List of paths in which an xsb_aircraft.txt file has actually been found
+/// @param _maxDepth How deep into the folder hierarchy shall we search? (defaults to 5)
+const char* CSLModelsFindPkgs (const std::string& _path,
+                               std::vector<std::string>& paths,
+                               int _maxDepth = 5)
+{
+    // Search the current given path for an xsb_aircraft.txt file
+    std::list<std::string> files = GetDirContents(_path);
+    if (std::find(files.cbegin(), files.cend(), XSB_AIRCRAFT_TXT) != files.cend())
+    {
+        // Found a "xsb_aircraft.txt"! Let's process this path then!
+        paths.push_back(_path);
+        return CSLModelsReadPkgId(_path);
+    }
+    
+    // Are we still allowed to dig deeper into the folder hierarchy?
+    bool bFoundAnything = false;
+    if (_maxDepth > 0) {
+        // The let's see if there were some directories
+        for (const std::string& f: files) {
+            const std::string nextPath(_path + XPLMGetDirectorySeparator()[0] + f);
+            if (IsDir(TOPOSIX(nextPath))) {
+                // recuresively call myself, allow one level of hierarchy less
+                const char* res = CSLModelsFindPkgs(nextPath, paths, _maxDepth-1);
+                // Not the message "nothing found"?
+                if (strcmp(res, WARN_NO_XSBACTXT_FOUND) != 0) {
+                    // if any other error: stop here and return that error
+                    if (res[0])
+                        return res;
+                    // ...else: We did find and process something!
+                    bFoundAnything = true;
+                }
+            }
+        }
+    }
+    
+    // Well...did we find anything?
+    return bFoundAnything ? "" : WARN_NO_XSBACTXT_FOUND;
+}
 
-// Process one `xsb_aircraft.txt` file for importing OBJ8 models
+
+//
+// MARK: Interpret individual xsb_aircraft lines
+//
+
+/// Process an DEPENDENCY line of an `xsb_aircraft.txt` file
+void AcTxtLine_DEPENDENCY (std::vector<std::string>& tokens,
+                           int lnNr)
+{
+    if (tokens.size() >= 2) {
+        // We try finding the package and issue a warning if we didn't...but continue anyway
+        if (glob.mapCSLPkgs.find(tokens[1]) == glob.mapCSLPkgs.cend()) {
+            LOG_MSG(logWARN, WARN_PKG_DPDCY_FAILED, lnNr, tokens[1].c_str());
+        }
+    }
+    else
+        LOG_MSG(logERR, ERR_TOO_FEW_PARAM, lnNr, tokens[0].c_str(), 1);
+}
+
+/// Process an OBJ8_AIRCRAFT line of an `xsb_aircraft.txt` file
+void AcTxtLine_OBJ8_AIRCRAFT (CSLModel& csl,
+                              const std::string& ln,
+                              const std::string& xsbAircraftPath,
+                              int lnNr)
+{
+    // First of all, save the previously read aircraft
+    if (csl.IsValid())
+        CSLModelsAdd(csl);
+    
+    // Properly set the xsb_aircraft.txt location
+    csl.xsbAircraftPath = xsbAircraftPath;
+    csl.xsbAircraftLn   = lnNr;
+    
+    // Second parameter (actually we take all the rest of the line) is the name
+    if (ln.length() >= 15) { csl.cslId = ln.substr(14); trim(csl.cslId); }
+    else LOG_MSG(logERR, ERR_TOO_FEW_PARAM, lnNr, "OBJ8_AIRCRAFT", 1);
+}
+
+/// Process an OBJECT or AIRCRAFT  line of an `xsb_aircraft.txt` file (which are no longer supported)
+void AcTxtLine_OBJECT_AIRCRAFT (CSLModel& csl,
+                                const std::string& ln,
+                                int lnNr)
+{
+    // First of all, save the previously read aircraft
+    if (csl.IsValid())
+        CSLModelsAdd(csl);
+
+    // Then add a warning into the log as we will NOT support this model
+    LOG_MSG(logWARN, WARN_OBJ8_ONLY, lnNr, ln.c_str());
+}
+
+/// Process an OBJ8 line of an `xsb_aircraft.txt` file
+void AcTxtLine_OBJ8 (CSLModel& csl,
+                     std::vector<std::string>& tokens,
+                     int lnNr)
+{
+    if (tokens.size() >= 4) {
+        // we only process the SOLID part
+        if (tokens[1] == "SOLID") {
+            // translate the path (replace the package with the full path)
+            std::string path = CSLModelsConvPackagePath(tokens[3], lnNr);
+            if (!path.empty()) {
+                // save the path as an additional object to the model
+                csl.listObj.emplace_back(csl.GetId(), std::move(path));
+
+                // we can already read the TEXTURE and TEXTURE_LIT paths
+                if (tokens.size() >= 5) {
+                    CSLObj& obj = csl.listObj.back();
+                    obj.texture = CSLModelsConvPackagePath(tokens[4], lnNr, true);
+                    if (tokens.size() >= 6)
+                        obj.text_lit = CSLModelsConvPackagePath(tokens[5], lnNr, true);
+                } // TEXTURE available
+            } // Package name valid
+        } // "SOLID"
+    } // at least 3 params
+    else
+        LOG_MSG(logERR, ERR_TOO_FEW_PARAM, lnNr, tokens[0].c_str(), 3);
+}
+
+/// Process an VERT_OFFSET line of an `xsb_aircraft.txt` file
+void AcTxtLine_VERT_OFFSET (CSLModel& csl,
+                            std::vector<std::string>& tokens,
+                            int lnNr)
+{
+    if (tokens.size() >= 2)
+        csl.vertOfs = std::stof(tokens[1]);
+    else
+        LOG_MSG(logERR, ERR_TOO_FEW_PARAM, lnNr, tokens[0].c_str(), 1);
+}
+
+/// Process an ICAO, AIRLINE, LIVERY, or MATCHES line of an `xsb_aircraft.txt` file
+void AcTxtLine_MATCHES (CSLModel& csl,
+                        std::vector<std::string>& tokens,
+                        int lnNr)
+{
+    // at least one parameter, the ICAO type code, is expected
+    if (tokens.size() >= 2) {
+        // Set icao type code, along with Doc8643 and related group:
+        csl.SetIcaoType(tokens[1]);
+        // the others are optional and more descriptive
+        if (tokens.size() >= 3) {
+            csl.icaoAirline = tokens[2];
+            if (tokens.size() >= 4)
+                csl.livery = tokens[3];
+        }
+    }
+    else
+        LOG_MSG(logERR, ERR_TOO_FEW_PARAM, lnNr, tokens[0].c_str(), 1);
+}
+
+/// Process one `xsb_aircraft.txt` file for importing OBJ8 models
 const char* CSLModelsProcessAcFile (const std::string& path)
 {
     // for a good but concise message about ignored elements we keep this list
@@ -509,8 +614,8 @@ const char* CSLModelsProcessAcFile (const std::string& path)
         safeGetline(fAc, ln);
         trim(ln);
         
-        // skip over empty lines
-        if (ln.empty())
+        // skip over empty lines or lines starting a comment
+        if (ln.empty() || ln[0] == '#')
             continue;
         
         // Break up the line into individual parameters and work on its commands
@@ -519,7 +624,7 @@ const char* CSLModelsProcessAcFile (const std::string& path)
         
         // OBJ8_AIRCRAFT: Start a new aircraft specification
         if (tokens[0] == "OBJ8_AIRCRAFT")
-            AcTxtLine_OBJ8_AIRCRAFT(csl, ln, lnNr);
+            AcTxtLine_OBJ8_AIRCRAFT(csl, ln, path, lnNr);
         
         // OBJ8: Define the object file to load
         else if (tokens[0] == "OBJ8")
@@ -580,150 +685,6 @@ const char* CSLModelsProcessAcFile (const std::string& path)
     return "";
 }
 
-
-// Recursively scans folders to find `xsb_aircraft.txt` files of CSL packages
-const char* CSLModelsFindPkgs (const std::string& _path,
-                               std::vector<std::string>& paths,
-                               int _maxDepth)
-{
-    // Search the current given path for an xsb_aircraft.txt file
-    std::list<std::string> files = GetDirContents(_path);
-    if (std::find(files.cbegin(), files.cend(), XSB_AIRCRAFT_TXT) != files.cend())
-    {
-        // Found a "xsb_aircraft.txt"! Let's process this path then!
-        paths.push_back(_path);
-        return CSLModelsReadPkgId(_path);
-    }
-    
-    // Are we still allowed to dig deeper into the folder hierarchy?
-    bool bFoundAnything = false;
-    if (_maxDepth > 0) {
-        // The let's see if there were some directories
-        for (const std::string& f: files) {
-            const std::string nextPath(_path + XPLMGetDirectorySeparator()[0] + f);
-            if (IsDir(TOPOSIX(nextPath))) {
-                // recuresively call myself, allow one level of hierarchy less
-                const char* res = CSLModelsFindPkgs(nextPath, paths, _maxDepth-1);
-                // Not the message "nothing found"?
-                if (strcmp(res, WARN_NO_XSBACTXT_FOUND) != 0) {
-                    // if any other error: stop here and return that error
-                    if (res[0])
-                        return res;
-                    // ...else: We did find and process something!
-                    bFoundAnything = true;
-                }
-            }
-        }
-    }
-    
-    // Well...did we find anything?
-    return bFoundAnything ? "" : WARN_NO_XSBACTXT_FOUND;
-}
-
-
-//
-// MARK: Interpret individual xsb_aircraft lines
-//
-
-// Process an DEPENDENCY line of an `xsb_aircraft.txt` file
-void AcTxtLine_DEPENDENCY (std::vector<std::string>& tokens,
-                           int lnNr)
-{
-    if (tokens.size() >= 2) {
-        // We try finding the package and issue a warning if we didn't...but continue anyway
-        if (glob.mapCSLPkgs.find(tokens[1]) == glob.mapCSLPkgs.cend()) {
-            LOG_MSG(logWARN, WARN_PKG_DPDCY_FAILED, lnNr, tokens[1].c_str());
-        }
-    }
-    else
-        LOG_MSG(logERR, ERR_TOO_FEW_PARAM, lnNr, tokens[0].c_str(), 1);
-}
-
-// Process an OBJ8_AIRCRAFT line of an `xsb_aircraft.txt` file
-void AcTxtLine_OBJ8_AIRCRAFT (CSLModel& csl,
-                              const std::string& ln,
-                              int lnNr)
-{
-    // First of all, save the previously read aircraft
-    if (csl.IsValid())
-        CSLModelsAdd(csl);
-    
-    // Second parameter (actually we take all the rest of the line) is the name
-    if (ln.length() >= 15) { csl.cslId = ln.substr(14); trim(csl.cslId); }
-    else LOG_MSG(logERR, ERR_TOO_FEW_PARAM, lnNr, "OBJ8_AIRCRAFT", 1);
-}
-
-/// Process an OBJECT or AIRCRAFT  line of an `xsb_aircraft.txt` file (which are no longer supported)
-void AcTxtLine_OBJECT_AIRCRAFT (CSLModel& csl,
-                                const std::string& ln,
-                                int lnNr)
-{
-    // First of all, save the previously read aircraft
-    if (csl.IsValid())
-        CSLModelsAdd(csl);
-
-    // Then add a warning into the log as we will NOT support this model
-    LOG_MSG(logWARN, WARN_OBJ8_ONLY, lnNr, ln.c_str());
-}
-
-// Process an OBJ8 line of an `xsb_aircraft.txt` file
-void AcTxtLine_OBJ8 (CSLModel& csl,
-                     std::vector<std::string>& tokens,
-                     int lnNr)
-{
-    if (tokens.size() >= 4) {
-        // we only process the SOLID part
-        if (tokens[1] == "SOLID") {
-            // translate the path (replace the package with the full path)
-            std::string path = CSLModelsConvPackagePath(tokens[3], lnNr);
-            if (!path.empty()) {
-                // save the path as an additional object to the model
-                csl.listObj.emplace_back(csl.GetId(), std::move(path));
-
-                // we can already read the TEXTURE and TEXTURE_LIT paths
-                if (tokens.size() >= 5) {
-                    CSLObj& obj = csl.listObj.back();
-                    obj.texture = CSLModelsConvPackagePath(tokens[4], lnNr, true);
-                    if (tokens.size() >= 6)
-                        obj.text_lit = CSLModelsConvPackagePath(tokens[5], lnNr, true);
-                } // TEXTURE available
-            } // Package name valid
-        } // "SOLID"
-    } // at least 3 params
-    else
-        LOG_MSG(logERR, ERR_TOO_FEW_PARAM, lnNr, tokens[0].c_str(), 3);
-}
-
-// Process an VERT_OFFSET line of an `xsb_aircraft.txt` file
-void AcTxtLine_VERT_OFFSET (CSLModel& csl,
-                            std::vector<std::string>& tokens,
-                            int lnNr)
-{
-    if (tokens.size() >= 2)
-        csl.vertOfs = std::stof(tokens[1]);
-    else
-        LOG_MSG(logERR, ERR_TOO_FEW_PARAM, lnNr, tokens[0].c_str(), 1);
-}
-
-// Process an ICAO, AIRLINE, LIVERY, or MATCHES line of an `xsb_aircraft.txt` file
-void AcTxtLine_MATCHES (CSLModel& csl,
-                        std::vector<std::string>& tokens,
-                        int lnNr)
-{
-    // at least one parameter, the ICAO type code, is expected
-    if (tokens.size() >= 2) {
-        // Set icao type code, along with Doc8643 and related group:
-        csl.SetIcaoType(tokens[1]);
-        // the others are optional and more descriptive
-        if (tokens.size() >= 3) {
-            csl.icaoAirline = tokens[2];
-            if (tokens.size() >= 4)
-                csl.livery = tokens[3];
-        }
-    }
-    else
-        LOG_MSG(logERR, ERR_TOO_FEW_PARAM, lnNr, tokens[0].c_str(), 1);
-}
 
 //
 // MARK: Global Functions

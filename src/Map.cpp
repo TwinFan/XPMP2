@@ -143,7 +143,7 @@ void Aircraft::MapDrawIcon (XPLMMapLayerID inLayer, const float acSize)
     }
 }
 
-// Actually draw the map icon
+// Actually draw the map icon's label
 void Aircraft::MapDrawLabel (XPLMMapLayerID inLayer, float yOfs)
 {
     // draw only if said to be visible on this map

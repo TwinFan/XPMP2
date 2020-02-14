@@ -99,6 +99,11 @@ public:
     listCSLObjTy        listObj;
     /// Vertical offset to be applied [m]
     float               vertOfs = 3.0f;
+    
+    /// Path to the xsb_aircraft.txt file from where this model is loaded
+    std::string         xsbAircraftPath;
+    /// Line number in the xsb_aircraft.txt file where the model definition starts
+    int                 xsbAircraftLn = 0;
 
 protected:
     /// ICAO aircraft type this model represents: `xsb_aircraft.txt::ICAO`

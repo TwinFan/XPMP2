@@ -54,6 +54,7 @@
 #include <numeric>
 #include <fstream>
 #include <regex>
+#include <bitset>
 
 // XPlaneMP 2 - Internal Header Files
 #include "Utilities.h"

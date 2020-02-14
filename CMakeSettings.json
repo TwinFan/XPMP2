@@ -12,23 +12,13 @@
             "ctestCommandArgs": "",
             "variables": [
                 {
-                    "name": "CMAKE_C_FLAGS",
-                    "value": "/DWIN32 /D_WINDOWS /DWIN32_LEAN_AND_MEAN /W4",
-                    "type": "STRING"
-                },
-                {
-                    "name": "CMAKE_C_FLAGS_DEBUG",
-                    "value": "/MDd /Zi /Ob0 /Od /RTC1 /DDEBUG",
-                    "type": "STRING"
-                },
-                {
                     "name": "CMAKE_CXX_FLAGS",
-                    "value": "/DWIN32 /D_WINDOWS /DWIN32_LEAN_AND_MEAN /W4 /GR /EHsc",
+                    "value": "/DWIN32 /D_WINDOWS /DWIN32_LEAN_AND_MEAN /D_CRT_SECURE_NO_WARNINGS /GS- /Gd /Gy- /Zc:wchar_t /Zc:forScope /Zc:inline /Zc:__cplusplus /W4 /EHsc /fp:precise /diagnostics:caret",
                     "type": "STRING"
                 },
                 {
                     "name": "CMAKE_CXX_FLAGS_DEBUG",
-                    "value": "/MDd /Zi /Ob0 /Od /RTC1 /DDEBUG",
+                    "value": "/MDd /Od /RTC1 /Zi /DDEBUG",
                     "type": "STRING"
                 }
             ]
@@ -45,23 +35,13 @@
             "inheritEnvironments": [ "msvc_x64_x64" ],
             "variables": [
                 {
-                    "name": "CMAKE_C_FLAGS",
-                    "value": "/DWIN32 /D_WINDOWS /DWIN32_LEAN_AND_MEAN /W4",
-                    "type": "STRING"
-                },
-                {
-                    "name": "CMAKE_C_FLAGS_RELEASE",
-                    "value": "/MD /O2 /Ob2 /DNDEBUG",
-                    "type": "STRING"
-                },
-                {
                     "name": "CMAKE_CXX_FLAGS",
-                    "value": "/DWIN32 /D_WINDOWS /DWIN32_LEAN_AND_MEAN /W4 /GR /EHsc",
+                    "value": "/DWIN32 /D_WINDOWS /DWIN32_LEAN_AND_MEAN /D_CRT_SECURE_NO_WARNINGS /GS- /Gd /Gy- /Zc:wchar_t /Zc:forScope /Zc:inline /Zc:__cplusplus /W4 /EHsc /fp:precise /diagnostics:caret",
                     "type": "STRING"
                 },
                 {
-                    "name": "CMAKE_CXX_FLAGS_RELEASE",
-                    "value": "/MD /O2 /Ob2 /DNDEBUG",
+                    "name": "CMAKE_CXX_FLAGS_RELWITHDEBINFO",
+                    "value": "/MD /Zi /GL /O2 /DNDEBUG",
                     "type": "STRING"
                 }
             ]

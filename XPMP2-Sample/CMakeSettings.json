@@ -13,17 +13,22 @@
             "variables": [
                 {
                     "name": "CMAKE_CXX_FLAGS",
-                    "value": "/DWIN32 /D_WINDOWS /DWIN32_LEAN_AND_MEAN /D_CRT_SECURE_NO_WARNINGS /W4 /GR /EHsc",
+                    "value": "/DWIN32 /D_WINDOWS /DWIN32_LEAN_AND_MEAN /D_CRT_SECURE_NO_WARNINGS /GS- /Gd /Gy- /Zc:wchar_t /Zc:forScope /Zc:inline /Zc:__cplusplus /W4 /EHsc /fp:precise /diagnostics:column",
                     "type": "STRING"
                 },
                 {
                     "name": "CMAKE_CXX_FLAGS_DEBUG",
-                    "value": "/MDd /Zi /Ob0 /Od /RTC1 /DDEBUG",
+                    "value": "/MDd /Od /RTC1 /Zi /DDEBUG",
                     "type": "STRING"
                 },
                 {
                     "name": "CMAKE_MODULE_LINKER_FLAGS",
                     "value": "/machine:x64",
+                    "type": "STRING"
+                },
+                {
+                    "name": "CMAKE_MODULE_LINKER_FLAGS_DEBUG",
+                    "value": "/debug /INCREMENTAL:NO",
                     "type": "STRING"
                 }
             ]
@@ -41,12 +46,12 @@
             "variables": [
                 {
                     "name": "CMAKE_CXX_FLAGS",
-                    "value": "/DWIN32 /D_WINDOWS /DWIN32_LEAN_AND_MEAN /D_CRT_SECURE_NO_WARNINGS /W4 /GR /EHsc",
+                    "value": "/DWIN32 /D_WINDOWS /DWIN32_LEAN_AND_MEAN /D_CRT_SECURE_NO_WARNINGS /GS- /Gd /Gy- /Zc:wchar_t /Zc:forScope /Zc:inline /Zc:__cplusplus /W4 /EHsc /fp:precise /diagnostics:column",
                     "type": "STRING"
                 },
                 {
-                    "name": "CMAKE_CXX_FLAGS_RELEASE",
-                    "value": "/MD /O2 /Ob2 /DNDEBUG",
+                    "name": "CMAKE_CXX_FLAGS_RELWITHDEBINFO",
+                    "value": "/MD /Zi /GL /O2 /DNDEBUG",
                     "type": "STRING"
                 },
                 {
@@ -55,13 +60,8 @@
                     "type": "STRING"
                 },
                 {
-                    "name": "CMAKE_MODULE_LINKER_FLAGS_RELEASE",
-                    "value": "/INCREMENTAL:NO",
-                    "type": "STRING"
-                },
-                {
-                    "name": "CMAKE_MODULE_LINKER_FLAGS_DEBUG",
-                    "value": "/INCREMENTAL:NO",
+                    "name": "CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO",
+                    "value": "/LTCG /debug /INCREMENTAL:NO",
                     "type": "STRING"
                 }
             ]

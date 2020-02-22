@@ -98,6 +98,9 @@ New Features
   to search for `xsb_aircraft.txt` files. In complex multi-CSL-package setups,
   it might now be sufficient to pass in some higher-level directory instead calling the
   function several times per package.
+- Map support: All aircraft are shown on X-Plane's internal map in a map layer
+  named after the plugin's name. The new API function `XPMPEnableMap`
+  allows you to control creation of the map layer as well as toggle display of labels.
 
 Sample Plugin
 --
@@ -107,6 +110,7 @@ in front of the user's plane. Each of the 3 aircraft is using a different techno
 the now recommended way of subclassing `XPMP2::Aircraft`, the legacy way
 of subclassing `XPCAircraft` (as used by LiveTraffic v1.x), and by calling
 standard C functions.
+
 
 TODOs
 --

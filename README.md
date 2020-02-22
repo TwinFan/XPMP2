@@ -20,10 +20,25 @@ multi-pass matching to find a good model are retained, though re-implemented (re
 
 Status
 --
-**This is work in progress and not yet ready to be used!**
+**This is work in progress.**
+
+The XPMP2 lib has been successfully tested with
+- the enclosed sample plugin,
+- a new branch of LiveTraffic (executables not yet published)
+- on Mac OS and
+- on Windows.
+
+Linux binaries can successfully build in a docker environment.
+But I have no environment for testing them.
+
+Using XPMP2
+--
+
+You don't need to build the library yourself if you don't want. Binaries are included in
+`XPMP2-Sample/lib`.
 
 New Implementations
---
+---
 
 New plugin implementations are strongly adviced to directly sub-class
 from the new class `XPMP2::Aircraft`, which is the actual aircraft representation.
@@ -40,7 +55,7 @@ Other values like `label`, `aiPrio`, or `acInfoTexts` can also be updated by you
 or providing information externally like via AI/multiplayer dataRefs.
 
 Compile-Time Compatibilty
---
+---
 
 Despite the new approach, XPMP2 shall be your drop-in replacement for the
 original library: The original header files are still provided with the same name.
@@ -79,8 +94,15 @@ implementations basing on this implementation model will just compile.
 There have been less tests with the direct C-style interface using `XPMPCreatePlane()` et al.,
 mostly using the sample plugin included in the package.
 
-Limits
+Features
 --
+
+Full feature list to be document. In the meantime refer to:
+- Generally, see [kuroneko's wiki](https://github.com/kuroneko/libxplanemp/wiki).
+- All additions of my fork are included as well, see [TwinFan's wiki](https://github.com/TwinFan/libxplanemp/wiki).
+
+Limits
+---
 
 To keep the reimplementation streamlined, this library no longer supports some aspects
 I considered no longer required:
@@ -90,7 +112,7 @@ I considered no longer required:
    in the `xsb_aircraft.txt` file.
    
 New Features
---
+---
 - XPMP2 shows all aircraft in X-Plane's map views, with icons roughly related to the
   plane's type and size. The map layer is called by its plugin name (see
   `XPMPSetPluginName`).
@@ -103,7 +125,7 @@ New Features
   allows you to control creation of the map layer as well as toggle display of labels.
 
 Sample Plugin
---
+---
 This package comes with a sample plugin in the `XPMP2-Sample` folder. It is a complete
 plugin including build projects and CMake setup. It displays 3 aircraft flying circles
 in front of the user's plane. Each of the 3 aircraft is using a different technology:
@@ -111,6 +133,58 @@ the now recommended way of subclassing `XPMP2::Aircraft`, the legacy way
 of subclassing `XPCAircraft` (as used by LiveTraffic v1.x), and by calling
 standard C functions.
 
+Building XPMP2
+--
+
+Mac OS
+---
+
+My development environment is Mac OS, so expect the XCode environment to be
+maintained best. Open `XPMP2.xcodeproj` in XCode, both for the library in the root folder
+as well as for the sample plugin in `XPMP2-Sample`.
+
+The result XPMP2 framework is also copied to `XPMP2-Sample/lib` so it is accessible
+when building the sample plugin.
+
+In the sample plugin's settings you will need to change the value of the user-defined
+build macro `XPLANE11_ROOT` to point to _your_ X-Plane folder.
+Then the plugin is installed there right after build.
+
+Windows
+---
+
+Windows cannot build in the Docker environment as mingw's libraries aren't up to C++ 17 standards.
+
+- Install Visual Studio](https://visualstudio.microsoft.com/vs/community/)
+- Open the root folder to build the library
+- Open the folder `XPMP2-Sample` to build the sample plugin
+- In both cases will VS use the CMake setup to configure building the binaries.
+- Build from within Visual Studio.
+
+Results are in `build/x64`.
+
+The library is also copied into `XPMP2-Sample/lib` to be available in a subsequent build
+of the sample plugin.
+
+Linux and Mac OS via Docker
+---
+
+A docker environment based on Ubuntu 18.04 is provided,
+which can build both Linux and MacOS.
+
+- Install [Docker Desktop](https://www.docker.com/products/docker-desktop) and start it.
+- `cd` to the project's `docker` folder, and enter `make` for the library
+- `cd` to `XPMP2-Sample/docker`, and enter `make` for the plugin.
+- `make`
+
+In the first run only, it will create the necessary Docker image based on Ubuntu 18.04,
+which includes downloading lots of base images and packages and takes a couple
+of minutes. This is required once only.
+
+The actual build takes only a few seconds. Results are written to `build-lin` and `build-mac`.
+
+The resulting library/framework are also copied into `XPMP2-Sample/lib`.
+Then, also the sample plugin must be build using the docker environment.
 
 TODOs
 --

@@ -70,9 +70,8 @@ hinder a proper implementation to compile successfully, albeit with some new war
    which will raise a few warnings, if your compiler is configured to show them.
    Just a gentle reminder to update your plugin at some point in time...
 - `XPMPMultiplayerInitLegacyData` will in turn call `XPMPMultiplayerInit`, and
-   `XPMPLoadCSLPackage`. If your code calls both `XPMPMultiplayerInitLegacyData` and
-   `XPMPMultiplayerInit` you could remove the latter...but it should still work, just
-   does some stuff twice.
+   `XPMPLoadCSLPackage`. The correct future-proof way of initializing the library is to call
+   `XPMPMultiplayerInit` and then do one or more calls to `XPMPLoadCSLPackage`. 
 - `XPMPLoadCSLPackage` walks directories hierarchically up to 5 levels until it
    finds an `xsb_aircraft.txt` file. This should not affect classic usages,
    where such a path was just one level away from the `xsb_aircraft.txt` file.

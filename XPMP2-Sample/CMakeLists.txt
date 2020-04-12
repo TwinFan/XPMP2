@@ -74,12 +74,6 @@ elseif (WIN32)
 endif ()
 target_link_libraries(XPMP2-Sample ${XPMP2_LIBRARY})
 
-# Link OpenGL
-set(OpenGL_GL_PREFERENCE GLVND)
-find_package(OpenGL REQUIRED)  # apt install freeglut3-dev
-include_directories( ${OpenGL_INCLUDE_DIRS} )
-target_link_libraries( XPMP2-Sample OpenGL::GL )
-
 # Link X-Plane plugin system libraries. They are only provided for OS X and Windows.
 if (WIN32 OR APPLE)
     find_library(XPLM_LIBRARY NAMES XPLM XPLM_64.lib)
@@ -98,7 +92,6 @@ endif ()
 if (APPLE)
     find_library(IOKIT_LIBRARY IOKit)
     find_library(CORE_FOUNDATION_LIBRARY CoreFoundation)
-    find_library(OpenGL_LIBRARY OpenGL)
 
     target_link_libraries(XPMP2-Sample ${IOKIT_LIBRARY} ${CORE_FOUNDATION_LIBRARY} ${OpenGL_LIBRARY})
 endif ()

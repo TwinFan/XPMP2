@@ -277,6 +277,7 @@ XPMPPlaneID XPMPCreatePlaneWithModelName(const char *       inModelName,
                                          void *             inRefcon)
 {
     try {
+#ifndef __clang_analyzer__
         LegacyAircraft* pAc = new LegacyAircraft(inICAOCode,
                                                  inAirline,
                                                  inLivery,
@@ -285,6 +286,7 @@ XPMPPlaneID XPMPCreatePlaneWithModelName(const char *       inModelName,
                                                  inModelName);
         // This is not leaking memory, the pointer is in glob.mapAc as taken care of by the constructor
         return pAc->GetPlaneID();
+#endif
     }
     catch (const XPMP2Error&) {
         // This might be thrown in case of problems creating the object

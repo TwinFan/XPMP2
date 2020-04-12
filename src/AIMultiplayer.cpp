@@ -47,7 +47,7 @@ namespace XPMP2 {
 /// Don't dare using NAN...but with this coordinate for x/y/z a plane should be far out and virtually invisible
 constexpr float FAR_AWAY_VAL_GL = 9999999.9f;
 /// How often do we reassign AI slots? [seconds]
-constexpr int AISLOT_CHANGE_PERIOD = 30;
+constexpr float AISLOT_CHANGE_PERIOD = 30.0f;
 /// How much distance does each AIPrio add?
 constexpr int AI_PRIO_MULTIPLIER = 10 * M_per_NM;
 /// A constant array of zero values supporting quick array initialization
@@ -102,8 +102,11 @@ struct multiDataRefsTy {
     inline operator bool () const { return X && Y && Z && pitch && roll && heading; }
 };
 
-/// Keeps the dataRef handles for all of the up to 19 AI/Multiplayer slots
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+/// Keeps the dataRef handles for all of the up to 19 AI/Multiplayer slots (accepted as a global variable requiring an exit-time destructor)
 std::vector<multiDataRefsTy>        gMultiRef;
+#pragma clang diagnostic pop
 
 /// Map of Aircrafts, sorted by (priority-biased) distance
 typedef std::map<float,Aircraft&> mapAcByDistTy;
@@ -186,14 +189,12 @@ void AIMultiUpdate ()
         iter.bSlotTaken = false;
     
     // Time of last slot switching activity
-    static std::chrono::steady_clock::time_point tLastSlotSwitching;
-    const std::chrono::steady_clock::time_point tNow = std::chrono::steady_clock::now();
+    static float tLastSlotSwitching = 0.0f;
+    const float now = GetTotalRunningTime();
     // only every few seconds rearrange slots, ie. add/remove planes or
     // move planes between lower and upper section of AI slots:
-    if (tNow - tLastSlotSwitching > std::chrono::seconds(AISLOT_CHANGE_PERIOD))
+    if (CheckEverySoOften(tLastSlotSwitching, AISLOT_CHANGE_PERIOD, now))
     {
-        tLastSlotSwitching = tNow;
-        
         // Sort all planes by prioritized distance
         mapAcByDistTy mapAcByDist;
         for (const auto& pair: glob.mapAc) {
@@ -202,7 +203,7 @@ void AIMultiUpdate ()
             // (these excludes invisible planes and those with transponder off)
             if (ac.ShowAsAIPlane())
                 // Priority distance means that we add artificial distance for higher-numbered AI priorities
-                mapAcByDist.emplace(ac.GetDistToCamera() + ac.aiPrio * AI_PRIO_MULTIPLIER,
+                mapAcByDist.emplace(ac.GetCameraDist() + ac.aiPrio * AI_PRIO_MULTIPLIER,
                                     ac);
         }
     
@@ -258,7 +259,7 @@ void AIMultiUpdate ()
             if (pair.second.GetMultiIdx() < 0)
                 LOG_MSG(logDEBUG, "Aircraft %llu: ERROR, got no AI slot, a/c ranks number %d with distance %.1f",
                         (long long unsigned)pair.second.GetPlaneID(), numTcasPlanes,
-                        pair.second.GetDistToCamera());
+                        pair.second.GetCameraDist());
             
             // exit once we have processed the highest priority planes,
             // as many as there are AI slots in total
@@ -329,21 +330,20 @@ void AIMultiUpdate ()
         // For performance reasons and because differences (cartesian velocity)
         // are smoother if calculated over "longer" time frames,
         // the following updates are done about every second only
-        if (tNow - ac.prev_ts > std::chrono::seconds(1))
+        if (now >= ac.prev_ts + 1.0f)
         {
             // do we have any prev x/y/z values at all?
-            if (ac.prev_ts != std::chrono::steady_clock::time_point()) {
+            if (ac.prev_ts > 0.0001f) {
                 // yes, so we can calculate velocity
-                const std::chrono::duration<double, std::milli> dur_ms = tNow - ac.prev_ts;
-                const double d_s = dur_ms.count() / 1000.0;     // seconds with fractions
-                XPLMSetDataf(mdr.v_x, float((ac.drawInfo.x - ac.prev_x) / d_s));
-                XPLMSetDataf(mdr.v_y, float((ac.drawInfo.y - ac.prev_y) / d_s));
-                XPLMSetDataf(mdr.v_z, float((ac.drawInfo.z - ac.prev_z) / d_s));
+                const float d_s = now - ac.prev_ts;                 // time that had passed in seconds
+                XPLMSetDataf(mdr.v_x, (ac.drawInfo.x - ac.prev_x) / d_s);
+                XPLMSetDataf(mdr.v_y, (ac.drawInfo.y - ac.prev_y) / d_s);
+                XPLMSetDataf(mdr.v_z, (ac.drawInfo.z - ac.prev_z) / d_s);
             }
             ac.prev_x = ac.drawInfo.x;
             ac.prev_y = ac.drawInfo.y;
             ac.prev_z = ac.drawInfo.z;
-            ac.prev_ts = tNow;
+            ac.prev_ts = now;
 
             // configuration (cont.)
             XPLMSetDataf(mdr.spoiler,       ac.v[V_CONTROLS_SPOILER_RATIO]);

@@ -56,7 +56,7 @@ XPLMFlightLoopID gGarbageCollectionID = nullptr;
 /// How often to call the garbage collection [s]
 constexpr float GARBAGE_COLLECTION_PERIOD = 60.0f;
 /// Unload an unused object after how many seconds?
-constexpr int GARBAGE_COLLECTION_TIMEOUT = 180;
+constexpr float GARBAGE_COLLECTION_TIMEOUT = 180.0f;
 
 //
 // MARK: CSL Object Implementation
@@ -273,7 +273,7 @@ void CSLModel::DecRefCnt ()
      if (refCnt>0) {
          if (--refCnt == 0) {
              // reached zero...remember when for later garbage collection
-             refZeroTs = std::chrono::steady_clock::now();
+             refZeroTs = GetTotalRunningTime();
          }
      }
  }
@@ -282,14 +282,14 @@ void CSLModel::DecRefCnt ()
 float CSLModel::GarbageCollection (float, float, int, void*)
 {
     UPDATE_CYCLE_NUM;               // DEBUG only: Store current cycle number in glob.xpCycleNum
-    const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+    const float now = GetTotalRunningTime();
     // loop all models
     for (auto& p: glob.mapCSLModels) {
         CSLModel& mdl = p.second;
         // loaded, but reference counter zero, and timeout reached
         if (mdl.GetObjState() == OLS_AVAILABLE &&
             mdl.GetRefCnt() == 0 &&
-            now - mdl.refZeroTs > std::chrono::seconds(GARBAGE_COLLECTION_TIMEOUT))
+            now - mdl.refZeroTs > GARBAGE_COLLECTION_TIMEOUT)
             // unload the object
             mdl.Unload();
     }

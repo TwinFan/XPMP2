@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		2572C40623D88802006A7726 /* XPMP2-Sample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2572C40523D88802006A7726 /* XPMP2-Sample.cpp */; };
 		2575F45123ECC49100747524 /* XPMP2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2575F44C23ECC34F00747524 /* XPMP2.framework */; };
-		D6A7BDAA16A1DEA200D1426A /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6A7BDA916A1DEA200D1426A /* OpenGL.framework */; };
 		D6A7BDC116A1DEC000D1426A /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6A7BDC016A1DEC000D1426A /* CoreFoundation.framework */; };
 		D6A7BDF116A1DED200D1426A /* XPLM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6A7BDF016A1DED200D1426A /* XPLM.framework */; };
 /* End PBXBuildFile section */
@@ -48,7 +47,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D6A7BDAA16A1DEA200D1426A /* OpenGL.framework in Frameworks */,
 				D6A7BDC116A1DEC000D1426A /* CoreFoundation.framework in Frameworks */,
 				2575F45123ECC49100747524 /* XPMP2.framework in Frameworks */,
 				D6A7BDF116A1DED200D1426A /* XPLM.framework in Frameworks */,

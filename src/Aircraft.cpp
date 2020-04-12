@@ -271,16 +271,20 @@ float Aircraft::FlightLoopCB (float, float, int, void*)
     XPLMCameraPosition_t posCamera;
     XPLMReadCameraPosition(&posCamera);
     
+    // As we need the current timestamp more often we read it here once
+    const float now = GetTotalRunningTime();
+    
     // Update positional and configurational values
     for (mapAcTy::value_type& pair: glob.mapAc) {
         // Have the aircraft provide up-to-date position and orientation values
         Aircraft& ac = *pair.second;
         ac.UpdatePosition();
-        // If request, clamp to ground, ie. make sure it is not below ground
+        // If requested, clamp to ground, ie. make sure it is not below ground
         if (ac.bClampToGround || glob.bClampAll)
             ac.ClampToGround();
-        // Update plane's distance
-        ac.UpdateDistCamera(posCamera);
+        // Update plane's distance/bearing every second only
+        if (CheckEverySoOften(ac.camTimLstUpd, 1.0f, now))
+            ac.UpdateDistBearingCamera(posCamera);
         // Actually move the plane, ie. the instance that represents it
         ac.DoMove();
     }
@@ -344,11 +348,14 @@ void Aircraft::ClampToGround ()
     }
 }
 
-// Internal: Update the plane's distance from the camera location
-void Aircraft::UpdateDistCamera (const XPLMCameraPosition_t& posCam)
+// Internal: Update the plane's distance/bearing from the camera location
+void Aircraft::UpdateDistBearingCamera (const XPLMCameraPosition_t& posCam)
 {
-    distCamera = dist(posCam.x,   posCam.y,   posCam.z,
+    // distance just by Pythagoras
+    camDist = dist(posCam.x,   posCam.y,   posCam.z,
                       drawInfo.x, drawInfo.y, drawInfo.z);
+    // Bearing (note: x points east, z points south
+    camBearing = angleLocCoord(posCam.x, posCam.z, drawInfo.x, drawInfo.z);
 }
 
 

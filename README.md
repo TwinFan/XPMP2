@@ -8,8 +8,8 @@ But the origins date back to 2004, and very likely many more were involed. Thank
 This complete re-implementation honors all the basic concepts (so I hope)
 but makes use of X-Plane 11's modern
 [instancing concept](https://developer.x-plane.com/sdk/XPLMInstance/).
-Thus, it should be able to port the idea of the library also into the times of Vulkan and Meta
-when the drawing mechanisms used by the original library will no longer work.
+Thus, it ports the idea of the library also into the times of Vulkan and Metal
+when the drawing mechanisms used by the original library no longer work.
 
 At the same time, using instancing marks basically all parts of the original rendering code
 of the library outdated...it is basically replaced by one line of code calling
@@ -18,11 +18,15 @@ of the library outdated...it is basically replaced by one line of code calling
 Concepts like the syntax of the `xsb_aircraft.txt` file or certainly the idea of an
 multi-pass matching to find a good model are retained, though re-implemented (read: can have new bugs).
 
+XPMP2 does no longer call any OpenGL function and hence  does not require
+to be linked to an OpenGL library. The included XPMP2-Sample application does not link to OpenGL.
+
 Status
 --
 **This is work in progress.**
 
 The XPMP2 lib has been successfully tested with
+- X-Plane 11.50 Beta 3 under OpenGL, Vulkan, and Metal,
 - the enclosed sample plugin,
 - a new branch of LiveTraffic (executables not yet published)
 - on Mac OS and
@@ -188,6 +192,11 @@ Then, also the sample plugin must be build using the docker environment.
 TODOs
 --
 
+- There are still 2 usage of deprecated `XPLMRegisterDrawCallback`, check if they are still needed:
+    1. 2D label writing, though even the latest sample code, published during the X-Plane 11.50 public beta run,
+        makes use of it with phase `xplm_Phase_Window` and other blog entries also suggest
+        that _some_ phases might still be supported for 2D drawing.
+    2. Ping-ponging the AI aircraft count in AIControlPlaneCount(). 
 - Label writing
     - Expose maxLabelDist to some config function 
     - Scale Fonts

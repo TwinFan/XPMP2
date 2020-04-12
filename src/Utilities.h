@@ -93,6 +93,19 @@ std::vector<std::string> str_tokenize (const std::string s,
 // MARK: Math helpers
 //
 
+/// Pi
+constexpr double PI = 3.1415926535897932384626433832795028841971693993751;
+
+/// Convert radians to degrees, normalized to [0..360)
+template <class T>
+inline T rad2deg (const T _rad)
+{ return (_rad < T(0) ? T(360) : T(0)) + _rad * T(180) / T(PI); }
+
+/// Convert degree to radians
+template <class T>
+inline T deg2rad (const T _deg)
+{ return _deg * T(PI) / T(180); }
+
 /// Square
 template <class T>
 inline T sqr (const T a) { return a*a; }
@@ -104,6 +117,44 @@ inline T dist (const T x1, const T y1, const T z1,
 {
     return std::sqrt(sqr(x1-x2) + sqr(y1-y2) + sqr(z1-z2));
 }
+
+/// atan2 converted to degrees: the angle between (0|0) and the given point
+inline float atan2deg (float x, float y)
+{ return rad2deg(atan2(x,y)); }
+
+/// @brief Angle of line from point (x1|z1) to point (x2|z2)
+/// @note Points are given in XP's local coordinates with x -> east and z -> south(!),
+///       but as in atan2 angles grow counter-clockwise, but we expect clockwise,
+///       these 2 effects (z south, counter-clockwise angles) neutralize.
+/// @note atan2 returns 0° when pointing along the x axis, ie. east,
+///       when we would expect a result of 90°.
+///       Hence, we need to add 90°=PI/2 to the result.
+inline float angleLocCoord (float x1, float z1, float x2, float z2)
+{ return rad2deg(atan2(z2-z1,x2-x1) + float(PI/2.0)); }
+
+/// (Shortest) difference between 2 angles: How much to turn to go from h1 to h2?
+float headDiff (float head1, float head2);
+
+//
+// MARK: Misc
+//
+
+/// Get total running time from X-Plane (sim/time/total_running_time_sec)
+float GetTotalRunningTime ();
+
+/// @brief Convenience function to check on something at most every x seconds
+/// @param _lastCheck Provide a float which holds the time of last check (init with `0.0f`)
+/// @param _interval [seconds] How often to perform the check?
+/// @param _now Current time, possibly from a call to GetTotalRunningTime()
+/// @return `true` if more than `_interval` time has passed since `_lastCheck`
+bool CheckEverySoOften (float& _lastCheck, float _interval, float _now);
+
+/// @brief Convenience function to check on something at most every x seconds
+/// @param _lastCheck Provide a float which holds the time of last check (init with `0.0f`)
+/// @param _interval [seconds] How often to perform the check?
+/// @return `true` if more than `_interval` time has passed since `_lastCheck`
+inline bool CheckEverySoOften (float& _lastCheck, float _interval)
+{ return CheckEverySoOften(_lastCheck, _interval, GetTotalRunningTime()); }
 
 //
 // MARK: Logging Support

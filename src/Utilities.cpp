@@ -22,13 +22,16 @@
 
 namespace XPMP2 {
 
-// The one and only global variable structure
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
 #if DEBUG
 GlobVars glob (logDEBUG, true);
 #else
+/// The one and only global variable structure (accepted to require an exit-time destructor)
 GlobVars glob;
 #endif
+#pragma clang diagnostic pop
 
 //
 // MARK: Configuration
@@ -49,12 +52,10 @@ float   PrefsFuncFloatDefault   (const char *, const char *, float _default)
 // Update all config values, e.g. for logging level, by calling prefsFuncInt
 void GlobVars::UpdateCfgVals ()
 {
-    // Let's not do it too often, shall we?
-    static time_t timLstCheck = 0;
-    time_t now = time(nullptr);
-    if (now < timLstCheck+2)        // at most every 2 seconds
+    // Let's do the update only about every 2 seconds
+    static float timLstCheck = 0.0f;
+    if (!CheckEverySoOften(timLstCheck, 2.0f))
         return;
-    timLstCheck = now;
     
     LOG_ASSERT(prefsFuncInt);
     
@@ -258,6 +259,53 @@ std::vector<std::string> str_tokenize (const std::string s,
     v.emplace_back(s.substr(b));
     
     return v;
+}
+
+//
+// MARK: Math helpers
+//
+
+// (Shortest) difference between 2 angles: How much to turn to go from h1 to h2?
+float headDiff (float head1, float head2)
+{
+    // if either value is nan return nan
+    if (std::isnan(head1) || std::isnan(head2)) return NAN;
+    
+    // if 0° North lies between head1 and head2 then simple
+    // diff doesn't work
+    if ( std::abs(head2-head1) > 180 ) {
+        // add 360° to the lesser value...then diff works
+        if ( head1 < head2 )
+            head1 += 360;
+        else
+            head2 += 360;
+    }
+    
+    return head2 - head1;
+}
+
+//
+// MARK: Misc
+//
+
+// Get total running time from X-Plane (sim/time/total_running_time_sec)
+float GetTotalRunningTime ()
+{
+    static XPLMDataRef drTotalRunningTime = nullptr;
+    if (!drTotalRunningTime)
+        drTotalRunningTime = XPLMFindDataRef("sim/time/total_running_time_sec");
+    return XPLMGetDataf(drTotalRunningTime);
+}
+
+
+// Convenience function to check on something at most every x seconds
+bool CheckEverySoOften (float& _lastCheck, float _interval, float _now)
+{
+    if (_now >= _lastCheck + _interval) {
+        _lastCheck = _now;
+        return true;
+    }
+    return false;
 }
 
 //

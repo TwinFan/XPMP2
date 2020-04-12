@@ -113,9 +113,9 @@ protected:
     /// "related" group for this model (a group of alike plane models), or 0
     int                 related = 0;
     /// Reference counter: Number of Aircraft actively using this model
-    unsigned refCnt = 0;
-    /// Time point when refCnt reached 0 (used in garbage collection)
-    std::chrono::steady_clock::time_point refZeroTs;
+    unsigned            refCnt = 0;
+    /// Time point when refCnt reached 0 (used in garbage collection, in terms of XP's total running time)
+    float               refZeroTs = 0.0f;
     
 public:
     /// Constructor

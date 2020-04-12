@@ -17,7 +17,7 @@ add_definitions(-DAPL=$<BOOL:${APPLE}> -DIBM=$<BOOL:${WIN32}> -DLIN=$<AND:$<BOOL
 if (WIN32)
     add_compile_options(/wd4996)
 else()
-    add_compile_options(-Wall -Wshadow -Wfloat-equal -Wextra -Wno-deprecated-declarations)
+    add_compile_options(-Wall -Wshadow -Wfloat-equal -Wextra -Wno-deprecated-declarations -Wno-unknown-pragmas)
 
     # Force-enable exception support. This is most likely redundant, although for C
     # code the default is the opposite. Since we are mixing C++ and C libraries,
@@ -92,7 +92,7 @@ if(APPLE)
       FRAMEWORK TRUE
       FRAMEWORK_VERSION 1.0
       MACOSX_FRAMEWORK_IDENTIFIER com.twinfan.XPMP2
-      MACOSX_FRAMEWORK_INFO_PLIST ../Info.plist
+      MACOSX_FRAMEWORK_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
       VERSION 0.1.0
       SOVERSION 0.1.0
       PUBLIC_HEADER "${XPMP2_PUB_HEADERS}"

@@ -301,18 +301,11 @@ void AIMultiUpdate ()
         gMultiRef[multiIdx].bSlotTaken = true;
         const multiDataRefsTy& mdr = gMultiRef[multiIdx];
 
-        // TODO: Verify we provide the correct position here, e.g. with ABC
-        // HACK to reduce jitter in external camera applications:
-        // The camera app's callback to retrieve camera position is called
-        // _before_ any drawing happens. So what we do here is to provide
-        // the _next_ position for the camera callback to retrieve before
-        // the _next_ cycle.
-        // This is one frame off of what we are drawing. Still _very_ close ;)
+        // This plane's position
         XPLMSetDataf(mdr.X, ac.drawInfo.x);
         XPLMSetDataf(mdr.Y, ac.drawInfo.y);
         XPLMSetDataf(mdr.Z, ac.drawInfo.z);
         // attitude
-        // TODO: Might also be taken from "next pos"
         XPLMSetDataf(mdr.pitch,   ac.drawInfo.pitch);
         XPLMSetDataf(mdr.roll,    ac.drawInfo.roll);
         XPLMSetDataf(mdr.heading, ac.drawInfo.heading);

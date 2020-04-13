@@ -261,7 +261,10 @@ public:
         
         // Label
         label = "XPMP2::Aircraft";
-        
+        colLabel[0] = 0.0f;             // green
+        colLabel[1] = 1.0f;
+        colLabel[2] = 0.0f;
+
         // Radar
         acRadar.code = 7654;
         acRadar.mode = xpmpTransponderMode_ModeC;
@@ -509,7 +512,7 @@ LegacySampleAircraft* pLegacyPlane = nullptr;
 // MARK: Using XPMP2 - Standard C Functions
 //       This plane will always be on the ground, ie. its altitude is
 //       calculated to be on ground level, gear is down.
-//       The plane's label for display is "Standard C" in yellow.
+//       The plane's label for display is "Standard C" in red.
 //
 
 /// We handle just one aircraft with standard functions, this one:
@@ -548,8 +551,8 @@ XPMPPlaneCallbackResult SetPositionData (XPMPPlanePosition_t& data)
     strcpy ( data.label, "Standard C");
     data.offsetScale    = 1.0f;             // so that full vertical offset is applied and plane sits on its wheels (should probably always be 1.0)
     data.aiPrio         = 1;
-    data.label_color[0] = 1.0f;             // yellow
-    data.label_color[1] = 1.0f;
+    data.label_color[0] = 1.0f;             // red
+    data.label_color[1] = 0.0f;
     data.label_color[2] = 0.0f;
     data.label_color[3] = 1.0f;
     return xpmpData_NewData;

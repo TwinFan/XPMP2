@@ -24,6 +24,15 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		25A334CA2444FD5E00D4F988 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -117,6 +126,7 @@
 				D607B19609A556E400699BC3 /* Sources */,
 				D607B19709A556E400699BC3 /* Frameworks */,
 				2575F44F23ECC35000747524 /* Embed Frameworks */,
+				25A334CA2444FD5E00D4F988 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -265,7 +275,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.twinfan.XPMP2-Sample";
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = macosx;
-				XPLANE11_ROOT = "/Users/birger/Applications/X-Plane 11";
+				XPLANE11_ROOT = "/Users/birger/Applications/X-Plane BETA";
 			};
 			name = Debug;
 		};
@@ -366,7 +376,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.twinfan.XPMP2-Sample";
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = macosx;
-				XPLANE11_ROOT = "/Users/birger/Applications/X-Plane 11";
+				XPLANE11_ROOT = "/Users/birger/Applications/X-Plane BETA";
 			};
 			name = Release;
 		};

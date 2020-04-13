@@ -68,8 +68,8 @@ static void read_matrices ()
     XPLMGetDatavf(drMatrixProj,gMatrixProj,0,16);
     
     // Read the screen size (won't change often if at all...but could!)
-    gScreenW = XPLMGetDatai(drScreenWidth);
-    gScreenH = XPLMGetDatai(drScreenHeight);
+    gScreenW = (float)XPLMGetDatai(drScreenWidth);
+    gScreenH = (float)XPLMGetDatai(drScreenHeight);
     
     // Field of view
     gFOV = XPLMGetDataf(drFieldOfView);

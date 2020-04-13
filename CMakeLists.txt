@@ -15,7 +15,7 @@ add_definitions(-DAPL=$<BOOL:${APPLE}> -DIBM=$<BOOL:${WIN32}> -DLIN=$<AND:$<BOOL
 # Enable stricter warnings and then disable some we are not interested in.
 # For XPMP2 compile, we don't need to be warned about our self-defined depreciations
 if (WIN32)
-    add_compile_options(/wd4996)
+    add_compile_options(/wd4996 /wd4068)
 else()
     add_compile_options(-Wall -Wshadow -Wfloat-equal -Wextra -Wno-deprecated-declarations -Wno-unknown-pragmas)
 

@@ -380,6 +380,10 @@ void AIMultiUpdate ()
         // if not used reset all values
         if (!mdr.bSlotTaken)
             AIMultiClearDataRefs(mdr);
+
+    // Set the number of planes
+    XPLMSetActiveAircraftCount(// "+2" because one plane is the user's plane, and also maxMultiIdxUsed is zero based
+                               2 + int(glob.maxMultiIdxUsed));
 }
 
 //
@@ -537,7 +541,7 @@ void AIMultiCleanup ()
     }
 }
 
-
+/*
 /// @brief      Ping-pongs the count of AI/Multiplayer aircraft
 /// @details    This is a core part of the "TCAS hack":
 ///             Right _before_ X-Plane renders its plane(s),
@@ -560,7 +564,7 @@ int AIControlPlaneCount (XPLMDrawingPhase,  // inPhase
     }
     return 1;
 }
-
+*/
 
 }  // namespace XPMP2
 
@@ -595,7 +599,7 @@ const char *    XPMPMultiplayerEnable()
 
         // Cleanup multiplayer values...we are in control now
         XPMPInitMultiplayerDataRefs();
-        
+/*
         // Register the plane count control calls.
         // TODO: These are a deprecated calls!
         XPLMRegisterDrawCallback(AIControlPlaneCount,
@@ -606,7 +610,7 @@ const char *    XPMPMultiplayerEnable()
                                  xplm_Phase_Airplanes,
                                  0,             // after
                                  nullptr);
-        
+*/        
         // Success
         return "";
     }
@@ -624,6 +628,7 @@ void XPMPMultiplayerDisable()
     if (!XPMPHasControlOfAIAircraft())
         return;
     
+/*
     // Unregister the plane count control calls.
     // TODO: These are a deprecated calls!
     XPLMUnregisterDrawCallback(AIControlPlaneCount,
@@ -634,7 +639,7 @@ void XPMPMultiplayerDisable()
                                xplm_Phase_Airplanes,
                                0,             // after
                                nullptr);
-    
+*/    
     // Cleanup our values
     XPLMSetActiveAircraftCount(1);
     XPMPInitMultiplayerDataRefs(true);

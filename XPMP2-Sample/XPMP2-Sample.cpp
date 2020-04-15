@@ -865,20 +865,17 @@ PLUGIN_API int XPluginEnable(void)
     resourcePath += "Resources";            // should now be something like ".../Resources/plugins/XPMP2-Sample/Resources"
 
     // Try initializing XPMP2:
-    const char *res = XPMPMultiplayerInit (CBIntPrefsFunc, nullptr, // configuration callback function
-                                           resourcePath.c_str(),    // path to write userVertOfs.txt to
-                                           "XPMP2-Sample",          // plugin name
-                                           "C172",                  // default ICAO type
-                                           (resourcePath + pathSep + "MapIcons.png").c_str());
+    const char *res = XPMPMultiplayerInit ("XPMP2-Sample",          // plugin name,
+                                           resourcePath.c_str(),    // path to supplemental files
+                                           CBIntPrefsFunc,          // configuration callback function
+                                           "C172");                 // default ICAO type
     if (res[0]) {
         LogMsg("XPMP2-Sample: Initialization of XPMP2 failed: %s", res);
         return 0;
     }
     
     // Load our CSL models
-    res = XPMPLoadCSLPackage(resourcePath.c_str(),      // CSL folder root path
-                             (resourcePath + pathSep + "related.txt").c_str(),
-                             (resourcePath + pathSep + "Doc8643.txt").c_str());
+    res = XPMPLoadCSLPackage(resourcePath.c_str());     // CSL folder root path
     
     // Now we also try to get control of AI planes. That's optional, though,
     // other plugins (like LiveTraffic, XSquawkBox, X-IvAp...)

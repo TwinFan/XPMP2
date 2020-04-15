@@ -133,7 +133,7 @@ void Aircraft::MapDrawIcon (XPLMMapLayerID inLayer, const float acSize)
     // draw only if said to be visible on this map
     if (!std::isnan(mapX) && !std::isnan(mapY)) {
         XPLMDrawMapIconFromSheet(inLayer,
-                                 glob.mapIconsFileName.c_str(),
+                                 glob.pathMapIcons.c_str(),
                                  mapIconRow, mapIconCol,
                                  MAP_ICON_WIDTH, MAP_ICON_HEIGHT,
                                  mapX, mapY,
@@ -325,7 +325,7 @@ void XPMPEnableMap (bool _bEnable, bool _bLabels)
     if (glob.bMapEnabled == _bEnable) return;
     
     // Are we to enable but can't due to missing icon file?
-    if (_bEnable && glob.mapIconsFileName.empty()) {
+    if (_bEnable && glob.pathMapIcons.empty()) {
         LOG_MSG(logERR, ERR_UNABLE_NO_ICONS);
         return;
     }

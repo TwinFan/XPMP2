@@ -69,6 +69,10 @@
 		2575F45323EDFC5E00747524 /* Map.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Map.cpp; sourceTree = "<group>"; };
 		2589B84823CB4D6F005B76B8 /* RelatedDoc8643.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RelatedDoc8643.h; sourceTree = "<group>"; };
 		2589B84923CB4D6F005B76B8 /* RelatedDoc8643.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RelatedDoc8643.cpp; sourceTree = "<group>"; };
+		2596FD472447226700C6A41E /* NoPlane.acf */ = {isa = PBXFileReference; lastKnownFileType = text; path = NoPlane.acf; sourceTree = "<group>"; };
+		2596FD482447226700C6A41E /* Doc8643.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Doc8643.txt; sourceTree = "<group>"; };
+		2596FD592447226700C6A41E /* MapIcons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MapIcons.png; sourceTree = "<group>"; };
+		2596FD5A2447226700C6A41E /* related.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = related.txt; sourceTree = "<group>"; };
 		2599B91823BF636E00F92BB5 /* Aircraft.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Aircraft.cpp; sourceTree = "<group>"; };
 		2599B92123BF63F600F92BB5 /* XPMP2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPMP2.h; sourceTree = "<group>"; };
 		25AE8CB323E376E1000BE21E /* 2D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = 2D.cpp; sourceTree = "<group>"; };
@@ -110,8 +114,9 @@
 				252C01F723E6D64F007C231F /* docker */,
 				25D680BD23BE9B7900C83CC5 /* docs */,
 				25D680B523BE95FB00C83CC5 /* inc */,
-				25D680BC23BE9B5700C83CC5 /* src */,
 				2502C16923BE3CFC00578919 /* Products */,
+				2596FD462447226700C6A41E /* Resources */,
+				25D680BC23BE9B5700C83CC5 /* src */,
 			);
 			sourceTree = "<group>";
 		};
@@ -133,6 +138,17 @@
 				252C01FB23E6D64F007C231F /* build.sh */,
 			);
 			path = docker;
+			sourceTree = "<group>";
+		};
+		2596FD462447226700C6A41E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				2596FD472447226700C6A41E /* NoPlane.acf */,
+				2596FD482447226700C6A41E /* Doc8643.txt */,
+				2596FD592447226700C6A41E /* MapIcons.png */,
+				2596FD5A2447226700C6A41E /* related.txt */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		25D680B523BE95FB00C83CC5 /* inc */ = {

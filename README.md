@@ -21,6 +21,16 @@ multi-pass matching to find a good model are retained, though re-implemented (re
 XPMP2 does no longer call any OpenGL function and hence  does not require
 to be linked to an OpenGL library. The included XPMP2-Sample application does not link to OpenGL.
 
+The previous TCAS hack no longer works as the used flight loop phases no longer exist
+and replacement phases aren't identical between Vulkan and Metal.
+XPMP2 uses a new approach: Instead of tricking X-Plane not to render AI planes
+it provides X-Plane with a valid aircraft file, which does not contain any object to draw:
+`NoPlane.acf`. So actually, two planes are drawn for each plane that is at the same time
+supported as AI multiplayer plane for TCAS: One by XPMP2, which really is visible,
+and `NoPlane.acf` on top of that by X-Plane, which is invisible as it consists of no objects.
+This has the same effect in the internal map: The X-Plane version of the plane is invisible,
+only the track marks unveil that X-Plane is tracking its AI multiplayer planes.
+
 Status
 --
 **This is work in progress.**
@@ -80,10 +90,11 @@ hinder a proper implementation to compile successfully, albeit with some new war
    finds an `xsb_aircraft.txt` file. This should not affect classic usages,
    where such a path was just one level away from the `xsb_aircraft.txt` file.
    It would just also search deeper if needed.
-- `XPMPMultiplayerInit(LegacyData)` can take one more optional parameter,
-  `inMapIconFile`, which defines the full path to the `MapIcons.png` file,
-  which contains the icons shown in X-Plane's maps.\n
-  Its parameter `inTexturePath` is no longer required and can be `nullptr`.
+- Parameters of `XPMPMultiplayerInit(LegacyData)` have been reshaped, though,
+   ie. calls to these functions need adaptation. Less parmeters are needed now, though,
+   please see documentaton or header file. The path to the resource directory is now
+   mandatory and it describes where all the supplemental files needed by the library
+   are to be found: `Doc8643.txt`, `MapIcons.png`, `NoPlane.acf`, `related.txt`.
 - It is no longer necessary to define the compile-time macros `XPMP_CLIENT_NAME`
   and `XPMP_CLIENT_LONGNAME`. Instead, you can use the new parameter
   `inPluginName` in the call to `XPMPMultiplayerInit` or the function

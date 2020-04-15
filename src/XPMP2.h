@@ -110,13 +110,15 @@ public:
 
     /// Configuration callback for integer values
     int (*prefsFuncInt)(const char *, const char *, int) = XPMP2::PrefsFuncIntDefault;
-    /// Configuration callback for float values
-    float (*prefsFuncFloat)(const char *, const char *, float) = XPMP2::PrefsFuncFloatDefault;
     /// List of notifier functions registered for being notified of creation/destruction/model change
     listXPMPPlaneNotifierTy listObservers;
     
+    /// Path to Doc8643.txt file
+    std::string     pathDoc8643;
     /// Content of `Doc8643.txt` file
     mapDoc8643Ty    mapDoc8643;
+    /// Path to related.txt file
+    std::string     pathRelated;
     /// Content of `related.txt` file as a map of type codes to group id
     mapRelatedTy    mapRelated;
 
@@ -140,8 +142,12 @@ public:
     
     /// Do we control X-Plane's AI/Multiplayer planes?
     bool            bHasControlOfAIAircraft = false;
+    /// Initialization of AI planes needed?
+    bool            bNeedInitAIPlanes = false;
     /// maximum AI index used
     size_t          maxMultiIdxUsed = 0;
+    /// Path to the invisible plane to fake TCAS blibs
+    std::string     pathNoPlane;
     
     /// Do we feed X-Plane's maps with our aircraft positions?
     bool            bMapEnabled = true;
@@ -150,7 +156,7 @@ public:
     /// Map of map layer ids, i.e. for each map this is the id of the corresponding layer of ours
     mapMapLayerIDTy mapMapLayers;
     /// path to file containing plane icons for map display
-    std::string     mapIconsFileName;
+    std::string     pathMapIcons;
     
 #ifdef DEBUG
     /// Current XP cycle number (see XPLMGetCycleNumber())

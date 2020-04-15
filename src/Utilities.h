@@ -40,6 +40,12 @@ float   PrefsFuncFloatDefault   (const char *, const char *, float _default);
 // MARK: File access helpers
 //
 
+#if IBM
+#define PATH_DELIM_STD '\\'
+#else
+#define PATH_DELIM_STD '/'
+#endif
+
 /// Does a file path exist?
 bool ExistsFile (const std::string& filename);
 
@@ -246,9 +252,13 @@ inline int strerror_s( char *buf, size_t bufsz, int errnum )
 #if APL
 /// Checks how XPLM_USE_NATIVE_PATHS is set (recommended to use), and if not set converts the path
 std::string TOPOSIX (const std::string& p);
+/// Checks how XPLM_USE_NATIVE_PATHS is set (recommended to use), and if not set converts the path from POSIX to HFS
+std::string FROMPOSIX (const std::string& p);
 #else
 /// On Lin/Win there is no need for a conversion, but we do treat `p` now as `std::string`
 inline std::string TOPOSIX (const std::string& p) { return p; }
+/// On Lin/Win there is no need for a conversion, but we do treat `p` now as `std::string`
+inline std::string FROMPOSIX (const std::string& p) { return p; }
 #endif
 
 }       // namespace XPMP2

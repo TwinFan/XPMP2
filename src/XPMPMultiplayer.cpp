@@ -22,8 +22,9 @@
 
 #include <cstring>
 
-#define WARN_MAP_ICON_UNAVAIL   "Map icons file '%s' does not exist!"
-#define WARN_RSRC_DIR_UNAVAIL   "Resource directory '%s' does not exist!"
+#define ERR_RSRC_DIR_INVALID  "Resource directory too short: %s"
+#define ERR_RSRC_DIR_UNAVAIL  "Resource directory '%s' does not exist!"
+#define ERR_RSRC_FILE_UNAVAIL "File '%s' is missing in resource directory '%s'"
 #define INFO_DEFAULT_ICAO       "Default ICAO aircraft type now is %s"
 #define INFO_LOAD_CSL_PACKAGE   "Loading CSL package from %s"
 
@@ -35,53 +36,101 @@ using namespace XPMP2;
 // MARK: Initialization
 //
 
-// This routine initializes legacy portions of the multiplayer library
-const char *    XPMPMultiplayerInitLegacyData(const char * inCSLFolder,
-                                              const char * inRelatedPath,
-                                              const char * /*inTexturePath*/,
-                                              const char * inDoc8643,
-                                              const char * inDefaultICAO,
-                                              int (* inIntPrefsFunc)(const char *, const char *, int),
-                                              float (* inFloatPrefsFunc)(const char *, const char *, float),
-                                              const char * inMapIconFile)
+namespace XPMP2 {
+
+// Required supplemental files
+constexpr const char* RSRC_RELATED      = "related.txt";
+constexpr const char* RSRC_DOC8643      = "Doc8643.txt";
+constexpr const char* RSRC_MAP_ICONS    = "MapIcons.png";
+constexpr const char* RSRC_NO_PLANE     = "NoPlane.acf";
+
+/// Validates existence of a given file and saves its full path location
+static bool FindResFile (const char* fName, std::string& outPath)
 {
-    // We just pass on the calls to the individual functions:
+    std::string path = glob.resourceDir + fName;
+    if (ExistsFile(path)) {
+        outPath = std::move(path);
+        return true;
+    } else {
+        LOG_MSG(logFATAL, ERR_RSRC_FILE_UNAVAIL,
+                fName, glob.resourceDir.c_str());
+        return false;
+    }
+}
+
+/// Validate all required files are available in the resource directory
+const char* XPMPValidateResourceFiles (const char* resourceDir)
+{
+    // Store the resource dir
+    if (!resourceDir || strlen(resourceDir) < 5) {
+        LOG_MSG(logERR, ERR_RSRC_DIR_INVALID, resourceDir ? resourceDir : "<nullptr>");
+        return "resourceDir too short / nullptr";
+    }
+    glob.resourceDir = TOPOSIX(resourceDir);
     
-    // Internal init first
-    const char* ret = XPMPMultiplayerInit (inIntPrefsFunc,
-                                           inFloatPrefsFunc,
-                                           NULL,                // resourceDir unknown
-                                           inDefaultICAO,
-                                           inMapIconFile);
-    if (ret[0])                                     // failed?
-        return ret;
+    // for path validation it must not end in the path separator
+    if (glob.resourceDir.back() == PATH_DELIM_STD)
+        glob.resourceDir.pop_back();    
+    // Check for its existence
+    if (!IsDir(glob.resourceDir)) {
+        LOG_MSG(logERR, ERR_RSRC_DIR_UNAVAIL, glob.resourceDir.c_str());
+        return "Resource directory unavailable";
+    }
+    // now add a separator to the path for ease of future use
+    glob.resourceDir += PATH_DELIM_STD;
     
-    // Then try loading the first set of CSL models
-    ret = XPMPLoadCSLPackage(inCSLFolder,
-                             inRelatedPath,
-                             inDoc8643);
-    if (ret[0])                                     // failed?
-        return ret;
+    // Validate and save a few files
+    if (!FindResFile(RSRC_RELATED, glob.pathRelated))
+        return "related.txt not found in resource directory";
+    if (!FindResFile(RSRC_DOC8643, glob.pathDoc8643))
+        return "Doc8643.txt not found in resource directory";
+    if (!FindResFile(RSRC_MAP_ICONS, glob.pathMapIcons))
+        return "MapIcons.png not found in resource directory";
+    if (FindResFile(RSRC_NO_PLANE, glob.pathNoPlane))
+        // This path we might need in HFS form
+        glob.pathNoPlane = FROMPOSIX(glob.pathNoPlane);
+    else
+        return "NoPlane.acf not found in resource directory";
     
     // Success
     return "";
 }
 
+};
+
+// This routine initializes legacy portions of the multiplayer library
+const char *    XPMPMultiplayerInitLegacyData(const char* inCSLFolder,
+                                              const char* inPluginName,
+                                              const char* resourceDir,
+                                              XPMPIntPrefsFuncTy inIntPrefsFunc,
+                                              const char* inDefaultICAO)
+{
+    // We just pass on the calls to the individual functions:
+    
+    // Internal init first
+    const char* ret = XPMPMultiplayerInit (inPluginName,
+                                           resourceDir,
+                                           inIntPrefsFunc,
+                                           inDefaultICAO);
+    if (ret[0])                                     // failed?
+        return ret;
+    
+    // Then try loading the first set of CSL models
+    return XPMPLoadCSLPackage(inCSLFolder);
+}
+
 // Init preference callback functions
 // and storage location for user vertical offset config file
-const char *    XPMPMultiplayerInit(int (* inIntPrefsFunc)(const char *, const char *, int),
-                                    float (* inFloatPrefsFunc)(const char *, const char *, float),
-                                    const char * resourceDir,
-                                    const char* inPluginName,
-                                    const char* inDefaultICAO,
-                                    const char* inMapIconFile)
+const char *    XPMPMultiplayerInit(const char* inPluginName,
+                                    const char* resourceDir,
+                                    XPMPIntPrefsFuncTy inIntPrefsFunc,
+                                    const char* inDefaultICAO)
 {
     // Initialize random number generator
     std::srand(unsigned(std::time(nullptr)));
     
     // Store the pointers to the configuration callback functions
     glob.prefsFuncInt   = inIntPrefsFunc    ? inIntPrefsFunc    : PrefsFuncIntDefault;
-    glob.prefsFuncFloat = inFloatPrefsFunc  ? inFloatPrefsFunc  : PrefsFuncFloatDefault;
     // And get initial config values (defines, e.g., log level, which we'll need soon)
     glob.UpdateCfgVals();
     
@@ -94,30 +143,12 @@ const char *    XPMPMultiplayerInit(int (* inIntPrefsFunc)(const char *, const c
     }
     LOG_MSG(logINFO, "XPMP2 Initializing...")
     
+    // Look for all supplemental files
+    const char* ret = XPMPValidateResourceFiles(resourceDir);
+    if (ret[0]) return ret;
+    
     // Define the default ICAO aircraft type
     XPMPSetDefaultPlaneICAO(inDefaultICAO);
-    
-    // Save the path to the map icons file, if it exists
-    if (inMapIconFile)
-    {
-        std::string mapIcnF = TOPOSIX(inMapIconFile);
-        if (ExistsFile(mapIcnF)) {
-            glob.mapIconsFileName = std::move(mapIcnF);
-        } else {
-            LOG_MSG(logERR, WARN_MAP_ICON_UNAVAIL, mapIcnF.c_str());
-        }
-    }
-    
-    // Save the resource dir, if it exists
-    if (resourceDir)
-    {
-        std::string psxResDir = TOPOSIX(resourceDir);
-        if (ExistsFile(psxResDir)) {
-            glob.resourceDir = std::move(psxResDir);
-        } else {
-            LOG_MSG(logWARN, WARN_RSRC_DIR_UNAVAIL, psxResDir.c_str());
-        }
-    }
     
     // Initialize all modules
     CSLModelsInit();
@@ -126,6 +157,15 @@ const char *    XPMPMultiplayerInit(int (* inIntPrefsFunc)(const char *, const c
     AIMultiInit();
     MapInit();
     
+    // Load related.txt
+    ret = RelatedLoad(glob.pathRelated);
+    if (ret[0]) return ret;
+
+    // Load Doc8643.txt
+    ret = Doc8643Load(glob.pathDoc8643);
+    if (ret[0]) return ret;
+
+    // Success
     return "";
 }
 
@@ -160,32 +200,15 @@ const char * XPMPMultiplayerOBJ7SupportEnable(const char *)
 //
 
 // Loads a collection of planes models
-const char *    XPMPLoadCSLPackage(const char * inCSLFolder,
-                                   const char * inRelatedPath,
-                                   const char * inDoc8643)
+const char *    XPMPLoadCSLPackage(const char * inCSLFolder)
 {
-    const char* ret = "";
-    
-    // If given, load the `related.txt` file
-    if (inRelatedPath) {
-        ret = RelatedLoad(inRelatedPath);
-        if (ret[0]) return ret;
-    }
-    
-    // If given, load the `doc8643.txt` file
-    if (inDoc8643) {
-        ret = Doc8643Load(inDoc8643);
-        if (ret[0]) return ret;
-    }
-    
     // Do load the CSL Models in the given path
     if (inCSLFolder) {
         LOG_MSG(logINFO, INFO_LOAD_CSL_PACKAGE, inCSLFolder);
-        ret = CSLModelsLoad(inCSLFolder);
-        if (ret[0]) return ret;
+        return CSLModelsLoad(inCSLFolder);
     }
-    
-    return ret;
+    else
+        return "<nullptr> provided";
 }
 
 // checks what planes are loaded and loads any that we didn't get

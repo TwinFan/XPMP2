@@ -157,6 +157,31 @@ void Aircraft::AISlotClear ()
     multiIdx = -1;
 }
 
+/// @brief Initializes all AI planes for our usage
+/// @details Disables AI and specifically sets the "NoPlane" aircraft model,
+///          so that no actual plane will be rendered.
+///          Cleans all dataRefs, so that we can start fresh with defined values.
+void AIInitPlanes (int total)
+{
+    // Disable AI for all the planes...we move them now
+    // And set the "NoPlane" model so that they are no actually rendered,
+    // but appear on TCAS
+    XPLMSetActiveAircraftCount(total);
+    for (int i = 1; i < total; i++) {
+        XPLMDisableAIForPlane(i);
+        XPLMSetAircraftModel(i, glob.pathNoPlane.c_str());
+    }
+    
+    // But so far, we have none published
+    XPLMSetActiveAircraftCount(1);
+    
+    // Cleanup multiplayer values...we are in control now
+    XPMPInitMultiplayerDataRefs();
+    
+    // Init done
+    glob.bNeedInitAIPlanes = false;
+}
+
 //              Updates all multiplayer dataRefs, both standard X-Plane,
 //              as well as additional shared dataRefs for text publishing
 /// @details    We want a plane to keep its index as long as possible. This eases
@@ -182,7 +207,13 @@ void AIMultiUpdate ()
     // `numAIPlanes` is the number of AI aircraft _configured_ by the user in X-Plane's AI-Planes settings
     int numAIPlanes, active, plugin;
     XPLMCountAircraft(&numAIPlanes, &active, &plugin);
-    numAIPlanes--;               // first one's the user plane, here we don't count that
+    
+    // Still need to initialize the AI planes for usage?
+    if (glob.bNeedInitAIPlanes)
+        AIInitPlanes(numAIPlanes);
+    
+    // For further steps: first plane is the user plane, here we don't count that
+    numAIPlanes--;
 
     // reset our bookkeeping on used multiplay idx
     for (multiDataRefsTy& iter: gMultiRef)
@@ -291,9 +322,9 @@ void AIMultiUpdate ()
         const size_t multiIdx = (size_t)ac.GetMultiIdx();
         // should not happen...but we don't want runtime errors either
         if (multiIdx >= gMultiRef.size()) {
-            LOG_MSG(logDEBUG, "Aircraft %llu: ERROR, too high an AI slot: %d",
+            LOG_MSG(logDEBUG, "Aircraft %llu: ERROR, too high an AI slot: %ld",
                     (long long unsigned)ac.GetPlaneID(),
-                    ac.GetMultiIdx());
+                    multiIdx);
             continue;
         }
         
@@ -382,8 +413,9 @@ void AIMultiUpdate ()
             AIMultiClearDataRefs(mdr);
 
     // Set the number of planes
-    XPLMSetActiveAircraftCount(// "+2" because one plane is the user's plane, and also maxMultiIdxUsed is zero based
-                               2 + int(glob.maxMultiIdxUsed));
+    // "+2" because one plane is the user's plane, and also maxMultiIdxUsed is zero based
+    const int nCount = 2 + int(glob.maxMultiIdxUsed);
+    XPLMSetActiveAircraftCount(nCount);
 }
 
 //
@@ -541,31 +573,6 @@ void AIMultiCleanup ()
     }
 }
 
-/*
-/// @brief      Ping-pongs the count of AI/Multiplayer aircraft
-/// @details    This is a core part of the "TCAS hack":
-///             Right _before_ X-Plane renders its plane(s),
-///             we set the count of planes to 1 (ie. the user's own plane only)
-///             so that X-Plane does not draw any AI planes on our positions.\n
-///             Right _after_ the aircraft drawing phase we set the number of planes
-///             to the actual number of AI planes (strictly speaking:
-///             to the highest index in use) so that functions/plugins depending
-///             on this count are aware of our aircraft and read their positions.
-int AIControlPlaneCount (XPLMDrawingPhase,  // inPhase
-                         int                inIsBefore,
-                         void *)            // inRefcon
-{
-    UPDATE_CYCLE_NUM;               // DEBUG only: Store current cycle number in glob.xpCycleNum
-    // only if we are in control
-    if (XPMPHasControlOfAIAircraft()) {
-        XPLMSetActiveAircraftCount(inIsBefore ? 1 :
-                                   // "+2" because one plane is the user's plane, and also maxMultiIdxUsed is zero based
-                                   2 + int(glob.maxMultiIdxUsed));
-    }
-    return 1;
-}
-*/
-
 }  // namespace XPMP2
 
 //
@@ -573,6 +580,10 @@ int AIControlPlaneCount (XPLMDrawingPhase,  // inPhase
 //
 
 using namespace XPMP2;
+
+namespace XPMP2 {
+
+}
 
 // Acquire control of multiplayer aircraft
 const char *    XPMPMultiplayerEnable()
@@ -589,28 +600,18 @@ const char *    XPMPMultiplayerEnable()
         int total=0, active=0;
         XPLMPluginID who=0;
         XPLMCountAircraft(&total, &active, &who);
-
-        // But so far, we have none published
-        XPLMSetActiveAircraftCount(1);
         
-        // Disable AI for all the planes...we move them now
-        for (int i = 1; i < total; i++)
-            XPLMDisableAIForPlane(i);
+        if (total > 1)
+            AIInitPlanes(total);
+        // Often, this function will be called during plugin
+        // initialization (XPluginStart/Enable or so).
+        // During X-Plane startup, the number of configured AI planes
+        // is not known, so we defer initialization to the first
+        // flight loop. (That's a pitty, cause it will cause a stutter...
+        // don't know a way out, though.)
+        else
+            glob.bNeedInitAIPlanes = true;
 
-        // Cleanup multiplayer values...we are in control now
-        XPMPInitMultiplayerDataRefs();
-/*
-        // Register the plane count control calls.
-        // TODO: These are a deprecated calls!
-        XPLMRegisterDrawCallback(AIControlPlaneCount,
-                                 xplm_Phase_Airplanes,
-                                 1,             // before
-                                 nullptr);
-        XPLMRegisterDrawCallback(AIControlPlaneCount,
-                                 xplm_Phase_Airplanes,
-                                 0,             // after
-                                 nullptr);
-*/        
         // Success
         return "";
     }

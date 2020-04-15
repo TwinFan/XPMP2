@@ -43,12 +43,6 @@ int     PrefsFuncIntDefault     (const char *, const char *, int _default)
     return _default;
 }
 
-/// Default config function just always returns the provided default value
-float   PrefsFuncFloatDefault   (const char *, const char *, float _default)
-{
-    return _default;
-}
-
 // Update all config values, e.g. for logging level, by calling prefsFuncInt
 void GlobVars::UpdateCfgVals ()
 {
@@ -208,7 +202,7 @@ bool Posix2HFSPath(const char *path, char *result, int resultSize)
     return true;
 }
 
-// Checks how XPLM_USE_NATIVE_PATHS is set (recommended to use), and if not set converts the path
+// Checks how XPLM_USE_NATIVE_PATHS is set (recommended to use), and if not set converts the path from HFS to POSIX
 std::string TOPOSIX (const std::string& p)
 {
     // no actual conversion if XPLM_USE_NATIVE_PATHS is activated
@@ -218,6 +212,21 @@ std::string TOPOSIX (const std::string& p)
         char posix[1024];
         if (HFS2PosixPath(p.c_str(), posix, sizeof(posix)))
             return posix;
+        else
+            return p;
+    }
+}
+
+// Checks how XPLM_USE_NATIVE_PATHS is set (recommended to use), and if not set converts the path from POSIX to HFS
+std::string FROMPOSIX (const std::string& p)
+{
+    // no actual conversion if XPLM_USE_NATIVE_PATHS is activated
+    if (XPLMIsFeatureEnabled("XPLM_USE_NATIVE_PATHS"))
+        return p;
+    else {
+        char hfs[1024];
+        if (Posix2HFSPath(p.c_str(), hfs, sizeof(hfs)))
+            return hfs;
         else
             return p;
     }
@@ -301,7 +310,8 @@ float GetTotalRunningTime ()
 // Convenience function to check on something at most every x seconds
 bool CheckEverySoOften (float& _lastCheck, float _interval, float _now)
 {
-    if (_now >= _lastCheck + _interval) {
+    if (_lastCheck < 0.00001f ||
+        _now >= _lastCheck + _interval) {
         _lastCheck = _now;
         return true;
     }

@@ -100,7 +100,7 @@ void XPMPSendNotification (const Aircraft& plane, XPMPPlaneNotification _notific
 struct GlobVars {
 public:
     /// Logging level
-    logLevelTy      logLvl      = logWARN;
+    logLevelTy      logLvl      = logINFO;
     /// Debug model matching?
     bool            bLogMdlMatch= false;
     /// Clamp all planes to the ground? Default is `false` as clamping is kinda expensive due to Y-Testing.
@@ -182,7 +182,7 @@ public:
 
 public:
     /// Constructor
-    GlobVars (logLevelTy _logLvl = logWARN, bool _logMdlMatch = false) :
+    GlobVars (logLevelTy _logLvl = logINFO, bool _logMdlMatch = false) :
     logLvl(_logLvl), bLogMdlMatch(_logMdlMatch) {}
     /// Update all settings, e.g. for logging level, by calling prefsFuncInt
     void UpdateCfgVals ();

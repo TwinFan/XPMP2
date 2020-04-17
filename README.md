@@ -97,7 +97,7 @@ hinder a proper implementation to compile successfully, albeit with some new war
    where such a path was just one level away from the `xsb_aircraft.txt` file.
    It would just also search deeper if needed.
 - Parameters of `XPMPMultiplayerInit(LegacyData)` have been reshaped, though,
-   ie. calls to these functions need adaptation. Less parmeters are needed now, though,
+   ie. calls to these functions need adaptation. Less parameters are needed now, though,
    please see documentaton or header file. The path to the resource directory is now
    mandatory and it describes where all the supplemental files needed by the library
    are to be found: `Doc8643.txt`, `MapIcons.png`, `NoPlane.acf`, `related.txt`.
@@ -133,16 +133,14 @@ I considered no longer required:
    
 New Features
 ---
-- XPMP2 shows all aircraft in X-Plane's map views, with icons roughly related to the
+- **Map Layer Support:** XPMP2 shows all aircraft in X-Plane's map views,
+  with icons roughly related to the
   plane's type and size. The map layer is called by its plugin name (see
   `XPMPSetPluginName`).
 - `XPMPLoadCSLPackage` walks directories hierarchically up to 5 levels deep
   to search for `xsb_aircraft.txt` files. In complex multi-CSL-package setups,
   it might now be sufficient to pass in some higher-level directory instead calling the
   function several times per package.
-- Map support: All aircraft are shown on X-Plane's internal map in a map layer
-  named after the plugin's name. The new API function `XPMPEnableMap`
-  allows you to control creation of the map layer as well as toggle display of labels.
 
 Sample Plugin
 ---
@@ -152,6 +150,14 @@ in front of the user's plane. Each of the 3 aircraft is using a different techno
 the now recommended way of subclassing `XPMP2::Aircraft`, the legacy way
 of subclassing `XPCAircraft` (as used by LiveTraffic v1.x), and by calling
 standard C functions.
+
+Doxygen Documnetation
+--
+
+All code has [Doxygen](http://doxygen.nl)-style documentation.
+A Doxygen configuration is provided in `docs/XPMP2.doxygen`. 
+Pass it to a call to Doxygen to build the documentation.
+Entry point then is `docs/html/index.html`.
 
 Building XPMP2
 --
@@ -209,16 +215,11 @@ Then, also the sample plugin must be build using the docker environment.
 TODOs
 --
 
-- There are still 2 usage of deprecated `XPLMRegisterDrawCallback`, check if they are still needed:
-    1. 2D label writing, though even the latest sample code, published during the X-Plane 11.50 public beta run,
-        makes use of it with phase `xplm_Phase_Window` and other blog entries also suggest
-        that _some_ phases might still be supported for 2D drawing.
-    2. Ping-ponging the AI aircraft count in AIControlPlaneCount(). 
 - Label writing
     - Expose maxLabelDist to some config function 
     - Scale Fonts
 - AI/Multiplayer dataRefs
-    - Shared dataRefs for providing textual information (test with FSTramp)
+    - Shared dataRefs for providing textual information (implemented, open: test with FSTramp)
 - Add VERT_OFS auto detection
 - Support replacing textures with the extended syntax `OBJ8 SOLID YES <obj> <texture> <texture_lit>`
     - basically do what CSL2XSB.py does with respect to TEXTURE / TEXTURE_LIT

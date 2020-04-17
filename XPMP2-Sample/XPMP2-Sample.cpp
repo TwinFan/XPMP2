@@ -803,6 +803,13 @@ void PlanesCycleModels ()
     XPMPEnableMap(true, gbMapLabels);
 }
 
+void MenuUpdateCheckmarks ()
+{
+    XPLMCheckMenuItem(hMenu, 0, ArePlanesCreated()           ? xplm_Menu_Checked : xplm_Menu_Unchecked);
+    XPLMCheckMenuItem(hMenu, 1, gbVisible                    ? xplm_Menu_Checked : xplm_Menu_Unchecked);
+    XPLMCheckMenuItem(hMenu, 3, XPMPHasControlOfAIAircraft() ? xplm_Menu_Checked : xplm_Menu_Unchecked);
+}
+
 /// Callback function for menu
 void CBMenu (void* /*inMenuRef*/, void* inItemRef)
 {
@@ -824,7 +831,16 @@ void CBMenu (void* /*inMenuRef*/, void* inItemRef)
     {
         PlanesCycleModels();
     }
-    
+    // Toggle AI control?
+    else if (inItemRef == (void*)4)
+    {
+        if (XPMPHasControlOfAIAircraft())
+            XPMPMultiplayerDisable();
+        else
+            XPMPMultiplayerEnable();
+    }
+    // Update menu items' checkmarks
+    MenuUpdateCheckmarks();
 }
 
 //
@@ -843,7 +859,8 @@ PLUGIN_API int XPluginStart(char* outName, char* outSig, char* outDesc)
     XPLMAppendMenuItem(hMenu, "Toggle Planes",      (void*)1, 0);
     XPLMAppendMenuItem(hMenu, "Toggle Visibility",  (void*)2, 0);
     XPLMAppendMenuItem(hMenu, "Cycle Models",       (void*)3, 0);
-    
+    XPLMAppendMenuItem(hMenu, "Toggle AI control",  (void*)4, 0);
+    MenuUpdateCheckmarks();
 	return 1;
 }
 
@@ -894,6 +911,7 @@ PLUGIN_API int XPluginEnable(void)
     PlanesCreate();
 
     // Success
+    MenuUpdateCheckmarks();
     LogMsg("XPMP2-Sample: Enabled");
 	return 1;
 }

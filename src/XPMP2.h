@@ -142,8 +142,10 @@ public:
     
     /// Do we control X-Plane's AI/Multiplayer planes?
     bool            bHasControlOfAIAircraft = false;
-    /// Initialization of AI planes needed?
-    bool            bNeedInitAIPlanes = false;
+    /// Shall we skip assignment of NoPlane.acf? (Workaround for XPD-10727)
+    bool            bSkipAssignNoPlane = false;
+    /// How many AI planes did we already initialize to NoPlane.acf?
+    int             nAIPlanesInitialized = 0;
     /// maximum AI index used
     size_t          maxMultiIdxUsed = 0;
     /// Path to the invisible plane to fake TCAS blibs
@@ -157,6 +159,11 @@ public:
     mapMapLayerIDTy mapMapLayers;
     /// path to file containing plane icons for map display
     std::string     pathMapIcons;
+    
+    /// X-Plane's version number (XPLMGetVersions)
+    int             verXPlane = -1;
+    /// XPLM's SDK version number (XPLMGetVersions)
+    int             verXPLM = -1;
     
 #ifdef DEBUG
     /// Current XP cycle number (see XPLMGetCycleNumber())
@@ -179,6 +186,8 @@ public:
     logLvl(_logLvl), bLogMdlMatch(_logMdlMatch) {}
     /// Update all settings, e.g. for logging level, by calling prefsFuncInt
     void UpdateCfgVals ();
+    /// Read version numbers into verXplane/verXPLM
+    void ReadVersions ();
 };
 
 /// The one and only global variable structure

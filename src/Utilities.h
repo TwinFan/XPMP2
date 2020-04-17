@@ -29,6 +29,12 @@ namespace XPMP2 {
 
 #define ERR_ASSERT              "ASSERT FAILED: %s"
 
+// Required supplemental files
+constexpr const char* RSRC_RELATED      = "related.txt";
+constexpr const char* RSRC_DOC8643      = "Doc8643.txt";
+constexpr const char* RSRC_MAP_ICONS    = "MapIcons.png";
+constexpr const char* RSRC_NO_PLANE     = "NoPlane.acf";
+
 //
 // MARK: Default configuration callbacks
 //
@@ -147,6 +153,11 @@ float headDiff (float head1, float head2);
 
 /// Get total running time from X-Plane (sim/time/total_running_time_sec)
 float GetTotalRunningTime ();
+
+/// Is using a modern (Vulkan/Metal) graphics driver?
+bool UsingModernGraphicsDriver ();
+/// Text string for current graphics driver in use
+const char* GetGraphicsDriverTxt ();
 
 /// @brief Convenience function to check on something at most every x seconds
 /// @param _lastCheck Provide a float which holds the time of last check (init with `0.0f`)

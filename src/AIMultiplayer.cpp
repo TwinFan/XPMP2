@@ -34,6 +34,8 @@
 
 #include "XPMP2.h"
 
+#define INFO_AI_CONTROL         "Have control now over %d AI/Multiplayer planes"
+#define INFO_AI_CONTROL_ENDS    "Released control of AI/Multiplayer planes"
 #define WARN_NO_AI_CONTROL      "Could NOT acquire AI/Multiplayer plane control! Some other multiplayer plugin controls them. Therefore, our planes will NOT appear on TCAS or maps."
 #define DEBUG_AI_SLOT_ASSIGN    "Aircraft %llu: ASSIGNING AI Slot %d (%s, %s, %s)"
 #define DEBUG_AI_SLOT_RELEASE   "Aircraft %llu: RELEASING AI Slot %d (%s, %s, %s)"
@@ -105,7 +107,9 @@ struct multiDataRefsTy {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wexit-time-destructors"
 /// Keeps the dataRef handles for all of the up to 19 AI/Multiplayer slots (accepted as a global variable requiring an exit-time destructor)
-std::vector<multiDataRefsTy>        gMultiRef;
+static std::vector<multiDataRefsTy>        gMultiRef;
+/// Vector of AI/multiplayer plane models _before_ we change them, so we can restore models before releasing AI control
+static std::vector<std::string> gvecAIOrigModels;
 #pragma clang diagnostic pop
 
 /// Map of Aircrafts, sorted by (priority-biased) distance
@@ -157,29 +161,63 @@ void Aircraft::AISlotClear ()
     multiIdx = -1;
 }
 
-/// @brief Initializes all AI planes for our usage
+/// @brief Initializes all AI planes for our usage (also additionally defined AI planes during runtime)
+/// @param total Total number of planes as returned by XPLMCountAircraft
 /// @details Disables AI and specifically sets the "NoPlane" aircraft model,
 ///          so that no actual plane will be rendered.
+///          If the user has configured "NoPlane" as the AI plane type already,
+///          then no further action is done to avoid delays due to loading of models.
 ///          Cleans all dataRefs, so that we can start fresh with defined values.
-void AIInitPlanes (int total)
+void AIMultiInitPlanes (int total)
 {
-    // Disable AI for all the planes...we move them now
-    // And set the "NoPlane" model so that they are no actually rendered,
-    // but appear on TCAS
-    XPLMSetActiveAircraftCount(total);
-    for (int i = 1; i < total; i++) {
-        XPLMDisableAIForPlane(i);
-        XPLMSetAircraftModel(i, glob.pathNoPlane.c_str());
+    // Only needed if the given total is different from what
+    // has already been initialized
+    if (total != glob.nAIPlanesInitialized)
+    {
+        char pathOld[512], nameOld[256];
+        LOG_ASSERT(gvecAIOrigModels.size() >= size_t(total));
+        
+        // start either at beginning or where left off last time
+        // (to catch additionally defined AI planes during runtime)
+        for (int i = std::max(1, glob.nAIPlanesInitialized);
+             i < total; i++)
+        {
+            // Save current model, in order to restore it when exiting
+            bool bIsNoPlaneAlready = false;
+            if (gvecAIOrigModels[size_t(i)].empty()) {
+                XPLMGetNthAircraftModel(i, nameOld, pathOld);
+                bIsNoPlaneAlready = !strcmp(nameOld,RSRC_NO_PLANE);    // is the model already configured to be "NoPlane"?
+                if (!bIsNoPlaneAlready && strlen(pathOld) > 5)         // sometime we get just a single garbage char...don't store garbage
+                    gvecAIOrigModels[size_t(i)] = pathOld;
+            }
+
+            // Disable AI for all the planes..._we_ move them now.
+            XPLMDisableAIForPlane(i);
+
+            // And set the "NoPlane" model so that they are no actually rendered,
+            // but appear on TCAS. (There's a config switch to skip this.)
+            if (!bIsNoPlaneAlready && !glob.bSkipAssignNoPlane)
+                XPLMSetAircraftModel(i, glob.pathNoPlane.c_str());
+        }
+
+        // Init done
+        LOG_MSG(logINFO, INFO_AI_CONTROL, total-1);
+        glob.nAIPlanesInitialized = total;
     }
-    
-    // But so far, we have none published
-    XPLMSetActiveAircraftCount(1);
-    
-    // Cleanup multiplayer values...we are in control now
-    XPMPInitMultiplayerDataRefs();
-    
-    // Init done
-    glob.bNeedInitAIPlanes = false;
+}
+
+/// Restores original AI plane models, typically shortly before releasing AI control
+void AIMultiRestorePlanes ()
+{
+    // Restore all known plane types to their former values
+    for (size_t i = 1; i < gvecAIOrigModels.size(); i++) {
+        if (!gvecAIOrigModels[i].empty()) {
+            XPLMSetAircraftModel(int(i), gvecAIOrigModels[i].c_str());
+            gvecAIOrigModels[i].clear();
+        }
+    }
+    // Nothing initiallized any longer
+    glob.nAIPlanesInitialized = 0;
 }
 
 //              Updates all multiplayer dataRefs, both standard X-Plane,
@@ -208,9 +246,8 @@ void AIMultiUpdate ()
     int numAIPlanes, active, plugin;
     XPLMCountAircraft(&numAIPlanes, &active, &plugin);
     
-    // Still need to initialize the AI planes for usage?
-    if (glob.bNeedInitAIPlanes)
-        AIInitPlanes(numAIPlanes);
+    // (Potentially) initialize the AI planes for usage
+    AIMultiInitPlanes(numAIPlanes);
     
     // For further steps: first plane is the user plane, here we don't count that
     numAIPlanes--;
@@ -472,6 +509,15 @@ void AIMultiClearDataRefs (multiDataRefsTy& mdr,
     XPLMSetDatab(mdr.infoAptTo,         allNulls, 0, sizeof(XPMPInfoTexts_t::aptTo));
 }
 
+/// Reset all (controlled) multiplayer dataRef values of all planes
+void AIMultiInitAllDataRefs(bool bDeactivateToZero)
+{
+    if (XPMPHasControlOfAIAircraft())
+        for (multiDataRefsTy& mdr : gMultiRef)
+            AIMultiClearDataRefs(mdr, bDeactivateToZero);
+}
+
+
 // Initialize the module
 /// @details Fetches all dataRef handles for all dataRefs of all up to 19 AI/multiplayer slots
 void AIMultiInit ()
@@ -494,7 +540,8 @@ void AIMultiInit ()
     else d.membVar = NULL;
     
     // Loop over all possible AI/multiplayer slots
-    for (int n=1; true; n++)
+    int n=1;
+    for (n=1; true; n++)
     {
         // position
         FIND_PLANE_DR(X,                    "x",                    n);
@@ -545,12 +592,18 @@ void AIMultiInit ()
         if (!d) break;
         gMultiRef.push_back(d);
     }
+    
+    // Properly size the vector that is to hold original model names
+    gvecAIOrigModels.assign(size_t(n),std::string());
 }
 
 // Grace cleanup
-/// @details Unshare the shared dataRefs
+/// @details Make sure we aren't in control, then Unshare the shared dataRefs
 void AIMultiCleanup ()
 {
+    // Make sure we are no longer in control
+    XPMPMultiplayerDisable();
+    
     // Unshare shared data
 #define UNSHARE_PLANE_DR(membVar, dataRefTxt, PlaneNr)                         \
     snprintf(buf,sizeof(buf),"sim/multiplayer/position/plane%d_" dataRefTxt,PlaneNr);       \
@@ -571,6 +624,10 @@ void AIMultiCleanup ()
         UNSHARE_PLANE_DR(infoAptFrom,         "apt_from",       n);
         UNSHARE_PLANE_DR(infoAptTo,           "apt_to",         n);
     }
+    
+    // Cleanup other arrays properly before shutdown
+    gMultiRef.clear();
+    gvecAIOrigModels.clear();
 }
 
 }  // namespace XPMP2
@@ -580,10 +637,6 @@ void AIMultiCleanup ()
 //
 
 using namespace XPMP2;
-
-namespace XPMP2 {
-
-}
 
 // Acquire control of multiplayer aircraft
 const char *    XPMPMultiplayerEnable()
@@ -600,17 +653,17 @@ const char *    XPMPMultiplayerEnable()
         int total=0, active=0;
         XPLMPluginID who=0;
         XPLMCountAircraft(&total, &active, &who);
+
+        // Initialize available AI planes.
+        // (Note: If this is called during X-Plane's startup,
+        //        e.g. from XPluginStart/Enable, then total will not be known
+        //        and be just 1. But AIInitPlanes is called again from within
+        //        the flight loop and handles later additions of AI planes.
+        AIMultiInitPlanes(total);
         
-        if (total > 1)
-            AIInitPlanes(total);
-        // Often, this function will be called during plugin
-        // initialization (XPluginStart/Enable or so).
-        // During X-Plane startup, the number of configured AI planes
-        // is not known, so we defer initialization to the first
-        // flight loop. (That's a pitty, cause it will cause a stutter...
-        // don't know a way out, though.)
-        else
-            glob.bNeedInitAIPlanes = true;
+        // No Planes yet started, initialize all dataRef values for a clean start
+        XPLMSetActiveAircraftCount(1);
+        AIMultiInitAllDataRefs(false);
 
         // Success
         return "";
@@ -629,38 +682,20 @@ void XPMPMultiplayerDisable()
     if (!XPMPHasControlOfAIAircraft())
         return;
     
-/*
-    // Unregister the plane count control calls.
-    // TODO: These are a deprecated calls!
-    XPLMUnregisterDrawCallback(AIControlPlaneCount,
-                               xplm_Phase_Airplanes,
-                               1,             // before
-                               nullptr);
-    XPLMUnregisterDrawCallback(AIControlPlaneCount,
-                               xplm_Phase_Airplanes,
-                               0,             // after
-                               nullptr);
-*/    
     // Cleanup our values
-    XPLMSetActiveAircraftCount(1);
-    XPMPInitMultiplayerDataRefs(true);
+    XPLMSetActiveAircraftCount(1);      // no active AI plane
+    AIMultiRestorePlanes();             // restore previously set models (might stall for loading them!)
+    AIMultiInitAllDataRefs(true);       // reset all dataRef values to zero
 
     // Then fully release AI/multiplayer planes
     XPLMReleasePlanes();
     glob.bHasControlOfAIAircraft = false;
+    LOG_MSG(logINFO, INFO_AI_CONTROL_ENDS);
 }
 
 // Do we control AI planes?
 bool XPMPHasControlOfAIAircraft()
 {
     return glob.bHasControlOfAIAircraft;
-}
-
-/// Reset all (controlled) multiplayer dataRef values of all planes
-void XPMPInitMultiplayerDataRefs(bool bDeactivateToZero)
-{
-    if (XPMPHasControlOfAIAircraft())
-        for (multiDataRefsTy& mdr : gMultiRef)
-            AIMultiClearDataRefs(mdr, bDeactivateToZero);
 }
 

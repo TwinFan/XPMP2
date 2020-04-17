@@ -63,6 +63,16 @@ void GlobVars::UpdateCfgVals ()
     
     // Ask for clam-to-ground config
     bClampAll = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_CLAMPALL, bClampAll) != 0;
+    
+    // Ask for skipping assignment of NoPlane.acf
+    bSkipAssignNoPlane = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_SKIP_NOPLANE, bSkipAssignNoPlane) != 0;
+}
+
+// Read version numbers into verXplane/verXPLM
+void GlobVars::ReadVersions ()
+{
+    XPLMHostApplicationID hostID = -1;
+    XPLMGetVersions(&glob.verXPlane, &glob.verXPLM, &hostID);
 }
 
 //
@@ -304,6 +314,34 @@ float GetTotalRunningTime ()
     if (!drTotalRunningTime)
         drTotalRunningTime = XPLMFindDataRef("sim/time/total_running_time_sec");
     return XPLMGetDataf(drTotalRunningTime);
+}
+
+// Is using a modern (Vulkan/Metal) graphics driver?
+bool UsingModernGraphicsDriver ()
+{
+    static bool bInitialized = false;
+    static XPLMDataRef drUsingModernDriver = nullptr;
+    if (!bInitialized) {
+        drUsingModernDriver = XPLMFindDataRef("sim/graphics/view/using_modern_driver");
+        bInitialized = true;
+    }
+    if (drUsingModernDriver)            // dataRef not defined before 11.50
+        return XPLMGetDatai(drUsingModernDriver);
+    else
+        return false;
+}
+
+// Text string for current graphics driver in use
+const char* GetGraphicsDriverTxt ()
+{
+    if (UsingModernGraphicsDriver())
+#if APL
+        return "Metal";
+#else
+        return "Vulkan";
+#endif
+    else
+        return "OpenGL";
 }
 
 

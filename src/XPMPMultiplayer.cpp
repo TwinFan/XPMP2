@@ -38,12 +38,6 @@ using namespace XPMP2;
 
 namespace XPMP2 {
 
-// Required supplemental files
-constexpr const char* RSRC_RELATED      = "related.txt";
-constexpr const char* RSRC_DOC8643      = "Doc8643.txt";
-constexpr const char* RSRC_MAP_ICONS    = "MapIcons.png";
-constexpr const char* RSRC_NO_PLANE     = "NoPlane.acf";
-
 /// Validates existence of a given file and saves its full path location
 static bool FindResFile (const char* fName, std::string& outPath)
 {
@@ -131,8 +125,6 @@ const char *    XPMPMultiplayerInit(const char* inPluginName,
     
     // Store the pointers to the configuration callback functions
     glob.prefsFuncInt   = inIntPrefsFunc    ? inIntPrefsFunc    : PrefsFuncIntDefault;
-    // And get initial config values (defines, e.g., log level, which we'll need soon)
-    glob.UpdateCfgVals();
     
     // Get the plugin's name and store it for later reference
     XPMPSetPluginName(inPluginName);
@@ -141,8 +133,22 @@ const char *    XPMPMultiplayerInit(const char* inPluginName,
         XPLMGetPluginInfo(XPLMGetMyID(), szPluginName, nullptr, nullptr, nullptr);
         glob.pluginName = szPluginName;
     }
-    LOG_MSG(logINFO, "XPMP2 Initializing...")
-    
+
+    // Get X-Plane's version numbers
+    glob.ReadVersions();    
+    LOG_MSG(logINFO, "XPMP2 Initializing under X-Plane version %d/%s and XPLM version %d",
+            glob.verXPlane, GetGraphicsDriverTxt(), glob.verXPLM);
+
+#if APL
+    // Due to bug XPD-10727 there is one config item we treat special:
+    // On Mac, under XP 11.5 with OpenGL we skip NoPlane.acf assignment by default:
+    if (glob.verXPlane >= 11500 && !UsingModernGraphicsDriver())
+        glob.bSkipAssignNoPlane = true;
+#endif
+
+    // And get initial config values (defines, e.g., log level, which we'll need soon)
+    glob.UpdateCfgVals();
+
     // Look for all supplemental files
     const char* ret = XPMPValidateResourceFiles(resourceDir);
     if (ret[0]) return ret;

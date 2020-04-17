@@ -31,6 +31,12 @@ and `NoPlane.acf` on top of that by X-Plane, which is invisible as it consists o
 This has the same effect in the internal map: The X-Plane version of the plane is invisible,
 only the track marks unveil that X-Plane is tracking its AI multiplayer planes.
 
+When releasing AI control with `XPMPMultiplayerDisable()` then the planes types,
+which were configured before XPMP2 took AI control, are restored.
+**Note:** Restoring these original plane types can take a while,
+even seconds, as long as during X-Plane's startup, as each model is loaded
+by that time synchronously. `Log.txt` has the story.
+
 Status
 --
 **This is work in progress.**

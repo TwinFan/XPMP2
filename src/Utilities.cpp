@@ -394,25 +394,37 @@ const char* LogGetString (const char* szPath, int ln, const char* szFunc,
                           logLevelTy lvl, const char* szMsg, va_list args )
 {
      static char aszMsg[2048];
-    
-    // current Zulu time
-    struct tm zulu;
-    std::time_t t = std::time(nullptr);
-    char tZuluS[100];
-    gmtime_s(&zulu, &t);
-    std::strftime(tZuluS, sizeof(tZuluS), "%d-%b %T", &zulu);
+     float runS = GetTotalRunningTime();
+     const unsigned runH = unsigned(runS / 3600.0f);
+     runS -= runH * 3600.0f;
+     const unsigned runM = unsigned(runS / 60.0f);
+     runS -= runM * 60.0f;
 
     // prepare timestamp
     if ( lvl < logMSG )                             // normal messages without, all other with location info
     {
-        const char* szFile = strrchr(szPath,'/');   // extract file from path
+        // current Zulu time
+        struct tm zulu;
+        std::time_t t = std::time(nullptr);
+        char tZuluS[100];
+        gmtime_s(&zulu, &t);
+        std::strftime(tZuluS, sizeof(tZuluS), "%d-%b %T", &zulu);
+
+#if IBM
+        const char* szFile = strrchr(szPath, '\\');  // extract file from path
+#else
+        const char* szFile = strrchr(szPath, '/');   // extract file from path
+#endif
         if ( !szFile ) szFile = szPath; else szFile++;
-        snprintf(aszMsg, sizeof(aszMsg), "%s/XPMP2 %sZ %s %s:%d/%s: ",
+        snprintf(aszMsg, sizeof(aszMsg), "%u:%02u:%06.3f %s/XPMP2 %sZ %s %s:%d/%s: ",
+                 runH, runM, runS,                  // Running time stamp
                  glob.pluginName.c_str(), tZuluS, LOG_LEVEL[lvl],
                  szFile, ln, szFunc);
     }
     else
-        snprintf(aszMsg, sizeof(aszMsg), "%s/XPMP2: ", glob.pluginName.c_str());
+        snprintf(aszMsg, sizeof(aszMsg), "%u:%02u:%06.3f %s/XPMP2: ",
+                 runH, runM, runS,                  // Running time stamp
+                 glob.pluginName.c_str());
     
     // append given message
     if (args) {

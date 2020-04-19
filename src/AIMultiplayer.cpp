@@ -690,6 +690,10 @@ void XPMPMultiplayerDisable()
     XPLMSetActiveAircraftCount(1);      // no active AI plane
     AIMultiRestorePlanes();             // restore previously set models (might stall for loading them!)
     AIMultiInitAllDataRefs(true);       // reset all dataRef values to zero
+    
+    // Reset the last index used
+    for (auto& pair: glob.mapAc)
+        pair.second->ResetMultiIdx();
 
     // Then fully release AI/multiplayer planes
     XPLMReleasePlanes();

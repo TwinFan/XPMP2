@@ -63,7 +63,7 @@ bool IsInRect (float x, float y, const float bounds_ltrb[4])
 /// @details    MapIcon.png has the following models:\n
 ///             `y \ x | 0       | 1   | 2    `\n
 ///             `----- | ------- | --- | ---- `\n
-///             `2     | H1T     | H2T | GLID `\n
+///             `2     | H1T     | Car | GLID `\n
 ///             `1     | L1P     | L2P | L4P  `\n
 ///             `0     | Default | L2J | L4J  `\n
 void Aircraft::MapFindIcon ()
@@ -76,6 +76,8 @@ void Aircraft::MapFindIcon ()
     else if (acIcaoType == "GYRO" ||
              acIcaoType == "UHEL")
     { mapIconRow=2; mapIconCol=0; }
+    else if (acIcaoType == "ZZZC")      // used by X-CSL and LiveTraffic for a ground vehicle
+    { mapIconRow=2; mapIconCol=1; }
     // now determine based on type and number of engines
     else {
         const Doc8643& doc8643 = Doc8643Get(acIcaoType);
@@ -87,18 +89,17 @@ void Aircraft::MapFindIcon ()
             case 'S':
             case 'T':
                 // Pick row based on Jet or no Jet
-                mapIconCol = doc8643.GetClassEngType() == 'J' ? 0 : 1;
+                mapIconRow = doc8643.GetClassEngType() == 'J' ? 0 : 1;
                 // Pick column based on number of engines
-                mapIconRow = doc8643.GetClassNumEng() >= '4' ? 2 :
+                mapIconCol = doc8643.GetClassNumEng() >= '4' ? 2 :
                        doc8643.GetClassNumEng() >= '2' ? 1 : 0;
                 break;
                 
                 // planes with rotos
             case 'H':
             case 'G':
-                mapIconCol = 2;
-                // Pick column based on number of engines
-                mapIconRow = doc8643.GetClassNumEng() >= '2' ? 1 : 0;
+                mapIconRow = 2;
+                mapIconCol = 1;
                 break;
                 
                 // default
@@ -134,7 +135,7 @@ void Aircraft::MapDrawIcon (XPLMMapLayerID inLayer, const float acSize)
     if (!std::isnan(mapX) && !std::isnan(mapY)) {
         XPLMDrawMapIconFromSheet(inLayer,
                                  glob.pathMapIcons.c_str(),
-                                 mapIconRow, mapIconCol,
+                                 mapIconCol, mapIconRow,
                                  MAP_ICON_WIDTH, MAP_ICON_HEIGHT,
                                  mapX, mapY,
                                  xplm_MapOrientation_Map,
@@ -149,7 +150,9 @@ void Aircraft::MapDrawLabel (XPLMMapLayerID inLayer, float yOfs)
     // draw only if said to be visible on this map
     if (!std::isnan(mapX) && !std::isnan(mapY)) {
         XPLMDrawMapLabel(inLayer,
-                         label.c_str(),
+                         IsCurrentlyShownAsAI() ?
+                           (std::string(">") + label + '<').c_str() :
+                           label.c_str(),
                          mapX, mapY + yOfs,
                          xplm_MapOrientation_UI,
                          0.0f);

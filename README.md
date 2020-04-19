@@ -21,6 +21,15 @@ multi-pass matching to find a good model are retained, though re-implemented (re
 XPMP2 does no longer call any OpenGL function and hence  does not require
 to be linked to an OpenGL library. The included XPMP2-Sample application does not link to OpenGL.
 
+TCAS
+----
+
+**WARNING:** This TCAS handling is still work in progress and pretty shaky.
+It does work under normal circumstances, but side effects show when disabling plugins
+or changing user/AI planes in mid-flight, that still need to be understood.
+Especially `NoPlane.acf` is still under development as it seems that the well-behaviour
+of X-Plane depends pretty much on it being well shaped.
+
 The previous TCAS hack no longer works as the used flight loop phases no longer exist
 and replacement phases aren't identical between Vulkan and Metal.
 XPMP2 uses a new approach: Instead of tricking X-Plane not to render AI planes
@@ -33,9 +42,12 @@ only the track marks unveil that X-Plane is tracking its AI multiplayer planes.
 
 When releasing AI control with `XPMPMultiplayerDisable()` then the planes types,
 which were configured before XPMP2 took AI control, are restored.
+
 **Note:** Restoring these original plane types can take a while,
 even seconds, as long as during X-Plane's startup, as each model is loaded
 by that time synchronously. `Log.txt` has the story.
+
+**
 
 Status
 --

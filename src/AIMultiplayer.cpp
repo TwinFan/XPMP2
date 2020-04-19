@@ -182,22 +182,26 @@ void AIMultiInitPlanes (int total)
         for (int i = std::max(1, glob.nAIPlanesInitialized);
              i < total; i++)
         {
-            // Save current model, in order to restore it when exiting
-            bool bIsNoPlaneAlready = false;
-            if (gvecAIOrigModels[size_t(i)].empty()) {
-                XPLMGetNthAircraftModel(i, nameOld, pathOld);
-                bIsNoPlaneAlready = !strcmp(nameOld,RSRC_NO_PLANE);    // is the model already configured to be "NoPlane"?
-                if (!bIsNoPlaneAlready && strlen(pathOld) > 5)         // sometime we get just a single garbage char...don't store garbage
-                    gvecAIOrigModels[size_t(i)] = pathOld;
-            }
-
             // Disable AI for all the planes..._we_ move them now.
             XPLMDisableAIForPlane(i);
 
-            // And set the "NoPlane" model so that they are no actually rendered,
-            // but appear on TCAS. (There's a config switch to skip this.)
-            if (!bIsNoPlaneAlready && !glob.bSkipAssignNoPlane)
-                XPLMSetAircraftModel(i, glob.pathNoPlane.c_str());
+            // Save current model, in order to restore it when exiting,
+            // and set our own "NoPlane.acf" model. (There's a config switch to skip this.)
+            if (!glob.bSkipAssignNoPlane)
+            {
+                bool bIsNoPlaneAlready = false;
+                if (gvecAIOrigModels[size_t(i)].empty()) {
+                    XPLMGetNthAircraftModel(i, nameOld, pathOld);
+                    bIsNoPlaneAlready = !strcmp(nameOld, RSRC_NO_PLANE);    // is the model already configured to be "NoPlane"?
+                    if (!bIsNoPlaneAlready && strlen(pathOld) > 5)          // sometimes we get just a single garbage char...don't store garbage
+                        gvecAIOrigModels[size_t(i)] = pathOld;
+                }
+
+                // And set the "NoPlane" model so that they are no actually rendered,
+                // but appear on TCAS.
+                if (!bIsNoPlaneAlready)
+                    XPLMSetAircraftModel(i, glob.pathNoPlane.c_str());
+            }
         }
 
         // Init done
@@ -258,7 +262,7 @@ void AIMultiUpdate ()
     
     // Time of last slot switching activity
     static float tLastSlotSwitching = 0.0f;
-    const float now = GetTotalRunningTime();
+    const float now = GetMiscNetwTime();
     // only every few seconds rearrange slots, ie. add/remove planes or
     // move planes between lower and upper section of AI slots:
     if (CheckEverySoOften(tLastSlotSwitching, AISLOT_CHANGE_PERIOD, now))

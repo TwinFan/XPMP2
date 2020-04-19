@@ -151,8 +151,8 @@ float headDiff (float head1, float head2);
 // MARK: Misc
 //
 
-/// Get total running time from X-Plane (sim/time/total_running_time_sec)
-float GetTotalRunningTime ();
+/// Get synched network time from X-Plane (sim/network/misc/network_time_sec) as used in Log.txt
+float GetMiscNetwTime ();
 
 /// Is using a modern (Vulkan/Metal) graphics driver?
 bool UsingModernGraphicsDriver ();
@@ -171,7 +171,7 @@ bool CheckEverySoOften (float& _lastCheck, float _interval, float _now);
 /// @param _interval [seconds] How often to perform the check?
 /// @return `true` if more than `_interval` time has passed since `_lastCheck`
 inline bool CheckEverySoOften (float& _lastCheck, float _interval)
-{ return CheckEverySoOften(_lastCheck, _interval, GetTotalRunningTime()); }
+{ return CheckEverySoOften(_lastCheck, _interval, GetMiscNetwTime()); }
 
 //
 // MARK: Logging Support

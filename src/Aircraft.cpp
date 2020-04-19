@@ -272,7 +272,7 @@ float Aircraft::FlightLoopCB (float, float, int, void*)
     XPLMReadCameraPosition(&posCamera);
     
     // As we need the current timestamp more often we read it here once
-    const float now = GetTotalRunningTime();
+    const float now = GetMiscNetwTime();
     
     // Update positional and configurational values
     for (mapAcTy::value_type& pair: glob.mapAc) {

@@ -308,12 +308,12 @@ float headDiff (float head1, float head2)
 //
 
 // Get total running time from X-Plane (sim/time/total_running_time_sec)
-float GetTotalRunningTime ()
+float GetMiscNetwTime()
 {
-    static XPLMDataRef drTotalRunningTime = nullptr;
-    if (!drTotalRunningTime)
-        drTotalRunningTime = XPLMFindDataRef("sim/time/total_running_time_sec");
-    return XPLMGetDataf(drTotalRunningTime);
+    static XPLMDataRef drMiscNetwTime = nullptr;
+    if (!drMiscNetwTime)
+        drMiscNetwTime = XPLMFindDataRef("sim/network/misc/network_time_sec");
+    return XPLMGetDataf(drMiscNetwTime);
 }
 
 // Is using a modern (Vulkan/Metal) graphics driver?
@@ -394,7 +394,7 @@ const char* LogGetString (const char* szPath, int ln, const char* szFunc,
                           logLevelTy lvl, const char* szMsg, va_list args )
 {
      static char aszMsg[2048];
-     float runS = GetTotalRunningTime();
+     float runS = GetMiscNetwTime();
      const unsigned runH = unsigned(runS / 3600.0f);
      runS -= runH * 3600.0f;
      const unsigned runM = unsigned(runS / 60.0f);

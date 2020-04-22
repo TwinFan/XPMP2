@@ -24,20 +24,17 @@ to be linked to an OpenGL library. The included XPMP2-Sample application does no
 TCAS
 ----
 
-**WARNING:** This TCAS handling is still work in progress and pretty shaky.
-It does work under normal circumstances, but side effects show when disabling plugins
-or changing user/AI planes in mid-flight, that still need to be understood.
-Especially `NoPlane.acf` is still under development as it seems that the well-behaviour
-of X-Plane depends pretty much on it being well shaped.
+**WARNING:** TCAS handling is still work in progress.
 
 The previous TCAS hack no longer works as the used flight loop phases no longer exist
 and replacement phases aren't identical between Vulkan and Metal.
+
 XPMP2 uses a new approach: Instead of tricking X-Plane not to render AI planes
 it provides X-Plane with a valid aircraft file, which does not contain any object to draw:
 `NoPlane.acf`. So actually, two planes are drawn for each plane that is at the same time
 supported as AI multiplayer plane for TCAS: One by XPMP2, which really is visible,
-and `NoPlane.acf` on top of that by X-Plane, which is invisible as it consists of no objects.
-This has the same effect in the internal map: The X-Plane version of the plane is invisible,
+and `NoPlane.acf` on top of that by X-Plane, which is (nearly) invisible as it has (nearly) no visible objects.
+This has the same effect in the internal map: The X-Plane version of the plane is (nearly) invisible,
 only the track marks unveil that X-Plane is tracking its AI multiplayer planes.
 
 When releasing AI control with `XPMPMultiplayerDisable()` then the planes types,
@@ -47,7 +44,15 @@ which were configured before XPMP2 took AI control, are restored.
 even seconds, as long as during X-Plane's startup, as each model is loaded
 by that time synchronously. `Log.txt` has the story.
 
-**
+**Note:** If the plugin cannot gracefully shutdown (deactivated via Plugin admin or X-Plane crashes),
+then it is possible that the `NoPlane` setup configured by `XPMP2` remains and the user
+will not see his/her individual AI Aircraft setup any longer, but a list of "NoPlane" aircraft.
+
+The new `NoPlane.acf` file should be in the standard `Aircraft` folder of X-Plane.
+Only then does X-Plane not get confused and retains the AI Aircraft configuration
+also if the user opens the Flight Configuration, e.g. to change location.
+`XPMP2` would also read `NoPlane.acf` from the resource directory
+(provided in the call to `XPMPMultiplayerInit`), but issues a warning in that case into `Log.txt`.
 
 Status
 --

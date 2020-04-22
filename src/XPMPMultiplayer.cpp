@@ -80,12 +80,25 @@ const char* XPMPValidateResourceFiles (const char* resourceDir)
         return "Doc8643.txt not found in resource directory";
     if (!FindResFile(RSRC_MAP_ICONS, glob.pathMapIcons))
         return "MapIcons.png not found in resource directory";
-    if (FindResFile(RSRC_NO_PLANE, glob.pathNoPlane))
-        // This path we might need in HFS form
-        glob.pathNoPlane = FROMPOSIX(glob.pathNoPlane);
-    else
-        return "NoPlane.acf not found in resource directory";
     
+    // NoPlane.acf is special: Ideally we load it from Aircraft directory
+    char sysPath[512];
+    XPLMGetSystemPath(sysPath);
+    glob.pathNoPlane = TOPOSIX(sysPath) + RSRC_AIRCRAFT + RSRC_NO_PLANE;
+    if (!ExistsFile(glob.pathNoPlane))                  // try Aircraft directory first
+    {
+        if (!FindResFile(RSRC_NO_PLANE, glob.pathNoPlane))  // then try Resource directory
+            return "NoPlane.acf not found in neither 'Aircraft' nor resource directory";
+        // So we are using NoPlane.acf from Resource directory.
+        // That will work for a while, but as soon as user opens flight menu
+        // X-Plane will forget some or all AI Aircraft
+        LOG_MSG(logWARN, "NoPlane.acf is not in /Aircraft directory! This will likely lead to X-Plane forgetting AI Aircraft if user opens Flight Configuration!");
+    }
+    
+    // This path we might need in HFS form
+    glob.pathNoPlane = FROMPOSIX(glob.pathNoPlane);
+    LOG_MSG(logDEBUG, "Using %s", glob.pathNoPlane.c_str());
+
     // Success
     return "";
 }

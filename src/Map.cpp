@@ -99,7 +99,7 @@ void Aircraft::MapFindIcon ()
             case 'H':
             case 'G':
                 mapIconRow = 2;
-                mapIconCol = 1;
+                mapIconCol = 0;
                 break;
                 
                 // default

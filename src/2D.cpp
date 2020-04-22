@@ -142,7 +142,7 @@ void TwoDDrawLabels ()
         // Map the 3D coordinates of the aircraft to 2D coordinates of the flat screen
         int x = -1, y = -1;
         ConvertTo2d(ac.drawInfo.x,
-                    ac.drawInfo.y - 10.0f,      // make the label appear "10m" above the plane
+                    ac.drawInfo.y + 7.0f,      // make the label appear "10m" above the plane
                     ac.drawInfo.z, x, y);
         
         // Determine text color:

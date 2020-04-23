@@ -48,10 +48,12 @@ by that time synchronously. `Log.txt` has the story.
 then it is possible that the `NoPlane` setup configured by `XPMP2` remains and the user
 will not see his/her individual AI Aircraft setup any longer, but a list of "NoPlane" aircraft.
 
-The new `NoPlane.acf` file should be in the standard `Aircraft` folder of X-Plane.
+The new `NoPlane.acf` file should be in or under the standard `Aircraft` folder of X-Plane.
 Only then does X-Plane not get confused and retains the AI Aircraft configuration
 also if the user opens the Flight Configuration, e.g. to change location.
-`XPMP2` would also read `NoPlane.acf` from the resource directory
+For this reason, `XPMP2` copies `NoPlane.acf` into `Aircraft/<plugin>` and then
+uses it from there. Copying can be switched off via a configuration setting,
+then `XPMP2` would also read `NoPlane.acf` from the resource directory
 (provided in the call to `XPMPMultiplayerInit`), but issues a warning in that case into `Log.txt`.
 
 Status

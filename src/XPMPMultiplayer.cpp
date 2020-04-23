@@ -174,13 +174,6 @@ const char *    XPMPMultiplayerInit(const char* inPluginName,
     LOG_MSG(logINFO, "XPMP2 Initializing under X-Plane version %d/%s and XPLM version %d",
             glob.verXPlane, GetGraphicsDriverTxt(), glob.verXPLM);
 
-#if APL
-    // Due to bug XPD-10727 there is one config item we treat special:
-    // On Mac, under XP 11.5 with OpenGL we skip NoPlane.acf assignment by default:
-    if (glob.verXPlane >= 11500 && !UsingModernGraphicsDriver())
-        glob.bSkipAssignNoPlane = true;
-#endif
-
     // And get initial config values (defines, e.g., log level, which we'll need soon)
     glob.UpdateCfgVals();
 

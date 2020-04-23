@@ -375,7 +375,8 @@ void AIMultiUpdate ()
 
         // This plane's position
         XPLMSetDataf(mdr.X, ac.drawInfo.x);
-        XPLMSetDataf(mdr.Y, ac.drawInfo.y);
+        // by moving the AI/multiplayer aircraft a bit upward the last residual visible aspects (like jet exhaust) should be hidden inside the CSL plane
+        XPLMSetDataf(mdr.Y, ac.drawInfo.y + (ac.GetModel() ? ac.GetModel()->GetVertOfs() : 2.5f));
         XPLMSetDataf(mdr.Z, ac.drawInfo.z);
         // attitude
         XPLMSetDataf(mdr.pitch,   ac.drawInfo.pitch);

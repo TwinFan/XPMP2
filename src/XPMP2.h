@@ -67,6 +67,7 @@
 
 // On Windows, 'max' and 'min' are defined macros in conflict with C++ library. Let's undefine them!
 #if IBM
+#include <direct.h>
 #undef max
 #undef min
 #endif
@@ -144,6 +145,8 @@ public:
     bool            bHasControlOfAIAircraft = false;
     /// Shall we skip assignment of NoPlane.acf? (Workaround for XPD-10727)
     bool            bSkipAssignNoPlane = false;
+    /// Shall `NoPlane.acf` be copied to `<X-Plane>/Aircraft/<plugin>`?
+    bool            bCopyNoPlane = true;
     /// How many AI planes did we already initialize to NoPlane.acf?
     int             nAIPlanesInitialized = 0;
     /// maximum AI index used

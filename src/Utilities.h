@@ -59,6 +59,14 @@ bool ExistsFile (const std::string& filename);
 /// Is path a directory?
 bool IsDir (const std::string& path);
 
+/// @brief Create directory if it does not exist
+/// @return Does directory (now) exist?
+bool CreateDir(const std::string& path);
+
+/// @brief Copy file if source is newer or destination missing
+/// @return Does the destination file (now) exist?
+bool CopyFileIfNewer(const std::string& source, const std::string& destDir);
+
 /// List of files in a directory (wrapper around XPLMGetDirectoryContents)
 std::list<std::string> GetDirContents (const std::string& path);
 

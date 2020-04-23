@@ -66,6 +66,9 @@ void GlobVars::UpdateCfgVals ()
     
     // Ask for skipping assignment of NoPlane.acf
     bSkipAssignNoPlane = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_SKIP_NOPLANE, bSkipAssignNoPlane) != 0;
+
+    // Ask for copying of NoPlane.acf
+    bCopyNoPlane = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_COPY_NOPLANE, bCopyNoPlane) != 0;
 }
 
 // Read version numbers into verXplane/verXPLM
@@ -99,6 +102,74 @@ bool IsDir (const std::string& path)
     if (stat (path.c_str(), &buffer) != 0)  // get stats...error?
         return false;                       // doesn't exist...no directory either
     return S_ISDIR(buffer.st_mode);         // check for S_IFDIR mode flag
+}
+
+// Create directory if it does not exist
+bool CreateDir(const std::string& path)
+{
+    // Just try creating it...
+#if IBM
+    if (_mkdir(path.c_str()) == 0)
+#else
+    if (mkdir(path.c_str()) == 0)
+#endif
+        return true;
+
+    // If creation failed, directory might still have already existed
+    return IsDir(path);
+}
+
+// Copy file if source is newer or destination missing
+bool CopyFileIfNewer(const std::string& source, const std::string& destDir)
+{
+    // Check source
+    struct stat bufSource;
+    if (stat(source.c_str(), &bufSource) != 0)
+        // source doesn't exist
+        return false;               
+    size_t nPos = source.find_last_of("/\\");       // find beginning of file name
+    if (nPos == std::string::npos)
+        return false;
+
+    // Check destination directory
+    if (destDir.empty())
+        return false;
+    std::string target = destDir;
+    if (target.back() == '\\' ||
+        target.back() == '/')                       // remove traling (back)slash
+        target.pop_back();
+    if (!CreateDir(target))
+        // directory does not exist and could be be created
+        return false;
+
+    // Check target file
+    target += source.substr(nPos);
+    struct stat bufTarget;
+    if (stat(target.c_str(), &bufTarget) == 0)                  // file exists?
+    {
+        // is target not older than source?
+        if (bufTarget.st_mtime >= bufSource.st_mtime)
+            // Skip copy, all good already
+            return true;
+    }
+
+    // Target dir exists, target file does not or is older -> Do copy!
+    // https://stackoverflow.com/a/10195497
+    std::ifstream src(source, std::ios::binary);
+    std::ofstream dst(target, std::ios::binary | std::ios::trunc);
+    if (!src || !dst)
+        return false;
+    dst << src.rdbuf();
+
+    // all good?
+    if (src.good() && dst.good()) {
+        LOG_MSG(logINFO, "Copied %s to %s", source.c_str(), destDir.c_str());
+        return true;
+    }
+    else {
+        LOG_MSG(logERR, "FAILED copying %s to %s", source.c_str(), destDir.c_str());
+        return true;
+    }
 }
 
 // List of files in a directory (wrapper around XPLMGetDirectoryContents)
@@ -410,11 +481,7 @@ const char* LogGetString (const char* szPath, int ln, const char* szFunc,
         gmtime_s(&zulu, &t);
         std::strftime(tZuluS, sizeof(tZuluS), "%d-%b %T", &zulu);
 
-#if IBM
-        const char* szFile = strrchr(szPath, '\\');  // extract file from path
-#else
-        const char* szFile = strrchr(szPath, '/');   // extract file from path
-#endif
+        const char* szFile = strrchr(szPath, PATH_DELIM_STD);  // extract file from path
         if ( !szFile ) szFile = szPath; else szFile++;
         snprintf(aszMsg, sizeof(aszMsg), "%u:%02u:%06.3f %s/XPMP2 %sZ %s %s:%d/%s: ",
                  runH, runM, runS,                  // Running time stamp

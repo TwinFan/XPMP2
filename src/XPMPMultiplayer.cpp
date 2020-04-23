@@ -81,23 +81,45 @@ const char* XPMPValidateResourceFiles (const char* resourceDir)
     if (!FindResFile(RSRC_MAP_ICONS, glob.pathMapIcons))
         return "MapIcons.png not found in resource directory";
     
-    // NoPlane.acf is special: Ideally we load it from Aircraft directory
+    // NoPlane.acf is special
+    // It must be available in resource directory as a basis
+    if (!FindResFile(RSRC_NO_PLANE, glob.pathNoPlane))
+        return "NoPlane.acf not found in resource directory";
+    // But ideally we copy it to and open it from an Aircraft subdirectory
     char sysPath[512];
     XPLMGetSystemPath(sysPath);
-    glob.pathNoPlane = TOPOSIX(sysPath) + RSRC_AIRCRAFT + RSRC_NO_PLANE;
-    if (!ExistsFile(glob.pathNoPlane))                  // try Aircraft directory first
+    std::string pathAcf = TOPOSIX(sysPath) + RSRC_AIRCRAFT;
+    if (!glob.pluginName.empty() && glob.pluginName != UNKNOWN_PLUGIN_NAME) {
+        pathAcf += glob.pluginName;
+        pathAcf += PATH_DELIM_STD;
+    }
+
+    // Shall we copy the file to an Aircraft target directory?
+    if (glob.bCopyNoPlane) {
+        // If necessary, copy a new file into the Aircraft/<plugin> folder
+        if (!CopyFileIfNewer(glob.pathNoPlane, pathAcf)) {
+            LOG_MSG(logWARN, "Could not access 'NoPlane.acf' in '%s' and could not copy it there either",
+                pathAcf.c_str());
+        }
+    }
+
+    // Try accessing NoPlane.acf in Aircraft/<plugin> subdirectory
+    pathAcf += RSRC_NO_PLANE;
+    if (ExistsFile(pathAcf)) {
+        // Yea, found in there
+        glob.pathNoPlane = pathAcf;
+    }
+    else
     {
-        if (!FindResFile(RSRC_NO_PLANE, glob.pathNoPlane))  // then try Resource directory
-            return "NoPlane.acf not found in neither 'Aircraft' nor resource directory";
         // So we are using NoPlane.acf from Resource directory.
         // That will work for a while, but as soon as user opens flight menu
         // X-Plane will forget some or all AI Aircraft
-        LOG_MSG(logWARN, "NoPlane.acf is not in /Aircraft directory! This will likely lead to X-Plane forgetting AI Aircraft if user opens Flight Configuration!");
+        LOG_MSG(logWARN, "NoPlane.acf is not in /Aircraft/... directory! This will likely lead to X-Plane forgetting AI Aircraft if user opens Flight Configuration!");
     }
     
     // This path we might need in HFS form
     glob.pathNoPlane = FROMPOSIX(glob.pathNoPlane);
-    LOG_MSG(logDEBUG, "Using %s", glob.pathNoPlane.c_str());
+    LOG_MSG(logINFO, "Using %s", glob.pathNoPlane.c_str());
 
     // Success
     return "";

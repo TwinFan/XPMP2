@@ -271,16 +271,19 @@ void removeUserVertOffset(const char *inMtlCode);
 
 // Config key definitions
 #define XPMP_CFG_ITM_CLAMPALL        "clamp_all_to_ground"  ///< Ensure no plane sinks below ground, no matter of Aircraft::bClampToGround
+#define XPMP_CFG_ITM_SKIP_NOPLANE    "skip_assign_noplane"  ///< For faking TCAS, all AI/multiplayer planes are assigned the `NoPlane.acf` type when XPMP2 takes over control. This option allows to skip assining `NoPlane.acf`...just in case.
+#define XPMP_CFG_ITM_COPY_NOPLANE    "copy_noplane"         ///< On startup, shall `NoPlane.acf` be copied from the resource directory to `<X-Plane>/Aircraft/<plugin>`? This is highly recommended to reduce side-effects of using `NoPlane` as AI Aircraft model.
 #define XPMP_CFG_ITM_LOGLEVEL        "log_level"            ///< General level of logging into Log.txt (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)
 #define XPMP_CFG_ITM_MODELMATCHING   "model_matching"       ///< Write information on model matching into Log.txt
-#define XPMP_CFG_ITM_
 
 /// @brief Definition for the type of configuration callback function
 /// @details The plugin using XPMP2 can provide such a callback function via XPMPMultiplayerInitLegacyData().
 ///          It will be called max. every 2s to fetch each of the following configuraton values:\n
 /// `section | key                 | type | default | description`\n
-/// `------- | ------------------- | ---- | ------- | ---------------------`\n
+/// `------- | ------------------- | ---- | ------- | -------------------------------------------------------------------------`\n
 /// `planes  | clamp_all_to_ground | int  |    1    | Ensure no plane sinks below ground, no matter of Aircraft::bClampToGround`\n
+/// `planes  | skip_assign_noplane | int  |    0    | If non-zero, then AI planes will not be assigned the NoPlane.acf type.`\n
+/// `planes  | copy_noplane        | int  |    1    | Shall NoPlane.acf be copied to Aircraft folder if missing/newer? (Recommended!)`\n
 /// `debug   | log_level           | int  |    2    | General level of logging into Log.txt (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)`\n
 /// `debug   | model_matching      | int  |    0    | Write information on model matching into Log.txt`\n
 /// @note There is no immediate requirement to check the value of `_section` in your implementation.
@@ -292,33 +295,28 @@ void removeUserVertOffset(const char *inMtlCode);
 typedef int (*XPMPIntPrefsFuncTy)(const char* _section, const char* _key, int _default);
 
 /// @brief Deprecated legacy initialization of XPMP2.
+/// @note Parameters changed compared to libxplanemp!
 /// @details Effectively calls, in this order,
 ///          XPMPMultiplayerInit() (with `resourceDir` being `nullptr`) and XPMPLoadCSLPackage().
 /// @see XPMPMultiplayerInit() and XPMPLoadCSLPackage() for details on the parameters.
 [[deprecated("Use XPMPMultiplayerInit and XPMPLoadCSLPackages")]]
-const char *    XPMPMultiplayerInitLegacyData(const char * inCSLFolder      = nullptr,
-                                              const char * inRelatedPath    = nullptr,
-                                              const char * inTexturePath    = nullptr,
-                                              const char * inDoc8643        = nullptr,
-                                              const char * inDefaultICAO    = nullptr,
-                                              XPMPIntPrefsFuncTy inIntPrefsFunc                   = nullptr,
-                                              float (*inUnsed)(const char *, const char *, float) = nullptr,
-                                              const char * inMapIconFile    = nullptr);
+const char *    XPMPMultiplayerInitLegacyData(const char* inCSLFolder,
+                                              const char* inPluginName,
+                                              const char* resourceDir,
+                                              XPMPIntPrefsFuncTy inIntPrefsFunc   = nullptr,
+                                              const char* inDefaultICAO           = nullptr);
 
 /// @brief Initializes the XPMP2 library. This shall be your first call to the library.
-/// @param inIntPrefsFunc A pointer to a callback function providing integer config values. See ::XPMPIntPrefsFuncTy for details.
-/// @param inUnused1 Used to be a callback function for providing float config values, but is not used in XPMP2.
-/// @param resourceDir A directory where XPMP2 can write the file `userVertOffsets.txt` with information on calculated and user vertical ofsets per model.
+/// @note Parameters changed compared to libxplanemp!
 /// @param inPluginName Your plugin's name, used only in output to `Log.txt`
+/// @param resourceDir The directory where XPMP2 finds all required supplemental files (Doc8643.txt, MapIcons.png, NoPlane.acf...)
+/// @param inIntPrefsFunc A pointer to a callback function providing integer config values. See ::XPMPIntPrefsFuncTy for details.
 /// @param inDefaultICAO A fallback aircraft type if no type can be deduced otherwise for an aircraft.
-/// @param inMapIconFile Full path to a `MapIcons.png` file providing a matrix of icons used in the internal map.
 /// @return Empty string in case of success, otherwise a human-readable error message.
-const char *    XPMPMultiplayerInit(XPMPIntPrefsFuncTy inIntPrefsFunc                    = nullptr,
-                                    float (*inUnused1)(const char *, const char *, float) = nullptr,
-                                    const char* resourceDir     = nullptr,
-                                    const char* inPluginName    = nullptr,
-                                    const char* inDefaultICAO   = nullptr,
-                                    const char* inMapIconFile   = nullptr);
+const char *    XPMPMultiplayerInit(const char* inPluginName,
+                                    const char* resourceDir,
+                                    XPMPIntPrefsFuncTy inIntPrefsFunc   = nullptr,
+                                    const char* inDefaultICAO           = nullptr);
 
 /// @brief Overrides the plugin's name to be used in Log output
 /// @details The name in use defaults to the plugin's name as set in XPluginStart().
@@ -382,11 +380,7 @@ bool XPMPHasControlOfAIAircraft();
 /// @details This function mainly searches the given folder for packages and reads the structure.
 ///          Actual loading of objects is done asynchronously when needed only.
 /// @param inCSLFolder Root folder to start the search.
-/// @param inRelatedPath Full path to a `related.txt` file, providing information of groups of similar-looking aircraft. Will be read only once.
-/// @param inDoc8643 Full path to a `doc8643.txt` file, providing information on official ICAO aircraft types. Will be read only once.
-const char *    XPMPLoadCSLPackage(const char * inCSLFolder,
-                                   const char * inRelatedPath   = nullptr,
-                                   const char * inDoc8643       = nullptr);
+const char *    XPMPLoadCSLPackage(const char * inCSLFolder);
 
 /*
  * XPMPLoadPlanesIfNecessary

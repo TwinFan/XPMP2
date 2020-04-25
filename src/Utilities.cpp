@@ -111,7 +111,7 @@ bool CreateDir(const std::string& path)
 #if IBM
     if (_mkdir(path.c_str()) == 0)
 #else
-    if (mkdir(path.c_str()) == 0)
+    if (mkdir(path.c_str(), 0775) == 0)
 #endif
         return true;
 

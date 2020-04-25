@@ -143,7 +143,7 @@ public:
     
     /// Do we control X-Plane's AI/Multiplayer planes?
     bool            bHasControlOfAIAircraft = false;
-    /// Shall we skip assignment of NoPlane.acf? (Workaround for XPD-10727)
+    /// Shall we skip assignment of NoPlane.acf?
     bool            bSkipAssignNoPlane = false;
     /// Shall `NoPlane.acf` be copied to `<X-Plane>/Aircraft/<plugin>`?
     bool            bCopyNoPlane = true;

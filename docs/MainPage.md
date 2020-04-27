@@ -1,4 +1,4 @@
-XPMP 2
+XPMP 2 - Code documentation
 ========================
 
 Quick Links:

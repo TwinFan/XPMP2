@@ -1,0 +1,8 @@
+A file by the name .nojekyll is required so that GitHub Pages
+does not try to process folders/files starting with _
+as special Jekyll pages.
+
+Doxygen-generated files often start with _ if the original
+name was an upper-case letter.
+
+https://github.blog/2009-12-29-bypassing-jekyll-on-github-pages/

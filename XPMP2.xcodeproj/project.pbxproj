@@ -64,6 +64,8 @@
 		252C01FA23E6D64F007C231F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		252C01FB23E6D64F007C231F /* build.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = "<group>"; };
 		253485A923C289E4002BA65A /* XPMPAircraft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPMPAircraft.h; sourceTree = "<group>"; };
+		2574E00424578419000E8156 /* index.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = index.md; sourceTree = "<group>"; };
+		2574E0052457842A000E8156 /* html */ = {isa = PBXFileReference; lastKnownFileType = folder; path = html; sourceTree = "<group>"; };
 		2575F44723ECB02400747524 /* Toolchain-ubuntu-osxcross-10.11.cmake */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Toolchain-ubuntu-osxcross-10.11.cmake"; sourceTree = "<group>"; };
 		2575F45223EDFC5E00747524 /* Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
 		2575F45323EDFC5E00747524 /* Map.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Map.cpp; sourceTree = "<group>"; };
@@ -188,6 +190,8 @@
 		25D680BD23BE9B7900C83CC5 /* docs */ = {
 			isa = PBXGroup;
 			children = (
+				2574E0052457842A000E8156 /* html */,
+				2574E00424578419000E8156 /* index.md */,
 				25D680BF23BE9BB900C83CC5 /* MainPage.md */,
 				25D680BE23BE9BB900C83CC5 /* XPMP2.doxygen */,
 			);

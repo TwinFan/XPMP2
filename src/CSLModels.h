@@ -64,6 +64,9 @@ public:
     /// Is invalid?
     bool IsInvalid () const                     { return xpObjState == OLS_INVALID; }
 
+    /// Read the obj file to calculate its vertical offset
+    float FetchVertOfsFromObjFile () const;
+
     /// @brief Load and return the underlying X-Plane objects.
     /// @note Can return NULL while async load is underway!
     XPLMObjectRef GetAndLoadObj ();
@@ -99,6 +102,8 @@ public:
     listCSLObjTy        listObj;
     /// Vertical offset to be applied [m]
     float               vertOfs = 3.0f;
+    /// Shall we try reading vertOfs from the OBJ8 file if we need this a/c?
+    bool                bVertOfsReadFromFile = true;
     
     /// Path to the xsb_aircraft.txt file from where this model is loaded
     std::string         xsbAircraftPath;
@@ -116,6 +121,8 @@ protected:
     unsigned            refCnt = 0;
     /// Time point when refCnt reached 0 (used in garbage collection, in terms of XP's total running time)
     float               refZeroTs = 0.0f;
+    /// future for asynchronously reading vertOfs
+    std::future<float>  futVertOfs;
     
 public:
     /// Constructor
@@ -156,7 +163,8 @@ public:
     /// (Minimum) )State of the X-Plane object: Is it invalid?
     bool IsObjInvalid () const                  { return GetObjState() == OLS_INVALID; }
     
-    /// Try get ALL object handles, only returns anything if it is the complete list
+    /// @brief Try get ALL object handles, only returns anything if it is the complete list
+    /// @details This starts async loading of all objects.
     std::list<XPLMObjectRef> GetAllObjRefs ();
     
     /// Increase the reference counter for Aircraft usage
@@ -173,10 +181,10 @@ public:
                                     void * inRefcon);
 
 protected:
-    /// Start loading all objects
-    void Load ();
     /// Unload all objects
     void Unload ();
+    /// Read the obj files to fill CSLModel::vertOfs
+    float FetchVertOfsFromObjFile () const;
 };
 
 /// Map of CSLModels (owning the object), ordered by related group / type

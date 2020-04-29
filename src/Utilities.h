@@ -163,8 +163,6 @@ float headDiff (float head1, float head2);
 /// Get synched network time from X-Plane (sim/network/misc/network_time_sec) as used in Log.txt
 float GetMiscNetwTime ();
 
-/// Is using a modern (Vulkan/Metal) graphics driver?
-bool UsingModernGraphicsDriver ();
 /// Text string for current graphics driver in use
 const char* GetGraphicsDriverTxt ();
 

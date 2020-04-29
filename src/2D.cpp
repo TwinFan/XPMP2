@@ -99,8 +99,13 @@ static bool ConvertTo2d(const float x, const float y, const float z,
     out_x = (int)std::lround(gScreenW * (afNdc[0] * 0.5f + 0.5f));
     out_y = (int)std::lround(gScreenH * (afNdc[1] * 0.5f + 0.5f));
     
-    // afNdc[2] is basically the Z value, with -1 <= Z <= 1 meaning: visible
-    return -1.0f <= afNdc[2] && afNdc[2] <= 1.0;
+    // afNdc[2] is basically the Z value
+    if (UsingModernGraphicsDriver())
+        // Vulkan z-axis NDC is [0,1]
+        return 0.0f <= afNdc[2] && afNdc[2] <= 1.0f;
+    else
+        // OGL z-axis is [-1,1]
+        return -1.0f <= afNdc[2] && afNdc[2] <= 1.0;
 }
 
 //

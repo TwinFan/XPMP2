@@ -79,6 +79,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2480fb1a48d0e29b3cef3d9951e0e3b0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLObj.html#a2480fb1a48d0e29b3cef3d9951e0e3b0">IsInvalid</a> () const</td></tr>
 <tr class="memdesc:a2480fb1a48d0e29b3cef3d9951e0e3b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is invalid?  <a href="classXPMP2_1_1CSLObj.html#a2480fb1a48d0e29b3cef3d9951e0e3b0">More...</a><br /></td></tr>
 <tr class="separator:a2480fb1a48d0e29b3cef3d9951e0e3b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa062bed425dd7d90a4ae36ac9f597661"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLObj.html#aa062bed425dd7d90a4ae36ac9f597661">FetchVertOfsFromObjFile</a> () const</td></tr>
+<tr class="memdesc:aa062bed425dd7d90a4ae36ac9f597661"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the obj file to calculate its vertical offset.  <a href="classXPMP2_1_1CSLObj.html#aa062bed425dd7d90a4ae36ac9f597661">More...</a><br /></td></tr>
+<tr class="separator:aa062bed425dd7d90a4ae36ac9f597661"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f2ee19024e02803f2ea5206a11cd5c1"><td class="memItemLeft" align="right" valign="top">XPLMObjectRef&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLObj.html#a5f2ee19024e02803f2ea5206a11cd5c1">GetAndLoadObj</a> ()</td></tr>
 <tr class="memdesc:a5f2ee19024e02803f2ea5206a11cd5c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load and return the underlying X-Plane objects.  <a href="classXPMP2_1_1CSLObj.html#a5f2ee19024e02803f2ea5206a11cd5c1">More...</a><br /></td></tr>
 <tr class="separator:a5f2ee19024e02803f2ea5206a11cd5c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -214,6 +217,26 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="aa062bed425dd7d90a4ae36ac9f597661"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa062bed425dd7d90a4ae36ac9f597661">&#9670;&nbsp;</a></span>FetchVertOfsFromObjFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::CSLObj::FetchVertOfsFromObjFile </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read the obj file to calculate its vertical offset. </p>
+<p>The idea behind doing this is taken from the original libxplanemp implementation, particularly <code>XPMPMultiplayerCSLOffset.cpp: CslModelVertOffsetCalculator::findOffsetInObj8</code>: The vertices and lines defined in the file have coordinates, their outer edges define how much the aircraft would need to be lifted to make its lowest part (typically the gear) appear on the surfaces. So it searches for min/max values of vertical (y) coordinates. </p><dl class="section note"><dt>Note</dt><dd>I am not sure why the original code returns <code>-max</code> if <code>min &gt; 0</code>, my understanding would be to always return <code>-min</code> and don't need <code>max</code>. But I just hope that the original author knows better and I stick to it. </dd></dl>
+
+</div>
+</div>
 <a id="a5f2ee19024e02803f2ea5206a11cd5c1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5f2ee19024e02803f2ea5206a11cd5c1">&#9670;&nbsp;</a></span>GetAndLoadObj()</h2>
 

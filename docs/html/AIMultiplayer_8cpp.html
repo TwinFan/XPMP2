@@ -119,10 +119,13 @@ Functions</h2></td></tr>
 <tr class="memdesc:acf4e108321898c0a36a662413ab0c7d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Grace cleanup.  <a href="namespaceXPMP2.html#acf4e108321898c0a36a662413ab0c7d2">More...</a><br /></td></tr>
 <tr class="separator:acf4e108321898c0a36a662413ab0c7d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc3c7cc95560a59f24ceb665123db3b4"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AIMultiplayer_8cpp.html#adc3c7cc95560a59f24ceb665123db3b4">XPMPMultiplayerEnable</a> ()</td></tr>
+<tr class="memdesc:adc3c7cc95560a59f24ceb665123db3b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tries to grab control of AI/multiplayer planes from X-Plane.  <a href="AIMultiplayer_8cpp.html#adc3c7cc95560a59f24ceb665123db3b4">More...</a><br /></td></tr>
 <tr class="separator:adc3c7cc95560a59f24ceb665123db3b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7b23c9aba24f6a20c764e1131c7149f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AIMultiplayer_8cpp.html#ad7b23c9aba24f6a20c764e1131c7149f">XPMPMultiplayerDisable</a> ()</td></tr>
+<tr class="memdesc:ad7b23c9aba24f6a20c764e1131c7149f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release AI/multiplayer control.  <a href="AIMultiplayer_8cpp.html#ad7b23c9aba24f6a20c764e1131c7149f">More...</a><br /></td></tr>
 <tr class="separator:ad7b23c9aba24f6a20c764e1131c7149f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7681ca8a217b2e52da0f23073cf3a87d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AIMultiplayer_8cpp.html#a7681ca8a217b2e52da0f23073cf3a87d">XPMPHasControlOfAIAircraft</a> ()</td></tr>
+<tr class="memdesc:a7681ca8a217b2e52da0f23073cf3a87d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Has <a class="el" href="namespaceXPMP2.html">XPMP2</a> control of AI/multiplayer aircraft? (See <a class="el" href="XPMPMultiplayer_8h.html#adc3c7cc95560a59f24ceb665123db3b4" title="Tries to grab control of AI/multiplayer planes from X-Plane.">XPMPMultiplayerEnable()</a>)  <a href="AIMultiplayer_8cpp.html#a7681ca8a217b2e52da0f23073cf3a87d">More...</a><br /></td></tr>
 <tr class="separator:a7681ca8a217b2e52da0f23073cf3a87d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
@@ -348,6 +351,8 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
       </table>
 </div><div class="memdoc">
 
+<p>Has <a class="el" href="namespaceXPMP2.html">XPMP2</a> control of AI/multiplayer aircraft? (See <a class="el" href="XPMPMultiplayer_8h.html#adc3c7cc95560a59f24ceb665123db3b4" title="Tries to grab control of AI/multiplayer planes from X-Plane.">XPMPMultiplayerEnable()</a>) </p>
+
 </div>
 </div>
 <a id="ad7b23c9aba24f6a20c764e1131c7149f"></a>
@@ -365,6 +370,10 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
       </table>
 </div><div class="memdoc">
 
+<p>Release AI/multiplayer control. </p>
+<p>Afterwards, <a class="el" href="namespaceXPMP2.html">XPMP2</a>'s aircraft will no longer appear on TCAS or on 3rd-party plugins relying on multiplayer dataRefs.<br  />
+ Is called during <a class="el" href="XPMPMultiplayer_8h.html#acc451b7b8df8f182f74cf5d306286443" title="Clean up the multiplayer library.">XPMPMultiplayerCleanup()</a> automatically. </p>
+
 </div>
 </div>
 <a id="adc3c7cc95560a59f24ceb665123db3b4"></a>
@@ -381,6 +390,11 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Tries to grab control of AI/multiplayer planes from X-Plane. </p>
+<p>Only one plugin can have AI/multiplayer control at any one time. So be prepared to properly handle an non-empty response that indicates that you did not get control now.<br  />
+ If successful, <a class="el" href="namespaceXPMP2.html">XPMP2</a>'s aircraft will appear on TCAS and are available to 3rd-party plugins relying on multiplayer dataRefs.<br  />
+ Typically, a plugin calls this function early in the initialization, just before the first aircraft are created. But it could also be bound to a menu item, for example. </p><dl class="section return"><dt>Returns</dt><dd>Empty string on success, human-readable error message otherwise </dd></dl>
 
 </div>
 </div>

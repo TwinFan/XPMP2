@@ -72,6 +72,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6769bd43f4eb26a29e94070e65586e66"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a6769bd43f4eb26a29e94070e65586e66">ReadVersions</a> ()</td></tr>
 <tr class="memdesc:a6769bd43f4eb26a29e94070e65586e66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read version numbers into verXplane/verXPLM.  <a href="structXPMP2_1_1GlobVars.html#a6769bd43f4eb26a29e94070e65586e66">More...</a><br /></td></tr>
 <tr class="separator:a6769bd43f4eb26a29e94070e65586e66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec5d85795dc77d9fecbee9d6b5d73477"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#aec5d85795dc77d9fecbee9d6b5d73477">UsingModernGraphicsDriver</a> () const</td></tr>
+<tr class="memdesc:aec5d85795dc77d9fecbee9d6b5d73477"><td class="mdescLeft">&#160;</td><td class="mdescRight">/// Using a modern graphics driver, ie. Vulkan/Metal?  <a href="structXPMP2_1_1GlobVars.html#aec5d85795dc77d9fecbee9d6b5d73477">More...</a><br /></td></tr>
+<tr class="separator:aec5d85795dc77d9fecbee9d6b5d73477"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -165,6 +168,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a5d4f91904ac75018426ea0ebfa3dbc60"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a5d4f91904ac75018426ea0ebfa3dbc60">verXPLM</a> = -1</td></tr>
 <tr class="memdesc:a5d4f91904ac75018426ea0ebfa3dbc60"><td class="mdescLeft">&#160;</td><td class="mdescRight">XPLM's SDK version number (XPLMGetVersions)  <a href="structXPMP2_1_1GlobVars.html#a5d4f91904ac75018426ea0ebfa3dbc60">More...</a><br /></td></tr>
 <tr class="separator:a5d4f91904ac75018426ea0ebfa3dbc60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4079d408c4b07eb3f1aed9fa117283d6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a4079d408c4b07eb3f1aed9fa117283d6">bUsingModernGraphicsDriver</a> = false</td></tr>
+<tr class="memdesc:a4079d408c4b07eb3f1aed9fa117283d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Using a modern graphics driver, ie. Vulkan/Metal?  <a href="structXPMP2_1_1GlobVars.html#a4079d408c4b07eb3f1aed9fa117283d6">More...</a><br /></td></tr>
+<tr class="separator:a4079d408c4b07eb3f1aed9fa117283d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -276,6 +282,33 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Update all settings, e.g. for logging level, by calling prefsFuncInt. </p>
+
+</div>
+</div>
+<a id="aec5d85795dc77d9fecbee9d6b5d73477"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec5d85795dc77d9fecbee9d6b5d73477">&#9670;&nbsp;</a></span>UsingModernGraphicsDriver()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::GlobVars::UsingModernGraphicsDriver </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>/// Using a modern graphics driver, ie. Vulkan/Metal? </p>
 
 </div>
 </div>
@@ -405,6 +438,22 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Shall we skip assignment of NoPlane.acf? </p>
+
+</div>
+</div>
+<a id="a4079d408c4b07eb3f1aed9fa117283d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4079d408c4b07eb3f1aed9fa117283d6">&#9670;&nbsp;</a></span>bUsingModernGraphicsDriver</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::GlobVars::bUsingModernGraphicsDriver = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Using a modern graphics driver, ie. Vulkan/Metal? </p>
 
 </div>
 </div>

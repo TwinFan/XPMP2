@@ -3,9 +3,9 @@ XPlaneMP 2
 
 The original X-Plane Multiplay Library is the work of many fantastic people,
 with Ben Supnik, Chris Serio, and Chris Collins appearing in recent files and documentation.
-But the origins date back to 2004, and very likely many more were involed. Thanks to all of them!
+But the origins date back to 2004, and very likely many more were involved. Thanks to all of them!
 
-This complete re-implementation honors all the basic concepts (so I hope)
+This complete re-implementation honours all the basic concepts (so I hope)
 but makes use of X-Plane 11's modern
 [instancing concept](https://developer.x-plane.com/sdk/XPLMInstance/).
 Thus, it ports the idea of the library also into the times of Vulkan and Metal
@@ -20,6 +20,26 @@ multi-pass matching to find a good model are retained, though re-implemented (re
 
 XPMP2 does no longer call any OpenGL function and hence  does not require
 to be linked to an OpenGL library. The included XPMP2-Sample application does not link to OpenGL.
+
+Documentation
+----
+
+**Documentation is work in progress!**
+
+All documentation is **currently being moved** to
+[GitHub pages](https://twinfan.github.io/XPMP2/).
+That has the advantage of documentation being just _part_ of the project.
+So documentation could be amended and supported via merge requests by others, too.
+
+### API and Code Documentation ###
+
+All header (and code) files are documented using
+[Doxygen](http://www.doxygen.nl/)-style comments.
+The generated doxygen files are checked in, too, so that the are available
+online:
+
+- [Main Page](https://twinfan.github.io/XPMP2/html/index.html)
+
 
 TCAS
 ----
@@ -110,7 +130,7 @@ hinder a proper implementation to compile successfully, albeit with some new war
    Just a gentle reminder to update your plugin at some point in time...
 - `XPMPMultiplayerInitLegacyData` will in turn call `XPMPMultiplayerInit`, and
    `XPMPLoadCSLPackage`. The correct future-proof way of initializing the library is to call
-   `XPMPMultiplayerInit` and then do one or more calls to `XPMPLoadCSLPackage`. 
+   `XPMPMultiplayerInit` and then do one or more calls to `XPMPLoadCSLPackage`.
 - `XPMPLoadCSLPackage` walks directories hierarchically up to 5 levels until it
    finds an `xsb_aircraft.txt` file. This should not affect classic usages,
    where such a path was just one level away from the `xsb_aircraft.txt` file.
@@ -149,7 +169,7 @@ I considered no longer required:
 - `.acf` and OBJ7 models are no longer supported: XPMP2 requires OBJ8 models.
    These are the by far most used models nowadays, identified by the `OBJ8` command
    in the `xsb_aircraft.txt` file.
-   
+
 New Features
 ---
 - **Map Layer Support:** XPMP2 shows all aircraft in X-Plane's map views,
@@ -174,7 +194,7 @@ Doxygen Documnetation
 --
 
 All code has [Doxygen](http://doxygen.nl)-style documentation.
-A Doxygen configuration is provided in `docs/XPMP2.doxygen`. 
+A Doxygen configuration is provided in `docs/XPMP2.doxygen`.
 Pass it to a call to Doxygen to build the documentation.
 Entry point then is `docs/html/index.html`.
 
@@ -235,7 +255,7 @@ TODOs
 --
 
 - Label writing
-    - Expose maxLabelDist to some config function 
+    - Expose maxLabelDist to some config function
     - Scale Fonts
 - AI/Multiplayer dataRefs
     - Shared dataRefs for providing textual information (implemented, open: test with FSTramp)

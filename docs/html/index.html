@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.16"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>XPMP2: XPMP 2 - Code documentation</title>
+<title>XPMP2: XPMP 2 - API and Code documentation</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -40,48 +40,27 @@ $(function() {
 </div><!-- top -->
 <div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">XPMP 2 - Code documentation </div>  </div>
+<div class="title">XPMP 2 - API and Code documentation </div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><h1><a class="anchor" id="autotoc_md1"></a>
-Quick Links:</h1>
+API</h1>
+<p>The public API of <a class="el" href="namespaceXPMP2.html">XPMP2</a> consists of the following 4 header files, which are provided in the <code>inc</code> folder:</p>
+<ul>
+<li><a class="el" href="XPMPMultiplayer_8h.html" title="Initialization and general control functions for XPMP2.">XPMPMultiplayer.h</a> - Initialisation and general control functions</li>
+<li><a class="el" href="XPMPAircraft_8h.html" title="XPMP2::Aircraft represent an aircraft as managed by XPMP2.">XPMPAircraft.h</a> - Defines the class <code><a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a></code>, which represents an aircraft. Subclass this class!</li>
+</ul>
+<p><b>The following header files are deprecated</b> and only provided only for backward compatibility with previous <code>libxplanemp</code>, <em>not to be used for new projects</em>:</p>
+<ul>
+<li>[<a class="el" href="XPCAircraft_8h.html" title="XPMP2::Aircraft / XPCAircraft represent an aircraft as managed by XPMP2.">XPCAircraft.h</a>](XPCAircraft_8h) - Defines the class <code><a class="el" href="classXPCAircraft.html" title="Legacy wrapper class as provided by original libxplanemp.">XPCAircraft</a></code>, representing an aircraft in <code><a class="el" href="namespaceXPMP2.html">XPMP2</a></code>, now derived from <code><a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a></code>.</li>
+<li>[<a class="el" href="XPMPPlaneRenderer_8h.html" title="Rendering functions.">XPMPPlaneRenderer.h</a>](XPMPPlaneRenderer_8h) - Three rendering control functions, which serve no purpose any longer.</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md2"></a>
+Quick Links to Detailed Documentation:</h1>
 <ul>
 <li><a href="annotated.html">Full Class List</a></li>
 <li><a href="hierarchy.html">Full Class Hierarchy</a></li>
-<li><a href="files.html">File List</a></li>
-</ul>
-<h1><a class="anchor" id="autotoc_md2"></a>
-Order of Callback Execution per Cycle</h1>
-<ol type="1">
-<li>Aircraft::FlightLoopCB(), <code>xplm_FlightLoop_Phase_BeforeFlightModel</code></li>
-<li>AIControlPlaneCount(), <code>inIsBefore = 1</code></li>
-<li>AIControlPlaneCount(), <code>inIsBefore = 0</code></li>
-<li><a class="el" href="namespaceXPMP2.html#a625a3f82614d3eb9123bfa9a9bf9d385" title="Drawing callback, called by X-Plane in every drawing cycle.">CPLabelDrawing()</a></li>
-<li>AIControlPlaneCount(), <code>inIsBefore = 1</code></li>
-<li>AIControlPlaneCount(), <code>inIsBefore = 0</code></li>
-<li><a class="el" href="namespaceXPMP2.html#a625a3f82614d3eb9123bfa9a9bf9d385" title="Drawing callback, called by X-Plane in every drawing cycle.">CPLabelDrawing()</a></li>
-</ol>
-<h1><a class="anchor" id="autotoc_md3"></a>
-Links to outside locations:</h1>
-<p>Original libxplanemp:</p><ul>
-<li><a href="https://github.com/TwinFan/libxplanemp">TwinFan's libxplanemp fork on GitHub</a><ul>
-<li><a href="https://github.com/TwinFan/libxplanemp/wiki">wiki explaining differences to the kuroneko fork</a></li>
-</ul>
-</li>
-<li><a href="https://github.com/kuroneko/libxplanemp">kuroneko's original fork on GitHub</a><ul>
-<li><a href="https://github.com/kuroneko/libxplanemp/wiki">kuroneko's wiki</a> including notes on CSL development</li>
-</ul>
-</li>
-</ul>
-<p>Original libxplanemp:</p><ul>
-<li><a href="https://github.com/TwinFan/libxplanemp">TwinFan's libxplanemp fork</a> on GitHub<ul>
-<li><a href="https://github.com/TwinFan/libxplanemp/wiki">wiki explaining differences to the kuroneko fork</a></li>
-</ul>
-</li>
-<li><a href="https://github.com/kuroneko/libxplanemp">kuroneko's fork</a> on GitHub, a long-time standard and basis of other important forks<ul>
-<li><a href="https://github.com/kuroneko/libxplanemp/wiki">kuroneko's wiki</a> including notes on CSL development </li>
-</ul>
-</li>
+<li><a href="files.html">File List</a> </li>
 </ul>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->

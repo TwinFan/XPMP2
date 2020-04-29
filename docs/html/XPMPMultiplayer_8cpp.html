@@ -90,8 +90,10 @@ Functions</h2></td></tr>
 <tr class="memdesc:adc19fc90e2e97f713ffc9de3d6ca6a70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overrides the plugin's name to be used in Log output.  <a href="XPMPMultiplayer_8cpp.html#adc19fc90e2e97f713ffc9de3d6ca6a70">More...</a><br /></td></tr>
 <tr class="separator:adc19fc90e2e97f713ffc9de3d6ca6a70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc451b7b8df8f182f74cf5d306286443"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8cpp.html#acc451b7b8df8f182f74cf5d306286443">XPMPMultiplayerCleanup</a> ()</td></tr>
+<tr class="memdesc:acc451b7b8df8f182f74cf5d306286443"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clean up the multiplayer library.  <a href="XPMPMultiplayer_8cpp.html#acc451b7b8df8f182f74cf5d306286443">More...</a><br /></td></tr>
 <tr class="separator:acc451b7b8df8f182f74cf5d306286443"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7cdc8ac8f302d956e4c364ea8b98de53"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8cpp.html#a7cdc8ac8f302d956e4c364ea8b98de53">XPMPMultiplayerOBJ7SupportEnable</a> (const char *)</td></tr>
+<tr class="memdesc:a7cdc8ac8f302d956e4c364ea8b98de53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to set the light textures for old OBJ7 models.  <a href="XPMPMultiplayer_8cpp.html#a7cdc8ac8f302d956e4c364ea8b98de53">More...</a><br /></td></tr>
 <tr class="separator:a7cdc8ac8f302d956e4c364ea8b98de53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98f533d051f3539d4983ac3fdb2fa643"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8cpp.html#a98f533d051f3539d4983ac3fdb2fa643">XPMPLoadCSLPackage</a> (const char *inCSLFolder)</td></tr>
 <tr class="memdesc:a98f533d051f3539d4983ac3fdb2fa643"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads CSL packages from the given folder, searching up to 5 folder levels deep.  <a href="XPMPMultiplayer_8cpp.html#a98f533d051f3539d4983ac3fdb2fa643">More...</a><br /></td></tr>
@@ -731,6 +733,9 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
       </table>
 </div><div class="memdoc">
 
+<p>Clean up the multiplayer library. </p>
+<p>This shall be your last call to <a class="el" href="namespaceXPMP2.html">XPMP2</a>. Call this latest from XPluginStop for proper and controlled cleanup of resources used by <a class="el" href="namespaceXPMP2.html">XPMP2</a>. </p>
+
 </div>
 </div>
 <a id="a06626834af42d83caf4f26d11ad98676"></a>
@@ -776,7 +781,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">inPluginName</td><td>Your plugin's name, used only in output to <code>Log.txt</code> </td></tr>
-    <tr><td class="paramname">resourceDir</td><td>The directory where <a class="el" href="namespaceXPMP2.html">XPMP2</a> finds all required supplemental files (Doc8643.txt, MapIcons.png, NoPlane.acf...) </td></tr>
+    <tr><td class="paramname">resourceDir</td><td>The directory where <a class="el" href="namespaceXPMP2.html">XPMP2</a> finds all required supplemental files (<code>Doc8643.txt</code>, <code>MapIcons.png</code>, <code>NoPlane.acf</code>, <code>related.txt</code>) </td></tr>
     <tr><td class="paramname">inIntPrefsFunc</td><td>A pointer to a callback function providing integer config values. See <a class="el" href="XPMPMultiplayer_8h.html#a002b2c41d868c6de5fdaec4edb0282f4" title="Definition for the type of configuration callback function.">XPMPIntPrefsFuncTy</a> for details. </td></tr>
     <tr><td class="paramname">inDefaultICAO</td><td>A fallback aircraft type if no type can be deduced otherwise for an aircraft. </td></tr>
   </table>
@@ -832,7 +837,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 <p>Deprecated legacy initialization of <a class="el" href="namespaceXPMP2.html">XPMP2</a>. </p>
 <dl class="section note"><dt>Note</dt><dd>Parameters changed compared to libxplanemp!</dd></dl>
-<p>Effectively calls, in this order, <a class="el" href="XPMPMultiplayer_8h.html#a9e0b7151d7ba4a2c3656faa307678dfa" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a> (with <code>resourceDir</code> being <code>nullptr</code>) and <a class="el" href="XPMPMultiplayer_8h.html#a98f533d051f3539d4983ac3fdb2fa643" title="Loads CSL packages from the given folder, searching up to 5 folder levels deep.">XPMPLoadCSLPackage()</a>. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="XPMPMultiplayer_8h.html#a9e0b7151d7ba4a2c3656faa307678dfa" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a> and <a class="el" href="XPMPMultiplayer_8h.html#a98f533d051f3539d4983ac3fdb2fa643" title="Loads CSL packages from the given folder, searching up to 5 folder levels deep.">XPMPLoadCSLPackage()</a> for details on the parameters. </dd></dl>
+<p>Effectively calls, in this order, <a class="el" href="XPMPMultiplayer_8h.html#a9e0b7151d7ba4a2c3656faa307678dfa" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a> and <a class="el" href="XPMPMultiplayer_8h.html#a98f533d051f3539d4983ac3fdb2fa643" title="Loads CSL packages from the given folder, searching up to 5 folder levels deep.">XPMPLoadCSLPackage()</a>. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="XPMPMultiplayer_8h.html#a9e0b7151d7ba4a2c3656faa307678dfa" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a> and <a class="el" href="XPMPMultiplayer_8h.html#a98f533d051f3539d4983ac3fdb2fa643" title="Loads CSL packages from the given folder, searching up to 5 folder levels deep.">XPMPLoadCSLPackage()</a> for details on the parameters. </dd></dl>
 
 </div>
 </div>
@@ -846,11 +851,14 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
           <td class="memname">const char* XPMPMultiplayerOBJ7SupportEnable </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramname"><em>inTexturePath</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Used to set the light textures for old OBJ7 models. </p>
+<dl class="section note"><dt>Note</dt><dd>Unsupported with <a class="el" href="namespaceXPMP2.html">XPMP2</a>, will always return "OBJ7 format is no longer supported" </dd></dl>
 
 </div>
 </div>
@@ -976,7 +984,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 </div><div class="memdoc">
 
 <p>Overrides the plugin's name to be used in Log output. </p>
-<p>The name in use defaults to the plugin's name as set in <a class="el" href="XPMP2-Sample_8cpp.html#a3d7458933ac3c2c1c404fe5bfa8a83f1">XPluginStart()</a>. Replaces the compile-time macro <code>XPMP_CLIENT_LONGNAME</code> from earlier releases. </p>
+<p>The same as providing a plugin name with <a class="el" href="XPMPMultiplayer_8h.html#a9e0b7151d7ba4a2c3656faa307678dfa" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a>. If no name is provided, it defaults to the plugin's name as set in <a class="el" href="XPMP2-Sample_8cpp.html#a3d7458933ac3c2c1c404fe5bfa8a83f1">XPluginStart()</a>. </p><dl class="section note"><dt>Note</dt><dd>Replaces the compile-time macro <code>XPMP_CLIENT_LONGNAME</code> needed in <code>libxplanemp</code>. </dd></dl>
 
 </div>
 </div>

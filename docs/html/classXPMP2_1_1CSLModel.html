@@ -156,6 +156,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:ad350a00be9f3e1727232e2938bd1decb"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#ad350a00be9f3e1727232e2938bd1decb">vertOfs</a> = 3.0f</td></tr>
 <tr class="memdesc:ad350a00be9f3e1727232e2938bd1decb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vertical offset to be applied [m].  <a href="classXPMP2_1_1CSLModel.html#ad350a00be9f3e1727232e2938bd1decb">More...</a><br /></td></tr>
 <tr class="separator:ad350a00be9f3e1727232e2938bd1decb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae294d23499c864aac08173e71f979aa9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#ae294d23499c864aac08173e71f979aa9">bVertOfsReadFromFile</a> = true</td></tr>
+<tr class="memdesc:ae294d23499c864aac08173e71f979aa9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shall we try reading vertOfs from the OBJ8 file if we need this a/c?  <a href="classXPMP2_1_1CSLModel.html#ae294d23499c864aac08173e71f979aa9">More...</a><br /></td></tr>
+<tr class="separator:ae294d23499c864aac08173e71f979aa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa2c3ded4b6624baf3775330da78626e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#afa2c3ded4b6624baf3775330da78626e">xsbAircraftPath</a></td></tr>
 <tr class="memdesc:afa2c3ded4b6624baf3775330da78626e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Path to the xsb_aircraft.txt file from where this model is loaded.  <a href="classXPMP2_1_1CSLModel.html#afa2c3ded4b6624baf3775330da78626e">More...</a><br /></td></tr>
 <tr class="separator:afa2c3ded4b6624baf3775330da78626e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -165,12 +168,12 @@ Public Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a197cbd82f0e6cce15c87713f39b2b2f4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a197cbd82f0e6cce15c87713f39b2b2f4">Load</a> ()</td></tr>
-<tr class="memdesc:a197cbd82f0e6cce15c87713f39b2b2f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start loading all objects.  <a href="classXPMP2_1_1CSLModel.html#a197cbd82f0e6cce15c87713f39b2b2f4">More...</a><br /></td></tr>
-<tr class="separator:a197cbd82f0e6cce15c87713f39b2b2f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa398b788c70c02fddd56af402096faad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#aa398b788c70c02fddd56af402096faad">Unload</a> ()</td></tr>
 <tr class="memdesc:aa398b788c70c02fddd56af402096faad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unload all objects.  <a href="classXPMP2_1_1CSLModel.html#aa398b788c70c02fddd56af402096faad">More...</a><br /></td></tr>
 <tr class="separator:aa398b788c70c02fddd56af402096faad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60bdcde5529131e8bfaf73724a4031da"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a60bdcde5529131e8bfaf73724a4031da">FetchVertOfsFromObjFile</a> () const</td></tr>
+<tr class="memdesc:a60bdcde5529131e8bfaf73724a4031da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the obj files to fill <a class="el" href="classXPMP2_1_1CSLModel.html#ad350a00be9f3e1727232e2938bd1decb" title="Vertical offset to be applied [m].">CSLModel::vertOfs</a>.  <a href="classXPMP2_1_1CSLModel.html#a60bdcde5529131e8bfaf73724a4031da">More...</a><br /></td></tr>
+<tr class="separator:a60bdcde5529131e8bfaf73724a4031da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -189,6 +192,9 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:ae58b3b42076e2fd921d4937df20bcd5b"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#ae58b3b42076e2fd921d4937df20bcd5b">refZeroTs</a> = 0.0f</td></tr>
 <tr class="memdesc:ae58b3b42076e2fd921d4937df20bcd5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Time point when refCnt reached 0 (used in garbage collection, in terms of XP's total running time)  <a href="classXPMP2_1_1CSLModel.html#ae58b3b42076e2fd921d4937df20bcd5b">More...</a><br /></td></tr>
 <tr class="separator:ae58b3b42076e2fd921d4937df20bcd5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5532bb40e6001fc4f7fe5020b51df081"><td class="memItemLeft" align="right" valign="top">std::future&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a5532bb40e6001fc4f7fe5020b51df081">futVertOfs</a></td></tr>
+<tr class="memdesc:a5532bb40e6001fc4f7fe5020b51df081"><td class="mdescLeft">&#160;</td><td class="mdescRight">future for asynchronously reading vertOfs  <a href="classXPMP2_1_1CSLModel.html#a5532bb40e6001fc4f7fe5020b51df081">More...</a><br /></td></tr>
+<tr class="separator:a5532bb40e6001fc4f7fe5020b51df081"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represetns a CSL model as it is saved on disk. </p>
@@ -295,6 +301,33 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a60bdcde5529131e8bfaf73724a4031da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60bdcde5529131e8bfaf73724a4031da">&#9670;&nbsp;</a></span>FetchVertOfsFromObjFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::CSLModel::FetchVertOfsFromObjFile </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Read the obj files to fill <a class="el" href="classXPMP2_1_1CSLModel.html#ad350a00be9f3e1727232e2938bd1decb" title="Vertical offset to be applied [m].">CSLModel::vertOfs</a>. </p>
+
+</div>
+</div>
 <a id="a50415164f6f7d0a972a89440024841b5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a50415164f6f7d0a972a89440024841b5">&#9670;&nbsp;</a></span>GarbageCollection()</h2>
 
@@ -361,6 +394,7 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Try get ALL object handles, only returns anything if it is the complete list. </p>
+<p>This starts async loading of all objects. </p>
 
 </div>
 </div>
@@ -826,33 +860,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a197cbd82f0e6cce15c87713f39b2b2f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a197cbd82f0e6cce15c87713f39b2b2f4">&#9670;&nbsp;</a></span>Load()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void XPMP2::CSLModel::Load </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Start loading all objects. </p>
-
-</div>
-</div>
 <a id="add2565670a94dd349781e4adfe194754"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#add2565670a94dd349781e4adfe194754">&#9670;&nbsp;</a></span>operator=()</h2>
 
@@ -927,6 +934,22 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="ae294d23499c864aac08173e71f979aa9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae294d23499c864aac08173e71f979aa9">&#9670;&nbsp;</a></span>bVertOfsReadFromFile</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::CSLModel::bVertOfsReadFromFile = true</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Shall we try reading vertOfs from the OBJ8 file if we need this a/c? </p>
+
+</div>
+</div>
 <a id="a0f6064c1cc20a9d9eb283dabe9d9ae58"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0f6064c1cc20a9d9eb283dabe9d9ae58">&#9670;&nbsp;</a></span>cslId</h2>
 
@@ -964,6 +987,30 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Proper <a class="el" href="structXPMP2_1_1Doc8643.html" title="Represents a line in the Doc8643.txt file, of which we use only classification and WTC.">Doc8643</a> entry for this model. </p>
+
+</div>
+</div>
+<a id="a5532bb40e6001fc4f7fe5020b51df081"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5532bb40e6001fc4f7fe5020b51df081">&#9670;&nbsp;</a></span>futVertOfs</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::future&lt;float&gt; XPMP2::CSLModel::futVertOfs</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>future for asynchronously reading vertOfs </p>
 
 </div>
 </div>

@@ -71,8 +71,10 @@ Classes</h2></td></tr>
 <tr class="memdesc:structXPMPPlaneSurfaces__t"><td class="mdescLeft">&#160;</td><td class="mdescRight">External physical configuration of the plane.  <a href="XPMPMultiplayer_8h.html#structXPMPPlaneSurfaces__t">More...</a><br /></td></tr>
 <tr class="separator:structXPMPPlaneSurfaces__t"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:structXPMPPlaneRadar__t"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#structXPMPPlaneRadar__t">XPMPPlaneRadar_t</a></td></tr>
+<tr class="memdesc:structXPMPPlaneRadar__t"><td class="mdescLeft">&#160;</td><td class="mdescRight">defines information about an aircraft visible to radar.  <a href="XPMPMultiplayer_8h.html#structXPMPPlaneRadar__t">More...</a><br /></td></tr>
 <tr class="separator:structXPMPPlaneRadar__t"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:structXPMPInfoTexts__t"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#structXPMPInfoTexts__t">XPMPInfoTexts_t</a></td></tr>
+<tr class="memdesc:structXPMPInfoTexts__t"><td class="mdescLeft">&#160;</td><td class="mdescRight">Textual information of planes to be passed on via shared dataRefs to other plugins.  <a href="XPMPMultiplayer_8h.html#structXPMPInfoTexts__t">More...</a><br /></td></tr>
 <tr class="separator:structXPMPInfoTexts__t"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:structxpmp__LightStatus_8____unnamed____"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#structxpmp__LightStatus_8____unnamed____">xpmp_LightStatus.__unnamed__</a></td></tr>
 <tr class="separator:structxpmp__LightStatus_8____unnamed____"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -86,24 +88,25 @@ Macros</h2></td></tr>
 <tr class="memdesc:a8ae993bb59596448007540ef3e43808b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config section "debug".  <a href="XPMPMultiplayer_8h.html#a8ae993bb59596448007540ef3e43808b">More...</a><br /></td></tr>
 <tr class="separator:a8ae993bb59596448007540ef3e43808b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a520d625f8f860916600aa47e1fc33d10"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a520d625f8f860916600aa47e1fc33d10">XPMP_CFG_ITM_CLAMPALL</a>&#160;&#160;&#160;&quot;clamp_all_to_ground&quot;</td></tr>
-<tr class="memdesc:a520d625f8f860916600aa47e1fc33d10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ensure no plane sinks below ground, no matter of Aircraft::bClampToGround.  <a href="XPMPMultiplayer_8h.html#a520d625f8f860916600aa47e1fc33d10">More...</a><br /></td></tr>
+<tr class="memdesc:a520d625f8f860916600aa47e1fc33d10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config key: Ensure no plane sinks below ground, no matter of Aircraft::bClampToGround.  <a href="XPMPMultiplayer_8h.html#a520d625f8f860916600aa47e1fc33d10">More...</a><br /></td></tr>
 <tr class="separator:a520d625f8f860916600aa47e1fc33d10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab49047b10aa1381301013eec9a938148"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#ab49047b10aa1381301013eec9a938148">XPMP_CFG_ITM_SKIP_NOPLANE</a>&#160;&#160;&#160;&quot;skip_assign_noplane&quot;</td></tr>
-<tr class="memdesc:ab49047b10aa1381301013eec9a938148"><td class="mdescLeft">&#160;</td><td class="mdescRight">For faking TCAS, all AI/multiplayer planes are assigned the <code>NoPlane.acf</code> type when <a class="el" href="namespaceXPMP2.html">XPMP2</a> takes over control. This option allows to skip assining <code>NoPlane.acf</code>...just in case.  <a href="XPMPMultiplayer_8h.html#ab49047b10aa1381301013eec9a938148">More...</a><br /></td></tr>
+<tr class="memdesc:ab49047b10aa1381301013eec9a938148"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config key: For faking TCAS, all AI/multiplayer planes are assigned the <code>NoPlane.acf</code> type when <a class="el" href="namespaceXPMP2.html">XPMP2</a> takes over control. This option allows to skip assining <code>NoPlane.acf</code>...just in case.  <a href="XPMPMultiplayer_8h.html#ab49047b10aa1381301013eec9a938148">More...</a><br /></td></tr>
 <tr class="separator:ab49047b10aa1381301013eec9a938148"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aac493bd1ed13c42f873557b4163f816e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#aac493bd1ed13c42f873557b4163f816e">XPMP_CFG_ITM_COPY_NOPLANE</a>&#160;&#160;&#160;&quot;copy_noplane&quot;</td></tr>
-<tr class="memdesc:aac493bd1ed13c42f873557b4163f816e"><td class="mdescLeft">&#160;</td><td class="mdescRight">On startup, shall <code>NoPlane.acf</code> be copied from the resource directory to <code>&lt;X-Plane&gt;/Aircraft/&lt;plugin&gt;</code>? This is highly recommended to reduce side-effects of using <code>NoPlane</code> as AI Aircraft model.  <a href="XPMPMultiplayer_8h.html#aac493bd1ed13c42f873557b4163f816e">More...</a><br /></td></tr>
+<tr class="memdesc:aac493bd1ed13c42f873557b4163f816e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config key: On startup, shall <code>NoPlane.acf</code> be copied from the resource directory to <code>&lt;X-Plane&gt;/Aircraft/&lt;plugin&gt;</code>? This is highly recommended to reduce side-effects of using <code>NoPlane</code> as AI Aircraft model.  <a href="XPMPMultiplayer_8h.html#aac493bd1ed13c42f873557b4163f816e">More...</a><br /></td></tr>
 <tr class="separator:aac493bd1ed13c42f873557b4163f816e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5728e039cf8cdf415112b629e7a1667b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a5728e039cf8cdf415112b629e7a1667b">XPMP_CFG_ITM_LOGLEVEL</a>&#160;&#160;&#160;&quot;log_level&quot;</td></tr>
-<tr class="memdesc:a5728e039cf8cdf415112b629e7a1667b"><td class="mdescLeft">&#160;</td><td class="mdescRight">General level of logging into Log.txt (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)  <a href="XPMPMultiplayer_8h.html#a5728e039cf8cdf415112b629e7a1667b">More...</a><br /></td></tr>
+<tr class="memdesc:a5728e039cf8cdf415112b629e7a1667b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config key: General level of logging into Log.txt (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)  <a href="XPMPMultiplayer_8h.html#a5728e039cf8cdf415112b629e7a1667b">More...</a><br /></td></tr>
 <tr class="separator:a5728e039cf8cdf415112b629e7a1667b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a806b63b0cfab848825db7e7745bb1a11"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a806b63b0cfab848825db7e7745bb1a11">XPMP_CFG_ITM_MODELMATCHING</a>&#160;&#160;&#160;&quot;model_matching&quot;</td></tr>
-<tr class="memdesc:a806b63b0cfab848825db7e7745bb1a11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write information on model matching into Log.txt.  <a href="XPMPMultiplayer_8h.html#a806b63b0cfab848825db7e7745bb1a11">More...</a><br /></td></tr>
+<tr class="memdesc:a806b63b0cfab848825db7e7745bb1a11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config key: Write information on model matching into Log.txt.  <a href="XPMPMultiplayer_8h.html#a806b63b0cfab848825db7e7745bb1a11">More...</a><br /></td></tr>
 <tr class="separator:a806b63b0cfab848825db7e7745bb1a11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
 <tr class="memitem:a85e38812a1b3476752adc53281960ce9"><td class="memItemLeft" align="right" valign="top">typedef unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a85e38812a1b3476752adc53281960ce9">XPMPLightsPattern</a></td></tr>
+<tr class="memdesc:a85e38812a1b3476752adc53281960ce9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Light flash pattern (unused in <a class="el" href="namespaceXPMP2.html">XPMP2</a>)  <a href="XPMPMultiplayer_8h.html#a85e38812a1b3476752adc53281960ce9">More...</a><br /></td></tr>
 <tr class="separator:a85e38812a1b3476752adc53281960ce9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae32c35992213931b12695d9e53721c45"><td class="memItemLeft" align="right" valign="top">typedef void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#ae32c35992213931b12695d9e53721c45">XPMPPlaneID</a></td></tr>
 <tr class="memdesc:ae32c35992213931b12695d9e53721c45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unique ID for an aircraft created by a plugin.  <a href="XPMPMultiplayer_8h.html#ae32c35992213931b12695d9e53721c45">More...</a><br /></td></tr>
@@ -135,6 +138,7 @@ Enumerations</h2></td></tr>
 &#160;&#160;<a class="el" href="XPMPMultiplayer_8h.html#ac7ec6c825c09efdbd8fbd7f92a6c40e9a7d4c259f4b583ac2ac2095daddc060dc">xpmpTransponderMode_ModeC_Ident</a>
 <br />
  }</td></tr>
+<tr class="memdesc:ac7ec6c825c09efdbd8fbd7f92a6c40e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">These enumerations define the way the transponder of a given plane is operating.  <a href="XPMPMultiplayer_8h.html#ac7ec6c825c09efdbd8fbd7f92a6c40e9">More...</a><br /></td></tr>
 <tr class="separator:ac7ec6c825c09efdbd8fbd7f92a6c40e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22fae177d83d5cdc0df175205dff3736"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a22fae177d83d5cdc0df175205dff3736">XPMPPlaneDataType</a> { <a class="el" href="XPMPMultiplayer_8h.html#a22fae177d83d5cdc0df175205dff3736acd7dfbba3b0fb7f610fd080aa1297dc2">xpmpDataType_Position</a> = 1L &lt;&lt; 1, 
 <a class="el" href="XPMPMultiplayer_8h.html#a22fae177d83d5cdc0df175205dff3736a3da082f3de6313e26fa6fb48099e853e">xpmpDataType_Surfaces</a> = 1L &lt;&lt; 2, 
@@ -147,6 +151,7 @@ Enumerations</h2></td></tr>
 <a class="el" href="XPMPMultiplayer_8h.html#a7ecd14066bebf369f8237bd830da9e83a2bb65209df83765c92b5cd291fbd74ae">xpmpData_Unchanged</a> = 1, 
 <a class="el" href="XPMPMultiplayer_8h.html#a7ecd14066bebf369f8237bd830da9e83a51980890458ffa160501f005bc680779">xpmpData_NewData</a> = 2
  }</td></tr>
+<tr class="memdesc:a7ecd14066bebf369f8237bd830da9e83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Definfes the different responses to asking for information.  <a href="XPMPMultiplayer_8h.html#a7ecd14066bebf369f8237bd830da9e83">More...</a><br /></td></tr>
 <tr class="separator:a7ecd14066bebf369f8237bd830da9e83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a85c39111f42dc5515b57593d6d0e59f4"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a85c39111f42dc5515b57593d6d0e59f4">XPMPPlaneNotification</a> { <a class="el" href="XPMPMultiplayer_8h.html#a85c39111f42dc5515b57593d6d0e59f4ad359378169843de4002c310c4424a1a0">xpmp_PlaneNotification_Created</a> = 1, 
 <a class="el" href="XPMPMultiplayer_8h.html#a85c39111f42dc5515b57593d6d0e59f4a8471262edbfb2381335eae2621c6ef51">xpmp_PlaneNotification_ModelChanged</a> = 2, 
@@ -156,12 +161,6 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aa2307ce7711690cbbca5e93f1ca67b20"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#aa2307ce7711690cbbca5e93f1ca67b20">actualVertOffsetInfo</a> (const char *inMtl, char *outType, double *outOffset)</td></tr>
-<tr class="separator:aa2307ce7711690cbbca5e93f1ca67b20"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71c1cd58d24fdb65ea511075379f6b69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a71c1cd58d24fdb65ea511075379f6b69">setUserVertOffset</a> (const char *inMtlCode, double inOffset)</td></tr>
-<tr class="separator:a71c1cd58d24fdb65ea511075379f6b69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a449f3c3f70cd4231035faa1e8b898e3a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a449f3c3f70cd4231035faa1e8b898e3a">removeUserVertOffset</a> (const char *inMtlCode)</td></tr>
-<tr class="separator:a449f3c3f70cd4231035faa1e8b898e3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae24c81b4c82e2d22c50fba2ea7db62b7"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#ae24c81b4c82e2d22c50fba2ea7db62b7">XPMPMultiplayerInitLegacyData</a> (const char *inCSLFolder, const char *inPluginName, const char *resourceDir, <a class="el" href="XPMPMultiplayer_8h.html#a002b2c41d868c6de5fdaec4edb0282f4">XPMPIntPrefsFuncTy</a> inIntPrefsFunc=nullptr, const char *inDefaultICAO=nullptr)</td></tr>
 <tr class="memdesc:ae24c81b4c82e2d22c50fba2ea7db62b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deprecated legacy initialization of <a class="el" href="namespaceXPMP2.html">XPMP2</a>.  <a href="XPMPMultiplayer_8h.html#ae24c81b4c82e2d22c50fba2ea7db62b7">More...</a><br /></td></tr>
 <tr class="separator:ae24c81b4c82e2d22c50fba2ea7db62b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -172,14 +171,19 @@ Functions</h2></td></tr>
 <tr class="memdesc:adc19fc90e2e97f713ffc9de3d6ca6a70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overrides the plugin's name to be used in Log output.  <a href="XPMPMultiplayer_8h.html#adc19fc90e2e97f713ffc9de3d6ca6a70">More...</a><br /></td></tr>
 <tr class="separator:adc19fc90e2e97f713ffc9de3d6ca6a70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc451b7b8df8f182f74cf5d306286443"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#acc451b7b8df8f182f74cf5d306286443">XPMPMultiplayerCleanup</a> ()</td></tr>
+<tr class="memdesc:acc451b7b8df8f182f74cf5d306286443"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clean up the multiplayer library.  <a href="XPMPMultiplayer_8h.html#acc451b7b8df8f182f74cf5d306286443">More...</a><br /></td></tr>
 <tr class="separator:acc451b7b8df8f182f74cf5d306286443"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97c569d747524f3ac82b11dde227fad3"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a97c569d747524f3ac82b11dde227fad3">XPMPMultiplayerOBJ7SupportEnable</a> (const char *inTexturePath)</td></tr>
+<tr class="memdesc:a97c569d747524f3ac82b11dde227fad3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to set the light textures for old OBJ7 models.  <a href="XPMPMultiplayer_8h.html#a97c569d747524f3ac82b11dde227fad3">More...</a><br /></td></tr>
 <tr class="separator:a97c569d747524f3ac82b11dde227fad3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc3c7cc95560a59f24ceb665123db3b4"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#adc3c7cc95560a59f24ceb665123db3b4">XPMPMultiplayerEnable</a> ()</td></tr>
+<tr class="memdesc:adc3c7cc95560a59f24ceb665123db3b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tries to grab control of AI/multiplayer planes from X-Plane.  <a href="XPMPMultiplayer_8h.html#adc3c7cc95560a59f24ceb665123db3b4">More...</a><br /></td></tr>
 <tr class="separator:adc3c7cc95560a59f24ceb665123db3b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7b23c9aba24f6a20c764e1131c7149f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#ad7b23c9aba24f6a20c764e1131c7149f">XPMPMultiplayerDisable</a> ()</td></tr>
+<tr class="memdesc:ad7b23c9aba24f6a20c764e1131c7149f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release AI/multiplayer control.  <a href="XPMPMultiplayer_8h.html#ad7b23c9aba24f6a20c764e1131c7149f">More...</a><br /></td></tr>
 <tr class="separator:ad7b23c9aba24f6a20c764e1131c7149f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7681ca8a217b2e52da0f23073cf3a87d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a7681ca8a217b2e52da0f23073cf3a87d">XPMPHasControlOfAIAircraft</a> ()</td></tr>
+<tr class="memdesc:a7681ca8a217b2e52da0f23073cf3a87d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Has <a class="el" href="namespaceXPMP2.html">XPMP2</a> control of AI/multiplayer aircraft? (See <a class="el" href="XPMPMultiplayer_8h.html#adc3c7cc95560a59f24ceb665123db3b4" title="Tries to grab control of AI/multiplayer planes from X-Plane.">XPMPMultiplayerEnable()</a>)  <a href="XPMPMultiplayer_8h.html#a7681ca8a217b2e52da0f23073cf3a87d">More...</a><br /></td></tr>
 <tr class="separator:a7681ca8a217b2e52da0f23073cf3a87d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98f533d051f3539d4983ac3fdb2fa643"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a98f533d051f3539d4983ac3fdb2fa643">XPMPLoadCSLPackage</a> (const char *inCSLFolder)</td></tr>
 <tr class="memdesc:a98f533d051f3539d4983ac3fdb2fa643"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads CSL packages from the given folder, searching up to 5 folder levels deep.  <a href="XPMPMultiplayer_8h.html#a98f533d051f3539d4983ac3fdb2fa643">More...</a><br /></td></tr>
@@ -240,7 +244,11 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Initialization and general control functions for <a class="el" href="namespaceXPMP2.html">XPMP2</a>. </p>
-<dl class="section note"><dt>Note</dt><dd>This file bases on and should be compile-compatible to the header provided with the original libxplanemp. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This file bases on and should be largely compile-compatible to the header provided with the original libxplanemp. </dd>
+<dd>
+Some functions are marked deprecated, reason is given with each function. They are only provided for backward compatibility.</dd></dl>
+<p>This is one of two main header files for using <a class="el" href="namespaceXPMP2.html">XPMP2</a>. (The other is <code><a class="el" href="XPMPAircraft_8h.html" title="XPMP2::Aircraft represent an aircraft as managed by XPMP2.">XPMPAircraft.h</a></code>). <a class="el" href="namespaceXPMP2.html">XPMP2</a> is a library allowing an X-Plane plugin to have planes rendered in X-Plane's 3D world based on OBJ8 CSL models, which need to be installed separatela. The plugin shall subclass <a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a>:: and override the abstract virtual function <a class="el" href="classXPMP2_1_1Aircraft.html#aab1a3041e51c16251095e8f146a5fc37" title="Called right before updating the aircraft&#39;s placement in the world.">XPMP2::Aircraft::UpdatePosition()</a> to provide updated position and attitude information. <a class="el" href="namespaceXPMP2.html">XPMP2</a> takes care of reading and initializaing CSL models, instanciating and updating the aircraft objects in X-Plane, display in a map layer, provisioning information via X-Plane's AI/multiplayer (and more) dataRefs.</p>
+<dl class="section see"><dt>See also</dt><dd>For more developer's information see <a href="https://twinfan.github.io/XPMP2/">https://twinfan.github.io/XPMP2/</a></dd></dl>
 <dl class="section author"><dt>Author</dt><dd>Ben Supnik and Chris Serio </dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2004, Ben Supnik and Chris Serio. </dd></dl>
 <dl class="section author"><dt>Author</dt><dd>Birger Hoppe </dd></dl>
@@ -263,12 +271,9 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 </div><div class="memdoc">
 <div class="textblock"><p>This data structure contains the basic position info for an aircraft. </p>
 <p>XPMPPosition_t</p>
-<p>Lat and lon are the position of the aircraft in the world. They are double-precision to provide reasonably precise positioning anywhere.<br  />
- Elevation is in feet above mean sea level.<br  />
- Pitch, roll, and heading define the aircraft's orientation. Heading is in degrees, positive is clockwise from north. Pitch is the number of degrees, positive is nose up, and roll is positive equals roll right.<br  />
- Offset scale should be between 0 &amp; 1 and indicates how much of the surface contact correction offset should be applied. 1 is fully corrected, 0 is no correction. This is so XSB can blend the correction out as the aircraft leaves circling altitude.<br  />
- clampToGround enables the ground-clamping inside of libxplanemp. If false, libxplanemp will not clamp this particular aircraft.<br  />
-</p><dl class="section note"><dt>Note</dt><dd>There is no notion of aircraft velocity or acceleration; you will be queried for your position every rendering frame. Higher level APIs can use velocity and acceleration. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This structure is only used with deprecated concepts (class <a class="el" href="classXPCAircraft.html" title="Legacy wrapper class as provided by original libxplanemp.">XPCAircraft</a> and direct use of callback functions.) </dd>
+<dd>
+There is no notion of aircraft velocity or acceleration; you will be queried for your position every rendering frame. Higher level APIs can use velocity and acceleration. </dd></dl>
 </div><table class="fieldtable">
 <tr><th colspan="3">Class Members</th></tr>
 <tr><td class="fieldtype">
@@ -306,25 +311,25 @@ label to show with the aircraft </td></tr>
 <td class="fieldname">
 label_color[4]</td>
 <td class="fielddoc">
-label base color (RGB) </td></tr>
+label base color (RGB), defaults to yellow </td></tr>
 <tr><td class="fieldtype">
 <a id="a1161bd7356d53793e6498122b1a37c49"></a>double</td>
 <td class="fieldname">
 lat</td>
 <td class="fielddoc">
-current position of aircraft </td></tr>
+current position of aircraft (latitude) </td></tr>
 <tr><td class="fieldtype">
 <a id="abd39963df3da570d94be21447048a410"></a>double</td>
 <td class="fieldname">
 lon</td>
 <td class="fielddoc">
-current position of aircraft </td></tr>
+current position of aircraft (longitude) </td></tr>
 <tr><td class="fieldtype">
 <a id="acde0c39f59539c3f5c26c86b289f9347"></a>int</td>
 <td class="fieldname">
 multiIdx</td>
 <td class="fielddoc">
-OUT: set by xplanemp to inform application about multiplay index in use. </td></tr>
+OUT: set by <a class="el" href="namespaceXPMP2.html">XPMP2</a> to inform application about multiplayer index in use, <code>&lt; 1</code> means 'none'. </td></tr>
 <tr><td class="fieldtype">
 <a id="a6ef0f7a4d338fed3ea2b543e94684b5e"></a>float</td>
 <td class="fieldname">
@@ -364,7 +369,8 @@ size of structure </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="textblock"></div><table class="fieldtable">
+<div class="textblock"><p>Defines, which lights of the aircraft are on </p><dl class="section note"><dt>Note</dt><dd>This structure is only used with deprecated concepts (class <a class="el" href="classXPCAircraft.html" title="Legacy wrapper class as provided by original libxplanemp.">XPCAircraft</a> and direct use of callback functions.) </dd></dl>
+</div><table class="fieldtable">
 <tr><th colspan="3">Class Members</th></tr>
 <tr><td class="fieldtype">
 <a id="add0525701ccac8fbfed94b2d3c142963"></a>struct <a class="el" href="XPMPMultiplayer_8h.html#structxpmp__LightStatus_8____unnamed____">xpmp_LightStatus</a></td>
@@ -394,6 +400,7 @@ this defaults to taxi | beacon | nav lights on </td></tr>
       </table>
 </div><div class="memdoc">
 <div class="textblock"><p>External physical configuration of the plane. </p>
+<dl class="section note"><dt>Note</dt><dd>This structure is only used with deprecated concepts (class <a class="el" href="classXPCAircraft.html" title="Legacy wrapper class as provided by original libxplanemp.">XPCAircraft</a> and direct use of callback functions.)</dd></dl>
 <p>This data structure will contain information about the external physical configuration of the plane, things you would notice if you are seeing it from outside. This includes flap position, gear position, etc. </p>
 </div><table class="fieldtable">
 <tr><th colspan="3">Class Members</th></tr>
@@ -538,7 +545,8 @@ yoke roll ratio [0..1] </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="textblock"><dl class="section note"><dt>Note</dt><dd>Only information used by <a class="el" href="namespaceXPMP2.html">XPMP2</a> is <code>"mode != xpmpTransponderMode_Standby"</code>, in which case the plane is considered for TCAS display. </dd></dl>
+<div class="textblock"><p>defines information about an aircraft visible to radar. </p>
+<dl class="section note"><dt>Note</dt><dd>Only information used by <a class="el" href="namespaceXPMP2.html">XPMP2</a> is <code>"mode != xpmpTransponderMode_Standby"</code>, in which case the plane is considered for TCAS display. </dd></dl>
 </div><table class="fieldtable">
 <tr><th colspan="3">Class Members</th></tr>
 <tr><td class="fieldtype">
@@ -574,7 +582,9 @@ structure size </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="textblock"></div><table class="fieldtable">
+<div class="textblock"><p>Textual information of planes to be passed on via shared dataRefs to other plugins. </p>
+<p>The texts are not used within <a class="el" href="namespaceXPMP2.html">XPMP2</a> in any way, just passed on. </p>
+</div><table class="fieldtable">
 <tr><th colspan="3">Class Members</th></tr>
 <tr><td class="fieldtype">
 <a id="a44905b8b006ae125bb91bd2ac74c3c24"></a>char</td>
@@ -712,7 +722,7 @@ time offset to avoid lights across planes blink in sync (unused in <a class="el"
       </table>
 </div><div class="memdoc">
 
-<p>Ensure no plane sinks below ground, no matter of Aircraft::bClampToGround. </p>
+<p>Config key: Ensure no plane sinks below ground, no matter of Aircraft::bClampToGround. </p>
 
 </div>
 </div>
@@ -728,7 +738,7 @@ time offset to avoid lights across planes blink in sync (unused in <a class="el"
       </table>
 </div><div class="memdoc">
 
-<p>On startup, shall <code>NoPlane.acf</code> be copied from the resource directory to <code>&lt;X-Plane&gt;/Aircraft/&lt;plugin&gt;</code>? This is highly recommended to reduce side-effects of using <code>NoPlane</code> as AI Aircraft model. </p>
+<p>Config key: On startup, shall <code>NoPlane.acf</code> be copied from the resource directory to <code>&lt;X-Plane&gt;/Aircraft/&lt;plugin&gt;</code>? This is highly recommended to reduce side-effects of using <code>NoPlane</code> as AI Aircraft model. </p>
 
 </div>
 </div>
@@ -744,7 +754,7 @@ time offset to avoid lights across planes blink in sync (unused in <a class="el"
       </table>
 </div><div class="memdoc">
 
-<p>General level of logging into Log.txt (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal) </p>
+<p>Config key: General level of logging into Log.txt (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal) </p>
 
 </div>
 </div>
@@ -760,7 +770,7 @@ time offset to avoid lights across planes blink in sync (unused in <a class="el"
       </table>
 </div><div class="memdoc">
 
-<p>Write information on model matching into Log.txt. </p>
+<p>Config key: Write information on model matching into Log.txt. </p>
 
 </div>
 </div>
@@ -776,7 +786,7 @@ time offset to avoid lights across planes blink in sync (unused in <a class="el"
       </table>
 </div><div class="memdoc">
 
-<p>For faking TCAS, all AI/multiplayer planes are assigned the <code>NoPlane.acf</code> type when <a class="el" href="namespaceXPMP2.html">XPMP2</a> takes over control. This option allows to skip assining <code>NoPlane.acf</code>...just in case. </p>
+<p>Config key: For faking TCAS, all AI/multiplayer planes are assigned the <code>NoPlane.acf</code> type when <a class="el" href="namespaceXPMP2.html">XPMP2</a> takes over control. This option allows to skip assining <code>NoPlane.acf</code>...just in case. </p>
 
 </div>
 </div>
@@ -827,23 +837,24 @@ time offset to avoid lights across planes blink in sync (unused in <a class="el"
 
 <p>Definition for the type of configuration callback function. </p>
 <p>The plugin using <a class="el" href="namespaceXPMP2.html">XPMP2</a> can provide such a callback function via <a class="el" href="XPMPMultiplayer_8h.html#ae24c81b4c82e2d22c50fba2ea7db62b7" title="Deprecated legacy initialization of XPMP2.">XPMPMultiplayerInitLegacyData()</a>. It will be called max. every 2s to fetch each of the following configuraton values:<br  />
+ <br  />
 <code>section | key&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; | type | default | description</code><br  />
 <code>------- | ------------------- | ---- | ------- | -------------------------------------------------------------------------</code><br  />
 <code>planes&#160; | clamp_all_to_ground | int&#160; | &#160;&#160;&#160;1&#160;&#160;&#160; | Ensure no plane sinks below ground, no matter of Aircraft::bClampToGround</code><br  />
 <code>planes&#160; | skip_assign_noplane | int&#160; | &#160;&#160;&#160;0&#160;&#160;&#160; | If non-zero, then AI planes will not be assigned the NoPlane.acf type.</code><br  />
-<code>planes&#160; | copy_noplane | int&#160; | &#160;&#160;&#160;1&#160;&#160;&#160; | Shall NoPlane.acf be copied to Aircraft folder if missing/newer? (Recommended!)</code><br  />
+<code>planes&#160; | copy_noplane &#160;&#160;&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;1&#160;&#160;&#160; | Shall NoPlane.acf be copied to Aircraft folder if missing/newer? (Recommended!)</code><br  />
 <code>debug&#160;&#160; | log_level&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;2&#160;&#160;&#160; | General level of logging into Log.txt (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)</code><br  />
 <code>debug&#160;&#160; | model_matching&#160;&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;0&#160;&#160;&#160; | Write information on model matching into Log.txt</code><br  />
 </p><dl class="section note"><dt>Note</dt><dd>There is no immediate requirement to check the value of <code>_section</code> in your implementation. <code>_key</code> by itself is unique. Compare it with any of the <code>XPMP_CFG_ITM_*</code> values and return your value. </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">_section</td><td>Configuration section, ie. group of values. </td></tr>
+    <tr><td class="paramname">_section</td><td>Configuration section, ie. group of values, any of the <code>XPMP_CFG_SEC_*</code> values </td></tr>
     <tr><td class="paramname">_key</td><td>Any of the <code>XPMP_CFG_ITM_*</code> values to indicate which config value is to be returned. </td></tr>
-    <tr><td class="paramname">_default</td><td>A default provided by XPMP. Have your callback return '_default' if you don't want to explicitely set a value or don't know the <code>_key</code>. </td></tr>
+    <tr><td class="paramname">_default</td><td>A default provided by <a class="el" href="namespaceXPMP2.html">XPMP2</a>. Have your callback return '_default' if you don't want to explicitely set a value or don't know the <code>_key</code>. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Your callback shall return your config value for config item &lsquo;_key&rsquo; </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Your callback shall return your config value for config item <code>_key</code> </dd></dl>
 
 </div>
 </div>
@@ -858,6 +869,8 @@ time offset to avoid lights across planes blink in sync (unused in <a class="el"
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Light flash pattern (unused in <a class="el" href="namespaceXPMP2.html">XPMP2</a>) </p>
 
 </div>
 </div>
@@ -960,6 +973,9 @@ Not changed to proper enum type as it is used in bitfields in <a class="el" href
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Definfes the different responses to asking for information. </p>
+<dl class="section note"><dt>Note</dt><dd>This enum is only used with deprecated concepts (class <a class="el" href="classXPCAircraft.html" title="Legacy wrapper class as provided by original libxplanemp.">XPCAircraft</a> and direct use of callback functions.) </dd></dl>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a7ecd14066bebf369f8237bd830da9e83a49722318aa5b97da15ab8c149ff131fc"></a>xpmpData_Unavailable&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a7ecd14066bebf369f8237bd830da9e83a2bb65209df83765c92b5cd291fbd74ae"></a>xpmpData_Unchanged&#160;</td><td class="fielddoc"></td></tr>
@@ -981,15 +997,17 @@ Not changed to proper enum type as it is used in bitfields in <a class="el" href
 </div><div class="memdoc">
 
 <p>This enum defines the different categories of aircraft information we can query about. </p>
-<dl class="section note"><dt>Note</dt><dd>While these enums are defined in a way that they could be combined together, there is no place, which makes use of this possibility. Each value will be used individually only. Because of this, the definition has been changed in <a class="el" href="namespaceXPMP2.html">XPMP2</a> to an actual enum type for clarity. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>While these enums are defined in a way that they could be combined together, there is no place, which makes use of this possibility. Each value will be used individually only. Because of this, the definition has been changed in <a class="el" href="namespaceXPMP2.html">XPMP2</a> to an actual enum type for clarity. </dd>
+<dd>
+This enum is only used with deprecated concepts (class <a class="el" href="classXPCAircraft.html" title="Legacy wrapper class as provided by original libxplanemp.">XPCAircraft</a> and direct use of callback functions.) </dd></dl>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a22fae177d83d5cdc0df175205dff3736acd7dfbba3b0fb7f610fd080aa1297dc2"></a>xpmpDataType_Position&#160;</td><td class="fielddoc"><p>position data in <a class="el" href="XPMPMultiplayer_8h.html#structXPMPPlanePosition__t" title="This data structure contains the basic position info for an aircraft.">XPMPPlanePosition_t</a> </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a22fae177d83d5cdc0df175205dff3736a3da082f3de6313e26fa6fb48099e853e"></a>xpmpDataType_Surfaces&#160;</td><td class="fielddoc"><p>physical appearance in <a class="el" href="XPMPMultiplayer_8h.html#structXPMPPlaneSurfaces__t" title="External physical configuration of the plane.">XPMPPlaneSurfaces_t</a> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a22fae177d83d5cdc0df175205dff3736a40f8f7510429f64f56442786ce04482f"></a>xpmpDataType_Radar&#160;</td><td class="fielddoc"><p>radar information in <a class="el" href="XPMPMultiplayer_8h.html#structXPMPPlaneRadar__t">XPMPPlaneRadar_t</a> </p>
+<tr><td class="fieldname"><a id="a22fae177d83d5cdc0df175205dff3736a40f8f7510429f64f56442786ce04482f"></a>xpmpDataType_Radar&#160;</td><td class="fielddoc"><p>radar information in <a class="el" href="XPMPMultiplayer_8h.html#structXPMPPlaneRadar__t" title="defines information about an aircraft visible to radar.">XPMPPlaneRadar_t</a> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a22fae177d83d5cdc0df175205dff3736ab7b27cfe7f915e6318ce888222383433"></a>xpmpDataType_InfoTexts&#160;</td><td class="fielddoc"><p>informational texts in <a class="el" href="XPMPMultiplayer_8h.html#structXPMPInfoTexts__t">XPMPInfoTexts_t</a> </p>
+<tr><td class="fieldname"><a id="a22fae177d83d5cdc0df175205dff3736ab7b27cfe7f915e6318ce888222383433"></a>xpmpDataType_InfoTexts&#160;</td><td class="fielddoc"><p>informational texts in <a class="el" href="XPMPMultiplayer_8h.html#structXPMPInfoTexts__t" title="Textual information of planes to be passed on via shared dataRefs to other plugins.">XPMPInfoTexts_t</a> </p>
 </td></tr>
 </table>
 
@@ -1025,9 +1043,11 @@ Not changed to proper enum type as it is used in bitfields in <a class="el" href
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>These enumerations define the way the transponder of a given plane is operating. </p>
 <dl class="section note"><dt>Note</dt><dd>Only information used by <a class="el" href="namespaceXPMP2.html">XPMP2</a> is <code>"mode != xpmpTransponderMode_Standby"</code>, in which case the plane is considered for TCAS display. </dd></dl>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ac7ec6c825c09efdbd8fbd7f92a6c40e9ad66f33a79a91e84631eb6bb25f4143c1"></a>xpmpTransponderMode_Standby&#160;</td><td class="fielddoc"><p>transponder is in standby, not currently sending -&gt;plane not visible on TCAS </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ac7ec6c825c09efdbd8fbd7f92a6c40e9ad66f33a79a91e84631eb6bb25f4143c1"></a>xpmpTransponderMode_Standby&#160;</td><td class="fielddoc"><p>transponder is in standby, not currently sending -&gt; aircraft not visible on TCAS </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ac7ec6c825c09efdbd8fbd7f92a6c40e9a411f0c99ad27b9e6c8ba8c79c102834e"></a>xpmpTransponderMode_Mode3A&#160;</td><td class="fielddoc"><p>transponder is on </p>
 </td></tr>
@@ -1042,86 +1062,6 @@ Not changed to proper enum type as it is used in bitfields in <a class="el" href
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="aa2307ce7711690cbbca5e93f1ca67b20"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa2307ce7711690cbbca5e93f1ca67b20">&#9670;&nbsp;</a></span>actualVertOffsetInfo()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void actualVertOffsetInfo </td>
-          <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>inMtl</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>outType</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double *&#160;</td>
-          <td class="paramname"><em>outOffset</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a449f3c3f70cd4231035faa1e8b898e3a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a449f3c3f70cd4231035faa1e8b898e3a">&#9670;&nbsp;</a></span>removeUserVertOffset()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void removeUserVertOffset </td>
-          <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>inMtlCode</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a71c1cd58d24fdb65ea511075379f6b69"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a71c1cd58d24fdb65ea511075379f6b69">&#9670;&nbsp;</a></span>setUserVertOffset()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void setUserVertOffset </td>
-          <td>(</td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>inMtlCode</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>inOffset</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a7e546354d777eb3b0e43e14bb1ef88fc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7e546354d777eb3b0e43e14bb1ef88fc">&#9670;&nbsp;</a></span>XPMPChangePlaneModel()</h2>
 
@@ -1624,6 +1564,8 @@ Not changed to proper enum type as it is used in bitfields in <a class="el" href
       </table>
 </div><div class="memdoc">
 
+<p>Has <a class="el" href="namespaceXPMP2.html">XPMP2</a> control of AI/multiplayer aircraft? (See <a class="el" href="XPMPMultiplayer_8h.html#adc3c7cc95560a59f24ceb665123db3b4" title="Tries to grab control of AI/multiplayer planes from X-Plane.">XPMPMultiplayerEnable()</a>) </p>
+
 </div>
 </div>
 <a id="a2771f775b0da337eb951d48aa41d0a97"></a>
@@ -1736,6 +1678,9 @@ Not changed to proper enum type as it is used in bitfields in <a class="el" href
       </table>
 </div><div class="memdoc">
 
+<p>Clean up the multiplayer library. </p>
+<p>This shall be your last call to <a class="el" href="namespaceXPMP2.html">XPMP2</a>. Call this latest from XPluginStop for proper and controlled cleanup of resources used by <a class="el" href="namespaceXPMP2.html">XPMP2</a>. </p>
+
 </div>
 </div>
 <a id="ad7b23c9aba24f6a20c764e1131c7149f"></a>
@@ -1753,6 +1698,10 @@ Not changed to proper enum type as it is used in bitfields in <a class="el" href
       </table>
 </div><div class="memdoc">
 
+<p>Release AI/multiplayer control. </p>
+<p>Afterwards, <a class="el" href="namespaceXPMP2.html">XPMP2</a>'s aircraft will no longer appear on TCAS or on 3rd-party plugins relying on multiplayer dataRefs.<br  />
+ Is called during <a class="el" href="XPMPMultiplayer_8h.html#acc451b7b8df8f182f74cf5d306286443" title="Clean up the multiplayer library.">XPMPMultiplayerCleanup()</a> automatically. </p>
+
 </div>
 </div>
 <a id="adc3c7cc95560a59f24ceb665123db3b4"></a>
@@ -1769,6 +1718,11 @@ Not changed to proper enum type as it is used in bitfields in <a class="el" href
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Tries to grab control of AI/multiplayer planes from X-Plane. </p>
+<p>Only one plugin can have AI/multiplayer control at any one time. So be prepared to properly handle an non-empty response that indicates that you did not get control now.<br  />
+ If successful, <a class="el" href="namespaceXPMP2.html">XPMP2</a>'s aircraft will appear on TCAS and are available to 3rd-party plugins relying on multiplayer dataRefs.<br  />
+ Typically, a plugin calls this function early in the initialization, just before the first aircraft are created. But it could also be bound to a menu item, for example. </p><dl class="section return"><dt>Returns</dt><dd>Empty string on success, human-readable error message otherwise </dd></dl>
 
 </div>
 </div>
@@ -1815,7 +1769,7 @@ Not changed to proper enum type as it is used in bitfields in <a class="el" href
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">inPluginName</td><td>Your plugin's name, used only in output to <code>Log.txt</code> </td></tr>
-    <tr><td class="paramname">resourceDir</td><td>The directory where <a class="el" href="namespaceXPMP2.html">XPMP2</a> finds all required supplemental files (Doc8643.txt, MapIcons.png, NoPlane.acf...) </td></tr>
+    <tr><td class="paramname">resourceDir</td><td>The directory where <a class="el" href="namespaceXPMP2.html">XPMP2</a> finds all required supplemental files (<code>Doc8643.txt</code>, <code>MapIcons.png</code>, <code>NoPlane.acf</code>, <code>related.txt</code>) </td></tr>
     <tr><td class="paramname">inIntPrefsFunc</td><td>A pointer to a callback function providing integer config values. See <a class="el" href="XPMPMultiplayer_8h.html#a002b2c41d868c6de5fdaec4edb0282f4" title="Definition for the type of configuration callback function.">XPMPIntPrefsFuncTy</a> for details. </td></tr>
     <tr><td class="paramname">inDefaultICAO</td><td>A fallback aircraft type if no type can be deduced otherwise for an aircraft. </td></tr>
   </table>
@@ -1871,7 +1825,7 @@ Not changed to proper enum type as it is used in bitfields in <a class="el" href
 
 <p>Deprecated legacy initialization of <a class="el" href="namespaceXPMP2.html">XPMP2</a>. </p>
 <dl class="section note"><dt>Note</dt><dd>Parameters changed compared to libxplanemp!</dd></dl>
-<p>Effectively calls, in this order, <a class="el" href="XPMPMultiplayer_8h.html#a9e0b7151d7ba4a2c3656faa307678dfa" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a> (with <code>resourceDir</code> being <code>nullptr</code>) and <a class="el" href="XPMPMultiplayer_8h.html#a98f533d051f3539d4983ac3fdb2fa643" title="Loads CSL packages from the given folder, searching up to 5 folder levels deep.">XPMPLoadCSLPackage()</a>. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="XPMPMultiplayer_8h.html#a9e0b7151d7ba4a2c3656faa307678dfa" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a> and <a class="el" href="XPMPMultiplayer_8h.html#a98f533d051f3539d4983ac3fdb2fa643" title="Loads CSL packages from the given folder, searching up to 5 folder levels deep.">XPMPLoadCSLPackage()</a> for details on the parameters. </dd></dl>
+<p>Effectively calls, in this order, <a class="el" href="XPMPMultiplayer_8h.html#a9e0b7151d7ba4a2c3656faa307678dfa" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a> and <a class="el" href="XPMPMultiplayer_8h.html#a98f533d051f3539d4983ac3fdb2fa643" title="Loads CSL packages from the given folder, searching up to 5 folder levels deep.">XPMPLoadCSLPackage()</a>. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="XPMPMultiplayer_8h.html#a9e0b7151d7ba4a2c3656faa307678dfa" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a> and <a class="el" href="XPMPMultiplayer_8h.html#a98f533d051f3539d4983ac3fdb2fa643" title="Loads CSL packages from the given folder, searching up to 5 folder levels deep.">XPMPLoadCSLPackage()</a> for details on the parameters. </dd></dl>
 
 </div>
 </div>
@@ -1890,6 +1844,9 @@ Not changed to proper enum type as it is used in bitfields in <a class="el" href
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Used to set the light textures for old OBJ7 models. </p>
+<dl class="section note"><dt>Note</dt><dd>Unsupported with <a class="el" href="namespaceXPMP2.html">XPMP2</a>, will always return "OBJ7 format is no longer supported" </dd></dl>
 
 </div>
 </div>
@@ -2015,7 +1972,7 @@ Not changed to proper enum type as it is used in bitfields in <a class="el" href
 </div><div class="memdoc">
 
 <p>Overrides the plugin's name to be used in Log output. </p>
-<p>The name in use defaults to the plugin's name as set in <a class="el" href="XPMP2-Sample_8cpp.html#a3d7458933ac3c2c1c404fe5bfa8a83f1">XPluginStart()</a>. Replaces the compile-time macro <code>XPMP_CLIENT_LONGNAME</code> from earlier releases. </p>
+<p>The same as providing a plugin name with <a class="el" href="XPMPMultiplayer_8h.html#a9e0b7151d7ba4a2c3656faa307678dfa" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a>. If no name is provided, it defaults to the plugin's name as set in <a class="el" href="XPMP2-Sample_8cpp.html#a3d7458933ac3c2c1c404fe5bfa8a83f1">XPluginStart()</a>. </p><dl class="section note"><dt>Note</dt><dd>Replaces the compile-time macro <code>XPMP_CLIENT_LONGNAME</code> needed in <code>libxplanemp</code>. </dd></dl>
 
 </div>
 </div>

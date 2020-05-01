@@ -658,7 +658,10 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 </div><div class="memdoc">
 
 <p>Loads CSL packages from the given folder, searching up to 5 folder levels deep. </p>
-<p>This function mainly searches the given folder for packages and reads the structure. Actual loading of objects is done asynchronously when needed only. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>This function mainly searches the given folder for packages. It traverses all folders in search for <code>xsb_aircraft.txt</code> files. It will find all <code>xsb_aircraft.txt</code> files situated at or below the given root path, up to 5 levels deep.<br  />
+ As soon as such a file is found it is read and processed. Depth search then ends. (But searching parallel folders may still continue.)<br  />
+ The <code>xsb_aircraft.txt</code> is loaded and processed. Duplicate models (by CSL model name, tag <code>OBJ8_AIRCRAFT</code>) are ignored. For others the existence of the <code>.obj</code> file is validated (but not the existence of files in turn needed by the <code>.obj</code> file, like textures.) and if successful the model is added to an internal catalogue.<br  />
+ Actual loading of objects is done later and asynchronously when needed only during aircraft creation. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">inCSLFolder</td><td>Root folder to start the search. </td></tr>
   </table>

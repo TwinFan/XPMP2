@@ -341,8 +341,21 @@ bool XPMPHasControlOfAIAircraft();
 ************************************************************************************/
 
 /// @brief Loads CSL packages from the given folder, searching up to 5 folder levels deep.
-/// @details This function mainly searches the given folder for packages and reads the structure.
-///          Actual loading of objects is done asynchronously when needed only.
+/// @details This function mainly searches the given folder for packages.
+///          It traverses all folders in search for `xsb_aircraft.txt` files.
+///          It will find all `xsb_aircraft.txt` files situated at or below
+///          the given root path, up to 5 levels deep.\n
+///          As soon as such a file is found it is read and processed.
+///          Depth search then ends. (But searching parallel folders may
+///          still continue.)\n
+///          The `xsb_aircraft.txt` is loaded and processed. Duplicate models
+///          (by CSL model name, tag `OBJ8_AIRCRAFT`) are ignored.
+///          For others the existence of the `.obj` file is validated
+///          (but not the existence of files in turn needed by the `.obj`
+///          file, like textures.) and if successful the model is added to an
+///          internal catalogue.\n
+///          Actual loading of objects is done later and asynchronously
+///          when needed only during aircraft creation.
 /// @param inCSLFolder Root folder to start the search.
 const char *    XPMPLoadCSLPackage(const char * inCSLFolder);
 

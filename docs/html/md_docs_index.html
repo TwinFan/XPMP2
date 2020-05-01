@@ -43,18 +43,36 @@ $(function() {
 <div class="title"><a class="el" href="namespaceXPMP2.html">XPMP2</a> - Developer's documentation </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>These pages, available as <a href="https://twinfan.github.io/XPMP2/">GitHub pages</a>, document both usage and internal of the <a class="el" href="namespaceXPMP2.html">XPMP2</a> library.</p>
+<div class="textblock"><p>These pages, available as <a href="https://twinfan.github.io/XPMP2/">GitHub pages</a>, document both usage and internals of the <a class="el" href="namespaceXPMP2.html">XPMP2</a> library.</p>
 <p><b>This is work in progress!</b></p>
 <ul>
 <li>[ ] Doxgen-generated code documentation</li>
+<li>[ ] File format for <code>xsb_aircraft.txt</code> (this is currently scattered across <a href="https://github.com/kuroneko/libxplanemp/wiki">kuroneko's wiki</a>)</li>
+<li>[ ] dataRefs supported by <a class="el" href="namespaceXPMP2.html">XPMP2</a> (this is partly at <a href="https://github.com/kuroneko/libxplanemp/wiki/OBJ8-CSL#animations">kuroneko's</a>, partly at <a href="https://github.com/TwinFan/libxplanemp/wiki/OBJ8-CSL-dataRefs">my fork</a>)</li>
+<li>[ ] Provide some general "how it works" background, can base on kuronekos wiki (but shorter) and on some of <a href="https://github.com/TwinFan/libxplanemp/wiki#changes-to-multiplayeraitcas-handling">my additions</a><ul>
+<li>[ ] Startup sequence</li>
+<li>[ ] Model Matching (see <a href="https://twinfan.gitbook.io/livetraffic/reference/faq#matching">LT FAQ</a>)</li>
+<li>[ ] TCAS support (again see <a href="https://twinfan.gitbook.io/livetraffic/introduction/features/tcas">LT documentation</a>)</li>
+<li>[ ] AI/multiplayer support (<a href="https://twinfan.gitbook.io/livetraffic/introduction/features/api#standard-multiplayer-datarefs">LT has a bit</a>)</li>
+</ul>
+</li>
+</ul>
+<h2>API and Code Documentation</h2>
+<p>All header (and code) files are documented using <a href="http://www.doxygen.nl/">Doxygen</a>-style comments. The generated doxygen files are checked in, too, so that the are available online:</p>
+<ul>
+<li><a href="https://twinfan.github.io/XPMP2/html/index.html">Main Page</a></li>
 </ul>
 <h1><a class="anchor" id="autotoc_md0"></a>
-Headers and Code documentation</h1>
-<p><a href="http://www.doxygen.nl/">Doxygen</a>-style comments are included in the source code. The generated help files are checked in and are locally available starting from <code>docs/html/index.html</code>.</p>
-<p>If required, you can update the documentation using </p><div class="fragment"><div class="line">doxgen docs/XPMP2.doxgen</div>
-</div><!-- fragment --><p>Online, ie. from <a href="https://twinfan.github.io/XPMP2/">GitHub pages</a>, the documentation is directly available:</p>
-<ul>
-<li><a href="html/index.html">Main Page</a> </li>
+Links to outside locations:</h1>
+<p>Original libxplanemp:</p><ul>
+<li><a href="https://github.com/TwinFan/libxplanemp">TwinFan's libxplanemp fork</a> on GitHub<ul>
+<li><a href="https://github.com/TwinFan/libxplanemp/wiki">wiki explaining differences to the kuroneko fork</a></li>
+</ul>
+</li>
+<li><a href="https://github.com/kuroneko/libxplanemp">kuroneko's fork</a> on GitHub, a long-time standard and basis of other important forks<ul>
+<li><a href="https://github.com/kuroneko/libxplanemp/wiki">kuroneko's wiki</a> including notes on CSL development </li>
+</ul>
+</li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

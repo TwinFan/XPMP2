@@ -90,7 +90,7 @@ enum {
     xpmp_Lights_Pattern_EADS        = 1,    ///< Airbus+EADS: strobe flashes twice (-*-*-----*-*--), short beacon
     xpmp_Lights_Pattern_GA          = 2     ///< GA: one strobe flash, long beacon (-*--------*---)
 };
-typedef unsigned int XPMPLightsPattern;
+typedef unsigned int XPMPLightsPattern;     ///< Light flash pattern (unused in XPMP2)
 
 
 #if LIN
@@ -239,34 +239,35 @@ typedef void *      XPMPPlaneID;
 #define XPMP_CFG_SEC_DEBUG           "debug"                ///< Config section "debug"
 
 // Config key definitions
-#define XPMP_CFG_ITM_CLAMPALL        "clamp_all_to_ground"  ///< Ensure no plane sinks below ground, no matter of Aircraft::bClampToGround
-#define XPMP_CFG_ITM_SKIP_NOPLANE    "skip_assign_noplane"  ///< For faking TCAS, all AI/multiplayer planes are assigned the `NoPlane.acf` type when XPMP2 takes over control. This option allows to skip assining `NoPlane.acf`...just in case.
-#define XPMP_CFG_ITM_COPY_NOPLANE    "copy_noplane"         ///< On startup, shall `NoPlane.acf` be copied from the resource directory to `<X-Plane>/Aircraft/<plugin>`? This is highly recommended to reduce side-effects of using `NoPlane` as AI Aircraft model.
-#define XPMP_CFG_ITM_LOGLEVEL        "log_level"            ///< General level of logging into Log.txt (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)
-#define XPMP_CFG_ITM_MODELMATCHING   "model_matching"       ///< Write information on model matching into Log.txt
+#define XPMP_CFG_ITM_CLAMPALL        "clamp_all_to_ground"  ///< Config key: Ensure no plane sinks below ground, no matter of Aircraft::bClampToGround
+#define XPMP_CFG_ITM_SKIP_NOPLANE    "skip_assign_noplane"  ///< Config key: For faking TCAS, all AI/multiplayer planes are assigned the `NoPlane.acf` type when XPMP2 takes over control. This option allows to skip assining `NoPlane.acf`...just in case.
+#define XPMP_CFG_ITM_COPY_NOPLANE    "copy_noplane"         ///< Config key: On startup, shall `NoPlane.acf` be copied from the resource directory to `<X-Plane>/Aircraft/<plugin>`? This is highly recommended to reduce side-effects of using `NoPlane` as AI Aircraft model.
+#define XPMP_CFG_ITM_LOGLEVEL        "log_level"            ///< Config key: General level of logging into Log.txt (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)
+#define XPMP_CFG_ITM_MODELMATCHING   "model_matching"       ///< Config key: Write information on model matching into Log.txt
 
 /// @brief Definition for the type of configuration callback function
 /// @details The plugin using XPMP2 can provide such a callback function via XPMPMultiplayerInitLegacyData().
 ///          It will be called max. every 2s to fetch each of the following configuraton values:\n
+///          \n
 /// `section | key                 | type | default | description`\n
 /// `------- | ------------------- | ---- | ------- | -------------------------------------------------------------------------`\n
 /// `planes  | clamp_all_to_ground | int  |    1    | Ensure no plane sinks below ground, no matter of Aircraft::bClampToGround`\n
 /// `planes  | skip_assign_noplane | int  |    0    | If non-zero, then AI planes will not be assigned the NoPlane.acf type.`\n
-/// `planes  | copy_noplane        | int  |    1    | Shall NoPlane.acf be copied to Aircraft folder if missing/newer? (Recommended!)`\n
+/// `planes  | copy_noplane        | int  |    1    | Shall NoPlane.acf be copied to Aircraft folder if missing/newer? (Recommended!)`\n
 /// `debug   | log_level           | int  |    2    | General level of logging into Log.txt (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)`\n
 /// `debug   | model_matching      | int  |    0    | Write information on model matching into Log.txt`\n
 /// @note There is no immediate requirement to check the value of `_section` in your implementation.
 ///       `_key` by itself is unique. Compare it with any of the `XPMP_CFG_ITM_*` values and return your value.
-/// @param _section Configuration section, ie. group of values.
+/// @param _section Configuration section, ie. group of values, any of the `XPMP_CFG_SEC_*` values
 /// @param _key Any of the `XPMP_CFG_ITM_*` values to indicate which config value is to be returned.
-/// @param _default A default provided by XPMP. Have your callback return '_default' if you don't want to explicitely set a value or don't know the `_key`.
-/// @return Your callback shall return your config value for config item `_key'
+/// @param _default A default provided by XPMP2. Have your callback return '_default' if you don't want to explicitely set a value or don't know the `_key`.
+/// @return Your callback shall return your config value for config item `_key`
 typedef int (*XPMPIntPrefsFuncTy)(const char* _section, const char* _key, int _default);
 
 /// @brief Deprecated legacy initialization of XPMP2.
 /// @note Parameters changed compared to libxplanemp!
 /// @details Effectively calls, in this order,
-///          XPMPMultiplayerInit() (with `resourceDir` being `nullptr`) and XPMPLoadCSLPackage().
+///          XPMPMultiplayerInit() and XPMPLoadCSLPackage().
 /// @see XPMPMultiplayerInit() and XPMPLoadCSLPackage() for details on the parameters.
 [[deprecated("Use XPMPMultiplayerInit and XPMPLoadCSLPackages")]]
 const char *    XPMPMultiplayerInitLegacyData(const char* inCSLFolder,
@@ -278,7 +279,7 @@ const char *    XPMPMultiplayerInitLegacyData(const char* inCSLFolder,
 /// @brief Initializes the XPMP2 library. This shall be your first call to the library.
 /// @note Parameters changed compared to libxplanemp!
 /// @param inPluginName Your plugin's name, used only in output to `Log.txt`
-/// @param resourceDir The directory where XPMP2 finds all required supplemental files (Doc8643.txt, MapIcons.png, NoPlane.acf...)
+/// @param resourceDir The directory where XPMP2 finds all required supplemental files (`Doc8643.txt`, `MapIcons.png`, `NoPlane.acf`, `related.txt`)
 /// @param inIntPrefsFunc A pointer to a callback function providing integer config values. See ::XPMPIntPrefsFuncTy for details.
 /// @param inDefaultICAO A fallback aircraft type if no type can be deduced otherwise for an aircraft.
 /// @return Empty string in case of success, otherwise a human-readable error message.
@@ -288,57 +289,51 @@ const char *    XPMPMultiplayerInit(const char* inPluginName,
                                     const char* inDefaultICAO           = nullptr);
 
 /// @brief Overrides the plugin's name to be used in Log output
-/// @details The name in use defaults to the plugin's name as set in XPluginStart().
-///          Replaces the compile-time macro `XPMP_CLIENT_LONGNAME` from earlier releases.
+/// @details The same as providing a plugin name with XPMPMultiplayerInit().
+///          If no name is provided, it defaults to the plugin's name as set in XPluginStart().
+/// @note    Replaces the compile-time macro `XPMP_CLIENT_LONGNAME` needed in `libxplanemp`.
 void XPMPSetPluginName (const char* inPluginName);
 
-/*
- * XPMPMultiplayerCleanup
- *
- * Clean up the multiplayer library. Call this from XPluginStop to reverse the actions of
- * XPMPMultiplayerInit as much as possible.
- */
+
+/// @brief Clean up the multiplayer library
+/// @details This shall be your last call to XPMP2.
+///          Call this latest from XPluginStop for proper and controlled
+///          cleanup of resources used by XPMP2.
 void XPMPMultiplayerCleanup();
 
-/*
- * XPMPMultiplayerOBJ7SupportEnable
- *
- * Sets the light texture to use for old OBJ7 models and initializes the required OpenGL hooks
- * for OBJ7 rendering. An empty string is returned on success, or a human-readable error message
- * otherwise. Calling this function is required if you are going to use OBJ7 CSLs.
- *
- * UNSUPPORTED, will alsways return "OBJ7 format is no longer supported"
- */
+
+/// @brief Used to set the light textures for old OBJ7 models.
+/// @note  Unsupported with XPMP2, will always return "OBJ7 format is no longer supported"
+[[deprecated("Unsupported feature, will alsways return 'OBJ7 format is no longer supported'")]]
 const char * XPMPMultiplayerOBJ7SupportEnable(const char * inTexturePath);
+
 
 /************************************************************************************
 * MARK: AI / Multiplayer plane control
 ************************************************************************************/
 
-/*
- * XPMPMultiplayerEnable
- *
- * Enable drawing of multiplayer planes.  Call this once from your XPluginEnable routine to
- * grab multiplayer; an empty string is returned on success, or a human-readable error message
- * otherwise.
- *
- */
+
+/// @brief Tries to grab control of AI/multiplayer planes from X-Plane
+/// @details Only one plugin can have AI/multiplayer control at any one time.
+///          So be prepared to properly handle an non-empty response
+///          that indicates that you did not get control now.\n
+///          If successful, XPMP2's aircraft will appear on TCAS and are
+///          available to 3rd-party plugins relying on multiplayer dataRefs.\n
+///          Typically, a plugin calls this function early in the initialization,
+///          just before the first aircraft are created. But it could also
+///          be bound to a menu item, for example.
+/// @return  Empty string on success, human-readable error message otherwise
 const char *    XPMPMultiplayerEnable();
 
-/*
- * XPMPMultiplayerDisable
- *
- * Disable drawing of multiplayer planes.  Call this from XPluginDisable to release multiplayer.
- * Reverses the actions on XPMPMultiplayerEnable.
- */
+
+/// @brief Release AI/multiplayer control.
+/// @details Afterwards, XPMP2's aircraft will no longer appear on TCAS or
+///          on 3rd-party plugins relying on multiplayer dataRefs.\n
+///          Is called during XPMPMultiplayerCleanup() automatically.
 void XPMPMultiplayerDisable();
 
-/*
- * XPMPHasControlOfAIAircraft
- *
- * Does XPMP control AI aircrafts (after a call to XPMPMultiplayerEnable)
- * and, hence, can fake TCAS display?
- */
+
+/// Has XPMP2 control of AI/multiplayer aircraft? (See XPMPMultiplayerEnable())
 bool XPMPHasControlOfAIAircraft();
 
 /************************************************************************************
@@ -346,8 +341,21 @@ bool XPMPHasControlOfAIAircraft();
 ************************************************************************************/
 
 /// @brief Loads CSL packages from the given folder, searching up to 5 folder levels deep.
-/// @details This function mainly searches the given folder for packages and reads the structure.
-///          Actual loading of objects is done asynchronously when needed only.
+/// @details This function mainly searches the given folder for packages.
+///          It traverses all folders in search for `xsb_aircraft.txt` files.
+///          It will find all `xsb_aircraft.txt` files situated at or below
+///          the given root path, up to 5 levels deep.\n
+///          As soon as such a file is found it is read and processed.
+///          Depth search then ends. (But searching parallel folders may
+///          still continue.)\n
+///          The `xsb_aircraft.txt` is loaded and processed. Duplicate models
+///          (by CSL model name, tag `OBJ8_AIRCRAFT`) are ignored.
+///          For others the existence of the `.obj` file is validated
+///          (but not the existence of files in turn needed by the `.obj`
+///          file, like textures.) and if successful the model is added to an
+///          internal catalogue.\n
+///          Actual loading of objects is done later and asynchronously
+///          when needed only during aircraft creation.
 /// @param inCSLFolder Root folder to start the search.
 const char *    XPMPLoadCSLPackage(const char * inCSLFolder);
 

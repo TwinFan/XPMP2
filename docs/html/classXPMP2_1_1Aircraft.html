@@ -87,8 +87,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a5220d2cec4af94bc1adc658f5170dabd"><td class="mdescLeft">&#160;</td><td class="mdescRight">return the <a class="el" href="namespaceXPMP2.html">XPMP2</a> plane id  <a href="classXPMP2_1_1Aircraft.html#a5220d2cec4af94bc1adc658f5170dabd">More...</a><br /></td></tr>
 <tr class="separator:a5220d2cec4af94bc1adc658f5170dabd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a084e4453bb8b28c78123150c32228f00"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a084e4453bb8b28c78123150c32228f00">GetMultiIdx</a> () const</td></tr>
-<tr class="memdesc:a084e4453bb8b28c78123150c32228f00"><td class="mdescLeft">&#160;</td><td class="mdescRight">return the last used sim/multiplayer/plane-index  <a href="classXPMP2_1_1Aircraft.html#a084e4453bb8b28c78123150c32228f00">More...</a><br /></td></tr>
+<tr class="memdesc:a084e4453bb8b28c78123150c32228f00"><td class="mdescLeft">&#160;</td><td class="mdescRight">return the current multiplayer-index  <a href="classXPMP2_1_1Aircraft.html#a084e4453bb8b28c78123150c32228f00">More...</a><br /></td></tr>
 <tr class="separator:a084e4453bb8b28c78123150c32228f00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7f36ab328310a46dbcc0246dca44074"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ac7f36ab328310a46dbcc0246dca44074">GetAIPlaneIdx</a> () const</td></tr>
+<tr class="memdesc:ac7f36ab328310a46dbcc0246dca44074"><td class="mdescLeft">&#160;</td><td class="mdescRight">return the plane's index in XP's sim/multiplayer/plane dataRefs  <a href="classXPMP2_1_1Aircraft.html#ac7f36ab328310a46dbcc0246dca44074">More...</a><br /></td></tr>
+<tr class="separator:ac7f36ab328310a46dbcc0246dca44074"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22e54e73fea0e25f118165e66844e8c6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a22e54e73fea0e25f118165e66844e8c6">IsCurrentlyShownAsAI</a> () const</td></tr>
 <tr class="memdesc:a22e54e73fea0e25f118165e66844e8c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is this plane currently also being tracked by X-Plane's AI/multiplayer, ie. will appear on TCAS?  <a href="classXPMP2_1_1Aircraft.html#a22e54e73fea0e25f118165e66844e8c6">More...</a><br /></td></tr>
 <tr class="separator:a22e54e73fea0e25f118165e66844e8c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -624,6 +627,33 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="ac7f36ab328310a46dbcc0246dca44074"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7f36ab328310a46dbcc0246dca44074">&#9670;&nbsp;</a></span>GetAIPlaneIdx()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int XPMP2::Aircraft::GetAIPlaneIdx </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>return the plane's index in XP's sim/multiplayer/plane dataRefs </p>
+
+</div>
+</div>
 <a id="a4b490b3171816c3932e77a95408c1b1a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4b490b3171816c3932e77a95408c1b1a">&#9670;&nbsp;</a></span>GetCameraBearing()</h2>
 
@@ -811,7 +841,8 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>return the last used sim/multiplayer/plane-index </p>
+<p>return the current multiplayer-index </p>
+<dl class="section note"><dt>Note</dt><dd>This is a 0-based index into our internal tables! It is one less than the number used in sim/multiplayer/plane dataRefs, use <a class="el" href="classXPMP2_1_1Aircraft.html#ac7f36ab328310a46dbcc0246dca44074" title="return the plane&#39;s index in XP&#39;s sim/multiplayer/plane dataRefs">Aircraft::GetAIPlaneIdx()</a> for that purpose. </dd></dl>
 
 </div>
 </div>

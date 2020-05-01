@@ -511,7 +511,7 @@ Aircraft(inICAOCode, inAirline, inLivery, inModelName ? inModelName : "")
 void XPCAircraft::UpdatePosition()
 {
     // Call the "callback" virtual functions and then update the core variables
-    acPos.multiIdx = 			GetMultiIdx();             // provide the multiplayer index back to the plugin
+    acPos.multiIdx = GetAIPlaneIdx();             // provide the multiplayer index back to the plugin
     if (GetPlanePosition(&acPos) == xpmpData_NewData) {
         // Set the position and orientation
         SetLocation(acPos.lat, acPos.lon, acPos.elevation);

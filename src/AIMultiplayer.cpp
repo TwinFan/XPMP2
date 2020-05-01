@@ -375,7 +375,7 @@ void AIMultiUpdate ()
 
         // This plane's position
         XPLMSetDataf(mdr.X, ac.drawInfo.x);
-        XPLMSetDataf(mdr.Y, ac.drawInfo.y);
+        XPLMSetDataf(mdr.Y, ac.drawInfo.y - ac.GetVertOfs());  // align with original altitude
         XPLMSetDataf(mdr.Z, ac.drawInfo.z);
         // attitude
         XPLMSetDataf(mdr.pitch,   ac.drawInfo.pitch);

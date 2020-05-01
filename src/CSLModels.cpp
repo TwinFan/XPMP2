@@ -45,6 +45,7 @@ namespace XPMP2 {
 #define ERR_PKG_UNKNOWN         "Line %d: Package '%s' unknown in package path %s"
 #define ERR_OBJ_FILE_NOT_FOUND  "Line %d: The file '%s' could not be found at %s"
 #define WARN_IGNORED_COMMANDS   "Following commands ignored: "
+#define WARN_OBJ8_ONLY_VERTOFS  "Version is '%s', unsupported for reading vertical offset, file %s"
 
 #define ERR_MATCH_NO_MODELS     "MATCH ABORTED - There is not any single CSL model available!"
 #define DEBUG_MATCH_INPUT       "MATCH INPUT: Type=%s (WTC=%s,Class=%s,Related=%d), Airline=%s, Livery=%s"
@@ -74,6 +75,70 @@ XPLMObjectRef CSLObj::GetAndLoadObj ()
     // (Try) Loading, then return what we have, even if it is NULL
     Load();
     return xpObj;
+}
+
+// Read the obj file to calculate its vertical offset
+/// @details The idea behind doing this is taken from the original libxplanemp
+///          implementation, particularly
+///          `XPMPMultiplayerCSLOffset.cpp: CslModelVertOffsetCalculator::findOffsetInObj8`:
+///          The vertices and lines defined in the file have coordinates,
+///          their outer edges define how much the aircraft would need to be
+///          lifted to make its lowest part (typically the gear) appear
+///          on the surfaces. So it searches for min/max values of
+///          vertical (y) coordinates.
+/// @note I am not sure why the original code returns `-max` if `min > 0`,
+///       my understanding would be to always return `-min` and don't need `max`.
+///       But I just hope that the original author knows better and I stick to it.
+float CSLObj::FetchVertOfsFromObjFile () const
+{
+    float min = 0.0f, max = 0.0f;
+    
+    // Try opening our `.obj` file...that should actually work,
+    // CSLObj only exists if the `.obj` file exists,
+    // so we deal with errors but don't issue a lot of warnings here
+    int lnNr = 0;
+    std::ifstream fIn (path);
+    while (fIn)
+    {
+        std::string ln;
+        safeGetline(fIn, ln);
+        lnNr++;
+        
+        // line number 2 must define the version
+        if (lnNr == 2) {
+            // we can only read OBJ8 files
+            if (std::stol(ln) < 800) {
+                LOG_MSG(logWARN, WARN_OBJ8_ONLY_VERTOFS,
+                        ln.c_str(), path.c_str());
+                return 0.0f;
+            }
+        }
+        
+        // We try to decide really fast...obj files can be long
+        // We are looking for "VT" and "VLINE", each will have at least 20 chars
+        // and the first one must be 'V', the 2nd one either T or L
+        if (ln.size() < 20 || ln[0] != 'V' ||
+            (ln[1] != 'T' && ln[1] != 'L'))
+            continue;
+        
+        // Chances are good we process it, so let's break it up into tokens
+        std::vector<std::string> tokens = str_tokenize(ln, " \t");
+        if (tokens.size() < 7 ||            // VT/VLINE must have 7 elements
+            (tokens[0] != "VT" && tokens[0] != "VLINE"))
+            continue;
+        
+        // Get and process the Y coordinate
+        const float y = std::stof(tokens[2]);
+        if (y < min)
+            min = y;
+        else if (y > max)
+            max = y;
+    }
+    
+    // return the proper VERT_OFFSET based on the Y coordinates we have read
+    const float vertOfs = min < 0.0f ? -min : -max;
+    LOG_MSG(logDEBUG, "Fetched VERT_OFFSET=%.1f from %s", vertOfs, path.c_str());
+    return vertOfs;
 }
 
 // Starts loading the XP object asynchronously
@@ -251,6 +316,14 @@ ObjLoadStateTy CSLModel::GetObjState () const
 // Try get ALL object handles, only returns anything if it is the complete list
 std::list<XPLMObjectRef> CSLModel::GetAllObjRefs ()
 {
+    // This loads the object, so we should make sure to have a VERT_OFFSET, too
+    if (bVertOfsReadFromFile) {
+        // span a job to read it from the object files
+        bVertOfsReadFromFile = false;
+        futVertOfs = std::async(std::launch::async,
+                                &CSLModel::FetchVertOfsFromObjFile, this);
+    }
+    
     bool bFullyLoaded = true;
     std::list<XPLMObjectRef> l;
     for (CSLObj& obj: listObj)                  // loop over all object
@@ -261,6 +334,14 @@ std::list<XPLMObjectRef> CSLModel::GetAllObjRefs ()
         l.push_back(obj.GetAndLoadObj());       // load and save the handle
         if (l.back() == NULL)                   // not (yet) loaded?
             bFullyLoaded = false;               // return an empty list in the end
+    }
+    
+    // Also check if our vertical offset is available now
+    if (futVertOfs.valid()) {                   // we are waiting for a result
+        if (futVertOfs.wait_for(std::chrono::seconds(0)) != std::future_status::ready)
+            bFullyLoaded = false;               // not yet available
+        else
+            vertOfs = futVertOfs.get();         // avaiable, get it
     }
     
     // return the complete list of handles if all was successful
@@ -297,18 +378,23 @@ float CSLModel::GarbageCollection (float, float, int, void*)
     return GARBAGE_COLLECTION_PERIOD;
 }
 
-// Start loading all objects
-void CSLModel::Load ()
-{
-    for (CSLObj& o: listObj)
-        o.Load();
-}
-
 // Unload all objects
 void CSLModel::Unload ()
 {
     for (CSLObj& o: listObj)
         o.Unload();
+}
+
+// Read the obj files to fill CSLModel::vertOfs
+float CSLModel::FetchVertOfsFromObjFile () const
+{
+    float ret = 0.0f;
+    for (const CSLObj& obj: listObj) {
+        const float o = obj.FetchVertOfsFromObjFile();
+        if (o > ret)
+            ret = o;
+    }
+    return ret;
 }
 
 //
@@ -564,8 +650,10 @@ void AcTxtLine_VERT_OFFSET (CSLModel& csl,
                             std::vector<std::string>& tokens,
                             int lnNr)
 {
-    if (tokens.size() >= 2)
+    if (tokens.size() >= 2) {
         csl.vertOfs = std::stof(tokens[1]);
+        csl.bVertOfsReadFromFile = false;   // don't need to read OBJ file
+    }
     else
         LOG_MSG(logERR, ERR_TOO_FEW_PARAM, lnNr, tokens[0].c_str(), 1);
 }

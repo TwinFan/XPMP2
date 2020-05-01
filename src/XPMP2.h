@@ -55,6 +55,7 @@
 #include <fstream>
 #include <regex>
 #include <bitset>
+#include <future>
 
 // XPlaneMP 2 - Internal Header Files
 #include "Utilities.h"
@@ -167,6 +168,8 @@ public:
     int             verXPlane = -1;
     /// XPLM's SDK version number (XPLMGetVersions)
     int             verXPLM = -1;
+    /// Using a modern graphics driver, ie. Vulkan/Metal?
+    bool            bUsingModernGraphicsDriver = false;
     
 #ifdef DEBUG
     /// Current XP cycle number (see XPLMGetCycleNumber())
@@ -191,6 +194,8 @@ public:
     void UpdateCfgVals ();
     /// Read version numbers into verXplane/verXPLM
     void ReadVersions ();
+    /// /// Using a modern graphics driver, ie. Vulkan/Metal?
+    bool UsingModernGraphicsDriver() const { return bUsingModernGraphicsDriver; }
 };
 
 /// The one and only global variable structure

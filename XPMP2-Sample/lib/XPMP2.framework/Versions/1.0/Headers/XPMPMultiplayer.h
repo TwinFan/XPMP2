@@ -1,7 +1,28 @@
 /// @file       XPMPMultiplayer.h
 /// @brief      Initialization and general control functions for XPMP2
-/// @note       This file bases on and should be compile-compatible to the header
-///             provided with the original libxplanemp.
+///
+/// @note       This file bases on and should be largely compile-compatible to
+///             the header provided with the original libxplanemp.
+/// @note       Some functions are marked deprecated, reason is given with
+///             each function. They are only provided for backward
+///             compatibility.
+///
+/// @details    This is one of two main header files for using XPMP2.
+///             (The other is `XPMPAircraft.h`).
+///             XPMP2 is a library allowing an X-Plane plugin to have
+///             planes rendered in X-Plane's 3D world based on OBJ8
+///             CSL models, which need to be installed separatela.
+///             The plugin shall subclass XPMP2::Aircraft:: and override
+///             the abstract virtual function XPMP2::Aircraft::UpdatePosition()
+///             to provide updated position and attitude information.
+///             XPMP2 takes care of reading and initializaing CSL models,
+///             instanciating and updating the aircraft objects in X-Plane,
+///             display in a map layer, provisioning information via X-Plane's
+///             AI/multiplayer (and more) dataRefs.
+///
+/// @see        For more developer's information see
+///             https://twinfan.github.io/XPMP2/
+///
 /// @author     Ben Supnik and Chris Serio
 /// @copyright  Copyright (c) 2004, Ben Supnik and Chris Serio.
 /// @author     Birger Hoppe
@@ -31,25 +52,6 @@
 extern "C" {
 #endif
 
-/*
- Multiplayer - THEORY OF OPERATION
- 
- The multiplayer API allows plug-ins to control aircraft visible to other plug-ins and
- the user via x-plane.  It effectively provides glue between a series of observers
- that wish to render or in other ways act upon those planes.
- 
- A plug-in can control zero or more planes, and zero or more plug-ins can control planes.
- However, each plane is controlled by exactly one plug-in.  A plug-in thus dynamically
- allocates planes to control.  A plug-in registers a callback which is used to pull
- information.  The plug-in may decide to not return information or state that that
- information is unchanged.
- 
- A plug-in can also read the current aircrafts or any of their data.  Aircraft data is
- cached to guarantee minimum computing of data.
- 
- Each 'kind' of data has an enumeration and corresponding structure.*/
-
-
 /************************************************************************************
  * MARK: PLANE DATA TYPES
  ************************************************************************************/
@@ -57,24 +59,14 @@ extern "C" {
 /// XPMPPosition_t
 ///
 /// @brief This data structure contains the basic position info for an aircraft.
-/// @details    Lat and lon are the position of the aircraft in the world.  They are double-precision to
-///             provide reasonably precise positioning anywhere.\n
-///             Elevation is in feet above mean sea level.\n
-///             Pitch, roll, and heading define the aircraft's orientation.  Heading is in degrees, positive
-///             is clockwise from north.  Pitch is the number of degrees, positive is nose up, and roll
-///             is positive equals roll right.\n
-///             Offset scale should be between 0 & 1 and indicates how much of the surface
-///             contact correction offset should be applied.  1 is fully corrected, 0 is no
-///             correction.  This is so XSB can blend the correction out as the aircraft
-///             leaves circling altitude.\n
-///             clampToGround enables the ground-clamping inside of libxplanemp.  If false,
-///             libxplanemp will not clamp this particular aircraft.\n
-/// @note       There is no notion of aircraft velocity or acceleration; you will be queried for
-///             your position every rendering frame.  Higher level APIs can use velocity and acceleration.
+/// @note  This structure is only used with deprecated concepts
+///        (class XPCAircraft and direct use of callback functions.)
+/// @note  There is no notion of aircraft velocity or acceleration; you will be queried for
+///        your position every rendering frame.  Higher level APIs can use velocity and acceleration.
 struct XPMPPlanePosition_t {
     long    size            = sizeof(XPMPPlanePosition_t);  ///< size of structure
-    double  lat             = 0.0;                      ///< current position of aircraft
-    double  lon             = 0.0;                      ///< current position of aircraft
+    double  lat             = 0.0;                      ///< current position of aircraft (latitude)
+    double  lon             = 0.0;                      ///< current position of aircraft (longitude)
     double  elevation       = 0.0;                      ///< current altitude of aircraft [ft above MSL]
     float   pitch           = 0.0f;                     ///< pitch [degrees, psitive up]
     float   roll            = 0.0f;                     ///< roll [degrees, positive right]
@@ -83,8 +75,8 @@ struct XPMPPlanePosition_t {
     float   offsetScale     = 1.0f;                     ///< how much of the surface contact correction offset should be applied [0..1]
     bool    clampToGround   = false;                    ///< enables ground-clamping for this aircraft (can be expensive, see Aircraft::bClampToGround)
     int     aiPrio          = 1;                        ///< Priority for AI/TCAS consideration, the lower the earlier
-    float   label_color[4]  = {1.0f,1.0f,0.0f,1.0f};    ///< label base color (RGB)
-    int     multiIdx        = 0;                        ///< OUT: set by xplanemp to inform application about multiplay index in use
+    float   label_color[4]  = {1.0f,1.0f,0.0f,1.0f};    ///< label base color (RGB), defaults to yellow
+    int     multiIdx        = 0;                        ///< OUT: set by XPMP2 to inform application about multiplayer index in use, `< 1` means 'none'
 };
 
 
@@ -100,15 +92,7 @@ enum {
 };
 typedef unsigned int XPMPLightsPattern;
 
-/*
- * XPMPLightStatus
- *
- * This enum defines the settings for the lights bitfield in XPMPPlaneSurfaces_t
- *
- * The upper 16 bit of the light code (timeOffset) should be initialized only once
- * with a random number by the application. This number will be used to have strobes
- * flashing at different times.
- */
+
 #if LIN
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpedantic" // because we don't want to change the anonymous structure following here as that would require code change in legacy plugins
@@ -116,6 +100,9 @@ typedef unsigned int XPMPLightsPattern;
 #pragma warning(push)
 #pragma warning(disable: 4202 4201)
 #endif
+/// Defines, which lights of the aircraft are on
+/// @note  This structure is only used with deprecated concepts
+///        (class XPCAircraft and direct use of callback functions.)
 union xpmp_LightStatus {
     unsigned int lightFlags = 0x150000;     ///< this defaults to taxi | beacon | nav lights on
     struct {
@@ -137,7 +124,10 @@ union xpmp_LightStatus {
 #pragma warning(pop)
 #endif
 
+
 /// @brief External physical configuration of the plane
+/// @note  This structure is only used with deprecated concepts
+///        (class XPCAircraft and direct use of callback functions.)
 /// @details    This data structure will contain information about the external physical configuration of the plane,
 ///             things you would notice if you are seeing it from outside.  This includes flap position, gear position,
 ///             etc.
@@ -170,29 +160,19 @@ struct XPMPPlaneSurfaces_t {
 };
 
 
-/*
- * XPMPTransponderMode
- *
- * These enumerations define the way the transponder of a given plane is operating.
- *
- */
+/// @brief These enumerations define the way the transponder of a given plane is operating.
 /// @note Only information used by XPMP2 is `"mode != xpmpTransponderMode_Standby"`,
 ///       in which case the plane is considered for TCAS display.
 enum XPMPTransponderMode {
-    xpmpTransponderMode_Standby,        ///< transponder is in standby, not currently sending ->plane  not visible on TCAS
+    xpmpTransponderMode_Standby,        ///< transponder is in standby, not currently sending -> aircraft not visible on TCAS
     xpmpTransponderMode_Mode3A,         ///< transponder is on
     xpmpTransponderMode_ModeC,          ///< transponder is on
     xpmpTransponderMode_ModeC_Low,      ///< transponder is on
     xpmpTransponderMode_ModeC_Ident     ///< transponder is on
 };
 
-/*
- * XPMPPlaneRadar_t
- *
- * This structure defines information about an aircraft visible to radar.  Eventually it can include
- * information about radar profiles, stealth technology, radar jamming, etc.
- *
- */
+
+/// @brief defines information about an aircraft visible to radar.
 /// @note Only information used by XPMP2 is `"mode != xpmpTransponderMode_Standby"`,
 ///       in which case the plane is considered for TCAS display.
 struct XPMPPlaneRadar_t {
@@ -201,14 +181,10 @@ struct XPMPPlaneRadar_t {
     XPMPTransponderMode     mode = xpmpTransponderMode_ModeC;   ///< current radar mode
 };
 
-/*
- * XPMPTexts_t;
- *
- * This structure define textual information of planes to be passed on
- * via shared dataRefs to other plugins. It is not used within xplanemp
- * in any way, just passed on.
- *
- */
+
+/// @brief   Textual information of planes to be passed on
+///          via shared dataRefs to other plugins.
+/// @details The texts are not used within XPMP2 in any way, just passed on.
 struct XPMPInfoTexts_t {
     long size = sizeof(XPMPInfoTexts_t);
     char tailNum[10]       = {0};       ///< registration, tail number
@@ -222,11 +198,14 @@ struct XPMPInfoTexts_t {
     char aptTo [5]         = {0};       ///< Destination airport (ICAO)
 };
 
+
 /// @brief This enum defines the different categories of aircraft information we can query about.
 /// @note While these enums are defined in a way that they could be combined together,
 ///       there is no place, which makes use of this possibility. Each value will be used
 ///       individually only. Because of this, the definition has been changed in XPMP2
 ///       to an actual enum type for clarity.
+/// @note This enum is only used with deprecated concepts
+///       (class XPCAircraft and direct use of callback functions.)
 enum XPMPPlaneDataType {
     xpmpDataType_Position   = 1L << 1,  ///< position data in XPMPPlanePosition_t
     xpmpDataType_Surfaces   = 1L << 2,  ///< physical appearance in XPMPPlaneSurfaces_t
@@ -234,12 +213,10 @@ enum XPMPPlaneDataType {
     xpmpDataType_InfoTexts  = 1L << 4,  ///< informational texts in XPMPInfoTexts_t
 };
 
-/*
- * XPMPPlaneCallbackResult
- *
- * This definfes the different responses to asking for information.
- *
- */
+
+/// @brief Definfes the different responses to asking for information.
+/// @note This enum is only used with deprecated concepts
+///       (class XPCAircraft and direct use of callback functions.)
 enum XPMPPlaneCallbackResult {
     xpmpData_Unavailable = 0,   /* The information has never been specified. */
     xpmpData_Unchanged = 1,     /* The information from the last time the plug-in was asked. */
@@ -251,14 +228,6 @@ enum XPMPPlaneCallbackResult {
 /// @note In XPMP2 this value is no longer a pointer to an internal memory address,
 ///       but just an ever increasing number. Don't use it as a pointer.
 typedef void *      XPMPPlaneID;
-
-/************************************************************************************
- * Some additional functional by den_rain
- ************************************************************************************/
-
-void actualVertOffsetInfo(const char *inMtl, char *outType, double *outOffset);
-void setUserVertOffset(const char *inMtlCode, double inOffset);
-void removeUserVertOffset(const char *inMtlCode);
 
 
 /************************************************************************************

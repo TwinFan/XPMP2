@@ -79,7 +79,8 @@ static void read_matrices ()
 
 /// @brief Converts 3D local coordinates to 2D screen coordinates
 /// @note Requires matrices to be set up already by a call to read_matrices()
-static void ConvertTo2d(const float x, const float y, const float z,
+/// @return Are coordinates visible? (Otherwise they are "in the back" of the camera)
+static bool ConvertTo2d(const float x, const float y, const float z,
                         int& out_x, int& out_y)
 {
     // the position to convert
@@ -97,6 +98,14 @@ static void ConvertTo2d(const float x, const float y, const float z,
     
     out_x = (int)std::lround(gScreenW * (afNdc[0] * 0.5f + 0.5f));
     out_y = (int)std::lround(gScreenH * (afNdc[1] * 0.5f + 0.5f));
+    
+    // afNdc[2] is basically the Z value
+    if (glob.UsingModernGraphicsDriver())
+        // Vulkan z-axis NDC is [0,1]
+        return 0.0f <= afNdc[2] && afNdc[2] <= 1.0f;
+    else
+        // OGL z-axis is [-1,1]
+        return -1.0f <= afNdc[2] && afNdc[2] <= 1.0;
 }
 
 //
@@ -135,16 +144,13 @@ void TwoDDrawLabels ()
         if (ac.GetCameraDist() > maxLabelDist)
             continue;
         
-        // Exit if aircraft is "in the back" of the camera, ie. invisible
-        if (std::abs(headDiff(ac.GetCameraBearing(), posCamera.heading)) > 90.0f)
-            continue;
-        
         // Map the 3D coordinates of the aircraft to 2D coordinates of the flat screen
         int x = -1, y = -1;
-        ConvertTo2d(ac.drawInfo.x,
-                    ac.drawInfo.y + 7.0f,      // make the label appear "10m" above the plane
-                    ac.drawInfo.z, x, y);
-        
+        if (!ConvertTo2d(ac.drawInfo.x,
+                         ac.drawInfo.y + 7.0f,  // make the label appear "7m" above the plane
+                         ac.drawInfo.z, x, y))
+            continue;                           // label not visible
+
         // Determine text color:
         // It stays as defined by application for half the way to maxLabelDist.
         // For the other half, it gradually fades to gray.

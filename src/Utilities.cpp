@@ -76,6 +76,13 @@ void GlobVars::ReadVersions ()
 {
     XPLMHostApplicationID hostID = -1;
     XPLMGetVersions(&glob.verXPlane, &glob.verXPLM, &hostID);
+    
+    // Also read if we are using Vulkan/Metal
+    XPLMDataRef drUsingModernDriver = XPLMFindDataRef("sim/graphics/view/using_modern_driver");
+    if (drUsingModernDriver)            // dataRef not defined before 11.50
+        bUsingModernGraphicsDriver = XPLMGetDatai(drUsingModernDriver) != 0;
+    else
+        bUsingModernGraphicsDriver = false;
 }
 
 //
@@ -387,25 +394,10 @@ float GetMiscNetwTime()
     return XPLMGetDataf(drMiscNetwTime);
 }
 
-// Is using a modern (Vulkan/Metal) graphics driver?
-bool UsingModernGraphicsDriver ()
-{
-    static bool bInitialized = false;
-    static XPLMDataRef drUsingModernDriver = nullptr;
-    if (!bInitialized) {
-        drUsingModernDriver = XPLMFindDataRef("sim/graphics/view/using_modern_driver");
-        bInitialized = true;
-    }
-    if (drUsingModernDriver)            // dataRef not defined before 11.50
-        return XPLMGetDatai(drUsingModernDriver);
-    else
-        return false;
-}
-
 // Text string for current graphics driver in use
 const char* GetGraphicsDriverTxt ()
 {
-    if (UsingModernGraphicsDriver())
+    if (glob.UsingModernGraphicsDriver())
 #if APL
         return "Metal";
 #else

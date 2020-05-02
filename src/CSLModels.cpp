@@ -906,7 +906,7 @@ bool CSLFindMatch (const std::string& _type,
                    CSLModel* &pModel)
 {
     // How many parameters will we compare?
-    constexpr unsigned DOC8643_MATCH_PARAMS = 9;
+    constexpr unsigned DOC8643_MATCH_PARAMS = 10;
     constexpr unsigned DOC8643_MATCH_WORST_QUAL = 2 << DOC8643_MATCH_PARAMS;
     
     // if there aren't any models we won't find any either
@@ -941,26 +941,18 @@ bool CSLFindMatch (const std::string& _type,
     // However, most matches are done with ICAO aircraft type given,
     // which implies a "related" group.
     // We can narrow down the set of models to scan if we find one with
-    // matching group/type.
+    // matching "related" group.
     
-    // 1. Related Group + Type
-    std::string key = CSLModelGetKeyStr(related, _type, "");
+    // Scan "Related" Group, irrespective of type
+    std::string key = CSLModelGetKeyStr(related, "", "");
     mapCSLModelTy::iterator mStart = glob.mapCSLModels.lower_bound(key);
-    key = CSLModelGetKeyStr(related, _type, "~~~~");
+    key = CSLModelGetKeyStr(related, "~~~~", "~~~~");
     mapCSLModelTy::iterator mEnd = glob.mapCSLModels.upper_bound(key);
-    // no models found matching the specific type?
+    // No models found matching the related group?
     if (mStart == mEnd) {
-        // 2. Related Group only, irrespective of type
-        key = CSLModelGetKeyStr(related, "", "");
-        mStart = glob.mapCSLModels.lower_bound(key);
-        key = CSLModelGetKeyStr(related, "~~~~", "~~~~");
-        mEnd = glob.mapCSLModels.upper_bound(key);
-        // No models found matching the related group?
-        if (mStart == mEnd) {
-            // well, then search all models
-            mStart = glob.mapCSLModels.begin();
-            mEnd   = glob.mapCSLModels.end();
-        }
+        // well, then search all models
+        mStart = glob.mapCSLModels.begin();
+        mEnd   = glob.mapCSLModels.end();
     }
 
     // Now scan all CSL models in the defined range
@@ -980,14 +972,17 @@ bool CSLFindMatch (const std::string& _type,
         matchQual.set(0, _livery.empty()    || mdl.GetLivery()      != _livery);
         matchQual.set(1, _airline.empty()   || mdl.GetIcaoAirline() != _airline);
         matchQual.set(2, _type.empty()      || mdl.GetIcaoType()    != _type);
-        matchQual.set(3, related == 0       || mdl.GetRelatedGrp()  != related);
+        matchQual.set(3,                    // this matches if airline _and_ related group match (so we value a matching livery in a "related" model higher than an exact model with improper livery)
+                      _airline.empty() || related == 0 ||
+                      mdl.GetIcaoAirline() != _airline || mdl.GetRelatedGrp()  != related);
+        matchQual.set(4, related == 0       || mdl.GetRelatedGrp()  != related);
         // Upper part matches on generic "size/type of aircraft" parameters,
         // which are expected to match anyway if the above (like group/ICAO type) match
-        matchQual.set(4, bDocEmpty          || mdl.GetClassEngType()!= doc8643.GetClassEngType());
-        matchQual.set(5, bDocEmpty          || mdl.GetClassNumEng() != doc8643.GetClassNumEng());
-        matchQual.set(6, bDocEmpty          || mdl.GetWTC()         != wtc);
-        matchQual.set(7, bDocEmpty          || mdl.GetClassType()   != doc8643.GetClassType());
-        matchQual.set(8, bDocEmpty          || mdl.HasRotor()       != doc8643.HasRotor());
+        matchQual.set(5, bDocEmpty          || mdl.GetClassEngType()!= doc8643.GetClassEngType());
+        matchQual.set(6, bDocEmpty          || mdl.GetClassNumEng() != doc8643.GetClassNumEng());
+        matchQual.set(7, bDocEmpty          || mdl.GetWTC()         != wtc);
+        matchQual.set(8, bDocEmpty          || mdl.GetClassType()   != doc8643.GetClassType());
+        matchQual.set(9, bDocEmpty          || mdl.HasRotor()       != doc8643.HasRotor());
         
         // If we are to ignore the doc8643 matches (in case of no doc8643 found)
         // then we completely ignore models which don't match at all

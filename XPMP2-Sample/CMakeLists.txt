@@ -40,9 +40,9 @@ endif()
 # Source Files
 ################################################################################
 add_library(XPMP2-Sample MODULE
-    lib/XPMP2.framework/Headers/XPCAircraft.h
-    lib/XPMP2.framework/Headers/XPMPAircraft.h
-    lib/XPMP2.framework/Headers/XPMPMultiplayer.h
+    lib/XPMP2.framework/Versions/1.0/Headers/XPCAircraft.h
+    lib/XPMP2.framework/Versions/1.0/Headers/XPMPAircraft.h
+    lib/XPMP2.framework/Versions/1.0/Headers/XPMPMultiplayer.h
     SDK/CHeaders/XPLM/XPLMDataAccess.h
     SDK/CHeaders/XPLM/XPLMUtilities.h
     SDK/CHeaders/XPLM/XPLMPlugin.h
@@ -125,7 +125,7 @@ target_include_directories(XPMP2-Sample
     PUBLIC
         ${ADDITIONAL_INCLUDES}
         ${CMAKE_CURRENT_SOURCE_DIR}/SDK/CHeaders/XPLM
-        ${CMAKE_CURRENT_SOURCE_DIR}/lib/XPMP2.framework/Headers
+        ${CMAKE_CURRENT_SOURCE_DIR}/lib/XPMP2.framework/Versions/1.0/Headers
 )
 
 # We need C++ 17

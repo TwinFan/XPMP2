@@ -76,12 +76,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a999b581110335f4705d5e0ad405bbf50"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a999b581110335f4705d5e0ad405bbf50">SetIcaoType</a> (const std::string &amp;_type)</td></tr>
 <tr class="memdesc:a999b581110335f4705d5e0ad405bbf50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the a/c type model, which also fills <code>doc8643</code> and <code>related</code>  <a href="classXPMP2_1_1CSLModel.html#a999b581110335f4705d5e0ad405bbf50">More...</a><br /></td></tr>
 <tr class="separator:a999b581110335f4705d5e0ad405bbf50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8230ee843c39394356b431aeb476e4a8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a8230ee843c39394356b431aeb476e4a8">CompModelName</a> ()</td></tr>
+<tr class="separator:a8230ee843c39394356b431aeb476e4a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67334f15dc4357f80d54135fce5f7ca6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a67334f15dc4357f80d54135fce5f7ca6">IsValid</a> () const</td></tr>
 <tr class="memdesc:a67334f15dc4357f80d54135fce5f7ca6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimum requirement for using this object is: id, type, path.  <a href="classXPMP2_1_1CSLModel.html#a67334f15dc4357f80d54135fce5f7ca6">More...</a><br /></td></tr>
 <tr class="separator:a67334f15dc4357f80d54135fce5f7ca6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a416598933765a5743276b0e072c6257d"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a416598933765a5743276b0e072c6257d">GetId</a> () const</td></tr>
 <tr class="memdesc:a416598933765a5743276b0e072c6257d"><td class="mdescLeft">&#160;</td><td class="mdescRight">id, just an arbitrary label read from <code>xsb_aircraft.txt::OBJ8_AIRCRAFT</code>  <a href="classXPMP2_1_1CSLModel.html#a416598933765a5743276b0e072c6257d">More...</a><br /></td></tr>
 <tr class="separator:a416598933765a5743276b0e072c6257d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd35c943e22d794ba1c043b2a59f61f3"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#afd35c943e22d794ba1c043b2a59f61f3">GetModelName</a> () const</td></tr>
+<tr class="separator:afd35c943e22d794ba1c043b2a59f61f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a66f500bcfe99bc27161f7e45e59d4a8e"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a66f500bcfe99bc27161f7e45e59d4a8e">GetIcaoType</a> () const</td></tr>
 <tr class="memdesc:a66f500bcfe99bc27161f7e45e59d4a8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">ICAO aircraft type this model represents: <code>xsb_aircraft.txt::ICAO</code>  <a href="classXPMP2_1_1CSLModel.html#a66f500bcfe99bc27161f7e45e59d4a8e">More...</a><br /></td></tr>
 <tr class="separator:a66f500bcfe99bc27161f7e45e59d4a8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -144,6 +148,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a0f6064c1cc20a9d9eb283dabe9d9ae58"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a0f6064c1cc20a9d9eb283dabe9d9ae58">cslId</a></td></tr>
 <tr class="memdesc:a0f6064c1cc20a9d9eb283dabe9d9ae58"><td class="mdescLeft">&#160;</td><td class="mdescRight">id, just an arbitrary label read from <code>xsb_aircraft.txt::OBJ8_AIRCRAFT</code>  <a href="classXPMP2_1_1CSLModel.html#a0f6064c1cc20a9d9eb283dabe9d9ae58">More...</a><br /></td></tr>
 <tr class="separator:a0f6064c1cc20a9d9eb283dabe9d9ae58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75ae517e7dcb5ed2e3e0ee39c850855e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a75ae517e7dcb5ed2e3e0ee39c850855e">modelName</a></td></tr>
+<tr class="memdesc:a75ae517e7dcb5ed2e3e0ee39c850855e"><td class="mdescLeft">&#160;</td><td class="mdescRight">name, formed by last part of path plus id  <a href="classXPMP2_1_1CSLModel.html#a75ae517e7dcb5ed2e3e0ee39c850855e">More...</a><br /></td></tr>
+<tr class="separator:a75ae517e7dcb5ed2e3e0ee39c850855e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0fd2606df20a9abbaf401523b34b2156"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a0fd2606df20a9abbaf401523b34b2156">icaoAirline</a></td></tr>
 <tr class="memdesc:a0fd2606df20a9abbaf401523b34b2156"><td class="mdescLeft">&#160;</td><td class="mdescRight">ICAO Airline code this model represents: <code>xsb_aircraft.txt::AIRLINE</code>  <a href="classXPMP2_1_1CSLModel.html#a0fd2606df20a9abbaf401523b34b2156">More...</a><br /></td></tr>
 <tr class="separator:a0fd2606df20a9abbaf401523b34b2156"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -282,6 +289,23 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a8230ee843c39394356b431aeb476e4a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8230ee843c39394356b431aeb476e4a8">&#9670;&nbsp;</a></span>CompModelName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::CSLModel::CompModelName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ae481533e5d9b878445562b031d8d5e2a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae481533e5d9b878445562b031d8d5e2a">&#9670;&nbsp;</a></span>DecRefCnt()</h2>
 
@@ -624,6 +648,31 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Livery code this model represents: <code>xsb_aircraft.txt::LIVERY</code> </p>
+
+</div>
+</div>
+<a id="afd35c943e22d794ba1c043b2a59f61f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd35c943e22d794ba1c043b2a59f61f3">&#9670;&nbsp;</a></span>GetModelName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string&amp; XPMP2::CSLModel::GetModelName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -1083,6 +1132,22 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Livery code this model represents: <code>xsb_aircraft.txt::LIVERY</code> </p>
+
+</div>
+</div>
+<a id="a75ae517e7dcb5ed2e3e0ee39c850855e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75ae517e7dcb5ed2e3e0ee39c850855e">&#9670;&nbsp;</a></span>modelName</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string XPMP2::CSLModel::modelName</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>name, formed by last part of path plus id </p>
 
 </div>
 </div>

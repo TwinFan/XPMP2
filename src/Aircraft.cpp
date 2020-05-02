@@ -177,8 +177,8 @@ int Aircraft::ChangeModel (const std::string& _icaoType,
             // remove the current instance (which is based on the previous model)
             LOG_MSG(logINFO, INFO_MODEL_CHANGE,
                     (long long unsigned)mPlane,
-                    pCSLMdl->GetId().c_str(),
-                    pMdl->GetId().c_str());
+                    pCSLMdl->GetModelName().c_str(),
+                    pMdl->GetModelName().c_str());
             DestroyInstances();
             // Decrease the reference counter of the CSL model
             pCSLMdl->DecRefCnt();
@@ -220,8 +220,8 @@ bool Aircraft::AssignModel (const std::string& _modelName)
     if (bChangeExisting) {
         LOG_MSG(logINFO, INFO_MODEL_CHANGE,
                 (long long unsigned)mPlane,
-                pCSLMdl->GetId().c_str(),
-                pMdl->GetId().c_str());
+                pCSLMdl->GetModelName().c_str(),
+                pMdl->GetModelName().c_str());
         DestroyInstances();                 // remove the current instance (which is based on the previous model)
         // Decrease the reference counter of the CSL model
         pCSLMdl->DecRefCnt();
@@ -247,9 +247,13 @@ bool Aircraft::AssignModel (const std::string& _modelName)
 
 
 // return the name of the CSL model in use
-std::string Aircraft::GetModelName () const
+const std::string& Aircraft::GetModelName () const
 {
-    return pCSLMdl ? pCSLMdl->GetId() : "";
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+    static std::string noMdlName("<null>");     // exit-time destuctor accepted
+#pragma clang diagnostic pop
+    return pCSLMdl ? pCSLMdl->GetModelName() : noMdlName;
 }
 
 
@@ -381,7 +385,7 @@ bool Aircraft::CreateInstances ()
         if (!hInst) {
             LOG_MSG(logERR, ERR_CREATE_INSTANCE,
                     (long long unsigned)mPlane,
-                    pCSLMdl->GetId().c_str());
+                    pCSLMdl->GetModelName().c_str());
             DestroyInstances();             // remove other instances we might have created already
             return false;
         }

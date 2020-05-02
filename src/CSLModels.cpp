@@ -49,7 +49,7 @@ namespace XPMP2 {
 
 #define ERR_MATCH_NO_MODELS     "MATCH ABORTED - There is not any single CSL model available!"
 #define DEBUG_MATCH_INPUT       "MATCH INPUT: Type=%s (WTC=%s,Class=%s,Related=%d), Airline=%s, Livery=%s"
-#define DEBUG_MATCH_FOUND       "MATCH FOUND: Type=%s (WTC=%s,Class=%s,Related=%d), Airline=%s, Livery=%s / Quality = %d"
+#define DEBUG_MATCH_FOUND       "MATCH FOUND: Type=%s (WTC=%s,Class=%s,Related=%d), Airline=%s, Livery=%s / Quality = %d -> %s"
 #define DEBUG_MATCH_NOTFOUND    "MATCH ERROR: Using a RANDOM model: %s %s %s - model %s"
 
 /// The ids of our garbage collection flight loop callback
@@ -293,6 +293,17 @@ void CSLModel::SetIcaoType (const std::string& _type)
     related = RelatedGet(_type);
 }
 
+// Puts together the model name string from a path component and the model's id
+void CSLModel::CompModelName ()
+{
+    // Find the last component of the path
+    size_t sep = xsbAircraftPath.find_last_of("\\/:");
+    modelName = sep == std::string::npos ? xsbAircraftPath : xsbAircraftPath.substr(sep+1);
+    // Add the id to it
+    modelName += ' ';
+    modelName += GetId();
+}
+
 // compiles the string used as key in the CSL model map
 std::string CSLModel::GetKeyString () const
 {
@@ -467,7 +478,7 @@ void CSLModelsAdd (CSLModel& _csl)
     // the main map, which actually "owns" the object, indexed by key
     auto p = glob.mapCSLModels.emplace(_csl.GetKeyString(), std::move(_csl));
     if (!p.second) {                    // not inserted, ie. not a new entry!
-        LOG_MSG(logWARN, WARN_DUP_MODEL, p.first->second.GetId().c_str(),
+        LOG_MSG(logWARN, WARN_DUP_MODEL, p.first->second.GetModelName().c_str(),
                 p.first->second.xsbAircraftLn,
                 p.first->second.xsbAircraftPath.c_str());
         return;
@@ -600,7 +611,10 @@ void AcTxtLine_OBJ8_AIRCRAFT (CSLModel& csl,
     csl.xsbAircraftLn   = lnNr;
     
     // Second parameter (actually we take all the rest of the line) is the name
-    if (ln.length() >= 15) { csl.cslId = ln.substr(14); trim(csl.cslId); }
+    if (ln.length() >= 15) {
+        csl.cslId = ln.substr(14); trim(csl.cslId);
+        csl.CompModelName();
+    }
     else LOG_MSG(logERR, ERR_TOO_FEW_PARAM, lnNr, "OBJ8_AIRCRAFT", 1);
 }
 
@@ -923,7 +937,7 @@ bool CSLFindMatch (const std::string& _type,
     // (zero = not part of any related-group)
     const int related = RelatedGet(_type);
     
-    LOG_MATCHING(logINFO, DEBUG_MATCH_INPUT,
+    LOG_MATCHING(logINFO, " " DEBUG_MATCH_INPUT,    // space is to align with output from line 1031...which is a 4-digit-line number while this here is still 3-digit
                  _type.c_str(),
                  doc8643.wtc, doc8643.classification, related,
                  _airline.c_str(),
@@ -1021,7 +1035,8 @@ bool CSLFindMatch (const std::string& _type,
                  pModel->GetRelatedGrp(),
                  pModel->GetIcaoAirline().c_str(),
                  pModel->GetLivery().c_str(),
-                 quality);
+                 quality,
+                 pModel->GetModelName().c_str());
 
     return true;
 }
@@ -1080,7 +1095,7 @@ int CSLModelMatching (const std::string& _type,
                  pModel->GetIcaoType().c_str(),
                  pModel->GetIcaoAirline().c_str(),
                  pModel->GetLivery().c_str(),
-                 pModel->GetId().c_str());
+                 pModel->GetModelName().c_str());
     return quality+1;
 }
 

@@ -94,6 +94,8 @@ class CSLModel
 public:
     /// id, just an arbitrary label read from `xsb_aircraft.txt::OBJ8_AIRCRAFT`
     std::string         cslId;
+    /// name, formed by last part of path plus id
+    std::string         modelName;
     /// ICAO Airline code this model represents: `xsb_aircraft.txt::AIRLINE`
     std::string         icaoAirline;
     /// Livery code this model represents: `xsb_aircraft.txt::LIVERY`
@@ -136,11 +138,14 @@ public:
     
     /// Set the a/c type model, which also fills `doc8643` and `related`
     void SetIcaoType (const std::string& _type);
+    // Puts together the model name string from a path component and the model's id
+    void CompModelName ();
     
     /// Minimum requirement for using this object is: id, type, path
     bool IsValid () const { return !cslId.empty() && !icaoType.empty() && !listObj.empty(); }
     
     const std::string& GetId () const           { return cslId; }       ///< id, just an arbitrary label read from `xsb_aircraft.txt::OBJ8_AIRCRAFT`
+    const std::string& GetModelName () const    { return modelName; }
     const std::string& GetIcaoType () const     { return icaoType; }    ///< ICAO aircraft type this model represents: `xsb_aircraft.txt::ICAO`
     const std::string& GetIcaoAirline () const  { return icaoAirline; } ///< ICAO Airline code this model represents: `xsb_aircraft.txt::AIRLINE`
     const std::string& GetLivery () const       { return livery; }      ///< Livery code this model represents: `xsb_aircraft.txt::LIVERY`

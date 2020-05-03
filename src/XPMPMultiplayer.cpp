@@ -255,10 +255,10 @@ int XPMPGetNumberOfInstalledModels()
     return (int)glob.mapCSLModels.size();
 }
 
-// return model info
+// return model info (unsafe)
 void XPMPGetModelInfo(int inIndex, const char **outModelName, const char **outIcao, const char **outAirline, const char **outLivery)
 {
-    // sanity check: index to high?
+    // sanity check: index too high?
     if (inIndex >= XPMPGetNumberOfInstalledModels()) {
         LOG_MSG(logDEBUG, "inIndex %d too high, have only %d models",
                 inIndex, (int)XPMPGetNumberOfInstalledModels());
@@ -280,11 +280,44 @@ void XPMPGetModelInfo(int inIndex, const char **outModelName, const char **outIc
 
     // Copy string pointers back. We just pass back pointers into our CSL Model object
     // as we can assume that the CSL Model object exists quite long.
-    if (outModelName)   *outModelName   = iterMdl->second.GetId().data();
-    if (outIcao)        *outIcao        = iterMdl->second.GetIcaoType().data();
-    if (outAirline)     *outAirline     = iterMdl->second.GetIcaoAirline().data();
-    if (outLivery)      *outLivery      = iterMdl->second.GetLivery().data();
+    const CSLModel& csl = iterMdl->second;
+    if (outModelName)   *outModelName   = csl.GetId().data();
+    if (outIcao)        *outIcao        = csl.GetIcaoType().data();
+    if (outAirline)     *outAirline     = csl.GetIcaoAirline().data();
+    if (outLivery)      *outLivery      = csl.GetLivery().data();
 }
+
+// return model info
+void XPMPGetModelInfo2(int inIndex, std::string& outModelName,  std::string& outIcao, std::string& outAirline, std::string& outLivery)
+{
+    // sanity check: index too high?
+    if (inIndex >= XPMPGetNumberOfInstalledModels()) {
+        LOG_MSG(logDEBUG, "inIndex %d too high, have only %d models",
+                inIndex, (int)XPMPGetNumberOfInstalledModels());
+        return;
+    }
+    
+    // get the inIndex-th model
+    mapCSLModelTy::const_iterator iterMdl = glob.mapCSLModels.cbegin();
+    std::advance(iterMdl, inIndex);
+#if IBM
+#pragma warning(push)
+    // I don't know why, but in this function, and only in this, MS warns about throwing an exception
+#pragma warning(disable: 4297)
+#endif
+    LOG_ASSERT(iterMdl != glob.mapCSLModels.cend());
+#if IBM
+#pragma warning(pop)
+#endif
+
+    // Copy strings into provided buffers
+    const CSLModel& csl = iterMdl->second;
+    outModelName = csl.GetId();
+    outIcao      = csl.GetIcaoType();
+    outAirline   = csl.GetIcaoAirline();
+    outLivery    = csl.GetLivery();
+}
+
 
 // test model match quality for given parameters
 int         XPMPModelMatchQuality(const char *              inICAO,

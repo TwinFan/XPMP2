@@ -49,10 +49,17 @@ $(function() {
 <dt>File <a class="el" href="XPCAircraft_8h.html">XPCAircraft.h</a>  </dt>
 <dd><a class="anchor" id="_deprecated000001"></a><a class="el" href="classXPCAircraft.html" title="Legacy wrapper class as provided by original libxplanemp.">XPCAircraft</a> bases on and is compile-compatible to the <a class="el" href="classXPCAircraft.html" title="Legacy wrapper class as provided by original libxplanemp.">XPCAircraft</a> wrapper class provided with the original libxplanemp. In <a class="el" href="namespaceXPMP2.html">XPMP2</a>, however, this class is not a wrapper but derived from <a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a>, which is the actual means of managing aircraft, Hence, it includes a lot more members.<br  />
  New implementations should derive directly from <a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a>.  </dd>
+<dt>Member <a class="el" href="XPMPMultiplayer_8cpp.html#a8ef9eb2875011b82f72cf126d042b336">XPMPCreatePlane</a>  (const char *inICAOCode, const char *inAirline, const char *inLivery, XPMPPlaneData_f inDataFunc, void *inRefcon)</dt>
+<dd><a class="anchor" id="_deprecated000004"></a>Subclass <a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a> instead  </dd>
+<dt>Member <a class="el" href="XPMPMultiplayer_8cpp.html#a3cb675bc45121ddaa691df43851a5961">XPMPCreatePlaneWithModelName</a>  (const char *inModelName, const char *inICAOCode, const char *inAirline, const char *inLivery, XPMPPlaneData_f inDataFunc, void *inRefcon)</dt>
+<dd><a class="anchor" id="_deprecated000005"></a>Subclass <a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a> instead  </dd>
 <dt>Member <a class="el" href="XPMPMultiplayer_8cpp.html#a9f594eb2243d2c5d11199fec21516611">XPMPDestroyPlane</a>  (XPMPPlaneID _id)</dt>
-<dd><a class="anchor" id="_deprecated000003"></a>Delete subclassed <a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a> object instead.  </dd>
+<dd><a class="anchor" id="_deprecated000006"></a>Delete subclassed <a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a> object instead.  </dd>
 <dt>Member <a class="el" href="XPMPMultiplayer_8cpp.html#a9f594eb2243d2c5d11199fec21516611">XPMPDestroyPlane</a>  (XPMPPlaneID _id)</dt>
-<dd><a class="anchor" id="_deprecated000003"></a>Delete subclassed <a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a> object instead. </dd>
+<dd><a class="anchor" id="_deprecated000006"></a>Delete subclassed <a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a> object instead.  </dd>
+<dt>Member <a class="el" href="XPMPMultiplayer_8cpp.html#ad9fd89ec96624db07d074b70c0d74c02">XPMPGetModelInfo</a>  (int inIndex, const char **outModelName, const char **outIcao, const char **outAirline, const char **outLivery)</dt>
+<dd><a class="anchor" id="_deprecated000003"></a>Instead, use <a class="el" href="XPMPMultiplayer_8h.html#abb5032b5e3073d5e87d6d2905844d1eb" title="Fetch information about a CSL model identified by an index.">XPMPGetModelInfo2()</a>.<br  />
+ This legacy function is defined with pointers to text arrays as return type. This is rather unsafe. <a class="el" href="namespaceXPMP2.html">XPMP2</a>'s internal maps and buffers may change if more models are loaded, hence pointers may become invalid. Don't rely on these pointers staying valid over an extended period of time. </dd>
 </dl>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

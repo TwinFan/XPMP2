@@ -466,18 +466,11 @@ const char* LogGetString (const char* szPath, int ln, const char* szFunc,
     // prepare timestamp
     if ( lvl < logMSG )                             // normal messages without, all other with location info
     {
-        // current Zulu time
-        struct tm zulu;
-        std::time_t t = std::time(nullptr);
-        char tZuluS[100];
-        gmtime_s(&zulu, &t);
-        std::strftime(tZuluS, sizeof(tZuluS), "%d-%b %T", &zulu);
-
         const char* szFile = strrchr(szPath, PATH_DELIM_STD);  // extract file from path
         if ( !szFile ) szFile = szPath; else szFile++;
-        snprintf(aszMsg, sizeof(aszMsg), "%u:%02u:%06.3f %s/XPMP2 %sZ %s %s:%d/%s: ",
+        snprintf(aszMsg, sizeof(aszMsg), "%u:%02u:%06.3f %s/XPMP2 %s %s:%d/%s: ",
                  runH, runM, runS,                  // Running time stamp
-                 glob.pluginName.c_str(), tZuluS, LOG_LEVEL[lvl],
+                 glob.pluginName.c_str(), LOG_LEVEL[lvl],
                  szFile, ln, szFunc);
     }
     else

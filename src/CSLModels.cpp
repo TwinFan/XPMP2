@@ -481,9 +481,9 @@ void CSLModelsAdd (CSLModel& _csl)
         LOG_MSG(logWARN, WARN_DUP_MODEL, p.first->second.GetModelName().c_str(),
                 p.first->second.xsbAircraftLn,
                 p.first->second.xsbAircraftPath.c_str());
-        return;
     }
-    // properly reset the passed-in reference
+
+    // in all cases properly reset the passed-in reference
     _csl = CSLModel();
 }
 

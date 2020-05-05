@@ -41,7 +41,7 @@
                 },
                 {
                     "name": "CMAKE_CXX_FLAGS_RELWITHDEBINFO",
-                    "value": "/MD /Zi /GL /O2 /DNDEBUG",
+                    "value": "/MD /Zi /O2 /DNDEBUG",
                     "type": "STRING"
                 }
             ]

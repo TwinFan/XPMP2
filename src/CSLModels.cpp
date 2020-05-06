@@ -477,7 +477,7 @@ void CSLModelsAdd (CSLModel& _csl)
 {
     // the main map, which actually "owns" the object, indexed by key
     auto p = glob.mapCSLModels.emplace(_csl.GetKeyString(), std::move(_csl));
-    if (!p.second && glob.bLogMdlMatch ) {                    // not inserted, ie. not a new entry!
+    if (!p.second) {                    // not inserted, ie. not a new entry!
         LOG_MSG(logWARN, WARN_DUP_MODEL, p.first->second.GetModelName().c_str(),
                 p.first->second.xsbAircraftLn,
                 p.first->second.xsbAircraftPath.c_str());

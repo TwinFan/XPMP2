@@ -294,14 +294,14 @@ void CSLModel::SetIcaoType (const std::string& _type)
 }
 
 // Puts together the model name string from a path component and the model's id
-void CSLModel::CompModelName ()
+void CSLModel::CompModelName (const std::string& shortId)
 {
     // Find the last component of the path
     size_t sep = xsbAircraftPath.find_last_of("\\/:");
     modelName = sep == std::string::npos ? xsbAircraftPath : xsbAircraftPath.substr(sep+1);
     // Add the id to it
     modelName += ' ';
-    modelName += GetId();
+    modelName += shortId;
 }
 
 // compiles the string used as key in the CSL model map
@@ -600,6 +600,7 @@ void AcTxtLine_DEPENDENCY (std::vector<std::string>& tokens,
 void AcTxtLine_OBJ8_AIRCRAFT (CSLModel& csl,
                               const std::string& ln,
                               const std::string& xsbAircraftPath,
+                              const std::string& exportName,
                               int lnNr)
 {
     // First of all, save the previously read aircraft
@@ -610,10 +611,12 @@ void AcTxtLine_OBJ8_AIRCRAFT (CSLModel& csl,
     csl.xsbAircraftPath = xsbAircraftPath;
     csl.xsbAircraftLn   = lnNr;
     
-    // Second parameter (actually we take all the rest of the line) is the name
+    // Second parameter (actually we take all the rest of the line) is the short id:
     if (ln.length() >= 15) {
-        csl.cslId = ln.substr(14); trim(csl.cslId);
-        csl.CompModelName();
+        std::string shortId = ln.substr(14);
+        trim(shortId);
+        csl.cslId = exportName + '/' + shortId;
+        csl.CompModelName(shortId);
     }
     else LOG_MSG(logERR, ERR_TOO_FEW_PARAM, lnNr, "OBJ8_AIRCRAFT", 1);
 }
@@ -698,6 +701,9 @@ const char* CSLModelsProcessAcFile (const std::string& path)
     // for a good but concise message about ignored elements we keep this list
     std::map<std::string, int> ignored;
     
+    // The package's name
+    std::string exportName = "?";
+    
     // Here we collect the next CSL model
     CSLModel csl;
     
@@ -726,7 +732,7 @@ const char* CSLModelsProcessAcFile (const std::string& path)
         
         // OBJ8_AIRCRAFT: Start a new aircraft specification
         if (tokens[0] == "OBJ8_AIRCRAFT")
-            AcTxtLine_OBJ8_AIRCRAFT(csl, ln, path, lnNr);
+            AcTxtLine_OBJ8_AIRCRAFT(csl, ln, path, exportName, lnNr);
         
         // OBJ8: Define the object file to load
         else if (tokens[0] == "OBJ8")
@@ -747,9 +753,11 @@ const char* CSLModelsProcessAcFile (const std::string& path)
         else if (tokens[0] == "DEPENDENCY")
             AcTxtLine_DEPENDENCY(tokens, lnNr);
         
-        // EXPORT_NAME: Already processed, just skip
-        else if (tokens[0] == "EXPORT_NAME")
-            ;
+        // EXPORT_NAME: Already processed, but needed for model id
+        else if (tokens[0] == "EXPORT_NAME") {
+            exportName = ln.substr(12);
+            trim(exportName);
+        }
 
         // OBJECT or AIRCRAFT aren't supported any longer, but as they are supposed start
         // another aircraft we need to make sure to save the one defined previously,

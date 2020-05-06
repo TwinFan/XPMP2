@@ -138,8 +138,8 @@ public:
     
     /// Set the a/c type model, which also fills `doc8643` and `related`
     void SetIcaoType (const std::string& _type);
-    // Puts together the model name string from a path component and the model's id
-    void CompModelName ();
+    /// Puts together the model name string from a path component and the provided `shortId`
+    void CompModelName (const std::string& shortId);
     
     /// Minimum requirement for using this object is: id, type, path
     bool IsValid () const { return !cslId.empty() && !icaoType.empty() && !listObj.empty(); }

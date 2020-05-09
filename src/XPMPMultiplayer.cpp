@@ -90,7 +90,7 @@ const char* XPMPValidateResourceFiles (const char* resourceDir)
     XPLMGetSystemPath(sysPath);
     std::string pathAcf = TOPOSIX(sysPath) + RSRC_AIRCRAFT;
     if (!glob.pluginName.empty() && glob.pluginName != UNKNOWN_PLUGIN_NAME) {
-        pathAcf += glob.pluginName;
+        pathAcf += trim(glob.pluginName);
         pathAcf += PATH_DELIM_STD;
     }
 
@@ -132,7 +132,8 @@ const char *    XPMPMultiplayerInitLegacyData(const char* inCSLFolder,
                                               const char* inPluginName,
                                               const char* resourceDir,
                                               XPMPIntPrefsFuncTy inIntPrefsFunc,
-                                              const char* inDefaultICAO)
+                                              const char* inDefaultICAO,
+                                              const char* inPluginLogAcronym)
 {
     // We just pass on the calls to the individual functions:
     
@@ -140,7 +141,8 @@ const char *    XPMPMultiplayerInitLegacyData(const char* inCSLFolder,
     const char* ret = XPMPMultiplayerInit (inPluginName,
                                            resourceDir,
                                            inIntPrefsFunc,
-                                           inDefaultICAO);
+                                           inDefaultICAO,
+                                           inPluginLogAcronym);
     if (ret[0])                                     // failed?
         return ret;
     
@@ -153,7 +155,8 @@ const char *    XPMPMultiplayerInitLegacyData(const char* inCSLFolder,
 const char *    XPMPMultiplayerInit(const char* inPluginName,
                                     const char* resourceDir,
                                     XPMPIntPrefsFuncTy inIntPrefsFunc,
-                                    const char* inDefaultICAO)
+                                    const char* inDefaultICAO,
+                                    const char* inPluginLogAcronym)
 {
     // Initialize random number generator
     std::srand(unsigned(std::time(nullptr)));
@@ -162,11 +165,13 @@ const char *    XPMPMultiplayerInit(const char* inPluginName,
     glob.prefsFuncInt   = inIntPrefsFunc    ? inIntPrefsFunc    : PrefsFuncIntDefault;
     
     // Get the plugin's name and store it for later reference
-    XPMPSetPluginName(inPluginName);
+    XPMPSetPluginName(inPluginName, inPluginLogAcronym);
     if (glob.pluginName == UNKNOWN_PLUGIN_NAME) {
         char szPluginName[256];
         XPLMGetPluginInfo(XPLMGetMyID(), szPluginName, nullptr, nullptr, nullptr);
         glob.pluginName = szPluginName;
+        if (!inPluginLogAcronym)
+            glob.logAcronym = glob.pluginName;
     }
 
     // Get X-Plane's version numbers
@@ -204,10 +209,12 @@ const char *    XPMPMultiplayerInit(const char* inPluginName,
 }
 
 // Overrides the plugin's name to be used in Log output
-void XPMPSetPluginName (const char* inPluginName)
+void XPMPSetPluginName (const char* inPluginName,
+                        const char* inPluginLogAcronym)
 {
     if (inPluginName)
         glob.pluginName = inPluginName;
+    glob.logAcronym = inPluginLogAcronym ? inPluginLogAcronym : glob.pluginName;
 }
 
 // Undoes above init functions

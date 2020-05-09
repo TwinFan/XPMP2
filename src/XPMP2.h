@@ -107,8 +107,10 @@ public:
     bool            bLogMdlMatch= false;
     /// Clamp all planes to the ground? Default is `false` as clamping is kinda expensive due to Y-Testing.
     bool            bClampAll   = false;
-    /// Name of the plugin we are serving (mostly for Log.txt output formatting)
+    /// Name of the plugin we are serving (used as map layer name or for folders)
     std::string     pluginName  = UNKNOWN_PLUGIN_NAME;
+    /// Plugin acronym used in log output
+    std::string     logAcronym  = UNKNOWN_PLUGIN_NAME;
 
     /// Configuration callback for integer values
     int (*prefsFuncInt)(const char *, const char *, int) = XPMP2::PrefsFuncIntDefault;

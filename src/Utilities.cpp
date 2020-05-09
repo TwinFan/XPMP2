@@ -470,13 +470,13 @@ const char* LogGetString (const char* szPath, int ln, const char* szFunc,
         if ( !szFile ) szFile = szPath; else szFile++;
         snprintf(aszMsg, sizeof(aszMsg), "%u:%02u:%06.3f %s/XPMP2 %s %s:%d/%s: ",
                  runH, runM, runS,                  // Running time stamp
-                 glob.pluginName.c_str(), LOG_LEVEL[lvl],
+                 glob.logAcronym.c_str(), LOG_LEVEL[lvl],
                  szFile, ln, szFunc);
     }
     else
         snprintf(aszMsg, sizeof(aszMsg), "%u:%02u:%06.3f %s/XPMP2: ",
                  runH, runM, runS,                  // Running time stamp
-                 glob.pluginName.c_str());
+                 glob.logAcronym.c_str());
     
     // append given message
     if (args) {

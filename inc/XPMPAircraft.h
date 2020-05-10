@@ -89,8 +89,11 @@ enum DR_VALS {
 class Aircraft {
     
 protected:
-    /// Legacy: The id of the represented plane (in XPMP2, this now is an arbitrary, ever increasing number)
-    XPMPPlaneID         mPlane = 0;
+    /// @brief A plane is uniquely identified by a 24bit number [0x01..0xFFFFFF]
+    /// @details This number is directly used as `modeS_id` n the new
+    ///          [TCAS override](https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/)
+    ///          approach.
+    XPMPPlaneID modeS_id = 0;
     
 public:
     std::string acIcaoType;             ///< ICAO aircraft type of this plane
@@ -164,16 +167,23 @@ protected:
     float               mapY = 0.0f;        ///< temporary: map coordinates (NAN = not to be drawn)
     
 public:
-    /// Constructor
+    /// Constructor creates a new aircraft object, which will be managed and displayed
+    /// @exception XPMP2::XPMP2Error Mode S id invalid or duplicate, no model found during model matching
+    /// @param _icaoType ICAO aircraft type designator, like 'A320', 'B738', 'C172'
+    /// @param _icaoAirline ICAO airline code, like 'BAW', 'DLH', can be an empty string
+    /// @param _livery Special livery designator, can be an empty string
+    /// @param _modeS_id (optional) Unique identification of the plane [0x01..0xFFFFFF], e.g. the 24bit mode S transponder code. XPMP2 assigns an arbitrary unique number of not given
+    /// @param _modelId (optional) specific model id to be used (no folder/package name, just the id as defined in the `OBJ8_AIRCRAFT` line)
     Aircraft (const std::string& _icaoType,
               const std::string& _icaoAirline,
               const std::string& _livery,
-              const std::string& _modelName = "");
+              XPMPPlaneID _modeS_id = 0,
+              const std::string& _modelId = "");
     /// Destructor cleans up all resources acquired
     virtual ~Aircraft();
 
     /// return the XPMP2 plane id
-    XPMPPlaneID GetPlaneID () const { return mPlane; }
+    XPMPPlaneID GetModeS_ID () const { return modeS_id; }
     /// @brief return the current TCAS target index (into sim/cockpit2/tcas/targets), 1-based, -1 if not used
     int         GetTcasTargetIdx () const { return tcasTargetIdx; }
     /// Is this plane currently also being tracked by X-Plane's AI/multiplayer, ie. will appear on TCAS?
@@ -264,7 +274,7 @@ Aircraft* AcFindByID (XPMPPlaneID _id);
 // MARK: XPMP2 Exception class
 //
 
-/// XPMP2 Exception class, e.g. thrown if there are no CSL models when creating an Aircraft
+/// XPMP2 Exception class, e.g. thrown if there are no CSL models or duplicate modeS_ids when creating an Aircraft
 class XPMP2Error : public std::logic_error {
 protected:
     std::string fileName;           ///< filename of the line of code where exception occurred

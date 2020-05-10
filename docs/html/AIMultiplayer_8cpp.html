@@ -55,15 +55,23 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Implementation of serving multiplayer dataRef updates.  
+<p>Implementation of serving TCAS target dataRef updates.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="XPMP2_8h_source.html">XPMP2.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1multiDataRefsTy.html">XPMP2::multiDataRefsTy</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Keeps the dataRef handles for one of the up to 19 AI/Multiplayer slots.  <a href="structXPMP2_1_1multiDataRefsTy.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Keeps the dataRef handles for one of the up to 19 legacy AI/Multiplayer slots ("sim/multiplayer/position")  <a href="structXPMP2_1_1multiDataRefsTy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:structXPMP2_1_1infoDataRefsTy"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#structXPMP2_1_1infoDataRefsTy">XPMP2::infoDataRefsTy</a></td></tr>
+<tr class="memdesc:structXPMP2_1_1infoDataRefsTy"><td class="mdescLeft">&#160;</td><td class="mdescRight">Keeps the dataRef handles for one of the up to 63 shared data slots ("sim/multiplayer/position/plane#...")  <a href="namespaceXPMP2.html#structXPMP2_1_1infoDataRefsTy">More...</a><br /></td></tr>
+<tr class="separator:structXPMP2_1_1infoDataRefsTy"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:unionXPMP2_1_1TcasLightsTy"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#unionXPMP2_1_1TcasLightsTy">XPMP2::TcasLightsTy</a></td></tr>
+<tr class="memdesc:unionXPMP2_1_1TcasLightsTy"><td class="mdescLeft">&#160;</td><td class="mdescRight">A structure simplifying communicaton with sim/cockpit2/tcas/targets/position/lights.  <a href="namespaceXPMP2.html#unionXPMP2_1_1TcasLightsTy">More...</a><br /></td></tr>
+<tr class="separator:unionXPMP2_1_1TcasLightsTy"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:structXPMP2_1_1TcasLightsTy_1_1BitsTy"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#structXPMP2_1_1TcasLightsTy_1_1BitsTy">XPMP2::TcasLightsTy::BitsTy</a></td></tr>
+<tr class="separator:structXPMP2_1_1TcasLightsTy_1_1BitsTy"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -72,16 +80,18 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a392e09dda781337f2c04ec851218e819"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AIMultiplayer_8cpp.html#a392e09dda781337f2c04ec851218e819">INFO_AI_CONTROL</a>&#160;&#160;&#160;&quot;Have control now over %d AI/Multiplayer planes&quot;</td></tr>
+<tr class="memitem:a392e09dda781337f2c04ec851218e819"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AIMultiplayer_8cpp.html#a392e09dda781337f2c04ec851218e819">INFO_AI_CONTROL</a>&#160;&#160;&#160;&quot;Have control now over AI/Multiplayer planes&quot;</td></tr>
 <tr class="separator:a392e09dda781337f2c04ec851218e819"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade8d16fb7c3997e088880f2223cc0735"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AIMultiplayer_8cpp.html#ade8d16fb7c3997e088880f2223cc0735">INFO_AI_CONTROL_ENDS</a>&#160;&#160;&#160;&quot;Released control of AI/Multiplayer planes&quot;</td></tr>
 <tr class="separator:ade8d16fb7c3997e088880f2223cc0735"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14af08d6def16d06a38a5bff9dc5d8d3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AIMultiplayer_8cpp.html#a14af08d6def16d06a38a5bff9dc5d8d3">WARN_NO_AI_CONTROL</a>&#160;&#160;&#160;&quot;Could NOT acquire AI/Multiplayer plane control! Some other multiplayer plugin controls them. Therefore, our planes will NOT appear on TCAS or maps.&quot;</td></tr>
+<tr class="memitem:a14af08d6def16d06a38a5bff9dc5d8d3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AIMultiplayer_8cpp.html#a14af08d6def16d06a38a5bff9dc5d8d3">WARN_NO_AI_CONTROL</a>&#160;&#160;&#160;&quot;Could NOT acquire AI/Multiplayer plane control! %s controls them. Therefore, our planes will NOT appear on TCAS or maps.&quot;</td></tr>
 <tr class="separator:a14af08d6def16d06a38a5bff9dc5d8d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acdbda2fc6187212f7a66cedf86d4e361"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AIMultiplayer_8cpp.html#acdbda2fc6187212f7a66cedf86d4e361">DEBUG_AI_SLOT_ASSIGN</a>&#160;&#160;&#160;&quot;Aircraft %llu: ASSIGNING AI Slot %d (%s, %s, %s)&quot;</td></tr>
 <tr class="separator:acdbda2fc6187212f7a66cedf86d4e361"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a153ea8d6048d0e7ade7d64cde86e8b1b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AIMultiplayer_8cpp.html#a153ea8d6048d0e7ade7d64cde86e8b1b">DEBUG_AI_SLOT_RELEASE</a>&#160;&#160;&#160;&quot;Aircraft %llu: RELEASING AI Slot %d (%s, %s, %s)&quot;</td></tr>
 <tr class="separator:a153ea8d6048d0e7ade7d64cde86e8b1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad46d3c941557fa20fd1113f7247f5a97"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AIMultiplayer_8cpp.html#ad46d3c941557fa20fd1113f7247f5a97">SET_DR</a>(ty,  dr)&#160;&#160;&#160;XPLMSetDatav##ty(drTcas##dr, v##dr.data(), 0, (int)v##dr.size())</td></tr>
+<tr class="separator:ad46d3c941557fa20fd1113f7247f5a97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0a0ee111d8f8201b9a508b0cde8aa1c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AIMultiplayer_8cpp.html#ad0a0ee111d8f8201b9a508b0cde8aa1c">FIND_PLANE_DR</a>(membVar,  dataRefTxt,  PlaneNr)</td></tr>
 <tr class="separator:ad0a0ee111d8f8201b9a508b0cde8aa1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a30b831833af3d6dbe08776f2dcda8556"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AIMultiplayer_8cpp.html#a30b831833af3d6dbe08776f2dcda8556">SHARE_PLANE_DR</a>(membVar,  dataRefTxt,  PlaneNr)</td></tr>
@@ -91,24 +101,24 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:acf1f5423d97cac5ebbe8920f8c874368"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; float, <a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> &amp; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#acf1f5423d97cac5ebbe8920f8c874368">XPMP2::mapAcByDistTy</a></td></tr>
-<tr class="memdesc:acf1f5423d97cac5ebbe8920f8c874368"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map of Aircrafts, sorted by (priority-biased) distance.  <a href="namespaceXPMP2.html#acf1f5423d97cac5ebbe8920f8c874368">More...</a><br /></td></tr>
-<tr class="separator:acf1f5423d97cac5ebbe8920f8c874368"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab82edbc0e4277fd25fe71575b3e5133f"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; float, <a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ab82edbc0e4277fd25fe71575b3e5133f">XPMP2::mapAcByDistTy</a></td></tr>
+<tr class="memdesc:ab82edbc0e4277fd25fe71575b3e5133f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map of Aircrafts, sorted by (priority-biased) distance.  <a href="namespaceXPMP2.html#ab82edbc0e4277fd25fe71575b3e5133f">More...</a><br /></td></tr>
+<tr class="separator:ab82edbc0e4277fd25fe71575b3e5133f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:afc9ec85ed44be8a8d65475065d253bf2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#afc9ec85ed44be8a8d65475065d253bf2">XPMP2::AIMultiClearDataRefs</a> (<a class="el" href="structXPMP2_1_1multiDataRefsTy.html">multiDataRefsTy</a> &amp;mdr, bool bDeactivateToZero)</td></tr>
-<tr class="memdesc:afc9ec85ed44be8a8d65475065d253bf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets all actual values of the AI/multiplayer dataRefs of one plane to something initial.  <a href="namespaceXPMP2.html#afc9ec85ed44be8a8d65475065d253bf2">More...</a><br /></td></tr>
-<tr class="separator:afc9ec85ed44be8a8d65475065d253bf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa60932aee1eb9c3bc5af435415208d97"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aa60932aee1eb9c3bc5af435415208d97">XPMP2::AIMultiInitPlanes</a> (int total)</td></tr>
-<tr class="memdesc:aa60932aee1eb9c3bc5af435415208d97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes all AI planes for our usage (also additionally defined AI planes during runtime)  <a href="namespaceXPMP2.html#aa60932aee1eb9c3bc5af435415208d97">More...</a><br /></td></tr>
-<tr class="separator:aa60932aee1eb9c3bc5af435415208d97"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8fd7b1dbfa132f2b57833f47d640b63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aa8fd7b1dbfa132f2b57833f47d640b63">XPMP2::AIMultiRestorePlanes</a> ()</td></tr>
-<tr class="memdesc:aa8fd7b1dbfa132f2b57833f47d640b63"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restores original AI plane models, typically shortly before releasing AI control.  <a href="namespaceXPMP2.html#aa8fd7b1dbfa132f2b57833f47d640b63">More...</a><br /></td></tr>
-<tr class="separator:aa8fd7b1dbfa132f2b57833f47d640b63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad407ddde78a86b9d2f30a8f7b3e8ac65"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ad407ddde78a86b9d2f30a8f7b3e8ac65">XPMP2::AIMultiClearAIDataRefs</a> (<a class="el" href="structXPMP2_1_1multiDataRefsTy.html">multiDataRefsTy</a> &amp;drM, bool bDeactivateToZero)</td></tr>
+<tr class="memdesc:ad407ddde78a86b9d2f30a8f7b3e8ac65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets all actual values of the AI/multiplayer dataRefs of one plane to something initial.  <a href="namespaceXPMP2.html#ad407ddde78a86b9d2f30a8f7b3e8ac65">More...</a><br /></td></tr>
+<tr class="separator:ad407ddde78a86b9d2f30a8f7b3e8ac65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad8fe4905f75714b66df9a5f4de2f1f54"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ad8fe4905f75714b66df9a5f4de2f1f54">XPMP2::AIMultiUpdate</a> ()</td></tr>
-<tr class="memdesc:ad8fe4905f75714b66df9a5f4de2f1f54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates all multiplayer dataRefs, both standard X-Plane, as well as additional shared dataRefs for text publishing.  <a href="namespaceXPMP2.html#ad8fe4905f75714b66df9a5f4de2f1f54">More...</a><br /></td></tr>
+<tr class="memdesc:ad8fe4905f75714b66df9a5f4de2f1f54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates all TCAS target dataRefs, both standard X-Plane, as well as additional shared dataRefs for text publishing.  <a href="namespaceXPMP2.html#ad8fe4905f75714b66df9a5f4de2f1f54">More...</a><br /></td></tr>
 <tr class="separator:ad8fe4905f75714b66df9a5f4de2f1f54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba65c4b4d175a77fbbd7ca541a5d6dc8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aba65c4b4d175a77fbbd7ca541a5d6dc8">XPMP2::AIMultiClearInfoDataRefs</a> (<a class="el" href="namespaceXPMP2.html#structXPMP2_1_1infoDataRefsTy">infoDataRefsTy</a> &amp;drI)</td></tr>
+<tr class="memdesc:aba65c4b4d175a77fbbd7ca541a5d6dc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears the shared info dataRefs.  <a href="namespaceXPMP2.html#aba65c4b4d175a77fbbd7ca541a5d6dc8">More...</a><br /></td></tr>
+<tr class="separator:aba65c4b4d175a77fbbd7ca541a5d6dc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2e7ded72d05c3b276b94b063c87db38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ab2e7ded72d05c3b276b94b063c87db38">XPMP2::AIMultiClearTcasDataRefs</a> ()</td></tr>
+<tr class="memdesc:ab2e7ded72d05c3b276b94b063c87db38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears the key (mode_s) of the TCAS target dataRefs.  <a href="namespaceXPMP2.html#ab2e7ded72d05c3b276b94b063c87db38">More...</a><br /></td></tr>
+<tr class="separator:ab2e7ded72d05c3b276b94b063c87db38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a789da9977713bb6e4d78b4d0ac957d13"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a789da9977713bb6e4d78b4d0ac957d13">XPMP2::AIMultiInitAllDataRefs</a> (bool bDeactivateToZero)</td></tr>
 <tr class="memdesc:a789da9977713bb6e4d78b4d0ac957d13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset all (controlled) multiplayer dataRef values of all planes.  <a href="namespaceXPMP2.html#a789da9977713bb6e4d78b4d0ac957d13">More...</a><br /></td></tr>
 <tr class="separator:a789da9977713bb6e4d78b4d0ac957d13"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -133,7 +143,7 @@ Variables</h2></td></tr>
 <tr class="memitem:a04e1b9e39a6403f8d0ed3d3be96d7832"><td class="memItemLeft" align="right" valign="top">constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a04e1b9e39a6403f8d0ed3d3be96d7832">XPMP2::FAR_AWAY_VAL_GL</a> = 9999999.9f</td></tr>
 <tr class="memdesc:a04e1b9e39a6403f8d0ed3d3be96d7832"><td class="mdescLeft">&#160;</td><td class="mdescRight">Don't dare using NAN...but with this coordinate for x/y/z a plane should be far out and virtually invisible.  <a href="namespaceXPMP2.html#a04e1b9e39a6403f8d0ed3d3be96d7832">More...</a><br /></td></tr>
 <tr class="separator:a04e1b9e39a6403f8d0ed3d3be96d7832"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae45a1c14a9d8a5feebeb467232ce5e81"><td class="memItemLeft" align="right" valign="top">constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ae45a1c14a9d8a5feebeb467232ce5e81">XPMP2::AISLOT_CHANGE_PERIOD</a> = 30.0f</td></tr>
+<tr class="memitem:ae45a1c14a9d8a5feebeb467232ce5e81"><td class="memItemLeft" align="right" valign="top">constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ae45a1c14a9d8a5feebeb467232ce5e81">XPMP2::AISLOT_CHANGE_PERIOD</a> = 10.0f</td></tr>
 <tr class="memdesc:ae45a1c14a9d8a5feebeb467232ce5e81"><td class="mdescLeft">&#160;</td><td class="mdescRight">How often do we reassign AI slots? [seconds].  <a href="namespaceXPMP2.html#ae45a1c14a9d8a5feebeb467232ce5e81">More...</a><br /></td></tr>
 <tr class="separator:ae45a1c14a9d8a5feebeb467232ce5e81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad479c69628307cd94d1ed21f1f816e81"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ad479c69628307cd94d1ed21f1f816e81">XPMP2::AI_PRIO_MULTIPLIER</a> = 10 * M_per_NM</td></tr>
@@ -142,18 +152,171 @@ Variables</h2></td></tr>
 <tr class="memitem:a43269a23048cc09968d3abe73ef6a497"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a43269a23048cc09968d3abe73ef6a497">XPMP2::F_NULL</a> [10] = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}</td></tr>
 <tr class="memdesc:a43269a23048cc09968d3abe73ef6a497"><td class="mdescLeft">&#160;</td><td class="mdescRight">A constant array of zero values supporting quick array initialization.  <a href="namespaceXPMP2.html#a43269a23048cc09968d3abe73ef6a497">More...</a><br /></td></tr>
 <tr class="separator:a43269a23048cc09968d3abe73ef6a497"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a202b5df7f0c8aea0f1a16ee6f868b629"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceXPMP2.html#ab82edbc0e4277fd25fe71575b3e5133f">mapAcByDistTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a202b5df7f0c8aea0f1a16ee6f868b629">XPMP2::gMapAcByDist</a></td></tr>
+<tr class="memdesc:a202b5df7f0c8aea0f1a16ee6f868b629"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map of Aircrafts, sorted by (priority-biased) distance.  <a href="namespaceXPMP2.html#a202b5df7f0c8aea0f1a16ee6f868b629">More...</a><br /></td></tr>
+<tr class="separator:a202b5df7f0c8aea0f1a16ee6f868b629"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Implementation of serving multiplayer dataRef updates. </p>
-<p>Updates the up to 19 slots of X-Plane's defined AI aircraft, which in turn many other plugins (like TCAS implementations or map tools) read to learn about any multiplayer aircraft.<br  />
- Also serves shared dataRefs for publishing text information, which is not X-Plane standard but originally suggested by FSTramp. However, the post and file, in which he suggested this addition, is no longer available on forums.x-plane.org. Still, <a class="el" href="namespaceXPMP2.html">XPMP2</a> fullfills the earlier definition. </p><dl class="section warning"><dt>Warning</dt><dd>The "TCAS hack" depends on the drawing callback functionality of X-Plane via <a href="https://developer.x-plane.com/sdk/XPLMDisplay/#XPLMRegisterDrawCallback">XPLMRegisterDrawCallback</a>. which is "likely [to] be removed during the X-Plane 11 run as part of the transition to Vulkan/Metal/etc." Ping-ponging the number of AI planes between 1 (so X-Plane won't draw AI planes at our positions) and the actual number would need to move elsewhere then. See AIControlPlaneCount(). </dd></dl>
+<div class="textblock"><p>Implementation of serving TCAS target dataRef updates. </p>
+<p>Updates the up to 63 slots of X-Plane's defined TCAS targets, which are in turn synced with the 19 "legacy" multiplayer slots, which in turn many other plugins (like TCAS implementations or map tools) read to learn about any multiplayer aircraft.<br  />
+ Also serves shared dataRefs for publishing text information, which is not X-Plane standard but originally suggested by FSTramp. However, the post and file, in which he suggested this addition, is no longer available on forums.x-plane.org. Still, <a class="el" href="namespaceXPMP2.html">XPMP2</a> fullfills the earlier definition. </p><dl class="section see"><dt>See also</dt><dd>X-Plane 11.50 Beta 8 introduced a new way of informing X-Plane of TCAS targets, see here a blog entry for details: <a href="https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/">https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/</a> </dd></dl>
 <dl class="section author"><dt>Author</dt><dd>Birger Hoppe </dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>(c) 2020 Birger Hoppe </dd>
 <dd>
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br  />
  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.<br  />
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </dd></dl>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
+</div><hr/><h2 class="groupheader">Class Documentation</h2>
+<a name="structXPMP2_1_1infoDataRefsTy" id="structXPMP2_1_1infoDataRefsTy"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structXPMP2_1_1infoDataRefsTy">&#9670;&nbsp;</a></span>XPMP2::infoDataRefsTy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct XPMP2::infoDataRefsTy</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><p>Keeps the dataRef handles for one of the up to 63 shared data slots ("sim/multiplayer/position/plane#...") </p>
+</div><table class="fieldtable">
+<tr><th colspan="3">Class Members</th></tr>
+<tr><td class="fieldtype">
+<a id="a347c47955772899df740b34ff0032d91"></a>XPLMDataRef</td>
+<td class="fieldname">
+infoAirline</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="a2fe15c465d5e2b159517c5825f138d07"></a>XPLMDataRef</td>
+<td class="fieldname">
+infoAptFrom</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="abe3cc011594f3132ac25d9c576bed82f"></a>XPLMDataRef</td>
+<td class="fieldname">
+infoAptTo</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="af0ae56431127fed6b5032707e5f03ba7"></a>XPLMDataRef</td>
+<td class="fieldname">
+infoFlightNum</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="a486b99b15b77f8a3560c7b237b7975c1"></a>XPLMDataRef</td>
+<td class="fieldname">
+infoIcaoAcType</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="a46f90a30e99d43ccd267e84c3d6d6f8a"></a>XPLMDataRef</td>
+<td class="fieldname">
+infoIcaoAirline</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="a72dd08745641a5df37cf0c57faf77463"></a>XPLMDataRef</td>
+<td class="fieldname">
+infoManufacturer</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="a7aa48a39a8641d5e43a206ce342f49b4"></a>XPLMDataRef</td>
+<td class="fieldname">
+infoModel</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="ada53e87e3c5e5100194d1421fbc34ec0"></a>XPLMDataRef</td>
+<td class="fieldname">
+infoTailNum</td>
+<td class="fielddoc">
+</td></tr>
+</table>
+
+</div>
+</div>
+<a name="unionXPMP2_1_1TcasLightsTy" id="unionXPMP2_1_1TcasLightsTy"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#unionXPMP2_1_1TcasLightsTy">&#9670;&nbsp;</a></span>XPMP2::TcasLightsTy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">union XPMP2::TcasLightsTy</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><p>A structure simplifying communicaton with sim/cockpit2/tcas/targets/position/lights. </p>
+</div><table class="fieldtable">
+<tr><th colspan="3">Class Members</th></tr>
+<tr><td class="fieldtype">
+<a id="a4d6ab0d321f35ea54c035124758f152e"></a>struct <a class="el" href="namespaceXPMP2.html#structXPMP2_1_1TcasLightsTy_1_1BitsTy">BitsTy</a></td>
+<td class="fieldname">
+b</td>
+<td class="fielddoc">
+</td></tr>
+<tr><td class="fieldtype">
+<a id="a986eacc3e5dab2675bf180148078aec6"></a>int</td>
+<td class="fieldname">
+i</td>
+<td class="fielddoc">
+the full integer value </td></tr>
+</table>
+
+</div>
+</div>
+<a name="structXPMP2_1_1TcasLightsTy_1_1BitsTy" id="structXPMP2_1_1TcasLightsTy_1_1BitsTy"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structXPMP2_1_1TcasLightsTy_1_1BitsTy">&#9670;&nbsp;</a></span>XPMP2::TcasLightsTy::BitsTy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct XPMP2::TcasLightsTy::BitsTy</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"></div><table class="fieldtable">
+<tr><th colspan="3">Class Members</th></tr>
+<tr><td class="fieldtype">
+<a id="aa66cf1afc704165f7eeaa3604c39c48f"></a>bool</td>
+<td class="fieldname">
+beacon: 1</td>
+<td class="fielddoc">
+Beacon lights. </td></tr>
+<tr><td class="fieldtype">
+<a id="abf1726d89fed0d2faa9f64b1e9417b5d"></a>bool</td>
+<td class="fieldname">
+land: 1</td>
+<td class="fielddoc">
+Landing lights. </td></tr>
+<tr><td class="fieldtype">
+<a id="afaf1e8e0883a9d3926dad96b81969d43"></a>bool</td>
+<td class="fieldname">
+nav: 1</td>
+<td class="fielddoc">
+Navigation lights. </td></tr>
+<tr><td class="fieldtype">
+<a id="a2a4fb2130c42b5fabc576ab921063eb3"></a>bool</td>
+<td class="fieldname">
+strobe: 1</td>
+<td class="fielddoc">
+Strobe lights. </td></tr>
+<tr><td class="fieldtype">
+<a id="aa346b4c5a5e13db6afea89d08dd2cef1"></a>bool</td>
+<td class="fieldname">
+taxi: 1</td>
+<td class="fielddoc">
+Taxi lights. </td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="acdbda2fc6187212f7a66cedf86d4e361"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acdbda2fc6187212f7a66cedf86d4e361">&#9670;&nbsp;</a></span>DEBUG_AI_SLOT_ASSIGN</h2>
 
@@ -213,8 +376,8 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">snprintf(buf,<span class="keyword">sizeof</span>(buf),<span class="stringliteral">&quot;sim/multiplayer/position/plane%d_&quot;</span> dataRefTxt,PlaneNr);    \</div>
-<div class="line">    d.membVar = XPLMFindDataRef(buf);</div>
+<b>Value:</b><div class="fragment"><div class="line">snprintf(buf,<span class="keyword">sizeof</span>(buf),<span class="stringliteral">&quot;sim/multiplayer/position/plane%u_&quot;</span> dataRefTxt,PlaneNr);    \</div>
+<div class="line">    drM.membVar = XPLMFindDataRef(buf);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -225,7 +388,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define INFO_AI_CONTROL&#160;&#160;&#160;&quot;Have control now over %d AI/Multiplayer planes&quot;</td>
+          <td class="memname">#define INFO_AI_CONTROL&#160;&#160;&#160;&quot;Have control now over AI/Multiplayer planes&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -240,6 +403,34 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
       <table class="memname">
         <tr>
           <td class="memname">#define INFO_AI_CONTROL_ENDS&#160;&#160;&#160;&quot;Released control of AI/Multiplayer planes&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad46d3c941557fa20fd1113f7247f5a97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad46d3c941557fa20fd1113f7247f5a97">&#9670;&nbsp;</a></span>SET_DR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SET_DR</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ty, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">dr&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;XPLMSetDatav##ty(drTcas##dr, v##dr.data(), 0, (int)v##dr.size())</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -277,10 +468,10 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">snprintf(buf,<span class="keyword">sizeof</span>(buf),<span class="stringliteral">&quot;sim/multiplayer/position/plane%d_&quot;</span> dataRefTxt,PlaneNr);    \</div>
+<b>Value:</b><div class="fragment"><div class="line">snprintf(buf,<span class="keyword">sizeof</span>(buf),<span class="stringliteral">&quot;sim/multiplayer/position/plane%u_&quot;</span> dataRefTxt,PlaneNr);    \</div>
 <div class="line">    if (XPLMShareData(buf, xplmType_Data, NULL, NULL))                      \</div>
-<div class="line">        d.membVar = XPLMFindDataRef(buf);                                   \</div>
-<div class="line">    else d.membVar = NULL;</div>
+<div class="line">        drI.membVar = XPLMFindDataRef(buf);                                   \</div>
+<div class="line">    else drI.membVar = NULL;</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -315,9 +506,9 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">snprintf(buf,<span class="keyword">sizeof</span>(buf),<span class="stringliteral">&quot;sim/multiplayer/position/plane%d_&quot;</span> dataRefTxt,PlaneNr);       \</div>
+<b>Value:</b><div class="fragment"><div class="line">snprintf(buf,<span class="keyword">sizeof</span>(buf),<span class="stringliteral">&quot;sim/multiplayer/position/plane%u_&quot;</span> dataRefTxt,PlaneNr);       \</div>
 <div class="line">    XPLMUnshareData(buf, xplmType_Data, NULL, NULL);                           \</div>
-<div class="line">    d.membVar = NULL;</div>
+<div class="line">    drI.membVar = NULL;</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -328,7 +519,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define WARN_NO_AI_CONTROL&#160;&#160;&#160;&quot;Could NOT acquire AI/Multiplayer plane control! Some other multiplayer plugin controls them. Therefore, our planes will NOT appear on TCAS or maps.&quot;</td>
+          <td class="memname">#define WARN_NO_AI_CONTROL&#160;&#160;&#160;&quot;Could NOT acquire AI/Multiplayer plane control! %s controls them. Therefore, our planes will NOT appear on TCAS or maps.&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">

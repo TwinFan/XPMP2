@@ -166,7 +166,7 @@ void AIMultiUpdate ()
             if (ac.ShowAsAIPlane())
                 // Priority distance means that we add artificial distance for higher-numbered AI priorities
                 gMapAcByDist.emplace(ac.GetCameraDist() + ac.aiPrio * AI_PRIO_MULTIPLIER,
-                                     ac.GetPlaneID());
+                                     ac.GetModeS_ID());
         }
     }
     
@@ -190,7 +190,7 @@ void AIMultiUpdate ()
         
         // Plane exist!
         const Aircraft& ac = *iterAc->second;
-        vModeS.push_back(int((long long)(ac.GetPlaneID())));
+        vModeS.push_back(int(ac.GetModeS_ID()));
         vX.push_back(ac.drawInfo.x);
         vY.push_back(ac.drawInfo.y);
         vZ.push_back(ac.drawInfo.z);
@@ -211,7 +211,6 @@ void AIMultiUpdate ()
         AIMultiClearAIDataRefs(gMultiRef[i]);
 
 #warning IMPLEMENT THIS FURTHER!
-#warning Aircraft::mPlane should be replaced by modeS_id, but needs validation against map
 /*
     
     

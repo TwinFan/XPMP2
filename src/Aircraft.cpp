@@ -32,11 +32,13 @@ using namespace XPMP2;
 //
 
 #define WARN_MODEL_NOT_FOUND    "Named CSL Model '%s' not found"
-#define ERR_CREATE_INSTANCE     "Aircraft %llu: Create Instance FAILED for CSL Model %s"
-#define DEBUG_INSTANCE_CREATED  "Aircraft %llu: Instance created"
-#define DEBUG_INSTANCE_DESTRYD  "Aircraft %llu: Instance destroyed"
-#define INFO_MODEL_CHANGE       "Aircraft %llu: Changing model from %s to %s"
-#define ERR_YPROBE              "Aircraft %llu: Could not create Y-Probe for terrain testing!"
+#define FATAL_MODE_S_OUT_OF_RGE "_modeS_id (0x%06X) is out of range [0x%06X..0x%06X]"
+#define FATAL_MODE_S_EXISTS     "_modeS_id (0x%06X) already exists"
+#define ERR_CREATE_INSTANCE     "Aircraft 0x%06X: Create Instance FAILED for CSL Model %s"
+#define DEBUG_INSTANCE_CREATED  "Aircraft 0x%06X: Instance created"
+#define DEBUG_INSTANCE_DESTRYD  "Aircraft 0x%06X: Instance destroyed"
+#define INFO_MODEL_CHANGE       "Aircraft 0x%06X: Changing model from %s to %s"
+#define ERR_YPROBE              "Aircraft 0x%06X: Could not create Y-Probe for terrain testing!"
 
 namespace XPMP2 {
 
@@ -97,11 +99,23 @@ XPLMDataRef ahDataRefs[DR_NAMES_COUNT] = {0};
 Aircraft::Aircraft(const std::string& _icaoType,
                    const std::string& _icaoAirline,
                    const std::string& _livery,
+                   XPMPPlaneID _modeS_id,
                    const std::string& _modelName) :
-mPlane(glob.NextPlaneId())              // assign the next synthetic plane id
+modeS_id(_modeS_id ? _modeS_id : glob.NextPlaneId())    // assign the next synthetic plane id
 {
     // Size of drawInfo
     drawInfo.structSize = sizeof(drawInfo);
+    
+    // Verify uniqueness of modeS if defined by caller
+    if (_modeS_id) {
+        if (_modeS_id < MIN_MODE_S_ID || _modeS_id > MAX_MODE_S_ID) {
+            THROW_ERROR(FATAL_MODE_S_OUT_OF_RGE,
+                        _modeS_id, MIN_MODE_S_ID, MAX_MODE_S_ID);
+        }
+        if (glob.mapAc.count(_modeS_id) != 0) {
+            THROW_ERROR(FATAL_MODE_S_EXISTS, _modeS_id);
+        }
+    }
     
     // if given try to find the CSL model to use by its name
     if (!_modelName.empty())
@@ -113,7 +127,7 @@ mPlane(glob.NextPlaneId())              // assign the next synthetic plane id
     LOG_ASSERT(pCSLMdl);
     
     // add the aircraft to our global map and inform observers
-    glob.mapAc.emplace(mPlane,this);
+    glob.mapAc.emplace(modeS_id,this);
     XPMPSendNotification(*this, xpmp_PlaneNotification_Created);
     
     // make sure the flight loop callback gets called if this was the first a/c
@@ -148,7 +162,7 @@ Aircraft::~Aircraft ()
     pCSLMdl->DecRefCnt();
 
     // remove myself from the global map of planes
-    glob.mapAc.erase(mPlane);
+    glob.mapAc.erase(modeS_id);
     
     // remove the Y Probe
     if (hProbe) {
@@ -176,7 +190,7 @@ int Aircraft::ChangeModel (const std::string& _icaoType,
         if (bChangeExisting) {
             // remove the current instance (which is based on the previous model)
             LOG_MSG(logINFO, INFO_MODEL_CHANGE,
-                    (long long unsigned)mPlane,
+                    modeS_id,
                     pCSLMdl->GetModelName().c_str(),
                     pMdl->GetModelName().c_str());
             DestroyInstances();
@@ -219,7 +233,7 @@ bool Aircraft::AssignModel (const std::string& _modelName)
     const bool bChangeExisting = (pCSLMdl && pMdl != pCSLMdl);
     if (bChangeExisting) {
         LOG_MSG(logINFO, INFO_MODEL_CHANGE,
-                (long long unsigned)mPlane,
+                modeS_id,
                 pCSLMdl->GetModelName().c_str(),
                 pMdl->GetModelName().c_str());
         DestroyInstances();                 // remove the current instance (which is based on the previous model)
@@ -327,7 +341,7 @@ void Aircraft::ClampToGround ()
     if (!hProbe)
         hProbe = XPLMCreateProbe(xplm_ProbeY);
     if (!hProbe) {
-        LOG_MSG(logERR, ERR_YPROBE, (long long unsigned)mPlane);
+        LOG_MSG(logERR, ERR_YPROBE, modeS_id);
         bClampToGround = false;
         return;
     }
@@ -384,7 +398,7 @@ bool Aircraft::CreateInstances ()
         // Didn't work???
         if (!hInst) {
             LOG_MSG(logERR, ERR_CREATE_INSTANCE,
-                    (long long unsigned)mPlane,
+                    modeS_id,
                     pCSLMdl->GetModelName().c_str());
             DestroyInstances();             // remove other instances we might have created already
             return false;
@@ -395,7 +409,7 @@ bool Aircraft::CreateInstances ()
     }
     
     // Success!
-    LOG_MSG(logDEBUG, DEBUG_INSTANCE_CREATED, (long long unsigned)mPlane);
+    LOG_MSG(logDEBUG, DEBUG_INSTANCE_CREATED, modeS_id);
     return true;
 }
 
@@ -406,8 +420,7 @@ void Aircraft::DestroyInstances ()
         XPLMDestroyInstance(listInst.back());
         listInst.pop_back();
     }
-    LOG_MSG(logDEBUG, DEBUG_INSTANCE_DESTRYD,
-            (long long unsigned)mPlane);
+    LOG_MSG(logDEBUG, DEBUG_INSTANCE_DESTRYD, modeS_id);
 }
 
 
@@ -463,8 +476,9 @@ LegacyAircraft::LegacyAircraft(const char*      _ICAOCode,
                                const char*      _Livery,
                                XPMPPlaneData_f  _DataFunc,
                                void *           _Refcon,
+                               XPMPPlaneID      _modeS_id,
                                const char *     _ModelName) :
-XPCAircraft (_ICAOCode, _Airline, _Livery, _ModelName),
+XPCAircraft (_ICAOCode, _Airline, _Livery, _modeS_id, _ModelName),
 dataFunc (_DataFunc),
 refcon (_Refcon)
 {}
@@ -473,28 +487,28 @@ refcon (_Refcon)
 XPMPPlaneCallbackResult LegacyAircraft::GetPlanePosition(XPMPPlanePosition_t* outPosition)
 {
     if (!dataFunc) return xpmpData_Unavailable;
-    return dataFunc(mPlane, xpmpDataType_Position, outPosition, refcon);
+    return dataFunc(modeS_id, xpmpDataType_Position, outPosition, refcon);
 }
 
 // Just calls `dataFunc`
 XPMPPlaneCallbackResult LegacyAircraft::GetPlaneSurfaces(XPMPPlaneSurfaces_t* outSurfaces)
 {
     if (!dataFunc) return xpmpData_Unavailable;
-    return dataFunc(mPlane, xpmpDataType_Surfaces, outSurfaces, refcon);
+    return dataFunc(modeS_id, xpmpDataType_Surfaces, outSurfaces, refcon);
 }
 
 // Just calls `dataFunc`
 XPMPPlaneCallbackResult LegacyAircraft::GetPlaneRadar(XPMPPlaneRadar_t* outRadar)
 {
     if (!dataFunc) return xpmpData_Unavailable;
-    return dataFunc(mPlane, xpmpDataType_Radar, outRadar, refcon);
+    return dataFunc(modeS_id, xpmpDataType_Radar, outRadar, refcon);
 }
 
 // Just calls `dataFunc`
 XPMPPlaneCallbackResult LegacyAircraft::GetInfoTexts(XPMPInfoTexts_t* outInfoTexts)
 {
     if (!dataFunc) return xpmpData_Unavailable;
-    return dataFunc(mPlane, xpmpDataType_InfoTexts, outInfoTexts, refcon);
+    return dataFunc(modeS_id, xpmpDataType_InfoTexts, outInfoTexts, refcon);
 }
 
 } // Namespace XPMP2
@@ -504,11 +518,13 @@ XPMPPlaneCallbackResult LegacyAircraft::GetInfoTexts(XPMPInfoTexts_t* outInfoTex
 //
 
 // Legacy constructor creates a plane and puts it under control of XPlaneMP
-XPCAircraft::XPCAircraft(const char* inICAOCode,
-                         const char* inAirline,
-                         const char* inLivery,
-                         const char* inModelName) :
-Aircraft(inICAOCode, inAirline, inLivery, inModelName ? inModelName : "")
+XPCAircraft::XPCAircraft(const char* _icaoType,
+                         const char* _icaoAirline,
+                         const char* _livery,
+                         XPMPPlaneID _modeS_id,
+                         const char* _modelId) :
+Aircraft(_icaoType, _icaoAirline, _livery, _modeS_id,
+         _modelId ? _modelId : "")
 {}
 
 // Just calls all 4 previous `Get...` functions and copies the provided values into `drawInfo` and `v`

@@ -60,8 +60,8 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a75adea872ba540f4c9b42ea15d98279a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPMultiplayer_8h.html#ae32c35992213931b12695d9e53721c45">XPMPPlaneID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a75adea872ba540f4c9b42ea15d98279a">NextPlaneId</a> ()</td></tr>
-<tr class="memdesc:a75adea872ba540f4c9b42ea15d98279a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the next plane id.  <a href="structXPMP2_1_1GlobVars.html#a75adea872ba540f4c9b42ea15d98279a">More...</a><br /></td></tr>
+<tr class="memitem:a75adea872ba540f4c9b42ea15d98279a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a75adea872ba540f4c9b42ea15d98279a">NextPlaneId</a> ()</td></tr>
+<tr class="memdesc:a75adea872ba540f4c9b42ea15d98279a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the next unique artifical plane id.  <a href="structXPMP2_1_1GlobVars.html#a75adea872ba540f4c9b42ea15d98279a">More...</a><br /></td></tr>
 <tr class="separator:a75adea872ba540f4c9b42ea15d98279a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af689bba7dd10c704df3f6e404fb87eca"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#af689bba7dd10c704df3f6e404fb87eca">GlobVars</a> (<a class="el" href="namespaceXPMP2.html#a0f7e2680dc39872f8204f510de0d8429">logLevelTy</a> _logLvl=<a class="el" href="namespaceXPMP2.html#a0f7e2680dc39872f8204f510de0d8429aed4a1bbf5417bc9d1769c82c18d1b256">logINFO</a>, bool _logMdlMatch=false)</td></tr>
 <tr class="memdesc:af689bba7dd10c704df3f6e404fb87eca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="structXPMP2_1_1GlobVars.html#af689bba7dd10c704df3f6e404fb87eca">More...</a><br /></td></tr>
@@ -88,8 +88,11 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:aa2622188166aa5d636945a07494487c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clamp all planes to the ground? Default is <code>false</code> as clamping is kinda expensive due to Y-Testing.  <a href="structXPMP2_1_1GlobVars.html#aa2622188166aa5d636945a07494487c8">More...</a><br /></td></tr>
 <tr class="separator:aa2622188166aa5d636945a07494487c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e03197912556bc68d528aca7624e1e0"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a3e03197912556bc68d528aca7624e1e0">pluginName</a> = <a class="el" href="XPMP2_8h.html#a4d4e87112d2cd027f5aedc330d2f1be1">UNKNOWN_PLUGIN_NAME</a></td></tr>
-<tr class="memdesc:a3e03197912556bc68d528aca7624e1e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of the plugin we are serving (mostly for Log.txt output formatting)  <a href="structXPMP2_1_1GlobVars.html#a3e03197912556bc68d528aca7624e1e0">More...</a><br /></td></tr>
+<tr class="memdesc:a3e03197912556bc68d528aca7624e1e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of the plugin we are serving (used as map layer name or for folders)  <a href="structXPMP2_1_1GlobVars.html#a3e03197912556bc68d528aca7624e1e0">More...</a><br /></td></tr>
 <tr class="separator:a3e03197912556bc68d528aca7624e1e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a471ab5b2e3c57536bdba75bd539288f9"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a471ab5b2e3c57536bdba75bd539288f9">logAcronym</a> = <a class="el" href="XPMP2_8h.html#a4d4e87112d2cd027f5aedc330d2f1be1">UNKNOWN_PLUGIN_NAME</a></td></tr>
+<tr class="memdesc:a471ab5b2e3c57536bdba75bd539288f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plugin acronym used in log output.  <a href="structXPMP2_1_1GlobVars.html#a471ab5b2e3c57536bdba75bd539288f9">More...</a><br /></td></tr>
+<tr class="separator:a471ab5b2e3c57536bdba75bd539288f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4a8b760fd2161794bb1024f0ecd1d6de"><td class="memItemLeft" align="right" valign="top">int(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a4a8b760fd2161794bb1024f0ecd1d6de">prefsFuncInt</a> )(const char *, const char *, int) = <a class="el" href="namespaceXPMP2.html#aca8e7b4d2369722ffd9c82ef6bf9d24d">XPMP2::PrefsFuncIntDefault</a></td></tr>
 <tr class="memdesc:a4a8b760fd2161794bb1024f0ecd1d6de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration callback for integer values.  <a href="structXPMP2_1_1GlobVars.html#a4a8b760fd2161794bb1024f0ecd1d6de">More...</a><br /></td></tr>
 <tr class="separator:a4a8b760fd2161794bb1024f0ecd1d6de"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -135,21 +138,6 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a09b187d38d8248fc311ecf75d0d49cab"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a09b187d38d8248fc311ecf75d0d49cab">bHasControlOfAIAircraft</a> = false</td></tr>
 <tr class="memdesc:a09b187d38d8248fc311ecf75d0d49cab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do we control X-Plane's AI/Multiplayer planes?  <a href="structXPMP2_1_1GlobVars.html#a09b187d38d8248fc311ecf75d0d49cab">More...</a><br /></td></tr>
 <tr class="separator:a09b187d38d8248fc311ecf75d0d49cab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a333e898b55fc22eace85b997261f9d55"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a333e898b55fc22eace85b997261f9d55">bSkipAssignNoPlane</a> = false</td></tr>
-<tr class="memdesc:a333e898b55fc22eace85b997261f9d55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shall we skip assignment of NoPlane.acf?  <a href="structXPMP2_1_1GlobVars.html#a333e898b55fc22eace85b997261f9d55">More...</a><br /></td></tr>
-<tr class="separator:a333e898b55fc22eace85b997261f9d55"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af306c7339333d899290c987871f2a82f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#af306c7339333d899290c987871f2a82f">bCopyNoPlane</a> = true</td></tr>
-<tr class="memdesc:af306c7339333d899290c987871f2a82f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shall <code>NoPlane.acf</code> be copied to <code>&lt;X-Plane&gt;/Aircraft/&lt;plugin&gt;</code>?  <a href="structXPMP2_1_1GlobVars.html#af306c7339333d899290c987871f2a82f">More...</a><br /></td></tr>
-<tr class="separator:af306c7339333d899290c987871f2a82f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32a2a6990e84d5afde763c476238d739"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a32a2a6990e84d5afde763c476238d739">nAIPlanesInitialized</a> = 0</td></tr>
-<tr class="memdesc:a32a2a6990e84d5afde763c476238d739"><td class="mdescLeft">&#160;</td><td class="mdescRight">How many AI planes did we already initialize to NoPlane.acf?  <a href="structXPMP2_1_1GlobVars.html#a32a2a6990e84d5afde763c476238d739">More...</a><br /></td></tr>
-<tr class="separator:a32a2a6990e84d5afde763c476238d739"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a475b0c93cf025a9c54ac6d288295f23d"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a475b0c93cf025a9c54ac6d288295f23d">maxMultiIdxUsed</a> = 0</td></tr>
-<tr class="memdesc:a475b0c93cf025a9c54ac6d288295f23d"><td class="mdescLeft">&#160;</td><td class="mdescRight">maximum AI index used  <a href="structXPMP2_1_1GlobVars.html#a475b0c93cf025a9c54ac6d288295f23d">More...</a><br /></td></tr>
-<tr class="separator:a475b0c93cf025a9c54ac6d288295f23d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c2ce2e329f044c00f9da7a21efd1be0"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a5c2ce2e329f044c00f9da7a21efd1be0">pathNoPlane</a></td></tr>
-<tr class="memdesc:a5c2ce2e329f044c00f9da7a21efd1be0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Path to the invisible plane to fake TCAS blibs.  <a href="structXPMP2_1_1GlobVars.html#a5c2ce2e329f044c00f9da7a21efd1be0">More...</a><br /></td></tr>
-<tr class="separator:a5c2ce2e329f044c00f9da7a21efd1be0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aee9f807b826083fd962643848a66bf1f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#aee9f807b826083fd962643848a66bf1f">bMapEnabled</a> = true</td></tr>
 <tr class="memdesc:aee9f807b826083fd962643848a66bf1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do we feed X-Plane's maps with our aircraft positions?  <a href="structXPMP2_1_1GlobVars.html#aee9f807b826083fd962643848a66bf1f">More...</a><br /></td></tr>
 <tr class="separator:aee9f807b826083fd962643848a66bf1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -174,9 +162,9 @@ Public Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a61e54c74a9fa84f2d12de7a026db0177"><td class="memItemLeft" align="right" valign="top">unsigned long long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a61e54c74a9fa84f2d12de7a026db0177">planeId</a> = 0</td></tr>
-<tr class="memdesc:a61e54c74a9fa84f2d12de7a026db0177"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current plane ID counter.  <a href="structXPMP2_1_1GlobVars.html#a61e54c74a9fa84f2d12de7a026db0177">More...</a><br /></td></tr>
-<tr class="separator:a61e54c74a9fa84f2d12de7a026db0177"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3eae2448f855a6c3dd14c13eeca06d7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#af3eae2448f855a6c3dd14c13eeca06d7">planeId</a> = 0</td></tr>
+<tr class="memdesc:af3eae2448f855a6c3dd14c13eeca06d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current plane ID counter.  <a href="structXPMP2_1_1GlobVars.html#af3eae2448f855a6c3dd14c13eeca06d7">More...</a><br /></td></tr>
+<tr class="separator:af3eae2448f855a6c3dd14c13eeca06d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>All global config settings and variables are kept in one structure for convenient access and central definition. </p>
@@ -225,25 +213,17 @@ Protected Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="XPMPMultiplayer_8h.html#ae32c35992213931b12695d9e53721c45">XPMPPlaneID</a> XPMP2::GlobVars::NextPlaneId </td>
+          <td class="memname"><a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> XPMP2::GlobVars::NextPlaneId </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Get the next plane id. </p>
+<p>Get the next unique artifical plane id. </p>
 
 </div>
 </div>
@@ -329,22 +309,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="af306c7339333d899290c987871f2a82f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af306c7339333d899290c987871f2a82f">&#9670;&nbsp;</a></span>bCopyNoPlane</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool XPMP2::GlobVars::bCopyNoPlane = true</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Shall <code>NoPlane.acf</code> be copied to <code>&lt;X-Plane&gt;/Aircraft/&lt;plugin&gt;</code>? </p>
-
-</div>
-</div>
 <a id="a26f54200a4608e3416be651beb213028"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a26f54200a4608e3416be651beb213028">&#9670;&nbsp;</a></span>bDrawLabels</h2>
 
@@ -425,22 +389,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a333e898b55fc22eace85b997261f9d55"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a333e898b55fc22eace85b997261f9d55">&#9670;&nbsp;</a></span>bSkipAssignNoPlane</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool XPMP2::GlobVars::bSkipAssignNoPlane = false</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Shall we skip assignment of NoPlane.acf? </p>
-
-</div>
-</div>
 <a id="a4079d408c4b07eb3f1aed9fa117283d6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4079d408c4b07eb3f1aed9fa117283d6">&#9670;&nbsp;</a></span>bUsingModernGraphicsDriver</h2>
 
@@ -502,6 +450,22 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>List of notifier functions registered for being notified of creation/destruction/model change. </p>
+
+</div>
+</div>
+<a id="a471ab5b2e3c57536bdba75bd539288f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a471ab5b2e3c57536bdba75bd539288f9">&#9670;&nbsp;</a></span>logAcronym</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string XPMP2::GlobVars::logAcronym = <a class="el" href="XPMP2_8h.html#a4d4e87112d2cd027f5aedc330d2f1be1">UNKNOWN_PLUGIN_NAME</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Plugin acronym used in log output. </p>
 
 </div>
 </div>
@@ -633,38 +597,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a475b0c93cf025a9c54ac6d288295f23d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a475b0c93cf025a9c54ac6d288295f23d">&#9670;&nbsp;</a></span>maxMultiIdxUsed</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t XPMP2::GlobVars::maxMultiIdxUsed = 0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>maximum AI index used </p>
-
-</div>
-</div>
-<a id="a32a2a6990e84d5afde763c476238d739"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32a2a6990e84d5afde763c476238d739">&#9670;&nbsp;</a></span>nAIPlanesInitialized</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int XPMP2::GlobVars::nAIPlanesInitialized = 0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>How many AI planes did we already initialize to NoPlane.acf? </p>
-
-</div>
-</div>
 <a id="afad864b4f7551758bda11388d811b73a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afad864b4f7551758bda11388d811b73a">&#9670;&nbsp;</a></span>pathDoc8643</h2>
 
@@ -697,22 +629,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a5c2ce2e329f044c00f9da7a21efd1be0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5c2ce2e329f044c00f9da7a21efd1be0">&#9670;&nbsp;</a></span>pathNoPlane</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string XPMP2::GlobVars::pathNoPlane</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Path to the invisible plane to fake TCAS blibs. </p>
-
-</div>
-</div>
 <a id="a183e67cccc35d6ab672d5d70947013a3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a183e67cccc35d6ab672d5d70947013a3">&#9670;&nbsp;</a></span>pathRelated</h2>
 
@@ -729,8 +645,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a61e54c74a9fa84f2d12de7a026db0177"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a61e54c74a9fa84f2d12de7a026db0177">&#9670;&nbsp;</a></span>planeId</h2>
+<a id="af3eae2448f855a6c3dd14c13eeca06d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3eae2448f855a6c3dd14c13eeca06d7">&#9670;&nbsp;</a></span>planeId</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -739,7 +655,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">unsigned long long XPMP2::GlobVars::planeId = 0</td>
+          <td class="memname"><a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> XPMP2::GlobVars::planeId = 0</td>
         </tr>
       </table>
   </td>
@@ -765,7 +681,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Name of the plugin we are serving (mostly for Log.txt output formatting) </p>
+<p>Name of the plugin we are serving (used as map layer name or for folders) </p>
 
 </div>
 </div>

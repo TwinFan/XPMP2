@@ -38,6 +38,7 @@ public:
                    const char*      inLivery,
                    XPMPPlaneData_f  inDataFunc,
                    void *           inRefcon,
+                   XPMPPlaneID      inModeS_id = 0,
                    const char *     inModelName = nullptr);
 
     /// Just calls `dataFunc`

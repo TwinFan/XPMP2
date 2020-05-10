@@ -252,8 +252,9 @@ public:
     SampleAircraft(const std::string& _icaoType,
                    const std::string& _icaoAirline,
                    const std::string& _livery,
+                   XPMPPlaneID _modeS_id = 0,
                    const std::string& _modelName = "") :
-    Aircraft(_icaoType, _icaoAirline, _livery, _modelName)
+    Aircraft(_icaoType, _icaoAirline, _livery, _modeS_id, _modelName)
     {
         // in our sample implementation, label, radar and info texts
         // are not dynamic. In others, they might be, then update them
@@ -370,8 +371,9 @@ public:
     LegacySampleAircraft(const char* inICAOCode,
                          const char* inAirline,
                          const char* inLivery,
+                         XPMPPlaneID _modeS_id = 0,
                          const char* inModelName = nullptr) :
-    XPCAircraft(inICAOCode, inAirline, inLivery, inModelName) {}
+    XPCAircraft(inICAOCode, inAirline, inLivery, _modeS_id, inModelName) {}
     
     // My own class overwrites the individual data provision functions
     
@@ -516,7 +518,7 @@ LegacySampleAircraft* pLegacyPlane = nullptr;
 //
 
 /// We handle just one aircraft with standard functions, this one:
-XPMPPlaneID hStdPlane = NULL;
+XPMPPlaneID hStdPlane = 0;
 
 /// @brief Handles requests for plane's position data
 /// @see LegacySampleAircraft::GetPlanePosition(), which basically is the very same thing.
@@ -705,7 +707,8 @@ void PlanesCreate ()
     if (!pSamplePlane) try {
         pSamplePlane = new SampleAircraft(PLANE_MODEL[gModelIdxBase][0],  // type
                                           PLANE_MODEL[gModelIdxBase][1],  // airline
-                                          PLANE_MODEL[gModelIdxBase][2]); // livery
+                                          PLANE_MODEL[gModelIdxBase][2],  // livery
+                                          0xABCDEF);                      // manually set Mode S id
     }
     catch (const XPMP2::XPMP2Error& e) {
         LogMsg("Could not create object of type SampleAircraft: %s", e.what());
@@ -718,7 +721,8 @@ void PlanesCreate ()
     if (!pLegacyPlane) try {
         pLegacyPlane = new LegacySampleAircraft(PLANE_MODEL[(gModelIdxBase+1)%3][0].c_str(),  // type
                                                 PLANE_MODEL[(gModelIdxBase+1)%3][1].c_str(),  // airline
-                                                PLANE_MODEL[(gModelIdxBase+1)%3][2].c_str()); // livery
+                                                PLANE_MODEL[(gModelIdxBase+1)%3][2].c_str(),  // livery
+                                                0x123456);                                    // manually set Mode S id
     }
     catch (const XPMP2::XPMP2Error& e) {
         LogMsg("Could not create object of type LegacySampleAircraft: %s", e.what());
@@ -752,7 +756,7 @@ void PlanesRemove ()
     
     if (hStdPlane) {
         XPMPDestroyPlane(hStdPlane);
-        hStdPlane = nullptr;
+        hStdPlane = 0;
     }
 
     // Remove the checkmark in front of menu item

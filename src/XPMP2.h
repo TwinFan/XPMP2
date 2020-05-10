@@ -173,10 +173,10 @@ public:
     
 protected:
     /// Current plane ID counter
-    unsigned long long  planeId = 0;
+    XPMPPlaneID  planeId = 0;
 public:
-    /// Get the next plane id
-    XPMPPlaneID NextPlaneId () { return XPMPPlaneID(++planeId); }
+    /// Get the next unique artifical plane id
+    XPMPPlaneID NextPlaneId ();
 
 public:
     /// Constructor

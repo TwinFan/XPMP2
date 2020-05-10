@@ -64,14 +64,12 @@ Status
 **This is work in progress.**
 
 The XPMP2 lib has been successfully tested with
-- X-Plane 11.50 Beta 3 under OpenGL, Vulkan, and Metal,
+- X-Plane 11.50 Beta 8 under OpenGL, Vulkan, and Metal,
 - the enclosed sample plugin,
 - a new branch of LiveTraffic (executables not yet published)
-- on Mac OS and
-- on Windows.
-
-Linux binaries can successfully build in a docker environment.
-But I have no environment for testing them.
+- on Mac OS,
+- Windows, and
+- Linux (Ubuntu 18.04 and similar).
 
 Using XPMP2
 --
@@ -108,6 +106,10 @@ A few changes are there, though, for clarity and to be future-proof. They should
 hinder a proper implementation to compile successfully, albeit with some new warnings:
 - All enumerations are now proper `enum` definitions, i.e. `enum typeName {...}` instead of
   `typedef int typeName`.
+- Type `XPMPPlaneID` is now just an `unisgned`, no longer a pointer type, so it can be
+  used directly as `modeS_id` in the new
+  [TCAS override](https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/)
+  approach. Initialization with `NULL` or `nullptr` will not compile, initialize with `0` instead.
 - A number of functions and the class `XPCAircraft` are explicitely marked `[[deprecated]]`,
    which will raise a few warnings, if your compiler is configured to show them.
    Just a gentle reminder to update your plugin at some point in time...

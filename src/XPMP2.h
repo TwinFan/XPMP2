@@ -146,16 +146,6 @@ public:
     
     /// Do we control X-Plane's AI/Multiplayer planes?
     bool            bHasControlOfAIAircraft = false;
-    /// Shall we skip assignment of NoPlane.acf?
-    bool            bSkipAssignNoPlane = false;
-    /// Shall `NoPlane.acf` be copied to `<X-Plane>/Aircraft/<plugin>`?
-    bool            bCopyNoPlane = true;
-    /// How many AI planes did we already initialize to NoPlane.acf?
-    int             nAIPlanesInitialized = 0;
-    /// maximum AI index used
-    size_t          maxMultiIdxUsed = 0;
-    /// Path to the invisible plane to fake TCAS blibs
-    std::string     pathNoPlane;
     
     /// Do we feed X-Plane's maps with our aircraft positions?
     bool            bMapEnabled = true;

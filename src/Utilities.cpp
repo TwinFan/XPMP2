@@ -62,13 +62,7 @@ void GlobVars::UpdateCfgVals ()
     bLogMdlMatch = prefsFuncInt(XPMP_CFG_SEC_DEBUG, XPMP_CFG_ITM_MODELMATCHING, bLogMdlMatch) != 0;
     
     // Ask for clam-to-ground config
-    bClampAll = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_CLAMPALL, bClampAll) != 0;
-    
-    // Ask for skipping assignment of NoPlane.acf
-    bSkipAssignNoPlane = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_SKIP_NOPLANE, bSkipAssignNoPlane) != 0;
-
-    // Ask for copying of NoPlane.acf
-    bCopyNoPlane = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_COPY_NOPLANE, bCopyNoPlane) != 0;
+    bClampAll = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_CLAMPALL, bClampAll) != 0;    
 }
 
 // Read version numbers into verXplane/verXPLM

@@ -144,8 +144,8 @@ protected:
     
     /// X-Plane instance handles for all objects making up the model
     std::list<XPLMInstanceRef> listInst;
-    /// Which sim/multiplayer/plane-index used last?
-    int                 multiIdx = -1;
+    /// Which sim/cockpit2/tcas/targets-index used last?
+    int                 tcasTargetIdx = -1;
 
     /// Timestamp of last update of camera dist/bearing
     float               camTimLstUpd = 0.0f;
@@ -174,19 +174,14 @@ public:
 
     /// return the XPMP2 plane id
     XPMPPlaneID GetPlaneID () const { return mPlane; }
-    /// @brief return the current multiplayer-index
-    /// @note This is a 0-based index into our internal tables!
-    ///       It is one less than the number used in sim/multiplayer/plane dataRefs,
-    ///       use Aircraft::GetAIPlaneIdx() for that purpose.
-    int         GetMultiIdx () const { return multiIdx; }
-    /// @brief return the plane's index in XP's sim/multiplayer/plane dataRefs
-    int         GetAIPlaneIdx () const { return multiIdx >= 0 ? multiIdx+1 : -1; }
+    /// @brief return the current TCAS target index (into sim/cockpit2/tcas/targets), 1-based, -1 if not used
+    int         GetTcasTargetIdx () const { return tcasTargetIdx; }
     /// Is this plane currently also being tracked by X-Plane's AI/multiplayer, ie. will appear on TCAS?
-    bool        IsCurrentlyShownAsAI () const { return multiIdx >= 0; }
-    /// Will this plane show up on TCAS / in multiplayer views? (It will if transponder is not switched off)
+    bool        IsCurrentlyShownAsTcasTarget () const { return tcasTargetIdx >= 1; }
+    /// Is this plane to be drawn on TCAS? (It will if transponder is not switched off)
     bool        ShowAsAIPlane () const { return IsVisible() && acRadar.mode != xpmpTransponderMode_Standby; }
-    /// Reset multiplayer slot index
-    void        ResetMultiIdx () { multiIdx = -1; }
+    /// Reset TCAS target slot index
+    void        ResetTcasTargetIdx () { tcasTargetIdx = -1; }
     
     /// (Potentially) change the plane's model after doing a new match attempt
     int ChangeModel (const std::string& _icaoType,
@@ -256,10 +251,8 @@ protected:
     void DestroyInstances ();
 
     // The following functions are implemented in AIMultiplayer.cpp:
-    /// AI/Multiplayer handling: Find next AI slot
-    int  AISlotReserve ();
-    /// AI/Multiplayer handling: Clear AI slot
-    void AISlotClear ();
+    /// Define the TCAS target index in use
+    void SetTcasTargetIdx (int _idx) { tcasTargetIdx = _idx; }
     // These functions are called from AIMultiUpdate()
     friend void AIMultiUpdate ();
 };

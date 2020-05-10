@@ -33,8 +33,6 @@ namespace XPMP2 {
 constexpr const char* RSRC_RELATED      = "related.txt";
 constexpr const char* RSRC_DOC8643      = "Doc8643.txt";
 constexpr const char* RSRC_MAP_ICONS    = "MapIcons.png";
-constexpr const char* RSRC_AIRCRAFT     = "Aircraft/";
-constexpr const char* RSRC_NO_PLANE     = "NoPlane.acf";
 
 //
 // MARK: Default configuration callbacks

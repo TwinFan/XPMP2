@@ -247,8 +247,6 @@ typedef void *      XPMPPlaneID;
 
 // Config key definitions
 #define XPMP_CFG_ITM_CLAMPALL        "clamp_all_to_ground"  ///< Config key: Ensure no plane sinks below ground, no matter of Aircraft::bClampToGround
-#define XPMP_CFG_ITM_SKIP_NOPLANE    "skip_assign_noplane"  ///< Config key: For faking TCAS, all AI/multiplayer planes are assigned the `NoPlane.acf` type when XPMP2 takes over control. This option allows to skip assining `NoPlane.acf`...just in case.
-#define XPMP_CFG_ITM_COPY_NOPLANE    "copy_noplane"         ///< Config key: On startup, shall `NoPlane.acf` be copied from the resource directory to `<X-Plane>/Aircraft/<plugin>`? This is highly recommended to reduce side-effects of using `NoPlane` as AI Aircraft model.
 #define XPMP_CFG_ITM_LOGLEVEL        "log_level"            ///< Config key: General level of logging into Log.txt (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)
 #define XPMP_CFG_ITM_MODELMATCHING   "model_matching"       ///< Config key: Write information on model matching into Log.txt
 
@@ -259,8 +257,6 @@ typedef void *      XPMPPlaneID;
 /// `section | key                 | type | default | description`\n
 /// `------- | ------------------- | ---- | ------- | -------------------------------------------------------------------------`\n
 /// `planes  | clamp_all_to_ground | int  |    1    | Ensure no plane sinks below ground, no matter of Aircraft::bClampToGround`\n
-/// `planes  | skip_assign_noplane | int  |    0    | If non-zero, then AI planes will not be assigned the NoPlane.acf type.`\n
-/// `planes  | copy_noplane        | int  |    1    | Shall NoPlane.acf be copied to Aircraft folder if missing/newer? (Recommended!)`\n
 /// `debug   | log_level           | int  |    2    | General level of logging into Log.txt (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)`\n
 /// `debug   | model_matching      | int  |    0    | Write information on model matching into Log.txt`\n
 /// @note There is no immediate requirement to check the value of `_section` in your implementation.
@@ -287,7 +283,7 @@ const char *    XPMPMultiplayerInitLegacyData(const char* inCSLFolder,
 /// @brief Initializes the XPMP2 library. This shall be your first call to the library.
 /// @note Parameters changed compared to libxplanemp!
 /// @param inPluginName Your plugin's name, used as map layer name, and as folder name under `Aircraft`
-/// @param resourceDir The directory where XPMP2 finds all required supplemental files (`Doc8643.txt`, `MapIcons.png`, `NoPlane.acf`, `related.txt`)
+/// @param resourceDir The directory where XPMP2 finds all required supplemental files (`Doc8643.txt`, `MapIcons.png`, `related.txt`)
 /// @param inIntPrefsFunc (optional) A pointer to a callback function providing integer config values. See ::XPMPIntPrefsFuncTy for details.
 /// @param inDefaultICAO (optional) A fallback aircraft type if no type can be deduced otherwise for an aircraft.
 /// @param inPluginLogAcronym (optional) A short text to be used in log output. If not given then `inPluginName` is used also for this purpse.

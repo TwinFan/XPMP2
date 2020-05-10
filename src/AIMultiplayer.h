@@ -1,5 +1,5 @@
 /// @file       AIMultiplayer.h
-/// @brief      Definitions for serving multiplayer dataRef updates
+/// @brief      Definitions for serving TCAS target dataRef updates
 /// @author     Birger Hoppe
 /// @copyright  (c) 2020 Birger Hoppe
 /// @copyright  Permission is hereby granted, free of charge, to any person obtaining a
@@ -29,7 +29,7 @@ void AIMultiInit ();
 /// Grace cleanup
 void AIMultiCleanup ();
 
-/// Updates all multiplayer dataRefs, both standard X-Plane, as well as additional shared dataRefs for text publishing
+/// Updates all TCAS target dataRefs, both standard X-Plane, as well as additional shared dataRefs for text publishing
 void AIMultiUpdate ();
 
 }       // namespace XPMP2

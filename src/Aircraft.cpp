@@ -449,7 +449,7 @@ void Aircraft::SetVisible (bool _bVisible)
     // In case of _now_ being invisible remove the instances and any AI slot
     if (!bVisible) {
         DestroyInstances();
-        AISlotClear();
+        ResetTcasTargetIdx();
     }
 }
 
@@ -515,7 +515,7 @@ Aircraft(inICAOCode, inAirline, inLivery, inModelName ? inModelName : "")
 void XPCAircraft::UpdatePosition()
 {
     // Call the "callback" virtual functions and then update the core variables
-    acPos.multiIdx = GetAIPlaneIdx();             // provide the multiplayer index back to the plugin
+    acPos.multiIdx = GetTcasTargetIdx();             // provide the multiplayer index back to the plugin
     if (GetPlanePosition(&acPos) == xpmpData_NewData) {
         // Set the position and orientation
         SetLocation(acPos.lat, acPos.lon, acPos.elevation);

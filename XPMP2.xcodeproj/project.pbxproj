@@ -92,6 +92,7 @@
 		25EC1C4123BF6DFA000940BB /* CSLModels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSLModels.h; sourceTree = "<group>"; };
 		25EC1C4523BF7569000940BB /* Utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utilities.cpp; sourceTree = "<group>"; };
 		25EC1C4623BF7569000940BB /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
+		25ED259B246752C3008BA734 /* XP1150b8_new_dataRefs.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = XP1150b8_new_dataRefs.txt; sourceTree = "<group>"; };
 		25FF33FD23BFF250001B0AB4 /* Aircraft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Aircraft.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -193,6 +194,7 @@
 				2574E0052457842A000E8156 /* html */,
 				2574E00424578419000E8156 /* index.md */,
 				25D680BF23BE9BB900C83CC5 /* MainPage.md */,
+				25ED259B246752C3008BA734 /* XP1150b8_new_dataRefs.txt */,
 				25D680BE23BE9BB900C83CC5 /* XPMP2.doxygen */,
 			);
 			path = docs;

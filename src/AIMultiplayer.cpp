@@ -1,6 +1,7 @@
 /// @file       AIMultiplayer.cpp
-/// @brief      Implementation of serving multiplayer dataRef updates
-/// @details    Updates the up to 19 slots of X-Plane's defined AI aircraft,
+/// @brief      Implementation of serving TCAS target dataRef updates
+/// @details    Updates the up to 63 slots of X-Plane's defined TCAS targets,
+///             which are in turn synced with the 19 "legacy" multiplayer slots,
 ///             which in turn many other plugins (like TCAS implementations or map tools)
 ///             read to learn about any multiplayer aircraft.\n
 ///             Also serves shared dataRefs for publishing text information,
@@ -8,12 +9,9 @@
 ///             However, the post and file, in which he suggested this addition,
 ///             is no longer available on forums.x-plane.org. Still, XPMP2
 ///             fullfills the earlier definition.
-/// @warning    The "TCAS hack" depends on the drawing callback functionality of X-Plane via
-///             [XPLMRegisterDrawCallback](https://developer.x-plane.com/sdk/XPLMDisplay/#XPLMRegisterDrawCallback).
-///             which is "likely [to] be removed during the X-Plane 11 run as part of the transition to Vulkan/Metal/etc."
-///             Ping-ponging the number of AI planes between 1 (so X-Plane won't draw
-///             AI planes at our positions) and the actual number would need to move elsewhere then.
-///             See AIControlPlaneCount().
+/// @see        X-Plane 11.50 Beta 8 introduced a new way of informing X-Plane
+///             of TCAS targets, see here a blog entry for details:
+///             https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/
 /// @author     Birger Hoppe
 /// @copyright  (c) 2020 Birger Hoppe
 /// @copyright  Permission is hereby granted, free of charge, to any person obtaining a
@@ -34,9 +32,9 @@
 
 #include "XPMP2.h"
 
-#define INFO_AI_CONTROL         "Have control now over %d AI/Multiplayer planes"
+#define INFO_AI_CONTROL         "Have control now over AI/Multiplayer planes"
 #define INFO_AI_CONTROL_ENDS    "Released control of AI/Multiplayer planes"
-#define WARN_NO_AI_CONTROL      "Could NOT acquire AI/Multiplayer plane control! Some other multiplayer plugin controls them. Therefore, our planes will NOT appear on TCAS or maps."
+#define WARN_NO_AI_CONTROL      "Could NOT acquire AI/Multiplayer plane control! %s controls them. Therefore, our planes will NOT appear on TCAS or maps."
 #define DEBUG_AI_SLOT_ASSIGN    "Aircraft %llu: ASSIGNING AI Slot %d (%s, %s, %s)"
 #define DEBUG_AI_SLOT_RELEASE   "Aircraft %llu: RELEASING AI Slot %d (%s, %s, %s)"
 
@@ -49,306 +47,175 @@ namespace XPMP2 {
 /// Don't dare using NAN...but with this coordinate for x/y/z a plane should be far out and virtually invisible
 constexpr float FAR_AWAY_VAL_GL = 9999999.9f;
 /// How often do we reassign AI slots? [seconds]
-constexpr float AISLOT_CHANGE_PERIOD = 30.0f;
+constexpr float AISLOT_CHANGE_PERIOD = 10.0f;
 /// How much distance does each AIPrio add?
 constexpr int AI_PRIO_MULTIPLIER = 10 * M_per_NM;
 /// A constant array of zero values supporting quick array initialization
 float F_NULL[10] = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
 
-/// Keeps the dataRef handles for one of the up to 19 AI/Multiplayer slots
+//
+// MARK: Legacy multiplayer dataRefs
+//
+
+/// Keeps the dataRef handles for one of the up to 19 legacy AI/Multiplayer slots ("sim/multiplayer/position")
 struct multiDataRefsTy {
-    XPLMDataRef X;          // position
-    XPLMDataRef Y;
-    XPLMDataRef Z;
-    
-    XPLMDataRef v_x;        // cartesian velocities
-    XPLMDataRef v_y;
-    XPLMDataRef v_z;
-    
-    XPLMDataRef pitch;      // theta
-    XPLMDataRef roll;       // phi
-    XPLMDataRef heading;    // psi
-    
-    XPLMDataRef gear;       // gear_deploy[10]
-    XPLMDataRef flap;       // flap_ratio
-    XPLMDataRef flap2;      // flap_ratio2
-    XPLMDataRef spoiler;    // spoiler_ratio
-    XPLMDataRef speedbrake; // speedbrake
-    XPLMDataRef slat;       // slat_ratio
-    XPLMDataRef wingSweep;  // wing_sweep
-    XPLMDataRef throttle;   // throttle[8]
-    XPLMDataRef yoke_pitch; // yolk_pitch
-    XPLMDataRef yoke_roll;  // yolk_roll
-    XPLMDataRef yoke_yaw;   // yolk_yaw
-    
-    XPLMDataRef bcnLights;  // beacon_lights_on
-    XPLMDataRef landLights; // landing_lights_on
-    XPLMDataRef navLights;  // nav_lights_on
-    XPLMDataRef strbLights; // strobe_lights_on
-    XPLMDataRef taxiLights; // taxi_light_on
-    
-    // Shared data for providing textual info (see XPMPInfoTexts_t)
-    XPLMDataRef infoTailNum;        // tailnum
-    XPLMDataRef infoIcaoAcType;     // ICAO
-    XPLMDataRef infoManufacturer;   // manufacturer
-    XPLMDataRef infoModel;          // model
-    XPLMDataRef infoIcaoAirline;    // ICAOairline
-    XPLMDataRef infoAirline;        // airline
-    XPLMDataRef infoFlightNum;      // flightnum
-    XPLMDataRef infoAptFrom;        // apt_from
-    XPLMDataRef infoAptTo;          // apt_to
-    
-    bool        bSlotTaken = false; // during drawing: is this multiplayer plane idx used or not?
-    
+    XPLMDataRef X = nullptr;            // position
+    XPLMDataRef Y = nullptr;
+    XPLMDataRef Z = nullptr;
     // all OK?
-    inline operator bool () const { return X && Y && Z && pitch && roll && heading; }
+    inline operator bool () const { return X && Y && Z; }
+};
+
+/// Keeps the dataRef handles for one of the up to 63 shared data slots ("sim/multiplayer/position/plane#...")
+struct infoDataRefsTy {
+    // Shared data for providing textual info (see XPMPInfoTexts_t)
+    XPLMDataRef infoTailNum         = nullptr;  // tailnum
+    XPLMDataRef infoIcaoAcType      = nullptr;  // ICAO
+    XPLMDataRef infoManufacturer    = nullptr;  // manufacturer
+    XPLMDataRef infoModel           = nullptr;  // model
+    XPLMDataRef infoIcaoAirline     = nullptr;  // ICAOairline
+    XPLMDataRef infoAirline         = nullptr;  // airline
+    XPLMDataRef infoFlightNum       = nullptr;  // flightnum
+    XPLMDataRef infoAptFrom         = nullptr;  // apt_from
+    XPLMDataRef infoAptTo           = nullptr;  // apt_to
+};
+
+//
+// MARK: TCAS Target dataRefs
+//
+
+static XPLMDataRef drTcasOverride   = nullptr;      ///< sim/operation/override/override_TCAS               int
+static XPLMDataRef drTcasModeS      = nullptr;      ///< sim/cockpit2/tcas/targets/modeS_id                 int[64]
+static XPLMDataRef drTcasModeC      = nullptr;      ///< sim/cockpit2/tcas/targets/modeC_code               int[64]
+static XPLMDataRef drTcasFlightId   = nullptr;      ///< sim/cockpit2/tcas/targets/flight_id                byte[512]
+static XPLMDataRef drTcasIcaoType   = nullptr;      ///< sim/cockpit2/tcas/targets/icao_type                byte[512]
+static XPLMDataRef drTcasX          = nullptr;      ///< sim/cockpit2/tcas/targets/position/x               float[64]
+static XPLMDataRef drTcasY          = nullptr;      ///< sim/cockpit2/tcas/targets/position/y               float[64]
+static XPLMDataRef drTcasZ          = nullptr;      ///< sim/cockpit2/tcas/targets/position/z               float[64]
+static XPLMDataRef drTcasVX         = nullptr;      ///< sim/cockpit2/tcas/targets/position/vx              float[64]
+static XPLMDataRef drTcasVY         = nullptr;      ///< sim/cockpit2/tcas/targets/position/vy              float[64]
+static XPLMDataRef drTcasVZ         = nullptr;      ///< sim/cockpit2/tcas/targets/position/vz              float[64]
+static XPLMDataRef drTcasVertSpeed  = nullptr;      ///< sim/cockpit2/tcas/targets/position/vertical_speed  float[64]
+static XPLMDataRef drTcasHeading    = nullptr;      ///< sim/cockpit2/tcas/targets/position/psi             float[64]
+static XPLMDataRef drTcasPitch      = nullptr;      ///< sim/cockpit2/tcas/targets/position/the             float[64]
+static XPLMDataRef drTcasRoll       = nullptr;      ///< sim/cockpit2/tcas/targets/position/phi             float[64]
+static XPLMDataRef drTcasGear       = nullptr;      ///< sim/cockpit2/tcas/targets/position/gear_deploy     float[64]
+static XPLMDataRef drTcasFlap       = nullptr;      ///< sim/cockpit2/tcas/targets/position/flap_ratio      float[64]
+static XPLMDataRef drTcasFlap2      = nullptr;      ///< sim/cockpit2/tcas/targets/position/flap_ratio2     float[64]
+static XPLMDataRef drTcasSpeedbrake = nullptr;      ///< sim/cockpit2/tcas/targets/position/speedbrake_ratio float[64]
+static XPLMDataRef drTcasSlat       = nullptr;      ///< sim/cockpit2/tcas/targets/position/slat_ratio      float[64]
+static XPLMDataRef drTcasWingSweep  = nullptr;      ///< sim/cockpit2/tcas/targets/position/wing_sweep      float[64]
+static XPLMDataRef drTcasThrottle   = nullptr;      ///< sim/cockpit2/tcas/targets/position/throttle        float[64]
+static XPLMDataRef drTcasYokePitch  = nullptr;      ///< sim/cockpit2/tcas/targets/position/yolk_pitch [sic!]   float[64]
+static XPLMDataRef drTcasYokeRoll   = nullptr;      ///< sim/cockpit2/tcas/targets/position/yolk_roll [sic!]    float[64]
+static XPLMDataRef drTcasYokeYaw    = nullptr;      ///< sim/cockpit2/tcas/targets/position/yolk_yaw [sic!]     float[64]
+static XPLMDataRef drTcasLights     = nullptr;      ///< sim/cockpit2/tcas/targets/position/lights          int[64] (bitfield: beacon=1, land=2, nav=4, strobe=8, taxi=16)
+
+/// Arry size of sim/cockpit2/tcas/targets/modeS_id
+static size_t numTcasTargets = 0;
+
+/// A structure simplifying communicaton with sim/cockpit2/tcas/targets/position/lights
+union TcasLightsTy {
+    int i;                                          ///< the full integer value
+    struct BitsTy {
+        bool beacon : 1;                            ///< Beacon lights
+        bool land   : 1;                            ///< Landing lights
+        bool nav    : 1;                            ///< Navigation lights
+        bool strobe : 1;                            ///< Strobe lights
+        bool taxi   : 1;                            ///< Taxi lights
+    } b;
 };
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wexit-time-destructors"
-/// Keeps the dataRef handles for all of the up to 19 AI/Multiplayer slots (accepted as a global variable requiring an exit-time destructor)
-static std::vector<multiDataRefsTy>        gMultiRef;
-/// Vector of AI/multiplayer plane models _before_ we change them, so we can restore models before releasing AI control
-static std::vector<std::string> gvecAIOrigModels;
-#pragma clang diagnostic pop
+/// Keeps the dataRef handles for one of the up to 19 legacy AI/Multiplayer slots ("sim/multiplayer/position") (accepted as a global variable requiring an exit-time destructor)
+static std::vector<multiDataRefsTy> gMultiRef;
+/// Keeps the dataRef handles for one of the up to 63 shared data slots ("sim/multiplayer/position/plane#...") (accepted as a global variable requiring an exit-time destructor)
+static std::vector<infoDataRefsTy>  gInfoRef;
 
 /// Map of Aircrafts, sorted by (priority-biased) distance
-typedef std::map<float,Aircraft&> mapAcByDistTy;
+typedef std::map<float,XPMPPlaneID> mapAcByDistTy;
+/// Map of Aircrafts, sorted by (priority-biased) distance
+mapAcByDistTy gMapAcByDist;
+#pragma clang diagnostic pop
 
 // Resets all actual values of the AI/multiplayer dataRefs of one plane to something initial
-void AIMultiClearDataRefs (multiDataRefsTy& mdr, bool bDeactivateToZero = false);
+void AIMultiClearAIDataRefs (multiDataRefsTy& mdr, bool bDeactivateToZero = false);
 
-// Find and reserve an AI slot for the given aircraft
-int Aircraft::AISlotReserve ()
-{
-    // safeguard: already have a slot?
-    if (multiIdx >= 0)
-        return multiIdx;
-    
-    // search for a free slot
-    for (size_t idx = 0; idx < gMultiRef.size(); idx++)
-        if (!gMultiRef[idx].bSlotTaken) {
-            // found one: take the slot
-            gMultiRef[idx].bSlotTaken = true;
-            multiIdx = (int)idx;
-            break;
-        }
-    
-    // Debug output
-    if (multiIdx >= 0)
-    {
-        LOG_MSG(logDEBUG, DEBUG_AI_SLOT_ASSIGN, (long long unsigned)mPlane,
-                multiIdx+1,
-                acIcaoType.c_str(), acIcaoAirline.c_str(), acLivery.c_str());
-    }
-    
-    // return the found slot
-    return multiIdx;
-}
-
-// Clear the AI slot
-void Aircraft::AISlotClear ()
-{
-    // Debug output
-    if (multiIdx >= 0)
-    {
-        LOG_MSG(logDEBUG, DEBUG_AI_SLOT_RELEASE, (long long unsigned)mPlane,
-                multiIdx+1,
-                acIcaoType.c_str(), acIcaoAirline.c_str(), acLivery.c_str());
-    }
-
-    // Just remove our knowledge of the slot
-    multiIdx = -1;
-}
-
-/// @brief Initializes all AI planes for our usage (also additionally defined AI planes during runtime)
-/// @param total Total number of planes as returned by XPLMCountAircraft
-/// @details Disables AI and specifically sets the "NoPlane" aircraft model,
-///          so that no actual plane will be rendered.
-///          If the user has configured "NoPlane" as the AI plane type already,
-///          then no further action is done to avoid delays due to loading of models.
-///          Cleans all dataRefs, so that we can start fresh with defined values.
-void AIMultiInitPlanes (int total)
-{
-    // Only needed if the given total is different from what
-    // has already been initialized
-    if (total != glob.nAIPlanesInitialized)
-    {
-        char pathOld[512], nameOld[256];
-        LOG_ASSERT(gvecAIOrigModels.size() >= size_t(total));
-        
-        // start either at beginning or where left off last time
-        // (to catch additionally defined AI planes during runtime)
-        for (int i = std::max(1, glob.nAIPlanesInitialized);
-             i < total; i++)
-        {
-            // Disable AI for all the planes..._we_ move them now.
-            XPLMDisableAIForPlane(i);
-
-            // Save current model, in order to restore it when exiting,
-            // and set our own "NoPlane.acf" model. (There's a config switch to skip this.)
-            if (!glob.bSkipAssignNoPlane)
-            {
-                bool bIsNoPlaneAlready = false;
-                if (gvecAIOrigModels[size_t(i)].empty()) {
-                    XPLMGetNthAircraftModel(i, nameOld, pathOld);
-                    bIsNoPlaneAlready = !strcmp(nameOld, RSRC_NO_PLANE);    // is the model already configured to be "NoPlane"?
-                    if (!bIsNoPlaneAlready && strlen(pathOld) > 5)          // sometimes we get just a single garbage char...don't store garbage
-                        gvecAIOrigModels[size_t(i)] = pathOld;
-                }
-
-                // And set the "NoPlane" model so that they are no actually rendered,
-                // but appear on TCAS.
-                if (!bIsNoPlaneAlready)
-                    XPLMSetAircraftModel(i, glob.pathNoPlane.c_str());
-            }
-        }
-
-        // Init done
-        LOG_MSG(logINFO, INFO_AI_CONTROL, total-1);
-        glob.nAIPlanesInitialized = total;
-    }
-}
-
-/// Restores original AI plane models, typically shortly before releasing AI control
-void AIMultiRestorePlanes ()
-{
-    // Restore all known plane types to their former values
-    for (size_t i = 1; i < gvecAIOrigModels.size(); i++) {
-        if (!gvecAIOrigModels[i].empty()) {
-            XPLMSetAircraftModel(int(i), gvecAIOrigModels[i].c_str());
-            gvecAIOrigModels[i].clear();
-        }
-    }
-    // Nothing initiallized any longer
-    glob.nAIPlanesInitialized = 0;
-}
-
-//              Updates all multiplayer dataRefs, both standard X-Plane,
+//              Updates all TCAS target dataRefs, both standard X-Plane,
 //              as well as additional shared dataRefs for text publishing
-/// @details    We want a plane to keep its index as long as possible. This eases
-///             following it from other plugins.\n
-///             The plane's multiplayer idx is in Aircraft::multiIdx.\n
-///             There are usually 19 slots for multiplayer planes.
-///             But the user might have set up less actual AI planes.
-///             Some plugins (including XP's own map) consider this number,
-///             others don't.\n
-///             Our approach: We make sure the first `modelCount` slots (lower part)
-///             are used by the closest a/c. The others (upper part) fill up with those
-///             father away.\n
-///             That certainly means that a/c still might switch AI slots
-///             if they move from lower to upper part or vice versa.
-///             To avoid too fast/too often switching of slots we allow change of slots
-///             only every 30s.
 void AIMultiUpdate ()
 {
     // If we don't control AI aircraft we bail out
     if (!XPMPHasControlOfAIAircraft())
         return;
     
-    // `numAIPlanes` is the number of AI aircraft _configured_ by the user in X-Plane's AI-Planes settings
-    int numAIPlanes, active, plugin;
-    XPLMCountAircraft(&numAIPlanes, &active, &plugin);
-    
-    // (Potentially) initialize the AI planes for usage
-    AIMultiInitPlanes(numAIPlanes);
-    
-    // For further steps: first plane is the user plane, here we don't count that
-    numAIPlanes--;
-
-    // reset our bookkeeping on used multiplay idx
-    for (multiDataRefsTy& iter: gMultiRef)
-        iter.bSlotTaken = false;
-    
     // Time of last slot switching activity
     static float tLastSlotSwitching = 0.0f;
     const float now = GetMiscNetwTime();
     // only every few seconds rearrange slots, ie. add/remove planes or
     // move planes between lower and upper section of AI slots:
-    if (CheckEverySoOften(tLastSlotSwitching, AISLOT_CHANGE_PERIOD, now))
+    if (glob.mapAc.size() != gMapAcByDist.size() ||
+        CheckEverySoOften(tLastSlotSwitching, AISLOT_CHANGE_PERIOD, now))
     {
         // Sort all planes by prioritized distance
-        mapAcByDistTy mapAcByDist;
         for (const auto& pair: glob.mapAc) {
-            Aircraft& ac = *pair.second;
+            const Aircraft& ac = *pair.second;
             // only consider planes that require being shown as AI aircraft
             // (these excludes invisible planes and those with transponder off)
             if (ac.ShowAsAIPlane())
                 // Priority distance means that we add artificial distance for higher-numbered AI priorities
-                mapAcByDist.emplace(ac.GetCameraDist() + ac.aiPrio * AI_PRIO_MULTIPLIER,
-                                    ac);
-        }
-    
-        // First loop over all relevant planes in order of prio/distance and
-        // set those multiplayer idx used, which are taken,
-        // and free up those slots no longer taken
-        size_t numTcasPlanes = 0;      // counts TCAS-relevant planes
-        for (const auto& pair: mapAcByDist)
-        {
-            // the multiplayer index stored with the plane:
-            const int refIdx = pair.second.GetMultiIdx();
-
-            // Still AI slots available?
-            if (numTcasPlanes < gMultiRef.size())
-            {
-                // The lower part (close planes), shall display in the safe lower part of AI slots
-                if (numTcasPlanes < (size_t)numAIPlanes)
-                {
-                    // current plane MUST get a slot in this range
-                    if (0 <= refIdx && refIdx < numAIPlanes && !gMultiRef[(size_t)refIdx].bSlotTaken)
-                        // it already has a reserved one, good
-                        gMultiRef[(size_t)refIdx].bSlotTaken = true;
-                    else
-                        // it will get one later (we still might need to free up lower part slots)
-                        pair.second.AISlotClear();
-                } else {
-                    // Planes father away (upper part):
-                    // If the plane has a reserved slot in the upper part it keeps it
-                    if (numAIPlanes <= refIdx && (size_t)refIdx < gMultiRef.size() && !gMultiRef[(size_t)refIdx].bSlotTaken)
-                        gMultiRef[(size_t)refIdx].bSlotTaken = true;
-                    else
-                        // Otherwise free it (this might free up lower part slots)
-                        pair.second.AISlotClear();
-                }
-
-                // one more plane, that requires an AI slot
-                numTcasPlanes++;
-            }
-            // Ran out of AI slots
-            else
-                pair.second.AISlotClear();
-        }           // loop all planes
-        
-        // Second loop: Now that we freed up some slots make sure
-        //              that the first 19 planes do have slots
-        numTcasPlanes = 0;
-        for (const auto& pair: mapAcByDist)
-        {
-            // make sure the plane has or gets a slot
-            pair.second.AISlotReserve();
-            
-            // Didn't get one??? That should not happen!
-            if (pair.second.GetMultiIdx() < 0)
-                LOG_MSG(logDEBUG, "Aircraft %llu: ERROR, got no AI slot, a/c ranks number %d with distance %.1f",
-                        (long long unsigned)pair.second.GetPlaneID(), numTcasPlanes,
-                        pair.second.GetCameraDist());
-            
-            // exit once we have processed the highest priority planes,
-            // as many as there are AI slots in total
-            if (++numTcasPlanes >= gMultiRef.size())
-                break;
-        }
-    }               // if time for AI slot switching
-    else
-    {
-        // only quickly do bookkeeping on used slots
-        // (even without re-slotting above, planes can have just vanished)
-        for (const auto& pair: glob.mapAc) {
-            const int idx = pair.second->GetMultiIdx();
-            if (0 <= idx && (size_t)idx < gMultiRef.size())
-                gMultiRef[(size_t)idx].bSlotTaken = true;
+                gMapAcByDist.emplace(ac.GetCameraDist() + ac.aiPrio * AI_PRIO_MULTIPLIER,
+                                     ac.GetPlaneID());
         }
     }
+    
+    // Start filling up TCAS targets, ordered by distance,
+    // so that the closest planes are in the lower slots,
+    // mirrored to the legacy multiplayer slots
+    std::vector<int> vModeS;    vModeS.reserve(gMapAcByDist.size());
+    std::vector<float> vX;      vX.reserve(gMapAcByDist.size());
+    std::vector<float> vY;      vY.reserve(gMapAcByDist.size());
+    std::vector<float> vZ;      vZ.reserve(gMapAcByDist.size());
+    for (const auto& p: gMapAcByDist)
+    {
+        // We keep the planeId in our distance-sorted map,
+        // but the plane might be gone now, so be carefully looking for it!
+        mapAcTy::const_iterator iterAc;
+        iterAc = glob.mapAc.find(p.second);
+        if (iterAc == glob.mapAc.end()) {
+            tLastSlotSwitching = 0.f;       // ensure we reinit the map next time
+            continue;
+        }
+        
+        // Plane exist!
+        const Aircraft& ac = *iterAc->second;
+        vModeS.push_back(int((long long)(ac.GetPlaneID())));
+        vX.push_back(ac.drawInfo.x);
+        vY.push_back(ac.drawInfo.y);
+        vZ.push_back(ac.drawInfo.z);
+    }
+    
+    // now we now how many planes we'll feed
+    XPLMSetActiveAircraftCount((int)vX.size());
+    
+    // Feed the dataRefs to X-Plane for TCAS target tracking
+#define SET_DR(ty, dr) XPLMSetDatav##ty(drTcas##dr, v##dr.data(), 0, (int)v##dr.size())
+    SET_DR(i, ModeS);
+    SET_DR(f, X);
+    SET_DR(f, Y);
+    SET_DR(f, Z);
+
+    // Cleanup unused legacy multiplayer datarefs
+    for (size_t i = vX.size(); i < gMultiRef.size(); i++)
+        AIMultiClearAIDataRefs(gMultiRef[i]);
+
+#warning IMPLEMENT THIS FURTHER!
+#warning Aircraft::mPlane should be replaced by modeS_id, but needs validation against map
+/*
+    
+    
+    
         
     // Fill multiplayer dataRefs for the planes relevant for TCAS
     size_t multiCount = 0;      // number of dataRefs set, just to exit loop early
@@ -451,12 +318,13 @@ void AIMultiUpdate ()
     for (multiDataRefsTy& mdr : gMultiRef)
         // if not used reset all values
         if (!mdr.bSlotTaken)
-            AIMultiClearDataRefs(mdr);
+            AIMultiClearAIDataRefs(mdr);
 
     // Set the number of planes
     // "+2" because one plane is the user's plane, and also maxMultiIdxUsed is zero based
     const int nCount = 2 + int(glob.maxMultiIdxUsed);
     XPLMSetActiveAircraftCount(nCount);
+ */
 }
 
 //
@@ -464,61 +332,54 @@ void AIMultiUpdate ()
 //
 
 /// Resets all actual values of the AI/multiplayer dataRefs of one plane to something initial
-void AIMultiClearDataRefs (multiDataRefsTy& mdr,
-                           bool bDeactivateToZero)
+void AIMultiClearAIDataRefs (multiDataRefsTy& drM,
+                             bool bDeactivateToZero)
 {
-    mdr.bSlotTaken = false;
     // either a "far away" location or standard 0, which is, however, a valid location somewhere!
-    XPLMSetDataf(mdr.X, bDeactivateToZero ? 0.0f : FAR_AWAY_VAL_GL);
-    XPLMSetDataf(mdr.Y, bDeactivateToZero ? 0.0f : FAR_AWAY_VAL_GL);
-    XPLMSetDataf(mdr.Z, bDeactivateToZero ? 0.0f : FAR_AWAY_VAL_GL);
-    
-    XPLMSetDataf(mdr.v_x, 0.0f);                // zero speed
-    XPLMSetDataf(mdr.v_y, 0.0f);
-    XPLMSetDataf(mdr.v_z, 0.0f);
-    
-    XPLMSetDataf(mdr.pitch, 0.0f);              // level attitude
-    XPLMSetDataf(mdr.roll, 0.0f);
-    XPLMSetDataf(mdr.heading, 0.0f);
-    
-    XPLMSetDatavf(mdr.gear, F_NULL, 0, 10);     // all configuration reset to 0
-    XPLMSetDataf(mdr.flap, 0.0f);
-    XPLMSetDataf(mdr.flap2, 0.0f);
-    XPLMSetDataf(mdr.spoiler, 0.0f);
-    XPLMSetDataf(mdr.speedbrake, 0.0f);
-    XPLMSetDataf(mdr.slat, 0.0f);
-    XPLMSetDataf(mdr.wingSweep, 0.0f);
-    XPLMSetDatavf(mdr.throttle, F_NULL, 0, 8);
-    XPLMSetDataf(mdr.yoke_pitch, 0.0f);
-    XPLMSetDataf(mdr.yoke_roll, 0.0f);
-    XPLMSetDataf(mdr.yoke_yaw, 0.0f);
-    
-    XPLMSetDatai(mdr.bcnLights, 0);             // all lights off
-    XPLMSetDatai(mdr.landLights, 0);
-    XPLMSetDatai(mdr.navLights, 0);
-    XPLMSetDatai(mdr.strbLights, 0);
-    XPLMSetDatai(mdr.taxiLights, 0);
-    
+    XPLMSetDataf(drM.X, bDeactivateToZero ? 0.0f : FAR_AWAY_VAL_GL);
+    XPLMSetDataf(drM.Y, bDeactivateToZero ? 0.0f : FAR_AWAY_VAL_GL);
+    XPLMSetDataf(drM.Z, bDeactivateToZero ? 0.0f : FAR_AWAY_VAL_GL);
+}
+
+/// Clears the shared info dataRefs
+void AIMultiClearInfoDataRefs (infoDataRefsTy& drI)
+{
     // Shared data for providing textual info (see XPMPInfoTexts_t)
     char allNulls[100];
     memset (allNulls, 0, sizeof(allNulls));
-    XPLMSetDatab(mdr.infoTailNum,       allNulls, 0, sizeof(XPMPInfoTexts_t::tailNum));
-    XPLMSetDatab(mdr.infoIcaoAcType,    allNulls, 0, sizeof(XPMPInfoTexts_t::icaoAcType));
-    XPLMSetDatab(mdr.infoManufacturer,  allNulls, 0, sizeof(XPMPInfoTexts_t::manufacturer));
-    XPLMSetDatab(mdr.infoModel,         allNulls, 0, sizeof(XPMPInfoTexts_t::model));
-    XPLMSetDatab(mdr.infoIcaoAirline,   allNulls, 0, sizeof(XPMPInfoTexts_t::icaoAirline));
-    XPLMSetDatab(mdr.infoAirline,       allNulls, 0, sizeof(XPMPInfoTexts_t::airline));
-    XPLMSetDatab(mdr.infoFlightNum,     allNulls, 0, sizeof(XPMPInfoTexts_t::flightNum));
-    XPLMSetDatab(mdr.infoAptFrom,       allNulls, 0, sizeof(XPMPInfoTexts_t::aptFrom));
-    XPLMSetDatab(mdr.infoAptTo,         allNulls, 0, sizeof(XPMPInfoTexts_t::aptTo));
+    XPLMSetDatab(drI.infoTailNum,       allNulls, 0, sizeof(XPMPInfoTexts_t::tailNum));
+    XPLMSetDatab(drI.infoIcaoAcType,    allNulls, 0, sizeof(XPMPInfoTexts_t::icaoAcType));
+    XPLMSetDatab(drI.infoManufacturer,  allNulls, 0, sizeof(XPMPInfoTexts_t::manufacturer));
+    XPLMSetDatab(drI.infoModel,         allNulls, 0, sizeof(XPMPInfoTexts_t::model));
+    XPLMSetDatab(drI.infoIcaoAirline,   allNulls, 0, sizeof(XPMPInfoTexts_t::icaoAirline));
+    XPLMSetDatab(drI.infoAirline,       allNulls, 0, sizeof(XPMPInfoTexts_t::airline));
+    XPLMSetDatab(drI.infoFlightNum,     allNulls, 0, sizeof(XPMPInfoTexts_t::flightNum));
+    XPLMSetDatab(drI.infoAptFrom,       allNulls, 0, sizeof(XPMPInfoTexts_t::aptFrom));
+    XPLMSetDatab(drI.infoAptTo,         allNulls, 0, sizeof(XPMPInfoTexts_t::aptTo));
+}
+
+/// Clears the key (mode_s) of the TCAS target dataRefs
+void AIMultiClearTcasDataRefs ()
+{
+    std::vector<int> nullArr (numTcasTargets, 0);
+    XPLMSetDatavi(drTcasModeS, nullArr.data(), 0, (int)numTcasTargets);
 }
 
 /// Reset all (controlled) multiplayer dataRef values of all planes
 void AIMultiInitAllDataRefs(bool bDeactivateToZero)
 {
-    if (XPMPHasControlOfAIAircraft())
-        for (multiDataRefsTy& mdr : gMultiRef)
-            AIMultiClearDataRefs(mdr, bDeactivateToZero);
+    if (XPMPHasControlOfAIAircraft()) {
+        // TCAS target keys
+        AIMultiClearTcasDataRefs();
+        
+        // Legacy multiplayer dataRefs
+        for (multiDataRefsTy& drM: gMultiRef)
+            AIMultiClearAIDataRefs(drM, bDeactivateToZero);
+        
+        // Shared info dataRefs
+        for (infoDataRefsTy& drI: gInfoRef)
+            AIMultiClearInfoDataRefs(drI);
+    }
 }
 
 
@@ -526,62 +387,92 @@ void AIMultiInitAllDataRefs(bool bDeactivateToZero)
 /// @details Fetches all dataRef handles for all dataRefs of all up to 19 AI/multiplayer slots
 void AIMultiInit ()
 {
-    // We don't know how many multiplayer planes there are - fetch as many as we can.
-    gMultiRef.clear();                  // just a safety measure against multi init
-    char        buf[100];
-    multiDataRefsTy    d;
+    // *** TCAS Target dataRefs ***
     
+    // These will only be available with X-Plane 11.50b8 or later
+    drTcasOverride      = XPLMFindDataRef("sim/operation/override/override_TCAS");
+    
+    // This is probably the most important one, serving as a key,
+    // but for us also as an indicator if we are in the right XP version
+    drTcasModeS         = XPLMFindDataRef("sim/cockpit2/tcas/targets/modeS_id");
+    if (!drTcasModeS) return;           // we can stop here...not the right XP version
+    // Let's establish array size (we shall not assume it is 64, though initially it is)
+    numTcasTargets = (size_t)XPLMGetDatavi(drTcasModeS, nullptr, 0, 0);
+    if (numTcasTargets < 1) {           // What???
+        drTcasModeS = nullptr;          // We can't work with less than 1 TCAS target either
+        return;
+    }
+    
+    // Now fetch all the other dataRefs...they should work
+    drTcasModeC         = XPLMFindDataRef("sim/cockpit2/tcas/targets/modeC_code");
+    drTcasFlightId      = XPLMFindDataRef("sim/cockpit2/tcas/targets/flight_id");
+    drTcasIcaoType      = XPLMFindDataRef("sim/cockpit2/tcas/targets/icao_type");
+    drTcasX             = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/x");
+    drTcasY             = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/y");
+    drTcasZ             = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/z");
+    drTcasVX            = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/vx");
+    drTcasVY            = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/vy");
+    drTcasVZ            = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/vz");
+    drTcasVertSpeed     = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/vertical_speed");
+    drTcasHeading       = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/psi");
+    drTcasPitch         = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/the");
+    drTcasRoll          = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/phi");
+    drTcasGear          = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/gear_deploy");
+    drTcasFlap          = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/flap_ratio");
+    drTcasFlap2         = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/flap_ratio2");
+    drTcasSpeedbrake    = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/speedbrake_ratio");
+    drTcasSlat          = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/slat_ratio");
+    drTcasWingSweep     = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/wing_sweep");
+    drTcasThrottle      = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/throttle");
+    drTcasYokePitch     = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yolk_pitch");
+    drTcasYokeRoll      = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yolk_roll");
+    drTcasYokeYaw       = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yolk_yaw");
+    drTcasLights        = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/lights");
+    
+    // *** Legacy Multiplayer DataRefs ***
+    
+    // We need them only for proper initialization at the beginning
+    // and when not filling all (19) slots
+    char        buf[100];
+    gMultiRef.clear();                      // just a safety measure against multi init
+    multiDataRefsTy drM;                    // one set of dataRefs for one plane
+    gMultiRef.push_back(drM);               // add an empty record at position 0 (user's plane)
+
     // Code for finding a standard X-Plane dataRef
 #define FIND_PLANE_DR(membVar, dataRefTxt, PlaneNr)                         \
-    snprintf(buf,sizeof(buf),"sim/multiplayer/position/plane%d_" dataRefTxt,PlaneNr);    \
-    d.membVar = XPLMFindDataRef(buf);
+    snprintf(buf,sizeof(buf),"sim/multiplayer/position/plane%u_" dataRefTxt,PlaneNr);    \
+    drM.membVar = XPLMFindDataRef(buf);
+
+    // We don't know how many multiplayer planes there are - fetch as many as we can.
+    // Loop over all possible AI/multiplayer slots
+    for (unsigned n = 1; true; n++)
+    {
+        // position
+        FIND_PLANE_DR(X, "x", n);
+        FIND_PLANE_DR(Y, "y", n);
+        FIND_PLANE_DR(Z, "z", n);
+        if (!drM) break;                    // break out of loop once the slot doesn't exist
+        gMultiRef.push_back(drM);
+    }
+    
+    // *** Shared dataRefs for providing additional text info ***
+    
+    // While these had been defined to be 19 only,
+    // we extend it to as many as there are TCAS targets
+    gInfoRef.clear();
+    infoDataRefsTy  drI;            // one set of dataRefs for one plane
+    gInfoRef.push_back(drI);        // add an empty record at position 0 (user's plane)
 
     // Code for finding a non-standard shared dataRef for text information sharing
 #define SHARE_PLANE_DR(membVar, dataRefTxt, PlaneNr)                        \
-    snprintf(buf,sizeof(buf),"sim/multiplayer/position/plane%d_" dataRefTxt,PlaneNr);    \
+    snprintf(buf,sizeof(buf),"sim/multiplayer/position/plane%u_" dataRefTxt,PlaneNr);    \
     if (XPLMShareData(buf, xplmType_Data, NULL, NULL))                      \
-        d.membVar = XPLMFindDataRef(buf);                                   \
-    else d.membVar = NULL;
+        drI.membVar = XPLMFindDataRef(buf);                                   \
+    else drI.membVar = NULL;
     
-    // Loop over all possible AI/multiplayer slots
-    int n=1;
-    for (n=1; true; n++)
+    // We add as many shared info dataRefs as there are TCAS targets (probably 64)
+    for (unsigned n = 1; n < numTcasTargets; n++)
     {
-        // position
-        FIND_PLANE_DR(X,                    "x",                    n);
-        if (!d.X) break;                    // break out of loop early out of the loop once the slot doesn't exist
-        FIND_PLANE_DR(Y,                    "y",                    n);
-        FIND_PLANE_DR(Z,                    "z",                    n);
-        // cartesian velocities
-        FIND_PLANE_DR(v_x,                  "v_x",                  n);
-        FIND_PLANE_DR(v_y,                  "v_y",                  n);
-        FIND_PLANE_DR(v_z,                  "v_z",                  n);
-        // attitude
-        FIND_PLANE_DR(pitch,                "the",                  n);
-        FIND_PLANE_DR(roll,                 "phi",                  n);
-        FIND_PLANE_DR(heading,              "psi",                  n);
-        // configuration
-        FIND_PLANE_DR(gear,                 "gear_deploy",          n);
-        FIND_PLANE_DR(flap,                 "flap_ratio",           n);
-        FIND_PLANE_DR(flap2,                "flap_ratio2",          n);
-        FIND_PLANE_DR(spoiler,              "spoiler_ratio",        n);
-        FIND_PLANE_DR(speedbrake,           "speedbrake_ratio",     n);
-        FIND_PLANE_DR(slat,                 "slat_ratio",           n); // _should_ expect this name
-        if (!d.slat) {
-            FIND_PLANE_DR(slat,             "sla1_ratio",           n); // but in reality it is this
-        }
-        FIND_PLANE_DR(wingSweep,            "wing_sweep",           n);
-        FIND_PLANE_DR(throttle,             "throttle",             n);
-        FIND_PLANE_DR(yoke_pitch,           "yolk_pitch",           n);
-        FIND_PLANE_DR(yoke_roll,            "yolk_roll",            n);
-        FIND_PLANE_DR(yoke_yaw,             "yolk_yaw",             n);
-        // lights
-        FIND_PLANE_DR(bcnLights,            "beacon_lights_on",     n);
-        FIND_PLANE_DR(landLights,           "landing_lights_on",    n);
-        FIND_PLANE_DR(navLights,            "nav_lights_on",        n);
-        FIND_PLANE_DR(strbLights,           "strobe_lights_on",     n);
-        FIND_PLANE_DR(taxiLights,           "taxi_light_on",        n);
-        
         // Shared data for providing textual info (see XPMPInfoTexts_t)
         SHARE_PLANE_DR(infoTailNum,         "tailnum",              n);
         SHARE_PLANE_DR(infoIcaoAcType,      "ICAO",                 n);
@@ -592,13 +483,8 @@ void AIMultiInit ()
         SHARE_PLANE_DR(infoFlightNum,       "flightnum",            n);
         SHARE_PLANE_DR(infoAptFrom,         "apt_from",             n);
         SHARE_PLANE_DR(infoAptTo,           "apt_to",               n);
-        
-        if (!d) break;
-        gMultiRef.push_back(d);
+        gInfoRef.push_back(drI);
     }
-    
-    // Properly size the vector that is to hold original model names
-    gvecAIOrigModels.assign(size_t(n),std::string());
 }
 
 // Grace cleanup
@@ -610,14 +496,14 @@ void AIMultiCleanup ()
     
     // Unshare shared data
 #define UNSHARE_PLANE_DR(membVar, dataRefTxt, PlaneNr)                         \
-    snprintf(buf,sizeof(buf),"sim/multiplayer/position/plane%d_" dataRefTxt,PlaneNr);       \
+    snprintf(buf,sizeof(buf),"sim/multiplayer/position/plane%u_" dataRefTxt,PlaneNr);       \
     XPLMUnshareData(buf, xplmType_Data, NULL, NULL);                           \
-    d.membVar = NULL;
+    drI.membVar = NULL;
     
     char        buf[100];
-    for (int n = 1; (size_t)n <= gMultiRef.size(); n++)
+    for (unsigned n = 1; n <= gInfoRef.size(); n++)
     {
-        multiDataRefsTy& d = gMultiRef[(size_t)n-1];
+        infoDataRefsTy& drI = gInfoRef[(size_t)n-1];
         UNSHARE_PLANE_DR(infoTailNum,         "tailnum",        n);
         UNSHARE_PLANE_DR(infoIcaoAcType,      "ICAO",           n);
         UNSHARE_PLANE_DR(infoManufacturer,    "manufacturer",   n);
@@ -628,10 +514,10 @@ void AIMultiCleanup ()
         UNSHARE_PLANE_DR(infoAptFrom,         "apt_from",       n);
         UNSHARE_PLANE_DR(infoAptTo,           "apt_to",         n);
     }
+    gInfoRef.clear();
     
     // Cleanup other arrays properly before shutdown
     gMultiRef.clear();
-    gvecAIOrigModels.clear();
 }
 
 }  // namespace XPMP2
@@ -645,6 +531,11 @@ using namespace XPMP2;
 // Acquire control of multiplayer aircraft
 const char *    XPMPMultiplayerEnable()
 {
+    // We totally rely on the new "TCAS target" functionality,
+    // which is only available as of X-Plane 11 beta 8
+    if (!drTcasModeS)
+        return "TCAS requires XP11.50b8 or later";
+    
     // short-cut if we are already in control
     if (XPMPHasControlOfAIAircraft())
         return "";
@@ -653,29 +544,31 @@ const char *    XPMPMultiplayerEnable()
     glob.bHasControlOfAIAircraft = XPLMAcquirePlanes(NULL, NULL, NULL) != 0;
     if (glob.bHasControlOfAIAircraft)
     {
-        // Success, now we have control of AI aircraft!
-        int total=0, active=0;
-        XPLMPluginID who=0;
-        XPLMCountAircraft(&total, &active, &who);
-
-        // Initialize available AI planes.
-        // (Note: If this is called during X-Plane's startup,
-        //        e.g. from XPluginStart/Enable, then total will not be known
-        //        and be just 1. But AIInitPlanes is called again from within
-        //        the flight loop and handles later additions of AI planes.
-        AIMultiInitPlanes(total);
+        // We definitely want to override TCAS!
+        XPLMSetDatai(drTcasOverride, 1);
         
         // No Planes yet started, initialize all dataRef values for a clean start
         XPLMSetActiveAircraftCount(1);
         AIMultiInitAllDataRefs(false);
 
         // Success
+        LOG_MSG(logINFO, INFO_AI_CONTROL);
         return "";
     }
     else
     {
-        LOG_MSG(logWARN, WARN_NO_AI_CONTROL);
-        return "Could not acquire AI/multiplayer planes";
+        // Failed! Because of whom?
+        int total=0, active=0;
+        XPLMPluginID who=0;
+        char whoName[256];
+        XPLMCountAircraft(&total, &active, &who);
+        XPLMGetPluginInfo(who, whoName, nullptr, nullptr, nullptr);
+        
+        // Write a proper message and return it also to caller
+        static char szWarn[256];
+        snprintf(szWarn, sizeof(szWarn), WARN_NO_AI_CONTROL, whoName);
+        LOG_MSG(logWARN, szWarn);
+        return szWarn;
     }
 }
 
@@ -688,14 +581,14 @@ void XPMPMultiplayerDisable()
     
     // Cleanup our values
     XPLMSetActiveAircraftCount(1);      // no active AI plane
-    AIMultiRestorePlanes();             // restore previously set models (might stall for loading them!)
     AIMultiInitAllDataRefs(true);       // reset all dataRef values to zero
     
-    // Reset the last index used
+    // Reset the last index used of all planes
     for (auto& pair: glob.mapAc)
-        pair.second->ResetMultiIdx();
+        pair.second->ResetTcasTargetIdx();
 
     // Then fully release AI/multiplayer planes
+    XPLMSetDatai(drTcasOverride, 0);
     XPLMReleasePlanes();
     glob.bHasControlOfAIAircraft = false;
     LOG_MSG(logINFO, INFO_AI_CONTROL_ENDS);

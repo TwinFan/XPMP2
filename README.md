@@ -49,32 +49,15 @@ TCAS
 The previous TCAS hack no longer works as the used flight loop phases no longer exist
 and replacement phases aren't identical between Vulkan and Metal.
 
-XPMP2 uses a new approach: Instead of tricking X-Plane not to render AI planes
-it provides X-Plane with a valid aircraft file, which does not contain any object to draw:
-`NoPlane.acf`. So actually, two planes are drawn for each plane that is at the same time
-supported as AI multiplayer plane for TCAS: One by XPMP2, which really is visible,
-and `NoPlane.acf` on top of that by X-Plane, which is (nearly) invisible as it has (nearly) no visible objects.
-This has the same effect in the internal map: The X-Plane version of the plane is (nearly) invisible,
-only the track marks unveil that X-Plane is tracking its AI multiplayer planes.
+XPMP2 had in the beginning used an approach involving invisible AI planes.
+With X-Plane 11.50 beta 8 this becomes obsolete as X-Plane introduces a new
+way of informing X-Plane about up to 63 TCAS aircraft called
+["TCAS Override"](https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/).
 
-When releasing AI control with `XPMPMultiplayerDisable()` then the planes types,
-which were configured before XPMP2 took AI control, are restored.
-
-**Note:** Restoring these original plane types can take a while,
-even seconds, as long as during X-Plane's startup, as each model is loaded
-by that time synchronously. `Log.txt` has the story.
-
-**Note:** If the plugin cannot gracefully shutdown (deactivated via Plugin admin or X-Plane crashes),
-then it is possible that the `NoPlane` setup configured by `XPMP2` remains and the user
-will not see his/her individual AI Aircraft setup any longer, but a list of "NoPlane" aircraft.
-
-The new `NoPlane.acf` file should be in or under the standard `Aircraft` folder of X-Plane.
-Only then does X-Plane not get confused and retains the AI Aircraft configuration
-also if the user opens the Flight Configuration, e.g. to change location.
-For this reason, `XPMP2` copies `NoPlane.acf` into `Aircraft/<plugin>` and then
-uses it from there. Copying can be switched off via a configuration setting,
-then `XPMP2` would also read `NoPlane.acf` from the resource directory
-(provided in the call to `XPMPMultiplayerInit`), but issues a warning in that case into `Log.txt`.
+**XPMP2 is being adapted to this approach at the very moment,** the first
+proof-of-concept code is already checked-in, but will now need to be completed
+with all supported dataRefs and some few changes to the interface with
+the `XPMP2::Aircraft` class.
 
 Status
 --

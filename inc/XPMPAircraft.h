@@ -201,9 +201,10 @@ public:
     float       GetVertOfs () const;
     
     /// @brief Called right before updating the aircraft's placement in the world
+    /// @param elapsed_since_last_call if present, then allows the plane to calculate its position
     /// @details Abstract virtual function. Override in derived classes and fill
     ///          `drawInfo`, the `v` array of dataRefs, `label`, and `infoTexts` with current values.
-    virtual void UpdatePosition () = 0;
+    virtual void UpdatePosition ( float elapsed_since_last_call ) = 0;
     /// Distance to camera [m]
     float GetCameraDist () const { return camDist; }
     /// Bearing from camera [°]

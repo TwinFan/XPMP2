@@ -264,7 +264,7 @@ float Aircraft::GetVertOfs () const
 }
 
 // Static: Flight loop callback function
-float Aircraft::FlightLoopCB (float, float, int, void*)
+float Aircraft::FlightLoopCB (float elapsed_since_last_call, float, int, void*)
 {
     UPDATE_CYCLE_NUM;               // DEBUG only: Store current cycle number in glob.xpCycleNum
     
@@ -282,7 +282,7 @@ float Aircraft::FlightLoopCB (float, float, int, void*)
     for (mapAcTy::value_type& pair: glob.mapAc) {
         // Have the aircraft provide up-to-date position and orientation values
         Aircraft& ac = *pair.second;
-        ac.UpdatePosition();
+        ac.UpdatePosition( elapsed_since_last_call );
         // If requested, clamp to ground, ie. make sure it is not below ground
         if (ac.bClampToGround || glob.bClampAll)
             ac.ClampToGround();
@@ -512,7 +512,7 @@ Aircraft(inICAOCode, inAirline, inLivery, inModelName ? inModelName : "")
 {}
 
 // Just calls all 4 previous `Get...` functions and copies the provided values into `drawInfo` and `v`
-void XPCAircraft::UpdatePosition()
+void XPCAircraft::UpdatePosition( float elapsed_since_last_call )
 {
     // Call the "callback" virtual functions and then update the core variables
     acPos.multiIdx = GetTcasTargetIdx();             // provide the multiplayer index back to the plugin

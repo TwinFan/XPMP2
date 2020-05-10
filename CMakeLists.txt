@@ -107,8 +107,8 @@ elseif(WIN32)
 
 endif()
 
-set_property(TARGET XPMP2 PROPERTY CXX_STANDARD_REQUIRED 17)
-set_property(TARGET XPMP2 PROPERTY CXX_STANDARD 17)
+set_property(TARGET XPMP2 PROPERTY CXX_STANDARD_REQUIRED 20)
+set_property(TARGET XPMP2 PROPERTY CXX_STANDARD 20)
 
 # Copy the resulting framework/library also into the 'lib' directory of the sample plugin
 if(APPLE)
@@ -121,5 +121,23 @@ if(APPLE)
 elseif(UNIX OR WIN32)
     add_custom_command(TARGET XPMP2 POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:XPMP2> ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib
+    )
+endif()
+
+# If you want copy to xenon project after compilation, just export path to root xenon folder.
+# I.e. to directory contains 3dparty, autopilot, common, desctop e.t.c.
+# This should not be a source of error. If the variable is not exported,
+# then copying will simply not be performed.
+
+set(XENON_ROOT_DIR $ENV{XENON_ROOT_DIR})
+set(XENON_XPMP2_DIR ${XENON_ROOT_DIR}/simulators/xplane/xenon/3dparty/libXPMP2)
+
+if (EXISTS ${XENON_ROOT_DIR})
+    add_custom_command(TARGET XPMP2 POST_BUILD
+        # copy builded library direct into xenon folder
+        COMMAND ${CMAKE_COMMAND} -E remove_directory ${XENON_XPMP2_DIR}
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${XENON_XPMP2_DIR}/include
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/inc/ ${XENON_XPMP2_DIR}/include/
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:XPMP2> ${XENON_XPMP2_DIR}
     )
 endif()

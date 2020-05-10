@@ -2,8 +2,10 @@
 .localized
 .image
 .vs/
+.idea
 
 # Build directories
+*build*
 build/
 build-lin/
 build-win/

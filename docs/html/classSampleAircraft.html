@@ -66,9 +66,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aff61059580cc9f84a90be3f62edc7986"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSampleAircraft.html#aff61059580cc9f84a90be3f62edc7986">SampleAircraft</a> (const std::string &amp;_icaoType, const std::string &amp;_icaoAirline, const std::string &amp;_livery, <a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> _modeS_id=0, const std::string &amp;_modelName=&quot;&quot;)</td></tr>
 <tr class="memdesc:aff61059580cc9f84a90be3f62edc7986"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor just passes on all parameters to library.  <a href="classSampleAircraft.html#aff61059580cc9f84a90be3f62edc7986">More...</a><br /></td></tr>
 <tr class="separator:aff61059580cc9f84a90be3f62edc7986"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac70fc9cd5efb79d0109b6c47e2a3bc9c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSampleAircraft.html#ac70fc9cd5efb79d0109b6c47e2a3bc9c">UpdatePosition</a> ()</td></tr>
-<tr class="memdesc:ac70fc9cd5efb79d0109b6c47e2a3bc9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Custom implementation for the virtual function providing updates values.  <a href="classSampleAircraft.html#ac70fc9cd5efb79d0109b6c47e2a3bc9c">More...</a><br /></td></tr>
-<tr class="separator:ac70fc9cd5efb79d0109b6c47e2a3bc9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb716173b20edb359c23fbf2ac554104"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSampleAircraft.html#adb716173b20edb359c23fbf2ac554104">UpdatePosition</a> (float, int)</td></tr>
+<tr class="memdesc:adb716173b20edb359c23fbf2ac554104"><td class="mdescLeft">&#160;</td><td class="mdescRight">Custom implementation for the virtual function providing updates values.  <a href="classSampleAircraft.html#adb716173b20edb359c23fbf2ac554104">More...</a><br /></td></tr>
+<tr class="separator:adb716173b20edb359c23fbf2ac554104"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classXPMP2_1_1Aircraft"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classXPMP2_1_1Aircraft')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classXPMP2_1_1Aircraft.html">XPMP2::Aircraft</a></td></tr>
 <tr class="memitem:abb2bfb5a4e8eb610346a3aebee504962 inherit pub_methods_classXPMP2_1_1Aircraft"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#abb2bfb5a4e8eb610346a3aebee504962">Aircraft</a> (const std::string &amp;_icaoType, const std::string &amp;_icaoAirline, const std::string &amp;_livery, <a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> _modeS_id=0, const std::string &amp;_modelId=&quot;&quot;)</td></tr>
 <tr class="separator:abb2bfb5a4e8eb610346a3aebee504962 inherit pub_methods_classXPMP2_1_1Aircraft"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -317,8 +317,8 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ac70fc9cd5efb79d0109b6c47e2a3bc9c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac70fc9cd5efb79d0109b6c47e2a3bc9c">&#9670;&nbsp;</a></span>UpdatePosition()</h2>
+<a id="adb716173b20edb359c23fbf2ac554104"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb716173b20edb359c23fbf2ac554104">&#9670;&nbsp;</a></span>UpdatePosition()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -329,8 +329,19 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="memname">virtual void SampleAircraft::UpdatePosition </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -342,7 +353,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Custom implementation for the virtual function providing updates values. </p>
 
-<p>Implements <a class="el" href="classXPMP2_1_1Aircraft.html#aab1a3041e51c16251095e8f146a5fc37">XPMP2::Aircraft</a>.</p>
+<p>Implements <a class="el" href="classXPMP2_1_1Aircraft.html#a021df5cf849d0bfc7468b84d2ba731e6">XPMP2::Aircraft</a>.</p>
 
 </div>
 </div>

@@ -90,7 +90,7 @@ Macros</h2></td></tr>
 <tr class="separator:acdbda2fc6187212f7a66cedf86d4e361"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a153ea8d6048d0e7ade7d64cde86e8b1b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AIMultiplayer_8cpp.html#a153ea8d6048d0e7ade7d64cde86e8b1b">DEBUG_AI_SLOT_RELEASE</a>&#160;&#160;&#160;&quot;Aircraft %llu: RELEASING AI Slot %d (%s, %s, %s)&quot;</td></tr>
 <tr class="separator:a153ea8d6048d0e7ade7d64cde86e8b1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad46d3c941557fa20fd1113f7247f5a97"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AIMultiplayer_8cpp.html#ad46d3c941557fa20fd1113f7247f5a97">SET_DR</a>(ty,  dr)&#160;&#160;&#160;XPLMSetDatav##ty(drTcas##dr, v##dr.data(), 0, (int)v##dr.size())</td></tr>
+<tr class="memitem:ad46d3c941557fa20fd1113f7247f5a97"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AIMultiplayer_8cpp.html#ad46d3c941557fa20fd1113f7247f5a97">SET_DR</a>(ty,  dr)&#160;&#160;&#160;XPLMSetData##ty(drTcas##dr, v##dr.data(), 1, (int)v##dr.size())</td></tr>
 <tr class="separator:ad46d3c941557fa20fd1113f7247f5a97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0a0ee111d8f8201b9a508b0cde8aa1c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AIMultiplayer_8cpp.html#ad0a0ee111d8f8201b9a508b0cde8aa1c">FIND_PLANE_DR</a>(membVar,  dataRefTxt,  PlaneNr)</td></tr>
 <tr class="separator:ad0a0ee111d8f8201b9a508b0cde8aa1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -430,7 +430,7 @@ Taxi lights. </td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;XPLMSetDatav##ty(drTcas##dr, v##dr.data(), 0, (int)v##dr.size())</td>
+          <td></td><td>&#160;&#160;&#160;XPLMSetData##ty(drTcas##dr, v##dr.data(), 1, (int)v##dr.size())</td>
         </tr>
       </table>
 </div><div class="memdoc">

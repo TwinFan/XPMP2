@@ -118,9 +118,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a113fc0ea358aca3033245c30f0f05a1e"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a113fc0ea358aca3033245c30f0f05a1e">GetVertOfs</a> () const</td></tr>
 <tr class="memdesc:a113fc0ea358aca3033245c30f0f05a1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vertical offset, ie. the value that needs to be added to drawInfo.y to make the aircraft appear on the ground.  <a href="classXPMP2_1_1Aircraft.html#a113fc0ea358aca3033245c30f0f05a1e">More...</a><br /></td></tr>
 <tr class="separator:a113fc0ea358aca3033245c30f0f05a1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab1a3041e51c16251095e8f146a5fc37"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#aab1a3041e51c16251095e8f146a5fc37">UpdatePosition</a> ()=0</td></tr>
-<tr class="memdesc:aab1a3041e51c16251095e8f146a5fc37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called right before updating the aircraft's placement in the world.  <a href="classXPMP2_1_1Aircraft.html#aab1a3041e51c16251095e8f146a5fc37">More...</a><br /></td></tr>
-<tr class="separator:aab1a3041e51c16251095e8f146a5fc37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a021df5cf849d0bfc7468b84d2ba731e6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a021df5cf849d0bfc7468b84d2ba731e6">UpdatePosition</a> (float _elapsedSinceLastCall, int _flCounter)=0</td></tr>
+<tr class="memdesc:a021df5cf849d0bfc7468b84d2ba731e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called right before updating the aircraft's placement in the world.  <a href="classXPMP2_1_1Aircraft.html#a021df5cf849d0bfc7468b84d2ba731e6">More...</a><br /></td></tr>
+<tr class="separator:a021df5cf849d0bfc7468b84d2ba731e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc986f4195712ed50435799f660235d3"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#acc986f4195712ed50435799f660235d3">GetCameraDist</a> () const</td></tr>
 <tr class="memdesc:acc986f4195712ed50435799f660235d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Distance to camera [m].  <a href="classXPMP2_1_1Aircraft.html#acc986f4195712ed50435799f660235d3">More...</a><br /></td></tr>
 <tr class="separator:acc986f4195712ed50435799f660235d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -549,7 +549,7 @@ Friends</h2></td></tr>
           <td class="memname">float XPMP2::Aircraft::FlightLoopCB </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
-          <td class="paramname">, </td>
+          <td class="paramname"><em>_elapsedSinceLastCall</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -561,7 +561,7 @@ Friends</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname">, </td>
+          <td class="paramname"><em>_flCounter</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1203,8 +1203,8 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="aab1a3041e51c16251095e8f146a5fc37"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aab1a3041e51c16251095e8f146a5fc37">&#9670;&nbsp;</a></span>UpdatePosition()</h2>
+<a id="a021df5cf849d0bfc7468b84d2ba731e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a021df5cf849d0bfc7468b84d2ba731e6">&#9670;&nbsp;</a></span>UpdatePosition()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1215,8 +1215,19 @@ Friends</h2></td></tr>
         <tr>
           <td class="memname">virtual void XPMP2::Aircraft::UpdatePosition </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_elapsedSinceLastCall</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>_flCounter</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -1227,9 +1238,16 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Called right before updating the aircraft's placement in the world. </p>
-<p>Abstract virtual function. Override in derived classes and fill <code>drawInfo</code>, the <code>v</code> array of dataRefs, <code>label</code>, and <code>infoTexts</code> with current values. </p>
+<p>Abstract virtual function. Override in derived classes and fill <code>drawInfo</code>, the <code>v</code> array of dataRefs, <code>label</code>, and <code>infoTexts</code> with current values. </p><dl class="section see"><dt>See also</dt><dd>See <a href="https://developer.x-plane.com/sdk/XPLMProcessing/#XPLMFlightLoop_f">XPLMFlightLoop_f</a> for background on the two passed-on parameters: </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_elapsedSinceLastCall</td><td>The wall time since last call </td></tr>
+    <tr><td class="paramname">_flCounter</td><td>A monotonically increasing counter, bumped once per flight loop dispatch from the sim. </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Implemented in <a class="el" href="classSampleAircraft.html#ac70fc9cd5efb79d0109b6c47e2a3bc9c">SampleAircraft</a>, and <a class="el" href="classXPCAircraft.html#a999148a0ef6618d3b7fd5b181068952c">XPCAircraft</a>.</p>
+<p>Implemented in <a class="el" href="classSampleAircraft.html#adb716173b20edb359c23fbf2ac554104">SampleAircraft</a>, and <a class="el" href="classXPCAircraft.html#a20a474086cb0c7c393578e5f9d42ef2c">XPCAircraft</a>.</p>
 
 </div>
 </div>

@@ -68,7 +68,7 @@ public:
     {  return xpmpData_Unavailable; }
 
     /// Just calls all 4 previous `Get...` functions and copies the provided values into `drawInfo` and `v`
-    virtual void UpdatePosition ();
+    virtual void UpdatePosition (float _elapsedSinceLastCall, int _flCounter);
 
 };
 

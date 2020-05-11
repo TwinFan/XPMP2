@@ -213,7 +213,11 @@ public:
     /// @brief Called right before updating the aircraft's placement in the world
     /// @details Abstract virtual function. Override in derived classes and fill
     ///          `drawInfo`, the `v` array of dataRefs, `label`, and `infoTexts` with current values.
-    virtual void UpdatePosition () = 0;
+    /// @see See [XPLMFlightLoop_f](https://developer.x-plane.com/sdk/XPLMProcessing/#XPLMFlightLoop_f)
+    ///      for background on the two passed-on parameters:
+    /// @param _elapsedSinceLastCall The wall time since last call
+    /// @param _flCounter A monotonically increasing counter, bumped once per flight loop dispatch from the sim.
+    virtual void UpdatePosition (float _elapsedSinceLastCall, int _flCounter) = 0;
     /// Distance to camera [m]
     float GetCameraDist () const { return camDist; }
     /// Bearing from camera [°]

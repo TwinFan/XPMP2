@@ -277,7 +277,7 @@ public:
     }
     
     /// Custom implementation for the virtual function providing updates values
-    virtual void UpdatePosition ()
+    virtual void UpdatePosition (float, int)
     {
         // Calculate the plane's position
         const float angle = std::fmod(360.0f * GetTimeFragment(), 360.0f);

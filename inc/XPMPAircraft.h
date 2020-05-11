@@ -22,6 +22,7 @@
 #ifndef _XPMPAircraft_h_
 #define _XPMPAircraft_h_
 
+#include "Constants.h"
 #include "XPMPMultiplayer.h"
 #include "XPLMInstance.h"
 #include "XPLMCamera.h"
@@ -87,7 +88,7 @@ enum DR_VALS {
 /// @brief Actual representation of all aircraft in XPMP2.
 /// @note In modern implementation, this class shall be subclassed by your plugin's code.
 class Aircraft {
-    
+
 protected:
     /// Legacy: The id of the represented plane (in XPMP2, this now is an arbitrary, ever increasing number)
     XPMPPlaneID         mPlane = 0;
@@ -204,7 +205,7 @@ public:
     /// @param elapsed_since_last_call if present, then allows the plane to calculate its position
     /// @details Abstract virtual function. Override in derived classes and fill
     ///          `drawInfo`, the `v` array of dataRefs, `label`, and `infoTexts` with current values.
-    virtual void UpdatePosition ( float elapsed_since_last_call ) = 0;
+    virtual void UpdatePosition ( float elapsedSinceLastCall ) = 0;
     /// Distance to camera [m]
     float GetCameraDist () const { return camDist; }
     /// Bearing from camera [°]
@@ -237,6 +238,14 @@ public:
     /// Actually draw the map label
     void MapDrawLabel (XPLMMapLayerID inLayer, float yOfs);
 
+    /// @brief Request for motion one actuator.
+    /// @details The surfaces of a real aircraft cannot move instantly due to physical properties.
+    /// This function requests switching on or off a certain type of actuator. Actual movement
+    /// will take some time. This allows you to get a picture on the screen more real.
+    /// @param mask bitmask indicates the type of actuator to be turned on or off.
+    /// @see REQUEST_xxx_xxx constant
+    void RequestActuatorMotion( unsigned int mask );
+
 protected:
     /// Internal: Flight loop callback function
     static float FlightLoopCB (float, float, int, void*);
@@ -256,6 +265,23 @@ protected:
     void SetTcasTargetIdx (int _idx) { tcasTargetIdx = _idx; }
     // These functions are called from AIMultiUpdate()
     friend void AIMultiUpdate ();
+private:
+    /// Saved actuator's modifications request from outside
+    unsigned int _requestedActuators;
+
+    /// @short Update current aircraft's actuators state.
+    /// @param elapsedSinceLastCall Time[second], which elapsed since the last call to this function.
+    /// An actuator condition modification value will be calculated for this time.
+    void _UpdateActuators( float elapsedSinceLastCall ); // NOLINT(bugprone-reserved-identifier)
+
+    /// @short Update condition for one (any) surface ("actuator").
+    /// @param mask byte mask specified an actuator state in request
+    /// @param state reference to specified v[...] value for this surface ("actuator")
+    /// @param modification delta-value for change actuator's state.
+    /// @param endPoint Motion end point for this direction
+    void _UpdateOneActuator( // NOLINT(bugprone-reserved-identifier)
+        const unsigned int & mask, float & state, const float & modification, float endPoint
+    );
 };
 
 /// Find aircraft by its plane ID, can return nullptr

@@ -100,6 +100,9 @@ Aircraft::Aircraft(const std::string& _icaoType,
                    const std::string& _modelName) :
 mPlane(glob.NextPlaneId())              // assign the next synthetic plane id
 {
+    // Initial state for requests of lighting.
+    _requestedActuators = REQUEST_ACTUATORS_NONE;
+
     // Size of drawInfo
     drawInfo.structSize = sizeof(drawInfo);
     
@@ -264,7 +267,7 @@ float Aircraft::GetVertOfs () const
 }
 
 // Static: Flight loop callback function
-float Aircraft::FlightLoopCB (float elapsed_since_last_call, float, int, void*)
+float Aircraft::FlightLoopCB (float elapsedSinceLastCall, float, int, void*)
 {
     UPDATE_CYCLE_NUM;               // DEBUG only: Store current cycle number in glob.xpCycleNum
     
@@ -282,7 +285,19 @@ float Aircraft::FlightLoopCB (float elapsed_since_last_call, float, int, void*)
     for (mapAcTy::value_type& pair: glob.mapAc) {
         // Have the aircraft provide up-to-date position and orientation values
         Aircraft& ac = *pair.second;
-        ac.UpdatePosition( elapsed_since_last_call );
+
+        // Calls actuator's change - before common UpdatePosition. Thus, there is a
+        // possibility to change the state of actuator again - in the general function.
+        if (
+            // try to reduce execution time.
+            ac.IsVisible()
+            && ( ac._requestedActuators != REQUEST_ACTUATORS_NONE)
+        )
+            ac._UpdateActuators( elapsedSinceLastCall );
+
+        // Then calls the general function to update the position and other states of the aircraft.
+        ac.UpdatePosition( elapsedSinceLastCall );
+
         // If requested, clamp to ground, ie. make sure it is not below ground
         if (ac.bClampToGround || glob.bClampAll)
             ac.ClampToGround();
@@ -453,6 +468,67 @@ void Aircraft::SetVisible (bool _bVisible)
     }
 }
 
+// Request change state for any sufraces ("actuators")
+void Aircraft::RequestActuatorMotion(unsigned int mask) {
+    // Using "a logical and" because actuators can move together.
+    _requestedActuators &= mask;
+}
+
+// Update all actuators state (condition) depended on _requestActuators value.
+void Aircraft::_UpdateActuators( float elapsedSinceLastCall ) { // NOLINT(bugprone-reserved-identifier)
+
+    // gear motion
+    float modification = elapsedSinceLastCall / TIME_FOR_GEAR_MOTION;
+    _UpdateOneActuator( REQUEST_GEAR_DOWN, v[ V_CONTROLS_GEAR_RATIO ], modification, 1.0 );
+    _UpdateOneActuator( REQUEST_GEAR_UP, v[ V_CONTROLS_GEAR_RATIO ], -modification, 0.0 );
+
+    // common lights
+    modification = elapsedSinceLastCall / TIME_FOR_LITES_DEFAULT;
+
+    _UpdateOneActuator(REQUEST_LITES_TAXI_ON, v[ V_CONTROLS_TAXI_LITES_ON ], modification, 1.0 );
+    _UpdateOneActuator(REQUEST_LITES_TAXI_OFF, v[ V_CONTROLS_TAXI_LITES_ON ], -modification, 0.0 );
+
+    _UpdateOneActuator(REQUEST_LITES_BEACON_ON, v[ V_CONTROLS_BEACON_LITES_ON ], modification, 1.0 );
+    _UpdateOneActuator(REQUEST_LITES_BEACON_OFF, v[ V_CONTROLS_BEACON_LITES_ON ], -modification, 0.0 );
+
+    _UpdateOneActuator(REQUEST_LITES_STROBE_ON, v[ V_CONTROLS_STROBE_LITES_ON ], modification, 1.0 );
+    _UpdateOneActuator(REQUEST_LITES_STROBE_OFF, v[ V_CONTROLS_STROBE_LITES_ON ], -modification, 0.0 );
+
+    _UpdateOneActuator( REQUEST_LITES_NAV_ON, v[ V_CONTROLS_NAV_LITES_ON ], modification, 1.0 );
+    _UpdateOneActuator( REQUEST_LITES_NAV_OFF, v[ V_CONTROLS_NAV_LITES_ON ], -modification, 0.0 );
+
+    // landing lights, more slowly
+    modification = elapsedSinceLastCall / TIME_FOR_LITES_LANDING;
+    _UpdateOneActuator(REQUEST_LITES_LANDING_ON, v[ V_CONTROLS_LANDING_LITES_ON ], modification, 1.0 );
+    _UpdateOneActuator(REQUEST_LITES_LANDING_OFF, v[ V_CONTROLS_LANDING_LITES_ON ], -modification, 0.0 );
+
+};
+
+// Update one specified actuator state (condition)
+void Aircraft::_UpdateOneActuator( // NOLINT(bugprone-reserved-identifier)
+    const unsigned int & mask, float & state, const float & modification, float endPoint
+) {
+
+    if ( _requestedActuators & mask ) {
+
+        if ( modification >= 0.0 ) {
+            // positive, goes up to 1.0
+            state += modification;
+            if ( state >= endPoint ) {
+                state = endPoint;
+                _requestedActuators &= ~mask;
+            }
+        } else {
+            // negative modification, goes down to 0.0
+            state += modification; // it is already negative, therefore sign is +
+            if ( state <= endPoint ) {
+                state = endPoint;
+                _requestedActuators &= ~mask;
+            }
+        }
+    }
+};
+
 //
 // MARK: LegacyAircraft
 //
@@ -512,7 +588,7 @@ Aircraft(inICAOCode, inAirline, inLivery, inModelName ? inModelName : "")
 {}
 
 // Just calls all 4 previous `Get...` functions and copies the provided values into `drawInfo` and `v`
-void XPCAircraft::UpdatePosition( float elapsed_since_last_call )
+void XPCAircraft::UpdatePosition( [[maybe_unused]] float elapsedSinceLastCall )
 {
     // Call the "callback" virtual functions and then update the core variables
     acPos.multiIdx = GetTcasTargetIdx();             // provide the multiplayer index back to the plugin

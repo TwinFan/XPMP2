@@ -107,8 +107,8 @@ elseif(WIN32)
 
 endif()
 
-set_property(TARGET XPMP2 PROPERTY CXX_STANDARD_REQUIRED 20)
-set_property(TARGET XPMP2 PROPERTY CXX_STANDARD 20)
+set_property(TARGET XPMP2 PROPERTY CXX_STANDARD_REQUIRED 17)
+set_property(TARGET XPMP2 PROPERTY CXX_STANDARD 17)
 
 # Copy the resulting framework/library also into the 'lib' directory of the sample plugin
 if(APPLE)

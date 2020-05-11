@@ -273,6 +273,7 @@ public:
         // informational texts
         strScpy(acInfoTexts.icaoAcType, _icaoType.c_str(), sizeof(acInfoTexts.icaoAcType));
         strScpy(acInfoTexts.icaoAirline, _icaoAirline.c_str(), sizeof(acInfoTexts.icaoAirline));
+        strScpy(acInfoTexts.tailNum, "D-EVEL", sizeof(acInfoTexts.tailNum));
     }
     
     /// Custom implementation for the virtual function providing updates values
@@ -499,6 +500,7 @@ public:
             acIcaoAirline   != outInfoTexts->icaoAirline) {
             strScpy(outInfoTexts->icaoAcType,   acIcaoType.c_str(),     sizeof(outInfoTexts->icaoAcType));
             strScpy(outInfoTexts->icaoAirline,  acIcaoAirline.c_str(),  sizeof(outInfoTexts->icaoAirline));
+            strScpy(outInfoTexts->flightNum, "LH1234", sizeof(outInfoTexts->flightNum));
             return xpmpData_NewData;
         }
         else
@@ -653,6 +655,8 @@ XPMPPlaneCallbackResult SetInfoData (XPMPInfoTexts_t& data)
     XPMPGetPlaneICAOAndLivery(hStdPlane,        // get ICAO type from XPMP2
                               data.icaoAcType,
                               NULL);
+    strScpy(data.tailNum, "D-ABCD", sizeof(data.tailNum));
+
     return xpmpData_NewData;
 }
 

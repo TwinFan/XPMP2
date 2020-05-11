@@ -3,3 +3,5 @@ XPMP2.framework/Modules
 XPMP2.framework/Resources
 XPMP2.framework/Current
 XPMP2.framework/XPMP2
+# to avoid continuously conflicts with upstream
+libXPMP2.a

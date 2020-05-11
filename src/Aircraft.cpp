@@ -483,8 +483,8 @@ void Aircraft::SetVisible (bool _bVisible)
 
 // Request change state for any sufraces ("actuators")
 void Aircraft::RequestActuatorMotion(unsigned int mask) {
-    // Using "a logical and" because actuators can move together.
-    _requestedActuators &= mask;
+    // Using "a logical or" because actuators can move together.
+    _requestedActuators |= mask;
 }
 
 // Update all actuators state (condition) depended on _requestActuators value.

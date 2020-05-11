@@ -233,8 +233,15 @@ enum XPMPPlaneCallbackResult {
 
 /// @brief Unique ID for an aircraft created by a plugin.
 /// @note In XPMP2 this value is no longer a pointer to an internal memory address,
-///       but just an ever increasing number. Don't use it as a pointer.
-typedef void *      XPMPPlaneID;
+///       but will directly be used as `modeS_id` in the new
+///       [TCAS override](https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/)
+///       approach.
+typedef unsigned XPMPPlaneID;
+
+/// Minimum allowed XPMPPlaneID / mode S id
+constexpr XPMPPlaneID MIN_MODE_S_ID = 0x00000001;
+/// Maximum allowed XPMPPlaneID / mode S id
+constexpr XPMPPlaneID MAX_MODE_S_ID = 0x00FFFFFF;
 
 
 /************************************************************************************
@@ -461,12 +468,14 @@ typedef XPMPPlaneCallbackResult (* XPMPPlaneData_f)(XPMPPlaneID         inPlane,
 /// @param inLivery Special livery designator, can be an empty string
 /// @param inDataFunc Callback function called by XPMP2 to fetch updated data
 /// @param inRefcon A refcon value passed back to you in all calls to the `inDataFunc`
+/// @param inModeS_id (optional) Unique identification of the plane [0x01..0xFFFFFF], e.g. the 24bit mode S transponder code. XPMP2 assigns an arbitrary unique number of not given
 [[deprecated("Subclass XPMP2::Aircraft instead")]]
 XPMPPlaneID XPMPCreatePlane(const char *            inICAOCode,
                             const char *            inAirline,
                             const char *            inLivery,
                             XPMPPlaneData_f         inDataFunc,
-                            void *                  inRefcon);
+                            void *                  inRefcon,
+                            XPMPPlaneID             inModeS_id = 0);
 
 /// @brief Creates a new plane, providing a specific CSL model name
 /// @deprecated Subclass XPMP2::Aircraft instead
@@ -476,13 +485,15 @@ XPMPPlaneID XPMPCreatePlane(const char *            inICAOCode,
 /// @param inLivery Special livery designator, can be an empty string
 /// @param inDataFunc Callback function called by XPMP2 to fetch updated data
 /// @param inRefcon A refcon value passed back to you in all calls to the `inDataFunc`
+/// @param inModeS_id (optional) Unique identification of the plane [0x01..0xFFFFFF], e.g. the 24bit mode S transponder code. XPMP2 assigns an arbitrary unique number of not given
 [[deprecated("Subclass XPMP2::Aircraft instead")]]
 XPMPPlaneID XPMPCreatePlaneWithModelName(const char *           inModelName,
                                          const char *           inICAOCode,
                                          const char *           inAirline,
                                          const char *           inLivery,
-                                         XPMPPlaneData_f            inDataFunc,
-                                         void *                  inRefcon);
+                                         XPMPPlaneData_f        inDataFunc,
+                                         void *                 inRefcon,
+                                         XPMPPlaneID            inModeS_id = 0);
 
 /// @brief [Deprecated] Removes a plane previously created with XPMPCreatePlane()
 /// @deprecated Delete subclassed XPMP2::Aircraft object instead.

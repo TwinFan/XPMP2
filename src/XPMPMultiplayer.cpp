@@ -314,7 +314,8 @@ XPMPPlaneID XPMPCreatePlane(const char *            inICAOCode,
                             const char *            inAirline,
                             const char *            inLivery,
                             XPMPPlaneData_f         inDataFunc,
-                            void *                  inRefcon)
+                            void *                  inRefcon,
+                            XPMPPlaneID             inModeS_id)
 {
     // forward to XPMPCreatePlaneWithModelName with no model name
     return XPMPCreatePlaneWithModelName(nullptr,        // no model name
@@ -322,7 +323,8 @@ XPMPPlaneID XPMPCreatePlane(const char *            inICAOCode,
                                         inAirline,
                                         inLivery,
                                         inDataFunc,
-                                        inRefcon);
+                                        inRefcon,
+                                        inModeS_id);
 }
 
 // Create a new plane, providing a model
@@ -331,7 +333,8 @@ XPMPPlaneID XPMPCreatePlaneWithModelName(const char *       inModelName,
                                          const char *       inAirline,
                                          const char *       inLivery,
                                          XPMPPlaneData_f    inDataFunc,
-                                         void *             inRefcon)
+                                         void *             inRefcon,
+                                         XPMPPlaneID        inModeS_id)
 {
     try {
 #ifndef __clang_analyzer__
@@ -340,19 +343,22 @@ XPMPPlaneID XPMPCreatePlaneWithModelName(const char *       inModelName,
                                                  inLivery,
                                                  inDataFunc,
                                                  inRefcon,
+                                                 inModeS_id,
                                                  inModelName);
         // This is not leaking memory, the pointer is in glob.mapAc as taken care of by the constructor
-        return pAc->GetPlaneID();
+        return pAc->GetModeS_ID();
 #endif
     }
-    catch (const XPMP2Error&) {
+    catch (const XPMP2Error& e) {
         // This might be thrown in case of problems creating the object
-        LOG_MSG(logERR, "Could not create plane object for %s/%s/%s/%s!",
+        LOG_MSG(logERR, "Could not create plane object for %s/%s/%s/0x%06X/%s: %s",
                 inICAOCode  ? inICAOCode    : "<null>",
                 inAirline   ? inAirline     : "<null>",
                 inLivery    ? inLivery      : "<null>",
-                inModelName ? inModelName   : "<null>");
-        return nullptr;
+                inModeS_id,
+                inModelName ? inModelName   : "<null>",
+                e.what());
+        return 0;
     }
 }
 
@@ -447,10 +453,10 @@ long XPMPCountPlanes()
 XPMPPlaneID XPMPGetNthPlane(long index)
 {
     if (index < 0 || index >= XPMPCountPlanes())
-        return nullptr;
+        return 0;
     auto iter = glob.mapAc.cbegin();
     std::advance(iter, index);
-    return iter->second->GetPlaneID();
+    return iter->second->GetModeS_ID();
 }
 
 
@@ -510,7 +516,7 @@ namespace XPMP2 {
 void XPMPSendNotification (const Aircraft& plane, XPMPPlaneNotification _notification)
 {
     for (const XPMPPlaneNotifierTy& n: glob.listObservers)
-        n.func(plane.GetPlaneID(),
+        n.func(plane.GetModeS_ID(),
                _notification,
                n.refcon);
 }

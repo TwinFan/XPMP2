@@ -44,8 +44,6 @@ online:
 TCAS
 ----
 
-**WARNING:** TCAS handling is still work in progress.
-
 The previous TCAS hack no longer works as the used flight loop phases no longer exist
 and replacement phases aren't identical between Vulkan and Metal.
 
@@ -54,10 +52,16 @@ With X-Plane 11.50 beta 8 this becomes obsolete as X-Plane introduces a new
 way of informing X-Plane about up to 63 TCAS aircraft called
 ["TCAS Override"](https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/).
 
-**XPMP2 is being adapted to this approach at the very moment,** the first
-proof-of-concept code is already checked-in, but will now need to be completed
-with all supported dataRefs and some few changes to the interface with
-the `XPMP2::Aircraft` class.
+XPMP2 has been adapted to the new TCAS override approach.
+With this it is not even necessary for the user to configure any AI Aircraft
+any longer in X-Plane. Up to 63 blibs will show on standard TCAS
+systems in Laminar's instruments.
+
+**Note:** 3rd party plugins will need adaptations to benefit from the new feature.
+By and large, however, they should without changes be able to read the classic
+up to 19 multiplayer planes. Again, see the
+[blog post](https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/)
+for more details.
 
 Status
 --

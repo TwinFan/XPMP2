@@ -210,9 +210,19 @@ void AIMultiUpdate ()
         
         // Plane exist!
         Aircraft& ac = *iterAc->second;
+        
+        // maximum number of TCAS planes already defined?
+        // Just clear the stored multiplayer idx, but otherwise don't add more data
+        if (vModeS.size() >= numTcasTargets) {
+            ac.ResetTcasTargetIdx();
+            continue;
+        }
+        
+        // Add the plane to the list of TCAS targets
         vModeS.push_back(int(ac.GetModeS_ID()));
         vModeC.push_back(int(ac.acRadar.code));
-        
+        ac.SetTcasTargetIdx((int)vModeS.size());
+
         // This plane's position
         vX.push_back(ac.drawInfo.x);
         vY.push_back(ac.drawInfo.y - ac.GetVertOfs());  // align with original altitude
@@ -258,16 +268,16 @@ void AIMultiUpdate ()
                 const float d_y = ac.drawInfo.y - ac.prev_y;
                 const float d_z = ac.drawInfo.z - ac.prev_z;
                 float f = d_x / d_t;
-                XPLMSetDatavf(drTcasVX, &f, (int)vModeS.size(), 1);
+                XPLMSetDatavf(drTcasVX, &f, ac.GetTcasTargetIdx(), 1);
                 f = d_y / d_t;
-                XPLMSetDatavf(drTcasVY, &f, (int)vModeS.size(), 1);
+                XPLMSetDatavf(drTcasVY, &f, ac.GetTcasTargetIdx(), 1);
                 f = d_z / d_t;
-                XPLMSetDatavf(drTcasVZ, &f, (int)vModeS.size(), 1);
+                XPLMSetDatavf(drTcasVZ, &f, ac.GetTcasTargetIdx(), 1);
                 
                 // vertical speed (roughly...y is not exact, but let's keep things simple here),
                 // convert from m/s to ft/min
                 f = (d_y / d_t) * (60.0f / float(M_per_FT));
-                XPLMSetDatavf(drTcasVertSpeed, &f, (int)vModeS.size(), 1);
+                XPLMSetDatavf(drTcasVertSpeed, &f, ac.GetTcasTargetIdx(), 1);
             }
             ac.prev_x = ac.drawInfo.x;
             ac.prev_y = ac.drawInfo.y;
@@ -280,15 +290,15 @@ void AIMultiUpdate ()
             memcpy(s,
                    ac.acInfoTexts.flightNum[0] ? ac.acInfoTexts.flightNum : ac.acInfoTexts.tailNum,
                    sizeof(s)-1);
-            XPLMSetDatab(drTcasFlightId, s, (int)(vModeS.size() * sizeof(s)), sizeof(s));
+            XPLMSetDatab(drTcasFlightId, s, ac.GetTcasTargetIdx() * (int)sizeof(s), sizeof(s));
 
             // Icao Type code
             memset(s, 0, sizeof(s));
             memcpy(s, ac.acInfoTexts.icaoAcType, sizeof(ac.acInfoTexts.icaoAcType));
-            XPLMSetDatab(drTcasIcaoType, s, (int)(vModeS.size() * sizeof(s)), sizeof(s));
+            XPLMSetDatab(drTcasIcaoType, s, ac.GetTcasTargetIdx() * (int)sizeof(s), sizeof(s));
 
             // Shared data for providing textual info (see XPMPInfoTexts_t)
-            const infoDataRefsTy drI = gInfoRef[vModeS.size()];
+            const infoDataRefsTy drI = gInfoRef[(size_t)ac.GetTcasTargetIdx()];
             XPLMSetDatab(drI.infoTailNum,       ac.acInfoTexts.tailNum,       0, sizeof(XPMPInfoTexts_t::tailNum));
             XPLMSetDatab(drI.infoIcaoAcType,    ac.acInfoTexts.icaoAcType,    0, sizeof(XPMPInfoTexts_t::icaoAcType));
             XPLMSetDatab(drI.infoManufacturer,  ac.acInfoTexts.manufacturer,  0, sizeof(XPMPInfoTexts_t::manufacturer));
@@ -299,10 +309,6 @@ void AIMultiUpdate ()
             XPLMSetDatab(drI.infoAptFrom,       ac.acInfoTexts.aptFrom,       0, sizeof(XPMPInfoTexts_t::aptFrom));
             XPLMSetDatab(drI.infoAptTo,         ac.acInfoTexts.aptTo,         0, sizeof(XPMPInfoTexts_t::aptTo));
         }
-
-        // maximum number of TCAS planes defined? -> leave loop early, can't accomodate all planes
-        if (vModeS.size() >= numTcasTargets)
-            break;
     }
     
     // now we know how many planes we'll feed (+1 for the user's plane)

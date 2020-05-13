@@ -301,8 +301,10 @@ float Aircraft::FlightLoopCB (float _elapsedSinceLastCall, float, int _flCounter
         if (ac.bClampToGround || glob.bClampAll)
             ac.ClampToGround();
         // Update plane's distance/bearing every second only
-        if (CheckEverySoOften(ac.camTimLstUpd, 1.0f, now))
+        if (CheckEverySoOften(ac.camTimLstUpd, 1.0f, now)) {
             ac.UpdateDistBearingCamera(posCamera);
+            ac.ComputeMapLabel();
+        }
         // Actually move the plane, ie. the instance that represents it
         ac.DoMove();
     }

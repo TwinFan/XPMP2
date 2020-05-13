@@ -150,13 +150,23 @@ void Aircraft::MapDrawLabel (XPLMMapLayerID inLayer, float yOfs)
     // draw only if said to be visible on this map
     if (!std::isnan(mapX) && !std::isnan(mapY)) {
         XPLMDrawMapLabel(inLayer,
-                         IsCurrentlyShownAsTcasTarget() ?
-                           (std::string(">") + label + '<').c_str() :
-                           label.c_str(),
+                         mapLabel.c_str(),
                          mapX, mapY + yOfs,
                          xplm_MapOrientation_UI,
                          0.0f);
     }
+}
+
+
+// Put together the map label, depends on tcasTargetIdx
+void Aircraft::ComputeMapLabel ()
+{
+    mapLabel =
+    IsCurrentlyShownAsAI() ?
+        (std::string("[") + label + ']') :
+    IsCurrentlyShownAsTcasTarget() ?
+        (std::string(">") + label + '<') :
+    label;
 }
 
 

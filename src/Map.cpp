@@ -184,8 +184,8 @@ void MapIconDrawingCB (XPLMMapLayerID       inLayer,
 {
     // How many map units does one a/c have "in reality"
     const float m_per_mu = XPLMMapScaleMeter(projection,
-                                             inMapBoundsLeftTopRightBottom[2] - inMapBoundsLeftTopRightBottom[0],
-                                             inMapBoundsLeftTopRightBottom[1] - inMapBoundsLeftTopRightBottom[3]);
+                                             (inMapBoundsLeftTopRightBottom[2] + inMapBoundsLeftTopRightBottom[0])/2.0f,
+                                             (inMapBoundsLeftTopRightBottom[1] + inMapBoundsLeftTopRightBottom[3])/2.0f);
     const float acSize = std::max(MAP_AC_SIZE * m_per_mu,
                                   // But to be able to identify an icon it needs a minimum size
                                   MAP_MIN_ICON_SIZE * mapUnitsPerUserInterfaceUnit);

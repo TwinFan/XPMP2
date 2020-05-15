@@ -172,6 +172,13 @@ Aircraft::~Aircraft ()
 }
 
 
+// Is this object a ground vehicle?
+bool Aircraft::IsGroundVehicle() const
+{
+    return acIcaoType == glob.carIcaoType;
+}
+
+
 // (Potentially) change the plane's model after doing a new match attempt
 int Aircraft::ChangeModel (const std::string& _icaoType,
                            const std::string& _icaoAirline,

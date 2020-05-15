@@ -130,8 +130,10 @@ public:
     mapCSLPackageTy mapCSLPkgs;
     /// Global map of all CSL Models, indexed by related group, aircraft type, and model id
     mapCSLModelTy   mapCSLModels;
-    /// Default ICAO model type if no match can be found
+    /// Default ICAO aircraft type designator if no match can be found
     std::string     defaultICAO = "A320";
+    /// Ground vehicle type identifier (map decides icon based on this)
+    std::string     carIcaoType = "ZZZC";
     /// Resource directory, to store local definitions of vertical offsets (clamping)
     std::string     resourceDir;
     

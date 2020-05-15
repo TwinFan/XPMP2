@@ -76,7 +76,7 @@ void Aircraft::MapFindIcon ()
     else if (acIcaoType == "GYRO" ||
              acIcaoType == "UHEL")
     { mapIconRow=2; mapIconCol=0; }
-    else if (acIcaoType == "ZZZC")      // used by X-CSL and LiveTraffic for a ground vehicle
+    else if (IsGroundVehicle())
     { mapIconRow=2; mapIconCol=1; }
     // now determine based on type and number of engines
     else {

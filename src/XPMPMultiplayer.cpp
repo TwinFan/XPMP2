@@ -26,6 +26,7 @@
 #define ERR_RSRC_DIR_UNAVAIL  "Resource directory '%s' does not exist!"
 #define ERR_RSRC_FILE_UNAVAIL "File '%s' is missing in resource directory '%s'"
 #define INFO_DEFAULT_ICAO       "Default ICAO aircraft type now is %s"
+#define INFO_CAR_ICAO           "Ground vehicle ICAO type now is %s"
 #define INFO_LOAD_CSL_PACKAGE   "Loading CSL package from %s"
 
 // The global functions implemented here are not in our namespace for legacy reasons,
@@ -460,12 +461,21 @@ XPMPPlaneID XPMPGetNthPlane(long index)
 }
 
 
-// Set default ICAO if model couldn't be derived at all
-void    XPMPSetDefaultPlaneICAO(const char * inICAO)
+// Define default aircraft and ground vehicle ICAO types
+void XPMPSetDefaultPlaneICAO(const char* _acIcaoType,
+                             const char* _carIcaoType)
 {
-    if (!inICAO) return;
-    glob.defaultICAO = inICAO;
-    LOG_MSG(logINFO, INFO_DEFAULT_ICAO, inICAO);
+    // Plane default
+    if (_acIcaoType) {
+        glob.defaultICAO = _acIcaoType;
+        LOG_MSG(logINFO, INFO_DEFAULT_ICAO, _acIcaoType);
+    }
+
+    // Car identification
+    if (_carIcaoType) {
+        glob.carIcaoType = _carIcaoType; 
+        LOG_MSG(logINFO, INFO_CAR_ICAO, _carIcaoType);
+    }
 }
 
 //

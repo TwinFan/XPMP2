@@ -48,6 +48,9 @@ std::array<const char*, 2> ALL_MAPS = {
     XPLM_MAP_IOS,
 };
 
+/// Our "cache" for the size of an aircraft icon, filled in MapPrepareCacheCB()
+static float gMtrPerMapUnit = NAN;
+
 //
 // MARK: Map Drawing
 //
@@ -170,7 +173,22 @@ void Aircraft::ComputeMapLabel ()
 }
 
 
-/// Actually draw the icons into the map
+/// @brief Prepare map drawing information
+/// @details It seems that XPLMMapScaleMeter only works from here,
+///          otherwise could crash the sim. (Reported as bug to Laminar)
+void MapPrepareCacheCB(XPLMMapLayerID       , // inLayer,
+                       const float*         inTotalMapBoundsLeftTopRightBottom,
+                       XPLMMapProjectionID  projection,
+                       void*)               // inRefcon
+{
+    // How many map units does one a/c have "in reality"
+    gMtrPerMapUnit = XPLMMapScaleMeter(projection,
+                                       (inTotalMapBoundsLeftTopRightBottom[2] + inTotalMapBoundsLeftTopRightBottom[0]) / 2.0f,
+                                       (inTotalMapBoundsLeftTopRightBottom[1] + inTotalMapBoundsLeftTopRightBottom[3]) / 2.0f);
+}
+
+
+/// @brief Actually draw the icons into the map
 /// @details This call computes the labels location on the map
 ///          and puts this info into the aircraft object.
 ///          MapLabelDrawingCB() reuses the cached location info.
@@ -180,18 +198,19 @@ void MapIconDrawingCB (XPLMMapLayerID       inLayer,
                        float                mapUnitsPerUserInterfaceUnit,
                        XPLMMapStyle         , // mapStyle,
                        XPLMMapProjectionID  projection,
-                       void *               )       // refcon
+                       void *               refcon)
 {
-    // How many map units does one a/c have "in reality"
-    const float m_per_mu = XPLMMapScaleMeter(projection,
-                                             (inMapBoundsLeftTopRightBottom[2] + inMapBoundsLeftTopRightBottom[0])/2.0f,
-                                             (inMapBoundsLeftTopRightBottom[1] + inMapBoundsLeftTopRightBottom[3])/2.0f);
-    const float acSize = std::max(MAP_AC_SIZE * m_per_mu,
+    // Have no reasonable map unit yet?
+    if (std::isnan(gMtrPerMapUnit))
+        MapPrepareCacheCB(inLayer, inMapBoundsLeftTopRightBottom, projection, refcon);
+
+    // Size of an aircraft icon
+    const float acSize = std::max(MAP_AC_SIZE * gMtrPerMapUnit,
                                   // But to be able to identify an icon it needs a minimum size
                                   MAP_MIN_ICON_SIZE * mapUnitsPerUserInterfaceUnit);
 
     // Draw icons for all (visible) aircraft
-    for (const auto& p: glob.mapAc) {
+    for (const auto& p : glob.mapAc) {
         p.second->MapPreparePos(projection, inMapBoundsLeftTopRightBottom);
         p.second->MapDrawIcon(inLayer, acSize);
     }
@@ -203,18 +222,18 @@ void MapLabelDrawingCB (XPLMMapLayerID       inLayer,
                         float,               // zoomRatio,
                         float                mapUnitsPerUserInterfaceUnit,
                         XPLMMapStyle,        // mapStyle,
-                        XPLMMapProjectionID projection,
-                        void *               )      // refcon
+                        XPLMMapProjectionID  projection,
+                        void *               refcon)
 {
     // Return at once if label drawing is off
     if (!glob.bMapLabels) return;
-    
-    // How many map units does one a/c have "in reality"
-    const float m_per_mu = XPLMMapScaleMeter(projection,
-                                             inMapBoundsLeftTopRightBottom[2] - inMapBoundsLeftTopRightBottom[0],
-                                             inMapBoundsLeftTopRightBottom[1] - inMapBoundsLeftTopRightBottom[3]);
+
+    // Have no reasonable map unit yet?
+    if (std::isnan(gMtrPerMapUnit))
+        MapPrepareCacheCB(inLayer, inMapBoundsLeftTopRightBottom, projection, refcon);
+
     // Based on icon size determine how much the label needs to be put below the icon
-    const float yOfs = std::max(MAP_AC_SIZE * m_per_mu,
+    const float yOfs = std::max(MAP_AC_SIZE * gMtrPerMapUnit,
                                 // But to be able to identify an icon it needs a minimum size
                                 MAP_MIN_ICON_SIZE * mapUnitsPerUserInterfaceUnit) / -1.75f;
 
@@ -253,7 +272,7 @@ void MapLayerCreate (const char* mapIdentifier)
         mapIdentifier,                              // mapToCreateLayerIn
         xplm_MapLayer_Markings,                     // layerType
         MapDeleteCB,                                // willBeDeletedCallback
-        nullptr,                                    // prepCacheCallback
+        MapPrepareCacheCB,                          // prepCacheCallback
         nullptr,                                    // drawCallback
         MapIconDrawingCB,                           // iconCallback
         MapLabelDrawingCB,                          // labelCallback
@@ -285,9 +304,10 @@ void MapCreateAll ()
 /// Remove all our map layers
 void MapDestroyAll ()
 {
-    for (const auto& p: glob.mapMapLayers)
-        XPLMDestroyMapLayer(p.second);
-    glob.mapMapLayers.clear();
+    // XPLMDestroyMapLayer will call our MapDeleteCB, which in turn removes the entry from the map
+    // So we only look for the first and have it removed
+    while (!glob.mapMapLayers.empty())
+        XPLMDestroyMapLayer(glob.mapMapLayers.cbegin()->second);
 }
 
 /// Callback called when a map is created. We then need to add our layer to it
@@ -305,12 +325,15 @@ void MapCreateCB (const char *  mapIdentifier,
 // Initialize the module
 void MapInit ()
 {
+    /*** WORKAROUND FOR MAP CRASH...we don't support our map right now ***
+
     // Register the map create callback hook,
     // so get informed when a new map is opened
     XPLMRegisterMapCreationHook (MapCreateCB, nullptr);
     
     // Handle all already existing maps
     MapCreateAll();
+    ***/
 }
 
 /// Grace cleanup

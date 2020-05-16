@@ -564,7 +564,7 @@ const char *    XPMPMultiplayerEnable()
     {
         // We definitely want to override TCAS and map!
         XPLMSetDatai(drTcasOverride, 1);
-        XPLMSetDatai(drMapOverride, 1);
+// WORKAROUND FOR MAP CRASH        XPLMSetDatai(drMapOverride, 1);
 
         // No Planes yet started, initialize all dataRef values for a clean start
         XPLMSetActiveAircraftCount(1);

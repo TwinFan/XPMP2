@@ -206,7 +206,7 @@ const char *    XPMPLoadCSLPackage(const char * inCSLFolder)
 {
     // Do load the CSL Models in the given path
     if (inCSLFolder) {
-        LOG_MSG(logINFO, INFO_LOAD_CSL_PACKAGE, inCSLFolder);
+        LOG_MSG(logINFO, INFO_LOAD_CSL_PACKAGE, StripXPSysDir(inCSLFolder).c_str());
         return CSLModelsLoad(inCSLFolder);
     }
     else

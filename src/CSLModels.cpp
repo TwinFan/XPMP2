@@ -33,7 +33,8 @@ namespace XPMP2 {
 
 /// The file holding package information
 #define XSB_AIRCRAFT_TXT        "xsb_aircraft.txt"
-#define INFO_XSBACTXT_READ      "Processing %s"
+#define DEBUG_XSBACTXT_READ     "Processing %s"
+#define INFO_XSBACTXT_DONE      "Read %3d aircraft %s from %s"
 #define INFO_TOTAL_NUM_MODELS   "Total number of known models now is %lu"
 #define WARN_NO_XSBACTXT_FOUND  "No xsb_aircraft.txt found"
 #define WARN_DUP_PKG_NAME       "Package name (EXPORT_NAME) '%s' in folder '%s' is already in use by '%s'"
@@ -480,7 +481,7 @@ void CSLModelsAdd (CSLModel& _csl)
     if (!p.second) {                    // not inserted, ie. not a new entry!
         LOG_MSG(logWARN, WARN_DUP_MODEL, p.first->second.GetModelName().c_str(),
                 p.first->second.xsbAircraftLn,
-                p.first->second.xsbAircraftPath.c_str());
+                StripXPSysDir(p.first->second.xsbAircraftPath).c_str());
     }
 
     // in all cases properly reset the passed-in reference
@@ -522,8 +523,8 @@ const char* CSLModelsReadPkgId (const std::string& path)
                         tokens[1].c_str(), path.c_str(),
                         p.first->second.c_str());
             } else {
-                LOG_MSG(logDEBUG, "%s: Added package '%s'",
-                        path.c_str(), tokens[1].c_str());
+                LOG_MSG(logDEBUG, "Added package '%s' from %s",
+                        tokens[1].c_str(), StripXPSysDir(path).c_str());
             }
         }
     }
@@ -700,6 +701,8 @@ const char* CSLModelsProcessAcFile (const std::string& path)
 {
     // for a good but concise message about ignored elements we keep this list
     std::map<std::string, int> ignored;
+    // for a good but concise message about read a/c we keep this map, keyed by ICAO type designator
+    std::map<std::string, int> acRead;
     
     // The package's name
     std::string exportName = "?";
@@ -714,7 +717,7 @@ const char* CSLModelsProcessAcFile (const std::string& path)
         return WARN_NO_XSBACTXT_FOUND;
     
     // read the file line by line
-    LOG_MSG(logINFO, INFO_XSBACTXT_READ, xsbName.c_str());
+    LOG_MSG(logDEBUG, DEBUG_XSBACTXT_READ, StripXPSysDir(xsbName).c_str());
     for (int lnNr = 1; fAc; ++lnNr)
     {
         // read a line, trim it (remove whitespace at both ends)
@@ -731,8 +734,10 @@ const char* CSLModelsProcessAcFile (const std::string& path)
         if (tokens.empty()) continue;
         
         // OBJ8_AIRCRAFT: Start a new aircraft specification
-        if (tokens[0] == "OBJ8_AIRCRAFT")
+        if (tokens[0] == "OBJ8_AIRCRAFT") {
+            if (csl.IsValid()) acRead[csl.GetIcaoType()]++;
             AcTxtLine_OBJ8_AIRCRAFT(csl, ln, path, exportName, lnNr);
+        }
         
         // OBJ8: Define the object file to load
         else if (tokens[0] == "OBJ8")
@@ -774,8 +779,33 @@ const char* CSLModelsProcessAcFile (const std::string& path)
     fAc.close();
     
     // Don't forget to also save the last object
-    if (csl.IsValid())
+    if (csl.IsValid()) {
+        acRead[csl.GetIcaoType()]++;
         CSLModelsAdd(csl);
+    }
+    
+    // Log a message about the a/c we've read
+    std::string acList;
+    int totAcRead = 0;
+    if (!acRead.empty()) {
+        acList = "(";
+        char buf[25];
+        for (const auto& p: acRead) {
+            if (p.second > 1)
+                snprintf(buf, sizeof(buf), "%d x %s, ",
+                         p.second, p.first.c_str());
+            else
+                snprintf(buf, sizeof(buf), "%s, ",
+                         p.first.c_str());
+            acList += buf;
+            totAcRead += p.second;
+        }
+        acList.pop_back();
+        acList.pop_back();
+        acList += ')';
+    }
+    LOG_MSG(logINFO, INFO_XSBACTXT_DONE, totAcRead, acList.c_str(),
+            StripXPSysDir(xsbName).c_str());
     
     // If there were ignored commands we list them once now
     if (!ignored.empty() && glob.bLogMdlMatch) {

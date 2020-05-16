@@ -237,6 +237,27 @@ std::istream& safeGetline(std::istream& is, std::string& t)
     return is;
 }
 
+// If a path starts with X-Plane's system directory it is stripped
+std::string StripXPSysDir (const std::string& path)
+{
+    // Fetch XP's system dir once
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+    static std::string sysDir;
+#pragma clang diagnostic pop
+    if (sysDir.empty()) {
+        char s[512];
+        XPLMGetSystemPath(s);
+        sysDir = s;
+    }
+    
+    // does the path begin with it?
+    if (path.find(sysDir) == 0)
+        return path.substr(sysDir.length());
+    else
+        return path;
+}
+
 //
 // MARK: HFS-to-Posix path conversion (Mac only)
 //

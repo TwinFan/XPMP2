@@ -71,6 +71,9 @@ std::list<std::string> GetDirContents (const std::string& path);
 /// Read a line from a text file, no matter if ending on CRLF or LF
 std::istream& safeGetline(std::istream& is, std::string& t);
 
+/// If a path starts with X-Plane's system directory it is stripped
+std::string StripXPSysDir (const std::string& path);
+
 //
 // MARK: String helpers
 //

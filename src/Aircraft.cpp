@@ -101,11 +101,9 @@ Aircraft::Aircraft(const std::string& _icaoType,
                    const std::string& _livery,
                    XPMPPlaneID _modeS_id,
                    const std::string& _modelName) :
-modeS_id(_modeS_id ? _modeS_id : glob.NextPlaneId())    // assign the next synthetic plane id
+modeS_id(_modeS_id ? _modeS_id : glob.NextPlaneId()),    // assign the next synthetic plane id
+drawInfo({sizeof(drawInfo), 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f})
 {
-    // Size of drawInfo
-    drawInfo.structSize = sizeof(drawInfo);
-    
     // Verify uniqueness of modeS if defined by caller
     if (_modeS_id) {
         if (_modeS_id < MIN_MODE_S_ID || _modeS_id > MAX_MODE_S_ID) {
@@ -176,6 +174,27 @@ Aircraft::~Aircraft ()
 bool Aircraft::IsGroundVehicle() const
 {
     return acIcaoType == glob.carIcaoType;
+}
+
+
+// Return a value for dataRef .../tcas/target/flight_id
+std::string XPMP2::Aircraft::GetFlightId() const
+{
+    // Flight number available?
+    if (acInfoTexts.flightNum[0])
+        return acInfoTexts.flightNum;
+    // Registration (tail number) available?
+    else if (acInfoTexts.tailNum[0])
+        return acInfoTexts.tailNum;
+    // Departure or destination airport available?
+    else if (acInfoTexts.aptFrom[0] || acInfoTexts.aptTo[0]) {
+        std::string ret(acInfoTexts.aptFrom);
+        ret += '-';
+        ret += acInfoTexts.aptTo;
+    }
+
+    // nothing found
+    return "";
 }
 
 

@@ -221,7 +221,9 @@ void AIMultiUpdate ()
         // Add the plane to the list of TCAS targets
         vModeS.push_back(int(ac.GetModeS_ID()));
         vModeC.push_back(int(ac.acRadar.code));
-        ac.SetTcasTargetIdx((int)vModeS.size());
+        bool bSlotChanged = ac.GetTcasTargetIdx() != (int)vModeS.size();
+        if (bSlotChanged)
+            ac.SetTcasTargetIdx((int)vModeS.size());
 
         // This plane's position
         vX.push_back(ac.drawInfo.x);
@@ -257,8 +259,9 @@ void AIMultiUpdate ()
         
         // For performance reasons and because differences (cartesian velocity)
         // are smoother if calculated over "longer" time frames,
-        // the following updates are done about every second only
-        if (now >= ac.prev_ts + 1.0f)
+        // the following updates are done about every second only,
+        // or if the a/c changed slot (to make sure all dataRef values are in synch)
+        if (bSlotChanged || (now >= ac.prev_ts + 1.0f))
         {
             // do we have any prev x/y/z values at all?
             if (ac.prev_ts > 0.0001f) {
@@ -287,9 +290,7 @@ void AIMultiUpdate ()
             // Flight or tail number as FlightID
             char s[8];
             memset(s, 0, sizeof(s));
-            memcpy(s,
-                   ac.acInfoTexts.flightNum[0] ? ac.acInfoTexts.flightNum : ac.acInfoTexts.tailNum,
-                   sizeof(s)-1);
+            STRCPY_S(s, ac.GetFlightId().c_str());
             XPLMSetDatab(drTcasFlightId, s, ac.GetTcasTargetIdx() * (int)sizeof(s), sizeof(s));
 
             // Icao Type code

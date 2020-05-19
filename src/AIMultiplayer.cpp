@@ -548,7 +548,8 @@ void AIMultiCleanup ()
 using namespace XPMP2;
 
 // Acquire control of multiplayer aircraft
-const char *    XPMPMultiplayerEnable()
+const char *    XPMPMultiplayerEnable(void (*_callback)(void*),
+                                      void*  _refCon )
 {
     // We totally rely on the new "TCAS target" functionality,
     // which is only available as of X-Plane 11 beta 8
@@ -560,7 +561,7 @@ const char *    XPMPMultiplayerEnable()
         return "";
     
     // Attempt to grab multiplayer planes, then analyze.
-    glob.bHasControlOfAIAircraft = XPLMAcquirePlanes(NULL, NULL, NULL) != 0;
+    glob.bHasControlOfAIAircraft = XPLMAcquirePlanes(NULL, _callback, _refCon) != 0;
     if (glob.bHasControlOfAIAircraft)
     {
         // We definitely want to override TCAS and map!

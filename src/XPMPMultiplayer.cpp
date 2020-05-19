@@ -189,6 +189,9 @@ void XPMPMultiplayerCleanup()
     TwoDCleanup();
     AcCleanup();
     CSLModelsCleanup();
+    
+    // Unregister all notification callbacks
+    glob.listObservers.clear();
 }
 
 // OBJ7 is not supported
@@ -461,6 +464,13 @@ XPMPPlaneID XPMPGetNthPlane(long index)
 }
 
 
+// Returns the underlying aircraft object, or `nullptr` if `_id` is invalid
+XPMP2::Aircraft* XPMPGetAircraft (XPMPPlaneID _id)
+{
+    return AcFindByID(_id);
+}
+
+
 // Define default aircraft and ground vehicle ICAO types
 void XPMPSetDefaultPlaneICAO(const char* _acIcaoType,
                              const char* _carIcaoType)
@@ -535,15 +545,16 @@ void XPMPSendNotification (const Aircraft& plane, XPMPPlaneNotification _notific
 
 //
 // MARK: PLANE RENDERING API
+//       Completely unsupported in XPMP2
 //
 
-// This function setse the plane renderer.  You can pass NULL for the function to restore defaults.
+// This function would set the plane renderer.
 void        XPMPSetPlaneRenderer(XPMPRenderPlanes_f, void *)
 {
     LOG_MSG(logERR, "XPMPSetPlaneRenderer() is NOT SUPPORTED in XPMP2");
 }
 
-// Dump debug info to the error.out for one cycle
-void        XPMPDumpOneCycle(void)
-{}
-
+void XPMPDumpOneCycle(void)                 {}
+void XPMPInitDefaultPlaneRenderer(void)     {}
+void XPMPDefaultPlaneRenderer(int)          {}
+void XPMPDeinitDefaultPlaneRenderer(void)   {}

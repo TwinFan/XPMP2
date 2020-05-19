@@ -63,7 +63,7 @@ bool IsInRect (float x, float y, const float bounds_ltrb[4])
 }
 
 /// @brief Determine which map icon to use for this aircraft
-/// @details    MapIcon.png has the following models:\n
+/// @details    `MapIcon.png` has the following models:\n
 ///             `y \ x | 0       | 1   | 2    `\n
 ///             `----- | ------- | --- | ---- `\n
 ///             `2     | H1T     | Car | GLID `\n

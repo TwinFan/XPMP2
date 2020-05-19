@@ -6,7 +6,7 @@ document both usage and internals of the XPMP2 library.
 
 **This is work in progress!**
 
-- [ ] Doxgen-generated code documentation
+- [X] Doxgen-generated code documentation
 - [ ] File format for `xsb_aircraft.txt` (this is currently scattered across [kuroneko's wiki](https://github.com/kuroneko/libxplanemp/wiki))
 - [ ] dataRefs supported by XPMP2 (this is partly at [kuroneko's](https://github.com/kuroneko/libxplanemp/wiki/OBJ8-CSL#animations), partly at [my fork](https://github.com/TwinFan/libxplanemp/wiki/OBJ8-CSL-dataRefs))
 - [ ] Provide some general "how it works" background, can base on kuronekos wiki (but shorter) and on some of [my additions](https://github.com/TwinFan/libxplanemp/wiki#changes-to-multiplayeraitcas-handling)
@@ -27,6 +27,11 @@ online:
 
 Links to outside locations:
 --
+
+[TCAS Override approach](https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/)
+explains how TCAS information is provided, the classic multiplayer dataRefs are maintained
+and how 3rd party plugins can access this information. XPMP2 publishes data
+via the `sim/cockpit2/tcas/targets` dataRefs.
 
 Original libxplanemp:
 - [TwinFan's libxplanemp fork](https://github.com/TwinFan/libxplanemp) on GitHub

@@ -48,22 +48,27 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <a href="XPMPPlaneRenderer_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#ifndef XPLMPLANERENDERER_H</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#define XPLMPLANERENDERER_H</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">// Theoretically you can plug in your own plane-rendering</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">// function (although in practice this isn&#39;t real useful.</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">// These functions do &quot;the drawing&quot; once per frame.</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="XPMPPlaneRenderer_8h.html#a2a5f98179c8d9fa0eebd11710b583e46">   31</a></span>&#160;<span class="keywordtype">void</span>            <a class="code" href="XPMPPlaneRenderer_8h.html#a2a5f98179c8d9fa0eebd11710b583e46">XPMPInitDefaultPlaneRenderer</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="XPMPPlaneRenderer_8h.html#a78a7f5c1a8e7f5bf87258f4ef2fe28ec">   32</a></span>&#160;<span class="keywordtype">void</span>            <a class="code" href="XPMPPlaneRenderer_8h.html#a78a7f5c1a8e7f5bf87258f4ef2fe28ec">XPMPDefaultPlaneRenderer</a>(<span class="keywordtype">int</span> is_blend);</div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="XPMPPlaneRenderer_8h.html#a267432eb0486d9eb3cfa5f42afc824f9">   33</a></span>&#160;<span class="keywordtype">void</span>            <a class="code" href="XPMPPlaneRenderer_8h.html#a267432eb0486d9eb3cfa5f42afc824f9">XPMPDeinitDefaultPlaneRenderer</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#ifndef XPLMPLANERENDERER_H</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#define XPLMPLANERENDERER_H</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">// Theoretically you can plug in your own plane-rendering</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">// function (although in practice this isn&#39;t real useful.</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">// These functions do &quot;the drawing&quot; once per frame.</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;[[deprecated(<span class="stringliteral">&quot;Internal function no longer supported&quot;</span>)]]</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keywordtype">void</span>            <a class="code" href="XPMPPlaneRenderer_8h.html#a2a5f98179c8d9fa0eebd11710b583e46">XPMPInitDefaultPlaneRenderer</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;[[deprecated(<span class="stringliteral">&quot;Internal function no longer supported&quot;</span>)]]</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keywordtype">void</span>            <a class="code" href="XPMPPlaneRenderer_8h.html#a78a7f5c1a8e7f5bf87258f4ef2fe28ec">XPMPDefaultPlaneRenderer</a>(<span class="keywordtype">int</span> is_blend);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;[[deprecated(<span class="stringliteral">&quot;Internal function no longer supported&quot;</span>)]]</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keywordtype">void</span>            <a class="code" href="XPMPPlaneRenderer_8h.html#a267432eb0486d9eb3cfa5f42afc824f9">XPMPDeinitDefaultPlaneRenderer</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aXPMPPlaneRenderer_8h_html_a2a5f98179c8d9fa0eebd11710b583e46"><div class="ttname"><a href="XPMPPlaneRenderer_8h.html#a2a5f98179c8d9fa0eebd11710b583e46">XPMPInitDefaultPlaneRenderer</a></div><div class="ttdeci">void XPMPInitDefaultPlaneRenderer(void)</div></div>
-<div class="ttc" id="aXPMPPlaneRenderer_8h_html_a267432eb0486d9eb3cfa5f42afc824f9"><div class="ttname"><a href="XPMPPlaneRenderer_8h.html#a267432eb0486d9eb3cfa5f42afc824f9">XPMPDeinitDefaultPlaneRenderer</a></div><div class="ttdeci">void XPMPDeinitDefaultPlaneRenderer(void)</div></div>
-<div class="ttc" id="aXPMPPlaneRenderer_8h_html_a78a7f5c1a8e7f5bf87258f4ef2fe28ec"><div class="ttname"><a href="XPMPPlaneRenderer_8h.html#a78a7f5c1a8e7f5bf87258f4ef2fe28ec">XPMPDefaultPlaneRenderer</a></div><div class="ttdeci">void XPMPDefaultPlaneRenderer(int is_blend)</div></div>
+<div class="ttc" id="aXPMPPlaneRenderer_8h_html_a2a5f98179c8d9fa0eebd11710b583e46"><div class="ttname"><a href="XPMPPlaneRenderer_8h.html#a2a5f98179c8d9fa0eebd11710b583e46">XPMPInitDefaultPlaneRenderer</a></div><div class="ttdeci">void XPMPInitDefaultPlaneRenderer(void)</div><div class="ttdoc">Was an internal libxplanemp functions.</div><div class="ttdef"><b>Definition:</b> XPMPMultiplayer.cpp:558</div></div>
+<div class="ttc" id="aXPMPPlaneRenderer_8h_html_a267432eb0486d9eb3cfa5f42afc824f9"><div class="ttname"><a href="XPMPPlaneRenderer_8h.html#a267432eb0486d9eb3cfa5f42afc824f9">XPMPDeinitDefaultPlaneRenderer</a></div><div class="ttdeci">void XPMPDeinitDefaultPlaneRenderer(void)</div><div class="ttdoc">Was an internal libxplanemp functions.</div><div class="ttdef"><b>Definition:</b> XPMPMultiplayer.cpp:560</div></div>
+<div class="ttc" id="aXPMPPlaneRenderer_8h_html_a78a7f5c1a8e7f5bf87258f4ef2fe28ec"><div class="ttname"><a href="XPMPPlaneRenderer_8h.html#a78a7f5c1a8e7f5bf87258f4ef2fe28ec">XPMPDefaultPlaneRenderer</a></div><div class="ttdeci">void XPMPDefaultPlaneRenderer(int is_blend)</div><div class="ttdoc">Was an internal libxplanemp functions.</div><div class="ttdef"><b>Definition:</b> XPMPMultiplayer.cpp:559</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

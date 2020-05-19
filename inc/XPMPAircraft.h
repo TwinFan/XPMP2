@@ -85,7 +85,7 @@ enum DR_VALS {
 };
 
 /// @brief Actual representation of all aircraft in XPMP2.
-/// @note In modern implementation, this class shall be subclassed by your plugin's code.
+/// @note In modern implementations, this class shall be subclassed by your plugin's code.
 class Aircraft {
     
 protected:
@@ -96,12 +96,14 @@ protected:
     XPMPPlaneID modeS_id = 0;
     
 public:
-    std::string acIcaoType;             ///< ICAO aircraft type of this plane
+    /// @brief ICAO aircraft type designator of this plane
+    /// @see https://www.icao.int/publications/DOC8643/Pages/Search.aspx
+    std::string acIcaoType;
     std::string acIcaoAirline;          ///< ICAO Airline code of this plane
     std::string acLivery;               ///< Livery code of this plane
     
     /// @brief Holds position (in local coordinates!) and orientation (pitch, heading roll) of the aircraft.
-    /// @details This is where it will be placed in this drawing cycle.\n
+    /// @details This is where the plane will be placed in this drawing cycle.\n
     /// @note    When filling `y` directly (instead of using SetLocation()) remember to add
     ///          GetVertOfs() for accurate placement on the ground
     XPLMDrawInfo_t drawInfo;
@@ -125,7 +127,10 @@ public:
     /// @see configuration item `XPMP2_CFG_ITM_CLAMPALL`
     bool        bClampToGround = false;
     
-    /// Priority for display in one of the limited number of AI/multiplayer slots
+    /// @brief Priority for display in one of the limited number of TCAS target slots
+    /// @details The lower the earlier will a plane be considered for TCAS.
+    ///          Increase this value if you want to make a plane less likely
+    ///          to occupy one of the limited TCAS slots.
     int         aiPrio      = 1;
     
     /// @brief Current radar status
@@ -143,11 +148,11 @@ protected:
     
     // this is data from about a second ago to calculate cartesian velocities
     float               prev_x = 0.0f, prev_y = 0.0f, prev_z = 0.0f;
-    float               prev_ts = 0.0f;     ///< last update of prev_x/y/z in XP's tota running time
+    float               prev_ts = 0.0f;     ///< last update of `prev_x/y/z` in XP's network time
     
     /// X-Plane instance handles for all objects making up the model
     std::list<XPLMInstanceRef> listInst;
-    /// Which sim/cockpit2/tcas/targets-index used last?
+    /// Which `sim/cockpit2/tcas/targets`-index does this plane occupy? [1..63], `-1` if none
     int                 tcasTargetIdx = -1;
 
     /// Timestamp of last update of camera dist/bearing
@@ -157,7 +162,7 @@ protected:
     /// Bearing from camera in degrees (updated internally regularly)
     float               camBearing = 0.0f;
 
-    /// Y Probe for terrain testing, neeed in ground clamping
+    /// Y Probe for terrain testing, needed in ground clamping
     XPLMProbeRef        hProbe = nullptr;
     
     // Data used for drawing icons in X-Plane's map
@@ -173,7 +178,7 @@ public:
     /// @param _icaoType ICAO aircraft type designator, like 'A320', 'B738', 'C172'
     /// @param _icaoAirline ICAO airline code, like 'BAW', 'DLH', can be an empty string
     /// @param _livery Special livery designator, can be an empty string
-    /// @param _modeS_id (optional) Unique identification of the plane [0x01..0xFFFFFF], e.g. the 24bit mode S transponder code. XPMP2 assigns an arbitrary unique number of not given
+    /// @param _modeS_id (optional) **Unique** identification of the plane [0x01..0xFFFFFF], e.g. the 24bit mode S transponder code. XPMP2 assigns an arbitrary unique number of not given
     /// @param _modelId (optional) specific model id to be used (no folder/package name, just the id as defined in the `OBJ8_AIRCRAFT` line)
     Aircraft (const std::string& _icaoType,
               const std::string& _icaoAirline,
@@ -187,7 +192,7 @@ public:
     XPMPPlaneID GetModeS_ID () const { return modeS_id; }
     /// Is this object a ground vehicle?
     bool        IsGroundVehicle() const;
-    /// @brief return the current TCAS target index (into sim/cockpit2/tcas/targets), 1-based, -1 if not used
+    /// @brief return the current TCAS target index (into `sim/cockpit2/tcas/targets`), 1-based, `-1` if not used
     int         GetTcasTargetIdx () const { return tcasTargetIdx; }
     /// Is this plane currently also being tracked as a TCAS target, ie. will appear on TCAS?
     bool        IsCurrentlyShownAsTcasTarget () const { return tcasTargetIdx >= 1; }
@@ -195,19 +200,26 @@ public:
     bool        IsCurrentlyShownAsAI () const { return 1 <= tcasTargetIdx && tcasTargetIdx <= 20; }
     /// Is this plane to be drawn on TCAS? (It will if transponder is not switched off)
     bool        ShowAsAIPlane () const { return IsVisible() && acRadar.mode != xpmpTransponderMode_Standby; }
-    /// Reset TCAS target slot index
+    /// Reset TCAS target slot index to `-1`
     void        ResetTcasTargetIdx () { tcasTargetIdx = -1; }
 
     /// @brief Return a value for dataRef .../tcas/target/flight_id
     /// @returns The first non-empty string out of: flight number, registration, departure/arrival airports
     virtual std::string GetFlightId() const;
     
-    /// (Potentially) change the plane's model after doing a new match attempt
+    /// @brief (Potentially) changes the plane's model after doing a new match attempt
+    /// @param _icaoType ICAO aircraft type designator, like 'A320', 'B738', 'C172'
+    /// @param _icaoAirline ICAO airline code, like 'BAW', 'DLH', can be an empty string
+    /// @param _livery Special livery designator, can be an empty string
+    /// @return match quality, the lower the better
     int ChangeModel (const std::string& _icaoType,
                      const std::string& _icaoAirline,
                      const std::string& _livery);
-    /// Find a match again, using the existing parameters, eg. after more models have been loaded
+    
+    /// @brief Finds a match again, using the existing parameters, eg. after more models have been loaded
+    /// @return match quality, the lower the better
     int ReMatchModel () { return ChangeModel(acIcaoType,acIcaoAirline,acLivery); }
+
     /// Assigns the given model per name, returns if successful
     bool AssignModel (const std::string& _modelName);
     /// return a pointer to the CSL model in use (Note: The CSLModel structure is not public.)
@@ -216,7 +228,7 @@ public:
     const std::string& GetModelName () const;
     /// quality of the match with the CSL model
     int         GetMatchQuality () const { return matchQuality; }
-    /// Vertical offset, ie. the value that needs to be added to drawInfo.y to make the aircraft appear on the ground
+    /// Vertical offset, ie. the value that needs to be added to `drawInfo.y` to make the aircraft appear on the ground
     float       GetVertOfs () const;
     
     /// @brief Called right before updating the aircraft's placement in the world
@@ -260,7 +272,7 @@ public:
     void MapDrawLabel (XPLMMapLayerID inLayer, float yOfs);
 
 protected:
-    /// Internal: Flight loop callback function
+    /// Internal: Flight loop callback function controlling update and movement of all planes
     static float FlightLoopCB (float, float, int, void*);
     /// Internal: This puts the instance into XP's sky and makes it move
     void DoMove ();
@@ -268,12 +280,13 @@ protected:
     void UpdateDistBearingCamera (const XPLMCameraPosition_t& posCam);
     /// Clamp to ground: Make sure the plane is not below ground, corrects Aircraft::drawInfo if needed.
     void ClampToGround ();
-    /// Create the instances, return if successful
+    /// Create the instances required to represent the plane, return if successful
     bool CreateInstances ();
     /// Destroy all instances
     void DestroyInstances ();
     
-    /// Put together the map label, depends on tcasTargetIdx
+    /// @brief Put together the map label
+    /// @details Called about once a second. Label depends on tcasTargetIdx
     virtual void ComputeMapLabel ();
 
     // The following functions are implemented in AIMultiplayer.cpp:

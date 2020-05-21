@@ -6,8 +6,8 @@ document both usage and internals of the XPMP2 library.
 
 **This is work in progress!**
 
-- [X] Doxgen-generated code documentation
-- [ ] File format for `xsb_aircraft.txt` (this is currently scattered across [kuroneko's wiki](https://github.com/kuroneko/libxplanemp/wiki))
+- [X] Doxgen-generated [code documentation](https://twinfan.github.io/XPMP2/html/index.html)
+- [X] [File format definition](XSBAircraftFormat.html) for `xsb_aircraft.txt`
 - [ ] dataRefs supported by XPMP2 (this is partly at [kuroneko's](https://github.com/kuroneko/libxplanemp/wiki/OBJ8-CSL#animations), partly at [my fork](https://github.com/TwinFan/libxplanemp/wiki/OBJ8-CSL-dataRefs))
 - [ ] Provide some general "how it works" background, can base on kuronekos wiki (but shorter) and on some of [my additions](https://github.com/TwinFan/libxplanemp/wiki#changes-to-multiplayeraitcas-handling)
     - [ ] Startup sequence
@@ -23,7 +23,17 @@ The generated doxygen files are checked in, too, so that the are available
 online:
 
 - [Main Page](https://twinfan.github.io/XPMP2/html/index.html)
+- [XPMPMultiplayer.h](https://twinfan.github.io/XPMP2/html/XPMPMultiplayer_8h.html) -
+  Initialisation and general control functions
+- [XPMPAircraft.h](https://twinfan.github.io/XPMP2/html/XPMPAircraft_8h.html) -
+  Defines the main class
+  [XPMP2::Aircraft](https://twinfan.github.io/XPMP2/html/classXPMP2_1_1Aircraft.html),
+  which represents an aircraft. **Subclass this class in your plugin!**
 
+### `xsb_aircraft.txt` File Format
+
+The `xsb_aircraft.txt` file defines the content of one CSL model packages.
+It´s format is [define here](XSBAircraftFormat.html).
 
 Links to outside locations:
 --

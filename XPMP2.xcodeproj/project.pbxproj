@@ -75,6 +75,7 @@
 		2596FD482447226700C6A41E /* Doc8643.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Doc8643.txt; sourceTree = "<group>"; };
 		2596FD592447226700C6A41E /* MapIcons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MapIcons.png; sourceTree = "<group>"; };
 		2596FD5A2447226700C6A41E /* related.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = related.txt; sourceTree = "<group>"; };
+		25997FB62476A33E00F36447 /* XSBAircraftFormat.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = XSBAircraftFormat.md; sourceTree = "<group>"; };
 		2599B91823BF636E00F92BB5 /* Aircraft.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Aircraft.cpp; sourceTree = "<group>"; };
 		2599B92123BF63F600F92BB5 /* XPMP2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPMP2.h; sourceTree = "<group>"; };
 		25AE8CB323E376E1000BE21E /* 2D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = 2D.cpp; sourceTree = "<group>"; };
@@ -191,6 +192,7 @@
 		25D680BD23BE9B7900C83CC5 /* docs */ = {
 			isa = PBXGroup;
 			children = (
+				25997FB62476A33E00F36447 /* XSBAircraftFormat.md */,
 				2574E0052457842A000E8156 /* html */,
 				2574E00424578419000E8156 /* index.md */,
 				25D680BF23BE9BB900C83CC5 /* MainPage.md */,

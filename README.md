@@ -6,8 +6,10 @@ with Ben Supnik, Chris Serio, and Chris Collins appearing in recent files and do
 But the origins date back to 2004, and very likely many more were involved. Thanks to all of them!
 
 This complete re-implementation honours all the basic concepts (so I hope)
-but makes use of X-Plane 11's modern
-[instancing concept](https://developer.x-plane.com/sdk/XPLMInstance/).
+but makes use of 2 modern X-Plane 11 concepts:
+- [instancing](https://developer.x-plane.com/sdk/XPLMInstance/), and
+- [TCAS Override](https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/)
+
 Thus, it ports the idea of the library also into the times of Vulkan and Metal
 when the drawing mechanisms used by the original library no longer work.
 
@@ -18,160 +20,40 @@ of the library outdated...it is basically replaced by one line of code calling
 Concepts like the syntax of the `xsb_aircraft.txt` file or certainly the idea of an
 multi-pass matching to find a good model are retained, though re-implemented (read: can have new bugs).
 
-XPMP2 does no longer call any OpenGL function and hence  does not require
+XPMP2 does no longer call any OpenGL function and hence does not require
 to be linked to an OpenGL library. The included XPMP2-Sample application does not link to OpenGL.
 
-Documentation
-----
+## Status ##
 
-**Documentation is work in progress!**
+**This is still considered work in progress**, though at an advanced state by now.
 
-All documentation is **currently being moved** to
-[GitHub pages](https://twinfan.github.io/XPMP2/).
-That has the advantage of documentation being just _part_ of the project.
-So documentation could be amended and supported via merge requests by others, too.
-
-### API and Code Documentation ###
-
-All header (and code) files are documented using
-[Doxygen](http://www.doxygen.nl/)-style comments.
-The generated doxygen files are checked in, too, so that the are available
-online:
-
-- [Main Page](https://twinfan.github.io/XPMP2/html/index.html)
-
-
-TCAS
-----
-
-The previous TCAS hack no longer works as the used flight loop phases no longer exist
-and replacement phases aren't identical between Vulkan and Metal.
-
-XPMP2 had in the beginning used an approach involving invisible AI planes.
-With X-Plane 11.50 beta 8 this becomes obsolete as X-Plane introduces a new
-way of informing X-Plane about up to 63 TCAS aircraft called
-["TCAS Override"](https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/).
-
-XPMP2 has been adapted to the new TCAS override approach.
-With this it is not even necessary for the user to configure any AI Aircraft
-any longer in X-Plane. Up to 63 blibs will show on standard TCAS
-systems in Laminar's instruments.
-
-**Note:** 3rd party plugins will need adaptations to benefit from the new feature.
-By and large, however, they should without changes be able to read the classic
-up to 19 multiplayer planes. Again, see the
-[blog post](https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/)
-for more details.
-
-Status
---
-**This is work in progress.**
-
-The XPMP2 lib has been successfully tested with
-- X-Plane 11.50 Beta 8 under OpenGL, Vulkan, and Metal,
+The XPMP2 library has been successfully tested with
+- X-Plane 11.50 Beta 9 under OpenGL, Vulkan, and Metal,
 - the enclosed sample plugin,
-- a new branch of LiveTraffic (executables not yet published)
+- [LiveTraffic v2.0x](https://forums.x-plane.org/index.php?/files/file/49749-livetraffic/)
 - on Mac OS,
 - Windows, and
 - Linux (Ubuntu 18.04 and similar).
 
-Using XPMP2
---
+## Requirements ##
 
-You don't need to build the library yourself if you don't want. Binaries are included in
-`XPMP2-Sample/lib`.
+- XPMP2 implements [instancing](https://developer.x-plane.com/sdk/XPLMInstance/),
+  so it **requires X-Plane 11.10** or later
+- TCAS is provided using [TCAS Override](https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/),
+  which became available with **X-Plane 11.50 Beta 8** only.
+  In earlier versions TCAS cannot be activated and the error message
+  "TCAS requires XP11.50b8 or later" is returned, but otherwise XPMP2 works
+  also in earlier XP11 versions.
+- CSL models in **OBJ8 format** (ie. older OBJ7 models are no longer supported)
 
-New Implementations
----
+## Documentation ##
 
-New plugin implementations are strongly adviced to directly sub-class
-from the new class `XPMP2::Aircraft`, which is the actual aircraft representation.
-Override the abstract function `UpdatePosition()` and directly write into the object's
-member variables to provide current position, orientation (directly into `drawInfo` or
-indirectly via a call to `SetLocation()`), and config (array `v` using the elements
-of `DR_VALS` as indexes).
+...on requirements, API, building, deployment, TCAS target, CSL mode dataRefs
+and more is available in the
+[GitHub pages](https://twinfan.github.io/XPMP2/).
 
-This way minimizes the number of copy operations needed. `drawInfo` and the `v` array
-are _directly_ passed on to the `XPLMInstanceSetPosition` call.
+### Sample Plugin ###
 
-Other values like `label`, `aiPrio`, or `acInfoTexts` can also be updated by your
-`UpdatePosition()` implementation and are used when drawing labels
-or providing information externally like via AI/multiplayer dataRefs.
-
-Compile-Time Compatibilty
----
-
-Despite the new approach, XPMP2 shall be your drop-in replacement for the
-original library: The original header files are still provided with the same name.
-All original public functions are still there. The original `XPCAircraft` class is still there,
-now derived from `XPMP2::Aircraft`.
-
-A few changes are there, though, for clarity and to be future-proof. They should not
-hinder a proper implementation to compile successfully, albeit with some new warnings:
-- All enumerations are now proper `enum` definitions, i.e. `enum typeName {...}` instead of
-  `typedef int typeName`.
-- Type `XPMPPlaneID` is now just an `unisgned`, no longer a pointer type, so it can be
-  used directly as `modeS_id` in the new
-  [TCAS override](https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/)
-  approach. Initialization with `NULL` or `nullptr` will not compile, initialize with `0` instead.
-- A number of functions and the class `XPCAircraft` are explicitely marked `[[deprecated]]`,
-   which will raise a few warnings, if your compiler is configured to show them.
-   Just a gentle reminder to update your plugin at some point in time...
-- `XPMPMultiplayerInitLegacyData` will in turn call `XPMPMultiplayerInit`, and
-   `XPMPLoadCSLPackage`. The correct future-proof way of initializing the library is to call
-   `XPMPMultiplayerInit` and then do one or more calls to `XPMPLoadCSLPackage`.
-- `XPMPLoadCSLPackage` walks directories hierarchically up to 5 levels until it
-   finds an `xsb_aircraft.txt` file. This should not affect classic usages,
-   where such a path was just one level away from the `xsb_aircraft.txt` file.
-   It would just also search deeper if needed.
-- Parameters of `XPMPMultiplayerInit(LegacyData)` have been reshaped, though,
-   ie. calls to these functions need adaptation. Less parameters are needed now, though,
-   please see documentaton or header file. The path to the resource directory is now
-   mandatory and it describes where all the supplemental files needed by the library
-   are to be found: `Doc8643.txt`, `MapIcons.png`, `NoPlane.acf`, `related.txt`.
-- It is no longer necessary to define the compile-time macros `XPMP_CLIENT_NAME`
-  and `XPMP_CLIENT_LONGNAME`. Instead, you can use the new parameter
-  `inPluginName` in the call to `XPMPMultiplayerInit` or the function
-  `XPMPSetPluginName` to set the plugin's name from within your plugin.
-  XPMP2 tries to guess the plugin's name if no name is explicitely set.
-  This allows using the provided libraries directly without the need to recompile.
-
-I tested the compile-time compatibility with LiveTraffic successfully. LiveTraffic has
-always used subclassing of `XPCAircraft`, so I am very sure that
-implementations basing on this implementation model will just compile.
-There have been less tests with the direct C-style interface using `XPMPCreatePlane()` et al.,
-mostly using the sample plugin included in the package.
-
-Features
---
-
-Full feature list to be document. In the meantime refer to:
-- Generally, see [kuroneko's wiki](https://github.com/kuroneko/libxplanemp/wiki).
-- All additions of my fork are included as well, see [TwinFan's wiki](https://github.com/TwinFan/libxplanemp/wiki).
-
-Limits
----
-
-To keep the reimplementation streamlined, this library no longer supports some aspects
-I considered no longer required:
-- Requires X-Plane 11.
-- `.acf` and OBJ7 models are no longer supported: XPMP2 requires OBJ8 models.
-   These are the by far most used models nowadays, identified by the `OBJ8` command
-   in the `xsb_aircraft.txt` file.
-
-New Features
----
-- **Map Layer Support:** XPMP2 shows all aircraft in X-Plane's map views,
-  with icons roughly related to the
-  plane's type and size. The map layer is called by its plugin name (see
-  `XPMPSetPluginName`).
-- `XPMPLoadCSLPackage` walks directories hierarchically up to 5 levels deep
-  to search for `xsb_aircraft.txt` files. In complex multi-CSL-package setups,
-  it might now be sufficient to pass in some higher-level directory instead calling the
-  function several times per package.
-
-Sample Plugin
----
 This package comes with a sample plugin in the `XPMP2-Sample` folder. It is a complete
 plugin including build projects and CMake setup. It displays 3 aircraft flying circles
 in front of the user's plane. Each of the 3 aircraft is using a different technology:
@@ -179,87 +61,41 @@ the now recommended way of subclassing `XPMP2::Aircraft`, the legacy way
 of subclassing `XPCAircraft` (as used by LiveTraffic v1.x), and by calling
 standard C functions.
 
-Doxygen Documnetation
---
+The [HowTo documentation](HowTo.html) includes how to install the sample plugin.
 
-All code has [Doxygen](http://doxygen.nl)-style documentation.
-A Doxygen configuration is provided in `docs/XPMP2.doxygen`.
-Pass it to a call to Doxygen to build the documentation.
-Entry point then is `docs/html/index.html`.
+## Main Features ##
 
-Building XPMP2
---
+### Model Matching ###
 
-Mac OS
----
+The way how XPMP2 picks any of the available CSL models for display
+is [documented here](https://twinfan.github.io/XPMP2/Matching.html).
 
-My development environment is Mac OS, so expect the XCode environment to be
-maintained best. Open `XPMP2.xcodeproj` in XCode, both for the library in the root folder
-as well as for the sample plugin in `XPMP2-Sample`.
+### TCAS and AI/multiplayer Support ###
 
-The result XPMP2 framework is also copied to `XPMP2-Sample/lib` so it is accessible
-when building the sample plugin.
+XPMP2 provides TCAS blibs and AI/multiplayer data using
+[TCAS Override](https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/)
+introduced with X-Plane 11.50 Beta 8. Find
+[details here](https://twinfan.github.io/XPMP2/TCAS.html)
+including a reference lists of provided dataRef values and their sources.
 
-In the sample plugin's settings you will need to change the value of the user-defined
-build macro `XPLANE11_ROOT` to point to _your_ X-Plane folder.
-Then the plugin is installed there right after build.
+### Map Layer ###
 
-Windows
----
+**Note: Temporarily deactivated** pending fix for X-Plane defect XPD-10825, tracked by
+[issue 12](https://github.com/TwinFan/XPMP2/issues/12).
 
-Windows cannot build in the Docker environment as mingw's libraries aren't up to C++ 17 standards.
-
-- Install Visual Studio](https://visualstudio.microsoft.com/vs/community/)
-- Open the root folder to build the library
-- Open the folder `XPMP2-Sample` to build the sample plugin
-- In both cases will VS use the CMake setup to configure building the binaries.
-- Build from within Visual Studio.
-
-Results are in `build/x64`.
-
-The library is also copied into `XPMP2-Sample/lib` to be available in a subsequent build
-of the sample plugin.
-
-Linux and Mac OS via Docker
----
-
-A docker environment based on Ubuntu 18.04 is provided,
-which can build both Linux and MacOS.
-
-- Install [Docker Desktop](https://www.docker.com/products/docker-desktop) and start it.
-- `cd` to the project's `docker` folder, and enter `make` for the library
-- `cd` to `XPMP2-Sample/docker`, and enter `make` for the plugin.
-- `make`
-
-In the first run only, it will create the necessary Docker image based on Ubuntu 18.04,
-which includes downloading lots of base images and packages and takes a couple
-of minutes. This is required once only.
-
-The actual build takes only a few seconds. Results are written to `build-lin` and `build-mac`.
-
-The resulting library/framework are also copied into `XPMP2-Sample/lib`.
-Then, also the sample plugin must be build using the docker environment.
+XPMP2 creates an additional layer in X-Plane's internal map, named after the
+plugin's name. This layer displays all planes as currently controled by XPMP2
+with an icon roughly matching the plane type, taken from `Resources/MapIcons.png`.
 
 TODOs
 --
 
+Also see [open issues](https://github.com/TwinFan/XPMP2/issues).
+
 - Label writing
     - Expose maxLabelDist to some config function
-    - Scale Fonts
-- AI/Multiplayer dataRefs
-    - Shared dataRefs for providing textual information (implemented, open: test with FSTramp)
-- Add VERT_OFS auto detection
 - Support replacing textures with the extended syntax `OBJ8 SOLID YES <obj> <texture> <texture_lit>`
     - basically do what CSL2XSB.py does with respect to TEXTURE / TEXTURE_LIT
     - definition should already be read from `xsb_aircraft.txt`
     - before loading the object, the .obj file needs to be rewritten
     - devise a reproducible name scheme, so that replacement .obj file is written just once and found again next time without generation
-
-Links to outside locations:
---
-
-Original libxplanemp:
-- [TwinFan's libxplanemp fork](https://github.com/TwinFan/libxplanemp) on GitHub
-    - [wiki explaining differences to the kuroneko fork](https://github.com/TwinFan/libxplanemp/wiki)
-- [kuroneko's fork](https://github.com/kuroneko/libxplanemp) on GitHub, a long-time standard and basis of other important forks
-    - [kuroneko's wiki](https://github.com/kuroneko/libxplanemp/wiki) including notes on CSL development

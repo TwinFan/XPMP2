@@ -1,0 +1,91 @@
+How to Use XPMP2
+==
+
+** This documentation requires more attention...***
+but there is a working sample plugin available in
+the `XPMP2-Sample` folder:
+
+## Sample Plugin ##
+
+This package comes with a sample plugin in the `XPMP2-Sample` folder. It is a complete
+plugin including build projects and CMake setup. It displays 3 aircraft flying circles
+in front of the user's plane. Each of the 3 aircraft is using a different technology:
+the now recommended way of subclassing `XPMP2::Aircraft`, the legacy way
+of subclassing `XPCAircraft` (as used by LiveTraffic v1.x), and by calling
+standard C functions.
+
+For the sample plugin to work you need to add
+
+- a `Resources` folder under the plugin's folder holding the 3 files from
+  the `Resources` folder provided here with XPMP2,
+- CSL models installed in folders under that `Resources` folder.
+  (The sample plugin tries to find matches for "B06/TXB", "DH8A/BER", and
+  "A321", all available in the
+  [Bluebell](https://forums.x-plane.org/index.php?/files/file/37041-bluebell-obj8-csl-packages/)
+  packages. But matching will find _anything_ if you provide at least one model.)
+
+as described in
+[Deploying XPMP2-based Plugins](https://twinfan.github.io/XPMP2/Deploying.html).
+
+Its source code `XPMP2-Sample.cpp` includes a lot of comments explaining
+what is happening. Read that!
+
+Expected folder structure of the installation:
+```
+<X-Plane>/Resources/plugins/XPMP2-Sample/
+  lin_x64/XPMP2-Sample.xpl
+  mac_x64/XPMP2-Sample.xpl
+  Resources/
+      CSL/        <-- install models here
+      Doc8643.txt
+      MapIcons.png
+      related.txt
+  win_x64/XPMP2-Sample.xpl
+```
+
+## Binaries and Header Files ##
+
+You don't need to build the library yourself if you don't want. Binaries
+are included in `XPMP2-Sample/lib` and should be failry recent
+(though not guaranteed to reflect every latest code change).
+
+Take public header files from the `inc` folder.
+
+## Anatomy of Your Plugin using XPMP2 ##
+
+Generically you should probably use XPMP2 as follows:
+
+- `XPluginEnable`: Initialize XPMP2 using
+  - `XPMPMultiplayerInit`,
+  - `XPMPLoadCSLPackage` once or multiple times, and
+  - `XPMPMultiplayerEnable`.
+- During runtime, e.g. in flight loop callbacks,
+  - Create new aircraft by creating new objects of _your_ aircraft class,
+    which derives from [`XPMP2::Aircraft`](html/classXPMP2_1_1Aircraft.html)
+  - Remove aircraft by deleting that object
+- `XPluginDisable`: Shut down XPMP2 properly using
+  - `XPMPMultiplayerDisable` and
+  - `XPMPMultiplayerCleanup`
+
+## Subclass `XPMP2::Aircraft` ##
+
+New plugin implementations are strongly advised to directly sub-class
+from the new class `XPMP2::Aircraft`, which is the actual aircraft representation.
+
+See the `SampleAircraft` class defined in `XPMP2-Sample/XPMP2-Sample.cpp`
+for an example implementation.
+
+In your class, override the abstract function `UpdatePosition()` and
+directly write into the object's member variables
+- to provide current position, orientation
+  - directly into `drawInfo` or
+  - indirectly via a call to `SetLocation()`, and
+- to provide plane configuration details in the `v` array using the elements of
+  `enum DR_VALS` as indexes.
+
+This way minimises the number of copy operations needed. `drawInfo` and the `v` array
+are _directly_ passed on to the `XPLMInstanceSetPosition` call.
+
+Other values like `label`, `aiPrio`, or `acInfoTexts` can also be updated by your
+`UpdatePosition()` implementation and are used when drawing labels
+or providing information externally like via AI/multiplayer dataRefs.

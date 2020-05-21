@@ -1,0 +1,56 @@
+Deploying XPMP2-based Plugins
+==
+
+XPMP2 needs a couple additional files to work. In your calls to
+`XPMPMultiplayerInit` and `XPMPLoadCSLPackage` you provide the locations
+to the folders holding these files.
+
+Resources
+--
+
+You should ship the files listed below with your plugin.
+XPMP2 should basically work without them, but lacks some features then.
+They are the files provided here in the `Resources` folder:
+
+- `Doc8643.txt` is a list of ICAO aircraft type designators taken from
+  the ICAO web site. This list is required for matching rules related
+  to the aircraft type, ie. if no direct match is found in the available
+  models or via the `related.txt` lists.
+- `MapIcons.png` contains the aircraft icons displayed in the additional
+  map layer. Without this file that map layer cannot be created.
+- `related.txt` defines "similar looking" aircraft types, so that an
+  A320 model could be used if no exact match for the A319 at hand is found.
+  Without that file this "related" matching cannot take place.
+
+These files have all to be installed in the same folder.
+It is good practice to install these files in a folder named `Resources` in
+the plugin's folder. Your plugin provides XPMP2 with the folder location
+in the `resourceDir` parameter of the `XPMPMultiplayerInit` call
+(see [XPMPMultiplayer.h](html/XPMPMultiplayer_8h.html) for more details).
+
+CSL Models
+--
+
+CSL Models are not shipped with XPMP2. They are available as separate downloads.
+Recommended sources are:
+
+- [Bluebell](https://forums.x-plane.org/index.php?/files/file/37041-bluebell-obj8-csl-packages/)
+- [X-CSL](https://csl.x-air.ru/?lang_id=43)
+- Individual models from X-Plane.org's
+[download section "XSB CSL Kits"](https://forums.x-plane.org/index.php?/files/category/12-xsb-csl-kits/)
+
+It is recommended to converted all CSL models using
+[`CSL2XSB.pl` script](https://github.com/TwinFan/CSL2XSB). In most if not all
+packages this enables access to animations like props and rotors
+(which is not required, but nice to look at). For the X-CSL package
+this conversion is required to make many of the included models work at all
+as X-CSL's packages use `xsb_aircraft.txt` command parameters for textures
+that are not supported by XPMP2.
+
+While it is recommendable to have the models installed somewhere under
+the plugin's folder, the CSL packages' location is a matter of convention.
+Your plugin provides the folder location of CSL packages in one or more
+calls to `XPMPLoadCSLPackage`.
+
+You may want to refer to
+[LiveTraffic's CSL model installation instructions](https://twinfan.gitbook.io/livetraffic/setup/installation/step-by-step#bluebell-csl-package-by-oktalist).

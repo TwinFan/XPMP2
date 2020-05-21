@@ -295,7 +295,7 @@ void AIMultiUpdate ()
 
             // Icao Type code
             memset(s, 0, sizeof(s));
-            memcpy(s, ac.acInfoTexts.icaoAcType, sizeof(ac.acInfoTexts.icaoAcType));
+            STRCPY_S(s, ac.acIcaoType.c_str());
             XPLMSetDatab(drTcasIcaoType, s, ac.GetTcasTargetIdx() * (int)sizeof(s), sizeof(s));
 
             // Shared data for providing textual info (see XPMPInfoTexts_t)

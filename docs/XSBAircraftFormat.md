@@ -177,3 +177,6 @@ Defines matching parameters for XPMP2 matching algorithm.
 
 Several `MATCHES` lines can be defined per model. The model will then match
 for all the provided codes.
+
+`<acType>` must be the same in all `MATCHES` lines
+of one aircraft definition. Differing `<acType>` values will be ignored.

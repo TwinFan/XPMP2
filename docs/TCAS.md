@@ -48,17 +48,17 @@ in the `enum DR_VALS` defined in [`XPMPAircraft.h`](html/XPMPAircraft_8h.html):
 `psi`                        | `drawInfo.heading`
 `the`                        | `drawInfo.pitch`
 `phi`                        | `drawInfo.roll`
-`gear_deploy`                | `v.[V_CONTROLS_GEAR_RATIO]`
-`flap_ratio`                 | `v.[V_CONTROLS_FLAP_RATIO]`
-`flap_ratio2`                | `v.[V_CONTROLS_FLAP_RATIO]`
-`speedbrake_ratio`           | `v.[V_CONTROLS_SPEED_BRAKE_RATIO]`
-`slat_ratio`                 | `v.[V_CONTROLS_SLAT_RATIO]`
-`wing_sweep`                 | `v.[V_CONTROLS_WING_SWEEP_RATIO]`
-`throttle`                   | `v.[V_CONTROLS_THRUST_RATIO]`
-`yolk_pitch`                 | `v.[V_CONTROLS_YOKE_PITCH_RATIO]`
-`yolk_yaw`                   | `v.[V_CONTROLS_YOKE_HEADING_RATIO]`
-`yolk_roll`                  | `v.[V_CONTROLS_YOKE_ROLL_RATIO]`
-`lights`                     | `v.[V_CONTROLS_TAXI_LITES_ON]`, `v.[V_CONTROLS_LANDING_LITES_ON]`, `v.[V_CONTROLS_BEACON_LITES_ON]`, `v.[V_CONTROLS_STROBE_LITES_ON]`, `v.[V_CONTROLS_NAV_LITES_ON]`
+`flap_ratio`                 | `v[V_CONTROLS_FLAP_RATIO]`
+`gear_deploy`                | `v[V_CONTROLS_GEAR_RATIO]`
+`flap_ratio2`                | `v[V_CONTROLS_FLAP_RATIO]`
+`speedbrake_ratio`           | `v[V_CONTROLS_SPEED_BRAKE_RATIO]`
+`slat_ratio`                 | `v[V_CONTROLS_SLAT_RATIO]`
+`wing_sweep`                 | `v[V_CONTROLS_WING_SWEEP_RATIO]`
+`throttle`                   | `v[V_CONTROLS_THRUST_RATIO]`
+`yolk_pitch`                 | `v[V_CONTROLS_YOKE_PITCH_RATIO]`
+`yolk_yaw`                   | `v[V_CONTROLS_YOKE_HEADING_RATIO]`
+`yolk_roll`                  | `v[V_CONTROLS_YOKE_ROLL_RATIO]`
+`lights`                     | `v[V_CONTROLS_TAXI_LITES_ON]`, `v[V_CONTROLS_LANDING_LITES_ON]`, `v[V_CONTROLS_BEACON_LITES_ON]`, `v[V_CONTROLS_STROBE_LITES_ON]`, `v[V_CONTROLS_NAV_LITES_ON]`
 `weight_on_wheels`           | -
 
 Classic AI/Multiplayer support

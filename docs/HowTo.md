@@ -1,9 +1,9 @@
 How to Use XPMP2
 ==
 
-** This documentation requires more attention...***
+**This page probably requires more attention...**
 but there is a working sample plugin available in
-the `XPMP2-Sample` folder:
+the `XPMP2-Sample` folder for you to study:
 
 ## Sample Plugin ##
 

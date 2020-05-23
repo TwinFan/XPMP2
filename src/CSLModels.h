@@ -92,14 +92,26 @@ typedef std::pair<std::string,std::string> pairOfStrTy;
 class CSLModel
 {
 public:
+    /// Combines match-relevant fields (beside ICAO a/c type)
+    struct MatchCritTy {
+        /// ICAO Airline code this model represents: `xsb_aircraft.txt::AIRLINE`
+        std::string         icaoAirline;
+        /// Livery code this model represents: `xsb_aircraft.txt::LIVERY`
+        std::string         livery;
+        
+        /// @brief Decide which criteria is better and keep that
+        /// @return Did we cover o in some way? (false: needs to be treated separately)
+        bool merge (const MatchCritTy& o);
+    };
+    /// Vector of match-relevant fields
+    typedef std::vector<MatchCritTy> MatchCritVecTy;
+public:
     /// id, just an arbitrary label read from `xsb_aircraft.txt::OBJ8_AIRCRAFT`
     std::string         cslId;
     /// name, formed by last part of path plus id
     std::string         modelName;
-    /// ICAO Airline code this model represents: `xsb_aircraft.txt::AIRLINE`
-    std::string         icaoAirline;
-    /// Livery code this model represents: `xsb_aircraft.txt::LIVERY`
-    std::string         livery;
+    /// further match-relevant fields like airline and livery can be a list
+    MatchCritVecTy      vecMatchCrit;
     /// list of objects representing this model
     listCSLObjTy        listObj;
     /// Vertical offset to be applied [m]
@@ -136,8 +148,14 @@ public:
     /// Destructor frees resources
     virtual ~CSLModel ();
     
-    /// Set the a/c type model, which also fills `doc8643` and `related`
-    void SetIcaoType (const std::string& _type);
+    /// @brief Set the a/c type model and add other match criteria
+    /// @details Also fills `doc8643` and `related`.
+    ///          Keeps most significant match criteria only
+    ///          (if "DLH/-" and "DLH/D-ABCD" are defined, then only
+    ///           "DLH/D-ABCD" is kept as that covers the "DLH/-" case, too)
+    void AddMatchCriteria (const std::string& _type,
+                           const MatchCritTy& _matchCrit,
+                           int lnNr);
     /// Puts together the model name string from a path component and the provided `shortId`
     void CompModelName (const std::string& shortId);
     
@@ -147,8 +165,8 @@ public:
     const std::string& GetId () const           { return cslId; }       ///< id, just an arbitrary label read from `xsb_aircraft.txt::OBJ8_AIRCRAFT`
     const std::string& GetModelName () const    { return modelName; }
     const std::string& GetIcaoType () const     { return icaoType; }    ///< ICAO aircraft type this model represents: `xsb_aircraft.txt::ICAO`
-    const std::string& GetIcaoAirline () const  { return icaoAirline; } ///< ICAO Airline code this model represents: `xsb_aircraft.txt::AIRLINE`
-    const std::string& GetLivery () const       { return livery; }      ///< Livery code this model represents: `xsb_aircraft.txt::LIVERY`
+    const std::string& GetIcaoAirline () const  { return vecMatchCrit.at(0).icaoAirline; } ///< ICAO Airline code this model represents: `xsb_aircraft.txt::AIRLINE`
+    const std::string& GetLivery () const       { return vecMatchCrit.at(0).livery; }      ///< Livery code this model represents: `xsb_aircraft.txt::LIVERY`
     int GetRelatedGrp () const                  { return related; }     ///< "related" group for this model (a group of alike plane models), or 0
     std::string GetKeyString () const;          ///< compiles the string used as key in the CSL model map
 
@@ -195,8 +213,8 @@ protected:
 /// Map of CSLModels (owning the object), ordered by related group / type
 typedef std::map<std::string,CSLModel> mapCSLModelTy;
 
-/// Multimap of pointers to CSLModels for matching purposes
-typedef std::multimap<unsigned long,CSLModel*> mmapCSLModelPTy;
+/// Multimap of references to CSLModels and match criteria for matching purposes
+typedef std::multimap<unsigned long,std::pair<CSLModel*,const CSLModel::MatchCritTy*> > mmapCSLModelPTy;
 
 //
 // MARK: Global Functions

@@ -41,6 +41,7 @@ namespace XPMP2 {
 #define WARN_DUP_MODEL          "Duplicate model '%s', additional definitions ignored, originally defined in line %d of %s"
 #define WARN_OBJ8_ONLY          "Line %d: Only supported format is OBJ8, ignoring model definition %s"
 #define WARN_PKG_DPDCY_FAILED   "Line %d: Dependent package '%s' not known! May lead to follow-up issues when proessing this package."
+#define WARN_DIFF_TYPE          "Line %d: Different aircraft type (%s instead of %s) for model '%s' ignored, rest  processed"
 #define ERR_TOO_FEW_PARAM       "Line %d: %s expects at least %d parameters"
 #define ERR_PKG_NAME_INVALID    "Line %d: Package path invalid: %s"
 #define ERR_PKG_UNKNOWN         "Line %d: Package '%s' unknown in package path %s"
@@ -241,6 +242,45 @@ void CSLObj::Invalidate ()
 // MARK: CSLModel Implementation
 //
 
+// Am I more specific in terms of matching than o?
+bool CSLModel::MatchCritTy::merge (const MatchCritTy& o)
+{
+    // If the other defines nothing than I am better (at least not worse)
+    if (o.icaoAirline.empty())
+        return true;
+    
+    // If I don't define anything then the other is better
+    if (icaoAirline.empty()) {
+        *this = o;              // overwrite with o
+        return true;            // o is now handled
+    }
+    
+    // If we differ then o needs to be covered seperately
+    if (icaoAirline != o.icaoAirline)
+        return false;
+    
+    // --- We now know: icaoAirline is equal ---
+    
+    // Now the same again for livery
+
+    // If the other defines nothing than I am better (at least not worse)
+    if (o.livery.empty())
+        return true;
+    
+    // If I don't define anything then the other is better
+    if (livery.empty()) {
+        *this = o;              // overwrite with o
+        return true;            // o is now handled
+    }
+    
+    // If we differ then o needs to be covered seperately
+    if (livery != o.livery)
+        return false;
+    
+    // Apparently we are fully equal
+    return true;
+}
+
 std::string CSLModelGetKeyStr (int _related,
                                const std::string& _type,
                                const std::string& _id)
@@ -286,12 +326,35 @@ CSLModel::~CSLModel ()
     }
 }
 
-// Set the a/c type model, which also fills `doc8643` and `related`
-void CSLModel::SetIcaoType (const std::string& _type)
+// Set the a/c type model, which also fills `doc8643` and `related`, and add other match criteria
+void CSLModel::AddMatchCriteria (const std::string& _type,
+                                 const MatchCritTy& _matchCrit,
+                                 int lnNr)
 {
-    icaoType = _type;
-    doc8643 = & Doc8643Get(_type);
-    related = RelatedGet(_type);
+    // We cannot overwrite with a _different_ a/c ICAO type!
+    if (!icaoType.empty() &&            // already defined
+        icaoType != _type)              // but wanted something different now?
+    {
+        LOG_MSG(logWARN, WARN_DIFF_TYPE, lnNr,
+                icaoType.c_str(), _type.c_str(),
+                modelName.c_str());
+    }
+    // set the ICAO aircraft type once and forever
+    else if (icaoType.empty()) {
+        icaoType = _type;
+        doc8643 = & Doc8643Get(_type);
+        related = RelatedGet(_type);
+    }
+    
+    // See if we need to add the other match criterion
+    // We try to keep as few and as specific match criteria as possible
+    for (MatchCritTy& mc: vecMatchCrit)
+        // can we merge the new with existing criteria?
+        if (mc.merge(_matchCrit))
+            return;
+
+    // not merged: then add
+    vecMatchCrit.push_back(_matchCrit);
 }
 
 // Puts together the model name string from a path component and the model's id
@@ -683,14 +746,14 @@ void AcTxtLine_MATCHES (CSLModel& csl,
 {
     // at least one parameter, the ICAO type code, is expected
     if (tokens.size() >= 2) {
-        // Set icao type code, along with Doc8643 and related group:
-        csl.SetIcaoType(tokens[1]);
-        // the others are optional and more descriptive
-        if (tokens.size() >= 3) {
-            csl.icaoAirline = tokens[2];
-            if (tokens.size() >= 4)
-                csl.livery = tokens[3];
-        }
+        // Add match criteria to the CSL model
+        CSLModel::MatchCritTy mc;
+        if (tokens.size() >= 3)             // if given: airline
+            mc.icaoAirline = tokens[2];
+        if (tokens.size() >= 4)             // if given: livery
+            mc.livery = tokens[3];
+        // Set/Add all match criteria
+        csl.AddMatchCriteria(tokens[1], mc, lnNr);
     }
     else
         LOG_MSG(logERR, ERR_TOO_FEW_PARAM, lnNr, tokens[0].c_str(), 1);
@@ -975,7 +1038,7 @@ bool CSLFindMatch (const std::string& _type,
     // (zero = not part of any related-group)
     const int related = RelatedGet(_type);
     
-    LOG_MATCHING(logINFO, " " DEBUG_MATCH_INPUT,    // space is to align with output from line 1031...which is a 4-digit-line number while this here is still 3-digit
+    LOG_MATCHING(logINFO, DEBUG_MATCH_INPUT,
                  _type.c_str(),
                  doc8643.wtc, doc8643.classification, related,
                  _airline.c_str(),
@@ -1014,38 +1077,43 @@ bool CSLFindMatch (const std::string& _type,
     {
         CSLModel& mdl = mIter->second;
 
-        // Now we calculate match quality. Consider each of the following
-        // comparisions to represent a bit in the final quality,
-        // with lowest priority (livery) in the lowest bit and
-        // highest (has rotor) in the highest  (most significant) bit.
-        // Bit is zero if matches, non-zero if not => lowest number is best quality
-        std::bitset<DOC8643_MATCH_PARAMS> matchQual;
-        // Lower part matches on very detailed parameters
-        matchQual.set(0, _livery.empty()    || mdl.GetLivery()      != _livery);
-        matchQual.set(1, _airline.empty()   || mdl.GetIcaoAirline() != _airline);
-        matchQual.set(2, _type.empty()      || mdl.GetIcaoType()    != _type);
-        matchQual.set(3,                    // this matches if airline _and_ related group match (so we value a matching livery in a "related" model higher than an exact model with improper livery)
-                      _airline.empty() || related == 0 ||
-                      mdl.GetIcaoAirline() != _airline || mdl.GetRelatedGrp()  != related);
-        matchQual.set(4, related == 0       || mdl.GetRelatedGrp()  != related);
-        // Upper part matches on generic "size/type of aircraft" parameters,
-        // which are expected to match anyway if the above (like group/ICAO type) match
-        matchQual.set(5, bDocEmpty          || mdl.GetClassEngType()!= doc8643.GetClassEngType());
-        matchQual.set(6, bDocEmpty          || mdl.GetClassNumEng() != doc8643.GetClassNumEng());
-        matchQual.set(7, bDocEmpty          || mdl.GetWTC()         != wtc);
-        matchQual.set(8, bDocEmpty          || mdl.GetClassType()   != doc8643.GetClassType());
-        matchQual.set(9, bDocEmpty          || mdl.HasRotor()       != doc8643.HasRotor());
-        
-        // If we are to ignore the doc8643 matches (in case of no doc8643 found)
-        // then we completely ignore models which don't match at all
-        if (!bIgnoreNoMatch || !matchQual.all())
+        // Now we calculate match quality for each possible match criteria
+        for (const CSLModel::MatchCritTy& mc: mdl.vecMatchCrit)
         {
-            // Add the model into the map (if we do not already
-            // have better-category matches: We don't need to store
-            // quality 32 any longer if we know we already found a quality 1 match)
-            if (matchQual.to_ulong() <= bestMatchYet) {
-                bestMatchYet = matchQual.to_ulong();
-                mm.emplace(bestMatchYet, &mdl);
+            // Consider each of the following
+            // comparisions to represent a bit in the final quality,
+            // with lowest priority (livery) in the lowest bit and
+            // highest (has rotor) in the highest  (most significant) bit.
+            // Bit is zero if matches, non-zero if not => lowest number is best quality
+            std::bitset<DOC8643_MATCH_PARAMS> matchQual;
+            // Lower part matches on very detailed parameters
+            matchQual.set(0, _livery.empty()    || mc.livery         != _livery);
+            matchQual.set(1, _airline.empty()   || mc.icaoAirline    != _airline);
+            matchQual.set(2, _type.empty()      || mdl.GetIcaoType() != _type);
+            matchQual.set(3,                    // this matches if airline _and_ related group match (so we value a matching livery in a "related" model higher than an exact model with improper livery)
+                          _airline.empty() || related == 0 ||
+                          mc.icaoAirline != _airline || mdl.GetRelatedGrp()  != related);
+            matchQual.set(4, related == 0       || mdl.GetRelatedGrp()  != related);
+            // Upper part matches on generic "size/type of aircraft" parameters,
+            // which are expected to match anyway if the above (like group/ICAO type) match
+            matchQual.set(5, bDocEmpty          || mdl.GetClassEngType()!= doc8643.GetClassEngType());
+            matchQual.set(6, bDocEmpty          || mdl.GetClassNumEng() != doc8643.GetClassNumEng());
+            matchQual.set(7, bDocEmpty          || mdl.GetWTC()         != wtc);
+            matchQual.set(8, bDocEmpty          || mdl.GetClassType()   != doc8643.GetClassType());
+            matchQual.set(9, bDocEmpty          || mdl.HasRotor()       != doc8643.HasRotor());
+            
+            // If we are to ignore the doc8643 matches (in case of no doc8643 found)
+            // then we completely ignore models which don't match at all
+            if (!bIgnoreNoMatch || !matchQual.all())
+            {
+                // Add the model into the map (if we do not already
+                // have better-category matches: We don't need to store
+                // quality 32 any longer if we know we already found a quality 1 match)
+                if (matchQual.to_ulong() <= bestMatchYet) {
+                    bestMatchYet = matchQual.to_ulong();
+                    mm.emplace(bestMatchYet,
+                               std::make_pair<CSLModel*,const CSLModel::MatchCritTy*>(&mdl,&mc));
+                }
             }
         }
     }
@@ -1064,15 +1132,16 @@ bool CSLFindMatch (const std::string& _type,
     // Of those relevant (having the best possible match quality)
     // we return any more or less randomly chosen model out of that list of possible models
     auto pairIter = mm.equal_range(bestMatchYet);
-    pModel = iterRnd(pairIter.first, pairIter.second)->second;
+    const auto& selected = iterRnd(pairIter.first, pairIter.second)->second;
+    pModel = selected.first;
     
     LOG_MATCHING(logINFO, DEBUG_MATCH_FOUND,
                  pModel->GetIcaoType().c_str(),
                  pModel->GetWTC(),
                  pModel->GetDoc8643().classification,
                  pModel->GetRelatedGrp(),
-                 pModel->GetIcaoAirline().c_str(),
-                 pModel->GetLivery().c_str(),
+                 selected.second->icaoAirline.c_str(),
+                 selected.second->livery.c_str(),
                  quality,
                  pModel->GetModelName().c_str());
 

@@ -34,7 +34,7 @@
 
 #define INFO_AI_CONTROL         "Have control now over AI/Multiplayer planes"
 #define INFO_AI_CONTROL_ENDS    "Released control of AI/Multiplayer planes"
-#define WARN_NO_AI_CONTROL      "Could NOT acquire AI/Multiplayer plane control! %s controls them. Therefore, our planes will NOT appear on TCAS or maps."
+#define WARN_NO_AI_CONTROL      "%s controls TCAS / AI. %s could NOT acquire control, our planes will NOT appear on TCAS or maps."
 #define DEBUG_AI_SLOT_ASSIGN    "Aircraft %llu: ASSIGNING AI Slot %d (%s, %s, %s)"
 #define DEBUG_AI_SLOT_RELEASE   "Aircraft %llu: RELEASING AI Slot %d (%s, %s, %s)"
 
@@ -551,6 +551,8 @@ using namespace XPMP2;
 const char *    XPMPMultiplayerEnable(void (*_callback)(void*),
                                       void*  _refCon )
 {
+    static char szWarn[256];
+
     // We totally rely on the new "TCAS target" functionality,
     // which is only available as of X-Plane 11 beta 8
     if (!drTcasModeS)
@@ -560,37 +562,55 @@ const char *    XPMPMultiplayerEnable(void (*_callback)(void*),
     if (XPMPHasControlOfAIAircraft())
         return "";
     
-    // Attempt to grab multiplayer planes, then analyze.
-    glob.bHasControlOfAIAircraft = XPLMAcquirePlanes(NULL, _callback, _refCon) != 0;
-    if (glob.bHasControlOfAIAircraft)
+    // We try up to 2 times...if a controlling plugin release control
+    // immediately (based on processing the XPLM_MSG_RELEASE_PLANES message)
+    // then we have a chance when trying again right away
+    for ([[maybe_unused]] int i: {1,2})
     {
-        // We definitely want to override TCAS and map!
-        XPLMSetDatai(drTcasOverride, 1);
-// WORKAROUND FOR MAP CRASH        XPLMSetDatai(drMapOverride, 1);
+        // Attempt to grab multiplayer planes, then analyze.
+        glob.bHasControlOfAIAircraft = XPLMAcquirePlanes(NULL, _callback, _refCon) != 0;
+        if (glob.bHasControlOfAIAircraft)
+        {
+            // We definitely want to override TCAS and map!
+            XPLMSetDatai(drTcasOverride, 1);
+    // WORKAROUND FOR MAP CRASH        XPLMSetDatai(drMapOverride, 1);
 
-        // No Planes yet started, initialize all dataRef values for a clean start
-        XPLMSetActiveAircraftCount(1);
-        AIMultiInitAllDataRefs(false);
+            // No Planes yet started, initialize all dataRef values for a clean start
+            XPLMSetActiveAircraftCount(1);
+            AIMultiInitAllDataRefs(false);
 
-        // Success
-        LOG_MSG(logINFO, INFO_AI_CONTROL);
-        return "";
+            // Success
+            LOG_MSG(logINFO, INFO_AI_CONTROL);
+            return "";
+        }
+        else
+        {
+            // Failed! Because of whom?
+            int total=0, active=0;
+            XPLMPluginID who=0;
+            char whoName[256];
+            XPLMCountAircraft(&total, &active, &who);
+            
+            // Maybe the controlling plugin released control immediately,
+            // in that case "who" is now -1
+            if (who >= 0)
+            {
+                XPLMGetPluginInfo(who, whoName, nullptr, nullptr, nullptr);
+            
+                // Write a proper message and return it also to caller
+                snprintf(szWarn, sizeof(szWarn), WARN_NO_AI_CONTROL,
+                         whoName, glob.pluginName.c_str());
+                LOG_MSG(logWARN, szWarn);
+                return szWarn;
+            }
+        }
     }
-    else
-    {
-        // Failed! Because of whom?
-        int total=0, active=0;
-        XPLMPluginID who=0;
-        char whoName[256];
-        XPLMCountAircraft(&total, &active, &who);
-        XPLMGetPluginInfo(who, whoName, nullptr, nullptr, nullptr);
-        
-        // Write a proper message and return it also to caller
-        static char szWarn[256];
-        snprintf(szWarn, sizeof(szWarn), WARN_NO_AI_CONTROL, whoName);
-        LOG_MSG(logWARN, szWarn);
-        return szWarn;
-    }
+    
+    // We don't know who...but somebody keeps blocking us
+    snprintf(szWarn, sizeof(szWarn), WARN_NO_AI_CONTROL,
+             "An unknown plugin", glob.pluginName.c_str());
+    LOG_MSG(logWARN, szWarn);
+    return szWarn;
 }
 
 // Release control of multiplayer aircraft

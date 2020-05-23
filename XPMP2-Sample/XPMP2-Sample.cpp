@@ -104,7 +104,7 @@ void LogMsg (const char* szMsg, ... )
 
 /// This is a callback the XPMP2 calls regularly to learn about configuration settings.
 /// Only 3 are left, all of them integers.
-int CBIntPrefsFunc (const char *, const char * item, int defaultVal)
+int CBIntPrefsFunc (const char *, [[maybe_unused]] const char * item, int defaultVal)
 {
 #if DEBUG
     // in debug version of the plugin we provide most complete log output
@@ -818,6 +818,14 @@ void MenuUpdateCheckmarks ()
     XPLMCheckMenuItem(hMenu, 3, XPMPHasControlOfAIAircraft() ? xplm_Menu_Checked : xplm_Menu_Unchecked);
 }
 
+/// Callback function for the case that we might get AI access later
+void CPRequestAIAgain (void*)
+{
+    // Well...we just try again ;-)
+    XPMPMultiplayerEnable(CPRequestAIAgain);
+    MenuUpdateCheckmarks();
+}
+
 /// Callback function for menu
 void CBMenu (void* /*inMenuRef*/, void* inItemRef)
 {
@@ -845,7 +853,8 @@ void CBMenu (void* /*inMenuRef*/, void* inItemRef)
         if (XPMPHasControlOfAIAircraft())
             XPMPMultiplayerDisable();
         else
-            XPMPMultiplayerEnable();
+            // When requested by menu we actually wait via callback to get control
+            XPMPMultiplayerEnable(CPRequestAIAgain);
     }
     // Update menu items' checkmarks
     MenuUpdateCheckmarks();
@@ -905,7 +914,7 @@ PLUGIN_API int XPluginEnable(void)
     // Now we also try to get control of AI planes. That's optional, though,
     // other plugins (like LiveTraffic, XSquawkBox, X-IvAp...)
     // could have control already
-    res = XPMPMultiplayerEnable();
+    res = XPMPMultiplayerEnable(CPRequestAIAgain);
     if (res[0]) {
         LogMsg("XPMP2-Sample: Could not enable AI planes: %s", res);
     }
@@ -941,6 +950,12 @@ PLUGIN_API void XPluginDisable(void)
     LogMsg("XPMP2-Sample: Disabled");
 }
 
-PLUGIN_API void XPluginReceiveMessage(XPLMPluginID, long, void*)
+PLUGIN_API void XPluginReceiveMessage(XPLMPluginID, long inMsg, void*)
 {
+    // Some other plugin wants TCAS/AI control, so we (as an artificial
+    // traffic plugin) give up
+    if (inMsg == XPLM_MSG_RELEASE_PLANES) {
+        XPMPMultiplayerDisable();
+        MenuUpdateCheckmarks();
+    }
 }

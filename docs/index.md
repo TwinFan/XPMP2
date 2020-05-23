@@ -4,17 +4,22 @@ XPMP2 - Developer's documentation
 These pages, available as [GitHub pages](https://twinfan.github.io/XPMP2/),
 document both usage and internals of the XPMP2 library.
 
-**This is work in progress!**
+Content and availability status:
 
-- [X] Doxgen-generated [code documentation](html/index.html)
-- [X] [File format definition](XSBAircraftFormat.html) for `xsb_aircraft.txt`
-- [X] [CSL model dataRefs supported by XPMP2](CSLdataRefs.html)
-- [ ] Provide some general "how it works" background, can base on kuronekos wiki (but shorter) and on some of [my additions](https://github.com/TwinFan/libxplanemp/wiki#changes-to-multiplayeraitcas-handling)
-    - [ ] Startup sequence
+- Requirements (see below)
+- [ ] Feature Details
     - [X] [Model Matching](Matching.html)
-    - [X] [TCAS Target support](TCAS.html)
-    - [X] [AI/multiplayer support](TCAS.html)
-- [X] [What to ship](Deploying.html) so that it works
+    - [X] [TCAS Target and AI/multiplayer support](TCAS.html)
+    - [ ] Additional map layer
+- [ ] Coding, Building, Deployment
+    - [X] Brief ["HowTo" guide](HowTo.html)
+    - [X] Doxgen-generated [code documentation](html/index.html)
+    - [ ] Provide some general "how it works" background, can base on kuronekos wiki (but shorter) and on some of [my additions](https://github.com/TwinFan/libxplanemp/wiki#changes-to-multiplayeraitcas-handling)
+    - [X] [Model Matching](Matching.html)
+    - [X] [What to ship](Deploying.html) so that it works
+- [X] CSL Packages
+  - [X] [File format definition](XSBAircraftFormat.html) for `xsb_aircraft.txt`
+  - [X] [CSL model dataRefs supported by XPMP2](CSLdataRefs.html)
 
 ## Requirements ##
 
@@ -85,6 +90,13 @@ These aspects are relevant for CSL model developers and package providers:
 
 The `xsb_aircraft.txt` file defines the content of one CSL model packages.
 It´s format is [define here](XSBAircraftFormat.html).
+
+### dataRefs available to CSL Models
+
+To drive CSL models'
+[ANIMations](https://developer.x-plane.com/article/obj8-file-format-specification/#ANIMATION_COMMANDS),
+a long list of dataRefs is provided by XPMP2.
+See its [documentation here](CSLdataRefs.html).
 
 Links to outside locations:
 --

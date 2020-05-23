@@ -177,6 +177,3 @@ Defines matching parameters for XPMP2 matching algorithm.
 
 Several `MATCHES` lines can be defined per model. The model will then match
 for all the provided codes.
-
-**Pending [issue #10](https://github.com/TwinFan/XPMP2/issues/10) several
-`MATCHES` lines don't yet work as expected**, the last one currently wins.

@@ -299,51 +299,50 @@ public:
         SetLocation(lat, lon, elev);
         
         // further attitude information
-        drawInfo.pitch      =  0.0f;
-        drawInfo.heading    = std::fmod(90.0f + angle, 360.0f);
-        drawInfo.roll       = 20.0f;
+        SetPitch(0.0f);
+        SetHeading(std::fmod(90.0f + angle, 360.0f));
+        SetRoll(20.0f);
         
         // Plane configuration info
         // This fills a large array of float values:
-        v[V_CONTROLS_GEAR_RATIO]                    =
-        v[V_CONTROLS_FLAP_RATIO]                    =
-        v[V_CONTROLS_SPOILER_RATIO]                 =
-        v[V_CONTROLS_SPEED_BRAKE_RATIO]             =
-        v[V_CONTROLS_SLAT_RATIO]                    = GetTimeUpDown();
-        v[V_CONTROLS_WING_SWEEP_RATIO]              = 0.0f;
-        v[V_CONTROLS_THRUST_RATIO]                  = 0.5f;
-        v[V_CONTROLS_YOKE_PITCH_RATIO]              =
-        v[V_CONTROLS_YOKE_HEADING_RATIO]            =
-        v[V_CONTROLS_YOKE_ROLL_RATIO]               = 0.0f;
-        v[V_CONTROLS_THRUST_REVERS]                 = 0.0f;
+        const float r = GetTimeUpDown();        // a value between 0 and 1
+        SetGearRatio(r);
+        SetFlapRatio(r);
+        SetSpoilerRatio(r);
+        SetSpeedbrakeRatio(r);
+        SetSlatRatio(r);
+        SetWingSweepRatio(0.0f);
+        SetThrustRatio(0.5f);
+        SetYokePitchRatio(0.0f);
+        SetYokeHeadingRatio(0.0f);
+        SetYokeRollRatio(0.0f);
 
         // lights
-        v[V_CONTROLS_TAXI_LITES_ON]                 = 0.0f;
-        v[V_CONTROLS_LANDING_LITES_ON]              = 0.0f;
-        v[V_CONTROLS_BEACON_LITES_ON]               = 1.0f;
-        v[V_CONTROLS_STROBE_LITES_ON]               = 1.0f;
-        v[V_CONTROLS_NAV_LITES_ON]                  = 1.0f;
+        SetLightsTaxi(false);
+        SetLightsLanding(false);
+        SetLightsBeacon(true);
+        SetLightsStrobe(true);
+        SetLightsNav(true);
 
         // tires don't roll in the air
-        v[V_GEAR_TIRE_VERTICAL_DEFLECTION_MTR]      =
-        v[V_GEAR_TIRE_ROTATION_ANGLE_DEG]           =
-        v[V_GEAR_TIRE_ROTATION_SPEED_RPM]           =
-        v[V_GEAR_TIRE_ROTATION_SPEED_RAD_SEC]       = 0.0f;
+        SetTireDeflection(0.0f);
+        SetTireRotAngle(0.0f);
+        SetTireRotRpm(0.0f);                    // also sets the rad/s value!
 
         // For simplicity, we keep engine and prop rotation identical...probably unrealistic
-        constexpr float PROP_REVOLUTIONS = PLANE_PROP_RPM * PLANE_CIRCLE_TIME_MIN;
-        v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM]      =
-        v[V_ENGINES_PROP_ROTATION_SPEED_RPM]        = PLANE_PROP_RPM;
-        // We need to set engine/prop speed as both RPM and RAD values...that's a bit inconvenient
-        v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC]  =
-        v[V_ENGINES_PROP_ROTATION_SPEED_RAD_SEC]    = PLANE_PROP_RPM * RPM_to_RADs;
+        SetEngineRotRpm(PLANE_PROP_RPM);        // also sets the rad/s value!
+        SetPropRotRpm(PLANE_PROP_RPM);          // also sets the rad/s value!
+        
         // Current position of engine / prop: keeps turning as per engine/prop speed:
-        v[V_ENGINES_ENGINE_ROTATION_ANGLE_DEG]      =
-        v[V_ENGINES_PROP_ROTATION_ANGLE_DEG]        = std::fmod(PROP_REVOLUTIONS * GetTimeFragment() * 360.0f,
-                                                                360.0f);
+        const float deg = std::fmod(PLANE_PROP_RPM * PLANE_CIRCLE_TIME_MIN * GetTimeFragment() * 360.0f,
+                                    360.0f);
+        SetEngineRotAngle(deg);
+        SetPropRotAngle(deg);
+
         // no reversers and no moment of touch-down in flight
-        v[V_ENGINES_THRUST_REVERSER_DEPLOY_RATIO]   = 0.0f;
-        v[V_MISC_TOUCH_DOWN]                        = 0.0f;
+        SetThrustReversRatio(0.0f);
+        SetReversDeployRatio(0.0f);
+        SetTouchDown(false);
     }
 
 };

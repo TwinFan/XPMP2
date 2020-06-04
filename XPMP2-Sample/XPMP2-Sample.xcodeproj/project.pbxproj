@@ -276,7 +276,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.twinfan.XPMP2-Sample";
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = macosx;
-				XPLANE11_ROOT = "/Users/birger/Applications/X-Plane BETA";
+				XPLANE11_ROOT = "$(USER_APPS_DIR)/X-Plane BETA";
 			};
 			name = Debug;
 		};
@@ -378,7 +378,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.twinfan.XPMP2-Sample";
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = macosx;
-				XPLANE11_ROOT = "/Users/birger/Applications/X-Plane BETA";
+				XPLANE11_ROOT = "$(USER_APPS_DIR)/X-Plane BETA";
 			};
 			name = Release;
 		};

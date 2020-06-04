@@ -325,15 +325,12 @@ void MapCreateCB (const char *  mapIdentifier,
 // Initialize the module
 void MapInit ()
 {
-    /*** WORKAROUND FOR MAP CRASH...we don't support our map right now ***
-
     // Register the map create callback hook,
     // so get informed when a new map is opened
     XPLMRegisterMapCreationHook (MapCreateCB, nullptr);
     
     // Handle all already existing maps
     MapCreateAll();
-    ***/
 }
 
 /// Grace cleanup

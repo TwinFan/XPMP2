@@ -336,7 +336,7 @@ void MapInit ()
 /// Grace cleanup
 void MapCleanup ()
 {
-    MapDestroyAll();
+// WORKAROUND: XP11.50b10 hangs here during XP shutdown    MapDestroyAll();
 }
 
 

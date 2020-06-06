@@ -304,10 +304,18 @@ void MapCreateAll ()
 /// Remove all our map layers
 void MapDestroyAll ()
 {
-    // XPLMDestroyMapLayer will call our MapDeleteCB, which in turn removes the entry from the map
-    // So we only look for the first and have it removed
-    while (!glob.mapMapLayers.empty())
-        XPLMDestroyMapLayer(glob.mapMapLayers.cbegin()->second);
+    // Originally, we relied on XPLMDestroyMapLayer calling MapDeleteCB in turn,
+    // and MapDeleteCB removed the map entries.
+    // But since XP11.50b10 the callback is not
+    // called during X-Plane's shutdown, though it _is_ called when just
+    // disabling the plugin.
+    // So we somehow need to take care of _both_ situations:
+    // We _copy_ the map of layers and run on that.
+    const mapMapLayerIDTy cpyMapLayers = glob.mapMapLayers;
+    for (const auto& p: cpyMapLayers)
+        XPLMDestroyMapLayer(p.second);
+    // And afterwards we through away what's left of the glopbal map
+    glob.mapMapLayers.clear();
 }
 
 /// Callback called when a map is created. We then need to add our layer to it
@@ -336,7 +344,7 @@ void MapInit ()
 /// Grace cleanup
 void MapCleanup ()
 {
-// WORKAROUND: XP11.50b10 hangs here during XP shutdown    MapDestroyAll();
+    MapDestroyAll();
 }
 
 

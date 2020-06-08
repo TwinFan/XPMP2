@@ -44,6 +44,8 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
@@ -60,6 +62,18 @@ $(function() {
 
 <p><code>#include &lt;<a class="el" href="CSLModels_8h_source.html">CSLModels.h</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1CSLModel_1_1MatchCritTy.html">MatchCritTy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Combines match-relevant fields (beside ICAO a/c type)  <a href="structXPMP2_1_1CSLModel_1_1MatchCritTy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:abd0df30a00c6d36dca6ae315f980cfec"><td class="memItemLeft" align="right" valign="top">typedef std::vector&lt; <a class="el" href="structXPMP2_1_1CSLModel_1_1MatchCritTy.html">MatchCritTy</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#abd0df30a00c6d36dca6ae315f980cfec">MatchCritVecTy</a></td></tr>
+<tr class="memdesc:abd0df30a00c6d36dca6ae315f980cfec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector of match-relevant fields.  <a href="classXPMP2_1_1CSLModel.html#abd0df30a00c6d36dca6ae315f980cfec">More...</a><br /></td></tr>
+<tr class="separator:abd0df30a00c6d36dca6ae315f980cfec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a899fcb67096559ceaa1de0f7c7a5482d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a899fcb67096559ceaa1de0f7c7a5482d">CSLModel</a> ()</td></tr>
@@ -73,9 +87,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4eed1a9fa42fd61aaad1282f31cccd0a"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a4eed1a9fa42fd61aaad1282f31cccd0a">~CSLModel</a> ()</td></tr>
 <tr class="memdesc:a4eed1a9fa42fd61aaad1282f31cccd0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor frees resources.  <a href="classXPMP2_1_1CSLModel.html#a4eed1a9fa42fd61aaad1282f31cccd0a">More...</a><br /></td></tr>
 <tr class="separator:a4eed1a9fa42fd61aaad1282f31cccd0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a999b581110335f4705d5e0ad405bbf50"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a999b581110335f4705d5e0ad405bbf50">SetIcaoType</a> (const std::string &amp;_type)</td></tr>
-<tr class="memdesc:a999b581110335f4705d5e0ad405bbf50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the a/c type model, which also fills <code>doc8643</code> and <code>related</code>  <a href="classXPMP2_1_1CSLModel.html#a999b581110335f4705d5e0ad405bbf50">More...</a><br /></td></tr>
-<tr class="separator:a999b581110335f4705d5e0ad405bbf50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe7c652f1c7e1b7299c4538781ce05e8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#afe7c652f1c7e1b7299c4538781ce05e8">AddMatchCriteria</a> (const std::string &amp;_type, const <a class="el" href="structXPMP2_1_1CSLModel_1_1MatchCritTy.html">MatchCritTy</a> &amp;_matchCrit, int lnNr)</td></tr>
+<tr class="memdesc:afe7c652f1c7e1b7299c4538781ce05e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the a/c type model and add other match criteria.  <a href="classXPMP2_1_1CSLModel.html#afe7c652f1c7e1b7299c4538781ce05e8">More...</a><br /></td></tr>
+<tr class="separator:afe7c652f1c7e1b7299c4538781ce05e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c1f140f59987b119915acc089d70d6f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a1c1f140f59987b119915acc089d70d6f">CompModelName</a> (const std::string &amp;shortId)</td></tr>
 <tr class="memdesc:a1c1f140f59987b119915acc089d70d6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Puts together the model name string from a path component and the provided <code>shortId</code>  <a href="classXPMP2_1_1CSLModel.html#a1c1f140f59987b119915acc089d70d6f">More...</a><br /></td></tr>
 <tr class="separator:a1c1f140f59987b119915acc089d70d6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -152,12 +166,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a75ae517e7dcb5ed2e3e0ee39c850855e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a75ae517e7dcb5ed2e3e0ee39c850855e">modelName</a></td></tr>
 <tr class="memdesc:a75ae517e7dcb5ed2e3e0ee39c850855e"><td class="mdescLeft">&#160;</td><td class="mdescRight">name, formed by last part of path plus id  <a href="classXPMP2_1_1CSLModel.html#a75ae517e7dcb5ed2e3e0ee39c850855e">More...</a><br /></td></tr>
 <tr class="separator:a75ae517e7dcb5ed2e3e0ee39c850855e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0fd2606df20a9abbaf401523b34b2156"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a0fd2606df20a9abbaf401523b34b2156">icaoAirline</a></td></tr>
-<tr class="memdesc:a0fd2606df20a9abbaf401523b34b2156"><td class="mdescLeft">&#160;</td><td class="mdescRight">ICAO Airline code this model represents: <code>xsb_aircraft.txt::AIRLINE</code>  <a href="classXPMP2_1_1CSLModel.html#a0fd2606df20a9abbaf401523b34b2156">More...</a><br /></td></tr>
-<tr class="separator:a0fd2606df20a9abbaf401523b34b2156"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a69e99fe4935534af452369fc4c3c3dce"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a69e99fe4935534af452369fc4c3c3dce">livery</a></td></tr>
-<tr class="memdesc:a69e99fe4935534af452369fc4c3c3dce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Livery code this model represents: <code>xsb_aircraft.txt::LIVERY</code>  <a href="classXPMP2_1_1CSLModel.html#a69e99fe4935534af452369fc4c3c3dce">More...</a><br /></td></tr>
-<tr class="separator:a69e99fe4935534af452369fc4c3c3dce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a562b3ba8bf118bae8d6a3020e003e1a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1CSLModel.html#abd0df30a00c6d36dca6ae315f980cfec">MatchCritVecTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a562b3ba8bf118bae8d6a3020e003e1a7">vecMatchCrit</a></td></tr>
+<tr class="memdesc:a562b3ba8bf118bae8d6a3020e003e1a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">further match-relevant fields like airline and livery can be a list  <a href="classXPMP2_1_1CSLModel.html#a562b3ba8bf118bae8d6a3020e003e1a7">More...</a><br /></td></tr>
+<tr class="separator:a562b3ba8bf118bae8d6a3020e003e1a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a149694ef0c518af05f0907eed4f96b6a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceXPMP2.html#a7af7cf2d2875af26418594ff63f229ec">listCSLObjTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a149694ef0c518af05f0907eed4f96b6a">listObj</a></td></tr>
 <tr class="memdesc:a149694ef0c518af05f0907eed4f96b6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">list of objects representing this model  <a href="classXPMP2_1_1CSLModel.html#a149694ef0c518af05f0907eed4f96b6a">More...</a><br /></td></tr>
 <tr class="separator:a149694ef0c518af05f0907eed4f96b6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -206,7 +217,24 @@ Protected Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represetns a CSL model as it is saved on disk. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="abd0df30a00c6d36dca6ae315f980cfec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd0df30a00c6d36dca6ae315f980cfec">&#9670;&nbsp;</a></span>MatchCritVecTy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef std::vector&lt;<a class="el" href="structXPMP2_1_1CSLModel_1_1MatchCritTy.html">MatchCritTy</a>&gt; <a class="el" href="classXPMP2_1_1CSLModel.html#abd0df30a00c6d36dca6ae315f980cfec">XPMP2::CSLModel::MatchCritVecTy</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Vector of match-relevant fields. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a899fcb67096559ceaa1de0f7c7a5482d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a899fcb67096559ceaa1de0f7c7a5482d">&#9670;&nbsp;</a></span>CSLModel() <span class="overload">[1/2]</span></h2>
 
@@ -290,6 +318,43 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="afe7c652f1c7e1b7299c4538781ce05e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe7c652f1c7e1b7299c4538781ce05e8">&#9670;&nbsp;</a></span>AddMatchCriteria()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::CSLModel::AddMatchCriteria </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structXPMP2_1_1CSLModel_1_1MatchCritTy.html">MatchCritTy</a> &amp;&#160;</td>
+          <td class="paramname"><em>_matchCrit</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>lnNr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the a/c type model and add other match criteria. </p>
+<p>Also fills <code>doc8643</code> and <code>related</code>. Keeps most significant match criteria only (if "DLH/-" and "DLH/D-ABCD" are defined, then only "DLH/D-ABCD" is kept as that covers the "DLH/-" case, too) </p>
+
+</div>
+</div>
 <a id="a1c1f140f59987b119915acc089d70d6f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1c1f140f59987b119915acc089d70d6f">&#9670;&nbsp;</a></span>CompModelName()</h2>
 
@@ -939,26 +1004,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a999b581110335f4705d5e0ad405bbf50"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a999b581110335f4705d5e0ad405bbf50">&#9670;&nbsp;</a></span>SetIcaoType()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void XPMP2::CSLModel::SetIcaoType </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>_type</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Set the a/c type model, which also fills <code>doc8643</code> and <code>related</code> </p>
-
-</div>
-</div>
 <a id="aa398b788c70c02fddd56af402096faad"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa398b788c70c02fddd56af402096faad">&#9670;&nbsp;</a></span>Unload()</h2>
 
@@ -1067,22 +1112,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a0fd2606df20a9abbaf401523b34b2156"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0fd2606df20a9abbaf401523b34b2156">&#9670;&nbsp;</a></span>icaoAirline</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string XPMP2::CSLModel::icaoAirline</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>ICAO Airline code this model represents: <code>xsb_aircraft.txt::AIRLINE</code> </p>
-
-</div>
-</div>
 <a id="a58128c899e22427ce33c7d3178e900af"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a58128c899e22427ce33c7d3178e900af">&#9670;&nbsp;</a></span>icaoType</h2>
 
@@ -1120,22 +1149,6 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>list of objects representing this model </p>
-
-</div>
-</div>
-<a id="a69e99fe4935534af452369fc4c3c3dce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a69e99fe4935534af452369fc4c3c3dce">&#9670;&nbsp;</a></span>livery</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string XPMP2::CSLModel::livery</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Livery code this model represents: <code>xsb_aircraft.txt::LIVERY</code> </p>
 
 </div>
 </div>
@@ -1224,6 +1237,22 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>"related" group for this model (a group of alike plane models), or 0 </p>
+
+</div>
+</div>
+<a id="a562b3ba8bf118bae8d6a3020e003e1a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a562b3ba8bf118bae8d6a3020e003e1a7">&#9670;&nbsp;</a></span>vecMatchCrit</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classXPMP2_1_1CSLModel.html#abd0df30a00c6d36dca6ae315f980cfec">MatchCritVecTy</a> XPMP2::CSLModel::vecMatchCrit</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>further match-relevant fields like airline and livery can be a list </p>
 
 </div>
 </div>

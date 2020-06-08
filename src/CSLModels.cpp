@@ -887,7 +887,7 @@ const char* CSLModelsProcessAcFile (const std::string& path)
         }
         msg.pop_back();                 // remove the last trailing ", "
         msg.pop_back();
-        LOG_MSG(logWARN, msg.c_str());
+        LOG_MSG(logWARN, "%s", msg.c_str());
     }
 
     // Success
@@ -952,7 +952,7 @@ const char* CSLModelsLoad (const std::string& _path,
         const char* r = CSLModelsProcessAcFile(p);
         if (r[0]) {                     // error?
             res = r;                    // keep it as function result (but continue with next path anyway)
-            LOG_MSG(logWARN, res);      // also report it to the log
+            LOG_MSG(logWARN, "%s", res);// also report it to the log
         }
     }
     

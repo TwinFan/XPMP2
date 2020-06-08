@@ -603,7 +603,7 @@ const char *    XPMPMultiplayerEnable(void (*_callback)(void*),
                 // Write a proper message and return it also to caller
                 snprintf(szWarn, sizeof(szWarn), WARN_NO_AI_CONTROL,
                          whoName, glob.pluginName.c_str());
-                LOG_MSG(logWARN, szWarn);
+                LOG_MSG(logWARN, "%s", szWarn);
                 return szWarn;
             }
         }
@@ -612,7 +612,7 @@ const char *    XPMPMultiplayerEnable(void (*_callback)(void*),
     // We don't know who...but somebody keeps blocking us
     snprintf(szWarn, sizeof(szWarn), WARN_NO_AI_CONTROL,
              "An unknown plugin", glob.pluginName.c_str());
-    LOG_MSG(logWARN, szWarn);
+    LOG_MSG(logWARN, "%s", szWarn);
     return szWarn;
 }
 

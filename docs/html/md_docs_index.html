@@ -44,19 +44,28 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>These pages, available as <a href="https://twinfan.github.io/XPMP2/">GitHub pages</a>, document both usage and internals of the <a class="el" href="namespaceXPMP2.html">XPMP2</a> library.</p>
-<p><b>This is work in progress!</b></p>
+<p>Content and availability status:</p>
 <ul>
-<li>[X] Doxgen-generated <a href="html/index.html">code documentation</a></li>
-<li>[X] <a href="XSBAircraftFormat.html">File format definition</a> for <code>xsb_aircraft.txt</code></li>
-<li>[X] <a href="CSLdataRefs.html">CSL model dataRefs supported by XPMP2</a></li>
-<li>[ ] Provide some general "how it works" background, can base on kuronekos wiki (but shorter) and on some of <a href="https://github.com/TwinFan/libxplanemp/wiki#changes-to-multiplayeraitcas-handling">my additions</a><ul>
-<li>[ ] Startup sequence</li>
+<li>Requirements (see below)</li>
+<li>[ ] Feature Details<ul>
 <li>[X] <a href="Matching.html">Model Matching</a></li>
-<li>[X] <a href="TCAS.html">TCAS Target support</a></li>
-<li>[X] <a href="TCAS.html">AI/multiplayer support</a></li>
+<li>[X] <a href="TCAS.html">TCAS Target and AI/multiplayer support</a></li>
+<li>[ ] Additional map layer</li>
 </ul>
 </li>
+<li>[ ] Coding, Building, Deployment<ul>
+<li>[X] Brief <a href="HowTo.html">"HowTo" guide</a></li>
+<li>[X] Doxgen-generated <a href="html/index.html">code documentation</a></li>
+<li>[ ] Provide some general "how it works" background, can base on kuronekos wiki (but shorter) and on some of <a href="https://github.com/TwinFan/libxplanemp/wiki#changes-to-multiplayeraitcas-handling">my additions</a></li>
+<li>[X] <a href="Matching.html">Model Matching</a></li>
 <li>[X] <a href="Deploying.html">What to ship</a> so that it works</li>
+</ul>
+</li>
+<li>[X] CSL Packages<ul>
+<li>[X] <a href="XSBAircraftFormat.html">File format definition</a> for <code>xsb_aircraft.txt</code></li>
+<li>[X] <a href="CSLdataRefs.html">CSL model dataRefs supported by XPMP2</a></li>
+</ul>
+</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md14"></a>
 Requirements</h1>
@@ -94,6 +103,8 @@ CSL Models and Packages</h1>
 <p>These aspects are relevant for CSL model developers and package providers:</p>
 <h2><code>xsb_aircraft.txt</code> File Format</h2>
 <p>The <code>xsb_aircraft.txt</code> file defines the content of one CSL model packages. It´s format is <a href="XSBAircraftFormat.html">define here</a>.</p>
+<h2>dataRefs available to CSL Models</h2>
+<p>To drive CSL models' <a href="https://developer.x-plane.com/article/obj8-file-format-specification/#ANIMATION_COMMANDS">ANIMations</a>, a long list of dataRefs is provided by <a class="el" href="namespaceXPMP2.html">XPMP2</a>. See its <a href="CSLdataRefs.html">documentation here</a>.</p>
 <h1><a class="anchor" id="autotoc_md18"></a>
 Links to outside locations:</h1>
 <p><a href="https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/">TCAS Override approach</a> explains how TCAS information is provided, the classic multiplayer dataRefs are maintained and how 3rd party plugins can access this information. <a class="el" href="namespaceXPMP2.html">XPMP2</a> publishes data via the <code>sim/cockpit2/tcas/targets</code> dataRefs.</p>

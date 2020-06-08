@@ -110,7 +110,7 @@ Commands</h1>
 <li><code>&lt;livery&gt;</code> (optional, can only be defined together with <code>&lt;operator&gt;</code>) distinguishes different liveries of one operator, e.g. special anniversary or event liveries. There is no univerally defined way what this code shall look like, so it is up to the plugin to define what matches. For example, LiveTraffic feeds the registration (tail number) to match against the <code>&lt;livery&gt;</code> code. That makes it possible to list the specific aircraft that are using some special livery in several <code>MATCHES</code> lines.</li>
 </ul>
 <p>Several <code>MATCHES</code> lines can be defined per model. The model will then match for all the provided codes.</p>
-<p><b>Pending <a href="https://github.com/TwinFan/XPMP2/issues/10">issue #10</a> several <code>MATCHES</code> lines don't yet work as expected</b>, the last one currently wins. </p>
+<p><code>&lt;acType&gt;</code> must be the same in all <code>MATCHES</code> lines of one aircraft definition. Differing <code>&lt;acType&gt;</code> values will be ignored. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->

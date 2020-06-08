@@ -68,10 +68,15 @@ Namespaces</h2></td></tr>
 Macros</h2></td></tr>
 <tr class="memitem:a7ce9aa95423bd1497a03374c17fdfa68"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8h.html#a7ce9aa95423bd1497a03374c17fdfa68">ERR_ASSERT</a>&#160;&#160;&#160;&quot;ASSERT FAILED: %s&quot;</td></tr>
 <tr class="separator:a7ce9aa95423bd1497a03374c17fdfa68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7db15e6270499c75aedde6e72b3a4977"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8h.html#a7db15e6270499c75aedde6e72b3a4977">ERR_EXCEPTION</a>&#160;&#160;&#160;&quot;EXCEPTION CAUGHT: %s&quot;</td></tr>
+<tr class="separator:a7db15e6270499c75aedde6e72b3a4977"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54084f88e183f0fda41d991aa1a93bb0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8h.html#a54084f88e183f0fda41d991aa1a93bb0">PATH_DELIM_STD</a>&#160;&#160;&#160;'/'</td></tr>
 <tr class="separator:a54084f88e183f0fda41d991aa1a93bb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abfa0d183e035eb9705b5faec98294d0f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8h.html#abfa0d183e035eb9705b5faec98294d0f">WHITESPACE</a>&#160;&#160;&#160;&quot; \t\f\v\r\n&quot;</td></tr>
 <tr class="separator:abfa0d183e035eb9705b5faec98294d0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd75f53ca68709be80b85a25af798a36"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8h.html#acd75f53ca68709be80b85a25af798a36">XPMP2_FMTARGS</a>(FMT)</td></tr>
+<tr class="memdesc:acd75f53ca68709be80b85a25af798a36"><td class="mdescLeft">&#160;</td><td class="mdescRight">To apply printf-style warnings to our functions.  <a href="Utilities_8h.html#acd75f53ca68709be80b85a25af798a36">More...</a><br /></td></tr>
+<tr class="separator:acd75f53ca68709be80b85a25af798a36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7487f8c90e86579f91e9e23251232cf7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8h.html#a7487f8c90e86579f91e9e23251232cf7">LOG_MSG</a>(lvl, ...)</td></tr>
 <tr class="memdesc:a7487f8c90e86579f91e9e23251232cf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log a message if lvl is greater or equal currently defined log level.  <a href="Utilities_8h.html#a7487f8c90e86579f91e9e23251232cf7">More...</a><br /></td></tr>
 <tr class="separator:a7487f8c90e86579f91e9e23251232cf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -84,10 +89,13 @@ Macros</h2></td></tr>
 <tr class="memitem:ad5e3f979ea21437405c619e70f138477"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8h.html#ad5e3f979ea21437405c619e70f138477">LOG_ASSERT</a>(cond)</td></tr>
 <tr class="memdesc:ad5e3f979ea21437405c619e70f138477"><td class="mdescLeft">&#160;</td><td class="mdescRight">Throw in an assert-style (logging takes place in XPMP2Error constructor)  <a href="Utilities_8h.html#ad5e3f979ea21437405c619e70f138477">More...</a><br /></td></tr>
 <tr class="separator:ad5e3f979ea21437405c619e70f138477"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e7142ac55325f75716d2453327b04cd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8h.html#a6e7142ac55325f75716d2453327b04cd">STRCPY_S</a>(dest,  src)&#160;&#160;&#160;strcpy_s(dest,sizeof(dest),src)</td></tr>
-<tr class="memdesc:a6e7142ac55325f75716d2453327b04cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simpler access to strcpy_s if dest is a char array (not a pointer!)  <a href="Utilities_8h.html#a6e7142ac55325f75716d2453327b04cd">More...</a><br /></td></tr>
+<tr class="memitem:aec53968603c3f4ec6570216e7dcc4c49"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8h.html#aec53968603c3f4ec6570216e7dcc4c49">CATCH_AC</a>(ac)</td></tr>
+<tr class="memdesc:aec53968603c3f4ec6570216e7dcc4c49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Standard catch clauses for dealing with aircraft: logs message, sets aircraft invalid.  <a href="Utilities_8h.html#aec53968603c3f4ec6570216e7dcc4c49">More...</a><br /></td></tr>
+<tr class="separator:aec53968603c3f4ec6570216e7dcc4c49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e7142ac55325f75716d2453327b04cd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8h.html#a6e7142ac55325f75716d2453327b04cd">STRCPY_S</a>(dest,  src)&#160;&#160;&#160;strncpy_s(dest,sizeof(dest),src,sizeof(dest)-1)</td></tr>
+<tr class="memdesc:a6e7142ac55325f75716d2453327b04cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simpler access to strncpy_s if dest is a char array (not a pointer!)  <a href="Utilities_8h.html#a6e7142ac55325f75716d2453327b04cd">More...</a><br /></td></tr>
 <tr class="separator:a6e7142ac55325f75716d2453327b04cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1815951a34e6bb3842d6d6dbfd2b15b0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8h.html#a1815951a34e6bb3842d6d6dbfd2b15b0">STRCPY_ATMOST</a>(dest,  src)&#160;&#160;&#160;strcpy_s(dest,sizeof(dest),strAtMost(src,sizeof(dest)-1).c_str())</td></tr>
+<tr class="memitem:a1815951a34e6bb3842d6d6dbfd2b15b0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8h.html#a1815951a34e6bb3842d6d6dbfd2b15b0">STRCPY_ATMOST</a>(dest,  src)&#160;&#160;&#160;strncpy_s(dest,sizeof(dest),strAtMost(src,sizeof(dest)-1).c_str(),sizeof(dest)-1)</td></tr>
 <tr class="separator:a1815951a34e6bb3842d6d6dbfd2b15b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
@@ -188,9 +196,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a13880be9d3ac7d5c89c2744b3d8421b5"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a13880be9d3ac7d5c89c2744b3d8421b5">XPMP2::LogGetString</a> (const char *szFile, int ln, const char *szFunc, logLevelTy lvl, const char *szMsg, va_list args)</td></tr>
 <tr class="memdesc:a13880be9d3ac7d5c89c2744b3d8421b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ptr to static buffer filled with formatted log string.  <a href="namespaceXPMP2.html#a13880be9d3ac7d5c89c2744b3d8421b5">More...</a><br /></td></tr>
 <tr class="separator:a13880be9d3ac7d5c89c2744b3d8421b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a57bb9a2b180e7d20ca4a397d36bcda8f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a57bb9a2b180e7d20ca4a397d36bcda8f">XPMP2::LogMsg</a> (const char *szFile, int ln, const char *szFunc, logLevelTy lvl, const char *szMsg,...)</td></tr>
-<tr class="memdesc:a57bb9a2b180e7d20ca4a397d36bcda8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log Text to log file.  <a href="namespaceXPMP2.html#a57bb9a2b180e7d20ca4a397d36bcda8f">More...</a><br /></td></tr>
-<tr class="separator:a57bb9a2b180e7d20ca4a397d36bcda8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a280126bec1bacabc7e641490838051e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a280126bec1bacabc7e641490838051e7">XPMP2::LogMsg</a> (const char *szFile, int ln, const char *szFunc, logLevelTy lvl, const char *szMsg,...) <a class="el" href="Utilities_8h.html#acd75f53ca68709be80b85a25af798a36">XPMP2_FMTARGS</a>(5)</td></tr>
+<tr class="memdesc:a280126bec1bacabc7e641490838051e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log Text to log file.  <a href="namespaceXPMP2.html#a280126bec1bacabc7e641490838051e7">More...</a><br /></td></tr>
+<tr class="separator:a280126bec1bacabc7e641490838051e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17cca0fb3c071f9633f952ecc74d9588"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a17cca0fb3c071f9633f952ecc74d9588">XPMP2::TOPOSIX</a> (const std::string &amp;p)</td></tr>
 <tr class="memdesc:a17cca0fb3c071f9633f952ecc74d9588"><td class="mdescLeft">&#160;</td><td class="mdescRight">On Lin/Win there is no need for a conversion, but we do treat <code>p</code> now as <code>std::string</code>  <a href="namespaceXPMP2.html#a17cca0fb3c071f9633f952ecc74d9588">More...</a><br /></td></tr>
 <tr class="separator:a17cca0fb3c071f9633f952ecc74d9588"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -219,6 +227,34 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.<br  />
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </dd></dl>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="aec53968603c3f4ec6570216e7dcc4c49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec53968603c3f4ec6570216e7dcc4c49">&#9670;&nbsp;</a></span>CATCH_AC</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CATCH_AC</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ac</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">    <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {                               \</div>
+<div class="line">        LOG_MSG(<a class="code" href="namespaceXPMP2.html#a0f7e2680dc39872f8204f510de0d8429a083be64fa2f445d85e459ef0c16c77da">logFATAL</a>, <a class="code" href="Utilities_8h.html#a7db15e6270499c75aedde6e72b3a4977">ERR_EXCEPTION</a>, e.what());                 \</div>
+<div class="line">        (ac).SetInvalid();                                          \</div>
+<div class="line">    }                                                               \</div>
+<div class="line">    catch (...) {                                                   \</div>
+<div class="line">        LOG_MSG(<a class="code" href="namespaceXPMP2.html#a0f7e2680dc39872f8204f510de0d8429a083be64fa2f445d85e459ef0c16c77da">logFATAL</a>, <a class="code" href="Utilities_8h.html#a7db15e6270499c75aedde6e72b3a4977">ERR_EXCEPTION</a>, <span class="stringliteral">&quot;&lt;unknown&gt;&quot;</span>);              \</div>
+<div class="line">        (ac).SetInvalid();                                          \</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Standard catch clauses for dealing with aircraft: logs message, sets aircraft invalid. </p>
+
+</div>
+</div>
 <a id="a7ce9aa95423bd1497a03374c17fdfa68"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7ce9aa95423bd1497a03374c17fdfa68">&#9670;&nbsp;</a></span>ERR_ASSERT</h2>
 
@@ -227,6 +263,20 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
       <table class="memname">
         <tr>
           <td class="memname">#define ERR_ASSERT&#160;&#160;&#160;&quot;ASSERT FAILED: %s&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7db15e6270499c75aedde6e72b3a4977"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7db15e6270499c75aedde6e72b3a4977">&#9670;&nbsp;</a></span>ERR_EXCEPTION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ERR_EXCEPTION&#160;&#160;&#160;&quot;EXCEPTION CAUGHT: %s&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -362,7 +412,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;strcpy_s(dest,sizeof(dest),strAtMost(src,sizeof(dest)-1).c_str())</td>
+          <td></td><td>&#160;&#160;&#160;strncpy_s(dest,sizeof(dest),strAtMost(src,sizeof(dest)-1).c_str(),sizeof(dest)-1)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -390,12 +440,12 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;strcpy_s(dest,sizeof(dest),src)</td>
+          <td></td><td>&#160;&#160;&#160;strncpy_s(dest,sizeof(dest),src,sizeof(dest)-1)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Simpler access to strcpy_s if dest is a char array (not a pointer!) </p>
+<p>Simpler access to strncpy_s if dest is a char array (not a pointer!) </p>
 
 </div>
 </div>
@@ -434,10 +484,33 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 </div>
 </div>
+<a id="acd75f53ca68709be80b85a25af798a36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd75f53ca68709be80b85a25af798a36">&#9670;&nbsp;</a></span>XPMP2_FMTARGS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define XPMP2_FMTARGS</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">FMT</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>To apply printf-style warnings to our functions. </p>
+<dl class="section see"><dt>See also</dt><dd>Taken from imgui.h's definition of IM_FMTARGS </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 <div class="ttc" id="astructXPMP2_1_1GlobVars_html_a872131ea4b303be77d6b7748a13538b3"><div class="ttname"><a href="structXPMP2_1_1GlobVars.html#a872131ea4b303be77d6b7748a13538b3">XPMP2::GlobVars::logLvl</a></div><div class="ttdeci">logLevelTy logLvl</div><div class="ttdoc">Logging level.</div><div class="ttdef"><b>Definition:</b> XPMP2.h:105</div></div>
 <div class="ttc" id="astructXPMP2_1_1GlobVars_html_a6b555220241ae0aebcbe21bb03cfb4e4"><div class="ttname"><a href="structXPMP2_1_1GlobVars.html#a6b555220241ae0aebcbe21bb03cfb4e4">XPMP2::GlobVars::bLogMdlMatch</a></div><div class="ttdeci">bool bLogMdlMatch</div><div class="ttdoc">Debug model matching?</div><div class="ttdef"><b>Definition:</b> XPMP2.h:107</div></div>
 <div class="ttc" id="aXPMP2-Sample_8cpp_html_a482f90afe71485780c137234d572c799"><div class="ttname"><a href="XPMP2-Sample_8cpp.html#a482f90afe71485780c137234d572c799">LogMsg</a></div><div class="ttdeci">void LogMsg(const char *szMsg,...)</div><div class="ttdoc">Log a message to X-Plane's Log.txt with sprintf-style parameters.</div><div class="ttdef"><b>Definition:</b> XPMP2-Sample.cpp:92</div></div>
+<div class="ttc" id="anamespaceXPMP2_html_a0f7e2680dc39872f8204f510de0d8429a083be64fa2f445d85e459ef0c16c77da"><div class="ttname"><a href="namespaceXPMP2.html#a0f7e2680dc39872f8204f510de0d8429a083be64fa2f445d85e459ef0c16c77da">XPMP2::logFATAL</a></div><div class="ttdeci">@ logFATAL</div><div class="ttdoc">fatal is shortly before a crash</div><div class="ttdef"><b>Definition:</b> Utilities.h:203</div></div>
+<div class="ttc" id="aUtilities_8h_html_a7db15e6270499c75aedde6e72b3a4977"><div class="ttname"><a href="Utilities_8h.html#a7db15e6270499c75aedde6e72b3a4977">ERR_EXCEPTION</a></div><div class="ttdeci">#define ERR_EXCEPTION</div><div class="ttdef"><b>Definition:</b> Utilities.h:31</div></div>
 <div class="ttc" id="anamespaceXPMP2_html_a46675aca62eb955a94fa1eb18f65426f"><div class="ttname"><a href="namespaceXPMP2.html#a46675aca62eb955a94fa1eb18f65426f">XPMP2::glob</a></div><div class="ttdeci">GlobVars glob</div><div class="ttdoc">The one and only global variable structure (accepted to require an exit-time destructor)</div><div class="ttdef"><b>Definition:</b> Utilities.cpp:32</div></div>
 <div class="ttc" id="aUtilities_8h_html_a7ce9aa95423bd1497a03374c17fdfa68"><div class="ttname"><a href="Utilities_8h.html#a7ce9aa95423bd1497a03374c17fdfa68">ERR_ASSERT</a></div><div class="ttdeci">#define ERR_ASSERT</div><div class="ttdef"><b>Definition:</b> Utilities.h:30</div></div>
 <!-- start footer part -->

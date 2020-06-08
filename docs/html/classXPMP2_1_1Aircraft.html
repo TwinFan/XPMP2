@@ -127,27 +127,219 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a113fc0ea358aca3033245c30f0f05a1e"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a113fc0ea358aca3033245c30f0f05a1e">GetVertOfs</a> () const</td></tr>
 <tr class="memdesc:a113fc0ea358aca3033245c30f0f05a1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vertical offset, ie. the value that needs to be added to <code>drawInfo.y</code> to make the aircraft appear on the ground.  <a href="classXPMP2_1_1Aircraft.html#a113fc0ea358aca3033245c30f0f05a1e">More...</a><br /></td></tr>
 <tr class="separator:a113fc0ea358aca3033245c30f0f05a1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a021df5cf849d0bfc7468b84d2ba731e6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a021df5cf849d0bfc7468b84d2ba731e6">UpdatePosition</a> (float _elapsedSinceLastCall, int _flCounter)=0</td></tr>
-<tr class="memdesc:a021df5cf849d0bfc7468b84d2ba731e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called right before updating the aircraft's placement in the world.  <a href="classXPMP2_1_1Aircraft.html#a021df5cf849d0bfc7468b84d2ba731e6">More...</a><br /></td></tr>
-<tr class="separator:a021df5cf849d0bfc7468b84d2ba731e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc986f4195712ed50435799f660235d3"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#acc986f4195712ed50435799f660235d3">GetCameraDist</a> () const</td></tr>
-<tr class="memdesc:acc986f4195712ed50435799f660235d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Distance to camera [m].  <a href="classXPMP2_1_1Aircraft.html#acc986f4195712ed50435799f660235d3">More...</a><br /></td></tr>
-<tr class="separator:acc986f4195712ed50435799f660235d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b490b3171816c3932e77a95408c1b1a"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a4b490b3171816c3932e77a95408c1b1a">GetCameraBearing</a> () const</td></tr>
-<tr class="memdesc:a4b490b3171816c3932e77a95408c1b1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bearing from camera [°].  <a href="classXPMP2_1_1Aircraft.html#a4b490b3171816c3932e77a95408c1b1a">More...</a><br /></td></tr>
-<tr class="separator:a4b490b3171816c3932e77a95408c1b1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad0fb2622b03447e6854687c4acec5de6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ad0fb2622b03447e6854687c4acec5de6">SetLocation</a> (double lat, double lon, double alt_ft)</td></tr>
-<tr class="memdesc:ad0fb2622b03447e6854687c4acec5de6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts world coordinates to local coordinates, writes to <a class="el" href="classXPMP2_1_1Aircraft.html#a883ea3e9a9a1cca7debe7755f066e848" title="Holds position (in local coordinates!) and orientation (pitch, heading roll) of the aircraft.">Aircraft::drawInfo</a>.  <a href="classXPMP2_1_1Aircraft.html#ad0fb2622b03447e6854687c4acec5de6">More...</a><br /></td></tr>
-<tr class="separator:ad0fb2622b03447e6854687c4acec5de6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a996c9ebb817ae2a6f3204f0ab5fa317a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a996c9ebb817ae2a6f3204f0ab5fa317a">GetLocation</a> (double &amp;lat, double &amp;lon, double &amp;alt_ft) const</td></tr>
-<tr class="memdesc:a996c9ebb817ae2a6f3204f0ab5fa317a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts aircraft's local coordinates to lat/lon values.  <a href="classXPMP2_1_1Aircraft.html#a996c9ebb817ae2a6f3204f0ab5fa317a">More...</a><br /></td></tr>
-<tr class="separator:a996c9ebb817ae2a6f3204f0ab5fa317a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa73ec6b3eeb352d66f3fcb0bcf9cf2e2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#aa73ec6b3eeb352d66f3fcb0bcf9cf2e2">IsValid</a> () const</td></tr>
+<tr class="memdesc:aa73ec6b3eeb352d66f3fcb0bcf9cf2e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the a/c object valid?  <a href="classXPMP2_1_1Aircraft.html#aa73ec6b3eeb352d66f3fcb0bcf9cf2e2">More...</a><br /></td></tr>
+<tr class="separator:aa73ec6b3eeb352d66f3fcb0bcf9cf2e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac663b0cce52a21e8f069a29c7ae05719"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ac663b0cce52a21e8f069a29c7ae05719">SetInvalid</a> ()</td></tr>
+<tr class="memdesc:ac663b0cce52a21e8f069a29c7ae05719"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mark the plane invalid, e.g. after exceptions occured on the data.  <a href="classXPMP2_1_1Aircraft.html#ac663b0cce52a21e8f069a29c7ae05719">More...</a><br /></td></tr>
+<tr class="separator:ac663b0cce52a21e8f069a29c7ae05719"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a323f97ce96a109704d3ec0a7b700242a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a323f97ce96a109704d3ec0a7b700242a">SetVisible</a> (bool _bVisible)</td></tr>
 <tr class="memdesc:a323f97ce96a109704d3ec0a7b700242a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make the plane (in)visible.  <a href="classXPMP2_1_1Aircraft.html#a323f97ce96a109704d3ec0a7b700242a">More...</a><br /></td></tr>
 <tr class="separator:a323f97ce96a109704d3ec0a7b700242a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab79b047f2e4257fa34f0142ba3b4fe9a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ab79b047f2e4257fa34f0142ba3b4fe9a">IsVisible</a> () const</td></tr>
 <tr class="memdesc:ab79b047f2e4257fa34f0142ba3b4fe9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the plane visible?  <a href="classXPMP2_1_1Aircraft.html#ab79b047f2e4257fa34f0142ba3b4fe9a">More...</a><br /></td></tr>
 <tr class="separator:ab79b047f2e4257fa34f0142ba3b4fe9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc986f4195712ed50435799f660235d3"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#acc986f4195712ed50435799f660235d3">GetCameraDist</a> () const</td></tr>
+<tr class="memdesc:acc986f4195712ed50435799f660235d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Distance to camera [m].  <a href="classXPMP2_1_1Aircraft.html#acc986f4195712ed50435799f660235d3">More...</a><br /></td></tr>
+<tr class="separator:acc986f4195712ed50435799f660235d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b490b3171816c3932e77a95408c1b1a"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a4b490b3171816c3932e77a95408c1b1a">GetCameraBearing</a> () const</td></tr>
+<tr class="memdesc:a4b490b3171816c3932e77a95408c1b1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bearing from camera [°].  <a href="classXPMP2_1_1Aircraft.html#a4b490b3171816c3932e77a95408c1b1a">More...</a><br /></td></tr>
+<tr class="separator:a4b490b3171816c3932e77a95408c1b1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a021df5cf849d0bfc7468b84d2ba731e6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a021df5cf849d0bfc7468b84d2ba731e6">UpdatePosition</a> (float _elapsedSinceLastCall, int _flCounter)=0</td></tr>
+<tr class="memdesc:a021df5cf849d0bfc7468b84d2ba731e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called right before updating the aircraft's placement in the world.  <a href="classXPMP2_1_1Aircraft.html#a021df5cf849d0bfc7468b84d2ba731e6">More...</a><br /></td></tr>
+<tr class="separator:a021df5cf849d0bfc7468b84d2ba731e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0fb2622b03447e6854687c4acec5de6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ad0fb2622b03447e6854687c4acec5de6">SetLocation</a> (double lat, double lon, double alt_ft)</td></tr>
+<tr class="memdesc:ad0fb2622b03447e6854687c4acec5de6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts world coordinates to local coordinates, writes to <a class="el" href="classXPMP2_1_1Aircraft.html#a883ea3e9a9a1cca7debe7755f066e848" title="Holds position (in local coordinates!) and orientation (pitch, heading roll) of the aircraft.">Aircraft::drawInfo</a>.  <a href="classXPMP2_1_1Aircraft.html#ad0fb2622b03447e6854687c4acec5de6">More...</a><br /></td></tr>
+<tr class="separator:ad0fb2622b03447e6854687c4acec5de6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a996c9ebb817ae2a6f3204f0ab5fa317a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a996c9ebb817ae2a6f3204f0ab5fa317a">GetLocation</a> (double &amp;lat, double &amp;lon, double &amp;alt_ft) const</td></tr>
+<tr class="memdesc:a996c9ebb817ae2a6f3204f0ab5fa317a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts aircraft's local coordinates to lat/lon values.  <a href="classXPMP2_1_1Aircraft.html#a996c9ebb817ae2a6f3204f0ab5fa317a">More...</a><br /></td></tr>
+<tr class="separator:a996c9ebb817ae2a6f3204f0ab5fa317a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02cab8db807e0ca7a3d766612834b5c0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a02cab8db807e0ca7a3d766612834b5c0">SetLocalLoc</a> (float _x, float _y, float _z)</td></tr>
+<tr class="memdesc:a02cab8db807e0ca7a3d766612834b5c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets location in local world coordinates.  <a href="classXPMP2_1_1Aircraft.html#a02cab8db807e0ca7a3d766612834b5c0">More...</a><br /></td></tr>
+<tr class="separator:a02cab8db807e0ca7a3d766612834b5c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac97013420bab5cbc7ef906cd4ac03403"><td class="memItemLeft" align="right" valign="top">const XPLMDrawInfo_t &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ac97013420bab5cbc7ef906cd4ac03403">GetLocation</a> () const</td></tr>
+<tr class="memdesc:ac97013420bab5cbc7ef906cd4ac03403"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets all location info (including local coordinates)  <a href="classXPMP2_1_1Aircraft.html#ac97013420bab5cbc7ef906cd4ac03403">More...</a><br /></td></tr>
+<tr class="separator:ac97013420bab5cbc7ef906cd4ac03403"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af113a5874e862ad3ec2aa87d14a37853"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#af113a5874e862ad3ec2aa87d14a37853">GetPitch</a> () const</td></tr>
+<tr class="memdesc:af113a5874e862ad3ec2aa87d14a37853"><td class="mdescLeft">&#160;</td><td class="mdescRight">pitch [degree]  <a href="classXPMP2_1_1Aircraft.html#af113a5874e862ad3ec2aa87d14a37853">More...</a><br /></td></tr>
+<tr class="separator:af113a5874e862ad3ec2aa87d14a37853"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7c897507fc42d8e258376863a12779e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ac7c897507fc42d8e258376863a12779e">SetPitch</a> (float _deg)</td></tr>
+<tr class="memdesc:ac7c897507fc42d8e258376863a12779e"><td class="mdescLeft">&#160;</td><td class="mdescRight">pitch [degree]  <a href="classXPMP2_1_1Aircraft.html#ac7c897507fc42d8e258376863a12779e">More...</a><br /></td></tr>
+<tr class="separator:ac7c897507fc42d8e258376863a12779e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7aa783b9e639d8933b1dccdfd57640c"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ac7aa783b9e639d8933b1dccdfd57640c">GetHeading</a> () const</td></tr>
+<tr class="memdesc:ac7aa783b9e639d8933b1dccdfd57640c"><td class="mdescLeft">&#160;</td><td class="mdescRight">heading [degree]  <a href="classXPMP2_1_1Aircraft.html#ac7aa783b9e639d8933b1dccdfd57640c">More...</a><br /></td></tr>
+<tr class="separator:ac7aa783b9e639d8933b1dccdfd57640c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97f485ac222c785d243427d4695045fb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a97f485ac222c785d243427d4695045fb">SetHeading</a> (float _deg)</td></tr>
+<tr class="memdesc:a97f485ac222c785d243427d4695045fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">heading [degree]  <a href="classXPMP2_1_1Aircraft.html#a97f485ac222c785d243427d4695045fb">More...</a><br /></td></tr>
+<tr class="separator:a97f485ac222c785d243427d4695045fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a193e6ad75abe11e04fd333d696a8c44e"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a193e6ad75abe11e04fd333d696a8c44e">GetRoll</a> () const</td></tr>
+<tr class="memdesc:a193e6ad75abe11e04fd333d696a8c44e"><td class="mdescLeft">&#160;</td><td class="mdescRight">roll [degree]  <a href="classXPMP2_1_1Aircraft.html#a193e6ad75abe11e04fd333d696a8c44e">More...</a><br /></td></tr>
+<tr class="separator:a193e6ad75abe11e04fd333d696a8c44e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac110fad29f23413ee98ecd17910fd804"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ac110fad29f23413ee98ecd17910fd804">SetRoll</a> (float _deg)</td></tr>
+<tr class="memdesc:ac110fad29f23413ee98ecd17910fd804"><td class="mdescLeft">&#160;</td><td class="mdescRight">roll [degree]  <a href="classXPMP2_1_1Aircraft.html#ac110fad29f23413ee98ecd17910fd804">More...</a><br /></td></tr>
+<tr class="separator:ac110fad29f23413ee98ecd17910fd804"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0299706264f2b676e886a300d28c6e46"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a0299706264f2b676e886a300d28c6e46">GetGearRatio</a> () const</td></tr>
+<tr class="memdesc:a0299706264f2b676e886a300d28c6e46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gear deploy ratio.  <a href="classXPMP2_1_1Aircraft.html#a0299706264f2b676e886a300d28c6e46">More...</a><br /></td></tr>
+<tr class="separator:a0299706264f2b676e886a300d28c6e46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4473f9ce85e7b8bc7964a1af285e3330"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a4473f9ce85e7b8bc7964a1af285e3330">SetGearRatio</a> (float _f)</td></tr>
+<tr class="memdesc:a4473f9ce85e7b8bc7964a1af285e3330"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gear deploy ratio.  <a href="classXPMP2_1_1Aircraft.html#a4473f9ce85e7b8bc7964a1af285e3330">More...</a><br /></td></tr>
+<tr class="separator:a4473f9ce85e7b8bc7964a1af285e3330"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d12da587ce9f79931bac8989a3c5dbe"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a8d12da587ce9f79931bac8989a3c5dbe">GetFlapRatio</a> () const</td></tr>
+<tr class="memdesc:a8d12da587ce9f79931bac8989a3c5dbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flaps deploy ratio.  <a href="classXPMP2_1_1Aircraft.html#a8d12da587ce9f79931bac8989a3c5dbe">More...</a><br /></td></tr>
+<tr class="separator:a8d12da587ce9f79931bac8989a3c5dbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7340d546299722cef2e46b04c0402d86"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a7340d546299722cef2e46b04c0402d86">SetFlapRatio</a> (float _f)</td></tr>
+<tr class="memdesc:a7340d546299722cef2e46b04c0402d86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flaps deploy ratio.  <a href="classXPMP2_1_1Aircraft.html#a7340d546299722cef2e46b04c0402d86">More...</a><br /></td></tr>
+<tr class="separator:a7340d546299722cef2e46b04c0402d86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47385b12a44d9822408f1625f2af1db3"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a47385b12a44d9822408f1625f2af1db3">GetSpoilerRatio</a> () const</td></tr>
+<tr class="memdesc:a47385b12a44d9822408f1625f2af1db3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Spoilers deploy ratio.  <a href="classXPMP2_1_1Aircraft.html#a47385b12a44d9822408f1625f2af1db3">More...</a><br /></td></tr>
+<tr class="separator:a47385b12a44d9822408f1625f2af1db3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f20274b5cbe0c4ea06bfa90c2a5b03c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a1f20274b5cbe0c4ea06bfa90c2a5b03c">SetSpoilerRatio</a> (float _f)</td></tr>
+<tr class="memdesc:a1f20274b5cbe0c4ea06bfa90c2a5b03c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Spoilers deploy ratio.  <a href="classXPMP2_1_1Aircraft.html#a1f20274b5cbe0c4ea06bfa90c2a5b03c">More...</a><br /></td></tr>
+<tr class="separator:a1f20274b5cbe0c4ea06bfa90c2a5b03c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a170a5b6acfa9535a344a6fa29026dc1f"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a170a5b6acfa9535a344a6fa29026dc1f">GetSpeedbrakeRatio</a> () const</td></tr>
+<tr class="memdesc:a170a5b6acfa9535a344a6fa29026dc1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Speedbrakes deploy ratio.  <a href="classXPMP2_1_1Aircraft.html#a170a5b6acfa9535a344a6fa29026dc1f">More...</a><br /></td></tr>
+<tr class="separator:a170a5b6acfa9535a344a6fa29026dc1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a597ea305dbcaaf00e08108495fc86f74"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a597ea305dbcaaf00e08108495fc86f74">SetSpeedbrakeRatio</a> (float _f)</td></tr>
+<tr class="memdesc:a597ea305dbcaaf00e08108495fc86f74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Speedbrakes deploy ratio.  <a href="classXPMP2_1_1Aircraft.html#a597ea305dbcaaf00e08108495fc86f74">More...</a><br /></td></tr>
+<tr class="separator:a597ea305dbcaaf00e08108495fc86f74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac427c6d03cce2bc35d1389b425243fcb"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ac427c6d03cce2bc35d1389b425243fcb">GetSlatRatio</a> () const</td></tr>
+<tr class="memdesc:ac427c6d03cce2bc35d1389b425243fcb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Slats deploy ratio.  <a href="classXPMP2_1_1Aircraft.html#ac427c6d03cce2bc35d1389b425243fcb">More...</a><br /></td></tr>
+<tr class="separator:ac427c6d03cce2bc35d1389b425243fcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a809124510e1997af2d5ebe0398709227"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a809124510e1997af2d5ebe0398709227">SetSlatRatio</a> (float _f)</td></tr>
+<tr class="memdesc:a809124510e1997af2d5ebe0398709227"><td class="mdescLeft">&#160;</td><td class="mdescRight">Slats deploy ratio.  <a href="classXPMP2_1_1Aircraft.html#a809124510e1997af2d5ebe0398709227">More...</a><br /></td></tr>
+<tr class="separator:a809124510e1997af2d5ebe0398709227"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3ffd6d70a5ad79fd9b9de1479cf87f1"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ac3ffd6d70a5ad79fd9b9de1479cf87f1">GetWingSweepRatio</a> () const</td></tr>
+<tr class="memdesc:ac3ffd6d70a5ad79fd9b9de1479cf87f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wing sweep ratio.  <a href="classXPMP2_1_1Aircraft.html#ac3ffd6d70a5ad79fd9b9de1479cf87f1">More...</a><br /></td></tr>
+<tr class="separator:ac3ffd6d70a5ad79fd9b9de1479cf87f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac705639408da72cc4952f92c555bfb5c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ac705639408da72cc4952f92c555bfb5c">SetWingSweepRatio</a> (float _f)</td></tr>
+<tr class="memdesc:ac705639408da72cc4952f92c555bfb5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wing sweep ratio.  <a href="classXPMP2_1_1Aircraft.html#ac705639408da72cc4952f92c555bfb5c">More...</a><br /></td></tr>
+<tr class="separator:ac705639408da72cc4952f92c555bfb5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4450075925429a563819233fd60fe1e7"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a4450075925429a563819233fd60fe1e7">GetThrustRatio</a> () const</td></tr>
+<tr class="memdesc:a4450075925429a563819233fd60fe1e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Thrust ratio.  <a href="classXPMP2_1_1Aircraft.html#a4450075925429a563819233fd60fe1e7">More...</a><br /></td></tr>
+<tr class="separator:a4450075925429a563819233fd60fe1e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3f31b9fcab578917c50fe28c5f86500"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ad3f31b9fcab578917c50fe28c5f86500">SetThrustRatio</a> (float _f)</td></tr>
+<tr class="memdesc:ad3f31b9fcab578917c50fe28c5f86500"><td class="mdescLeft">&#160;</td><td class="mdescRight">Thrust ratio.  <a href="classXPMP2_1_1Aircraft.html#ad3f31b9fcab578917c50fe28c5f86500">More...</a><br /></td></tr>
+<tr class="separator:ad3f31b9fcab578917c50fe28c5f86500"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a893edf4dfa91c43daa495085c7345ad3"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a893edf4dfa91c43daa495085c7345ad3">GetYokePitchRatio</a> () const</td></tr>
+<tr class="memdesc:a893edf4dfa91c43daa495085c7345ad3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Yoke pitch ratio.  <a href="classXPMP2_1_1Aircraft.html#a893edf4dfa91c43daa495085c7345ad3">More...</a><br /></td></tr>
+<tr class="separator:a893edf4dfa91c43daa495085c7345ad3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8f70737d2fab54fd9836052ea2620f8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#aa8f70737d2fab54fd9836052ea2620f8">SetYokePitchRatio</a> (float _f)</td></tr>
+<tr class="memdesc:aa8f70737d2fab54fd9836052ea2620f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Yoke pitch ratio.  <a href="classXPMP2_1_1Aircraft.html#aa8f70737d2fab54fd9836052ea2620f8">More...</a><br /></td></tr>
+<tr class="separator:aa8f70737d2fab54fd9836052ea2620f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af470361c99b638d3ee742ba80f1e4ae7"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#af470361c99b638d3ee742ba80f1e4ae7">GetYokeHeadingRatio</a> () const</td></tr>
+<tr class="memdesc:af470361c99b638d3ee742ba80f1e4ae7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Yoke heading ratio.  <a href="classXPMP2_1_1Aircraft.html#af470361c99b638d3ee742ba80f1e4ae7">More...</a><br /></td></tr>
+<tr class="separator:af470361c99b638d3ee742ba80f1e4ae7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ba0fb0ada8eb4fe92302dee332fbdb4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a6ba0fb0ada8eb4fe92302dee332fbdb4">SetYokeHeadingRatio</a> (float _f)</td></tr>
+<tr class="memdesc:a6ba0fb0ada8eb4fe92302dee332fbdb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Yoke heading ratio.  <a href="classXPMP2_1_1Aircraft.html#a6ba0fb0ada8eb4fe92302dee332fbdb4">More...</a><br /></td></tr>
+<tr class="separator:a6ba0fb0ada8eb4fe92302dee332fbdb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95ff16b884fee0449a975a1bcad3ac54"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a95ff16b884fee0449a975a1bcad3ac54">GetYokeRollRatio</a> () const</td></tr>
+<tr class="memdesc:a95ff16b884fee0449a975a1bcad3ac54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Yoke roll ratio.  <a href="classXPMP2_1_1Aircraft.html#a95ff16b884fee0449a975a1bcad3ac54">More...</a><br /></td></tr>
+<tr class="separator:a95ff16b884fee0449a975a1bcad3ac54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac95bced4d13506a130be689b4f172361"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ac95bced4d13506a130be689b4f172361">SetYokeRollRatio</a> (float _f)</td></tr>
+<tr class="memdesc:ac95bced4d13506a130be689b4f172361"><td class="mdescLeft">&#160;</td><td class="mdescRight">Yoke roll ratio.  <a href="classXPMP2_1_1Aircraft.html#ac95bced4d13506a130be689b4f172361">More...</a><br /></td></tr>
+<tr class="separator:ac95bced4d13506a130be689b4f172361"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06091e3aea714d5bbcd6c6f05b2ddf96"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a06091e3aea714d5bbcd6c6f05b2ddf96">GetThrustReversRatio</a> () const</td></tr>
+<tr class="memdesc:a06091e3aea714d5bbcd6c6f05b2ddf96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Thrust reversers ratio.  <a href="classXPMP2_1_1Aircraft.html#a06091e3aea714d5bbcd6c6f05b2ddf96">More...</a><br /></td></tr>
+<tr class="separator:a06091e3aea714d5bbcd6c6f05b2ddf96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48d920ab0030085d440e3fec1d13e8c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a48d920ab0030085d440e3fec1d13e8c6">SetThrustReversRatio</a> (float _f)</td></tr>
+<tr class="memdesc:a48d920ab0030085d440e3fec1d13e8c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Thrust reversers ratio.  <a href="classXPMP2_1_1Aircraft.html#a48d920ab0030085d440e3fec1d13e8c6">More...</a><br /></td></tr>
+<tr class="separator:a48d920ab0030085d440e3fec1d13e8c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5165299c80000fba2d6758bbe51190ed"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a5165299c80000fba2d6758bbe51190ed">GetLightsTaxi</a> () const</td></tr>
+<tr class="memdesc:a5165299c80000fba2d6758bbe51190ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Taxi lights.  <a href="classXPMP2_1_1Aircraft.html#a5165299c80000fba2d6758bbe51190ed">More...</a><br /></td></tr>
+<tr class="separator:a5165299c80000fba2d6758bbe51190ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a819589d05ae945f99e41324824cf2042"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a819589d05ae945f99e41324824cf2042">SetLightsTaxi</a> (bool _b)</td></tr>
+<tr class="memdesc:a819589d05ae945f99e41324824cf2042"><td class="mdescLeft">&#160;</td><td class="mdescRight">Taxi lights.  <a href="classXPMP2_1_1Aircraft.html#a819589d05ae945f99e41324824cf2042">More...</a><br /></td></tr>
+<tr class="separator:a819589d05ae945f99e41324824cf2042"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36cffd22d40596c7b63abbfceb70823e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a36cffd22d40596c7b63abbfceb70823e">GetLightsLanding</a> () const</td></tr>
+<tr class="memdesc:a36cffd22d40596c7b63abbfceb70823e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Landing lights.  <a href="classXPMP2_1_1Aircraft.html#a36cffd22d40596c7b63abbfceb70823e">More...</a><br /></td></tr>
+<tr class="separator:a36cffd22d40596c7b63abbfceb70823e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a686406b86c30466a7f42a9e77f7287ae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a686406b86c30466a7f42a9e77f7287ae">SetLightsLanding</a> (bool _b)</td></tr>
+<tr class="memdesc:a686406b86c30466a7f42a9e77f7287ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Landing lights.  <a href="classXPMP2_1_1Aircraft.html#a686406b86c30466a7f42a9e77f7287ae">More...</a><br /></td></tr>
+<tr class="separator:a686406b86c30466a7f42a9e77f7287ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00ca4a1771d7e037df0ce4e46ea0ad13"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a00ca4a1771d7e037df0ce4e46ea0ad13">GetLightsBeacon</a> () const</td></tr>
+<tr class="memdesc:a00ca4a1771d7e037df0ce4e46ea0ad13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Beacon lights.  <a href="classXPMP2_1_1Aircraft.html#a00ca4a1771d7e037df0ce4e46ea0ad13">More...</a><br /></td></tr>
+<tr class="separator:a00ca4a1771d7e037df0ce4e46ea0ad13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a259e14bb2d878dd298d7de67ce663a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a7a259e14bb2d878dd298d7de67ce663a">SetLightsBeacon</a> (bool _b)</td></tr>
+<tr class="memdesc:a7a259e14bb2d878dd298d7de67ce663a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Beacon lights.  <a href="classXPMP2_1_1Aircraft.html#a7a259e14bb2d878dd298d7de67ce663a">More...</a><br /></td></tr>
+<tr class="separator:a7a259e14bb2d878dd298d7de67ce663a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ae62d840d1b4c766d5fdc7b007b9d6e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a3ae62d840d1b4c766d5fdc7b007b9d6e">GetLightsStrobe</a> () const</td></tr>
+<tr class="memdesc:a3ae62d840d1b4c766d5fdc7b007b9d6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Strobe lights.  <a href="classXPMP2_1_1Aircraft.html#a3ae62d840d1b4c766d5fdc7b007b9d6e">More...</a><br /></td></tr>
+<tr class="separator:a3ae62d840d1b4c766d5fdc7b007b9d6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e061ad65e1bc346b50e9e9c249f0926"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a4e061ad65e1bc346b50e9e9c249f0926">SetLightsStrobe</a> (bool _b)</td></tr>
+<tr class="memdesc:a4e061ad65e1bc346b50e9e9c249f0926"><td class="mdescLeft">&#160;</td><td class="mdescRight">Strobe lights.  <a href="classXPMP2_1_1Aircraft.html#a4e061ad65e1bc346b50e9e9c249f0926">More...</a><br /></td></tr>
+<tr class="separator:a4e061ad65e1bc346b50e9e9c249f0926"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abee1df8facf82994c1145f40b876dc52"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#abee1df8facf82994c1145f40b876dc52">GetLightsNav</a> () const</td></tr>
+<tr class="memdesc:abee1df8facf82994c1145f40b876dc52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Navigation lights.  <a href="classXPMP2_1_1Aircraft.html#abee1df8facf82994c1145f40b876dc52">More...</a><br /></td></tr>
+<tr class="separator:abee1df8facf82994c1145f40b876dc52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a39e5fbb0a2ac88bf727f543d0e9c18"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a0a39e5fbb0a2ac88bf727f543d0e9c18">SetLightsNav</a> (bool _b)</td></tr>
+<tr class="memdesc:a0a39e5fbb0a2ac88bf727f543d0e9c18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Navigation lights.  <a href="classXPMP2_1_1Aircraft.html#a0a39e5fbb0a2ac88bf727f543d0e9c18">More...</a><br /></td></tr>
+<tr class="separator:a0a39e5fbb0a2ac88bf727f543d0e9c18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b077dcf44f130c5fcd4935ebe302da1"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a6b077dcf44f130c5fcd4935ebe302da1">GetTireDeflection</a> () const</td></tr>
+<tr class="memdesc:a6b077dcf44f130c5fcd4935ebe302da1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vertical tire deflection [meter].  <a href="classXPMP2_1_1Aircraft.html#a6b077dcf44f130c5fcd4935ebe302da1">More...</a><br /></td></tr>
+<tr class="separator:a6b077dcf44f130c5fcd4935ebe302da1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65c37a6ab1c312e58e34161af5f58db6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a65c37a6ab1c312e58e34161af5f58db6">SetTireDeflection</a> (float _mtr)</td></tr>
+<tr class="memdesc:a65c37a6ab1c312e58e34161af5f58db6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vertical tire deflection [meter].  <a href="classXPMP2_1_1Aircraft.html#a65c37a6ab1c312e58e34161af5f58db6">More...</a><br /></td></tr>
+<tr class="separator:a65c37a6ab1c312e58e34161af5f58db6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49123e5ea5db9d991e4f387c2a658c99"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a49123e5ea5db9d991e4f387c2a658c99">GetTireRotAngle</a> () const</td></tr>
+<tr class="memdesc:a49123e5ea5db9d991e4f387c2a658c99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tire rotation angle [degree].  <a href="classXPMP2_1_1Aircraft.html#a49123e5ea5db9d991e4f387c2a658c99">More...</a><br /></td></tr>
+<tr class="separator:a49123e5ea5db9d991e4f387c2a658c99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3a954c46e1d34d93f7bf5ad2b8955d8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ad3a954c46e1d34d93f7bf5ad2b8955d8">SetTireRotAngle</a> (float _deg)</td></tr>
+<tr class="memdesc:ad3a954c46e1d34d93f7bf5ad2b8955d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tire rotation angle [degree].  <a href="classXPMP2_1_1Aircraft.html#ad3a954c46e1d34d93f7bf5ad2b8955d8">More...</a><br /></td></tr>
+<tr class="separator:ad3a954c46e1d34d93f7bf5ad2b8955d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3716317969197d45d11d20e9f96de608"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a3716317969197d45d11d20e9f96de608">GetTireRotRpm</a> () const</td></tr>
+<tr class="memdesc:a3716317969197d45d11d20e9f96de608"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tire rotation speed [rpm].  <a href="classXPMP2_1_1Aircraft.html#a3716317969197d45d11d20e9f96de608">More...</a><br /></td></tr>
+<tr class="separator:a3716317969197d45d11d20e9f96de608"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54314a6c639737dd4b7d71c042479cf1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a54314a6c639737dd4b7d71c042479cf1">SetTireRotRpm</a> (float _rpm)</td></tr>
+<tr class="separator:a54314a6c639737dd4b7d71c042479cf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77a1b9e2d7e5405aa561cd4712d70bfb"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a77a1b9e2d7e5405aa561cd4712d70bfb">GetTireRotRad</a> () const</td></tr>
+<tr class="memdesc:a77a1b9e2d7e5405aa561cd4712d70bfb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tire rotation speed [rad/s].  <a href="classXPMP2_1_1Aircraft.html#a77a1b9e2d7e5405aa561cd4712d70bfb">More...</a><br /></td></tr>
+<tr class="separator:a77a1b9e2d7e5405aa561cd4712d70bfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af531320e6da261c18b278704d70321fc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#af531320e6da261c18b278704d70321fc">SetTireRotRad</a> (float _rad)</td></tr>
+<tr class="separator:af531320e6da261c18b278704d70321fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2eadae5a66502273afc6ca6d7a6cb221"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a2eadae5a66502273afc6ca6d7a6cb221">GetEngineRotAngle</a> () const</td></tr>
+<tr class="memdesc:a2eadae5a66502273afc6ca6d7a6cb221"><td class="mdescLeft">&#160;</td><td class="mdescRight">Engine rotation angle [degree].  <a href="classXPMP2_1_1Aircraft.html#a2eadae5a66502273afc6ca6d7a6cb221">More...</a><br /></td></tr>
+<tr class="separator:a2eadae5a66502273afc6ca6d7a6cb221"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7664c2a688c40bc04bcef09347225ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#af7664c2a688c40bc04bcef09347225ce">SetEngineRotAngle</a> (float _deg)</td></tr>
+<tr class="memdesc:af7664c2a688c40bc04bcef09347225ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Engine rotation angle [degree].  <a href="classXPMP2_1_1Aircraft.html#af7664c2a688c40bc04bcef09347225ce">More...</a><br /></td></tr>
+<tr class="separator:af7664c2a688c40bc04bcef09347225ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4845f3db16ecd8ae644acba8b7496dc"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#aa4845f3db16ecd8ae644acba8b7496dc">GetEngineRotRpm</a> () const</td></tr>
+<tr class="memdesc:aa4845f3db16ecd8ae644acba8b7496dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Engine rotation speed [rpm].  <a href="classXPMP2_1_1Aircraft.html#aa4845f3db16ecd8ae644acba8b7496dc">More...</a><br /></td></tr>
+<tr class="separator:aa4845f3db16ecd8ae644acba8b7496dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e9db65ef0fc8c1c3ecbac8544983daf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a2e9db65ef0fc8c1c3ecbac8544983daf">SetEngineRotRpm</a> (float _rpm)</td></tr>
+<tr class="separator:a2e9db65ef0fc8c1c3ecbac8544983daf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7a67fde006a1c95ee49e5ad000dfdb3"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#aa7a67fde006a1c95ee49e5ad000dfdb3">GetEngineRotRad</a> () const</td></tr>
+<tr class="memdesc:aa7a67fde006a1c95ee49e5ad000dfdb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Engine rotation speed [rad/s].  <a href="classXPMP2_1_1Aircraft.html#aa7a67fde006a1c95ee49e5ad000dfdb3">More...</a><br /></td></tr>
+<tr class="separator:aa7a67fde006a1c95ee49e5ad000dfdb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfb8ff05d551e9a796964357b090653d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#adfb8ff05d551e9a796964357b090653d">SetEngineRotRad</a> (float _rad)</td></tr>
+<tr class="separator:adfb8ff05d551e9a796964357b090653d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a302e0a47b894664b641cf54720705d1c"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a302e0a47b894664b641cf54720705d1c">GetPropRotAngle</a> () const</td></tr>
+<tr class="memdesc:a302e0a47b894664b641cf54720705d1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propellor rotation angle [degree].  <a href="classXPMP2_1_1Aircraft.html#a302e0a47b894664b641cf54720705d1c">More...</a><br /></td></tr>
+<tr class="separator:a302e0a47b894664b641cf54720705d1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f98782291bf72464fe12984c4a936a3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a7f98782291bf72464fe12984c4a936a3">SetPropRotAngle</a> (float _deg)</td></tr>
+<tr class="memdesc:a7f98782291bf72464fe12984c4a936a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propellor rotation angle [degree].  <a href="classXPMP2_1_1Aircraft.html#a7f98782291bf72464fe12984c4a936a3">More...</a><br /></td></tr>
+<tr class="separator:a7f98782291bf72464fe12984c4a936a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b01fe0bb71346a819d381cfc355bfd4"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a7b01fe0bb71346a819d381cfc355bfd4">GetPropRotRpm</a> () const</td></tr>
+<tr class="memdesc:a7b01fe0bb71346a819d381cfc355bfd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propellor rotation speed [rpm].  <a href="classXPMP2_1_1Aircraft.html#a7b01fe0bb71346a819d381cfc355bfd4">More...</a><br /></td></tr>
+<tr class="separator:a7b01fe0bb71346a819d381cfc355bfd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7308c9cee39238e26197d7e468eb3ae7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a7308c9cee39238e26197d7e468eb3ae7">SetPropRotRpm</a> (float _rpm)</td></tr>
+<tr class="separator:a7308c9cee39238e26197d7e468eb3ae7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4d6cd409a9472494e8a737f961a3873"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ad4d6cd409a9472494e8a737f961a3873">GetPropRotRad</a> () const</td></tr>
+<tr class="memdesc:ad4d6cd409a9472494e8a737f961a3873"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propellor rotation speed [rad/s].  <a href="classXPMP2_1_1Aircraft.html#ad4d6cd409a9472494e8a737f961a3873">More...</a><br /></td></tr>
+<tr class="separator:ad4d6cd409a9472494e8a737f961a3873"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab52d0556d6ef43567601cd62df2ee69a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ab52d0556d6ef43567601cd62df2ee69a">SetPropRotRad</a> (float _rad)</td></tr>
+<tr class="separator:ab52d0556d6ef43567601cd62df2ee69a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd151d16fd9fb400fb07fc602263aa56"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#abd151d16fd9fb400fb07fc602263aa56">GetReversDeployRatio</a> () const</td></tr>
+<tr class="memdesc:abd151d16fd9fb400fb07fc602263aa56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Thrust reversers deploy ratio.  <a href="classXPMP2_1_1Aircraft.html#abd151d16fd9fb400fb07fc602263aa56">More...</a><br /></td></tr>
+<tr class="separator:abd151d16fd9fb400fb07fc602263aa56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa628a1457c6588cc2bab4aadca1ffcd0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#aa628a1457c6588cc2bab4aadca1ffcd0">SetReversDeployRatio</a> (float _f)</td></tr>
+<tr class="memdesc:aa628a1457c6588cc2bab4aadca1ffcd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Thrust reversers deploy ratio.  <a href="classXPMP2_1_1Aircraft.html#aa628a1457c6588cc2bab4aadca1ffcd0">More...</a><br /></td></tr>
+<tr class="separator:aa628a1457c6588cc2bab4aadca1ffcd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a485b6389ef5cdb9e0b5572d04c134e57"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a485b6389ef5cdb9e0b5572d04c134e57">GetTouchDown</a> () const</td></tr>
+<tr class="memdesc:a485b6389ef5cdb9e0b5572d04c134e57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moment of touch down.  <a href="classXPMP2_1_1Aircraft.html#a485b6389ef5cdb9e0b5572d04c134e57">More...</a><br /></td></tr>
+<tr class="separator:a485b6389ef5cdb9e0b5572d04c134e57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa12f2f34fdd5252b7cb3ba209dd0076a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#aa12f2f34fdd5252b7cb3ba209dd0076a">SetTouchDown</a> (bool _b)</td></tr>
+<tr class="memdesc:aa12f2f34fdd5252b7cb3ba209dd0076a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moment of touch down.  <a href="classXPMP2_1_1Aircraft.html#aa12f2f34fdd5252b7cb3ba209dd0076a">More...</a><br /></td></tr>
+<tr class="separator:aa12f2f34fdd5252b7cb3ba209dd0076a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4c726e64a78c56b8507699bb8a5af67"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#aa4c726e64a78c56b8507699bb8a5af67">MapFindIcon</a> ()</td></tr>
 <tr class="memdesc:aa4c726e64a78c56b8507699bb8a5af67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine which map icon to use for this aircraft.  <a href="classXPMP2_1_1Aircraft.html#aa4c726e64a78c56b8507699bb8a5af67">More...</a><br /></td></tr>
 <tr class="separator:aa4c726e64a78c56b8507699bb8a5af67"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -235,6 +427,9 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a7180fb04f2307508345fd80201f0709f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a7180fb04f2307508345fd80201f0709f">modeS_id</a> = 0</td></tr>
 <tr class="memdesc:a7180fb04f2307508345fd80201f0709f"><td class="mdescLeft">&#160;</td><td class="mdescRight">A plane is uniquely identified by a 24bit number [0x01..0xFFFFFF].  <a href="classXPMP2_1_1Aircraft.html#a7180fb04f2307508345fd80201f0709f">More...</a><br /></td></tr>
 <tr class="separator:a7180fb04f2307508345fd80201f0709f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0611e562c6f6b6244f3b0157e0f0d6e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#aa0611e562c6f6b6244f3b0157e0f0d6e">bValid</a> = true</td></tr>
+<tr class="memdesc:aa0611e562c6f6b6244f3b0157e0f0d6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">is this object valid? (Will be reset in case of exceptions)  <a href="classXPMP2_1_1Aircraft.html#aa0611e562c6f6b6244f3b0157e0f0d6e">More...</a><br /></td></tr>
+<tr class="separator:aa0611e562c6f6b6244f3b0157e0f0d6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a558246fc8b275c03a650bdaf04205c38"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a558246fc8b275c03a650bdaf04205c38">bVisible</a> = true</td></tr>
 <tr class="memdesc:a558246fc8b275c03a650bdaf04205c38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shall this plane be drawn at the moment?  <a href="classXPMP2_1_1Aircraft.html#a558246fc8b275c03a650bdaf04205c38">More...</a><br /></td></tr>
 <tr class="separator:a558246fc8b275c03a650bdaf04205c38"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -692,6 +887,114 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a2eadae5a66502273afc6ca6d7a6cb221"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2eadae5a66502273afc6ca6d7a6cb221">&#9670;&nbsp;</a></span>GetEngineRotAngle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetEngineRotAngle </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Engine rotation angle [degree]. </p>
+
+</div>
+</div>
+<a id="aa7a67fde006a1c95ee49e5ad000dfdb3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7a67fde006a1c95ee49e5ad000dfdb3">&#9670;&nbsp;</a></span>GetEngineRotRad()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetEngineRotRad </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Engine rotation speed [rad/s]. </p>
+
+</div>
+</div>
+<a id="aa4845f3db16ecd8ae644acba8b7496dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4845f3db16ecd8ae644acba8b7496dc">&#9670;&nbsp;</a></span>GetEngineRotRpm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetEngineRotRpm </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Engine rotation speed [rpm]. </p>
+
+</div>
+</div>
+<a id="a8d12da587ce9f79931bac8989a3c5dbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d12da587ce9f79931bac8989a3c5dbe">&#9670;&nbsp;</a></span>GetFlapRatio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetFlapRatio </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Flaps deploy ratio. </p>
+
+</div>
+</div>
 <a id="a32d0bf5cdf26b222ea1c310a07750521"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a32d0bf5cdf26b222ea1c310a07750521">&#9670;&nbsp;</a></span>GetFlightId()</h2>
 
@@ -720,8 +1023,224 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a0299706264f2b676e886a300d28c6e46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0299706264f2b676e886a300d28c6e46">&#9670;&nbsp;</a></span>GetGearRatio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetGearRatio </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gear deploy ratio. </p>
+
+</div>
+</div>
+<a id="ac7aa783b9e639d8933b1dccdfd57640c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7aa783b9e639d8933b1dccdfd57640c">&#9670;&nbsp;</a></span>GetHeading()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetHeading </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>heading [degree] </p>
+
+</div>
+</div>
+<a id="a00ca4a1771d7e037df0ce4e46ea0ad13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00ca4a1771d7e037df0ce4e46ea0ad13">&#9670;&nbsp;</a></span>GetLightsBeacon()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::Aircraft::GetLightsBeacon </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Beacon lights. </p>
+
+</div>
+</div>
+<a id="a36cffd22d40596c7b63abbfceb70823e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36cffd22d40596c7b63abbfceb70823e">&#9670;&nbsp;</a></span>GetLightsLanding()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::Aircraft::GetLightsLanding </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Landing lights. </p>
+
+</div>
+</div>
+<a id="abee1df8facf82994c1145f40b876dc52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abee1df8facf82994c1145f40b876dc52">&#9670;&nbsp;</a></span>GetLightsNav()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::Aircraft::GetLightsNav </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Navigation lights. </p>
+
+</div>
+</div>
+<a id="a3ae62d840d1b4c766d5fdc7b007b9d6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ae62d840d1b4c766d5fdc7b007b9d6e">&#9670;&nbsp;</a></span>GetLightsStrobe()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::Aircraft::GetLightsStrobe </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Strobe lights. </p>
+
+</div>
+</div>
+<a id="a5165299c80000fba2d6758bbe51190ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5165299c80000fba2d6758bbe51190ed">&#9670;&nbsp;</a></span>GetLightsTaxi()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::Aircraft::GetLightsTaxi </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Taxi lights. </p>
+
+</div>
+</div>
+<a id="ac97013420bab5cbc7ef906cd4ac03403"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac97013420bab5cbc7ef906cd4ac03403">&#9670;&nbsp;</a></span>GetLocation() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const XPLMDrawInfo_t&amp; XPMP2::Aircraft::GetLocation </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets all location info (including local coordinates) </p>
+
+</div>
+</div>
 <a id="a996c9ebb817ae2a6f3204f0ab5fa317a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a996c9ebb817ae2a6f3204f0ab5fa317a">&#9670;&nbsp;</a></span>GetLocation()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a996c9ebb817ae2a6f3204f0ab5fa317a">&#9670;&nbsp;</a></span>GetLocation() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -857,6 +1376,249 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="af113a5874e862ad3ec2aa87d14a37853"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af113a5874e862ad3ec2aa87d14a37853">&#9670;&nbsp;</a></span>GetPitch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetPitch </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>pitch [degree] </p>
+
+</div>
+</div>
+<a id="a302e0a47b894664b641cf54720705d1c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a302e0a47b894664b641cf54720705d1c">&#9670;&nbsp;</a></span>GetPropRotAngle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetPropRotAngle </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Propellor rotation angle [degree]. </p>
+
+</div>
+</div>
+<a id="ad4d6cd409a9472494e8a737f961a3873"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4d6cd409a9472494e8a737f961a3873">&#9670;&nbsp;</a></span>GetPropRotRad()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetPropRotRad </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Propellor rotation speed [rad/s]. </p>
+
+</div>
+</div>
+<a id="a7b01fe0bb71346a819d381cfc355bfd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b01fe0bb71346a819d381cfc355bfd4">&#9670;&nbsp;</a></span>GetPropRotRpm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetPropRotRpm </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Propellor rotation speed [rpm]. </p>
+
+</div>
+</div>
+<a id="abd151d16fd9fb400fb07fc602263aa56"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd151d16fd9fb400fb07fc602263aa56">&#9670;&nbsp;</a></span>GetReversDeployRatio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetReversDeployRatio </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Thrust reversers deploy ratio. </p>
+
+</div>
+</div>
+<a id="a193e6ad75abe11e04fd333d696a8c44e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a193e6ad75abe11e04fd333d696a8c44e">&#9670;&nbsp;</a></span>GetRoll()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetRoll </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>roll [degree] </p>
+
+</div>
+</div>
+<a id="ac427c6d03cce2bc35d1389b425243fcb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac427c6d03cce2bc35d1389b425243fcb">&#9670;&nbsp;</a></span>GetSlatRatio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetSlatRatio </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Slats deploy ratio. </p>
+
+</div>
+</div>
+<a id="a170a5b6acfa9535a344a6fa29026dc1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a170a5b6acfa9535a344a6fa29026dc1f">&#9670;&nbsp;</a></span>GetSpeedbrakeRatio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetSpeedbrakeRatio </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Speedbrakes deploy ratio. </p>
+
+</div>
+</div>
+<a id="a47385b12a44d9822408f1625f2af1db3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47385b12a44d9822408f1625f2af1db3">&#9670;&nbsp;</a></span>GetSpoilerRatio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetSpoilerRatio </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Spoilers deploy ratio. </p>
+
+</div>
+</div>
 <a id="a270e578739a1f3de85fe63774fe323ca"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a270e578739a1f3de85fe63774fe323ca">&#9670;&nbsp;</a></span>GetTcasTargetIdx()</h2>
 
@@ -884,6 +1646,195 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a4450075925429a563819233fd60fe1e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4450075925429a563819233fd60fe1e7">&#9670;&nbsp;</a></span>GetThrustRatio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetThrustRatio </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Thrust ratio. </p>
+
+</div>
+</div>
+<a id="a06091e3aea714d5bbcd6c6f05b2ddf96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06091e3aea714d5bbcd6c6f05b2ddf96">&#9670;&nbsp;</a></span>GetThrustReversRatio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetThrustReversRatio </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Thrust reversers ratio. </p>
+
+</div>
+</div>
+<a id="a6b077dcf44f130c5fcd4935ebe302da1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b077dcf44f130c5fcd4935ebe302da1">&#9670;&nbsp;</a></span>GetTireDeflection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetTireDeflection </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Vertical tire deflection [meter]. </p>
+
+</div>
+</div>
+<a id="a49123e5ea5db9d991e4f387c2a658c99"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49123e5ea5db9d991e4f387c2a658c99">&#9670;&nbsp;</a></span>GetTireRotAngle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetTireRotAngle </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Tire rotation angle [degree]. </p>
+
+</div>
+</div>
+<a id="a77a1b9e2d7e5405aa561cd4712d70bfb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77a1b9e2d7e5405aa561cd4712d70bfb">&#9670;&nbsp;</a></span>GetTireRotRad()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetTireRotRad </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Tire rotation speed [rad/s]. </p>
+
+</div>
+</div>
+<a id="a3716317969197d45d11d20e9f96de608"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3716317969197d45d11d20e9f96de608">&#9670;&nbsp;</a></span>GetTireRotRpm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetTireRotRpm </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Tire rotation speed [rpm]. </p>
+
+</div>
+</div>
+<a id="a485b6389ef5cdb9e0b5572d04c134e57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a485b6389ef5cdb9e0b5572d04c134e57">&#9670;&nbsp;</a></span>GetTouchDown()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::Aircraft::GetTouchDown </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Moment of touch down. </p>
+
+</div>
+</div>
 <a id="a113fc0ea358aca3033245c30f0f05a1e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a113fc0ea358aca3033245c30f0f05a1e">&#9670;&nbsp;</a></span>GetVertOfs()</h2>
 
@@ -900,6 +1851,114 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Vertical offset, ie. the value that needs to be added to <code>drawInfo.y</code> to make the aircraft appear on the ground. </p>
+
+</div>
+</div>
+<a id="ac3ffd6d70a5ad79fd9b9de1479cf87f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3ffd6d70a5ad79fd9b9de1479cf87f1">&#9670;&nbsp;</a></span>GetWingSweepRatio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetWingSweepRatio </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Wing sweep ratio. </p>
+
+</div>
+</div>
+<a id="af470361c99b638d3ee742ba80f1e4ae7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af470361c99b638d3ee742ba80f1e4ae7">&#9670;&nbsp;</a></span>GetYokeHeadingRatio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetYokeHeadingRatio </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Yoke heading ratio. </p>
+
+</div>
+</div>
+<a id="a893edf4dfa91c43daa495085c7345ad3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a893edf4dfa91c43daa495085c7345ad3">&#9670;&nbsp;</a></span>GetYokePitchRatio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetYokePitchRatio </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Yoke pitch ratio. </p>
+
+</div>
+</div>
+<a id="a95ff16b884fee0449a975a1bcad3ac54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95ff16b884fee0449a975a1bcad3ac54">&#9670;&nbsp;</a></span>GetYokeRollRatio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetYokeRollRatio </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Yoke roll ratio. </p>
 
 </div>
 </div>
@@ -973,6 +2032,33 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Is this object a ground vehicle? </p>
+
+</div>
+</div>
+<a id="aa73ec6b3eeb352d66f3fcb0bcf9cf2e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa73ec6b3eeb352d66f3fcb0bcf9cf2e2">&#9670;&nbsp;</a></span>IsValid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::Aircraft::IsValid </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Is the a/c object valid? </p>
 
 </div>
 </div>
@@ -1174,6 +2260,383 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="af7664c2a688c40bc04bcef09347225ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7664c2a688c40bc04bcef09347225ce">&#9670;&nbsp;</a></span>SetEngineRotAngle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetEngineRotAngle </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_deg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Engine rotation angle [degree]. </p>
+
+</div>
+</div>
+<a id="adfb8ff05d551e9a796964357b090653d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfb8ff05d551e9a796964357b090653d">&#9670;&nbsp;</a></span>SetEngineRotRad()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetEngineRotRad </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_rad</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>&lt; Engine rotation speed [rad/s], also sets [rpm]</p>
+
+</div>
+</div>
+<a id="a2e9db65ef0fc8c1c3ecbac8544983daf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e9db65ef0fc8c1c3ecbac8544983daf">&#9670;&nbsp;</a></span>SetEngineRotRpm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetEngineRotRpm </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_rpm</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>&lt; Engine rotation speed [rpm], also sets [rad/s]</p>
+
+</div>
+</div>
+<a id="a7340d546299722cef2e46b04c0402d86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7340d546299722cef2e46b04c0402d86">&#9670;&nbsp;</a></span>SetFlapRatio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetFlapRatio </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_f</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Flaps deploy ratio. </p>
+
+</div>
+</div>
+<a id="a4473f9ce85e7b8bc7964a1af285e3330"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4473f9ce85e7b8bc7964a1af285e3330">&#9670;&nbsp;</a></span>SetGearRatio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetGearRatio </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_f</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gear deploy ratio. </p>
+
+</div>
+</div>
+<a id="a97f485ac222c785d243427d4695045fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97f485ac222c785d243427d4695045fb">&#9670;&nbsp;</a></span>SetHeading()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetHeading </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_deg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>heading [degree] </p>
+
+</div>
+</div>
+<a id="ac663b0cce52a21e8f069a29c7ae05719"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac663b0cce52a21e8f069a29c7ae05719">&#9670;&nbsp;</a></span>SetInvalid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetInvalid </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Mark the plane invalid, e.g. after exceptions occured on the data. </p>
+
+</div>
+</div>
+<a id="a7a259e14bb2d878dd298d7de67ce663a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a259e14bb2d878dd298d7de67ce663a">&#9670;&nbsp;</a></span>SetLightsBeacon()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetLightsBeacon </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>_b</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Beacon lights. </p>
+
+</div>
+</div>
+<a id="a686406b86c30466a7f42a9e77f7287ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a686406b86c30466a7f42a9e77f7287ae">&#9670;&nbsp;</a></span>SetLightsLanding()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetLightsLanding </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>_b</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Landing lights. </p>
+
+</div>
+</div>
+<a id="a0a39e5fbb0a2ac88bf727f543d0e9c18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a39e5fbb0a2ac88bf727f543d0e9c18">&#9670;&nbsp;</a></span>SetLightsNav()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetLightsNav </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>_b</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Navigation lights. </p>
+
+</div>
+</div>
+<a id="a4e061ad65e1bc346b50e9e9c249f0926"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e061ad65e1bc346b50e9e9c249f0926">&#9670;&nbsp;</a></span>SetLightsStrobe()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetLightsStrobe </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>_b</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Strobe lights. </p>
+
+</div>
+</div>
+<a id="a819589d05ae945f99e41324824cf2042"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a819589d05ae945f99e41324824cf2042">&#9670;&nbsp;</a></span>SetLightsTaxi()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetLightsTaxi </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>_b</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Taxi lights. </p>
+
+</div>
+</div>
+<a id="a02cab8db807e0ca7a3d766612834b5c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02cab8db807e0ca7a3d766612834b5c0">&#9670;&nbsp;</a></span>SetLocalLoc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetLocalLoc </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_z</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets location in local world coordinates. </p>
+
+</div>
+</div>
 <a id="ad0fb2622b03447e6854687c4acec5de6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad0fb2622b03447e6854687c4acec5de6">&#9670;&nbsp;</a></span>SetLocation()</h2>
 
@@ -1219,6 +2682,256 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="ac7c897507fc42d8e258376863a12779e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7c897507fc42d8e258376863a12779e">&#9670;&nbsp;</a></span>SetPitch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetPitch </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_deg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>pitch [degree] </p>
+
+</div>
+</div>
+<a id="a7f98782291bf72464fe12984c4a936a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f98782291bf72464fe12984c4a936a3">&#9670;&nbsp;</a></span>SetPropRotAngle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetPropRotAngle </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_deg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Propellor rotation angle [degree]. </p>
+
+</div>
+</div>
+<a id="ab52d0556d6ef43567601cd62df2ee69a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab52d0556d6ef43567601cd62df2ee69a">&#9670;&nbsp;</a></span>SetPropRotRad()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetPropRotRad </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_rad</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>&lt; Propellor rotation speed [rad/s], also sets [rpm]</p>
+
+</div>
+</div>
+<a id="a7308c9cee39238e26197d7e468eb3ae7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7308c9cee39238e26197d7e468eb3ae7">&#9670;&nbsp;</a></span>SetPropRotRpm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetPropRotRpm </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_rpm</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>&lt; Propellor rotation speed [rpm], also sets [rad/s]</p>
+
+</div>
+</div>
+<a id="aa628a1457c6588cc2bab4aadca1ffcd0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa628a1457c6588cc2bab4aadca1ffcd0">&#9670;&nbsp;</a></span>SetReversDeployRatio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetReversDeployRatio </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_f</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Thrust reversers deploy ratio. </p>
+
+</div>
+</div>
+<a id="ac110fad29f23413ee98ecd17910fd804"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac110fad29f23413ee98ecd17910fd804">&#9670;&nbsp;</a></span>SetRoll()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetRoll </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_deg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>roll [degree] </p>
+
+</div>
+</div>
+<a id="a809124510e1997af2d5ebe0398709227"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a809124510e1997af2d5ebe0398709227">&#9670;&nbsp;</a></span>SetSlatRatio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetSlatRatio </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_f</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Slats deploy ratio. </p>
+
+</div>
+</div>
+<a id="a597ea305dbcaaf00e08108495fc86f74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a597ea305dbcaaf00e08108495fc86f74">&#9670;&nbsp;</a></span>SetSpeedbrakeRatio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetSpeedbrakeRatio </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_f</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Speedbrakes deploy ratio. </p>
+
+</div>
+</div>
+<a id="a1f20274b5cbe0c4ea06bfa90c2a5b03c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f20274b5cbe0c4ea06bfa90c2a5b03c">&#9670;&nbsp;</a></span>SetSpoilerRatio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetSpoilerRatio </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_f</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Spoilers deploy ratio. </p>
+
+</div>
+</div>
 <a id="a4f50879fcaff911cee0581733fdb4d3f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4f50879fcaff911cee0581733fdb4d3f">&#9670;&nbsp;</a></span>SetTcasTargetIdx()</h2>
 
@@ -1247,6 +2960,200 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="ad3f31b9fcab578917c50fe28c5f86500"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3f31b9fcab578917c50fe28c5f86500">&#9670;&nbsp;</a></span>SetThrustRatio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetThrustRatio </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_f</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Thrust ratio. </p>
+
+</div>
+</div>
+<a id="a48d920ab0030085d440e3fec1d13e8c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48d920ab0030085d440e3fec1d13e8c6">&#9670;&nbsp;</a></span>SetThrustReversRatio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetThrustReversRatio </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_f</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Thrust reversers ratio. </p>
+
+</div>
+</div>
+<a id="a65c37a6ab1c312e58e34161af5f58db6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65c37a6ab1c312e58e34161af5f58db6">&#9670;&nbsp;</a></span>SetTireDeflection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetTireDeflection </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_mtr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Vertical tire deflection [meter]. </p>
+
+</div>
+</div>
+<a id="ad3a954c46e1d34d93f7bf5ad2b8955d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3a954c46e1d34d93f7bf5ad2b8955d8">&#9670;&nbsp;</a></span>SetTireRotAngle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetTireRotAngle </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_deg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Tire rotation angle [degree]. </p>
+
+</div>
+</div>
+<a id="af531320e6da261c18b278704d70321fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af531320e6da261c18b278704d70321fc">&#9670;&nbsp;</a></span>SetTireRotRad()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetTireRotRad </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_rad</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>&lt; Tire rotation speed [rad/s], also sets [rpm]</p>
+
+</div>
+</div>
+<a id="a54314a6c639737dd4b7d71c042479cf1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54314a6c639737dd4b7d71c042479cf1">&#9670;&nbsp;</a></span>SetTireRotRpm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetTireRotRpm </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_rpm</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>&lt; Tire rotation speed [rpm], also sets [rad/s]</p>
+
+</div>
+</div>
+<a id="aa12f2f34fdd5252b7cb3ba209dd0076a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa12f2f34fdd5252b7cb3ba209dd0076a">&#9670;&nbsp;</a></span>SetTouchDown()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetTouchDown </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>_b</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Moment of touch down. </p>
+
+</div>
+</div>
 <a id="a323f97ce96a109704d3ec0a7b700242a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a323f97ce96a109704d3ec0a7b700242a">&#9670;&nbsp;</a></span>SetVisible()</h2>
 
@@ -1272,6 +3179,118 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Make the plane (in)visible. </p>
+
+</div>
+</div>
+<a id="ac705639408da72cc4952f92c555bfb5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac705639408da72cc4952f92c555bfb5c">&#9670;&nbsp;</a></span>SetWingSweepRatio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetWingSweepRatio </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_f</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Wing sweep ratio. </p>
+
+</div>
+</div>
+<a id="a6ba0fb0ada8eb4fe92302dee332fbdb4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ba0fb0ada8eb4fe92302dee332fbdb4">&#9670;&nbsp;</a></span>SetYokeHeadingRatio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetYokeHeadingRatio </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_f</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Yoke heading ratio. </p>
+
+</div>
+</div>
+<a id="aa8f70737d2fab54fd9836052ea2620f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8f70737d2fab54fd9836052ea2620f8">&#9670;&nbsp;</a></span>SetYokePitchRatio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetYokePitchRatio </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_f</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Yoke pitch ratio. </p>
+
+</div>
+</div>
+<a id="ac95bced4d13506a130be689b4f172361"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac95bced4d13506a130be689b4f172361">&#9670;&nbsp;</a></span>SetYokeRollRatio()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetYokeRollRatio </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_f</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Yoke roll ratio. </p>
 
 </div>
 </div>
@@ -1521,6 +3540,30 @@ Friends</h2></td></tr>
 <p>Shall this plane be clamped to ground (ie. never sink below ground)? </p>
 <dl class="section note"><dt>Note</dt><dd>This involves Y-Testing, which is a bit expensive, see <a href="https://developer.x-plane.com/sdk/XPLMScenery">SDK</a>. If you know your plane is not close to the ground, you may want to avoid clamping by setting this to <code>false</code>. </dd></dl>
 <dl class="section see"><dt>See also</dt><dd>configuration item <code>XPMP2_CFG_ITM_CLAMPALL</code> </dd></dl>
+
+</div>
+</div>
+<a id="aa0611e562c6f6b6244f3b0157e0f0d6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0611e562c6f6b6244f3b0157e0f0d6e">&#9670;&nbsp;</a></span>bValid</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::Aircraft::bValid = true</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>is this object valid? (Will be reset in case of exceptions) </p>
 
 </div>
 </div>

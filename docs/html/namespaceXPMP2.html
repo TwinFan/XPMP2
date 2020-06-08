@@ -105,9 +105,9 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a84788de37a2db6b7ef7d8abd382bb0fe"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; std::string, <a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a84788de37a2db6b7ef7d8abd382bb0fe">mapCSLModelTy</a></td></tr>
 <tr class="memdesc:a84788de37a2db6b7ef7d8abd382bb0fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map of CSLModels (owning the object), ordered by related group / type.  <a href="namespaceXPMP2.html#a84788de37a2db6b7ef7d8abd382bb0fe">More...</a><br /></td></tr>
 <tr class="separator:a84788de37a2db6b7ef7d8abd382bb0fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa425de52d40fd28495dc835fd343b081"><td class="memItemLeft" align="right" valign="top">typedef std::multimap&lt; unsigned long, <a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aa425de52d40fd28495dc835fd343b081">mmapCSLModelPTy</a></td></tr>
-<tr class="memdesc:aa425de52d40fd28495dc835fd343b081"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multimap of pointers to CSLModels for matching purposes.  <a href="namespaceXPMP2.html#aa425de52d40fd28495dc835fd343b081">More...</a><br /></td></tr>
-<tr class="separator:aa425de52d40fd28495dc835fd343b081"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c916033e91411711030f3343edf513e"><td class="memItemLeft" align="right" valign="top">typedef std::multimap&lt; unsigned long, std::pair&lt; <a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a> *, const <a class="el" href="structXPMP2_1_1CSLModel_1_1MatchCritTy.html">CSLModel::MatchCritTy</a> * &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a3c916033e91411711030f3343edf513e">mmapCSLModelPTy</a></td></tr>
+<tr class="memdesc:a3c916033e91411711030f3343edf513e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multimap of references to CSLModels and match criteria for matching purposes.  <a href="namespaceXPMP2.html#a3c916033e91411711030f3343edf513e">More...</a><br /></td></tr>
+<tr class="separator:a3c916033e91411711030f3343edf513e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2e9876c5676c549f74f5acf1f88ed78"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; std::string, XPLMMapLayerID &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ab2e9876c5676c549f74f5acf1f88ed78">mapMapLayerIDTy</a></td></tr>
 <tr class="memdesc:ab2e9876c5676c549f74f5acf1f88ed78"><td class="mdescLeft">&#160;</td><td class="mdescRight">A map holding our layer identifier, indexed by the map's name.  <a href="namespaceXPMP2.html#ab2e9876c5676c549f74f5acf1f88ed78">More...</a><br /></td></tr>
 <tr class="separator:ab2e9876c5676c549f74f5acf1f88ed78"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -383,9 +383,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a13880be9d3ac7d5c89c2744b3d8421b5"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a13880be9d3ac7d5c89c2744b3d8421b5">LogGetString</a> (const char *szFile, int ln, const char *szFunc, <a class="el" href="namespaceXPMP2.html#a0f7e2680dc39872f8204f510de0d8429">logLevelTy</a> lvl, const char *szMsg, va_list args)</td></tr>
 <tr class="memdesc:a13880be9d3ac7d5c89c2744b3d8421b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ptr to static buffer filled with formatted log string.  <a href="namespaceXPMP2.html#a13880be9d3ac7d5c89c2744b3d8421b5">More...</a><br /></td></tr>
 <tr class="separator:a13880be9d3ac7d5c89c2744b3d8421b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a57bb9a2b180e7d20ca4a397d36bcda8f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a57bb9a2b180e7d20ca4a397d36bcda8f">LogMsg</a> (const char *szFile, int ln, const char *szFunc, <a class="el" href="namespaceXPMP2.html#a0f7e2680dc39872f8204f510de0d8429">logLevelTy</a> lvl, const char *szMsg,...)</td></tr>
-<tr class="memdesc:a57bb9a2b180e7d20ca4a397d36bcda8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log Text to log file.  <a href="namespaceXPMP2.html#a57bb9a2b180e7d20ca4a397d36bcda8f">More...</a><br /></td></tr>
-<tr class="separator:a57bb9a2b180e7d20ca4a397d36bcda8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a280126bec1bacabc7e641490838051e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a280126bec1bacabc7e641490838051e7">LogMsg</a> (const char *szFile, int ln, const char *szFunc, <a class="el" href="namespaceXPMP2.html#a0f7e2680dc39872f8204f510de0d8429">logLevelTy</a> lvl, const char *szMsg,...) <a class="el" href="Utilities_8h.html#acd75f53ca68709be80b85a25af798a36">XPMP2_FMTARGS</a>(5)</td></tr>
+<tr class="memdesc:a280126bec1bacabc7e641490838051e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log Text to log file.  <a href="namespaceXPMP2.html#a280126bec1bacabc7e641490838051e7">More...</a><br /></td></tr>
+<tr class="separator:a280126bec1bacabc7e641490838051e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c489fe2e8cd7b90326998fca3c62985"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a8c489fe2e8cd7b90326998fca3c62985">PrefsFuncFloatDefault</a> (const char *, const char *, float _default)</td></tr>
 <tr class="separator:a8c489fe2e8cd7b90326998fca3c62985"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab576ba7b8cb93346aa211652a931e361"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ab576ba7b8cb93346aa211652a931e361">rtrim</a> (std::string &amp;s, const char *t=<a class="el" href="Utilities_8h.html#abfa0d183e035eb9705b5faec98294d0f">WHITESPACE</a>)</td></tr>
@@ -767,19 +767,19 @@ the full integer value </td></tr>
 
 </div>
 </div>
-<a id="aa425de52d40fd28495dc835fd343b081"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa425de52d40fd28495dc835fd343b081">&#9670;&nbsp;</a></span>mmapCSLModelPTy</h2>
+<a id="a3c916033e91411711030f3343edf513e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c916033e91411711030f3343edf513e">&#9670;&nbsp;</a></span>mmapCSLModelPTy</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::multimap&lt;unsigned long,<a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a>*&gt; <a class="el" href="namespaceXPMP2.html#aa425de52d40fd28495dc835fd343b081">XPMP2::mmapCSLModelPTy</a></td>
+          <td class="memname">typedef std::multimap&lt;unsigned long,std::pair&lt;<a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a>*,const <a class="el" href="structXPMP2_1_1CSLModel_1_1MatchCritTy.html">CSLModel::MatchCritTy</a>*&gt; &gt; <a class="el" href="namespaceXPMP2.html#a3c916033e91411711030f3343edf513e">XPMP2::mmapCSLModelPTy</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Multimap of pointers to CSLModels for matching purposes. </p>
+<p>Multimap of references to CSLModels and match criteria for matching purposes. </p>
 
 </div>
 </div>
@@ -2474,8 +2474,8 @@ template&lt;class IteratorT &gt; </div>
 
 </div>
 </div>
-<a id="a57bb9a2b180e7d20ca4a397d36bcda8f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a57bb9a2b180e7d20ca4a397d36bcda8f">&#9670;&nbsp;</a></span>LogMsg()</h2>
+<a id="a280126bec1bacabc7e641490838051e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a280126bec1bacabc7e641490838051e7">&#9670;&nbsp;</a></span>LogMsg()</h2>
 
 <div class="memitem">
 <div class="memproto">

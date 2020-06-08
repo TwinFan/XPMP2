@@ -1058,22 +1058,27 @@ bool CSLFindMatch (const std::string& _type,
     // The folloing multimap stores potential models, with matching pass as the key
     mmapCSLModelPTy mm;
     unsigned long bestMatchYet = DOC8643_MATCH_WORST_QUAL;
-    
+
+    // Which models to test?
+    mapCSLModelTy::iterator mStart = glob.mapCSLModels.begin();
+    mapCSLModelTy::iterator mEnd   = glob.mapCSLModels.end();
+
     // However, most matches are done with ICAO aircraft type given,
     // which implies a "related" group.
     // We can narrow down the set of models to scan if we find one with
     // matching "related" group.
-    
-    // Scan "Related" Group, irrespective of type
-    std::string key = CSLModelGetKeyStr(related, "", "");
-    mapCSLModelTy::iterator mStart = glob.mapCSLModels.lower_bound(key);
-    key = CSLModelGetKeyStr(related, "~~~~", "~~~~");
-    mapCSLModelTy::iterator mEnd = glob.mapCSLModels.upper_bound(key);
-    // No models found matching the related group?
-    if (mStart == mEnd) {
-        // well, then search all models
-        mStart = glob.mapCSLModels.begin();
-        mEnd   = glob.mapCSLModels.end();
+    if (related > 0) {
+        std::string key = CSLModelGetKeyStr(related, "", "");
+        mStart = glob.mapCSLModels.lower_bound(key);
+        key = CSLModelGetKeyStr(related, "~~~~", "~~~~");
+        mEnd = glob.mapCSLModels.upper_bound(key);
+        
+        // No models found matching the related group?
+        if (mStart == mEnd) {
+            // well, then search all models
+            mStart = glob.mapCSLModels.begin();
+            mEnd   = glob.mapCSLModels.end();
+        }
     }
 
     // Now scan all CSL models in the defined range

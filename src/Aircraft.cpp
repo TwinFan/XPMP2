@@ -39,6 +39,7 @@ using namespace XPMP2;
 #define DEBUG_INSTANCE_DESTRYD  "Aircraft 0x%06X: Instance destroyed"
 #define INFO_MODEL_CHANGE       "Aircraft 0x%06X: Changing model from %s to %s"
 #define ERR_YPROBE              "Aircraft 0x%06X: Could not create Y-Probe for terrain testing!"
+#define ERR_SET_INVALID         "Aircraft 0x%06X set INVALID"
 
 namespace XPMP2 {
 
@@ -304,45 +305,56 @@ float Aircraft::GetVertOfs () const
 }
 
 // Static: Flight loop callback function
-float Aircraft::FlightLoopCB (float _elapsedSinceLastCall, float, int _flCounter, void*)
+float Aircraft::FlightLoopCB(float _elapsedSinceLastCall, float, int _flCounter, void*)
 {
-    UPDATE_CYCLE_NUM;               // DEBUG only: Store current cycle number in glob.xpCycleNum
-    
-    // Update configuration
-    glob.UpdateCfgVals();
-    
-    // Need the camera's position to calculate the a/c's distance to it
-    XPLMCameraPosition_t posCamera;
-    XPLMReadCameraPosition(&posCamera);
-    
-    // As we need the current timestamp more often we read it here once
-    const float now = GetMiscNetwTime();
-    
-    // Update positional and configurational values
-    for (mapAcTy::value_type& pair: glob.mapAc) {
-        // Have the aircraft provide up-to-date position and orientation values
-        Aircraft& ac = *pair.second;
-        ac.UpdatePosition(_elapsedSinceLastCall, _flCounter);
-        // If requested, clamp to ground, ie. make sure it is not below ground
-        if (ac.bClampToGround || glob.bClampAll)
-            ac.ClampToGround();
-        // Update plane's distance/bearing every second only
-        if (CheckEverySoOften(ac.camTimLstUpd, 1.0f, now)) {
-            ac.UpdateDistBearingCamera(posCamera);
-            ac.ComputeMapLabel();
+    // This is a plugin entry function, so we try to catch all exceptions
+    try {
+        UPDATE_CYCLE_NUM;               // DEBUG only: Store current cycle number in glob.xpCycleNum
+
+        // Update configuration
+        glob.UpdateCfgVals();
+
+        // Need the camera's position to calculate the a/c's distance to it
+        XPLMCameraPosition_t posCamera;
+        XPLMReadCameraPosition(&posCamera);
+
+        // As we need the current timestamp more often we read it here once
+        const float now = GetMiscNetwTime();
+
+        // Update positional and configurational values
+        for (mapAcTy::value_type& pair : glob.mapAc) {
+            // Have the aircraft provide up-to-date position and orientation values
+            Aircraft& ac = *pair.second;
+            if (!ac.IsValid())
+                continue;
+            try {
+                ac.UpdatePosition(_elapsedSinceLastCall, _flCounter);
+                // If requested, clamp to ground, ie. make sure it is not below ground
+                if (ac.bClampToGround || glob.bClampAll)
+                    ac.ClampToGround();
+                // Update plane's distance/bearing every second only
+                if (CheckEverySoOften(ac.camTimLstUpd, 1.0f, now)) {
+                    ac.UpdateDistBearingCamera(posCamera);
+                    ac.ComputeMapLabel();
+                }
+                // Actually move the plane, ie. the instance that represents it
+                ac.DoMove();
+            }
+            CATCH_AC(ac)
         }
-        // Actually move the plane, ie. the instance that represents it
-        ac.DoMove();
+
+        // Publish aircraft data on the AI/multiplayer dataRefs
+        AIMultiUpdate();
     }
-    
-    // Publish aircraft data on the AI/multiplayer dataRefs
-    AIMultiUpdate();
-            
+    catch (const std::exception& e) { LOG_MSG(logFATAL, ERR_EXCEPTION, e.what()); }
+    catch (...) { LOG_MSG(logFATAL, ERR_EXCEPTION, "<unknown>"); }
+
     // Don't call me again if there are no more aircraft,
     if (glob.mapAc.empty()) {
         LOG_MSG(logDEBUG, "Flight loop callback ended");
         return 0.0f;
-    } else {
+    }
+    else {
         // call me next cycle if there are
         return -1.0f;
     }
@@ -477,6 +489,26 @@ void Aircraft::GetLocation (double& lat, double& lon, double& alt_ft) const
     alt_ft /= M_per_FT;
 }
 
+// Mark the plane invalid, e.g. after exceptions occured on the data
+void Aircraft::SetInvalid()
+{
+    // no change?
+    if (!bValid)
+        return;
+
+    // Set the flag
+    bValid = false;
+    LOG_MSG(logERR, ERR_SET_INVALID, modeS_id);
+
+    // Cleanup the object as good as possible
+    try {
+        ResetTcasTargetIdx();
+        DestroyInstances();
+    }
+    // We are not reporting anything here...the object is invalid, we just try our best
+    catch (...) {}
+}
+
 // Make the plane (in)visible
 void Aircraft::SetVisible (bool _bVisible)
 {
@@ -489,8 +521,8 @@ void Aircraft::SetVisible (bool _bVisible)
     
     // In case of _now_ being invisible remove the instances and any AI slot
     if (!bVisible) {
-        DestroyInstances();
         ResetTcasTargetIdx();
+        DestroyInstances();
     }
 }
 

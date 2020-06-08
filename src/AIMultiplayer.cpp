@@ -211,105 +211,108 @@ void AIMultiUpdate ()
         // Plane exist!
         Aircraft& ac = *iterAc->second;
         
-        // maximum number of TCAS planes already defined?
-        // Just clear the stored multiplayer idx, but otherwise don't add more data
-        if (vModeS.size() >= numTcasTargets) {
-            ac.ResetTcasTargetIdx();
-            continue;
-        }
-        
-        // Add the plane to the list of TCAS targets
-        vModeS.push_back(int(ac.GetModeS_ID()));
-        vModeC.push_back(int(ac.acRadar.code));
-        bool bSlotChanged = ac.GetTcasTargetIdx() != (int)vModeS.size();
-        if (bSlotChanged)
-            ac.SetTcasTargetIdx((int)vModeS.size());
-
-        // This plane's position
-        vX.push_back(ac.drawInfo.x);
-        vY.push_back(ac.drawInfo.y - ac.GetVertOfs());  // align with original altitude
-        vZ.push_back(ac.drawInfo.z);
-        
-        // attitude
-        vPitch.push_back(ac.drawInfo.pitch);
-        vRoll.push_back(ac.drawInfo.roll);
-        vHeading.push_back(ac.drawInfo.heading);
-        
-        // configuration
-        vGear.push_back(ac.v[V_CONTROLS_GEAR_RATIO]);
-        vFlap.push_back(ac.v[V_CONTROLS_FLAP_RATIO]);
-        vSpeedbrake.push_back(ac.v[V_CONTROLS_SPEED_BRAKE_RATIO]);
-        vSlat.push_back(ac.v[V_CONTROLS_SLAT_RATIO]);
-        vWingSweep.push_back(ac.v[V_CONTROLS_WING_SWEEP_RATIO]);
-        vThrottle.push_back(ac.v[V_CONTROLS_THRUST_RATIO]);
-        
-        // Yoke
-        vYokePitch.push_back(ac.v[V_CONTROLS_YOKE_PITCH_RATIO]);
-        vYokeRoll.push_back(ac.v[V_CONTROLS_YOKE_ROLL_RATIO]);
-        vYokeYaw.push_back(ac.v[V_CONTROLS_YOKE_HEADING_RATIO]);
-        
-        // lights
-        TcasLightsTy l = {0};
-        l.b.beacon  = ac.v[V_CONTROLS_BEACON_LITES_ON] > 0.5f;
-        l.b.land    = ac.v[V_CONTROLS_LANDING_LITES_ON] > 0.5f;
-        l.b.nav     = ac.v[V_CONTROLS_NAV_LITES_ON] > 0.5f;
-        l.b.strobe  = ac.v[V_CONTROLS_STROBE_LITES_ON] > 0.5f;
-        l.b.taxi    = ac.v[V_CONTROLS_TAXI_LITES_ON] > 0.5f;
-        vLights.push_back(l.i);
-        
-        // For performance reasons and because differences (cartesian velocity)
-        // are smoother if calculated over "longer" time frames,
-        // the following updates are done about every second only,
-        // or if the a/c changed slot (to make sure all dataRef values are in synch)
-        if (bSlotChanged || (now >= ac.prev_ts + 1.0f))
-        {
-            // do we have any prev x/y/z values at all?
-            if (ac.prev_ts > 0.0001f) {
-                // yes, so we can calculate velocity
-                const float d_t = now - ac.prev_ts;                 // time that had passed in seconds
-                const float d_x = ac.drawInfo.x - ac.prev_x;
-                const float d_y = ac.drawInfo.y - ac.prev_y;
-                const float d_z = ac.drawInfo.z - ac.prev_z;
-                float f = d_x / d_t;
-                XPLMSetDatavf(drTcasVX, &f, ac.GetTcasTargetIdx(), 1);
-                f = d_y / d_t;
-                XPLMSetDatavf(drTcasVY, &f, ac.GetTcasTargetIdx(), 1);
-                f = d_z / d_t;
-                XPLMSetDatavf(drTcasVZ, &f, ac.GetTcasTargetIdx(), 1);
-                
-                // vertical speed (roughly...y is not exact, but let's keep things simple here),
-                // convert from m/s to ft/min
-                f = (d_y / d_t) * (60.0f / float(M_per_FT));
-                XPLMSetDatavf(drTcasVertSpeed, &f, ac.GetTcasTargetIdx(), 1);
+        try {
+            // maximum number of TCAS planes already defined?
+            // Just clear the stored multiplayer idx, but otherwise don't add more data
+            if (vModeS.size() >= numTcasTargets) {
+                ac.ResetTcasTargetIdx();
+                continue;
             }
-            ac.prev_x = ac.drawInfo.x;
-            ac.prev_y = ac.drawInfo.y;
-            ac.prev_z = ac.drawInfo.z;
-            ac.prev_ts = now;
+        
+            // Add the plane to the list of TCAS targets
+            vModeS.push_back(int(ac.GetModeS_ID()));
+            vModeC.push_back(int(ac.acRadar.code));
+            bool bSlotChanged = ac.GetTcasTargetIdx() != (int)vModeS.size();
+            if (bSlotChanged)
+                ac.SetTcasTargetIdx((int)vModeS.size());
+
+            // This plane's position
+            vX.push_back(ac.drawInfo.x);
+            vY.push_back(ac.drawInfo.y - ac.GetVertOfs());  // align with original altitude
+            vZ.push_back(ac.drawInfo.z);
+        
+            // attitude
+            vPitch.push_back(ac.drawInfo.pitch);
+            vRoll.push_back(ac.drawInfo.roll);
+            vHeading.push_back(ac.drawInfo.heading);
+        
+            // configuration
+            vGear.push_back(ac.v[V_CONTROLS_GEAR_RATIO]);
+            vFlap.push_back(ac.v[V_CONTROLS_FLAP_RATIO]);
+            vSpeedbrake.push_back(ac.v[V_CONTROLS_SPEED_BRAKE_RATIO]);
+            vSlat.push_back(ac.v[V_CONTROLS_SLAT_RATIO]);
+            vWingSweep.push_back(ac.v[V_CONTROLS_WING_SWEEP_RATIO]);
+            vThrottle.push_back(ac.v[V_CONTROLS_THRUST_RATIO]);
+        
+            // Yoke
+            vYokePitch.push_back(ac.v[V_CONTROLS_YOKE_PITCH_RATIO]);
+            vYokeRoll.push_back(ac.v[V_CONTROLS_YOKE_ROLL_RATIO]);
+            vYokeYaw.push_back(ac.v[V_CONTROLS_YOKE_HEADING_RATIO]);
+        
+            // lights
+            TcasLightsTy l = {0};
+            l.b.beacon  = ac.v[V_CONTROLS_BEACON_LITES_ON] > 0.5f;
+            l.b.land    = ac.v[V_CONTROLS_LANDING_LITES_ON] > 0.5f;
+            l.b.nav     = ac.v[V_CONTROLS_NAV_LITES_ON] > 0.5f;
+            l.b.strobe  = ac.v[V_CONTROLS_STROBE_LITES_ON] > 0.5f;
+            l.b.taxi    = ac.v[V_CONTROLS_TAXI_LITES_ON] > 0.5f;
+            vLights.push_back(l.i);
+        
+            // For performance reasons and because differences (cartesian velocity)
+            // are smoother if calculated over "longer" time frames,
+            // the following updates are done about every second only,
+            // or if the a/c changed slot (to make sure all dataRef values are in synch)
+            if (bSlotChanged || (now >= ac.prev_ts + 1.0f))
+            {
+                // do we have any prev x/y/z values at all?
+                if (ac.prev_ts > 0.0001f) {
+                    // yes, so we can calculate velocity
+                    const float d_t = now - ac.prev_ts;                 // time that had passed in seconds
+                    const float d_x = ac.drawInfo.x - ac.prev_x;
+                    const float d_y = ac.drawInfo.y - ac.prev_y;
+                    const float d_z = ac.drawInfo.z - ac.prev_z;
+                    float f = d_x / d_t;
+                    XPLMSetDatavf(drTcasVX, &f, ac.GetTcasTargetIdx(), 1);
+                    f = d_y / d_t;
+                    XPLMSetDatavf(drTcasVY, &f, ac.GetTcasTargetIdx(), 1);
+                    f = d_z / d_t;
+                    XPLMSetDatavf(drTcasVZ, &f, ac.GetTcasTargetIdx(), 1);
+                
+                    // vertical speed (roughly...y is not exact, but let's keep things simple here),
+                    // convert from m/s to ft/min
+                    f = (d_y / d_t) * (60.0f / float(M_per_FT));
+                    XPLMSetDatavf(drTcasVertSpeed, &f, ac.GetTcasTargetIdx(), 1);
+                }
+                ac.prev_x = ac.drawInfo.x;
+                ac.prev_y = ac.drawInfo.y;
+                ac.prev_z = ac.drawInfo.z;
+                ac.prev_ts = now;
             
-            // Flight or tail number as FlightID
-            char s[8];
-            memset(s, 0, sizeof(s));
-            STRCPY_S(s, ac.GetFlightId().c_str());
-            XPLMSetDatab(drTcasFlightId, s, ac.GetTcasTargetIdx() * (int)sizeof(s), sizeof(s));
+                // Flight or tail number as FlightID
+                char s[8];
+                memset(s, 0, sizeof(s));
+                STRCPY_S(s, ac.GetFlightId().c_str());
+                XPLMSetDatab(drTcasFlightId, s, ac.GetTcasTargetIdx() * (int)sizeof(s), sizeof(s));
 
-            // Icao Type code
-            memset(s, 0, sizeof(s));
-            STRCPY_S(s, ac.acIcaoType.c_str());
-            XPLMSetDatab(drTcasIcaoType, s, ac.GetTcasTargetIdx() * (int)sizeof(s), sizeof(s));
+                // Icao Type code
+                memset(s, 0, sizeof(s));
+                STRCPY_S(s, ac.acIcaoType.substr(0,sizeof(s)-1).c_str());
+                XPLMSetDatab(drTcasIcaoType, s, ac.GetTcasTargetIdx() * (int)sizeof(s), sizeof(s));
 
-            // Shared data for providing textual info (see XPMPInfoTexts_t)
-            const infoDataRefsTy drI = gInfoRef[(size_t)ac.GetTcasTargetIdx()];
-            XPLMSetDatab(drI.infoTailNum,       ac.acInfoTexts.tailNum,       0, sizeof(XPMPInfoTexts_t::tailNum));
-            XPLMSetDatab(drI.infoIcaoAcType,    ac.acInfoTexts.icaoAcType,    0, sizeof(XPMPInfoTexts_t::icaoAcType));
-            XPLMSetDatab(drI.infoManufacturer,  ac.acInfoTexts.manufacturer,  0, sizeof(XPMPInfoTexts_t::manufacturer));
-            XPLMSetDatab(drI.infoModel,         ac.acInfoTexts.model,         0, sizeof(XPMPInfoTexts_t::model));
-            XPLMSetDatab(drI.infoIcaoAirline,   ac.acInfoTexts.icaoAirline,   0, sizeof(XPMPInfoTexts_t::icaoAirline));
-            XPLMSetDatab(drI.infoAirline,       ac.acInfoTexts.airline,       0, sizeof(XPMPInfoTexts_t::airline));
-            XPLMSetDatab(drI.infoFlightNum,     ac.acInfoTexts.flightNum,     0, sizeof(XPMPInfoTexts_t::flightNum));
-            XPLMSetDatab(drI.infoAptFrom,       ac.acInfoTexts.aptFrom,       0, sizeof(XPMPInfoTexts_t::aptFrom));
-            XPLMSetDatab(drI.infoAptTo,         ac.acInfoTexts.aptTo,         0, sizeof(XPMPInfoTexts_t::aptTo));
+                // Shared data for providing textual info (see XPMPInfoTexts_t)
+                const infoDataRefsTy drI = gInfoRef[(size_t)ac.GetTcasTargetIdx()];
+                XPLMSetDatab(drI.infoTailNum,       ac.acInfoTexts.tailNum,       0, sizeof(XPMPInfoTexts_t::tailNum));
+                XPLMSetDatab(drI.infoIcaoAcType,    ac.acInfoTexts.icaoAcType,    0, sizeof(XPMPInfoTexts_t::icaoAcType));
+                XPLMSetDatab(drI.infoManufacturer,  ac.acInfoTexts.manufacturer,  0, sizeof(XPMPInfoTexts_t::manufacturer));
+                XPLMSetDatab(drI.infoModel,         ac.acInfoTexts.model,         0, sizeof(XPMPInfoTexts_t::model));
+                XPLMSetDatab(drI.infoIcaoAirline,   ac.acInfoTexts.icaoAirline,   0, sizeof(XPMPInfoTexts_t::icaoAirline));
+                XPLMSetDatab(drI.infoAirline,       ac.acInfoTexts.airline,       0, sizeof(XPMPInfoTexts_t::airline));
+                XPLMSetDatab(drI.infoFlightNum,     ac.acInfoTexts.flightNum,     0, sizeof(XPMPInfoTexts_t::flightNum));
+                XPLMSetDatab(drI.infoAptFrom,       ac.acInfoTexts.aptFrom,       0, sizeof(XPMPInfoTexts_t::aptFrom));
+                XPLMSetDatab(drI.infoAptTo,         ac.acInfoTexts.aptTo,         0, sizeof(XPMPInfoTexts_t::aptTo));
+            }
         }
+        CATCH_AC(ac)
     }
     
     // now we know how many planes we'll feed (+1 for the user's plane)

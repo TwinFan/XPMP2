@@ -28,6 +28,7 @@ namespace XPMP2 {
 //
 
 #define ERR_ASSERT              "ASSERT FAILED: %s"
+#define ERR_EXCEPTION           "EXCEPTION CAUGHT: %s"
 
 // Required supplemental files
 constexpr const char* RSRC_RELATED      = "related.txt";
@@ -185,6 +186,14 @@ inline bool CheckEverySoOften (float& _lastCheck, float _interval)
 // MARK: Logging Support
 //
 
+/// @brief To apply printf-style warnings to our functions.
+/// @see Taken from imgui.h's definition of IM_FMTARGS
+#if defined(__clang__) || defined(__GNUC__)
+#define XPMP2_FMTARGS(FMT)  __attribute__((format(printf, FMT, FMT+1)))
+#else
+#define XPMP2_FMTARGS(FMT)
+#endif
+
 /// Logging level
 enum logLevelTy {
     logDEBUG = 0,       ///< Debug, highest level of detail
@@ -199,7 +208,7 @@ enum logLevelTy {
 const char* LogGetString ( const char* szFile, int ln, const char* szFunc, logLevelTy lvl, const char* szMsg, va_list args );
              
 /// Log Text to log file
-void LogMsg ( const char* szFile, int ln, const char* szFunc, logLevelTy lvl, const char* szMsg, ... );
+void LogMsg ( const char* szFile, int ln, const char* szFunc, logLevelTy lvl, const char* szMsg, ... ) XPMP2_FMTARGS(5);
 
 //
 // MARK: Logging macros
@@ -234,16 +243,28 @@ throw XPMP2Error(__FILE__, __LINE__, __func__, __VA_ARGS__);
         THROW_ERROR(ERR_ASSERT,#cond);                              \
     }
 
+/// @brief Standard catch clauses for dealing with aircraft: logs message, sets aircraft invalid
+#define CATCH_AC(ac)                                                \
+    catch (const std::exception& e) {                               \
+        LOG_MSG(logFATAL, ERR_EXCEPTION, e.what());                 \
+        (ac).SetInvalid();                                          \
+    }                                                               \
+    catch (...) {                                                   \
+        LOG_MSG(logFATAL, ERR_EXCEPTION, "<unknown>");              \
+        (ac).SetInvalid();                                          \
+    }
+
+
 //
 // MARK: Compiler differences
 //
 
 #if APL == 1 || LIN == 1
 // not quite the same but close enough for our purposes
-inline void strcpy_s(char * dest, size_t destsz, const char * src)
-{ strncpy(dest, src, destsz); dest[destsz-1]=0; }
-inline void strcat_s(char * dest, size_t destsz, const char * src)
-{ strncat(dest, src, destsz - strlen(dest) - 1); }
+inline void strncpy_s(char * dest, size_t destsz, const char * src, size_t count)
+{
+    strncpy(dest, src, std::min(destsz,count)); dest[destsz - 1] = 0;
+}
 
 // these simulate the VC++ version, not the C standard versions!
 inline struct tm *gmtime_s(struct tm * result, const time_t * time)
@@ -253,9 +274,9 @@ inline struct tm *localtime_s(struct tm * result, const time_t * time)
 
 #endif
 
-/// Simpler access to strcpy_s if dest is a char array (not a pointer!)
-#define STRCPY_S(dest,src) strcpy_s(dest,sizeof(dest),src)
-#define STRCPY_ATMOST(dest,src) strcpy_s(dest,sizeof(dest),strAtMost(src,sizeof(dest)-1).c_str())
+/// Simpler access to strncpy_s if dest is a char array (not a pointer!)
+#define STRCPY_S(dest,src) strncpy_s(dest,sizeof(dest),src,sizeof(dest)-1)
+#define STRCPY_ATMOST(dest,src) strncpy_s(dest,sizeof(dest),strAtMost(src,sizeof(dest)-1).c_str(),sizeof(dest)-1)
 
 #if APL == 1
 // XCode/Linux don't provide the _s functions, not even with __STDC_WANT_LIB_EXT1__ 1
@@ -264,7 +285,7 @@ inline int strerror_s( char *buf, size_t bufsz, int errnum )
 #endif
 #if LIN == 1
 inline int strerror_s( char *buf, size_t bufsz, int errnum )
-{ strcpy_s(buf,bufsz,strerror(errnum)); return 0; }
+{ strncpy_s(buf,bufsz,strerror(errnum),bufsz-1); return 0; }
 #endif
 
 // In case of Mac we need to prepare for HFS-to-Posix path conversion

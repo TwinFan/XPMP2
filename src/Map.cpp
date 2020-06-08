@@ -200,20 +200,31 @@ void MapIconDrawingCB (XPLMMapLayerID       inLayer,
                        XPLMMapProjectionID  projection,
                        void *               refcon)
 {
-    // Have no reasonable map unit yet?
-    if (std::isnan(gMtrPerMapUnit))
-        MapPrepareCacheCB(inLayer, inMapBoundsLeftTopRightBottom, projection, refcon);
+    // This is a plugin entry function, so we try to catch all exceptions
+    try {
+        // Have no reasonable map unit yet?
+        if (std::isnan(gMtrPerMapUnit))
+            MapPrepareCacheCB(inLayer, inMapBoundsLeftTopRightBottom, projection, refcon);
 
-    // Size of an aircraft icon
-    const float acSize = std::max(MAP_AC_SIZE * gMtrPerMapUnit,
-                                  // But to be able to identify an icon it needs a minimum size
-                                  MAP_MIN_ICON_SIZE * mapUnitsPerUserInterfaceUnit);
+        // Size of an aircraft icon
+        const float acSize = std::max(MAP_AC_SIZE * gMtrPerMapUnit,
+                                      // But to be able to identify an icon it needs a minimum size
+                                      MAP_MIN_ICON_SIZE * mapUnitsPerUserInterfaceUnit);
 
-    // Draw icons for all (visible) aircraft
-    for (const auto& p : glob.mapAc) {
-        p.second->MapPreparePos(projection, inMapBoundsLeftTopRightBottom);
-        p.second->MapDrawIcon(inLayer, acSize);
+        // Draw icons for all (visible) aircraft
+        for (const auto& p : glob.mapAc) {
+            Aircraft& ac = *p.second;
+            try {
+                if (ac.IsVisible()) {
+                    ac.MapPreparePos(projection, inMapBoundsLeftTopRightBottom);
+                    ac.MapDrawIcon(inLayer, acSize);
+                }
+            }
+            CATCH_AC(ac)
+        }
     }
+    catch (const std::exception& e) { LOG_MSG(logFATAL, ERR_EXCEPTION, e.what()); }
+    catch (...) { LOG_MSG(logFATAL, ERR_EXCEPTION, "<unknown>"); }
 }
 
 /// Actually draw the labels into th emap
@@ -225,21 +236,31 @@ void MapLabelDrawingCB (XPLMMapLayerID       inLayer,
                         XPLMMapProjectionID  projection,
                         void *               refcon)
 {
-    // Return at once if label drawing is off
-    if (!glob.bMapLabels) return;
+    // This is a plugin entry function, so we try to catch all exceptions
+    try {
+        // Return at once if label drawing is off
+        if (!glob.bMapLabels) return;
 
-    // Have no reasonable map unit yet?
-    if (std::isnan(gMtrPerMapUnit))
-        MapPrepareCacheCB(inLayer, inMapBoundsLeftTopRightBottom, projection, refcon);
+        // Have no reasonable map unit yet?
+        if (std::isnan(gMtrPerMapUnit))
+            MapPrepareCacheCB(inLayer, inMapBoundsLeftTopRightBottom, projection, refcon);
 
-    // Based on icon size determine how much the label needs to be put below the icon
-    const float yOfs = std::max(MAP_AC_SIZE * gMtrPerMapUnit,
-                                // But to be able to identify an icon it needs a minimum size
-                                MAP_MIN_ICON_SIZE * mapUnitsPerUserInterfaceUnit) / -1.75f;
+        // Based on icon size determine how much the label needs to be put below the icon
+        const float yOfs = std::max(MAP_AC_SIZE * gMtrPerMapUnit,
+                                    // But to be able to identify an icon it needs a minimum size
+                                    MAP_MIN_ICON_SIZE * mapUnitsPerUserInterfaceUnit) / -1.75f;
 
-    // Draw labels for all (visible) aircraft
-    for (const auto& p: glob.mapAc)
-        p.second->MapDrawLabel(inLayer, yOfs);
+        // Draw labels for all (visible) aircraft
+        for (const auto& p : glob.mapAc) {
+            try {
+                if (p.second->IsVisible())
+                    p.second->MapDrawLabel(inLayer, yOfs);
+            }
+            CATCH_AC(*p.second);
+        }
+    }
+    catch (const std::exception& e) { LOG_MSG(logFATAL, ERR_EXCEPTION, e.what()); }
+    catch (...) { LOG_MSG(logFATAL, ERR_EXCEPTION, "<unknown>"); }
 }
 
 //
@@ -250,13 +271,18 @@ void MapLabelDrawingCB (XPLMMapLayerID       inLayer,
 void MapDeleteCB (XPLMMapLayerID       inLayer,
                   void *               ) // inRefcon
 {
-    // find the entry in the map and remove it
-    mapMapLayerIDTy::iterator iter =
-    std::find_if(glob.mapMapLayers.begin(), glob.mapMapLayers.end(),
-                 [inLayer](const mapMapLayerIDTy::value_type& p)
-                 {return p.second == inLayer;});
-    if (iter != glob.mapMapLayers.end())
-        glob.mapMapLayers.erase(iter);
+    // This is a plugin entry function, so we try to catch all exceptions
+    try {
+        // find the entry in the map and remove it
+        mapMapLayerIDTy::iterator iter =
+        std::find_if(glob.mapMapLayers.begin(), glob.mapMapLayers.end(),
+                     [inLayer](const mapMapLayerIDTy::value_type& p)
+                     {return p.second == inLayer;});
+        if (iter != glob.mapMapLayers.end())
+            glob.mapMapLayers.erase(iter);
+    }
+    catch (const std::exception& e) { LOG_MSG(logFATAL, ERR_EXCEPTION, e.what()); }
+    catch (...) { LOG_MSG(logFATAL, ERR_EXCEPTION, "<unknown>"); }
 }
 
 /// Create our map layer for the given map
@@ -322,7 +348,12 @@ void MapDestroyAll ()
 void MapCreateCB (const char *  mapIdentifier,
                   void *        )       // refcon
 {
-    MapLayerCreate(mapIdentifier);
+    // This is a plugin entry function, so we try to catch all exceptions
+    try {
+        MapLayerCreate(mapIdentifier);
+    }
+    catch (const std::exception& e) { LOG_MSG(logFATAL, ERR_EXCEPTION, e.what()); }
+    catch (...) { LOG_MSG(logFATAL, ERR_EXCEPTION, "<unknown>"); }
 }
 
 

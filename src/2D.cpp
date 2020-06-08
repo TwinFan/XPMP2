@@ -133,41 +133,44 @@ void TwoDDrawLabels ()
                                 * posCamera.zoom);    // Labels get easier to see when users zooms.
     
     // Loop over all aircraft and draw their labels
-    for (const auto& p: glob.mapAc)
+    for (auto& p: glob.mapAc)
     {
         // skip if a/c is invisible
-        const Aircraft& ac = *p.second;
-        if (!ac.IsVisible())
-            continue;
+        Aircraft& ac = *p.second;
+        try {
+            if (!ac.IsVisible())
+                continue;
         
-        // Exit if aircraft is father away from camera than we would draw labels for
-        if (ac.GetCameraDist() > maxLabelDist)
-            continue;
+            // Exit if aircraft is father away from camera than we would draw labels for
+            if (ac.GetCameraDist() > maxLabelDist)
+                continue;
         
-        // Map the 3D coordinates of the aircraft to 2D coordinates of the flat screen
-        int x = -1, y = -1;
-        if (!ConvertTo2d(ac.drawInfo.x,
-                         ac.drawInfo.y + 7.0f,  // make the label appear "7m" above the plane
-                         ac.drawInfo.z, x, y))
-            continue;                           // label not visible
+            // Map the 3D coordinates of the aircraft to 2D coordinates of the flat screen
+            int x = -1, y = -1;
+            if (!ConvertTo2d(ac.drawInfo.x,
+                             ac.drawInfo.y + 7.0f,  // make the label appear "7m" above the plane
+                             ac.drawInfo.z, x, y))
+                continue;                           // label not visible
 
-        // Determine text color:
-        // It stays as defined by application for half the way to maxLabelDist.
-        // For the other half, it gradually fades to gray.
-        // `rat` determines how much it faded already (factor from 0..1)
-        const float rat =
-        ac.GetCameraDist() < maxLabelDist / 2.0f ? 0.0f :                 // first half: no fading
-        (ac.GetCameraDist() - maxLabelDist/2.0f) / (maxLabelDist/2.0f);   // Second half: fade to gray (remember: acDist <= maxLabelDist!)
-        constexpr float gray[4] = {0.6f, 0.6f, 0.6f, 1.0f};
-        float c[4] = {
-            (1.0f-rat) * ac.colLabel[0] + rat * gray[0],     // red
-            (1.0f-rat) * ac.colLabel[1] + rat * gray[1],     // green
-            (1.0f-rat) * ac.colLabel[2] + rat * gray[2],     // blue
-            (1.0f-rat) * ac.colLabel[3] + rat * gray[3]      // alpha? (not used for text anyway)
-        };
+            // Determine text color:
+            // It stays as defined by application for half the way to maxLabelDist.
+            // For the other half, it gradually fades to gray.
+            // `rat` determines how much it faded already (factor from 0..1)
+            const float rat =
+            ac.GetCameraDist() < maxLabelDist / 2.0f ? 0.0f :                 // first half: no fading
+            (ac.GetCameraDist() - maxLabelDist/2.0f) / (maxLabelDist/2.0f);   // Second half: fade to gray (remember: acDist <= maxLabelDist!)
+            constexpr float gray[4] = {0.6f, 0.6f, 0.6f, 1.0f};
+            float c[4] = {
+                (1.0f-rat) * ac.colLabel[0] + rat * gray[0],     // red
+                (1.0f-rat) * ac.colLabel[1] + rat * gray[1],     // green
+                (1.0f-rat) * ac.colLabel[2] + rat * gray[2],     // blue
+                (1.0f-rat) * ac.colLabel[3] + rat * gray[3]      // alpha? (not used for text anyway)
+            };
         
-        // Finally: Draw the label
-        XPLMDrawString(c, x, y, (char*)ac.label.c_str(), NULL, xplmFont_Basic);
+            // Finally: Draw the label
+            XPLMDrawString(c, x, y, (char*)ac.label.c_str(), NULL, xplmFont_Basic);
+        }
+        CATCH_AC(ac)
     }
 }
 

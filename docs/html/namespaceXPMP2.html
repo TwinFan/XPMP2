@@ -67,9 +67,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html">GlobVars</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">All global config settings and variables are kept in one structure for convenient access and central definition.  <a href="structXPMP2_1_1GlobVars.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:structXPMP2_1_1infoDataRefsTy"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#structXPMP2_1_1infoDataRefsTy">infoDataRefsTy</a></td></tr>
-<tr class="memdesc:structXPMP2_1_1infoDataRefsTy"><td class="mdescLeft">&#160;</td><td class="mdescRight">Keeps the dataRef handles for one of the up to 63 shared data slots ("sim/multiplayer/position/plane#...")  <a href="namespaceXPMP2.html#structXPMP2_1_1infoDataRefsTy">More...</a><br /></td></tr>
-<tr class="separator:structXPMP2_1_1infoDataRefsTy"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1infoDataRefsTy.html">infoDataRefsTy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Keeps the dataRef handles for one of the up to 63 shared data slots ("sim/multiplayer/position/plane#...")  <a href="structXPMP2_1_1infoDataRefsTy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1LegacyAircraft.html">LegacyAircraft</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class helps creating aircraft via the legacy global functions. It provides standard implementations of the abstract callbacks.  <a href="classXPMP2_1_1LegacyAircraft.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -209,12 +209,21 @@ Functions</h2></td></tr>
 <tr class="memitem:ad407ddde78a86b9d2f30a8f7b3e8ac65"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ad407ddde78a86b9d2f30a8f7b3e8ac65">AIMultiClearAIDataRefs</a> (<a class="el" href="structXPMP2_1_1multiDataRefsTy.html">multiDataRefsTy</a> &amp;drM, bool bDeactivateToZero)</td></tr>
 <tr class="memdesc:ad407ddde78a86b9d2f30a8f7b3e8ac65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets all actual values of the AI/multiplayer dataRefs of one plane to something initial.  <a href="namespaceXPMP2.html#ad407ddde78a86b9d2f30a8f7b3e8ac65">More...</a><br /></td></tr>
 <tr class="separator:ad407ddde78a86b9d2f30a8f7b3e8ac65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba65c4b4d175a77fbbd7ca541a5d6dc8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aba65c4b4d175a77fbbd7ca541a5d6dc8">AIMultiClearInfoDataRefs</a> (<a class="el" href="structXPMP2_1_1infoDataRefsTy.html">infoDataRefsTy</a> &amp;drI)</td></tr>
+<tr class="memdesc:aba65c4b4d175a77fbbd7ca541a5d6dc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears the shared info dataRefs.  <a href="namespaceXPMP2.html#aba65c4b4d175a77fbbd7ca541a5d6dc8">More...</a><br /></td></tr>
+<tr class="separator:aba65c4b4d175a77fbbd7ca541a5d6dc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d3be0134c1ea7b658815b88387674c5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a1d3be0134c1ea7b658815b88387674c5">GoTCASOverride</a> ()</td></tr>
+<tr class="memdesc:a1d3be0134c1ea7b658815b88387674c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Are we going to new (TCAS override) or the old way?  <a href="namespaceXPMP2.html#a1d3be0134c1ea7b658815b88387674c5">More...</a><br /></td></tr>
+<tr class="separator:a1d3be0134c1ea7b658815b88387674c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbc67834e00765d972b9602c2d6ad84a"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#acbc67834e00765d972b9602c2d6ad84a">AIUpdateMultiplayerDataRefs</a> ()</td></tr>
+<tr class="memdesc:acbc67834e00765d972b9602c2d6ad84a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The old way: Update Multiplayer dataRefs directly.  <a href="namespaceXPMP2.html#acbc67834e00765d972b9602c2d6ad84a">More...</a><br /></td></tr>
+<tr class="separator:acbc67834e00765d972b9602c2d6ad84a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31737b1e62d2007eb4b4a24aaf024c8f"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a31737b1e62d2007eb4b4a24aaf024c8f">AIUpdateTCASTargets</a> ()</td></tr>
+<tr class="memdesc:a31737b1e62d2007eb4b4a24aaf024c8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The modern way: Use TCAS override and update TCAS targets.  <a href="namespaceXPMP2.html#a31737b1e62d2007eb4b4a24aaf024c8f">More...</a><br /></td></tr>
+<tr class="separator:a31737b1e62d2007eb4b4a24aaf024c8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad8fe4905f75714b66df9a5f4de2f1f54"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ad8fe4905f75714b66df9a5f4de2f1f54">AIMultiUpdate</a> ()</td></tr>
 <tr class="memdesc:ad8fe4905f75714b66df9a5f4de2f1f54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates all TCAS target dataRefs, both standard X-Plane, as well as additional shared dataRefs for text publishing.  <a href="namespaceXPMP2.html#ad8fe4905f75714b66df9a5f4de2f1f54">More...</a><br /></td></tr>
 <tr class="separator:ad8fe4905f75714b66df9a5f4de2f1f54"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba65c4b4d175a77fbbd7ca541a5d6dc8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aba65c4b4d175a77fbbd7ca541a5d6dc8">AIMultiClearInfoDataRefs</a> (<a class="el" href="namespaceXPMP2.html#structXPMP2_1_1infoDataRefsTy">infoDataRefsTy</a> &amp;drI)</td></tr>
-<tr class="memdesc:aba65c4b4d175a77fbbd7ca541a5d6dc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears the shared info dataRefs.  <a href="namespaceXPMP2.html#aba65c4b4d175a77fbbd7ca541a5d6dc8">More...</a><br /></td></tr>
-<tr class="separator:aba65c4b4d175a77fbbd7ca541a5d6dc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2e7ded72d05c3b276b94b063c87db38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ab2e7ded72d05c3b276b94b063c87db38">AIMultiClearTcasDataRefs</a> ()</td></tr>
 <tr class="memdesc:ab2e7ded72d05c3b276b94b063c87db38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears the key (mode_s) of the TCAS target dataRefs.  <a href="namespaceXPMP2.html#ab2e7ded72d05c3b276b94b063c87db38">More...</a><br /></td></tr>
 <tr class="separator:ab2e7ded72d05c3b276b94b063c87db38"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -521,78 +530,6 @@ Variables</h2></td></tr>
 <tr class="separator:a1bce12947cfb542afb194319fd47d5e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/><h2 class="groupheader">Class Documentation</h2>
-<a name="structXPMP2_1_1infoDataRefsTy" id="structXPMP2_1_1infoDataRefsTy"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#structXPMP2_1_1infoDataRefsTy">&#9670;&nbsp;</a></span>XPMP2::infoDataRefsTy</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct XPMP2::infoDataRefsTy</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="textblock"><p>Keeps the dataRef handles for one of the up to 63 shared data slots ("sim/multiplayer/position/plane#...") </p>
-</div><table class="fieldtable">
-<tr><th colspan="3">Class Members</th></tr>
-<tr><td class="fieldtype">
-<a id="a347c47955772899df740b34ff0032d91"></a>XPLMDataRef</td>
-<td class="fieldname">
-infoAirline</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="a2fe15c465d5e2b159517c5825f138d07"></a>XPLMDataRef</td>
-<td class="fieldname">
-infoAptFrom</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="abe3cc011594f3132ac25d9c576bed82f"></a>XPLMDataRef</td>
-<td class="fieldname">
-infoAptTo</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="af0ae56431127fed6b5032707e5f03ba7"></a>XPLMDataRef</td>
-<td class="fieldname">
-infoFlightNum</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="a486b99b15b77f8a3560c7b237b7975c1"></a>XPLMDataRef</td>
-<td class="fieldname">
-infoIcaoAcType</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="a46f90a30e99d43ccd267e84c3d6d6f8a"></a>XPLMDataRef</td>
-<td class="fieldname">
-infoIcaoAirline</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="a72dd08745641a5df37cf0c57faf77463"></a>XPLMDataRef</td>
-<td class="fieldname">
-infoManufacturer</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="a7aa48a39a8641d5e43a206ce342f49b4"></a>XPLMDataRef</td>
-<td class="fieldname">
-infoModel</td>
-<td class="fielddoc">
-</td></tr>
-<tr><td class="fieldtype">
-<a id="ada53e87e3c5e5100194d1421fbc34ec0"></a>XPLMDataRef</td>
-<td class="fieldname">
-infoTailNum</td>
-<td class="fielddoc">
-</td></tr>
-</table>
-
-</div>
-</div>
 <a name="unionXPMP2_1_1TcasLightsTy" id="unionXPMP2_1_1TcasLightsTy"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#unionXPMP2_1_1TcasLightsTy">&#9670;&nbsp;</a></span>XPMP2::TcasLightsTy</h2>
 
@@ -1284,7 +1221,7 @@ the full integer value </td></tr>
         <tr>
           <td class="memname">void XPMP2::AIMultiClearInfoDataRefs </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespaceXPMP2.html#structXPMP2_1_1infoDataRefsTy">infoDataRefsTy</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="structXPMP2_1_1infoDataRefsTy.html">infoDataRefsTy</a> &amp;&#160;</td>
           <td class="paramname"><em>drI</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1370,6 +1307,65 @@ the full integer value </td></tr>
 </div><div class="memdoc">
 
 <p>Updates all TCAS target dataRefs, both standard X-Plane, as well as additional shared dataRefs for text publishing. </p>
+
+</div>
+</div>
+<a id="acbc67834e00765d972b9602c2d6ad84a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbc67834e00765d972b9602c2d6ad84a">&#9670;&nbsp;</a></span>AIUpdateMultiplayerDataRefs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t XPMP2::AIUpdateMultiplayerDataRefs </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The old way: Update Multiplayer dataRefs directly. </p>
+<dl class="section return"><dt>Returns</dt><dd>Number of TCAS targets produced </dd></dl>
+
+</div>
+</div>
+<a id="a31737b1e62d2007eb4b4a24aaf024c8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31737b1e62d2007eb4b4a24aaf024c8f">&#9670;&nbsp;</a></span>AIUpdateTCASTargets()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t XPMP2::AIUpdateTCASTargets </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The modern way: Use TCAS override and update TCAS targets. </p>
+<dl class="section return"><dt>Returns</dt><dd>Number of TCAS targets produced (incl. user's plane) </dd></dl>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
 
 </div>
 </div>
@@ -2299,6 +2295,33 @@ template&lt;class T &gt; </div>
 </div><div class="memdoc">
 
 <p>Get synched network time from X-Plane (sim/network/misc/network_time_sec) as used in Log.txt. </p>
+
+</div>
+</div>
+<a id="a1d3be0134c1ea7b658815b88387674c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d3be0134c1ea7b658815b88387674c5">&#9670;&nbsp;</a></span>GoTCASOverride()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::GoTCASOverride </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Are we going to new (TCAS override) or the old way? </p>
 
 </div>
 </div>

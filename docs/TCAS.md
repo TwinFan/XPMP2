@@ -21,6 +21,9 @@ as it explains all what's necessary and what also XPMP2 does:
   the exact number of provided planes. (This might not be strictly necessary,
   but probably a cleaner approach than to wait 10 cylces for not
   updated dataRefs to be taken out of X-Plane's consideration.)
+  
+When TCS Override is not available (like up to X-Plane 11.41),
+then TCAS is provided by writing the classic multiplayer dataRefs directly.
 
 TCAS Target dataRefs
 --

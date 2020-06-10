@@ -484,9 +484,12 @@ Protected Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
-<tr class="memitem:a612fc3e0ffb466ab94f3b5b2ca11598f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a612fc3e0ffb466ab94f3b5b2ca11598f">AIMultiUpdate</a> ()</td></tr>
-<tr class="memdesc:a612fc3e0ffb466ab94f3b5b2ca11598f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates all TCAS target dataRefs, both standard X-Plane, as well as additional shared dataRefs for text publishing.  <a href="classXPMP2_1_1Aircraft.html#a612fc3e0ffb466ab94f3b5b2ca11598f">More...</a><br /></td></tr>
-<tr class="separator:a612fc3e0ffb466ab94f3b5b2ca11598f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a577d3908befbae63077d621f19d8cd35"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a577d3908befbae63077d621f19d8cd35">AIUpdateTCASTargets</a> ()</td></tr>
+<tr class="memdesc:a577d3908befbae63077d621f19d8cd35"><td class="mdescLeft">&#160;</td><td class="mdescRight">The modern way: Use TCAS override and update TCAS targets.  <a href="classXPMP2_1_1Aircraft.html#a577d3908befbae63077d621f19d8cd35">More...</a><br /></td></tr>
+<tr class="separator:a577d3908befbae63077d621f19d8cd35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8593a1abc8e005fa14b1ffb791a2bb9"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ae8593a1abc8e005fa14b1ffb791a2bb9">AIUpdateMultiplayerDataRefs</a> ()</td></tr>
+<tr class="memdesc:ae8593a1abc8e005fa14b1ffb791a2bb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The old way: Update Multiplayer dataRefs directly.  <a href="classXPMP2_1_1Aircraft.html#ae8593a1abc8e005fa14b1ffb791a2bb9">More...</a><br /></td></tr>
+<tr class="separator:ae8593a1abc8e005fa14b1ffb791a2bb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Actual representation of all aircraft in <a class="el" href="namespaceXPMP2.html">XPMP2</a>. </p>
@@ -3398,8 +3401,8 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Function Documentation</h2>
-<a id="a612fc3e0ffb466ab94f3b5b2ca11598f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a612fc3e0ffb466ab94f3b5b2ca11598f">&#9670;&nbsp;</a></span>AIMultiUpdate</h2>
+<a id="ae8593a1abc8e005fa14b1ffb791a2bb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8593a1abc8e005fa14b1ffb791a2bb9">&#9670;&nbsp;</a></span>AIUpdateMultiplayerDataRefs</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3408,7 +3411,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void AIMultiUpdate </td>
+          <td class="memname">size_t AIUpdateMultiplayerDataRefs </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -3421,7 +3424,55 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Updates all TCAS target dataRefs, both standard X-Plane, as well as additional shared dataRefs for text publishing. </p>
+<p>The old way: Update Multiplayer dataRefs directly. </p>
+<dl class="section return"><dt>Returns</dt><dd>Number of TCAS targets produced </dd></dl>
+
+</div>
+</div>
+<a id="a577d3908befbae63077d621f19d8cd35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a577d3908befbae63077d621f19d8cd35">&#9670;&nbsp;</a></span>AIUpdateTCASTargets</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t AIUpdateTCASTargets </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The modern way: Use TCAS override and update TCAS targets. </p>
+<dl class="section return"><dt>Returns</dt><dd>Number of TCAS targets produced (incl. user's plane) </dd></dl>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
+<p>&lt; data array for providing TCAS target values</p>
 
 </div>
 </div>

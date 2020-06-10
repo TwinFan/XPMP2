@@ -1,5 +1,5 @@
 XPlaneMP 2
-========================
+=========
 
 The original X-Plane Multiplay Library is the work of many fantastic people,
 with Ben Supnik, Chris Serio, and Chris Collins appearing in recent files and documentation.
@@ -39,14 +39,9 @@ The XPMP2 library has been successfully tested with
 
 - XPMP2 implements [instancing](https://developer.x-plane.com/sdk/XPLMInstance/),
   so it **requires X-Plane 11.10** or later
-- TCAS is provided using [TCAS Override](https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/),
-  which became available with **X-Plane 11.50 Beta 8** only.
-  In earlier versions TCAS cannot be activated and the error message
-  "TCAS requires XP11.50b8 or later" is returned, but otherwise XPMP2 works
-  also in earlier XP11 versions.
 - CSL models in **OBJ8 format** (ie. older OBJ7 models are no longer supported)
 
-## Documentation ##
+## Documentation: See GitHub Pages ##
 
 ...on requirements, API, building, deployment, TCAS target, CSL mode dataRefs
 and more is available in the
@@ -77,6 +72,9 @@ XPMP2 provides TCAS blibs and AI/multiplayer data using
 introduced with X-Plane 11.50 Beta 8. Find
 [details here](https://twinfan.github.io/XPMP2/TCAS.html)
 including a reference lists of provided dataRef values and their sources.
+
+When TCS Override is not available (like up to X-Plane 11.41),
+then TCAS is provided by writing the classic multiplayer dataRefs directly.
 
 ### Map Layer ###
 

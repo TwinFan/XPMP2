@@ -384,8 +384,9 @@ protected:
     // The following functions are implemented in AIMultiplayer.cpp:
     /// Define the TCAS target index in use
     virtual void SetTcasTargetIdx (int _idx) { tcasTargetIdx = _idx; }
-    // These functions are called from AIMultiUpdate()
-    friend void AIMultiUpdate ();
+    // These functions perform the TCAS target / multiplayer data updates
+    friend size_t AIUpdateTCASTargets ();
+    friend size_t AIUpdateMultiplayerDataRefs ();
 };
 
 /// Find aircraft by its plane ID, can return nullptr

@@ -51,6 +51,7 @@ $(function() {
 <li>All aircraft are sorted by distance (biased by <code><a class="el" href="classXPMP2_1_1Aircraft.html#a28c6f513b396f95c6ca90e3d3e4d927c" title="Priority for display in one of the limited number of TCAS target slots.">XPMP2::Aircraft::aiPrio</a></code>), for each aircraft a number of dataRefs are set, see below</li>
 <li>In a call to <code>XPLMSetActiveAircraftCount</code> X-Plane is informed about the exact number of provided planes. (This might not be strictly necessary, but probably a cleaner approach than to wait 10 cylces for not updated dataRefs to be taken out of X-Plane's consideration.)</li>
 </ul>
+<p>When TCS Override is not available (like up to X-Plane 11.41), then TCAS is provided by writing the classic multiplayer dataRefs directly.</p>
 <h1><a class="anchor" id="autotoc_md24"></a>
 TCAS Target dataRefs</h1>
 <p><a class="el" href="namespaceXPMP2.html">XPMP2</a> writes the folloing TCAS target dataRefs when it has TCAS control:</p>

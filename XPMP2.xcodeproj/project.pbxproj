@@ -55,6 +55,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		25019BC624919A1500355472 /* HowTo.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = HowTo.md; sourceTree = "<group>"; };
+		25019BC724919A1500355472 /* CSLdataRefs.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CSLdataRefs.md; sourceTree = "<group>"; };
+		25019BC824919A1500355472 /* TCAS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TCAS.md; sourceTree = "<group>"; };
+		25019BC924919A1500355472 /* Building.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Building.md; sourceTree = "<group>"; };
+		25019BCA24919A1500355472 /* Deploying.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Deploying.md; sourceTree = "<group>"; };
+		25019BCB24919A1500355472 /* BackwardsCompatibility.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = BackwardsCompatibility.md; sourceTree = "<group>"; };
+		25019BCC24919A1600355472 /* Matching.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Matching.md; sourceTree = "<group>"; };
 		2502C17A23BE8A1600578919 /* XPMP2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = XPMP2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		252C01F223E62040007C231F /* AIMultiplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AIMultiplayer.cpp; sourceTree = "<group>"; };
 		252C01F323E62040007C231F /* AIMultiplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIMultiplayer.h; sourceTree = "<group>"; };
@@ -192,12 +199,19 @@
 		25D680BD23BE9B7900C83CC5 /* docs */ = {
 			isa = PBXGroup;
 			children = (
-				25997FB62476A33E00F36447 /* XSBAircraftFormat.md */,
+				25019BCB24919A1500355472 /* BackwardsCompatibility.md */,
+				25019BC924919A1500355472 /* Building.md */,
+				25019BC724919A1500355472 /* CSLdataRefs.md */,
+				25019BCA24919A1500355472 /* Deploying.md */,
+				25019BC624919A1500355472 /* HowTo.md */,
 				2574E0052457842A000E8156 /* html */,
 				2574E00424578419000E8156 /* index.md */,
 				25D680BF23BE9BB900C83CC5 /* MainPage.md */,
+				25019BCC24919A1600355472 /* Matching.md */,
+				25019BC824919A1500355472 /* TCAS.md */,
 				25ED259B246752C3008BA734 /* XP1150b8_new_dataRefs.txt */,
 				25D680BE23BE9BB900C83CC5 /* XPMP2.doxygen */,
+				25997FB62476A33E00F36447 /* XSBAircraftFormat.md */,
 			);
 			path = docs;
 			sourceTree = "<group>";

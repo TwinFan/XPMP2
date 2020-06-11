@@ -122,6 +122,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a31737b1e62d2007eb4b4a24aaf024c8f"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a31737b1e62d2007eb4b4a24aaf024c8f">XPMP2::AIUpdateTCASTargets</a> ()</td></tr>
 <tr class="memdesc:a31737b1e62d2007eb4b4a24aaf024c8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The modern way: Use TCAS override and update TCAS targets.  <a href="namespaceXPMP2.html#a31737b1e62d2007eb4b4a24aaf024c8f">More...</a><br /></td></tr>
 <tr class="separator:a31737b1e62d2007eb4b4a24aaf024c8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a337e031a2e45b95a747e17651a7e6500"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a337e031a2e45b95a747e17651a7e6500">XPMP2::AIAssignSlots</a> (size_t fromSlot, size_t toSlot)</td></tr>
+<tr class="memdesc:a337e031a2e45b95a747e17651a7e6500"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns slots, ie. planes to places in gSlots.  <a href="namespaceXPMP2.html#a337e031a2e45b95a747e17651a7e6500">More...</a><br /></td></tr>
+<tr class="separator:a337e031a2e45b95a747e17651a7e6500"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad8fe4905f75714b66df9a5f4de2f1f54"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ad8fe4905f75714b66df9a5f4de2f1f54">XPMP2::AIMultiUpdate</a> ()</td></tr>
 <tr class="memdesc:ad8fe4905f75714b66df9a5f4de2f1f54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates all TCAS target dataRefs, both standard X-Plane, as well as additional shared dataRefs for text publishing.  <a href="namespaceXPMP2.html#ad8fe4905f75714b66df9a5f4de2f1f54">More...</a><br /></td></tr>
 <tr class="separator:ad8fe4905f75714b66df9a5f4de2f1f54"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -152,7 +155,7 @@ Variables</h2></td></tr>
 <tr class="memitem:a04e1b9e39a6403f8d0ed3d3be96d7832"><td class="memItemLeft" align="right" valign="top">constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a04e1b9e39a6403f8d0ed3d3be96d7832">XPMP2::FAR_AWAY_VAL_GL</a> = 9999999.9f</td></tr>
 <tr class="memdesc:a04e1b9e39a6403f8d0ed3d3be96d7832"><td class="mdescLeft">&#160;</td><td class="mdescRight">Don't dare using NAN...but with this coordinate for x/y/z a plane should be far out and virtually invisible.  <a href="namespaceXPMP2.html#a04e1b9e39a6403f8d0ed3d3be96d7832">More...</a><br /></td></tr>
 <tr class="separator:a04e1b9e39a6403f8d0ed3d3be96d7832"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae45a1c14a9d8a5feebeb467232ce5e81"><td class="memItemLeft" align="right" valign="top">constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ae45a1c14a9d8a5feebeb467232ce5e81">XPMP2::AISLOT_CHANGE_PERIOD</a> = 10.0f</td></tr>
+<tr class="memitem:ae45a1c14a9d8a5feebeb467232ce5e81"><td class="memItemLeft" align="right" valign="top">constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ae45a1c14a9d8a5feebeb467232ce5e81">XPMP2::AISLOT_CHANGE_PERIOD</a> = 15.0f</td></tr>
 <tr class="memdesc:ae45a1c14a9d8a5feebeb467232ce5e81"><td class="mdescLeft">&#160;</td><td class="mdescRight">How often do we reassign AI slots? [seconds].  <a href="namespaceXPMP2.html#ae45a1c14a9d8a5feebeb467232ce5e81">More...</a><br /></td></tr>
 <tr class="separator:ae45a1c14a9d8a5feebeb467232ce5e81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad479c69628307cd94d1ed21f1f816e81"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ad479c69628307cd94d1ed21f1f816e81">XPMP2::AI_PRIO_MULTIPLIER</a> = 10 * M_per_NM</td></tr>
@@ -161,9 +164,6 @@ Variables</h2></td></tr>
 <tr class="memitem:a43269a23048cc09968d3abe73ef6a497"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a43269a23048cc09968d3abe73ef6a497">XPMP2::F_NULL</a> [10] = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}</td></tr>
 <tr class="memdesc:a43269a23048cc09968d3abe73ef6a497"><td class="mdescLeft">&#160;</td><td class="mdescRight">A constant array of zero values supporting quick array initialization.  <a href="namespaceXPMP2.html#a43269a23048cc09968d3abe73ef6a497">More...</a><br /></td></tr>
 <tr class="separator:a43269a23048cc09968d3abe73ef6a497"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a202b5df7f0c8aea0f1a16ee6f868b629"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceXPMP2.html#ab82edbc0e4277fd25fe71575b3e5133f">mapAcByDistTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a202b5df7f0c8aea0f1a16ee6f868b629">XPMP2::gMapAcByDist</a></td></tr>
-<tr class="memdesc:a202b5df7f0c8aea0f1a16ee6f868b629"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map of Aircrafts, sorted by (priority-biased) distance.  <a href="namespaceXPMP2.html#a202b5df7f0c8aea0f1a16ee6f868b629">More...</a><br /></td></tr>
-<tr class="separator:a202b5df7f0c8aea0f1a16ee6f868b629"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Implementation of serving TCAS target dataRef updates. </p>

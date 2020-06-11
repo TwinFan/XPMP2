@@ -47,7 +47,7 @@ namespace XPMP2 {
 /// Don't dare using NAN...but with this coordinate for x/y/z a plane should be far out and virtually invisible
 constexpr float FAR_AWAY_VAL_GL = 9999999.9f;
 /// How often do we reassign AI slots? [seconds]
-constexpr float AISLOT_CHANGE_PERIOD = 10.0f;
+constexpr float AISLOT_CHANGE_PERIOD = 15.0f;
 /// How much distance does each AIPrio add?
 constexpr int AI_PRIO_MULTIPLIER = 10 * M_per_NM;
 /// A constant array of zero values supporting quick array initialization
@@ -144,8 +144,12 @@ static XPLMDataRef drTcasYokeRoll   = nullptr;      ///< sim/cockpit2/tcas/targe
 static XPLMDataRef drTcasYokeYaw    = nullptr;      ///< sim/cockpit2/tcas/targets/position/yolk_yaw [sic!]     float[64]
 static XPLMDataRef drTcasLights     = nullptr;      ///< sim/cockpit2/tcas/targets/position/lights          int[64] (bitfield: beacon=1, land=2, nav=4, strobe=8, taxi=16)
 
-/// Arry size of sim/cockpit2/tcas/targets/modeS_id
-static size_t numTcasTargets = 0;
+//
+// MARK: Global variables for TCAS handling
+//
+
+/// Number of TCAS slots (either as TCAS targets or as multiplayer slots), _not_ counting user's plane (so expected to be 63 or 19)
+static size_t numSlots = 0;
 
 /// A structure simplifying communicaton with sim/cockpit2/tcas/targets/position/lights
 union TcasLightsTy {
@@ -169,12 +173,31 @@ static std::vector<infoDataRefsTy>  gInfoRef;
 /// Map of Aircrafts, sorted by (priority-biased) distance
 typedef std::map<float,XPMPPlaneID> mapAcByDistTy;
 /// Map of Aircrafts, sorted by (priority-biased) distance
-mapAcByDistTy gMapAcByDist;
+static mapAcByDistTy gMapAcByDist;
+/// Vector of actual (verified) aircraft, ordered by distance
+static std::vector<Aircraft*> vAcByDist;
+
+/// Vector organized by slots (either multiplayer or TCAS target slots)
+static std::vector<Aircraft*> gSlots;
 
 #pragma clang diagnostic pop
 
 /// When did we re-calculate slots last time?
 static float tLastSlotSwitching = 0.0f;
+
+//
+// MARK: Aircraft functions related to TCAS
+//
+
+// Is this plane currently also being tracked by X-Plane's classic AI/multiplayer?
+bool Aircraft::IsCurrentlyShownAsAI () const
+{
+    return 1 <= tcasTargetIdx && tcasTargetIdx < (int)gMultiRef.size();
+}
+
+//
+// MARK: TCAS/Multiplayer Update
+//
 
 // Resets all actual values of the AI/multiplayer dataRefs of one plane to something initial
 void AIMultiClearAIDataRefs (multiDataRefsTy& mdr, bool bDeactivateToZero = false);
@@ -190,35 +213,17 @@ inline bool GoTCASOverride ()
 /// @return Number of TCAS targets produced
 size_t AIUpdateMultiplayerDataRefs()
 {
-    size_t numTargets = 1;  // the user's plane is always there, and it counts towards the gMultiRef indexes
-    for (const auto& p: gMapAcByDist)
+    // Loop over all filled slots
+    size_t slot = 1;
+    for (; slot < gSlots.size() && gSlots[slot] != nullptr; ++slot)
     {
-        // We keep the planeId in our distance-sorted map,
-        // but the plane might be gone now, so be carefully looking for it!
-        mapAcTy::const_iterator iterAc;
-        iterAc = glob.mapAc.find(p.second);
-        if (iterAc == glob.mapAc.end() ||       // not found any longer?
-            !iterAc->second->ShowAsAIPlane())   // or no longer to be shown on TCAS?
-        {
-            tLastSlotSwitching = 0.f;           // ensure we reinit the map next time
-            continue;
-        }
-        
-        // Plane exist!
-        Aircraft& ac = *iterAc->second;
+        Aircraft& ac = *gSlots[slot];
         
         try {
-            // maximum number of TCAS planes already defined?
-            // Just clear the stored multiplayer idx, but otherwise don't add more data
-            if (numTargets >= gMultiRef.size()) {
-                ac.ResetTcasTargetIdx();
-                continue;
-            }
-            
-            // Did this plane change slots?
-            const bool bSlotChanged = ac.GetTcasTargetIdx() != (int)numTargets;
+            // Has to slot for this plane changed?
+            const bool bSlotChanged = ac.GetTcasTargetIdx() != (int)slot;
             if (bSlotChanged)
-                ac.SetTcasTargetIdx((int)numTargets);
+                ac.SetTcasTargetIdx((int)slot);
 
             // the dataRefs to use
             const multiDataRefsTy& mdr = gMultiRef[(size_t)ac.GetTcasTargetIdx()];
@@ -288,15 +293,12 @@ size_t AIUpdateMultiplayerDataRefs()
                 XPLMSetDatab(drI.infoAptFrom,       ac.acInfoTexts.aptFrom,       0, sizeof(XPMPInfoTexts_t::aptFrom));
                 XPLMSetDatab(drI.infoAptTo,         ac.acInfoTexts.aptTo,         0, sizeof(XPMPInfoTexts_t::aptTo));
             }
-
-            // so it's one more plane then
-            ++numTargets;
         }
         CATCH_AC(ac)
     }
     
     // return number of multiplayer planes
-    return numTargets;
+    return slot;
 }
 
 /// @brief The modern way: Use TCAS override and update TCAS targets
@@ -330,57 +332,41 @@ size_t AIUpdateTCASTargets ()
     // Start filling up TCAS targets, ordered by distance,
     // so that the closest planes are in the lower slots,
     // mirrored to the legacy multiplayer slots
-    const size_t vSize = std::min(numTcasTargets, gMapAcByDist.size());
-    vModeS.clear();         vModeS.reserve(vSize);
-    vModeC.clear();         vModeC.reserve(vSize);
-    vX.clear();             vX.reserve(vSize);
-    vY.clear();             vY.reserve(vSize);
-    vZ.clear();             vZ.reserve(vSize);
-    vVertSpeed.clear();     vVertSpeed.reserve(vSize);
-    vHeading.clear();       vHeading.reserve(vSize);
-    vPitch.clear();         vPitch.reserve(vSize);
-    vRoll.clear();          vRoll.reserve(vSize);
-    vGear.clear();          vGear.reserve(vSize);
-    vFlap.clear();          vFlap.reserve(vSize);
-    vSpeedbrake.clear();    vSpeedbrake.reserve(vSize);
-    vSlat.clear();          vSlat.reserve(vSize);
-    vWingSweep.clear();     vWingSweep.reserve(vSize);
-    vThrottle.clear();      vThrottle.reserve(vSize);
-    vYokePitch.clear();     vYokePitch.reserve(vSize);
-    vYokeRoll.clear();      vYokeRoll.reserve(vSize);
-    vYokeYaw.clear();       vYokeYaw.reserve(vSize);
-    vLights.clear();        vLights.reserve(vSize);
+    vModeS.clear();         vModeS.reserve(numSlots);
+    vModeC.clear();         vModeC.reserve(numSlots);
+    vX.clear();             vX.reserve(numSlots);
+    vY.clear();             vY.reserve(numSlots);
+    vZ.clear();             vZ.reserve(numSlots);
+    vVertSpeed.clear();     vVertSpeed.reserve(numSlots);
+    vHeading.clear();       vHeading.reserve(numSlots);
+    vPitch.clear();         vPitch.reserve(numSlots);
+    vRoll.clear();          vRoll.reserve(numSlots);
+    vGear.clear();          vGear.reserve(numSlots);
+    vFlap.clear();          vFlap.reserve(numSlots);
+    vSpeedbrake.clear();    vSpeedbrake.reserve(numSlots);
+    vSlat.clear();          vSlat.reserve(numSlots);
+    vWingSweep.clear();     vWingSweep.reserve(numSlots);
+    vThrottle.clear();      vThrottle.reserve(numSlots);
+    vYokePitch.clear();     vYokePitch.reserve(numSlots);
+    vYokeRoll.clear();      vYokeRoll.reserve(numSlots);
+    vYokeYaw.clear();       vYokeYaw.reserve(numSlots);
+    vLights.clear();        vLights.reserve(numSlots);
     
-    for (const auto& p: gMapAcByDist)
+    // Loop over all filled slots
+    size_t slot = 1;
+    for (; slot < gSlots.size() && gSlots[slot] != nullptr; ++slot)
     {
-        // We keep the planeId in our distance-sorted map,
-        // but the plane might be gone now, so be carefully looking for it!
-        mapAcTy::const_iterator iterAc;
-        iterAc = glob.mapAc.find(p.second);
-        if (iterAc == glob.mapAc.end() ||       // not found any longer?
-            !iterAc->second->ShowAsAIPlane())   // or no longer to be shown on TCAS?
-        {
-            tLastSlotSwitching = 0.f;           // ensure we reinit the map next time
-            continue;
-        }
-        
-        // Plane exist!
-        Aircraft& ac = *iterAc->second;
+        Aircraft& ac = *gSlots[slot];
         
         try {
-            // maximum number of TCAS planes already defined?
-            // Just clear the stored multiplayer idx, but otherwise don't add more data
-            if (vModeS.size() >= numTcasTargets) {
-                ac.ResetTcasTargetIdx();
-                continue;
-            }
-            
+            // Has to slot for this plane changed?
+            const bool bSlotChanged = ac.GetTcasTargetIdx() != (int)slot;
+            if (bSlotChanged)
+                ac.SetTcasTargetIdx((int)slot);
+
             // Add the plane to the list of TCAS targets
             vModeS.push_back(int(ac.GetModeS_ID()));
             vModeC.push_back(int(ac.acRadar.code));
-            const bool bSlotChanged = ac.GetTcasTargetIdx() != (int)vModeS.size();
-            if (bSlotChanged)
-                ac.SetTcasTargetIdx((int)vModeS.size());
             
             // This plane's position
             vX.push_back(ac.drawInfo.x);
@@ -495,8 +481,53 @@ size_t AIUpdateTCASTargets ()
     SET_DR(vf, YokeYaw);
     SET_DR(vi, Lights);
     
-    // return the number of targets (+1 for user's plane)
-    return vX.size() +1;
+    // return the number of targets
+    return slot;
+}
+
+/// @brief Assigns slots, ie. planes to places in gSlots
+/// @details Called in several passes as to make sure that
+///          the lowest n slots are occupied by the closest n planes.
+void AIAssignSlots (size_t fromSlot, size_t toSlot)
+{
+    // 1. Keep planes stable, which are in the given range of slots
+    size_t nPlane;
+    for (nPlane = fromSlot-1; nPlane < toSlot; ++nPlane) {
+        const size_t acSlot = (size_t)vAcByDist.at(nPlane)->GetTcasTargetIdx();
+        if (fromSlot <= acSlot && acSlot <= toSlot) {
+            gSlots[acSlot] = vAcByDist[nPlane];     // assign plane to same slot again
+            vAcByDist[nPlane] = nullptr;            // this plane is handled now
+        }
+    }
+    
+    // 2. fill up empty slots with remaining planes
+    nPlane = fromSlot-1;                            // points into list of planes
+    for (size_t slot=fromSlot;
+         slot <= toSlot; ++slot)                    // loop all slots in range
+    {
+        if (!gSlots[slot])                          // yet empty slot?
+        {
+            for (;nPlane < toSlot; ++nPlane)        // search for a yet unassigned plane
+            {
+                if (vAcByDist[nPlane]) {            // found a plane -> assign to slot
+                    gSlots[slot] = vAcByDist[nPlane];
+                    vAcByDist[nPlane++] = nullptr;
+                    break;
+                }
+            }
+        }
+    }
+    
+#ifdef DEBUG
+    // it is expected that the range of slots is exactly filled
+    // and all planes are used!
+    LOG_ASSERT(std::all_of(gSlots.begin()+(long)fromSlot,
+                           gSlots.begin()+(long)toSlot,
+                           [](const Aircraft* pAc){return pAc!=nullptr;}));
+    LOG_ASSERT(std::all_of(vAcByDist.begin()+(long)fromSlot-1,
+                           vAcByDist.begin()+(long)toSlot-1,
+                           [](const Aircraft* pAc){return pAc==nullptr;}));
+#endif
 }
 
 
@@ -527,6 +558,63 @@ void AIMultiUpdate ()
                 gMapAcByDist.emplace(ac.GetCameraDist() + ac.aiPrio * AI_PRIO_MULTIPLIER,
                                      ac.GetModeS_ID());
         }
+    }
+    
+    // Aircraft come and go, so the entries in gMapAcByDist can be outdated
+    // Here we verify existence of aircraft and compile the definitive
+    // list of aircraft to show
+    vAcByDist.clear();
+    vAcByDist.reserve(numSlots);
+    for (const auto& p: gMapAcByDist)
+    {
+        mapAcTy::const_iterator iterAc = glob.mapAc.find(p.second);
+        if (iterAc == glob.mapAc.end() ||       // not found any longer?
+            !iterAc->second->ShowAsAIPlane())   // or no longer to be shown on TCAS?
+        {
+            tLastSlotSwitching = 0.0f;          // ensure we reinit the map next time
+        } else {
+            // Plane exists!
+            // If there's still room: add it to the list
+            if (vAcByDist.size() < numSlots)
+                vAcByDist.push_back(iterAc->second);
+            else {
+                // else reset the TCAS target index of the plane is it will not be shown
+                if (iterAc->second->IsCurrentlyShownAsTcasTarget())
+                    iterAc->second->SetTcasTargetIdx(-1);
+            }
+        }
+    }
+    const size_t numAcToShow = vAcByDist.size();
+    LOG_ASSERT(numAcToShow <= numSlots);
+    
+    // Slotting: Organize the planes into the TCAS target/multiplayer slots
+    //           in a way that existing planes don't change slot (too often)
+    // Prepare the array in which we organize the planes per slot
+    // Here, for ease of access, slot 0 (user's plane) is reserved, too
+    gSlots.assign(numSlots+1, nullptr);
+    
+    // There are up to 2 passes:
+    std::vector<size_t> vLimits;
+    if (GoTCASOverride()) {
+        // TCAS override: number of multiplayer dataRefs (19); number of TCAS targets (63)
+        if (gMultiRef.size()-1 < numAcToShow)
+            vLimits.push_back(gMultiRef.size()-1);
+    } else {
+        // Classic way: number of configured AI planes (user configured); number of dataRefs (19)
+        int nTotal = 0, nActive = 0;
+        XPLMPluginID plgId = 0;
+        XPLMCountAircraft(&nTotal, &nActive, &plgId);
+        --nTotal;                           // don't count user's plane
+        if (0 < nTotal && nTotal < (int)numAcToShow)
+            vLimits.push_back((size_t)nTotal);
+    }
+    vLimits.push_back(numAcToShow);
+
+    // Optimize the aircraft into their slots
+    size_t fromSlot = 1;
+    for (size_t toSlot: vLimits) {
+        AIAssignSlots(fromSlot, toSlot);
+        fromSlot = toSlot+1;
     }
     
     // The new or the old way? -> actually update the dataRefs
@@ -615,8 +703,8 @@ void AIMultiClearInfoDataRefs (infoDataRefsTy& drI)
 void AIMultiClearTcasDataRefs ()
 {
     if (drTcasModeS) {
-        std::vector<int> nullArr (numTcasTargets, 0);
-        XPLMSetDatavi(drTcasModeS, nullArr.data(), 1, (int)numTcasTargets);
+        std::vector<int> nullArr (numSlots, 0);
+        XPLMSetDatavi(drTcasModeS, nullArr.data(), 1, (int)numSlots);
     }
 }
 
@@ -651,43 +739,46 @@ void AIMultiInit ()
     // This is probably the most important one, serving as a key,
     // but for us also as an indicator if we are in the right XP version
     // to use TCAS Override
+    numSlots = 0;
     drTcasModeS         = XPLMFindDataRef("sim/cockpit2/tcas/targets/modeS_id");
     if (GoTCASOverride())                   // we can use TCAS Override
     {
         // Let's establish array size (we shall not assume it is 64, though initially it is)
-        numTcasTargets = (size_t)XPLMGetDatavi(drTcasModeS, nullptr, 0, 0);
-        if (numTcasTargets < 2) {           // What???
-            drTcasModeS = nullptr;          // We can't work with less than 2 TCAS target either (#0 is the user's plane!)
-            return;
+        numSlots = (size_t)XPLMGetDatavi(drTcasModeS, nullptr, 0, 0);
+        if (numSlots >= 2) {                // expected is 64...just a safety check
+            // Reduce by one: The user plane is off limits
+            numSlots--;
+            
+            // Now fetch all the other dataRefs...they should work
+            drTcasModeC         = XPLMFindDataRef("sim/cockpit2/tcas/targets/modeC_code");
+            drTcasFlightId      = XPLMFindDataRef("sim/cockpit2/tcas/targets/flight_id");
+            drTcasIcaoType      = XPLMFindDataRef("sim/cockpit2/tcas/targets/icao_type");
+            drTcasX             = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/x");
+            drTcasY             = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/y");
+            drTcasZ             = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/z");
+            drTcasVX            = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/vx");
+            drTcasVY            = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/vy");
+            drTcasVZ            = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/vz");
+            drTcasVertSpeed     = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/vertical_speed");
+            drTcasHeading       = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/psi");
+            drTcasPitch         = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/the");
+            drTcasRoll          = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/phi");
+            drTcasGear          = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/gear_deploy");
+            drTcasFlap          = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/flap_ratio");
+            drTcasFlap2         = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/flap_ratio2");
+            drTcasSpeedbrake    = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/speedbrake_ratio");
+            drTcasSlat          = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/slat_ratio");
+            drTcasWingSweep     = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/wing_sweep");
+            drTcasThrottle      = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/throttle");
+            drTcasYokePitch     = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yolk_pitch");
+            drTcasYokeRoll      = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yolk_roll");
+            drTcasYokeYaw       = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yolk_yaw");
+            drTcasLights        = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/lights");
+        } else {
+            // not expected to happen, but safety measure: fallback to classic TCAS
+            drTcasModeS = nullptr;
+            numSlots = 0;
         }
-        // Reduce by one: The user plane is off limits
-        numTcasTargets--;
-        
-        // Now fetch all the other dataRefs...they should work
-        drTcasModeC         = XPLMFindDataRef("sim/cockpit2/tcas/targets/modeC_code");
-        drTcasFlightId      = XPLMFindDataRef("sim/cockpit2/tcas/targets/flight_id");
-        drTcasIcaoType      = XPLMFindDataRef("sim/cockpit2/tcas/targets/icao_type");
-        drTcasX             = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/x");
-        drTcasY             = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/y");
-        drTcasZ             = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/z");
-        drTcasVX            = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/vx");
-        drTcasVY            = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/vy");
-        drTcasVZ            = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/vz");
-        drTcasVertSpeed     = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/vertical_speed");
-        drTcasHeading       = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/psi");
-        drTcasPitch         = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/the");
-        drTcasRoll          = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/phi");
-        drTcasGear          = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/gear_deploy");
-        drTcasFlap          = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/flap_ratio");
-        drTcasFlap2         = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/flap_ratio2");
-        drTcasSpeedbrake    = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/speedbrake_ratio");
-        drTcasSlat          = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/slat_ratio");
-        drTcasWingSweep     = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/wing_sweep");
-        drTcasThrottle      = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/throttle");
-        drTcasYokePitch     = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yolk_pitch");
-        drTcasYokeRoll      = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yolk_roll");
-        drTcasYokeYaw       = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yolk_yaw");
-        drTcasLights        = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/lights");
     }
     
     // *** Legacy Multiplayer DataRefs ***
@@ -706,46 +797,51 @@ void AIMultiInit ()
 
     // We don't know how many multiplayer planes there are - fetch as many as we can.
     // Loop over all possible AI/multiplayer slots
-    for (unsigned n = 1; true; n++)
+    for (unsigned nDrM = 1; true; nDrM++)
     {
         drM.clear();
         // position
-        FIND_PLANE_DR(X,                    "x",                    n);
+        FIND_PLANE_DR(X,                    "x",                    nDrM);
         if (!drM.X) break;
-        FIND_PLANE_DR(Y,                    "y",                    n);
-        FIND_PLANE_DR(Z,                    "z",                    n);
+        FIND_PLANE_DR(Y,                    "y",                    nDrM);
+        FIND_PLANE_DR(Z,                    "z",                    nDrM);
         // cartesian velocities
-        FIND_PLANE_DR(v_x,                  "v_x",                  n);
-        FIND_PLANE_DR(v_y,                  "v_y",                  n);
-        FIND_PLANE_DR(v_z,                  "v_z",                  n);
+        FIND_PLANE_DR(v_x,                  "v_x",                  nDrM);
+        FIND_PLANE_DR(v_y,                  "v_y",                  nDrM);
+        FIND_PLANE_DR(v_z,                  "v_z",                  nDrM);
         // attitude
-        FIND_PLANE_DR(pitch,                "the",                  n);
-        FIND_PLANE_DR(roll,                 "phi",                  n);
-        FIND_PLANE_DR(heading,              "psi",                  n);
+        FIND_PLANE_DR(pitch,                "the",                  nDrM);
+        FIND_PLANE_DR(roll,                 "phi",                  nDrM);
+        FIND_PLANE_DR(heading,              "psi",                  nDrM);
         // configuration
-        FIND_PLANE_DR(gear,                 "gear_deploy",          n);
-        FIND_PLANE_DR(flap,                 "flap_ratio",           n);
-        FIND_PLANE_DR(flap2,                "flap_ratio2",          n);
-        FIND_PLANE_DR(spoiler,              "spoiler_ratio",        n);
-        FIND_PLANE_DR(speedbrake,           "speedbrake_ratio",     n);
-        FIND_PLANE_DR(slat,                 "slat_ratio",           n); // _should_ expect this name
+        FIND_PLANE_DR(gear,                 "gear_deploy",          nDrM);
+        FIND_PLANE_DR(flap,                 "flap_ratio",           nDrM);
+        FIND_PLANE_DR(flap2,                "flap_ratio2",          nDrM);
+        FIND_PLANE_DR(spoiler,              "spoiler_ratio",        nDrM);
+        FIND_PLANE_DR(speedbrake,           "speedbrake_ratio",     nDrM);
+        FIND_PLANE_DR(slat,                 "slat_ratio",           nDrM); // _should_ expect this name
         if (!drM.slat) {
-            FIND_PLANE_DR(slat,             "sla1_ratio",           n); // but in reality it is this
+            FIND_PLANE_DR(slat,             "sla1_ratio",           nDrM); // but in reality it is this
         }
-        FIND_PLANE_DR(wingSweep,            "wing_sweep",           n);
-        FIND_PLANE_DR(throttle,             "throttle",             n);
-        FIND_PLANE_DR(yoke_pitch,           "yolk_pitch",           n);
-        FIND_PLANE_DR(yoke_roll,            "yolk_roll",            n);
-        FIND_PLANE_DR(yoke_yaw,             "yolk_yaw",             n);
+        FIND_PLANE_DR(wingSweep,            "wing_sweep",           nDrM);
+        FIND_PLANE_DR(throttle,             "throttle",             nDrM);
+        FIND_PLANE_DR(yoke_pitch,           "yolk_pitch",           nDrM);
+        FIND_PLANE_DR(yoke_roll,            "yolk_roll",            nDrM);
+        FIND_PLANE_DR(yoke_yaw,             "yolk_yaw",             nDrM);
         // lights
-        FIND_PLANE_DR(bcnLights,            "beacon_lights_on",     n);
-        FIND_PLANE_DR(landLights,           "landing_lights_on",    n);
-        FIND_PLANE_DR(navLights,            "nav_lights_on",        n);
-        FIND_PLANE_DR(strbLights,           "strobe_lights_on",     n);
-        FIND_PLANE_DR(taxiLights,           "taxi_light_on",        n);
+        FIND_PLANE_DR(bcnLights,            "beacon_lights_on",     nDrM);
+        FIND_PLANE_DR(landLights,           "landing_lights_on",    nDrM);
+        FIND_PLANE_DR(navLights,            "nav_lights_on",        nDrM);
+        FIND_PLANE_DR(strbLights,           "strobe_lights_on",     nDrM);
+        FIND_PLANE_DR(taxiLights,           "taxi_light_on",        nDrM);
         if (!drM) break;                    // break out of loop once the slot doesn't exist
         gMultiRef.push_back(drM);
     }
+    
+    // If using TCAS fallback with multiplayer dataRefs
+    // then we set the number of slots based on available multiplayer slots
+    if (!numSlots)
+        numSlots = gMultiRef.size()-1;
     
     // *** Shared dataRefs for providing additional text info ***
     
@@ -764,7 +860,7 @@ void AIMultiInit ()
     
     // We add as many shared info dataRefs as there are TCAS targets (probably 63)
     // or alternatively standard multiplayer dataRefs
-    for (unsigned n = 1; n <= std::max(numTcasTargets,gMultiRef.size()); n++)
+    for (unsigned n = 1; n <= numSlots; n++)
     {
         // Shared data for providing textual info (see XPMPInfoTexts_t)
         SHARE_PLANE_DR(infoTailNum,         "tailnum",              n);

@@ -25,6 +25,33 @@ as it explains all what's necessary and what also XPMP2 does:
 When TCS Override is not available (like up to X-Plane 11.41),
 then TCAS is provided by writing the classic multiplayer dataRefs directly.
 
+Slotting
+--
+
+There is a limited number of "slots" available for TCAS/multiplayer purposes.
+With TCAS Override, this is currently 63, with classic multiplayer dataRefs, this is up to 19,
+though for many 3rd party plugins the number of actually configured AI Aircraft
+(X-Planes Flight Setup) plays a role, too.
+
+XPMP2 will show the aircraft closest to current camera location. This set of aircraft will
+change over time. But XPMP2 will try to keep a plane, which once was shown on TCAS,
+in the same slot to make it easier for 3rd party plugins to follow one plane.
+
+Keeping a plane in one slot has limits. The following rules apply:
+- TCAS Override (X-Plane 11.50b8 and above): The lower 19 slots are the "lower range"
+  because 3rd party plugins not yet using TCAS Override have access to only these 19.
+- Fallback with classic dataRefs: The lower `n` slots, for which AI Aircraft are configured,
+  are considered "lower range" because some 3rd party plugins only access as many planes
+  as are configured as AI Aircraft (though this is unnecessary: plugins could just read all
+  19 dataRefs irrespective of what `XPLMCountAircraft` returns.)
+- This "lower range" is considered higher priority and will be filled up first with closest planes.
+- XPMP2 will fill a continuous set of slots starting at 1. If a plane is removed, which occupied
+  a slot in the middle then another plane will take it (potentially moving down from the
+  upper range to the lower range).
+- Also, if a plane is moved between lower and upper range because it moved ranks
+  in the order by distance, then it changes slots.
+
+
 TCAS Target dataRefs
 --
 

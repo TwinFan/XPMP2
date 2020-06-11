@@ -53,6 +53,10 @@ constexpr int AI_PRIO_MULTIPLIER = 10 * M_per_NM;
 /// A constant array of zero values supporting quick array initialization
 float F_NULL[10] = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
 
+/// The drawing phase "xplm_Phase_Airplanes" is deprecated in XP11.50 upwards, but we need it in earlier versions to fake TCAS
+constexpr int XPLM_PHASE_AIRPLANES = 25;
+
+
 //
 // MARK: Legacy multiplayer dataRefs
 //
@@ -184,6 +188,9 @@ static std::vector<Aircraft*> gSlots;
 
 /// When did we re-calculate slots last time?
 static float tLastSlotSwitching = 0.0f;
+
+// How many planes did we produce last cycle?
+static size_t numTargetsLastTime = 0;
 
 //
 // MARK: Aircraft functions related to TCAS
@@ -535,9 +542,6 @@ void AIAssignSlots (size_t fromSlot, size_t toSlot)
 // as well as additional shared dataRefs for text publishing
 void AIMultiUpdate ()
 {
-    // How many planes did we produce last cycle?
-    static size_t numTargetsLastTime = 0;
-    
     // If we don't control AI aircraft we bail out
     if (!XPMPHasControlOfAIAircraft())
         return;
@@ -634,6 +638,30 @@ void AIMultiUpdate ()
     
     // remember for next time how many targets we had now
     numTargetsLastTime = numTargets;
+}
+
+/// @brief Callback to toggle aircraft count ("TCAS hack")
+/// @details We use AI Aircraft to simulate TCAS blibs,
+///          but we don't want these AI Aircraft to actually draw.
+///          So during aircraft drawing phase we tell X-Plane there are no
+///          AI planes, afterwards we put the correct number back
+/// @note    Only used if TCAS fallback via classic multiplayer dataRefs is active
+int AIMultiControlPlaneCount(
+        XPLMDrawingPhase     /*inPhase*/,
+        int                  inIsBefore,
+        void *               /*inRefcon*/)
+{
+    // Aren't controlling TCAS???
+    if (!glob.bHasControlOfAIAircraft)
+        return 1;
+
+    if (inIsBefore)
+        XPLMSetActiveAircraftCount(1);
+    else
+        XPLMSetActiveAircraftCount((int)numTargetsLastTime);
+
+    // Can draw
+    return 1;
 }
 
 //
@@ -944,6 +972,14 @@ const char *    XPMPMultiplayerEnable(void (*_callback)(void*),
                 // We disable AI on all planes
                 for (int nPlane = 1; nPlane < (int)gMultiRef.size(); ++nPlane)
                     XPLMDisableAIForPlane(nPlane);
+                
+                // Register the 'number of planes' control calls.
+                XPLMRegisterDrawCallback(AIMultiControlPlaneCount,
+                    XPLM_PHASE_AIRPLANES, 1 /* before*/, nullptr);
+
+                XPLMRegisterDrawCallback(AIMultiControlPlaneCount,
+                    XPLM_PHASE_AIRPLANES, 0 /* after */, nullptr);
+
             }
 
             // No Planes yet started, initialize all dataRef values for a clean start
@@ -1003,6 +1039,10 @@ void XPMPMultiplayerDisable()
     if (GoTCASOverride()) {
         XPLMSetDatai(drMapOverride, 0);
         XPLMSetDatai(drTcasOverride, 0);
+    } else {
+        // Remove control callbacks
+        XPLMUnregisterDrawCallback(AIMultiControlPlaneCount, XPLM_PHASE_AIRPLANES, 1, nullptr);
+        XPLMUnregisterDrawCallback(AIMultiControlPlaneCount, XPLM_PHASE_AIRPLANES, 0, nullptr);
     }
     XPLMReleasePlanes();
     glob.bHasControlOfAIAircraft = false;

@@ -227,6 +227,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ad8fe4905f75714b66df9a5f4de2f1f54"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ad8fe4905f75714b66df9a5f4de2f1f54">AIMultiUpdate</a> ()</td></tr>
 <tr class="memdesc:ad8fe4905f75714b66df9a5f4de2f1f54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates all TCAS target dataRefs, both standard X-Plane, as well as additional shared dataRefs for text publishing.  <a href="namespaceXPMP2.html#ad8fe4905f75714b66df9a5f4de2f1f54">More...</a><br /></td></tr>
 <tr class="separator:ad8fe4905f75714b66df9a5f4de2f1f54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5680dd593eb766d25966135f2559f3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a5680dd593eb766d25966135f2559f3d4">AIMultiControlPlaneCount</a> (XPLMDrawingPhase, int inIsBefore, void *)</td></tr>
+<tr class="memdesc:a5680dd593eb766d25966135f2559f3d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback to toggle aircraft count ("TCAS hack")  <a href="namespaceXPMP2.html#a5680dd593eb766d25966135f2559f3d4">More...</a><br /></td></tr>
+<tr class="separator:a5680dd593eb766d25966135f2559f3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2e7ded72d05c3b276b94b063c87db38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ab2e7ded72d05c3b276b94b063c87db38">AIMultiClearTcasDataRefs</a> ()</td></tr>
 <tr class="memdesc:ab2e7ded72d05c3b276b94b063c87db38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears the key (mode_s) of the TCAS target dataRefs.  <a href="namespaceXPMP2.html#ab2e7ded72d05c3b276b94b063c87db38">More...</a><br /></td></tr>
 <tr class="separator:ab2e7ded72d05c3b276b94b063c87db38"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -470,6 +473,9 @@ Variables</h2></td></tr>
 <tr class="memitem:a43269a23048cc09968d3abe73ef6a497"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a43269a23048cc09968d3abe73ef6a497">F_NULL</a> [10] = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}</td></tr>
 <tr class="memdesc:a43269a23048cc09968d3abe73ef6a497"><td class="mdescLeft">&#160;</td><td class="mdescRight">A constant array of zero values supporting quick array initialization.  <a href="namespaceXPMP2.html#a43269a23048cc09968d3abe73ef6a497">More...</a><br /></td></tr>
 <tr class="separator:a43269a23048cc09968d3abe73ef6a497"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2860526a370d1c9e1467a4d4a8c1822"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ad2860526a370d1c9e1467a4d4a8c1822">XPLM_PHASE_AIRPLANES</a> = 25</td></tr>
+<tr class="memdesc:ad2860526a370d1c9e1467a4d4a8c1822"><td class="mdescLeft">&#160;</td><td class="mdescRight">The drawing phase "xplm_Phase_Airplanes" is deprecated in XP11.50 upwards, but we need it in earlier versions to fake TCAS.  <a href="namespaceXPMP2.html#ad2860526a370d1c9e1467a4d4a8c1822">More...</a><br /></td></tr>
+<tr class="separator:ad2860526a370d1c9e1467a4d4a8c1822"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad05deda16b7834483c1a6dd64e00bd0a"><td class="memItemLeft" align="right" valign="top">XPLMFlightLoopID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ad05deda16b7834483c1a6dd64e00bd0a">gFlightLoopID</a> = nullptr</td></tr>
 <tr class="memdesc:ad05deda16b7834483c1a6dd64e00bd0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The id of our flight loop callback.  <a href="namespaceXPMP2.html#ad05deda16b7834483c1a6dd64e00bd0a">More...</a><br /></td></tr>
 <tr class="separator:ad05deda16b7834483c1a6dd64e00bd0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1279,6 +1285,43 @@ the full integer value </td></tr>
 </div><div class="memdoc">
 
 <p>Clears the key (mode_s) of the TCAS target dataRefs. </p>
+
+</div>
+</div>
+<a id="a5680dd593eb766d25966135f2559f3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5680dd593eb766d25966135f2559f3d4">&#9670;&nbsp;</a></span>AIMultiControlPlaneCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int XPMP2::AIMultiControlPlaneCount </td>
+          <td>(</td>
+          <td class="paramtype">XPLMDrawingPhase&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>inIsBefore</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Callback to toggle aircraft count ("TCAS hack") </p>
+<p>We use AI <a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">Aircraft</a> to simulate TCAS blibs, but we don't want these AI <a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">Aircraft</a> to actually draw. So during aircraft drawing phase we tell X-Plane there are no AI planes, afterwards we put the correct number back </p><dl class="section note"><dt>Note</dt><dd>Only used if TCAS fallback via classic multiplayer dataRefs is active </dd></dl>
 
 </div>
 </div>
@@ -4067,6 +4110,30 @@ template&lt;class T &gt; </div>
 </div><div class="memdoc">
 
 <p>Maximum length of OS error message. </p>
+
+</div>
+</div>
+<a id="ad2860526a370d1c9e1467a4d4a8c1822"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2860526a370d1c9e1467a4d4a8c1822">&#9670;&nbsp;</a></span>XPLM_PHASE_AIRPLANES</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr int XPMP2::XPLM_PHASE_AIRPLANES = 25</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The drawing phase "xplm_Phase_Airplanes" is deprecated in XP11.50 upwards, but we need it in earlier versions to fake TCAS. </p>
 
 </div>
 </div>

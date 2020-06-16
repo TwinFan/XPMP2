@@ -111,7 +111,7 @@ float CSLObj::FetchVertOfsFromObjFile () const
             // we can only read OBJ8 files
             if (std::stol(ln) < 800) {
                 LOG_MSG(logWARN, WARN_OBJ8_ONLY_VERTOFS,
-                        ln.c_str(), path.c_str());
+                        ln.c_str(), StripXPSysDir(path).c_str());
                 return 0.0f;
             }
         }
@@ -139,7 +139,7 @@ float CSLObj::FetchVertOfsFromObjFile () const
     
     // return the proper VERT_OFFSET based on the Y coordinates we have read
     const float vertOfs = min < 0.0f ? -min : -max;
-    LOG_MSG(logDEBUG, "Fetched VERT_OFFSET=%.1f from %s", vertOfs, path.c_str());
+    LOG_MSG(logDEBUG, "Fetched VERT_OFFSET=%.1f from %s", vertOfs, StripXPSysDir(path).c_str());
     return vertOfs;
 }
 
@@ -157,7 +157,7 @@ void CSLObj::Load ()
     
     // Prepare to load the CSL model from the .obj file
     LOG_MSG(logDEBUG, DEBUG_OBJ_LOADING,
-            cslId.c_str(), path.c_str());
+            cslId.c_str(), StripXPSysDir(path).c_str());
     
     // Based on experience it seems XPLMLoadObjectAsync() does not
     // properly support HFS file paths. It just replaces all ':' with '/',
@@ -177,7 +177,7 @@ void CSLObj::Unload ()
         XPLMUnloadObject(xpObj);
         xpObj = NULL;
         xpObjState = OLS_UNAVAIL;
-        LOG_MSG(logDEBUG, DEBUG_OBJ_UNLOADED, cslId.c_str(), path.c_str());
+        LOG_MSG(logDEBUG, DEBUG_OBJ_UNLOADED, cslId.c_str(), StripXPSysDir(path).c_str());
     }
 }
 
@@ -214,7 +214,7 @@ void CSLObj::XPObjLoadedCB (XPLMObjectRef inObject,
                     iter->xpObj      = inObject;
                     iter->xpObjState = OLS_AVAILABLE;
                     LOG_MSG(logDEBUG, DEBUG_OBJ_LOADED,
-                            iter->cslId.c_str(), iter->path.c_str());
+                            iter->cslId.c_str(), StripXPSysDir(iter->path).c_str());
                 }
                 // Loading of CSL object failed! -> remove the entire CSL model
                 // so we don't try again and don't use it in matching
@@ -240,7 +240,7 @@ void CSLObj::Invalidate ()
 {
     xpObj       = NULL;
     xpObjState  = OLS_INVALID;
-    LOG_MSG(logERR, ERR_OBJ_NOT_LOADED, cslId.c_str(), path.c_str());
+    LOG_MSG(logERR, ERR_OBJ_NOT_LOADED, cslId.c_str(), StripXPSysDir(path).c_str());
 }
 
 //
@@ -501,7 +501,7 @@ std::string CSLModelsConvPackagePath (const std::string& pkgPath,
             return pkgPath;
         else
         {
-            LOG_MSG(logERR, ERR_PKG_NAME_INVALID, lnNr, pkgPath.c_str());
+            LOG_MSG(logERR, ERR_PKG_NAME_INVALID, lnNr, StripXPSysDir(pkgPath).c_str());
             return "";
         }
     }
@@ -510,7 +510,7 @@ std::string CSLModelsConvPackagePath (const std::string& pkgPath,
     const std::string pkg(pkgPath.substr(0,pos));
     const auto pkgIter = glob.mapCSLPkgs.find(pkg);
     if (pkgIter == glob.mapCSLPkgs.cend()) {
-        LOG_MSG(logERR, ERR_PKG_UNKNOWN, lnNr, pkg.c_str(), pkgPath.c_str());
+        LOG_MSG(logERR, ERR_PKG_UNKNOWN, lnNr, pkg.c_str(), StripXPSysDir(pkgPath).c_str());
         return "";
     }
     
@@ -533,7 +533,7 @@ std::string CSLModelsConvPackagePath (const std::string& pkgPath,
     // We do check here already if that target really exists
     if (!ExistsFile(TOPOSIX(path))) {
         LOG_MSG(logERR, ERR_OBJ_FILE_NOT_FOUND, lnNr,
-                pkgPath.c_str(), path.c_str());
+                StripXPSysDir(pkgPath).c_str(), StripXPSysDir(path).c_str());
         return "";
     }
     
@@ -589,7 +589,7 @@ const char* CSLModelsReadPkgId (const std::string& path)
             auto p = glob.mapCSLPkgs.insert(std::make_pair(tokens[1], path + XPLMGetDirectorySeparator()[0]));
             if (!p.second) {                // not inserted, ie. package name existed already?
                 LOG_MSG(logWARN, WARN_DUP_PKG_NAME,
-                        tokens[1].c_str(), path.c_str(),
+                        tokens[1].c_str(), StripXPSysDir(path).c_str(),
                         p.first->second.c_str());
             } else {
                 LOG_MSG(logDEBUG, "Added package '%s' from %s",

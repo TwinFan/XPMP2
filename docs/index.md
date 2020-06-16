@@ -23,13 +23,12 @@ Content and availability status:
 
 ## Requirements ##
 
-- XPMP2 implements [instancing](https://developer.x-plane.com/sdk/XPLMInstance/),
-  so it **requires X-Plane 11.10** or later
-- TCAS is provided using [TCAS Override](https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/),
-  which became available with **X-Plane 11.50 Beta 8** only.
-  In earlier versions TCAS cannot be activated and the error message
-  "TCAS requires XP11.50b8 or later" is returned.
-- CSL models in **OBJ8 format**
+  - XPMP2 implements [instancing](https://developer.x-plane.com/sdk/XPLMInstance/),
+    so it **requires X-Plane 11.10** or later
+  - CSL models in **OBJ8 format** (ie. older OBJ7 models are no longer supported)
+  - Coversion of CSL model packages with
+    [CSL2XSB.py](https://github.com/TwinFan/CSL2XSB/releases) is strongly recommended
+    to unlock more model features, though not stricly required.
 
 ## Feature Details ##
 

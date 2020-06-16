@@ -45,11 +45,10 @@ Expected folder structure of the installation:
 
 ## Binaries and Header Files ##
 
-You don't need to build the library yourself if you don't want. Binaries
-are included in `XPMP2-Sample/lib` and should be failry recent
-(though not guaranteed to reflect every latest code change).
-
-Take public header files from the `inc` folder.
+You don't need to build the library yourself if you don't want.
+Archives with headers and release/debug builds are available in the
+[Release section](https://github.com/TwinFan/XPMP2/releases)
+here on GitHub.
 
 ## Anatomy of Your Plugin using XPMP2 ##
 
@@ -63,7 +62,8 @@ Generically you should probably use XPMP2 as follows:
   - Create new aircraft by creating new objects of _your_ aircraft class,
     which derives from [`XPMP2::Aircraft`](html/classXPMP2_1_1Aircraft.html)
   - Remove aircraft by deleting that object
-- `XPluginDisable`: Shut down XPMP2 properly using
+- `XPluginDisable`:
+  - Remove all your remaining aircraft, then call
   - `XPMPMultiplayerDisable` and
   - `XPMPMultiplayerCleanup`
 
@@ -76,12 +76,13 @@ See the `SampleAircraft` class defined in `XPMP2-Sample/XPMP2-Sample.cpp`
 for an example implementation.
 
 In your class, override the abstract function `UpdatePosition()` and
-directly write into the object's member variables
-- to provide current position, orientation
-  - directly into `drawInfo` or
-  - indirectly via a call to `SetLocation()`, and
-- to provide plane configuration details in the `v` array using the elements of
-  `enum DR_VALS` as indexes.
+- provide current position and orientation
+  - via a call to `SetLocation()`, or
+  - by writing directly into `drawInfo`;
+- provide plane configuration details
+  - calling the many `Get`/`Set` member functions as needed, or
+  - writing directly into the `v` array
+    using the elements of `enum DR_VALS` as indexes.
 
 This way minimises the number of copy operations needed. `drawInfo` and the `v` array
 are _directly_ passed on to the `XPLMInstanceSetPosition` call.

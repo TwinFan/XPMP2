@@ -50,6 +50,7 @@ constexpr int M_per_NM      = 1852;     // meter per one nautical mile
 /// The dataRefs provided by XPMP2 to the CSL models
 enum DR_VALS {
     V_CONTROLS_GEAR_RATIO = 0,                  ///< `libxplanemp/controls/gear_ratio` and \n`sim/cockpit2/tcas/targets/position/gear_deploy`
+    V_CONTROLS_NWS_RATIO,                       ///< `libxplanemp/controls/nws_ratio`, the nose wheel angle, actually in degrees
     V_CONTROLS_FLAP_RATIO,                      ///< `libxplanemp/controls/flap_ratio` and \n`sim/cockpit2/tcas/targets/position/flap_ratio` and `...flap_ratio2`
     V_CONTROLS_SPOILER_RATIO,                   ///< `libxplanemp/controls/spoiler_ratio`
     V_CONTROLS_SPEED_BRAKE_RATIO,               ///< `libxplanemp/controls/speed_brake_ratio` and \n`sim/cockpit2/tcas/targets/position/speedbrake_ratio`
@@ -79,6 +80,20 @@ enum DR_VALS {
     V_ENGINES_PROP_ROTATION_SPEED_RPM,          ///< `libxplanemp/engines/prop_rotation_speed_rpm`
     V_ENGINES_PROP_ROTATION_SPEED_RAD_SEC,      ///< `libxplanemp/engines/prop_rotation_speed_rad_sec`
     V_ENGINES_THRUST_REVERSER_DEPLOY_RATIO,     ///< `libxplanemp/engines/thrust_reverser_deploy_ratio`
+    
+    V_ENGINES_ENGINE_ROTATION_ANGLE_DEG1,       ///< `libxplanemp/engines/engine_rotation_angle_deg1`
+    V_ENGINES_ENGINE_ROTATION_ANGLE_DEG2,       ///< `libxplanemp/engines/engine_rotation_angle_deg2`
+    V_ENGINES_ENGINE_ROTATION_ANGLE_DEG3,       ///< `libxplanemp/engines/engine_rotation_angle_deg3`
+    V_ENGINES_ENGINE_ROTATION_ANGLE_DEG4,       ///< `libxplanemp/engines/engine_rotation_angle_deg4`
+    V_ENGINES_ENGINE_ROTATION_SPEED_RPM1,       ///< `libxplanemp/engines/engine_rotation_speed_rpm1`
+    V_ENGINES_ENGINE_ROTATION_SPEED_RPM2,       ///< `libxplanemp/engines/engine_rotation_speed_rpm2`
+    V_ENGINES_ENGINE_ROTATION_SPEED_RPM3,       ///< `libxplanemp/engines/engine_rotation_speed_rpm3`
+    V_ENGINES_ENGINE_ROTATION_SPEED_RPM4,       ///< `libxplanemp/engines/engine_rotation_speed_rpm4`
+    V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC1,   ///< `libxplanemp/engines/engine_rotation_speed_rad_sec1`
+    V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC2,   ///< `libxplanemp/engines/engine_rotation_speed_rad_sec2`
+    V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC3,   ///< `libxplanemp/engines/engine_rotation_speed_rad_sec3`
+    V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC4,   ///< `libxplanemp/engines/engine_rotation_speed_rad_sec4`
+
     
     V_MISC_TOUCH_DOWN,                          ///< `libxplanemp/misc/touch_down`
     
@@ -290,6 +305,8 @@ public:
     // --- Getters and Setters for the values in the `v` array ---
     float GetGearRatio () const          { return v[V_CONTROLS_GEAR_RATIO]; }           ///< Gear deploy ratio
     void  SetGearRatio (float _f)        { v[V_CONTROLS_GEAR_RATIO] = _f;   }           ///< Gear deploy ratio
+    float GetNoseWheelAngle () const     { return v[V_CONTROLS_NWS_RATIO]; }            ///< Nose Wheel angle in degrees
+    void  SetNoseWheelAngle (float _f)   { v[V_CONTROLS_NWS_RATIO] = _f;   }            ///< Nose Wheel angle in degrees
     float GetFlapRatio () const          { return v[V_CONTROLS_FLAP_RATIO]; }           ///< Flaps deploy ratio
     void  SetFlapRatio (float _f)        { v[V_CONTROLS_FLAP_RATIO] = _f;   }           ///< Flaps deploy ratio
     float GetSpoilerRatio () const       { return v[V_CONTROLS_SPOILER_RATIO]; }        ///< Spoilers deploy ratio
@@ -333,14 +350,22 @@ public:
     void  SetTireRotRad (float _rad)     { v[V_GEAR_TIRE_ROTATION_SPEED_RAD_SEC] = _rad;    ///< Tire rotation speed [rad/s], also sets [rpm]
                                            v[V_GEAR_TIRE_ROTATION_SPEED_RPM] = _rad / RPM_to_RADs; }
     
-    float GetEngineRotAngle () const     { return v[V_ENGINES_ENGINE_ROTATION_ANGLE_DEG]; }      ///< Engine rotation angle [degree]
-    void  SetEngineRotAngle (float _deg) { v[V_ENGINES_ENGINE_ROTATION_ANGLE_DEG] = _deg; }      ///< Engine rotation angle [degree]
-    float GetEngineRotRpm () const       { return v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM]; }      ///< Engine rotation speed [rpm]
-    void  SetEngineRotRpm (float _rpm)   { v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM] = _rpm;        ///< Engine rotation speed [rpm], also sets [rad/s]
-                                           v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC] = _rpm * RPM_to_RADs; }
-    float GetEngineRotRad () const       { return v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC]; }  ///< Engine rotation speed [rad/s]
-    void  SetEngineRotRad (float _rad)   { v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC] = _rad;    ///< Engine rotation speed [rad/s], also sets [rpm]
-                                           v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM] = _rad / RPM_to_RADs; }
+    float GetEngineRotAngle () const     { return v[V_ENGINES_ENGINE_ROTATION_ANGLE_DEG]; }     ///< Engine rotation angle [degree]
+    void  SetEngineRotAngle (float _deg);                                                       ///< Engine rotation angle [degree], also sets engines 1..4
+    float GetEngineRotRpm () const       { return v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM]; }     ///< Engine rotation speed [rpm]
+    void  SetEngineRotRpm (float _rpm);                                                         ///< Engine rotation speed [rpm], also sets [rad/s] and engines 1..4
+    float GetEngineRotRad () const       { return v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC]; } ///< Engine rotation speed [rad/s]
+    void  SetEngineRotRad (float _rad);                                                         ///< Engine rotation speed [rad/s], also sets [rpm] and engines 1..4
+    
+    float GetEngineRotAngle (size_t idx) const              ///< Engine rotation angle [degree] for engine `idx` (1..4)
+    { return 1 <= idx && idx <= 4 ? v[V_ENGINES_ENGINE_ROTATION_ANGLE_DEG1+idx-1] : 0.0f; }
+    void  SetEngineRotAngle (size_t idx, float _deg);       ///< Engine rotation angle [degree] for engine `idx` (1..4)
+    float GetEngineRotRpm (size_t idx) const                ///< Engine rotation speed [rpm] for engine `idx` (1..4)
+    { return 1 <= idx && idx <= 4 ? v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM1+idx-1] : 0.0f; }
+    void  SetEngineRotRpm (size_t idx, float _rpm);         ///< Engine rotation speed [rpm] for engine `idx` (1..4), also sets [rad/s]
+    float GetEngineRotRad (size_t idx) const                ///< Engine rotation speed [rad/s] for engine `idx` (1..4)
+    { return 1 <= idx && idx <= 4 ? v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC+idx-1] : 0.0f; }
+    void  SetEngineRotRad (size_t idx, float _rad);         ///< Engine rotation speed [rad/s] for engine `idx` (1..4), also sets [rpm]
 
     float GetPropRotAngle () const       { return v[V_ENGINES_PROP_ROTATION_ANGLE_DEG]; }      ///< Propellor rotation angle [degree]
     void  SetPropRotAngle (float _deg)   { v[V_ENGINES_PROP_ROTATION_ANGLE_DEG] = _deg; }      ///< Propellor rotation angle [degree]

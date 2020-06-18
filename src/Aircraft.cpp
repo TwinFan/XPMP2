@@ -56,6 +56,7 @@ XPLMFlightLoopID gFlightLoopID = nullptr;
 /// @details Can be extended by the user
 std::vector<const char*> DR_NAMES = {
     "libxplanemp/controls/gear_ratio",
+    "libxplanemp/controls/nws_ratio",
     "libxplanemp/controls/flap_ratio",
     "libxplanemp/controls/spoiler_ratio",
     "libxplanemp/controls/speed_brake_ratio",
@@ -86,6 +87,19 @@ std::vector<const char*> DR_NAMES = {
     "libxplanemp/engines/prop_rotation_speed_rad_sec",
     "libxplanemp/engines/thrust_reverser_deploy_ratio",
     
+    "libxplanemp/engines/engine_rotation_angle_deg1",       // support for individual control of different engines
+    "libxplanemp/engines/engine_rotation_angle_deg2",
+    "libxplanemp/engines/engine_rotation_angle_deg3",
+    "libxplanemp/engines/engine_rotation_angle_deg4",
+    "libxplanemp/engines/engine_rotation_speed_rpm1",
+    "libxplanemp/engines/engine_rotation_speed_rpm2",
+    "libxplanemp/engines/engine_rotation_speed_rpm3",
+    "libxplanemp/engines/engine_rotation_speed_rpm4",
+    "libxplanemp/engines/engine_rotation_speed_rad_sec1",
+    "libxplanemp/engines/engine_rotation_speed_rad_sec2",
+    "libxplanemp/engines/engine_rotation_speed_rad_sec3",
+    "libxplanemp/engines/engine_rotation_speed_rad_sec4",
+
     "libxplanemp/misc/touch_down",
     
     // always last, marks the end in the call to XPLMCreateInstace:
@@ -500,6 +514,88 @@ void Aircraft::GetLocation (double& lat, double& lon, double& alt_ft) const
     alt_ft /= M_per_FT;
 }
 
+// Engine rotation angle [degree]
+void  Aircraft::SetEngineRotAngle (float _deg)
+{
+    v[V_ENGINES_ENGINE_ROTATION_ANGLE_DEG] =
+    v[V_ENGINES_ENGINE_ROTATION_ANGLE_DEG1] =
+    v[V_ENGINES_ENGINE_ROTATION_ANGLE_DEG2] =
+    v[V_ENGINES_ENGINE_ROTATION_ANGLE_DEG3] =
+    v[V_ENGINES_ENGINE_ROTATION_ANGLE_DEG4] = _deg;
+}
+
+// Engine rotation speed [rpm], also sets [rad/s]
+void  Aircraft::SetEngineRotRpm (float _rpm)
+{
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM] =
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM1] =
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM2] =
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM3] =
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM4] = _rpm;
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC] =
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC1] =
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC2] =
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC3] =
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC4] = _rpm * RPM_to_RADs;
+}
+
+// Engine rotation speed [rad/s], also sets [rpm]
+void  Aircraft::SetEngineRotRad (float _rad)
+{
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC] =
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC1] =
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC2] =
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC3] =
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC4] = _rad;
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM] =
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM1] =
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM2] =
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM3] =
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM4] = _rad / RPM_to_RADs;
+}
+
+// Engine rotation angle [degree] for engine `idx` (1..4)
+void  Aircraft::SetEngineRotAngle (size_t idx, float _deg)
+{
+    if (idx < 1 || idx > 4) return;
+    v[V_ENGINES_ENGINE_ROTATION_ANGLE_DEG1+idx-1] = _deg;
+    // for backwards compatibility we also set the generic dataRef
+    if (idx == 1)
+        v[V_ENGINES_ENGINE_ROTATION_ANGLE_DEG] = _deg;
+}
+
+// Engine rotation speed [rpm] for engine `idx` (1..4), also sets [rad/s]
+void  Aircraft::SetEngineRotRpm (size_t idx, float _rpm)
+{
+    if (idx < 1 || idx > 4) return;
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM1+idx-1]       = _rpm;
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC1+idx-1]   = _rpm * RPM_to_RADs;
+    // for backwards compatibility we also set the generic dataRef
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM] = std::max({
+        v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM1],
+        v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM2],
+        v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM3],
+        v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM4],
+    });
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC] = v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM] * RPM_to_RADs;
+}
+
+// Engine rotation speed [rad/s] for engine `idx` (1..4), also sets [rpm]
+void  Aircraft::SetEngineRotRad (size_t idx, float _rad)
+{
+    if (idx < 1 || idx > 4) return;
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC1+idx-1]   = _rad;
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM1+idx-1]       = _rad / RPM_to_RADs;
+    // for backwards compatibility we also set the generic dataRef
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC] = std::max({
+        v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC1],
+        v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC2],
+        v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC3],
+        v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC4],
+    });
+    v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM] = v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC] / RPM_to_RADs;
+}
+
 // Mark the plane invalid, e.g. after exceptions occured on the data
 void Aircraft::SetInvalid()
 {
@@ -684,6 +780,12 @@ static int obj_get_float_array(
 // Initialize the module
 void AcInit ()
 {
+    // as long as no additional dataRefs are defined we can validate
+    // the the internal dataRef definitions match up with the DR_VALS enums:
+    if (drStrings.empty()) {
+        LOG_ASSERT(DR_NAMES.size()-1 == V_COUNT);
+    }
+    
     // Register all our dataRefs
     if (ahDataRefs.empty()) {
         ahDataRefs.reserve(DR_NAMES.size()-1);

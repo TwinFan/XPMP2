@@ -79,8 +79,8 @@
 
 /// @see https://forums.x-plane.org/index.php?/files/file/37041-bluebell-obj8-csl-packages/ for the Bluebell package, which includes the models named here
 std::string PLANE_MODEL[3][3] = {
-    { "B06",  "TXB", "" },
     { "DH8A", "BER", "" },
+    { "B06",  "TXB", "" },
     { "A321", "", "" },         // Not specifying the airline means: XPMP2 will randomly take any airline's model - with every switch of models
 };
 
@@ -307,6 +307,7 @@ public:
         // This fills a large array of float values:
         const float r = GetTimeUpDown();        // a value between 0 and 1
         SetGearRatio(r);
+        SetNoseWheelAngle(r * 180.0f - 90.0f);  // turn nose wheel -90°..+90°
         SetFlapRatio(r);
         SetSpoilerRatio(r);
         SetSpeedbrakeRatio(r);
@@ -330,13 +331,21 @@ public:
         SetTireRotRpm(0.0f);                    // also sets the rad/s value!
 
         // For simplicity, we keep engine and prop rotation identical...probably unrealistic
-        SetEngineRotRpm(PLANE_PROP_RPM);        // also sets the rad/s value!
+        SetEngineRotRpm(1,PLANE_PROP_RPM);        // also sets the rad/s value!
+        // 2nd engine shall turn 4 times slower...
+        SetEngineRotRpm(2,PLANE_PROP_RPM/4);      // also sets the rad/s value!
+
         SetPropRotRpm(PLANE_PROP_RPM);          // also sets the rad/s value!
         
         // Current position of engine / prop: keeps turning as per engine/prop speed:
-        const float deg = std::fmod(PLANE_PROP_RPM * PLANE_CIRCLE_TIME_MIN * GetTimeFragment() * 360.0f,
-                                    360.0f);
-        SetEngineRotAngle(deg);
+        float deg = std::fmod(PLANE_PROP_RPM * PLANE_CIRCLE_TIME_MIN * GetTimeFragment() * 360.0f,
+                              360.0f);
+        SetEngineRotAngle(1,deg);
+        // 2nd engine shall turn 4 times slower...
+        deg = std::fmod(PLANE_PROP_RPM/4 * PLANE_CIRCLE_TIME_MIN * GetTimeFragment() * 360.0f,
+                        360.0f);
+        SetEngineRotAngle(2,deg);
+        
         SetPropRotAngle(deg);
 
         // no reversers and no moment of touch-down in flight

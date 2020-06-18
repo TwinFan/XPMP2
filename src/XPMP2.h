@@ -48,6 +48,7 @@
 #include <string>
 #include <list>
 #include <map>
+#include <array>
 #include <vector>
 #include <valarray>
 #include <algorithm>

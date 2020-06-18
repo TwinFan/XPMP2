@@ -29,7 +29,7 @@
 
 #include <stdexcept>
 #include <string>
-#include <array>
+#include <vector>
 #include <list>
 
 //
@@ -82,7 +82,7 @@ enum DR_VALS {
     
     V_MISC_TOUCH_DOWN,                          ///< `libxplanemp/misc/touch_down`
     
-    V_COUNT                                     ///< always last, number of dataRefs supported
+    V_COUNT                                     ///< always last, number of dataRefs XPMP2 pre-defines
 };
 
 /// @brief Actual representation of all aircraft in XPMP2.
@@ -110,9 +110,13 @@ public:
     XPLMDrawInfo_t drawInfo;
     
     /// @brief actual dataRef values to be provided to the CSL model
-    /// @details Combined with the indexes (see `DR_VALS`) this should be the primary location
-    ///          of maintaining current aircraft parameters to avoid copy operations per drawing frame
-    std::array<float,V_COUNT> v;
+    /// @details XPMP2 provides a minimum set of dataRefs and also getter/setter
+    ///          member functions, see below. This is the one place where
+    ///          current dataRef values are stored. This array is passed on
+    ///          _directly_ to the XP instance.\n
+    ///          The size of the vector can increase if adding user-defined
+    ///          dataRefs through XPMPAddModelDataRef().
+    std::vector<float> v;
     
     /// aircraft label shown in the 3D world next to the plane
     std::string label;

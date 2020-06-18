@@ -40,14 +40,21 @@ using namespace XPMP2;
 #define INFO_MODEL_CHANGE       "Aircraft 0x%06X: Changing model from %s to %s"
 #define ERR_YPROBE              "Aircraft 0x%06X: Could not create Y-Probe for terrain testing!"
 #define ERR_SET_INVALID         "Aircraft 0x%06X set INVALID"
+#define WARN_PLANES_LEFT_EXIT   "Still %lu aircaft defined during shutdown! Plugin should destroy them prior to shutting down."
+#define ERR_ADD_DATAREF_INIT    "Could not add dataRef %s, XPMP2 not yet initialized?"
+#define ERR_ADD_DATAREF_PLANES  "Could add dataRef %s only if no aircraft are flying, but currently there are %lu aircraft."
+#define DEBUG_DATAREF_ADDED     "Added dataRef %s as index %lu"
 
 namespace XPMP2 {
 
 /// The id of our flight loop callback
 XPLMFlightLoopID gFlightLoopID = nullptr;
 
-/// The list of dataRefs we support to be read by the CSL Model (for gear, flaps, lights etc.)
-const char * DR_NAMES[] = {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+/// @brief The list of dataRefs we support to be read by the CSL Model (for gear, flaps, lights etc.)
+/// @details Can be extended by the user
+std::vector<const char*> DR_NAMES = {
     "libxplanemp/controls/gear_ratio",
     "libxplanemp/controls/flap_ratio",
     "libxplanemp/controls/spoiler_ratio",
@@ -85,12 +92,14 @@ const char * DR_NAMES[] = {
     nullptr
 };
 
-/// How many dataRefs have been defined?
-constexpr int DR_NAMES_COUNT = sizeof(DR_NAMES)/sizeof(DR_NAMES[0]) - 1;
-static_assert(DR_NAMES_COUNT == V_COUNT, "Number of dataRef strings does not match number of enums and array length of `Aircraft::v");
+/// Here we store the dataRef strings as smart pointers,
+/// so that the pointed-to location will not change but we can easily manage them
+std::vector<std::unique_ptr<std::string> > drStrings;
 
-/// Registered dataRefs (only the first element is guaranteed to be zero, but that's sufficient)
-XPLMDataRef ahDataRefs[DR_NAMES_COUNT] = {0};
+/// Registered dataRefs
+std::vector<XPLMDataRef> ahDataRefs;
+#pragma clang diagnostic pop
+
 
 //
 // MARK: XPMP2 New Definitions
@@ -103,7 +112,9 @@ Aircraft::Aircraft(const std::string& _icaoType,
                    XPMPPlaneID _modeS_id,
                    const std::string& _modelName) :
 modeS_id(_modeS_id ? _modeS_id : glob.NextPlaneId()),    // assign the next synthetic plane id
-drawInfo({sizeof(drawInfo), 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f})
+drawInfo({sizeof(drawInfo), 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}),
+// create an approrpiately sized 'v' array and initialize with zeroes
+v(DR_NAMES.size(), 0.0f)
 {
     // Verify uniqueness of modeS if defined by caller
     if (_modeS_id) {
@@ -433,7 +444,7 @@ bool Aircraft::CreateInstances ()
     for (XPLMObjectRef hObj: listObj) {
         // Create a (new) instance of this CSL Model object,
         // registering all the dataRef names we support
-        XPLMInstanceRef hInst = XPLMCreateInstance (hObj, DR_NAMES);
+        XPLMInstanceRef hInst = XPLMCreateInstance (hObj, DR_NAMES.data());
         
         // Didn't work???
         if (!hInst) {
@@ -607,39 +618,36 @@ void XPCAircraft::UpdatePosition(float, int)
     }
     
     if (GetPlaneSurfaces(&acSurfaces) == xpmpData_NewData) {
-        v[V_CONTROLS_GEAR_RATIO                  ] = acSurfaces.gearPosition;
-        v[V_CONTROLS_FLAP_RATIO                  ] = acSurfaces.flapRatio;
-        v[V_CONTROLS_SPOILER_RATIO               ] = acSurfaces.spoilerRatio;
-        v[V_CONTROLS_SPEED_BRAKE_RATIO           ] = acSurfaces.speedBrakeRatio;
-        v[V_CONTROLS_SLAT_RATIO                  ] = acSurfaces.slatRatio;
-        v[V_CONTROLS_WING_SWEEP_RATIO            ] = acSurfaces.wingSweep;
-        v[V_CONTROLS_THRUST_RATIO                ] = acSurfaces.thrust;
-        v[V_CONTROLS_YOKE_PITCH_RATIO            ] = acSurfaces.yokePitch;
-        v[V_CONTROLS_YOKE_HEADING_RATIO          ] = acSurfaces.yokeHeading;
-        v[V_CONTROLS_YOKE_ROLL_RATIO             ] = acSurfaces.yokeRoll;
-        v[V_CONTROLS_THRUST_REVERS               ] = acSurfaces.thrust < 0.0f ? 1.0f : 0.0f;
+        SetGearRatio            (acSurfaces.gearPosition);
+        SetFlapRatio            (acSurfaces.flapRatio);
+        SetSpoilerRatio         (acSurfaces.spoilerRatio);
+        SetSpeedbrakeRatio      (acSurfaces.speedBrakeRatio);
+        SetSlatRatio            (acSurfaces.slatRatio);
+        SetWingSweepRatio       (acSurfaces.wingSweep);
+        SetThrustRatio          (acSurfaces.thrust);
+        SetYokePitchRatio       (acSurfaces.yokePitch);
+        SetYokeHeadingRatio     (acSurfaces.yokeHeading);
+        SetYokeRollRatio        (acSurfaces.yokeRoll);
+        SetThrustReversRatio    (acSurfaces.thrust < 0.0f ? 1.0f : 0.0f);
         
-        v[V_CONTROLS_TAXI_LITES_ON               ] = (float)acSurfaces.lights.taxiLights;
-        v[V_CONTROLS_LANDING_LITES_ON            ] = (float)acSurfaces.lights.landLights;
-        v[V_CONTROLS_BEACON_LITES_ON             ] = (float)acSurfaces.lights.bcnLights;
-        v[V_CONTROLS_STROBE_LITES_ON             ] = (float)acSurfaces.lights.strbLights;
-        v[V_CONTROLS_NAV_LITES_ON                ] = (float)acSurfaces.lights.navLights;
-        v[V_CONTROLS_TAXI_LITES_ON               ] = (float)acSurfaces.lights.taxiLights;
+        SetLightsTaxi           (acSurfaces.lights.taxiLights);
+        SetLightsLanding        (acSurfaces.lights.landLights);
+        SetLightsBeacon         (acSurfaces.lights.bcnLights);
+        SetLightsStrobe         (acSurfaces.lights.strbLights);
+        SetLightsNav            (acSurfaces.lights.navLights);
         
-        v[V_GEAR_TIRE_VERTICAL_DEFLECTION_MTR    ] = acSurfaces.tireDeflect;
-        v[V_GEAR_TIRE_ROTATION_ANGLE_DEG         ] = acSurfaces.tireRotDegree;
-        v[V_GEAR_TIRE_ROTATION_SPEED_RPM         ] = acSurfaces.tireRotRpm;
-        v[V_GEAR_TIRE_ROTATION_SPEED_RAD_SEC     ] = acSurfaces.tireRotRpm * RPM_to_RADs;
+        SetTireDeflection       (acSurfaces.tireDeflect);
+        SetTireRotAngle         (acSurfaces.tireRotDegree);
+        SetTireRotRpm           (acSurfaces.tireRotRpm);
         
-        v[V_ENGINES_ENGINE_ROTATION_ANGLE_DEG    ] = acSurfaces.engRotDegree;
-        v[V_ENGINES_ENGINE_ROTATION_SPEED_RPM    ] = acSurfaces.engRotRpm;
-        v[V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC] = acSurfaces.engRotRpm * RPM_to_RADs;
-        v[V_ENGINES_PROP_ROTATION_ANGLE_DEG      ] = acSurfaces.propRotDegree;
-        v[V_ENGINES_PROP_ROTATION_SPEED_RPM      ] = acSurfaces.propRotRpm;
-        v[V_ENGINES_PROP_ROTATION_SPEED_RAD_SEC  ] = acSurfaces.propRotRpm * RPM_to_RADs;
-        v[V_ENGINES_THRUST_REVERSER_DEPLOY_RATIO ] = acSurfaces.reversRatio;
+        SetEngineRotAngle       (acSurfaces.engRotDegree);
+        SetEngineRotRpm         (acSurfaces.engRotRpm);
+        SetPropRotAngle         (acSurfaces.propRotDegree);
+        SetPropRotRpm           (acSurfaces.propRotRpm);
+
+        SetReversDeployRatio    (acSurfaces.reversRatio);
         
-        v[V_MISC_TOUCH_DOWN                      ] = acSurfaces.touchDown ? 1.0f : 0.0f;
+        SetTouchDown            (acSurfaces.touchDown);
     }
     
     // The following 2 calls provide directly the member variable structures:
@@ -676,28 +684,36 @@ static int obj_get_float_array(
 // Initialize the module
 void AcInit ()
 {
-    // Register all our dataRefs, if not done already
-    if (!ahDataRefs[0]) {
-        int i = 0;
+    // Register all our dataRefs
+    if (ahDataRefs.empty()) {
+        ahDataRefs.reserve(DR_NAMES.size()-1);
         for (const char* drName: DR_NAMES) {
             if (!drName) break;
-            ahDataRefs[i++] = XPLMRegisterDataAccessor(drName,
-                                                       xplmType_Float|xplmType_FloatArray, 0,
-                                                       NULL, NULL,
-                                                       obj_get_float, NULL,
-                                                       NULL, NULL,
-                                                       NULL, NULL,
-                                                       obj_get_float_array, NULL,
-                                                       NULL, NULL, (void*)drName, NULL);
+            ahDataRefs.push_back(XPLMRegisterDataAccessor(drName,
+                                                          xplmType_Float|xplmType_FloatArray, 0,
+                                                          NULL, NULL,
+                                                          obj_get_float, NULL,
+                                                          NULL, NULL,
+                                                          NULL, NULL,
+                                                          obj_get_float_array, NULL,
+                                                          NULL, NULL, (void*)drName, NULL));
         }
+        
+        // We expect to have one less dataRef handle than strings
+        // because the last string must be nullptr
+        LOG_ASSERT(ahDataRefs.size() == DR_NAMES.size()-1);
     }
 }
 
 // Grace cleanup
 void AcCleanup ()
 {
-    // give all planes a chance to properly clean up
-    glob.mapAc.clear();
+    // We don't own the aircraft! So whatever is left now was not properly
+    // destroyed prior to shutdown
+    if (!glob.mapAc.empty()) {
+        LOG_MSG(logWARN, WARN_PLANES_LEFT_EXIT, glob.mapAc.size());
+        glob.mapAc.clear();
+    }
     
     // Destroy flight loop
     if (gFlightLoopID) {
@@ -709,7 +725,7 @@ void AcCleanup ()
     for (XPLMDataRef dr: ahDataRefs)
         if (dr)
             XPLMUnregisterDataAccessor(dr);
-    memset(ahDataRefs, 0, sizeof(ahDataRefs));
+    ahDataRefs.clear();
 }
 
 // Find aircraft by its plane ID, can return nullptr
@@ -726,3 +742,65 @@ Aircraft* AcFindByID (XPMPPlaneID _id)
 }
 
 }   // namespace XPMP2
+
+//
+// MARK: Global functions outside XPMP2 namespace
+//
+
+// Add a new dataRef
+size_t XPMPAddModelDataRef (const std::string& dataRef)
+{
+    // Sanity check
+    if (dataRef.empty())
+        return 0;
+    
+    // Cannot do if not yet initialized
+    if (ahDataRefs.size() != DR_NAMES.size()-1) {
+        LOG_MSG(logERR, ERR_ADD_DATAREF_INIT, dataRef.c_str())
+        return 0;
+    }
+    
+    // Do we know that dataRef already? -> return its index
+    const auto iter = std::find_if(DR_NAMES.cbegin(),
+                                   DR_NAMES.cend(),
+                                   [&](const char*s){return s && dataRef==s;});
+    if (iter != DR_NAMES.cend())
+        return (size_t)std::distance(DR_NAMES.cbegin(), iter);
+    
+    // Cannot add a new one while planes are active
+    if (!glob.mapAc.empty()) {
+        LOG_MSG(logERR, ERR_ADD_DATAREF_PLANES, dataRef.c_str(), glob.mapAc.size());
+        return 0;
+    }
+    
+    // --- Add the new dataRaf ---
+    
+    // Copy the provided text: This creates a copy of std::string, pointed to by a smart pointer
+    drStrings.emplace_back(std::make_unique<std::string>(dataRef));
+    const char* drName = drStrings.back()->c_str();
+        
+    // The last element of DR_NAMES is always a 'nullptr' as this marks
+    // the end of the list when passed on to XPLMCreateInstance.
+    // We now overwrite with the new dataRef and add instead a new nullptr:
+    LOG_ASSERT(DR_NAMES.back() == nullptr);
+    DR_NAMES.back() = drName;
+    DR_NAMES.push_back(nullptr);
+    
+    // Register this new data accessor with XP
+    ahDataRefs.push_back(XPLMRegisterDataAccessor(drName,
+                                                  xplmType_Float|xplmType_FloatArray, 0,
+                                                  NULL, NULL,
+                                                  obj_get_float, NULL,
+                                                  NULL, NULL,
+                                                  NULL, NULL,
+                                                  obj_get_float_array, NULL,
+                                                  NULL, NULL, (void*)drName, NULL));
+    // We expect to have one less dataRef handle than strings
+    // because the last string must be nullptr
+    LOG_ASSERT(ahDataRefs.size() == DR_NAMES.size()-1);
+
+    // the index of the new dataRef
+    const size_t idx = DR_NAMES.size() - 2;
+    LOG_MSG(logDEBUG, DEBUG_DATAREF_ADDED, drName, idx);
+    return idx;
+}

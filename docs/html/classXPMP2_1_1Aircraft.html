@@ -367,9 +367,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a883ea3e9a9a1cca7debe7755f066e848"><td class="memItemLeft" align="right" valign="top">XPLMDrawInfo_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a883ea3e9a9a1cca7debe7755f066e848">drawInfo</a></td></tr>
 <tr class="memdesc:a883ea3e9a9a1cca7debe7755f066e848"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds position (in local coordinates!) and orientation (pitch, heading roll) of the aircraft.  <a href="classXPMP2_1_1Aircraft.html#a883ea3e9a9a1cca7debe7755f066e848">More...</a><br /></td></tr>
 <tr class="separator:a883ea3e9a9a1cca7debe7755f066e848"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb2ddc7811cc8c1da0e40f9d9924a0ef"><td class="memItemLeft" align="right" valign="top">std::array&lt; float, <a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa3efd8e40f4308bc421015776084f580b">V_COUNT</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#adb2ddc7811cc8c1da0e40f9d9924a0ef">v</a></td></tr>
-<tr class="memdesc:adb2ddc7811cc8c1da0e40f9d9924a0ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">actual dataRef values to be provided to the CSL model  <a href="classXPMP2_1_1Aircraft.html#adb2ddc7811cc8c1da0e40f9d9924a0ef">More...</a><br /></td></tr>
-<tr class="separator:adb2ddc7811cc8c1da0e40f9d9924a0ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c2ccee83b592cd2a7064a380c660c5b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a8c2ccee83b592cd2a7064a380c660c5b">v</a></td></tr>
+<tr class="memdesc:a8c2ccee83b592cd2a7064a380c660c5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">actual dataRef values to be provided to the CSL model  <a href="classXPMP2_1_1Aircraft.html#a8c2ccee83b592cd2a7064a380c660c5b">More...</a><br /></td></tr>
+<tr class="separator:a8c2ccee83b592cd2a7064a380c660c5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a095519667c7a854bc0280cfc7e1e5c3e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a095519667c7a854bc0280cfc7e1e5c3e">label</a></td></tr>
 <tr class="memdesc:a095519667c7a854bc0280cfc7e1e5c3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">aircraft label shown in the 3D world next to the plane  <a href="classXPMP2_1_1Aircraft.html#a095519667c7a854bc0280cfc7e1e5c3e">More...</a><br /></td></tr>
 <tr class="separator:a095519667c7a854bc0280cfc7e1e5c3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -3382,7 +3382,7 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Called right before updating the aircraft's placement in the world. </p>
-<p>Abstract virtual function. Override in derived classes and fill <code>drawInfo</code>, the <code>v</code> array of dataRefs, <code>label</code>, and <code>infoTexts</code> with current values. </p><dl class="section see"><dt>See also</dt><dd>See <a href="https://developer.x-plane.com/sdk/XPLMProcessing/#XPLMFlightLoop_f">XPLMFlightLoop_f</a> for background on the two passed-on parameters: </dd></dl>
+<p>Abstract virtual function. Override in derived classes and fill <code>drawInfo</code>, the <code>v</code> array of dataRefs by calling the <code>Set</code>ters, <code>label</code>, and <code>infoTexts</code> with current values. </p><dl class="section see"><dt>See also</dt><dd>See <a href="https://developer.x-plane.com/sdk/XPLMProcessing/#XPLMFlightLoop_f">XPLMFlightLoop_f</a> for background on the two passed-on parameters: </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">_elapsedSinceLastCall</td><td>The wall time since last call </td></tr>
@@ -3476,25 +3476,6 @@ Friends</h2></td></tr>
 
 <p>The modern way: Use TCAS override and update TCAS targets. </p>
 <dl class="section return"><dt>Returns</dt><dd>Number of TCAS targets produced (incl. user's plane) </dd></dl>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
 
 </div>
 </div>
@@ -4141,20 +4122,21 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="adb2ddc7811cc8c1da0e40f9d9924a0ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adb2ddc7811cc8c1da0e40f9d9924a0ef">&#9670;&nbsp;</a></span>v</h2>
+<a id="a8c2ccee83b592cd2a7064a380c660c5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c2ccee83b592cd2a7064a380c660c5b">&#9670;&nbsp;</a></span>v</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::array&lt;float,<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa3efd8e40f4308bc421015776084f580b">V_COUNT</a>&gt; XPMP2::Aircraft::v</td>
+          <td class="memname">std::vector&lt;float&gt; XPMP2::Aircraft::v</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>actual dataRef values to be provided to the CSL model </p>
-<p>Combined with the indexes (see <code>DR_VALS</code>) this should be the primary location of maintaining current aircraft parameters to avoid copy operations per drawing frame </p>
+<p><a class="el" href="namespaceXPMP2.html">XPMP2</a> provides a minimum set of dataRefs and also getter/setter member functions, see below. This is the one place where current dataRef values are stored. This array is passed on <em>directly</em> to the XP instance.<br  />
+ The size of the vector can increase if adding user-defined dataRefs through <a class="el" href="XPMPMultiplayer_8h.html#ae6d6422ff2e20c4c55c63ec1adb5429c" title="Add a user-defined dataRef to the list of dataRefs supported by every plane.">XPMPAddModelDataRef()</a>. </p>
 
 </div>
 </div>

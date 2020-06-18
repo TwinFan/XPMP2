@@ -213,6 +213,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a2771f775b0da337eb951d48aa41d0a97"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a2771f775b0da337eb951d48aa41d0a97">XPMPIsICAOValid</a> (const char *inICAO)</td></tr>
 <tr class="memdesc:a2771f775b0da337eb951d48aa41d0a97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is <code>inICAO</code> a valid ICAO aircraft type designator?  <a href="XPMPMultiplayer_8h.html#a2771f775b0da337eb951d48aa41d0a97">More...</a><br /></td></tr>
 <tr class="separator:a2771f775b0da337eb951d48aa41d0a97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6d6422ff2e20c4c55c63ec1adb5429c"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#ae6d6422ff2e20c4c55c63ec1adb5429c">XPMPAddModelDataRef</a> (const std::string &amp;dataRef)</td></tr>
+<tr class="memdesc:ae6d6422ff2e20c4c55c63ec1adb5429c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a user-defined dataRef to the list of dataRefs supported by every plane.  <a href="XPMPMultiplayer_8h.html#ae6d6422ff2e20c4c55c63ec1adb5429c">More...</a><br /></td></tr>
+<tr class="separator:ae6d6422ff2e20c4c55c63ec1adb5429c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7eda6bf53ff88d81d11ada9f7eb87ef8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a7eda6bf53ff88d81d11ada9f7eb87ef8">XPMPCreatePlane</a> (const char *inICAOCode, const char *inAirline, const char *inLivery, <a class="el" href="XPMPMultiplayer_8h.html#a6abe0a72e94cb2e1a9fed06bb48cbc5a">XPMPPlaneData_f</a> inDataFunc, void *inRefcon, <a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> inModeS_id=0)</td></tr>
 <tr class="memdesc:a7eda6bf53ff88d81d11ada9f7eb87ef8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new plane.  <a href="XPMPMultiplayer_8h.html#a7eda6bf53ff88d81d11ada9f7eb87ef8">More...</a><br /></td></tr>
 <tr class="separator:a7eda6bf53ff88d81d11ada9f7eb87ef8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1108,6 +1111,30 @@ This enum is only used with deprecated concepts (class <a class="el" href="class
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="ae6d6422ff2e20c4c55c63ec1adb5429c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6d6422ff2e20c4c55c63ec1adb5429c">&#9670;&nbsp;</a></span>XPMPAddModelDataRef()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t XPMPAddModelDataRef </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>dataRef</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a user-defined dataRef to the list of dataRefs supported by every plane. </p>
+<p>All planes created by <a class="el" href="namespaceXPMP2.html">XPMP2</a> define the same set of dataRefs. See <a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266f" title="The dataRefs provided by XPMP2 to the CSL models.">XPMP2::DR_VALS</a> for the definitions that come pre-defined with <a class="el" href="namespaceXPMP2.html">XPMP2</a>. Here you can add more dataRefs that you want to set in your <a class="el" href="classXPMP2_1_1Aircraft.html#a021df5cf849d0bfc7468b84d2ba731e6" title="Called right before updating the aircraft&#39;s placement in the world.">XPMP2::Aircraft::UpdatePosition()</a> implementation. </p><dl class="section return"><dt>Returns</dt><dd>The functions returns the array index you need to use in the <a class="el" href="classXPMP2_1_1Aircraft.html#a8c2ccee83b592cd2a7064a380c660c5b" title="actual dataRef values to be provided to the CSL model">XPMP2::Aircraft::v</a> array to provide the actual value. Or <code>0</code> when the function was called while planes are active. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>There is a duplication check: Adding an already existing dataRef, no matter if XPMP2-predefined or by the plugin will return the already existing index. </dd>
+<dd>
+Can only be called while no plane exists as it influence the size of important data arrays. Returns <code>0</code> if called while planes exist. </dd></dl>
+
+</div>
+</div>
 <a id="a7e546354d777eb3b0e43e14bb1ef88fc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7e546354d777eb3b0e43e14bb1ef88fc">&#9670;&nbsp;</a></span>XPMPChangePlaneModel()</h2>
 

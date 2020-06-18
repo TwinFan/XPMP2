@@ -254,7 +254,8 @@ public:
 
     /// @brief Called right before updating the aircraft's placement in the world
     /// @details Abstract virtual function. Override in derived classes and fill
-    ///          `drawInfo`, the `v` array of dataRefs, `label`, and `infoTexts` with current values.
+    ///          `drawInfo`, the `v` array of dataRefs by calling the `Set`ters,
+    ///          `label`, and `infoTexts` with current values.
     /// @see See [XPLMFlightLoop_f](https://developer.x-plane.com/sdk/XPLMProcessing/#XPLMFlightLoop_f)
     ///      for background on the two passed-on parameters:
     /// @param _elapsedSinceLastCall The wall time since last call

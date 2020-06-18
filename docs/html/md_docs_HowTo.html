@@ -65,8 +65,7 @@ Sample Plugin</h1>
 <div class="line">  win_x64/XPMP2-Sample.xpl</div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md11"></a>
 Binaries and Header Files</h1>
-<p>You don't need to build the library yourself if you don't want. Binaries are included in <code>XPMP2-Sample/lib</code> and should be failry recent (though not guaranteed to reflect every latest code change).</p>
-<p>Take public header files from the <code>inc</code> folder.</p>
+<p>You don't need to build the library yourself if you don't want. Archives with headers and release/debug builds are available in the <a href="https://github.com/TwinFan/XPMP2/releases">Release section</a> here on GitHub.</p>
 <h1><a class="anchor" id="autotoc_md12"></a>
 Anatomy of Your Plugin using XPMP2</h1>
 <p>Generically you should probably use <a class="el" href="namespaceXPMP2.html">XPMP2</a> as follows:</p>
@@ -82,7 +81,8 @@ Anatomy of Your Plugin using XPMP2</h1>
 <li>Remove aircraft by deleting that object</li>
 </ul>
 </li>
-<li><code>XPluginDisable</code>: Shut down <a class="el" href="namespaceXPMP2.html">XPMP2</a> properly using<ul>
+<li><code>XPluginDisable</code>:<ul>
+<li>Remove all your remaining aircraft, then call</li>
 <li><code>XPMPMultiplayerDisable</code> and</li>
 <li><code>XPMPMultiplayerCleanup</code></li>
 </ul>
@@ -92,13 +92,17 @@ Anatomy of Your Plugin using XPMP2</h1>
 Subclass &lt;tt&gt;XPMP2::Aircraft&lt;/tt&gt;</h1>
 <p>New plugin implementations are strongly advised to directly sub-class from the new class <code><a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a></code>, which is the actual aircraft representation.</p>
 <p>See the <code><a class="el" href="classSampleAircraft.html" title="Subclassing XPMP2::Aircraft to create our own class.">SampleAircraft</a></code> class defined in <code><a class="el" href="XPMP2-Sample_8cpp.html" title="Example plugin demonstrating XPMP2 techniques.">XPMP2-Sample/XPMP2-Sample.cpp</a></code> for an example implementation.</p>
-<p>In your class, override the abstract function <code>UpdatePosition()</code> and directly write into the object's member variables</p><ul>
-<li>to provide current position, orientation<ul>
-<li>directly into <code>drawInfo</code> or</li>
-<li>indirectly via a call to <code>SetLocation()</code>, and</li>
+<p>In your class, override the abstract function <code>UpdatePosition()</code> and</p><ul>
+<li>provide current position and orientation<ul>
+<li>via a call to <code>SetLocation()</code>, or</li>
+<li>by writing directly into <code>drawInfo</code>;</li>
 </ul>
 </li>
-<li>to provide plane configuration details in the <code>v</code> array using the elements of <code>enum DR_VALS</code> as indexes.</li>
+<li>provide plane configuration details<ul>
+<li>calling the many <code>Get</code>/<code>Set</code> member functions as needed, or</li>
+<li>writing directly into the <code>v</code> array using the elements of <code>enum DR_VALS</code> as indexes.</li>
+</ul>
+</li>
 </ul>
 <p>This way minimises the number of copy operations needed. <code>drawInfo</code> and the <code>v</code> array are <em>directly</em> passed on to the <code>XPLMInstanceSetPosition</code> call.</p>
 <p>Other values like <code>label</code>, <code>aiPrio</code>, or <code>acInfoTexts</code> can also be updated by your <code>UpdatePosition()</code> implementation and are used when drawing labels or providing information externally like via AI/multiplayer dataRefs. </p>

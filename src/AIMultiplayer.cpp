@@ -315,25 +315,26 @@ size_t AIUpdateTCASTargets ()
     // Arrays we need every frame over and over again, so we keep them static for performance
     #pragma clang diagnostic push
     #pragma clang diagnostic ignored "-Wexit-time-destructors"
-    static std::vector<int>   vModeS;       ///< data array for providing TCAS target values
-    static std::vector<int>   vModeC;       ///< data array for providing TCAS target values
-    static std::vector<float> vX;           ///< data array for providing TCAS target values
-    static std::vector<float> vY;           ///< data array for providing TCAS target values
-    static std::vector<float> vZ;           ///< data array for providing TCAS target values
-    static std::vector<float> vVertSpeed;   ///< data array for providing TCAS target values
-    static std::vector<float> vHeading;     ///< data array for providing TCAS target values
-    static std::vector<float> vPitch;       ///< data array for providing TCAS target values
-    static std::vector<float> vRoll;        ///< data array for providing TCAS target values
-    static std::vector<float> vGear;        ///< data array for providing TCAS target values
-    static std::vector<float> vFlap;        ///< data array for providing TCAS target values
-    static std::vector<float> vSpeedbrake;  ///< data array for providing TCAS target values
-    static std::vector<float> vSlat;        ///< data array for providing TCAS target values
-    static std::vector<float> vWingSweep;   ///< data array for providing TCAS target values
-    static std::vector<float> vThrottle;    ///< data array for providing TCAS target values
-    static std::vector<float> vYokePitch;   ///< data array for providing TCAS target values
-    static std::vector<float> vYokeRoll;    ///< data array for providing TCAS target values
-    static std::vector<float> vYokeYaw;     ///< data array for providing TCAS target values
-    static std::vector<int>   vLights;      ///< data array for providing TCAS target values
+    // data arrays for providing TCAS target values
+    static std::vector<int>   vModeS;      
+    static std::vector<int>   vModeC;      
+    static std::vector<float> vX;          
+    static std::vector<float> vY;          
+    static std::vector<float> vZ;          
+    static std::vector<float> vVertSpeed;  
+    static std::vector<float> vHeading;    
+    static std::vector<float> vPitch;      
+    static std::vector<float> vRoll;       
+    static std::vector<float> vGear;       
+    static std::vector<float> vFlap;       
+    static std::vector<float> vSpeedbrake; 
+    static std::vector<float> vSlat;       
+    static std::vector<float> vWingSweep;  
+    static std::vector<float> vThrottle;   
+    static std::vector<float> vYokePitch;  
+    static std::vector<float> vYokeRoll;   
+    static std::vector<float> vYokeYaw;    
+    static std::vector<int>   vLights;     
     #pragma clang diagnostic pop
 
     // Start filling up TCAS targets, ordered by distance,

@@ -479,15 +479,14 @@ Variables</h2></td></tr>
 <tr class="memitem:ad05deda16b7834483c1a6dd64e00bd0a"><td class="memItemLeft" align="right" valign="top">XPLMFlightLoopID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ad05deda16b7834483c1a6dd64e00bd0a">gFlightLoopID</a> = nullptr</td></tr>
 <tr class="memdesc:ad05deda16b7834483c1a6dd64e00bd0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The id of our flight loop callback.  <a href="namespaceXPMP2.html#ad05deda16b7834483c1a6dd64e00bd0a">More...</a><br /></td></tr>
 <tr class="separator:ad05deda16b7834483c1a6dd64e00bd0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac977337b19d717bda5f177aeec201c5e"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ac977337b19d717bda5f177aeec201c5e">DR_NAMES</a> []</td></tr>
-<tr class="memdesc:ac977337b19d717bda5f177aeec201c5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The list of dataRefs we support to be read by the CSL Model (for gear, flaps, lights etc.)  <a href="namespaceXPMP2.html#ac977337b19d717bda5f177aeec201c5e">More...</a><br /></td></tr>
-<tr class="separator:ac977337b19d717bda5f177aeec201c5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a822ea69356fa4e2becd300e61b9e576a"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a822ea69356fa4e2becd300e61b9e576a">DR_NAMES_COUNT</a> = sizeof(<a class="el" href="namespaceXPMP2.html#ac977337b19d717bda5f177aeec201c5e">DR_NAMES</a>)/sizeof(<a class="el" href="namespaceXPMP2.html#ac977337b19d717bda5f177aeec201c5e">DR_NAMES</a>[0]) - 1</td></tr>
-<tr class="memdesc:a822ea69356fa4e2becd300e61b9e576a"><td class="mdescLeft">&#160;</td><td class="mdescRight">How many dataRefs have been defined?  <a href="namespaceXPMP2.html#a822ea69356fa4e2becd300e61b9e576a">More...</a><br /></td></tr>
-<tr class="separator:a822ea69356fa4e2becd300e61b9e576a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b065825d2d832385a4c4401c900000c"><td class="memItemLeft" align="right" valign="top">XPLMDataRef&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a5b065825d2d832385a4c4401c900000c">ahDataRefs</a> [<a class="el" href="namespaceXPMP2.html#a822ea69356fa4e2becd300e61b9e576a">DR_NAMES_COUNT</a>] = {0}</td></tr>
-<tr class="memdesc:a5b065825d2d832385a4c4401c900000c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registered dataRefs (only the first element is guaranteed to be zero, but that's sufficient)  <a href="namespaceXPMP2.html#a5b065825d2d832385a4c4401c900000c">More...</a><br /></td></tr>
-<tr class="separator:a5b065825d2d832385a4c4401c900000c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abda29cad912c65cc63ff0d74197c0f79"><td class="memItemLeft" align="right" valign="top">std::vector&lt; const char * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#abda29cad912c65cc63ff0d74197c0f79">DR_NAMES</a></td></tr>
+<tr class="memdesc:abda29cad912c65cc63ff0d74197c0f79"><td class="mdescLeft">&#160;</td><td class="mdescRight">The list of dataRefs we support to be read by the CSL Model (for gear, flaps, lights etc.)  <a href="namespaceXPMP2.html#abda29cad912c65cc63ff0d74197c0f79">More...</a><br /></td></tr>
+<tr class="separator:abda29cad912c65cc63ff0d74197c0f79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade6c59f595d1b4bfe93b6172b91b5e33"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::unique_ptr&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ade6c59f595d1b4bfe93b6172b91b5e33">drStrings</a></td></tr>
+<tr class="separator:ade6c59f595d1b4bfe93b6172b91b5e33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d657a6d1c1d533195c3c526f25a762e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; XPLMDataRef &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a3d657a6d1c1d533195c3c526f25a762e">ahDataRefs</a></td></tr>
+<tr class="memdesc:a3d657a6d1c1d533195c3c526f25a762e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registered dataRefs.  <a href="namespaceXPMP2.html#a3d657a6d1c1d533195c3c526f25a762e">More...</a><br /></td></tr>
+<tr class="separator:a3d657a6d1c1d533195c3c526f25a762e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0da9348ac8cf4e1da8c2ec2c031c6228"><td class="memItemLeft" align="right" valign="top">XPLMFlightLoopID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a0da9348ac8cf4e1da8c2ec2c031c6228">gGarbageCollectionID</a> = nullptr</td></tr>
 <tr class="memdesc:a0da9348ac8cf4e1da8c2ec2c031c6228"><td class="mdescLeft">&#160;</td><td class="mdescRight">The ids of our garbage collection flight loop callback.  <a href="namespaceXPMP2.html#a0da9348ac8cf4e1da8c2ec2c031c6228">More...</a><br /></td></tr>
 <tr class="separator:a0da9348ac8cf4e1da8c2ec2c031c6228"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -825,7 +824,7 @@ the full integer value </td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa25cf6c69cb178e853ba81c058f19bb5d"></a>V_MISC_TOUCH_DOWN&#160;</td><td class="fielddoc"><p><code>libxplanemp/misc/touch_down</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa3efd8e40f4308bc421015776084f580b"></a>V_COUNT&#160;</td><td class="fielddoc"><p>always last, number of dataRefs supported </p>
+<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa3efd8e40f4308bc421015776084f580b"></a>V_COUNT&#160;</td><td class="fielddoc"><p>always last, number of dataRefs <a class="el" href="namespaceXPMP2.html">XPMP2</a> pre-defines </p>
 </td></tr>
 </table>
 
@@ -1421,25 +1420,6 @@ the full integer value </td></tr>
 
 <p>The modern way: Use TCAS override and update TCAS targets. </p>
 <dl class="section return"><dt>Returns</dt><dd>Number of TCAS targets produced (incl. user's plane) </dd></dl>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
-<p>&lt; data array for providing TCAS target values</p>
 
 </div>
 </div>
@@ -3515,19 +3495,19 @@ template&lt;class T &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="a5b065825d2d832385a4c4401c900000c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5b065825d2d832385a4c4401c900000c">&#9670;&nbsp;</a></span>ahDataRefs</h2>
+<a id="a3d657a6d1c1d533195c3c526f25a762e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d657a6d1c1d533195c3c526f25a762e">&#9670;&nbsp;</a></span>ahDataRefs</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">XPLMDataRef XPMP2::ahDataRefs[<a class="el" href="namespaceXPMP2.html#a822ea69356fa4e2becd300e61b9e576a">DR_NAMES_COUNT</a>] = {0}</td>
+          <td class="memname">std::vector&lt;XPLMDataRef&gt; XPMP2::ahDataRefs</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Registered dataRefs (only the first element is guaranteed to be zero, but that's sufficient) </p>
+<p>Registered dataRefs. </p>
 
 </div>
 </div>
@@ -3613,43 +3593,35 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a id="ac977337b19d717bda5f177aeec201c5e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac977337b19d717bda5f177aeec201c5e">&#9670;&nbsp;</a></span>DR_NAMES</h2>
+<a id="abda29cad912c65cc63ff0d74197c0f79"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abda29cad912c65cc63ff0d74197c0f79">&#9670;&nbsp;</a></span>DR_NAMES</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const char* XPMP2::DR_NAMES[]</td>
+          <td class="memname">std::vector&lt;const char*&gt; XPMP2::DR_NAMES</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>The list of dataRefs we support to be read by the CSL Model (for gear, flaps, lights etc.) </p>
+<p>Can be extended by the user </p>
 
 </div>
 </div>
-<a id="a822ea69356fa4e2becd300e61b9e576a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a822ea69356fa4e2becd300e61b9e576a">&#9670;&nbsp;</a></span>DR_NAMES_COUNT</h2>
+<a id="ade6c59f595d1b4bfe93b6172b91b5e33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade6c59f595d1b4bfe93b6172b91b5e33">&#9670;&nbsp;</a></span>drStrings</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr int XPMP2::DR_NAMES_COUNT = sizeof(<a class="el" href="namespaceXPMP2.html#ac977337b19d717bda5f177aeec201c5e">DR_NAMES</a>)/sizeof(<a class="el" href="namespaceXPMP2.html#ac977337b19d717bda5f177aeec201c5e">DR_NAMES</a>[0]) - 1</td>
+          <td class="memname">std::vector&lt;std::unique_ptr&lt;std::string&gt; &gt; XPMP2::drStrings</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-
-<p>How many dataRefs have been defined? </p>
+<p>Here we store the dataRef strings as smart pointers, so that the pointed-to location will not change but we can easily manage them </p>
 
 </div>
 </div>

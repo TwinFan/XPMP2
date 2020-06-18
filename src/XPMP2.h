@@ -43,6 +43,7 @@
 #include <sys/stat.h>
 #include <cmath>
 #include <cstdarg>
+#include <cassert>
 
 // Standard C++
 #include <string>

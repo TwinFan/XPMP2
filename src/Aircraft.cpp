@@ -884,7 +884,7 @@ size_t XPMPAddModelDataRef (const std::string& dataRef)
     // The last element of DR_NAMES is always a 'nullptr' as this marks
     // the end of the list when passed on to XPLMCreateInstance.
     // We now overwrite with the new dataRef and add instead a new nullptr:
-    LOG_ASSERT(DR_NAMES.back() == nullptr);
+    assert(DR_NAMES.back() == nullptr);
     DR_NAMES.back() = drName;
     DR_NAMES.push_back(nullptr);
     
@@ -899,7 +899,7 @@ size_t XPMPAddModelDataRef (const std::string& dataRef)
                                                   NULL, NULL, (void*)drName, NULL));
     // We expect to have one less dataRef handle than strings
     // because the last string must be nullptr
-    LOG_ASSERT(ahDataRefs.size() == DR_NAMES.size()-1);
+    assert(ahDataRefs.size() == DR_NAMES.size()-1);
 
     // the index of the new dataRef
     const size_t idx = DR_NAMES.size() - 2;

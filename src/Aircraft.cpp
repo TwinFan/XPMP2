@@ -74,6 +74,7 @@ std::vector<const char*> DR_NAMES = {
     "libxplanemp/controls/strobe_lites_on",
     "libxplanemp/controls/nav_lites_on",
     
+    "libxplanemp/gear/nose_gear_deflection_mtr",
     "libxplanemp/gear/tire_vertical_deflection_mtr",
     "libxplanemp/gear/tire_rotation_angle_deg",
     "libxplanemp/gear/tire_rotation_speed_rpm",

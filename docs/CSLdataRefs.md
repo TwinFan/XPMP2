@@ -49,7 +49,8 @@ dataRef                                         | Getter/Setter             | in
 ----------------------------------------------- | --------------------------| ------------------------------------- | ---------------------------------
 `libxplanemp/controls/gear_ratio`               | `Get/SetGearRatio`        | `V_CONTROLS_GEAR_RATIO`               | Gear deployment ratio, `0..1`
 `libxplanemp/controls/nws_ratio`                | `Get/SetNoseWheelAngle`   | `V_CONTROLS_NWS_RATIO`                | Nose wheel angle, `-180..+180`
-`libxplanemp/gear/tire_vertical_deflection_mtr` | `Get/SetTireDeflection`   | `V_GEAR_TIRE_VERTICAL_DEFLECTION_MTR` | Vertical gear deflection in meters
+`libxplanemp/gear/nose_gear_deflection_mtr` | `Get/SetNoseGearDeflection`   | `V_GEAR_NOSE_GEAR_DEFLECTION_MTR` | Vertical nose gear deflection in meters
+`libxplanemp/gear/tire_vertical_deflection_mtr` | `Get/SetTireDeflection`   | `V_GEAR_TIRE_VERTICAL_DEFLECTION_MTR` | Vertical (main) gear deflection in meters
 `libxplanemp/gear/tire_rotation_angle_deg`      | `Get/SetTireRotAngle`     | `V_GEAR_TIRE_ROTATION_ANGLE_DEG`      | Tire rotation angle, `0..359` degrees
 `libxplanemp/gear/tire_rotation_speed_rpm`      | `Get/SetTireRotRpm`       | `V_GEAR_TIRE_ROTATION_SPEED_RPM`      | Tire rotation speed in revolutions per minute
 `libxplanemp/gear/tire_rotation_speed_rad_sec`  | `Get/SetTireRotRad`       | `V_GEAR_TIRE_ROTATION_SPEED_RAD_SEC`  | Tire rotation speed in radians per second (`= _RPM * PI/30`)

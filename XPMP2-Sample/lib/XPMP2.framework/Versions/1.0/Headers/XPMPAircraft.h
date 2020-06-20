@@ -68,6 +68,7 @@ enum DR_VALS {
     V_CONTROLS_STROBE_LITES_ON,                 ///< `libxplanemp/controls/strobe_lites_on` and \n`sim/cockpit2/tcas/targets/position/lights`
     V_CONTROLS_NAV_LITES_ON,                    ///< `libxplanemp/controls/nav_lites_on` and \n`sim/cockpit2/tcas/targets/position/lights`
     
+    V_GEAR_NOSE_GEAR_DEFLECTION_MTR,            ///< `libxplanemp/gear/nose_gear_deflection_mtr`
     V_GEAR_TIRE_VERTICAL_DEFLECTION_MTR,        ///< `libxplanemp/gear/tire_vertical_deflection_mtr`
     V_GEAR_TIRE_ROTATION_ANGLE_DEG,             ///< `libxplanemp/gear/tire_rotation_angle_deg`
     V_GEAR_TIRE_ROTATION_SPEED_RPM,             ///< `libxplanemp/gear/tire_rotation_speed_rpm`
@@ -339,8 +340,10 @@ public:
     bool  GetLightsNav () const          { return v[V_CONTROLS_NAV_LITES_ON] > 0.5f; }      ///< Navigation lights
     void  SetLightsNav (bool _b)         { v[V_CONTROLS_NAV_LITES_ON] = float(_b);   }      ///< Navigation lights
 
-    float GetTireDeflection () const     { return v[V_GEAR_TIRE_VERTICAL_DEFLECTION_MTR]; } ///< Vertical tire deflection [meter]
-    void  SetTireDeflection (float _mtr) { v[V_GEAR_TIRE_VERTICAL_DEFLECTION_MTR] = _mtr; } ///< Vertical tire deflection [meter]
+    float GetNoseGearDeflection () const { return v[V_GEAR_NOSE_GEAR_DEFLECTION_MTR]; }     ///< Vertical nose gear deflection [meter]
+    void  SetNoseGearDeflection (float _mtr) { v[V_GEAR_NOSE_GEAR_DEFLECTION_MTR] = _mtr; } ///< Vertical nose gear deflection [meter]
+    float GetTireDeflection () const     { return v[V_GEAR_TIRE_VERTICAL_DEFLECTION_MTR]; } ///< Vertical (main) gear deflection [meter]
+    void  SetTireDeflection (float _mtr) { v[V_GEAR_TIRE_VERTICAL_DEFLECTION_MTR] = _mtr; } ///< Vertical (main) gear deflection [meter]
     float GetTireRotAngle () const       { return v[V_GEAR_TIRE_ROTATION_ANGLE_DEG]; }      ///< Tire rotation angle [degree]
     void  SetTireRotAngle (float _deg)   { v[V_GEAR_TIRE_ROTATION_ANGLE_DEG] = _deg; }      ///< Tire rotation angle [degree]
     float GetTireRotRpm () const         { return v[V_GEAR_TIRE_ROTATION_SPEED_RPM]; }      ///< Tire rotation speed [rpm]

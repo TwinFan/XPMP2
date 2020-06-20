@@ -613,7 +613,8 @@ void AIMultiUpdate ()
         if (0 < nTotal && nTotal < (int)numAcToShow)
             vLimits.push_back((size_t)nTotal);
     }
-    vLimits.push_back(numAcToShow);
+    if (numAcToShow > 0)
+        vLimits.push_back(numAcToShow);
 
     // Optimize the aircraft into their slots
     size_t fromSlot = 1;

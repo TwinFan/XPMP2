@@ -124,9 +124,8 @@ in the current `xsb_aircraft.txt` file, but could also be defined in another one
   in the same directory as the `<package_name>`'s `xsb_aircraft.txt` file.
 
 Historically, other parameters than `SOLID YES` were supported,
-but they are no longer needed. Only `OBJ8 SOLID YES` lines are processed
-by XPMP2. The [`CSL2XSB.pl` script](https://github.com/TwinFan/CSL2XSB)
-replaces `OBJ8 GLAS` with `OBJ8 SOLID`.
+but the distinction is no longer needed. In fact, XPMP2 just ignores the
+2nd and 3rd parameter altogether.
 
 ### `VERT_OFFSET`
 
@@ -140,6 +139,17 @@ with gears down.
 If the `VERT_OFFSET` command is missing, then XPMP2 will read the `.obj` file(s)
 searching for the lowest feature defined in it and will use that point as
 the reference for the vertical offset.
+
+### `OFFSET`
+
+```
+OFFSET <unknown> <unknown> <vertical_offset>
+```
+
+The `OFFSET` command appears in PilotEdge packages.
+The meaning of the first two parameters remains a mystery.
+
+The 3rd parameter has the same meaning as `VERT_OFFSET`, see above.
 
 ### `MATCHES` (`ICAO`, `AIRLINE`, `LIVERY`)
 

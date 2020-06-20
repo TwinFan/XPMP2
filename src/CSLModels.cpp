@@ -705,28 +705,26 @@ void AcTxtLine_OBJECT_AIRCRAFT (CSLModel& csl,
 }
 
 /// Process an OBJ8 line of an `xsb_aircraft.txt` file
+/// We don't care what type of object it is (ignoring the 1st parameter)
 void AcTxtLine_OBJ8 (CSLModel& csl,
                      std::vector<std::string>& tokens,
                      int lnNr)
 {
     if (tokens.size() >= 4) {
-        // we only process the SOLID part
-        if (tokens[1] == "SOLID") {
-            // translate the path (replace the package with the full path)
-            std::string path = CSLModelsConvPackagePath(tokens[3], lnNr);
-            if (!path.empty()) {
-                // save the path as an additional object to the model
-                csl.listObj.emplace_back(csl.GetId(), std::move(path));
+        // translate the path (replace the package with the full path)
+        std::string path = CSLModelsConvPackagePath(tokens[3], lnNr);
+        if (!path.empty()) {
+            // save the path as an additional object to the model
+            csl.listObj.emplace_back(csl.GetId(), std::move(path));
 
-                // we can already read the TEXTURE and TEXTURE_LIT paths
-                if (tokens.size() >= 5) {
-                    CSLObj& obj = csl.listObj.back();
-                    obj.texture = CSLModelsConvPackagePath(tokens[4], lnNr, true);
-                    if (tokens.size() >= 6)
-                        obj.text_lit = CSLModelsConvPackagePath(tokens[5], lnNr, true);
-                } // TEXTURE available
-            } // Package name valid
-        } // "SOLID"
+            // we can already read the TEXTURE and TEXTURE_LIT paths
+            if (tokens.size() >= 5) {
+                CSLObj& obj = csl.listObj.back();
+                obj.texture = CSLModelsConvPackagePath(tokens[4], lnNr, true);
+                if (tokens.size() >= 6)
+                    obj.text_lit = CSLModelsConvPackagePath(tokens[5], lnNr, true);
+            } // TEXTURE available
+        } // Package name valid
     } // at least 3 params
     else
         LOG_MSG(logERR, ERR_TOO_FEW_PARAM, lnNr, tokens[0].c_str(), 3);
@@ -743,6 +741,21 @@ void AcTxtLine_VERT_OFFSET (CSLModel& csl,
     }
     else
         LOG_MSG(logERR, ERR_TOO_FEW_PARAM, lnNr, tokens[0].c_str(), 1);
+}
+
+/// Process an OFFSET line of a PilotEdge `xsb_aircraft.txt` file,
+/// actually its 3rd parameter only (we still don't know what the first 2 are)
+/// @see http://forums.pilotedge.net/viewtopic.php?f=12&t=7236#p47925
+void AcTxtLine_OFFSET (CSLModel& csl,
+                       std::vector<std::string>& tokens,
+                       int lnNr)
+{
+    if (tokens.size() >= 4) {
+        csl.vertOfs = std::stof(tokens[3]);
+        csl.bVertOfsReadFromFile = false;   // don't need to read OBJ file
+    }
+    else
+        LOG_MSG(logERR, ERR_TOO_FEW_PARAM, lnNr, tokens[0].c_str(), 3);
 }
 
 /// Process an ICAO, AIRLINE, LIVERY, or MATCHES line of an `xsb_aircraft.txt` file
@@ -815,6 +828,10 @@ const char* CSLModelsProcessAcFile (const std::string& path)
         // VERT_OFFSET: Defines the vertical offset of the model, so the wheels correctly touch the ground
         else if (tokens[0] == "VERT_OFFSET")
             AcTxtLine_VERT_OFFSET(csl, tokens, lnNr);
+        
+        // OFFSET: 3rd parameter defines the vertical offset of the model, so the wheels correctly touch the ground
+        else if (tokens[0] == "OFFSET")
+            AcTxtLine_OFFSET(csl, tokens, lnNr);
         
         // The matching parameters will be processed the same way...
         else if (tokens[0] == "ICAO" ||

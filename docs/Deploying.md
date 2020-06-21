@@ -39,6 +39,9 @@ Recommended sources are:
 - Individual models from X-Plane.org's
 [download section "XSB CSL Kits"](https://forums.x-plane.org/index.php?/files/category/12-xsb-csl-kits/)
 
+You may want to refer to
+[LiveTraffic's detailed CSL model installation instructions](https://twinfan.gitbook.io/livetraffic/setup/installation/step-by-step#bluebell-csl-package-by-oktalist).
+
 It is recommended to converted all CSL models using
 [`CSL2XSB.pl` script](https://github.com/TwinFan/CSL2XSB). In most if not all
 packages this enables access to animations like props and rotors
@@ -51,6 +54,3 @@ While it is recommendable to have the models installed somewhere under
 the plugin's folder, the CSL packages' location is a matter of convention.
 Your plugin provides the folder location of CSL packages in one or more
 calls to `XPMPLoadCSLPackage`.
-
-You may want to refer to
-[LiveTraffic's CSL model installation instructions](https://twinfan.gitbook.io/livetraffic/setup/installation/step-by-step#bluebell-csl-package-by-oktalist).

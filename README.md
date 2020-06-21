@@ -71,7 +71,8 @@ the now recommended way of subclassing `XPMP2::Aircraft`, the legacy way
 of subclassing `XPCAircraft` (as used by LiveTraffic v1.x), and by calling
 standard C functions.
 
-The [HowTo documentation](HowTo.html) includes how to install the sample plugin.
+The [HowTo documentation](https://twinfan.github.io/XPMP2/HowTo.html#sample-plugin)
+includes how to install the sample plugin, especially also CSL models.
 
 ## Main Features ##
 

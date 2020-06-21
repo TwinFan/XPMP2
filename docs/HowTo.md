@@ -14,18 +14,18 @@ the now recommended way of subclassing `XPMP2::Aircraft`, the legacy way
 of subclassing `XPCAircraft` (as used by LiveTraffic v1.x), and by calling
 standard C functions.
 
-For the sample plugin to work you need to add
+For the sample plugin to work you need to follow instruction in
+[Deploying XPMP2-based Plugins](Deploying.html) for
 
 - a `Resources` folder under the plugin's folder holding the 3 files from
   the `Resources` folder provided here with XPMP2,
 - CSL models installed in folders under that `Resources` folder.
-  (The sample plugin tries to find matches for "B06/TXB", "DH8A/BER", and
-  "A321", all available in the
-  [Bluebell](https://forums.x-plane.org/index.php?/files/file/37041-bluebell-obj8-csl-packages/)
-  packages. But matching will find _anything_ if you provide at least one model.)
-
-as described in
-[Deploying XPMP2-based Plugins](https://twinfan.github.io/XPMP2/Deploying.html).
+  - The sample plugin tries to find matches for "B06/TXB", "DH8A/BER", and
+    "A321", all available in the
+    [Bluebell](https://forums.x-plane.org/index.php?/files/file/37041-bluebell-obj8-csl-packages/)
+    packages. But matching will find _anything_ if you provide at least one model.
+  - Run [`CSL2XSB.pl` script](https://github.com/TwinFan/CSL2XSB)
+    over the models to enable engine/prop rotation.
 
 Its source code `XPMP2-Sample.cpp` includes a lot of comments explaining
 what is happening. Read that!

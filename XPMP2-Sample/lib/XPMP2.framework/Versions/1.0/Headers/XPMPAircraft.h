@@ -101,9 +101,47 @@ enum DR_VALS {
     V_COUNT                                     ///< always last, number of dataRefs XPMP2 pre-defines
 };
 
+/// @brief Collates some information on the CSL model
+/// @details The XPMP2::CSLModel class definition is private to the XPMP2 library
+///          as it contains many technical implementation details.
+///          This structure contains some of the CSLModel information in a public
+///          definition, returned by XPMP2::Aircraft::GetModelInfo().
+struct CSLModelInfo_t {
+    /// id, just an arbitrary label read from `xsb_aircraft.txt::OBJ8_AIRCRAFT`
+    std::string         cslId;
+    /// name, formed by last part of path plus id
+    std::string         modelName;
+    /// Path to the xsb_aircraft.txt file from where this model is loaded
+    std::string         xsbAircraftPath;
+    /// Line number in the xsb_aircraft.txt file where the model definition starts
+    int                 xsbAircraftLn = 0;
+    /// ICAO aircraft type this model represents: `xsb_aircraft.txt::ICAO`
+    std::string         icaoType;
+    /// Doc8643 information: Classification, like L1P, L4J, H1T
+    std::string         doc8643Classification;
+    /// Doc8643 information: wake turbulence class, like M, L/M, L, H
+    std::string         doc8643WTC;
+
+    /// Any number of airline codes and/or liveries can be assigned to a model for matching purpose
+    struct MatchCrit_t {
+        std::string     icaoAirline;    ///< ICAO airine/operator code
+        std::string     livery;         ///< special livery (not often used)
+    };
+    typedef std::vector<MatchCrit_t> vecMatchCrit_t;
+    // List of match criteria defined for the model, can be empty
+    vecMatchCrit_t      vecMatchCrit;
+
+    /// Default constructor does nothing
+    CSLModelInfo_t() {}
+    /// Constructor copies from XPMP2::CSLModel
+    CSLModelInfo_t(const XPMP2::CSLModel& csl);
+};
+
 /// @brief Actual representation of all aircraft in XPMP2.
 /// @note In modern implementations, this class shall be subclassed by your plugin's code.
 class Aircraft {
+
+public:
     
 protected:
     /// @brief A plane is uniquely identified by a 24bit number [0x01..0xFFFFFF]
@@ -248,6 +286,8 @@ public:
     XPMP2::CSLModel* GetModel () const { return pCSLMdl; }
     /// return the name of the CSL model in use
     const std::string& GetModelName () const;
+    /// return an information structure for the CSL model associated with the aircraft
+    CSLModelInfo_t GetModelInfo() const { return pCSLMdl ? CSLModelInfo_t(*pCSLMdl) : CSLModelInfo_t();  }
     /// quality of the match with the CSL model
     int         GetMatchQuality () const { return matchQuality; }
     /// Vertical offset, ie. the value that needs to be added to `drawInfo.y` to make the aircraft appear on the ground

@@ -325,9 +325,15 @@ const std::string& Aircraft::GetModelName () const
 
 
 // Vertical offset, ie. the value that needs to be added to drawInfo.y to make the aircraft appear on the ground
+/// @details 1. add `VERT_OFFSET`, which pushes the plane up on the tarmac onto its gear
+///          2. reduce again by the tire deflection (which reduces gear's size,
+///             but based on experience is not exactly aligned with planes altitude in meters.
 float Aircraft::GetVertOfs () const
 {
-    return pCSLMdl ? pCSLMdl->GetVertOfs() * vertOfsRatio : 0.0f;
+    if (pCSLMdl)
+        return pCSLMdl->GetVertOfs() * vertOfsRatio - GetTireDeflection() * gearDeflectRatio;
+    else
+        return 0.0f;
 }
 
 // Static: Flight loop callback function
@@ -734,6 +740,7 @@ void XPCAircraft::UpdatePosition(float, int)
         SetLightsNav            (acSurfaces.lights.navLights);
         
         SetTireDeflection       (acSurfaces.tireDeflect);
+        SetNoseGearDeflection   (acSurfaces.tireDeflect);
         SetTireRotAngle         (acSurfaces.tireRotDegree);
         SetTireRotRpm           (acSurfaces.tireRotRpm);
         

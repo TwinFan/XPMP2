@@ -80,7 +80,7 @@
 /// @see https://forums.x-plane.org/index.php?/files/file/37041-bluebell-obj8-csl-packages/ for the Bluebell package, which includes the models named here
 std::string PLANE_MODEL[3][3] = {
     { "DH8A", "BER", "" },
-    { "B06",  "TXB", "" },
+    { "B77L",  "SUN", "" },
     { "A321", "", "" },         // Not specifying the airline means: XPMP2 will randomly take any airline's model - with every switch of models
 };
 
@@ -610,6 +610,7 @@ XPMPPlaneCallbackResult SetSurfaceData (XPMPPlaneSurfaces_t& data)
     data.tireRotDegree      = std::fmod(TIRE_REVOLUTIONS * GetTimeFragment() * 360.0f,
                                         360.0f);
     data.tireRotRpm         = TIRE_REVOLUTIONS / PLANE_CIRCLE_TIME_MIN;
+    data.tireDeflect        = GetTimeUpDown() * 1.5f;   // 1.5m up/down of tire deflections
     
     // For simplicity, we keep engine and prop rotation identical...probably unrealistic
     constexpr float PROP_REVOLUTIONS = PLANE_PROP_RPM * PLANE_CIRCLE_TIME_MIN;

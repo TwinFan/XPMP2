@@ -95,11 +95,15 @@ Commands</h1>
 <li>If a <code>&lt;relativePathTo&gt;</code> is given it needs to start in the same directory where the <code>&lt;package_name&gt;</code>'s <code>xsb_aircraft.txt</code> file is located;</li>
 <li>if no <code>&lt;relativePathTo&gt;</code> is given then the <code>&lt;file.obj&gt;</code> is expected to be in the same directory as the <code>&lt;package_name&gt;</code>'s <code>xsb_aircraft.txt</code> file.</li>
 </ul>
-<p>Historically, other parameters than <code>SOLID YES</code> were supported, but they are no longer needed. Only <code>OBJ8 SOLID YES</code> lines are processed by <a class="el" href="namespaceXPMP2.html">XPMP2</a>. The <a href="https://github.com/TwinFan/CSL2XSB"><code>CSL2XSB.pl</code> script</a> replaces <code>OBJ8 GLAS</code> with <code>OBJ8 SOLID</code>.</p>
+<p>Historically, other parameters than <code>SOLID YES</code> were supported, but the distinction is no longer needed. In fact, <a class="el" href="namespaceXPMP2.html">XPMP2</a> just ignores the 2nd and 3rd parameter altogether.</p>
 <h2><code>VERT_OFFSET</code></h2>
 <div class="fragment"><div class="line">VERT_OFFSET &lt;float_num&gt;</div>
 </div><!-- fragment --><p>Defines the vertical offset for correct placement of the model on the ground with gears down.</p>
 <p>If the <code>VERT_OFFSET</code> command is missing, then <a class="el" href="namespaceXPMP2.html">XPMP2</a> will read the <code>.obj</code> file(s) searching for the lowest feature defined in it and will use that point as the reference for the vertical offset.</p>
+<h2><code>OFFSET</code></h2>
+<div class="fragment"><div class="line">OFFSET &lt;unknown&gt; &lt;unknown&gt; &lt;vertical_offset&gt;</div>
+</div><!-- fragment --><p>The <code>OFFSET</code> command appears in PilotEdge packages. The meaning of the first two parameters remains a mystery.</p>
+<p>The 3rd parameter has the same meaning as <code>VERT_OFFSET</code>, see above.</p>
 <h2><code>MATCHES</code> (<code>ICAO</code>, <code>AIRLINE</code>, <code>LIVERY</code>)</h2>
 <div class="fragment"><div class="line">MATCHES &lt;acType&gt; [&lt;operator&gt; [&lt;livery]]</div>
 </div><!-- fragment --><p>The 3 commands <code>ICAO</code>, <code>AIRLINE</code>, <code>LIVERY</code> are synonyms for <code>MATCHES</code>, provided for backward compatibility. In <a class="el" href="namespaceXPMP2.html">XPMP2</a>, all four commands share the same syntax and semantic.</p>

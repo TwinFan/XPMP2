@@ -58,6 +58,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represetns a CSL model as it is saved on disk.  <a href="classXPMP2_1_1CSLModel.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1CSLModelInfo__t.html">CSLModelInfo_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Collates some information on the CSL model.  <a href="structXPMP2_1_1CSLModelInfo__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLObj.html">CSLObj</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">One <code>.obj</code> file of a CSL model (of which it can have multiple)  <a href="classXPMP2_1_1CSLObj.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -289,11 +292,12 @@ Functions</h2></td></tr>
 <tr class="memdesc:ae37b96528580e10f2f3dc39997181165"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process an OBJECT or AIRCRAFT line of an <code>xsb_aircraft.txt</code> file (which are no longer supported)  <a href="namespaceXPMP2.html#ae37b96528580e10f2f3dc39997181165">More...</a><br /></td></tr>
 <tr class="separator:ae37b96528580e10f2f3dc39997181165"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aacbf65140144570e6f981b0e76193ec3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aacbf65140144570e6f981b0e76193ec3">AcTxtLine_OBJ8</a> (<a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a> &amp;csl, std::vector&lt; std::string &gt; &amp;tokens, int lnNr)</td></tr>
-<tr class="memdesc:aacbf65140144570e6f981b0e76193ec3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process an OBJ8 line of an <code>xsb_aircraft.txt</code> file.  <a href="namespaceXPMP2.html#aacbf65140144570e6f981b0e76193ec3">More...</a><br /></td></tr>
 <tr class="separator:aacbf65140144570e6f981b0e76193ec3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2cface2580abc9bbe78ff5a7482295f8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a2cface2580abc9bbe78ff5a7482295f8">AcTxtLine_VERT_OFFSET</a> (<a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a> &amp;csl, std::vector&lt; std::string &gt; &amp;tokens, int lnNr)</td></tr>
 <tr class="memdesc:a2cface2580abc9bbe78ff5a7482295f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process an VERT_OFFSET line of an <code>xsb_aircraft.txt</code> file.  <a href="namespaceXPMP2.html#a2cface2580abc9bbe78ff5a7482295f8">More...</a><br /></td></tr>
 <tr class="separator:a2cface2580abc9bbe78ff5a7482295f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae29515b0b371dd6924cb17cd1d9d79ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ae29515b0b371dd6924cb17cd1d9d79ac">AcTxtLine_OFFSET</a> (<a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a> &amp;csl, std::vector&lt; std::string &gt; &amp;tokens, int lnNr)</td></tr>
+<tr class="separator:ae29515b0b371dd6924cb17cd1d9d79ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa10f82eda6a1eacb94c07ab60e368faf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aa10f82eda6a1eacb94c07ab60e368faf">AcTxtLine_MATCHES</a> (<a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a> &amp;csl, std::vector&lt; std::string &gt; &amp;tokens, int lnNr)</td></tr>
 <tr class="memdesc:aa10f82eda6a1eacb94c07ab60e368faf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process an ICAO, AIRLINE, LIVERY, or MATCHES line of an <code>xsb_aircraft.txt</code> file.  <a href="namespaceXPMP2.html#aa10f82eda6a1eacb94c07ab60e368faf">More...</a><br /></td></tr>
 <tr class="separator:aa10f82eda6a1eacb94c07ab60e368faf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1087,8 +1091,7 @@ the full integer value </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Process an OBJ8 line of an <code>xsb_aircraft.txt</code> file. </p>
+<p>Process an OBJ8 line of an <code>xsb_aircraft.txt</code> file We don't care what type of object it is (ignoring the 1st parameter) </p>
 
 </div>
 </div>
@@ -1173,6 +1176,41 @@ the full integer value </td></tr>
 </div><div class="memdoc">
 
 <p>Process an OBJECT or AIRCRAFT line of an <code>xsb_aircraft.txt</code> file (which are no longer supported) </p>
+
+</div>
+</div>
+<a id="ae29515b0b371dd6924cb17cd1d9d79ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae29515b0b371dd6924cb17cd1d9d79ac">&#9670;&nbsp;</a></span>AcTxtLine_OFFSET()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::AcTxtLine_OFFSET </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a> &amp;&#160;</td>
+          <td class="paramname"><em>csl</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>tokens</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>lnNr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Process an OFFSET line of a PilotEdge <code>xsb_aircraft.txt</code> file, actually its 3rd parameter only (we still don't know what the first 2 are) </p><dl class="section see"><dt>See also</dt><dd><a href="http://forums.pilotedge.net/viewtopic.php?f=12&t=7236#p47925">http://forums.pilotedge.net/viewtopic.php?f=12&amp;t=7236#p47925</a> </dd></dl>
 
 </div>
 </div>

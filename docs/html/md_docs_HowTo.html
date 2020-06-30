@@ -47,12 +47,15 @@ $(function() {
 <h1><a class="anchor" id="autotoc_md10"></a>
 Sample Plugin</h1>
 <p>This package comes with a sample plugin in the <code>XPMP2-Sample</code> folder. It is a complete plugin including build projects and CMake setup. It displays 3 aircraft flying circles in front of the user's plane. Each of the 3 aircraft is using a different technology: the now recommended way of subclassing <code><a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a></code>, the legacy way of subclassing <code><a class="el" href="classXPCAircraft.html" title="Legacy wrapper class as provided by original libxplanemp.">XPCAircraft</a></code> (as used by LiveTraffic v1.x), and by calling standard C functions.</p>
-<p>For the sample plugin to work you need to add</p>
+<p>For the sample plugin to work you need to follow instruction in <a href="Deploying.html">Deploying XPMP2-based Plugins</a> for</p>
 <ul>
 <li>a <code>Resources</code> folder under the plugin's folder holding the 3 files from the <code>Resources</code> folder provided here with <a class="el" href="namespaceXPMP2.html">XPMP2</a>,</li>
-<li>CSL models installed in folders under that <code>Resources</code> folder. (The sample plugin tries to find matches for "B06/TXB", "DH8A/BER", and "A321", all available in the <a href="https://forums.x-plane.org/index.php?/files/file/37041-bluebell-obj8-csl-packages/">Bluebell</a> packages. But matching will find <em>anything</em> if you provide at least one model.)</li>
+<li>CSL models installed in folders under that <code>Resources</code> folder.<ul>
+<li>The sample plugin tries to find matches for "B06/TXB", "DH8A/BER", and "A321", all available in the <a href="https://forums.x-plane.org/index.php?/files/file/37041-bluebell-obj8-csl-packages/">Bluebell</a> packages. But matching will find <em>anything</em> if you provide at least one model.</li>
+<li>Run <a href="https://github.com/TwinFan/CSL2XSB"><code>CSL2XSB.pl</code> script</a> over the models to enable engine/prop rotation.</li>
 </ul>
-<p>as described in <a href="https://twinfan.github.io/XPMP2/Deploying.html">Deploying XPMP2-based Plugins</a>.</p>
+</li>
+</ul>
 <p>Its source code <code><a class="el" href="XPMP2-Sample_8cpp.html" title="Example plugin demonstrating XPMP2 techniques.">XPMP2-Sample.cpp</a></code> includes a lot of comments explaining what is happening. Read that!</p>
 <p>Expected folder structure of the installation: </p><div class="fragment"><div class="line">&lt;X-Plane&gt;/Resources/plugins/XPMP2-Sample/</div>
 <div class="line">  lin_x64/XPMP2-Sample.xpl</div>

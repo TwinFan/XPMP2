@@ -121,6 +121,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a949dfd46424c25be22d8a7822baf12ba"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a949dfd46424c25be22d8a7822baf12ba">GetModelName</a> () const</td></tr>
 <tr class="memdesc:a949dfd46424c25be22d8a7822baf12ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">return the name of the CSL model in use  <a href="classXPMP2_1_1Aircraft.html#a949dfd46424c25be22d8a7822baf12ba">More...</a><br /></td></tr>
 <tr class="separator:a949dfd46424c25be22d8a7822baf12ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c0ee7fd0c6a313e25b32942d4a5b94b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structXPMP2_1_1CSLModelInfo__t.html">CSLModelInfo_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a1c0ee7fd0c6a313e25b32942d4a5b94b">GetModelInfo</a> () const</td></tr>
+<tr class="memdesc:a1c0ee7fd0c6a313e25b32942d4a5b94b"><td class="mdescLeft">&#160;</td><td class="mdescRight">return an information structure for the CSL model associated with the aircraft  <a href="classXPMP2_1_1Aircraft.html#a1c0ee7fd0c6a313e25b32942d4a5b94b">More...</a><br /></td></tr>
+<tr class="separator:a1c0ee7fd0c6a313e25b32942d4a5b94b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa9ec4f00f550efdf95a3f60a1a97b55e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#aa9ec4f00f550efdf95a3f60a1a97b55e">GetMatchQuality</a> () const</td></tr>
 <tr class="memdesc:aa9ec4f00f550efdf95a3f60a1a97b55e"><td class="mdescLeft">&#160;</td><td class="mdescRight">quality of the match with the CSL model  <a href="classXPMP2_1_1Aircraft.html#aa9ec4f00f550efdf95a3f60a1a97b55e">More...</a><br /></td></tr>
 <tr class="separator:aa9ec4f00f550efdf95a3f60a1a97b55e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -411,6 +414,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a2613e25662d721d98f9cee5ac114aab8"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a2613e25662d721d98f9cee5ac114aab8">vertOfsRatio</a> = 1.0f</td></tr>
 <tr class="memdesc:a2613e25662d721d98f9cee5ac114aab8"><td class="mdescLeft">&#160;</td><td class="mdescRight">How much of the vertical offset shall be applied? (This allows phasing out the vertical offset in higher altitudes.) [0..1].  <a href="classXPMP2_1_1Aircraft.html#a2613e25662d721d98f9cee5ac114aab8">More...</a><br /></td></tr>
 <tr class="separator:a2613e25662d721d98f9cee5ac114aab8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7829b19b67e60396533a72015a61cf4f"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a7829b19b67e60396533a72015a61cf4f">gearDeflectRatio</a> = 0.5f</td></tr>
+<tr class="memdesc:a7829b19b67e60396533a72015a61cf4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">By how much of the gear deflection shall the plane's altitude be reduced?  <a href="classXPMP2_1_1Aircraft.html#a7829b19b67e60396533a72015a61cf4f">More...</a><br /></td></tr>
+<tr class="separator:a7829b19b67e60396533a72015a61cf4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a963880325120e921f0564a97e32e440c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a963880325120e921f0564a97e32e440c">bClampToGround</a> = false</td></tr>
 <tr class="memdesc:a963880325120e921f0564a97e32e440c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shall this plane be clamped to ground (ie. never sink below ground)?  <a href="classXPMP2_1_1Aircraft.html#a963880325120e921f0564a97e32e440c">More...</a><br /></td></tr>
 <tr class="separator:a963880325120e921f0564a97e32e440c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1452,6 +1458,33 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a1c0ee7fd0c6a313e25b32942d4a5b94b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c0ee7fd0c6a313e25b32942d4a5b94b">&#9670;&nbsp;</a></span>GetModelInfo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structXPMP2_1_1CSLModelInfo__t.html">CSLModelInfo_t</a> XPMP2::Aircraft::GetModelInfo </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>return an information structure for the CSL model associated with the aircraft </p>
+
+</div>
+</div>
 <a id="a949dfd46424c25be22d8a7822baf12ba"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a949dfd46424c25be22d8a7822baf12ba">&#9670;&nbsp;</a></span>GetModelName()</h2>
 
@@ -2027,6 +2060,12 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Vertical offset, ie. the value that needs to be added to <code>drawInfo.y</code> to make the aircraft appear on the ground. </p>
+<ol type="1">
+<li>add <code>VERT_OFFSET</code>, which pushes the plane up on the tarmac onto its gear<ol type="a">
+<li>reduce again by the tire deflection (which reduces gear's size, but based on experience is not exactly aligned with planes altitude in meters. </li>
+</ol>
+</li>
+</ol>
 
 </div>
 </div>
@@ -4042,6 +4081,25 @@ Friends</h2></td></tr>
 <p>Holds position (in local coordinates!) and orientation (pitch, heading roll) of the aircraft. </p>
 <p>This is where the plane will be placed in this drawing cycle.<br  />
 </p><dl class="section note"><dt>Note</dt><dd>When filling <code>y</code> directly (instead of using <a class="el" href="classXPMP2_1_1Aircraft.html#ad0fb2622b03447e6854687c4acec5de6" title="Converts world coordinates to local coordinates, writes to Aircraft::drawInfo.">SetLocation()</a>) remember to add <a class="el" href="classXPMP2_1_1Aircraft.html#a113fc0ea358aca3033245c30f0f05a1e" title="Vertical offset, ie. the value that needs to be added to drawInfo.y to make the aircraft appear on th...">GetVertOfs()</a> for accurate placement on the ground </dd></dl>
+
+</div>
+</div>
+<a id="a7829b19b67e60396533a72015a61cf4f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7829b19b67e60396533a72015a61cf4f">&#9670;&nbsp;</a></span>gearDeflectRatio</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::gearDeflectRatio = 0.5f</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>By how much of the gear deflection shall the plane's altitude be reduced? </p>
+<p>This is to keep the wheels on the ground when gear deflection is applied. Unfortunately, the exact factor is model-dependend. <code>0.5</code> seems an OK compromise.<br  />
+ If you know better, then overwrite.<br  />
+ If you don't want <a class="el" href="namespaceXPMP2.html">XPMP2</a> to correct for gear deflection, set <code>0.0</code>. </p>
 
 </div>
 </div>

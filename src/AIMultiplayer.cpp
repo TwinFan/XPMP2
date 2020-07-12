@@ -233,7 +233,7 @@ size_t AIUpdateMultiplayerDataRefs()
                 ac.SetTcasTargetIdx((int)slot);
 
             // the dataRefs to use
-            const multiDataRefsTy& mdr = gMultiRef[(size_t)ac.GetTcasTargetIdx()];
+            const multiDataRefsTy& mdr = gMultiRef.at(slot);
 
             // This plane's position
             XPLMSetDataf(mdr.X, ac.drawInfo.x);
@@ -289,7 +289,7 @@ size_t AIUpdateMultiplayerDataRefs()
                 XPLMSetDatai(mdr.taxiLights,    ac.v[V_CONTROLS_TAXI_LITES_ON] > 0.5f);
 
                 // Shared data for providing textual info (see XPMPInfoTexts_t)
-                const infoDataRefsTy drI = gInfoRef[(size_t)ac.GetTcasTargetIdx()];
+                const infoDataRefsTy drI = gInfoRef.at(slot);
                 XPLMSetDatab(drI.infoTailNum,       ac.acInfoTexts.tailNum,       0, sizeof(XPMPInfoTexts_t::tailNum));
                 XPLMSetDatab(drI.infoIcaoAcType,    ac.acInfoTexts.icaoAcType,    0, sizeof(XPMPInfoTexts_t::icaoAcType));
                 XPLMSetDatab(drI.infoManufacturer,  ac.acInfoTexts.manufacturer,  0, sizeof(XPMPInfoTexts_t::manufacturer));
@@ -423,16 +423,16 @@ size_t AIUpdateTCASTargets ()
                     const float d_y = ac.drawInfo.y - ac.prev_y;
                     const float d_z = ac.drawInfo.z - ac.prev_z;
                     float f = d_x / d_t;
-                    XPLMSetDatavf(drTcasVX, &f, ac.GetTcasTargetIdx(), 1);
+                    XPLMSetDatavf(drTcasVX, &f, int(slot), 1);
                     f = d_y / d_t;
-                    XPLMSetDatavf(drTcasVY, &f, ac.GetTcasTargetIdx(), 1);
+                    XPLMSetDatavf(drTcasVY, &f, int(slot), 1);
                     f = d_z / d_t;
-                    XPLMSetDatavf(drTcasVZ, &f, ac.GetTcasTargetIdx(), 1);
+                    XPLMSetDatavf(drTcasVZ, &f, int(slot), 1);
                     
                     // vertical speed (roughly...y is not exact, but let's keep things simple here),
                     // convert from m/s to ft/min
                     f = (d_y / d_t) * (60.0f / float(M_per_FT));
-                    XPLMSetDatavf(drTcasVertSpeed, &f, ac.GetTcasTargetIdx(), 1);
+                    XPLMSetDatavf(drTcasVertSpeed, &f, int(slot), 1);
                 }
                 ac.prev_x = ac.drawInfo.x;
                 ac.prev_y = ac.drawInfo.y;
@@ -443,15 +443,15 @@ size_t AIUpdateTCASTargets ()
                 char s[8];
                 memset(s, 0, sizeof(s));
                 STRCPY_S(s, ac.GetFlightId().c_str());
-                XPLMSetDatab(drTcasFlightId, s, ac.GetTcasTargetIdx() * (int)sizeof(s), sizeof(s));
+                XPLMSetDatab(drTcasFlightId, s, int(slot * sizeof(s)), sizeof(s));
                 
                 // Icao Type code
                 memset(s, 0, sizeof(s));
                 STRCPY_S(s, ac.acIcaoType.substr(0,sizeof(s)-1).c_str());
-                XPLMSetDatab(drTcasIcaoType, s, ac.GetTcasTargetIdx() * (int)sizeof(s), sizeof(s));
+                XPLMSetDatab(drTcasIcaoType, s, int(slot * sizeof(s)), sizeof(s));
                 
                 // Shared data for providing textual info (see XPMPInfoTexts_t)
-                const infoDataRefsTy drI = gInfoRef[(size_t)ac.GetTcasTargetIdx()];
+                const infoDataRefsTy drI = gInfoRef.at(slot);
                 XPLMSetDatab(drI.infoTailNum,       ac.acInfoTexts.tailNum,       0, sizeof(XPMPInfoTexts_t::tailNum));
                 XPLMSetDatab(drI.infoIcaoAcType,    ac.acInfoTexts.icaoAcType,    0, sizeof(XPMPInfoTexts_t::icaoAcType));
                 XPLMSetDatab(drI.infoManufacturer,  ac.acInfoTexts.manufacturer,  0, sizeof(XPMPInfoTexts_t::manufacturer));

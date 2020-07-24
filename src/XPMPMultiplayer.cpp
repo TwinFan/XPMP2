@@ -121,6 +121,9 @@ const char *    XPMPMultiplayerInit(const char* inPluginName,
 {
     // Initialize random number generator
     std::srand(unsigned(std::time(nullptr)));
+
+    /// Assume that this is XP's main thread
+    glob.ThisThreadIsXP();
     
     // Store the pointers to the configuration callback functions
     glob.prefsFuncInt   = inIntPrefsFunc    ? inIntPrefsFunc    : PrefsFuncIntDefault;

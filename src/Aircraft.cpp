@@ -355,11 +355,15 @@ float Aircraft::FlightLoopCB(float _elapsedSinceLastCall, float, int _flCounter,
 
         // Update positional and configurational values
         for (mapAcTy::value_type& pair : glob.mapAc) {
-            // Have the aircraft provide up-to-date position and orientation values
             Aircraft& ac = *pair.second;
+            // Catch up with instance destroy
+            if (ac.bDestroyInst)
+                ac.DestroyInstances();
+            // skip invalid aircraft
             if (!ac.IsValid())
                 continue;
             try {
+                // Have the aircraft provide up-to-date position and orientation values
                 ac.UpdatePosition(_elapsedSinceLastCall, _flCounter);
                 // If requested, clamp to ground, ie. make sure it is not below ground
                 if (ac.bClampToGround || glob.bClampAll)
@@ -488,10 +492,18 @@ bool Aircraft::CreateInstances ()
 // Destroy all instances
 void Aircraft::DestroyInstances ()
 {
+    // Only allowed in XP's main thread
+    if (!glob.IsXPThread()) {
+        // if not in main thread then only set a flag to myself
+        bDestroyInst = true;
+        return;
+    }
+
     while (!listInst.empty()) {
         XPLMDestroyInstance(listInst.back());
         listInst.pop_back();
     }
+    bDestroyInst = false;
     LOG_MSG(logDEBUG, DEBUG_INSTANCE_DESTRYD, modeS_id);
 }
 

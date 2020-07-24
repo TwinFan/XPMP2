@@ -166,7 +166,9 @@ public:
     int             verXPLM = -1;
     /// Using a modern graphics driver, ie. Vulkan/Metal?
     bool            bUsingModernGraphicsDriver = false;
-    
+    /// id of X-Plane's thread (when it is OK to use XP API calls)
+    std::thread::id xpThread;
+
 #ifdef DEBUG
     /// Current XP cycle number (see XPLMGetCycleNumber())
     int             xpCycleNum = 0;
@@ -190,8 +192,13 @@ public:
     void UpdateCfgVals ();
     /// Read version numbers into verXplane/verXPLM
     void ReadVersions ();
-    /// /// Using a modern graphics driver, ie. Vulkan/Metal?
+    /// Using a modern graphics driver, ie. Vulkan/Metal?
     bool UsingModernGraphicsDriver() const { return bUsingModernGraphicsDriver; }
+    /// Set current thread as main xp Thread
+    void ThisThreadIsXP() { xpThread = std::this_thread::get_id();  }
+    /// Is this thread XP's main thread?
+    bool IsXPThread() const { return std::this_thread::get_id() == xpThread; }
+
 };
 
 /// The one and only global variable structure

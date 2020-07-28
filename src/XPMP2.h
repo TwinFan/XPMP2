@@ -143,8 +143,10 @@ public:
     mapAcTy         mapAc;
     /// Shall we draw aircraft labels?
     bool            bDrawLabels = true;
-    /// Maximum distance for drawing labels? [m]
-    float           maxLabelDist = 5000.0f;
+    /// Maximum distance for drawing labels? [m], defaults to 3nm
+    float           maxLabelDist = 5556.0f;
+    /// Cut off labels at XP's reported visibility mit?
+    bool            bLabelCutOffAtVisibility = true;
     /// Label font scaling factor
     float           labelFontScaling = 1.0f;
     

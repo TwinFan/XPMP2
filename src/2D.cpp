@@ -129,7 +129,7 @@ void TwoDDrawLabels ()
     // Depends on current actual visibility as well as a configurable maximum
     XPLMReadCameraPosition(&posCamera);
     const float maxLabelDist = (std::min(glob.maxLabelDist,
-                                         drVisibility ? XPLMGetDataf(drVisibility) : glob.maxLabelDist)
+                                         (glob.bLabelCutOffAtVisibility && drVisibility) ? XPLMGetDataf(drVisibility) : glob.maxLabelDist)
                                 * posCamera.zoom);    // Labels get easier to see when users zooms.
     
     // Loop over all aircraft and draw their labels
@@ -144,11 +144,25 @@ void TwoDDrawLabels ()
             // Exit if aircraft is father away from camera than we would draw labels for
             if (ac.GetCameraDist() > maxLabelDist)
                 continue;
+            
+            // Vertical label offset: Idea is to place the label _above_ the plane
+            // (as opposed to across), but finding the exact height of the plane
+            // would require scanning the .obj file (well...we do so in CSLObj::FetchVertOfsFromObjFile (), but don't want to scan _every_ file)
+            // We just use 3 fixed offset depending on the wake-turbulence category
+            float vertLabelOfs = 7.0f;
+            const XPMP2::CSLModel* pCSLMdl = ac.GetModel();
+            if (pCSLMdl) {              // there's no reason why there shouldn't be a CSL model...just to be safe, though
+                switch (pCSLMdl->GetDoc8643().wtc[0])
+                {
+                    case 'L': vertLabelOfs = 3.0f; break;
+                    case 'H': vertLabelOfs = 8.0f; break;
+                }
+            }
         
             // Map the 3D coordinates of the aircraft to 2D coordinates of the flat screen
             int x = -1, y = -1;
             if (!ConvertTo2d(ac.drawInfo.x,
-                             ac.drawInfo.y + 7.0f,  // make the label appear "7m" above the plane
+                             ac.drawInfo.y + vertLabelOfs,  // make the label appear above the plane
                              ac.drawInfo.z, x, y))
                 continue;                           // label not visible
 
@@ -157,8 +171,8 @@ void TwoDDrawLabels ()
             // For the other half, it gradually fades to gray.
             // `rat` determines how much it faded already (factor from 0..1)
             const float rat =
-            ac.GetCameraDist() < maxLabelDist / 2.0f ? 0.0f :                 // first half: no fading
-            (ac.GetCameraDist() - maxLabelDist/2.0f) / (maxLabelDist/2.0f);   // Second half: fade to gray (remember: acDist <= maxLabelDist!)
+            ac.GetCameraDist() < maxLabelDist*0.8f ? 0.0f :                 // first 80%: no fading
+            (ac.GetCameraDist() - maxLabelDist*0.8f) / (maxLabelDist*0.2f); // last  20%: fade to gray (remember: acDist <= maxLabelDist!)
             constexpr float gray[4] = {0.6f, 0.6f, 0.6f, 1.0f};
             float c[4] = {
                 (1.0f-rat) * ac.colLabel[0] + rat * gray[0],     // red
@@ -265,5 +279,12 @@ void XPMPDisableAircraftLabels()
 bool XPMPDrawingAircraftLabels()
 {
     return glob.bDrawLabels;
+}
+
+// Configure maximum label distance and if labels shall be cut off at reported visibility
+void XPMPSetAircraftLabelDist (float _dist_nm, bool _bCutOffAtVisibility)
+{
+    glob.bLabelCutOffAtVisibility = _bCutOffAtVisibility;
+    glob.maxLabelDist = std::max(_dist_nm,1.0f) * M_per_NM; // store in meter
 }
 

@@ -365,16 +365,19 @@ float Aircraft::FlightLoopCB(float _elapsedSinceLastCall, float, int _flCounter,
             try {
                 // Have the aircraft provide up-to-date position and orientation values
                 ac.UpdatePosition(_elapsedSinceLastCall, _flCounter);
-                // If requested, clamp to ground, ie. make sure it is not below ground
-                if (ac.bClampToGround || glob.bClampAll)
-                    ac.ClampToGround();
-                // Update plane's distance/bearing every second only
-                if (CheckEverySoOften(ac.camTimLstUpd, 1.0f, now)) {
-                    ac.UpdateDistBearingCamera(posCamera);
-                    ac.ComputeMapLabel();
+                // A/c still valid? Then proceed:
+                if (ac.IsValid()) {
+                    // If requested, clamp to ground, ie. make sure it is not below ground
+                    if (ac.bClampToGround || glob.bClampAll)
+                        ac.ClampToGround();
+                    // Update plane's distance/bearing every second only
+                    if (CheckEverySoOften(ac.camTimLstUpd, 1.0f, now)) {
+                        ac.UpdateDistBearingCamera(posCamera);
+                        ac.ComputeMapLabel();
+                    }
+                    // Actually move the plane, ie. the instance that represents it
+                    ac.DoMove();
                 }
-                // Actually move the plane, ie. the instance that represents it
-                ac.DoMove();
             }
             CATCH_AC(ac)
         }
@@ -400,7 +403,7 @@ float Aircraft::FlightLoopCB(float _elapsedSinceLastCall, float, int _flCounter,
 void Aircraft::DoMove ()
 {
     // Only for visible planes
-    if (bVisible) {
+    if (IsVisible()) {
         // Already have instances? Or succeeded in now creating them?
         if (!listInst.empty() || CreateInstances()) {
             // Move the instances (this is probably the single most important line of code ;-) )

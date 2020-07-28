@@ -276,6 +276,8 @@ Functions</h2></td></tr>
 <tr class="memitem:ae5968dd24de2daa0c56b0e16f9cfe1f1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#ae5968dd24de2daa0c56b0e16f9cfe1f1">XPMPDrawingAircraftLabels</a> ()</td></tr>
 <tr class="memdesc:ae5968dd24de2daa0c56b0e16f9cfe1f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns if labels are currently configured to be drawn.  <a href="XPMPMultiplayer_8h.html#ae5968dd24de2daa0c56b0e16f9cfe1f1">More...</a><br /></td></tr>
 <tr class="separator:ae5968dd24de2daa0c56b0e16f9cfe1f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02a02c168c5a49ffebc2c4f1ac21f618"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a02a02c168c5a49ffebc2c4f1ac21f618">XPMPSetAircraftLabelDist</a> (float _dist_nm, bool _bCutOffAtVisibility=true)</td></tr>
+<tr class="separator:a02a02c168c5a49ffebc2c4f1ac21f618"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6eaccf0e3195c59a9acfc5c3185ee9bb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a6eaccf0e3195c59a9acfc5c3185ee9bb">XPMPEnableMap</a> (bool _bEnable, bool _bLabels=true)</td></tr>
 <tr class="memdesc:a6eaccf0e3195c59a9acfc5c3185ee9bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable or disable the drawing of aircraft icons on X-Plane's map.  <a href="XPMPMultiplayer_8h.html#a6eaccf0e3195c59a9acfc5c3185ee9bb">More...</a><br /></td></tr>
 <tr class="separator:a6eaccf0e3195c59a9acfc5c3185ee9bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2078,6 +2080,7 @@ Can only be called while no plane exists as it influence the size of important d
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Empty string in case of success, otherwise a human-readable error message. </dd></dl>
+<p>Assume that this is XP's main thread</p>
 
 </div>
 </div>
@@ -2189,6 +2192,41 @@ Can only be called while no plane exists as it influence the size of important d
   <table class="params">
     <tr><td class="paramname">inFunc</td><td>Pointer to your callback function </td></tr>
     <tr><td class="paramname">inRefcon</td><td>A refcon passed through to your callback </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a02a02c168c5a49ffebc2c4f1ac21f618"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02a02c168c5a49ffebc2c4f1ac21f618">&#9670;&nbsp;</a></span>XPMPSetAircraftLabelDist()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMPSetAircraftLabelDist </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_dist_nm</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>_bCutOffAtVisibility</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Configure maximum label distance and if labels shall be cut off at reported visibility </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_dist_nm</td><td>Maximum label distance in nm, default is 3, minimum is 1 </td></tr>
+    <tr><td class="paramname">_bCutOffAtVisibility</td><td>Shall labels not be drawn further away than XP's reported visibility? </td></tr>
   </table>
   </dd>
 </dl>

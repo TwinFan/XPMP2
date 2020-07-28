@@ -95,6 +95,8 @@ Functions</h2></td></tr>
 <tr class="memitem:ae5968dd24de2daa0c56b0e16f9cfe1f1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="2D_8cpp.html#ae5968dd24de2daa0c56b0e16f9cfe1f1">XPMPDrawingAircraftLabels</a> ()</td></tr>
 <tr class="memdesc:ae5968dd24de2daa0c56b0e16f9cfe1f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns if labels are currently configured to be drawn.  <a href="2D_8cpp.html#ae5968dd24de2daa0c56b0e16f9cfe1f1">More...</a><br /></td></tr>
 <tr class="separator:ae5968dd24de2daa0c56b0e16f9cfe1f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8988fe1eaf23868d5194f2d97cb253fe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="2D_8cpp.html#a8988fe1eaf23868d5194f2d97cb253fe">XPMPSetAircraftLabelDist</a> (float _dist_nm, bool _bCutOffAtVisibility)</td></tr>
+<tr class="separator:a8988fe1eaf23868d5194f2d97cb253fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Implementation of 2-D routines, like drawing aircraft labels. </p>
@@ -179,6 +181,41 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 </div><div class="memdoc">
 
 <p>Enable or disable drawing of labels with the aircraft. </p>
+
+</div>
+</div>
+<a id="a8988fe1eaf23868d5194f2d97cb253fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8988fe1eaf23868d5194f2d97cb253fe">&#9670;&nbsp;</a></span>XPMPSetAircraftLabelDist()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMPSetAircraftLabelDist </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_dist_nm</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>_bCutOffAtVisibility</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Configure maximum label distance and if labels shall be cut off at reported visibility </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_dist_nm</td><td>Maximum label distance in nm, default is 3, minimum is 1 </td></tr>
+    <tr><td class="paramname">_bCutOffAtVisibility</td><td>Shall labels not be drawn further away than XP's reported visibility? </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

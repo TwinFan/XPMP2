@@ -247,10 +247,11 @@ int Aircraft::ChangeModel (const std::string& _icaoType,
                     pCSLMdl->GetModelName().c_str(),
                     pMdl->GetModelName().c_str());
             DestroyInstances();
-            // Decrease the reference counter of the CSL model
-            pCSLMdl->DecRefCnt();
         }
-        
+        // Decrease the reference counter of the current CSL model
+        if (pCSLMdl)
+            pCSLMdl->DecRefCnt();
+
         // save the newly selected model
         pCSLMdl         = pMdl;
         matchQuality    = q;
@@ -290,10 +291,13 @@ bool Aircraft::AssignModel (const std::string& _modelName)
                 pCSLMdl->GetModelName().c_str(),
                 pMdl->GetModelName().c_str());
         DestroyInstances();                 // remove the current instance (which is based on the previous model)
-        // Decrease the reference counter of the CSL model
-        pCSLMdl->DecRefCnt();
     }
-    pCSLMdl         = pMdl;             // save the newly selected model
+    // Decrease the reference counter of the current CSL model
+    if (pCSLMdl)
+        pCSLMdl->DecRefCnt();
+    
+    // save the newly selected model
+    pCSLMdl         = pMdl;
     matchQuality    = 0;
     acIcaoType      = pCSLMdl->GetIcaoType();
     acIcaoAirline   = pCSLMdl->GetIcaoAirline();

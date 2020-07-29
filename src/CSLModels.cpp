@@ -24,6 +24,7 @@ namespace XPMP2 {
 
 #define WARN_ASYNC_LOAD_ONGOING "Async load operation ongoing while object is being destroyed for %s"
 #define WARN_REF_CNT            "Reference counter is %u while object is being destroyed for %s"
+#define WARN_REF_CNT_ZERO       "Reference counter already 0, can't be decreaed, for %s"
 #define DEBUG_OBJ_LOADING       "Async load starting  for %s from %s"
 #define DEBUG_OBJ_LOADED        "Async load succeeded for %s from %s"
 #define DEBUG_OBJ_UNLOADED      "Object %s / %s unloaded"
@@ -454,6 +455,8 @@ void CSLModel::DecRefCnt ()
              // reached zero...remember when for later garbage collection
              refZeroTs = GetMiscNetwTime();
          }
+     } else {
+         LOG_MSG(logWARN, WARN_REF_CNT_ZERO, cslId.c_str());
      }
  }
 

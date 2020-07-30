@@ -1,7 +1,7 @@
 # XPMP2 - Set up to be used in the provided docker environment to build lin and mac
 #         Set up to be used in a Visual Studio environment to build win (File > Open > Folder, then VS recognized the CMAKE configuration)
 
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.16)
 
 project(XPMP2 LANGUAGES C CXX)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules" ${CMAKE_MODULE_PATH})
@@ -66,6 +66,9 @@ add_library(XPMP2 STATIC
     src/XPMP2.h
     src/XPMPMultiplayer.cpp
 )
+
+# Define pre-compiled header
+target_precompile_headers(XPMP2 PUBLIC src/XPMP2.h)
 
 # Header include directories
 target_include_directories(XPMP2

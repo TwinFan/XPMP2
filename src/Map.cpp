@@ -288,6 +288,12 @@ void MapDeleteCB (XPLMMapLayerID       inLayer,
 /// Create our map layer for the given map
 void MapLayerCreate (const char* mapIdentifier)
 {
+    // I've caught a case live in the debugger in which XP passed in NULL!
+    // That may or may not be the reason why in some rare instances using maps crashed, especially on Mac.
+    // Let's catch that case:
+    if (!mapIdentifier)
+        return;
+    
     // Safety check: Do we already have a layer there?
     if (glob.mapMapLayers.count(mapIdentifier) > 0)
         return;

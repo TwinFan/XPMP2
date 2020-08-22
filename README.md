@@ -23,6 +23,13 @@ multi-pass matching to find a good model are retained, though re-implemented (re
 XPMP2 does no longer call any OpenGL function and hence does not require
 to be linked to an OpenGL library. The included XPMP2-Sample application does not link to OpenGL.
 
+Despite its new approach, XPMP2 shall be your **drop-in replacement for libxplanemp**:
+The original header files are still provided with the same name.
+All original public functions are still there.
+The original [XPCAircraft class](https://twinfan.github.io/XPMP2/html/classXPCAircraft.html)
+is still there, now derived from [XPMP2::Aircraft](https://twinfan.github.io/XPMP2/html/classXPMP2_1_1Aircraft.html).
+See [here](https://twinfan.github.io/XPMP2/BackwardsCompatibility.html) for more details.
+
 ## Pre-Built Release ##
 
 If you don't want to build the library yourself you can find archives with

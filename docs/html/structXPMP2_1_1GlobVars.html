@@ -93,6 +93,18 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:aa2622188166aa5d636945a07494487c8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#aa2622188166aa5d636945a07494487c8">bClampAll</a> = false</td></tr>
 <tr class="memdesc:aa2622188166aa5d636945a07494487c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clamp all planes to the ground? Default is <code>false</code> as clamping is kinda expensive due to Y-Testing.  <a href="structXPMP2_1_1GlobVars.html#aa2622188166aa5d636945a07494487c8">More...</a><br /></td></tr>
 <tr class="separator:aa2622188166aa5d636945a07494487c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b88a81aeef7ac6174206233e5d6f822"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a8b88a81aeef7ac6174206233e5d6f822">bObjReplDataRefs</a> = false</td></tr>
+<tr class="memdesc:a8b88a81aeef7ac6174206233e5d6f822"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replace dataRefs in <code>.obj</code> files on load? (defaults to OFF!)  <a href="structXPMP2_1_1GlobVars.html#a8b88a81aeef7ac6174206233e5d6f822">More...</a><br /></td></tr>
+<tr class="separator:a8b88a81aeef7ac6174206233e5d6f822"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afba29027cce8f05946eea9016dcdf5e1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#afba29027cce8f05946eea9016dcdf5e1">bObjReplTextures</a> = true</td></tr>
+<tr class="memdesc:afba29027cce8f05946eea9016dcdf5e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replace textures in <code>.obj</code> files on load if needed?  <a href="structXPMP2_1_1GlobVars.html#afba29027cce8f05946eea9016dcdf5e1">More...</a><br /></td></tr>
+<tr class="separator:afba29027cce8f05946eea9016dcdf5e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e442101231aa8a019fd207015abb196"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a3e442101231aa8a019fd207015abb196">pathObj8DataRefs</a></td></tr>
+<tr class="memdesc:a3e442101231aa8a019fd207015abb196"><td class="mdescLeft">&#160;</td><td class="mdescRight">Path to the <code>Obj8DataRefs.txt</code> file.  <a href="structXPMP2_1_1GlobVars.html#a3e442101231aa8a019fd207015abb196">More...</a><br /></td></tr>
+<tr class="separator:a3e442101231aa8a019fd207015abb196"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03520bf5f865e566d6d60014e7ae5f1a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceXPMP2.html#a8c9a6bebf5d69db7024a34867a569d01">listObj8DataRefsTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a03520bf5f865e566d6d60014e7ae5f1a">listObj8DataRefs</a></td></tr>
+<tr class="memdesc:a03520bf5f865e566d6d60014e7ae5f1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of dataRef replacement in <code>.obj</code> files.  <a href="structXPMP2_1_1GlobVars.html#a03520bf5f865e566d6d60014e7ae5f1a">More...</a><br /></td></tr>
+<tr class="separator:a03520bf5f865e566d6d60014e7ae5f1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e03197912556bc68d528aca7624e1e0"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a3e03197912556bc68d528aca7624e1e0">pluginName</a> = <a class="el" href="XPMP2_8h.html#a4d4e87112d2cd027f5aedc330d2f1be1">UNKNOWN_PLUGIN_NAME</a></td></tr>
 <tr class="memdesc:a3e03197912556bc68d528aca7624e1e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of the plugin we are serving (used as map layer name or for folders)  <a href="structXPMP2_1_1GlobVars.html#a3e03197912556bc68d528aca7624e1e0">More...</a><br /></td></tr>
 <tr class="separator:a3e03197912556bc68d528aca7624e1e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -474,6 +486,38 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a8b88a81aeef7ac6174206233e5d6f822"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b88a81aeef7ac6174206233e5d6f822">&#9670;&nbsp;</a></span>bObjReplDataRefs</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::GlobVars::bObjReplDataRefs = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Replace dataRefs in <code>.obj</code> files on load? (defaults to OFF!) </p>
+
+</div>
+</div>
+<a id="afba29027cce8f05946eea9016dcdf5e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afba29027cce8f05946eea9016dcdf5e1">&#9670;&nbsp;</a></span>bObjReplTextures</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::GlobVars::bObjReplTextures = true</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Replace textures in <code>.obj</code> files on load if needed? </p>
+
+</div>
+</div>
 <a id="a4079d408c4b07eb3f1aed9fa117283d6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4079d408c4b07eb3f1aed9fa117283d6">&#9670;&nbsp;</a></span>bUsingModernGraphicsDriver</h2>
 
@@ -535,6 +579,22 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Label font scaling factor. </p>
+
+</div>
+</div>
+<a id="a03520bf5f865e566d6d60014e7ae5f1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03520bf5f865e566d6d60014e7ae5f1a">&#9670;&nbsp;</a></span>listObj8DataRefs</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceXPMP2.html#a8c9a6bebf5d69db7024a34867a569d01">listObj8DataRefsTy</a> XPMP2::GlobVars::listObj8DataRefs</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>List of dataRef replacement in <code>.obj</code> files. </p>
 
 </div>
 </div>
@@ -727,6 +787,22 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>path to file containing plane icons for map display </p>
+
+</div>
+</div>
+<a id="a3e442101231aa8a019fd207015abb196"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e442101231aa8a019fd207015abb196">&#9670;&nbsp;</a></span>pathObj8DataRefs</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string XPMP2::GlobVars::pathObj8DataRefs</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Path to the <code>Obj8DataRefs.txt</code> file. </p>
 
 </div>
 </div>

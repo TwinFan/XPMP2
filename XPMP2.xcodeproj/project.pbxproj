@@ -11,6 +11,7 @@
 		252C01F523E62040007C231F /* AIMultiplayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 252C01F323E62040007C231F /* AIMultiplayer.h */; };
 		253485AA23C289E5002BA65A /* XPMPAircraft.h in Headers */ = {isa = PBXBuildFile; fileRef = 253485A923C289E4002BA65A /* XPMPAircraft.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		25687EA323D8BA5E0084A28B /* XPMP2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2502C17A23BE8A1600578919 /* XPMP2.framework */; };
+		256DC2F724F3141500C1595C /* CSLCopy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 256DC2F624F3141500C1595C /* CSLCopy.cpp */; };
 		2575F45423EDFC5E00747524 /* Map.h in Headers */ = {isa = PBXBuildFile; fileRef = 2575F45223EDFC5E00747524 /* Map.h */; };
 		2575F45523EDFC5E00747524 /* Map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2575F45323EDFC5E00747524 /* Map.cpp */; };
 		2589B84A23CB4D6F005B76B8 /* RelatedDoc8643.h in Headers */ = {isa = PBXBuildFile; fileRef = 2589B84823CB4D6F005B76B8 /* RelatedDoc8643.h */; };
@@ -71,6 +72,8 @@
 		252C01FA23E6D64F007C231F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		252C01FB23E6D64F007C231F /* build.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = "<group>"; };
 		253485A923C289E4002BA65A /* XPMPAircraft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPMPAircraft.h; sourceTree = "<group>"; };
+		256DC2F524F3090B00C1595C /* Obj8DataRefs.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Obj8DataRefs.txt; sourceTree = "<group>"; };
+		256DC2F624F3141500C1595C /* CSLCopy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSLCopy.cpp; sourceTree = "<group>"; };
 		2574E00424578419000E8156 /* index.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = index.md; sourceTree = "<group>"; };
 		2574E0052457842A000E8156 /* html */ = {isa = PBXFileReference; lastKnownFileType = folder; path = html; sourceTree = "<group>"; };
 		2575F44723ECB02400747524 /* Toolchain-ubuntu-osxcross-10.11.cmake */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Toolchain-ubuntu-osxcross-10.11.cmake"; sourceTree = "<group>"; };
@@ -78,7 +81,6 @@
 		2575F45323EDFC5E00747524 /* Map.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Map.cpp; sourceTree = "<group>"; };
 		2589B84823CB4D6F005B76B8 /* RelatedDoc8643.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RelatedDoc8643.h; sourceTree = "<group>"; };
 		2589B84923CB4D6F005B76B8 /* RelatedDoc8643.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RelatedDoc8643.cpp; sourceTree = "<group>"; };
-		2596FD472447226700C6A41E /* NoPlane.acf */ = {isa = PBXFileReference; lastKnownFileType = text; path = NoPlane.acf; sourceTree = "<group>"; };
 		2596FD482447226700C6A41E /* Doc8643.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Doc8643.txt; sourceTree = "<group>"; };
 		2596FD592447226700C6A41E /* MapIcons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MapIcons.png; sourceTree = "<group>"; };
 		2596FD5A2447226700C6A41E /* related.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = related.txt; sourceTree = "<group>"; };
@@ -154,7 +156,7 @@
 		2596FD462447226700C6A41E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				2596FD472447226700C6A41E /* NoPlane.acf */,
+				256DC2F524F3090B00C1595C /* Obj8DataRefs.txt */,
 				2596FD482447226700C6A41E /* Doc8643.txt */,
 				2596FD592447226700C6A41E /* MapIcons.png */,
 				2596FD5A2447226700C6A41E /* related.txt */,
@@ -182,6 +184,7 @@
 				252C01F323E62040007C231F /* AIMultiplayer.h */,
 				2599B91823BF636E00F92BB5 /* Aircraft.cpp */,
 				25FF33FD23BFF250001B0AB4 /* Aircraft.h */,
+				256DC2F624F3141500C1595C /* CSLCopy.cpp */,
 				25EC1C3F23BF6DF1000940BB /* CSLModels.cpp */,
 				25EC1C4123BF6DFA000940BB /* CSLModels.h */,
 				2575F45323EDFC5E00747524 /* Map.cpp */,
@@ -313,6 +316,7 @@
 				25AE8CB523E376E2000BE21E /* 2D.cpp in Sources */,
 				25D680C523BE9DBD00C83CC5 /* XPMPMultiplayer.cpp in Sources */,
 				25EC1C4723BF7569000940BB /* Utilities.cpp in Sources */,
+				256DC2F724F3141500C1595C /* CSLCopy.cpp in Sources */,
 				252C01F423E62040007C231F /* AIMultiplayer.cpp in Sources */,
 				2575F45523EDFC5E00747524 /* Map.cpp in Sources */,
 				2599B91923BF636E00F92BB5 /* Aircraft.cpp in Sources */,

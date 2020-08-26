@@ -47,6 +47,7 @@ namespace XPMP2 {
 #define ERR_PKG_NAME_INVALID    "Line %d: Package path invalid: %s"
 #define ERR_PKG_UNKNOWN         "Line %d: Package '%s' unknown in package path %s"
 #define ERR_OBJ_FILE_NOT_FOUND  "Line %d: The file '%s' could not be found at %s"
+#define ERR_COULD_NOT_OPEN      "Could not open '%s' for reading!"
 #define WARN_IGNORED_COMMANDS   "Following commands ignored: "
 #define WARN_OBJ8_ONLY_VERTOFS  "Version is '%s', unsupported for reading vertical offset, file %s"
 
@@ -97,6 +98,40 @@ XPLMObjectRef CSLObj::GetAndLoadObj ()
     return xpObj;
 }
 
+// Determine which file to load and if we need a copied .obj file
+/// @details 1. Determine if we need to access a copied file at all
+///          2. Compute that copied file name
+///             It will include one of the texture ids if texture replacement is involved
+///             It will always end on ".xpmp2.obj"
+///          3. Test if that copied file already exists
+///          The actual copy operation will only be peformed upon load.
+void CSLObj::DetermineWhichObjToLoad ()
+{
+    // 1. Determine if we need to access a copied file at all
+    const bool bDoReplTextures = glob.bObjReplTextures && (!texture.empty() || !text_lit.empty());
+    if (!glob.bObjReplDataRefs && !bDoReplTextures)
+        return;
+    
+    // 2. Compute that copied file name
+    pathOrig = path;                // Save the original name
+    // remove the current extension
+    RemoveExtension(path);
+    // if we need to replace texture then a texture id should become part of the file name
+    if (bDoReplTextures) {
+        std::string addTxt = texture.empty() ? text_lit : texture;
+        RemoveExtension(addTxt);
+        path += '.';
+        path += addTxt;
+    }
+    // always add 'xpmp2.obj' as the final extension
+    path += ".xpmp2.obj";
+    
+    // 3. Test if that copied file already exists
+    if (ExistsFile(path))
+        // It does exist, so no new copy is needed
+        pathOrig.clear();
+}
+
 // Read the obj file to calculate its vertical offset
 /// @details The idea behind doing this is taken from the original libxplanemp
 ///          implementation, particularly
@@ -113,11 +148,18 @@ float CSLObj::FetchVertOfsFromObjFile () const
 {
     float min = 0.0f, max = 0.0f;
     
+    // Which file to read? Use pathOrig if defined because it could be that path doesn't exist yet
+    const std::string& _path = pathOrig.empty() ? path : pathOrig;
+    
     // Try opening our `.obj` file...that should actually work,
     // CSLObj only exists if the `.obj` file exists,
     // so we deal with errors but don't issue a lot of warnings here
     int lnNr = 0;
-    std::ifstream fIn (path);
+    std::ifstream fIn (TOPOSIX(_path));
+    if (!fIn.good()) {
+        LOG_MSG(logERR, ERR_COULD_NOT_OPEN, StripXPSysDir(_path).c_str());
+        return 0.0f;
+    }
     while (fIn)
     {
         std::string ln;
@@ -129,7 +171,7 @@ float CSLObj::FetchVertOfsFromObjFile () const
             // we can only read OBJ8 files
             if (std::stol(ln) < 800) {
                 LOG_MSG(logWARN, WARN_OBJ8_ONLY_VERTOFS,
-                        ln.c_str(), StripXPSysDir(path).c_str());
+                        ln.c_str(), StripXPSysDir(_path).c_str());
                 return 0.0f;
             }
         }
@@ -157,7 +199,7 @@ float CSLObj::FetchVertOfsFromObjFile () const
     
     // return the proper VERT_OFFSET based on the Y coordinates we have read
     const float vertOfs = min < 0.0f ? -min : -max;
-    LOG_MSG(logDEBUG, "Fetched VERT_OFFSET=%.1f from %s", vertOfs, StripXPSysDir(path).c_str());
+    LOG_MSG(logDEBUG, "Fetched VERT_OFFSET=%.1f from %s", vertOfs, StripXPSysDir(_path).c_str());
     return vertOfs;
 }
 
@@ -170,7 +212,12 @@ float CSLObj::FetchVertOfsFromObjFile () const
 void CSLObj::Load ()
 {
     // only if not already requested or even available
-    if (GetObjState() != OLS_UNAVAIL)
+    if (GetObjState() != OLS_UNAVAIL &&
+        GetObjState() != OLS_COPYING)
+        return;
+    
+    // If needed it is now the time to copy the .obj file
+    if (!TriggerCopyAndReplace())
         return;
     
     // Prepare to load the CSL model from the .obj file
@@ -180,8 +227,8 @@ void CSLObj::Load ()
     // Based on experience it seems XPLMLoadObjectAsync() does not
     // properly support HFS file paths. It just replaces all ':' with '/',
     // which is incomplete.
-    // So we always convert to POSIX here on purpose:
-    XPLMLoadObjectAsync(TOPOSIX(path).c_str(),          // path to .obj
+    // That's why we store paths to .obj already in POSIX format:
+    XPLMLoadObjectAsync(path.c_str(),                   // path to .obj
                         &XPObjLoadedCB,                 // static callback function
                         new pairOfStrTy(cslId.c_str(),  // _copy_ of the id string
                                         path.c_str()));
@@ -341,7 +388,8 @@ CSLModel::~CSLModel ()
     Unload();
     
     // Output a warning if there is still an async load operation going on
-    if (GetObjState() == OLS_LOADING) {
+    if (GetObjState() == OLS_COPYING ||
+        GetObjState() == OLS_LOADING) {
         LOG_MSG(logWARN, WARN_ASYNC_LOAD_ONGOING, cslId.c_str());
     }
     // Output a warning if reference counter is not zero
@@ -382,7 +430,7 @@ void CSLModel::AddMatchCriteria (const std::string& _type,
 }
 
 // Puts together the model name string from a path component and the model's id
-void CSLModel::CompModelName (const std::string& shortId)
+void CSLModel::CompModelName ()
 {
     // Find the last component of the path
     size_t sep = xsbAircraftPath.find_last_of("\\/:");
@@ -487,13 +535,25 @@ void CSLModel::Unload ()
 }
 
 // Read the obj files to fill CSLModel::vertOfs
+/// @note Expected to be called in a separate thread via std::async
 float CSLModel::FetchVertOfsFromObjFile () const
 {
+    // This is a thread main function, set thread's name and try to catch all exceptions
+    SET_THREAD_NAME("XPMP2_VertOfs");
+
     float ret = 0.0f;
-    for (const CSLObj& obj: listObj) {
-        const float o = obj.FetchVertOfsFromObjFile();
-        if (o > ret)
-            ret = o;
+    try {
+        for (const CSLObj& obj: listObj) {
+            const float o = obj.FetchVertOfsFromObjFile();
+            if (o > ret)
+                ret = o;
+        }
+    }
+    catch(const std::system_error& e) {
+        LOG_MSG(logERR, "Reading vertical offsets failed: %s", e.what());
+    }
+    catch (...) {
+        LOG_MSG(logERR, "Reading vertical offsets failed with an exception");
     }
     return ret;
 }
@@ -703,10 +763,18 @@ void AcTxtLine_OBJ8_AIRCRAFT (CSLModel& csl,
     
     // Second parameter (actually we take all the rest of the line) is the short id:
     if (ln.length() >= 15) {
-        std::string shortId = ln.substr(14);
-        trim(shortId);
-        csl.cslId = exportName + '/' + shortId;
-        csl.CompModelName(shortId);
+        csl.shortId = ln.substr(14);
+        trim(csl.shortId);
+        
+        // sometimes (e.g. X-CSL) the name already contains a package name, that's superflous, take the last part only as short id
+        std::string::size_type sepPos = csl.shortId.find_last_of(":/\\");
+        if (sepPos != std::string::npos)
+            csl.shortId.erase(0,sepPos+1);
+        
+        // full id is package name (EXPORT) plus the short id
+        csl.cslId = exportName + '/' + csl.shortId;
+        // human readable model name is last part of path plus short id
+        csl.CompModelName();
     }
     else LOG_MSG(logERR, ERR_TOO_FEW_PARAM, lnNr, "OBJ8_AIRCRAFT", 1);
 }
@@ -735,15 +803,19 @@ void AcTxtLine_OBJ8 (CSLModel& csl,
         std::string path = CSLModelsConvPackagePath(tokens[3], lnNr);
         if (!path.empty()) {
             // save the path as an additional object to the model
-            csl.listObj.emplace_back(csl.GetId(), std::move(path));
+            // (Paths  to .obj are always stored in POSIX format)
+            csl.listObj.emplace_back(csl.GetId(), TOPOSIX(path));
+            CSLObj& obj = csl.listObj.back();
 
             // we can already read the TEXTURE and TEXTURE_LIT paths
             if (tokens.size() >= 5) {
-                CSLObj& obj = csl.listObj.back();
                 obj.texture = CSLModelsConvPackagePath(tokens[4], lnNr, true);
                 if (tokens.size() >= 6)
                     obj.text_lit = CSLModelsConvPackagePath(tokens[5], lnNr, true);
             } // TEXTURE available
+            
+            // Determine which file to load and if we need a copied .obj file
+            obj.DetermineWhichObjToLoad ();
         } // Package name valid
     } // at least 3 params
     else

@@ -55,6 +55,7 @@ add_library(XPMP2 STATIC
     src/AIMultiplayer.cpp
     src/Aircraft.h
     src/Aircraft.cpp
+    src/CSLCopy.cpp
     src/CSLModels.h
     src/CSLModels.cpp
     src/Map.h

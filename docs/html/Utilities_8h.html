@@ -97,6 +97,8 @@ Macros</h2></td></tr>
 <tr class="separator:a6e7142ac55325f75716d2453327b04cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1815951a34e6bb3842d6d6dbfd2b15b0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8h.html#a1815951a34e6bb3842d6d6dbfd2b15b0">STRCPY_ATMOST</a>(dest,  src)&#160;&#160;&#160;strncpy_s(dest,sizeof(dest),strAtMost(src,sizeof(dest)-1).c_str(),sizeof(dest)-1)</td></tr>
 <tr class="separator:a1815951a34e6bb3842d6d6dbfd2b15b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed9daec5173aad5188bd4dfaf814f996"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Utilities_8h.html#aed9daec5173aad5188bd4dfaf814f996">SET_THREAD_NAME</a>(sName)</td></tr>
+<tr class="separator:aed9daec5173aad5188bd4dfaf814f996"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -141,6 +143,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aa50f651323a749a94fea153b56615a29"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aa50f651323a749a94fea153b56615a29">XPMP2::StripXPSysDir</a> (const std::string &amp;path)</td></tr>
 <tr class="memdesc:aa50f651323a749a94fea153b56615a29"><td class="mdescLeft">&#160;</td><td class="mdescRight">If a path starts with X-Plane's system directory it is stripped.  <a href="namespaceXPMP2.html#aa50f651323a749a94fea153b56615a29">More...</a><br /></td></tr>
 <tr class="separator:aa50f651323a749a94fea153b56615a29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5551477bae562626cd53262fb138391a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a5551477bae562626cd53262fb138391a">XPMP2::RemoveExtension</a> (std::string &amp;path)</td></tr>
+<tr class="memdesc:a5551477bae562626cd53262fb138391a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes everything after the last dot, the dot including.  <a href="namespaceXPMP2.html#a5551477bae562626cd53262fb138391a">More...</a><br /></td></tr>
+<tr class="separator:a5551477bae562626cd53262fb138391a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b6e859d6171d8afb1168f9721b2b346"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a8b6e859d6171d8afb1168f9721b2b346">XPMP2::str_tolower</a> (std::string &amp;s)</td></tr>
 <tr class="memdesc:a8b6e859d6171d8afb1168f9721b2b346"><td class="mdescLeft">&#160;</td><td class="mdescRight">change a std::string to uppercase  <a href="namespaceXPMP2.html#a8b6e859d6171d8afb1168f9721b2b346">More...</a><br /></td></tr>
 <tr class="separator:a8b6e859d6171d8afb1168f9721b2b346"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -214,6 +219,8 @@ Variables</h2></td></tr>
 <tr class="separator:ad07d8c1ea5845223824a5115493586be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d26c8e7fb2e64af57faaea569f906af"><td class="memItemLeft" align="right" valign="top">constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a8d26c8e7fb2e64af57faaea569f906af">XPMP2::RSRC_MAP_ICONS</a> = &quot;MapIcons.png&quot;</td></tr>
 <tr class="separator:a8d26c8e7fb2e64af57faaea569f906af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13fd80474ae9b530605af80e6ca4b593"><td class="memItemLeft" align="right" valign="top">constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a13fd80474ae9b530605af80e6ca4b593">XPMP2::RSRC_OBJ8DATAREFS</a> = &quot;Obj8DataRefs.txt&quot;</td></tr>
+<tr class="separator:a13fd80474ae9b530605af80e6ca4b593"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1bce12947cfb542afb194319fd47d5e3"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a1bce12947cfb542afb194319fd47d5e3">XPMP2::PI</a> = 3.1415926535897932384626433832795028841971693993751</td></tr>
 <tr class="memdesc:a1bce12947cfb542afb194319fd47d5e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pi.  <a href="namespaceXPMP2.html#a1bce12947cfb542afb194319fd47d5e3">More...</a><br /></td></tr>
 <tr class="separator:a1bce12947cfb542afb194319fd47d5e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -391,6 +398,24 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 </div>
 </div>
+<a id="aed9daec5173aad5188bd4dfaf814f996"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed9daec5173aad5188bd4dfaf814f996">&#9670;&nbsp;</a></span>SET_THREAD_NAME</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SET_THREAD_NAME</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">sName</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a1815951a34e6bb3842d6d6dbfd2b15b0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1815951a34e6bb3842d6d6dbfd2b15b0">&#9670;&nbsp;</a></span>STRCPY_ATMOST</h2>
 
@@ -506,10 +531,10 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 </div>
 </div>
 </div><!-- contents -->
-<div class="ttc" id="astructXPMP2_1_1GlobVars_html_a872131ea4b303be77d6b7748a13538b3"><div class="ttname"><a href="structXPMP2_1_1GlobVars.html#a872131ea4b303be77d6b7748a13538b3">XPMP2::GlobVars::logLvl</a></div><div class="ttdeci">logLevelTy logLvl</div><div class="ttdoc">Logging level.</div><div class="ttdef"><b>Definition:</b> XPMP2.h:107</div></div>
-<div class="ttc" id="astructXPMP2_1_1GlobVars_html_a6b555220241ae0aebcbe21bb03cfb4e4"><div class="ttname"><a href="structXPMP2_1_1GlobVars.html#a6b555220241ae0aebcbe21bb03cfb4e4">XPMP2::GlobVars::bLogMdlMatch</a></div><div class="ttdeci">bool bLogMdlMatch</div><div class="ttdoc">Debug model matching?</div><div class="ttdef"><b>Definition:</b> XPMP2.h:109</div></div>
+<div class="ttc" id="astructXPMP2_1_1GlobVars_html_a872131ea4b303be77d6b7748a13538b3"><div class="ttname"><a href="structXPMP2_1_1GlobVars.html#a872131ea4b303be77d6b7748a13538b3">XPMP2::GlobVars::logLvl</a></div><div class="ttdeci">logLevelTy logLvl</div><div class="ttdoc">Logging level.</div><div class="ttdef"><b>Definition:</b> XPMP2.h:108</div></div>
+<div class="ttc" id="astructXPMP2_1_1GlobVars_html_a6b555220241ae0aebcbe21bb03cfb4e4"><div class="ttname"><a href="structXPMP2_1_1GlobVars.html#a6b555220241ae0aebcbe21bb03cfb4e4">XPMP2::GlobVars::bLogMdlMatch</a></div><div class="ttdeci">bool bLogMdlMatch</div><div class="ttdoc">Debug model matching?</div><div class="ttdef"><b>Definition:</b> XPMP2.h:110</div></div>
 <div class="ttc" id="aXPMP2-Sample_8cpp_html_a482f90afe71485780c137234d572c799"><div class="ttname"><a href="XPMP2-Sample_8cpp.html#a482f90afe71485780c137234d572c799">LogMsg</a></div><div class="ttdeci">void LogMsg(const char *szMsg,...)</div><div class="ttdoc">Log a message to X-Plane's Log.txt with sprintf-style parameters.</div><div class="ttdef"><b>Definition:</b> XPMP2-Sample.cpp:92</div></div>
-<div class="ttc" id="anamespaceXPMP2_html_a0f7e2680dc39872f8204f510de0d8429a083be64fa2f445d85e459ef0c16c77da"><div class="ttname"><a href="namespaceXPMP2.html#a0f7e2680dc39872f8204f510de0d8429a083be64fa2f445d85e459ef0c16c77da">XPMP2::logFATAL</a></div><div class="ttdeci">@ logFATAL</div><div class="ttdoc">fatal is shortly before a crash</div><div class="ttdef"><b>Definition:</b> Utilities.h:203</div></div>
+<div class="ttc" id="anamespaceXPMP2_html_a0f7e2680dc39872f8204f510de0d8429a083be64fa2f445d85e459ef0c16c77da"><div class="ttname"><a href="namespaceXPMP2.html#a0f7e2680dc39872f8204f510de0d8429a083be64fa2f445d85e459ef0c16c77da">XPMP2::logFATAL</a></div><div class="ttdeci">@ logFATAL</div><div class="ttdoc">fatal is shortly before a crash</div><div class="ttdef"><b>Definition:</b> Utilities.h:207</div></div>
 <div class="ttc" id="aUtilities_8h_html_a7db15e6270499c75aedde6e72b3a4977"><div class="ttname"><a href="Utilities_8h.html#a7db15e6270499c75aedde6e72b3a4977">ERR_EXCEPTION</a></div><div class="ttdeci">#define ERR_EXCEPTION</div><div class="ttdef"><b>Definition:</b> Utilities.h:31</div></div>
 <div class="ttc" id="anamespaceXPMP2_html_a46675aca62eb955a94fa1eb18f65426f"><div class="ttname"><a href="namespaceXPMP2.html#a46675aca62eb955a94fa1eb18f65426f">XPMP2::glob</a></div><div class="ttdeci">GlobVars glob</div><div class="ttdoc">The one and only global variable structure (accepted to require an exit-time destructor)</div><div class="ttdef"><b>Definition:</b> Utilities.cpp:32</div></div>
 <div class="ttc" id="aUtilities_8h_html_a7ce9aa95423bd1497a03374c17fdfa68"><div class="ttname"><a href="Utilities_8h.html#a7ce9aa95423bd1497a03374c17fdfa68">ERR_ASSERT</a></div><div class="ttdeci">#define ERR_ASSERT</div><div class="ttdef"><b>Definition:</b> Utilities.h:30</div></div>

@@ -63,6 +63,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1Doc8643.html">XPMP2::Doc8643</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a line in the Doc8643.txt file, of which we use only classification and WTC.  <a href="structXPMP2_1_1Doc8643.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1Obj8DataRefs.html">XPMP2::Obj8DataRefs</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pair of strings, first one to search for, second one to replace it with.  <a href="structXPMP2_1_1Obj8DataRefs.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -77,6 +80,9 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a87f0703c3b490e85de53c9e62ea33270"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; std::string, Doc8643 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a87f0703c3b490e85de53c9e62ea33270">XPMP2::mapDoc8643Ty</a></td></tr>
 <tr class="memdesc:a87f0703c3b490e85de53c9e62ea33270"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map of <a class="el" href="structXPMP2_1_1Doc8643.html" title="Represents a line in the Doc8643.txt file, of which we use only classification and WTC.">Doc8643</a> information, key is the (icao) type code.  <a href="namespaceXPMP2.html#a87f0703c3b490e85de53c9e62ea33270">More...</a><br /></td></tr>
 <tr class="separator:a87f0703c3b490e85de53c9e62ea33270"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c9a6bebf5d69db7024a34867a569d01"><td class="memItemLeft" align="right" valign="top">typedef std::list&lt; Obj8DataRefs &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a8c9a6bebf5d69db7024a34867a569d01">XPMP2::listObj8DataRefsTy</a></td></tr>
+<tr class="memdesc:a8c9a6bebf5d69db7024a34867a569d01"><td class="mdescLeft">&#160;</td><td class="mdescRight">a list of <a class="el" href="structXPMP2_1_1Obj8DataRefs.html" title="A pair of strings, first one to search for, second one to replace it with.">Obj8DataRefs</a> definitions  <a href="namespaceXPMP2.html#a8c9a6bebf5d69db7024a34867a569d01">More...</a><br /></td></tr>
+<tr class="separator:a8c9a6bebf5d69db7024a34867a569d01"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -95,6 +101,9 @@ Functions</h2></td></tr>
 <tr class="memitem:af2f604a36ec4f42045f91b1985a5e54e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#af2f604a36ec4f42045f91b1985a5e54e">XPMP2::Doc8643IsTypeValid</a> (const std::string &amp;_type)</td></tr>
 <tr class="memdesc:af2f604a36ec4f42045f91b1985a5e54e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the given aircraft type a valid ICAO type as per <a class="el" href="structXPMP2_1_1Doc8643.html" title="Represents a line in the Doc8643.txt file, of which we use only classification and WTC.">Doc8643</a>?  <a href="namespaceXPMP2.html#af2f604a36ec4f42045f91b1985a5e54e">More...</a><br /></td></tr>
 <tr class="separator:af2f604a36ec4f42045f91b1985a5e54e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed3b148e89e71de332c83666216eace1"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aed3b148e89e71de332c83666216eace1">XPMP2::Obj8DataRefsLoad</a> (const std::string &amp;_path)</td></tr>
+<tr class="memdesc:aed3b148e89e71de332c83666216eace1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load the content of the provided <code>Obj8DataRefs.txt</code> file.  <a href="namespaceXPMP2.html#aed3b148e89e71de332c83666216eace1">More...</a><br /></td></tr>
+<tr class="separator:aed3b148e89e71de332c83666216eace1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Handling the <code>related.txt</code> file for creating groups of similar looking aircraft types, and Doc8643, the official list of ICAO aircraft type codes. </p>

@@ -79,6 +79,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1multiDataRefsTy.html">multiDataRefsTy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Keeps the dataRef handles for one of the up to 19 legacy AI/Multiplayer slots ("sim/multiplayer/position")  <a href="structXPMP2_1_1multiDataRefsTy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1Obj8DataRefs.html">Obj8DataRefs</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pair of strings, first one to search for, second one to replace it with.  <a href="structXPMP2_1_1Obj8DataRefs.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:unionXPMP2_1_1TcasLightsTy"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#unionXPMP2_1_1TcasLightsTy">TcasLightsTy</a></td></tr>
 <tr class="memdesc:unionXPMP2_1_1TcasLightsTy"><td class="mdescLeft">&#160;</td><td class="mdescRight">A structure simplifying communicaton with sim/cockpit2/tcas/targets/position/lights.  <a href="namespaceXPMP2.html#unionXPMP2_1_1TcasLightsTy">More...</a><br /></td></tr>
 <tr class="separator:unionXPMP2_1_1TcasLightsTy"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -120,6 +123,9 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a87f0703c3b490e85de53c9e62ea33270"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; std::string, <a class="el" href="structXPMP2_1_1Doc8643.html">Doc8643</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a87f0703c3b490e85de53c9e62ea33270">mapDoc8643Ty</a></td></tr>
 <tr class="memdesc:a87f0703c3b490e85de53c9e62ea33270"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map of <a class="el" href="structXPMP2_1_1Doc8643.html" title="Represents a line in the Doc8643.txt file, of which we use only classification and WTC.">Doc8643</a> information, key is the (icao) type code.  <a href="namespaceXPMP2.html#a87f0703c3b490e85de53c9e62ea33270">More...</a><br /></td></tr>
 <tr class="separator:a87f0703c3b490e85de53c9e62ea33270"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c9a6bebf5d69db7024a34867a569d01"><td class="memItemLeft" align="right" valign="top">typedef std::list&lt; <a class="el" href="structXPMP2_1_1Obj8DataRefs.html">Obj8DataRefs</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a8c9a6bebf5d69db7024a34867a569d01">listObj8DataRefsTy</a></td></tr>
+<tr class="memdesc:a8c9a6bebf5d69db7024a34867a569d01"><td class="mdescLeft">&#160;</td><td class="mdescRight">a list of <a class="el" href="structXPMP2_1_1Obj8DataRefs.html" title="A pair of strings, first one to search for, second one to replace it with.">Obj8DataRefs</a> definitions  <a href="namespaceXPMP2.html#a8c9a6bebf5d69db7024a34867a569d01">More...</a><br /></td></tr>
+<tr class="separator:a8c9a6bebf5d69db7024a34867a569d01"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a912872fb93caaed2b06632872341f2c0"><td class="memItemLeft" align="right" valign="top">typedef std::list&lt; <a class="el" href="structXPMP2_1_1XPMPPlaneNotifierTy.html">XPMPPlaneNotifierTy</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a912872fb93caaed2b06632872341f2c0">listXPMPPlaneNotifierTy</a></td></tr>
 <tr class="separator:a912872fb93caaed2b06632872341f2c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -183,10 +189,14 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a02cd1e5f394cbfb5be34e743013a266f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The dataRefs provided by <a class="el" href="namespaceXPMP2.html">XPMP2</a> to the CSL models.  <a href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266f">More...</a><br /></td></tr>
 <tr class="separator:a02cd1e5f394cbfb5be34e743013a266f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8bb5e2fcaa8bb9cbc05e43039054ddd6"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a8bb5e2fcaa8bb9cbc05e43039054ddd6">ObjLoadStateTy</a> { <a class="el" href="namespaceXPMP2.html#a8bb5e2fcaa8bb9cbc05e43039054ddd6aa9e75ce460314121146d3ad960011e1e">OLS_INVALID</a> = -1, 
+<tr class="memitem:a8bb5e2fcaa8bb9cbc05e43039054ddd6"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a8bb5e2fcaa8bb9cbc05e43039054ddd6">ObjLoadStateTy</a> { <br />
+&#160;&#160;<a class="el" href="namespaceXPMP2.html#a8bb5e2fcaa8bb9cbc05e43039054ddd6aa9e75ce460314121146d3ad960011e1e">OLS_INVALID</a> = -1, 
 <a class="el" href="namespaceXPMP2.html#a8bb5e2fcaa8bb9cbc05e43039054ddd6a9b7396fc5d8d83ba292249f39feb9343">OLS_UNAVAIL</a> = 0, 
+<a class="el" href="namespaceXPMP2.html#a8bb5e2fcaa8bb9cbc05e43039054ddd6a58800b31c2dcfbf9ac7395e22bb62c30">OLS_COPYING</a>, 
 <a class="el" href="namespaceXPMP2.html#a8bb5e2fcaa8bb9cbc05e43039054ddd6ae28b877a76882493dba470e4293f393e">OLS_LOADING</a>, 
-<a class="el" href="namespaceXPMP2.html#a8bb5e2fcaa8bb9cbc05e43039054ddd6ae3ee1dbf1f09c989fab97b5ae6164553">OLS_AVAILABLE</a>
+<br />
+&#160;&#160;<a class="el" href="namespaceXPMP2.html#a8bb5e2fcaa8bb9cbc05e43039054ddd6ae3ee1dbf1f09c989fab97b5ae6164553">OLS_AVAILABLE</a>
+<br />
  }</td></tr>
 <tr class="memdesc:a8bb5e2fcaa8bb9cbc05e43039054ddd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">State of the X-Plane object: Is it being loaded or available?  <a href="namespaceXPMP2.html#a8bb5e2fcaa8bb9cbc05e43039054ddd6">More...</a><br /></td></tr>
 <tr class="separator:a8bb5e2fcaa8bb9cbc05e43039054ddd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -374,6 +384,9 @@ Functions</h2></td></tr>
 <tr class="memitem:af2f604a36ec4f42045f91b1985a5e54e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#af2f604a36ec4f42045f91b1985a5e54e">Doc8643IsTypeValid</a> (const std::string &amp;_type)</td></tr>
 <tr class="memdesc:af2f604a36ec4f42045f91b1985a5e54e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the given aircraft type a valid ICAO type as per <a class="el" href="structXPMP2_1_1Doc8643.html" title="Represents a line in the Doc8643.txt file, of which we use only classification and WTC.">Doc8643</a>?  <a href="namespaceXPMP2.html#af2f604a36ec4f42045f91b1985a5e54e">More...</a><br /></td></tr>
 <tr class="separator:af2f604a36ec4f42045f91b1985a5e54e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed3b148e89e71de332c83666216eace1"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aed3b148e89e71de332c83666216eace1">Obj8DataRefsLoad</a> (const std::string &amp;_path)</td></tr>
+<tr class="memdesc:aed3b148e89e71de332c83666216eace1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load the content of the provided <code>Obj8DataRefs.txt</code> file.  <a href="namespaceXPMP2.html#aed3b148e89e71de332c83666216eace1">More...</a><br /></td></tr>
+<tr class="separator:aed3b148e89e71de332c83666216eace1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca8e7b4d2369722ffd9c82ef6bf9d24d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aca8e7b4d2369722ffd9c82ef6bf9d24d">PrefsFuncIntDefault</a> (const char *, const char *, int _default)</td></tr>
 <tr class="memdesc:aca8e7b4d2369722ffd9c82ef6bf9d24d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default config function just always returns the provided default value.  <a href="namespaceXPMP2.html#aca8e7b4d2369722ffd9c82ef6bf9d24d">More...</a><br /></td></tr>
 <tr class="separator:aca8e7b4d2369722ffd9c82ef6bf9d24d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -398,6 +411,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aa50f651323a749a94fea153b56615a29"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aa50f651323a749a94fea153b56615a29">StripXPSysDir</a> (const std::string &amp;path)</td></tr>
 <tr class="memdesc:aa50f651323a749a94fea153b56615a29"><td class="mdescLeft">&#160;</td><td class="mdescRight">If a path starts with X-Plane's system directory it is stripped.  <a href="namespaceXPMP2.html#aa50f651323a749a94fea153b56615a29">More...</a><br /></td></tr>
 <tr class="separator:aa50f651323a749a94fea153b56615a29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5551477bae562626cd53262fb138391a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a5551477bae562626cd53262fb138391a">RemoveExtension</a> (std::string &amp;path)</td></tr>
+<tr class="memdesc:a5551477bae562626cd53262fb138391a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes everything after the last dot, the dot including.  <a href="namespaceXPMP2.html#a5551477bae562626cd53262fb138391a">More...</a><br /></td></tr>
+<tr class="separator:a5551477bae562626cd53262fb138391a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b6e859d6171d8afb1168f9721b2b346"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a8b6e859d6171d8afb1168f9721b2b346">str_tolower</a> (std::string &amp;s)</td></tr>
 <tr class="memdesc:a8b6e859d6171d8afb1168f9721b2b346"><td class="mdescLeft">&#160;</td><td class="mdescRight">change a std::string to uppercase  <a href="namespaceXPMP2.html#a8b6e859d6171d8afb1168f9721b2b346">More...</a><br /></td></tr>
 <tr class="separator:a8b6e859d6171d8afb1168f9721b2b346"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -551,6 +567,8 @@ Variables</h2></td></tr>
 <tr class="separator:ad07d8c1ea5845223824a5115493586be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d26c8e7fb2e64af57faaea569f906af"><td class="memItemLeft" align="right" valign="top">constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a8d26c8e7fb2e64af57faaea569f906af">RSRC_MAP_ICONS</a> = &quot;MapIcons.png&quot;</td></tr>
 <tr class="separator:a8d26c8e7fb2e64af57faaea569f906af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13fd80474ae9b530605af80e6ca4b593"><td class="memItemLeft" align="right" valign="top">constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a13fd80474ae9b530605af80e6ca4b593">RSRC_OBJ8DATAREFS</a> = &quot;Obj8DataRefs.txt&quot;</td></tr>
+<tr class="separator:a13fd80474ae9b530605af80e6ca4b593"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1bce12947cfb542afb194319fd47d5e3"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a1bce12947cfb542afb194319fd47d5e3">PI</a> = 3.1415926535897932384626433832795028841971693993751</td></tr>
 <tr class="memdesc:a1bce12947cfb542afb194319fd47d5e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pi.  <a href="namespaceXPMP2.html#a1bce12947cfb542afb194319fd47d5e3">More...</a><br /></td></tr>
 <tr class="separator:a1bce12947cfb542afb194319fd47d5e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -600,6 +618,22 @@ the full integer value </td></tr>
 </div><div class="memdoc">
 
 <p>List of objects. </p>
+
+</div>
+</div>
+<a id="a8c9a6bebf5d69db7024a34867a569d01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c9a6bebf5d69db7024a34867a569d01">&#9670;&nbsp;</a></span>listObj8DataRefsTy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef std::list&lt;<a class="el" href="structXPMP2_1_1Obj8DataRefs.html">Obj8DataRefs</a>&gt; <a class="el" href="namespaceXPMP2.html#a8c9a6bebf5d69db7024a34867a569d01">XPMP2::listObj8DataRefsTy</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>a list of <a class="el" href="structXPMP2_1_1Obj8DataRefs.html" title="A pair of strings, first one to search for, second one to replace it with.">Obj8DataRefs</a> definitions </p>
 
 </div>
 </div>
@@ -926,6 +960,8 @@ the full integer value </td></tr>
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a8bb5e2fcaa8bb9cbc05e43039054ddd6aa9e75ce460314121146d3ad960011e1e"></a>OLS_INVALID&#160;</td><td class="fielddoc"><p>loading once failed -&gt; invalid! </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a8bb5e2fcaa8bb9cbc05e43039054ddd6a9b7396fc5d8d83ba292249f39feb9343"></a>OLS_UNAVAIL&#160;</td><td class="fielddoc"><p>Not yet tried loading the CSL object. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a8bb5e2fcaa8bb9cbc05e43039054ddd6a58800b31c2dcfbf9ac7395e22bb62c30"></a>OLS_COPYING&#160;</td><td class="fielddoc"><p>creating a new <code>.obj</code> file copy, replacing dataRefs and textures </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a8bb5e2fcaa8bb9cbc05e43039054ddd6ae28b877a76882493dba470e4293f393e"></a>OLS_LOADING&#160;</td><td class="fielddoc"><p>async load underway </p>
 </td></tr>
@@ -3047,6 +3083,26 @@ template&lt;class IteratorT &gt; </div>
 
 </div>
 </div>
+<a id="aed3b148e89e71de332c83666216eace1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed3b148e89e71de332c83666216eace1">&#9670;&nbsp;</a></span>Obj8DataRefsLoad()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * XPMP2::Obj8DataRefsLoad </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>_path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Load the content of the provided <code>Obj8DataRefs.txt</code> file. </p>
+
+</div>
+</div>
 <a id="a8c489fe2e8cd7b90326998fca3c62985"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8c489fe2e8cd7b90326998fca3c62985">&#9670;&nbsp;</a></span>PrefsFuncFloatDefault()</h2>
 
@@ -3184,6 +3240,26 @@ template&lt;class T &gt; </div>
 </div><div class="memdoc">
 
 <p>Read the <code>related.txt</code> file, full path passed in. </p>
+
+</div>
+</div>
+<a id="a5551477bae562626cd53262fb138391a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5551477bae562626cd53262fb138391a">&#9670;&nbsp;</a></span>RemoveExtension()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::RemoveExtension </td>
+          <td>(</td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Removes everything after the last dot, the dot including. </p>
 
 </div>
 </div>
@@ -4111,6 +4187,28 @@ template&lt;class T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">constexpr const char* XPMP2::RSRC_MAP_ICONS = &quot;MapIcons.png&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a13fd80474ae9b530605af80e6ca4b593"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13fd80474ae9b530605af80e6ca4b593">&#9670;&nbsp;</a></span>RSRC_OBJ8DATAREFS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr const char* XPMP2::RSRC_OBJ8DATAREFS = &quot;Obj8DataRefs.txt&quot;</td>
         </tr>
       </table>
   </td>

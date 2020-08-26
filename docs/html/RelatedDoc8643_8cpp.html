@@ -53,7 +53,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Handling the <code>related.txt</code> file for creating groups of similar looking aircraft types, and Doc8643, the official list of ICAO aircraft type codes.  
+<p>Reading of supporting text files:  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="XPMP2_8h_source.html">XPMP2.h</a>&quot;</code><br />
 </div><table class="memberdecls">
@@ -76,6 +76,10 @@ Macros</h2></td></tr>
 <tr class="separator:a00a277075f54da9e08e262db0e601d08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a777b9fb80988fdd01bc24a07f4c7206a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RelatedDoc8643_8cpp.html#a777b9fb80988fdd01bc24a07f4c7206a">ERR_DOC8643_READ_ERR</a>&#160;&#160;&#160;&quot;doc8643.txt: Line %d did not match expectations: %s&quot;</td></tr>
 <tr class="separator:a777b9fb80988fdd01bc24a07f4c7206a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92f793526af3be40ce2c80b0a002b869"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RelatedDoc8643_8cpp.html#a92f793526af3be40ce2c80b0a002b869">DEBUG_READ_OBJ8DR</a>&#160;&#160;&#160;&quot;Obj8DataRefs.txt: Trying to read from '%s'&quot;</td></tr>
+<tr class="separator:a92f793526af3be40ce2c80b0a002b869"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add45a2028e98b8c4c0c388009ba26b9d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RelatedDoc8643_8cpp.html#add45a2028e98b8c4c0c388009ba26b9d">ERR_OBJ8DR_NOT_FOUND</a>&#160;&#160;&#160;&quot;Obj8DataRefs.txt: Could not open the file for reading&quot;</td></tr>
+<tr class="separator:add45a2028e98b8c4c0c388009ba26b9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1bc5ead0b939751a1cc63f2ad7518ca0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RelatedDoc8643_8cpp.html#a1bc5ead0b939751a1cc63f2ad7518ca0">ERR_CFG_LINE_READ</a>&#160;&#160;&#160;&quot;Error '%s' while reading line %d of %s&quot;</td></tr>
 <tr class="separator:a1bc5ead0b939751a1cc63f2ad7518ca0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abf76d96567799119fefb7e77935c4bb0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RelatedDoc8643_8cpp.html#abf76d96567799119fefb7e77935c4bb0">ERR_CFG_FILE_TOOMANY</a>&#160;&#160;&#160;&quot;Too many errors while trying to read file&quot;</td></tr>
@@ -98,6 +102,9 @@ Functions</h2></td></tr>
 <tr class="memitem:af2f604a36ec4f42045f91b1985a5e54e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#af2f604a36ec4f42045f91b1985a5e54e">XPMP2::Doc8643IsTypeValid</a> (const std::string &amp;_type)</td></tr>
 <tr class="memdesc:af2f604a36ec4f42045f91b1985a5e54e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the given aircraft type a valid ICAO type as per <a class="el" href="structXPMP2_1_1Doc8643.html" title="Represents a line in the Doc8643.txt file, of which we use only classification and WTC.">Doc8643</a>?  <a href="namespaceXPMP2.html#af2f604a36ec4f42045f91b1985a5e54e">More...</a><br /></td></tr>
 <tr class="separator:af2f604a36ec4f42045f91b1985a5e54e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed3b148e89e71de332c83666216eace1"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aed3b148e89e71de332c83666216eace1">XPMP2::Obj8DataRefsLoad</a> (const std::string &amp;_path)</td></tr>
+<tr class="memdesc:aed3b148e89e71de332c83666216eace1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load the content of the provided <code>Obj8DataRefs.txt</code> file.  <a href="namespaceXPMP2.html#aed3b148e89e71de332c83666216eace1">More...</a><br /></td></tr>
+<tr class="separator:aed3b148e89e71de332c83666216eace1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -111,7 +118,12 @@ Variables</h2></td></tr>
 <tr class="separator:af0d73d5759c5441b1ea934c4db33f8ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Handling the <code>related.txt</code> file for creating groups of similar looking aircraft types, and Doc8643, the official list of ICAO aircraft type codes. </p>
+<div class="textblock"><p>Reading of supporting text files: </p>
+<ul>
+<li><code>related.txt</code> for creating groups of similar looking aircraft types;</li>
+<li><code>Doc8643.txt</code>, the official list of ICAO aircraft type codes;</li>
+<li><code>Obj8DataRefs.txt</code>, a mapping list for replacing dataRefs in <code>.obj</code> files.</li>
+</ul>
 <p>A related group is declared simply by a line of ICAO a/c type codes read from the file. Internally, the group is just identified by its line number in <code>related.txt</code>. So the group "44" might be "A306 A30B A310", the Airbus A300 series. </p><dl class="section author"><dt>Author</dt><dd>Birger Hoppe </dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>(c) 2020 Birger Hoppe </dd>
 <dd>
@@ -127,6 +139,20 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
       <table class="memname">
         <tr>
           <td class="memname">#define DEBUG_READ_DOC8643&#160;&#160;&#160;&quot;doc8643.txt: Reading from '%s'&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a92f793526af3be40ce2c80b0a002b869"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92f793526af3be40ce2c80b0a002b869">&#9670;&nbsp;</a></span>DEBUG_READ_OBJ8DR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DEBUG_READ_OBJ8DR&#160;&#160;&#160;&quot;Obj8DataRefs.txt: Trying to read from '%s'&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -197,6 +223,20 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
       <table class="memname">
         <tr>
           <td class="memname">#define ERR_DOC8643_READ_ERR&#160;&#160;&#160;&quot;doc8643.txt: Line %d did not match expectations: %s&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="add45a2028e98b8c4c0c388009ba26b9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add45a2028e98b8c4c0c388009ba26b9d">&#9670;&nbsp;</a></span>ERR_OBJ8DR_NOT_FOUND</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ERR_OBJ8DR_NOT_FOUND&#160;&#160;&#160;&quot;Obj8DataRefs.txt: Could not open the file for reading&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">

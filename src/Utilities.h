@@ -34,6 +34,7 @@ namespace XPMP2 {
 constexpr const char* RSRC_RELATED      = "related.txt";
 constexpr const char* RSRC_DOC8643      = "Doc8643.txt";
 constexpr const char* RSRC_MAP_ICONS    = "MapIcons.png";
+constexpr const char* RSRC_OBJ8DATAREFS = "Obj8DataRefs.txt";
 
 //
 // MARK: Default configuration callbacks
@@ -74,6 +75,9 @@ std::istream& safeGetline(std::istream& is, std::string& t);
 
 /// If a path starts with X-Plane's system directory it is stripped
 std::string StripXPSysDir (const std::string& path);
+
+/// Removes everything after the last dot, the dot including
+void RemoveExtension (std::string& path);
 
 //
 // MARK: String helpers
@@ -299,6 +303,20 @@ std::string FROMPOSIX (const std::string& p);
 inline std::string TOPOSIX (const std::string& p) { return p; }
 /// On Lin/Win there is no need for a conversion, but we do treat `p` now as `std::string`
 inline std::string FROMPOSIX (const std::string& p) { return p; }
+#endif
+
+// MARK: Thread names
+#ifdef DEBUG
+// This might not work on older Windows version, which is why we don't publish it in release builds
+#if IBM
+#define SET_THREAD_NAME(sName) SetThreadDescription(GetCurrentThread(), L##sName)
+#elif APL
+#define SET_THREAD_NAME(sName) pthread_setname_np(sName)
+#elif LIN
+#define SET_THREAD_NAME(sName) pthread_setname_np(pthread_self(),sName)
+#endif
+#else
+#define SET_THREAD_NAME(sName)
 #endif
 
 }       // namespace XPMP2

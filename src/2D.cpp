@@ -207,7 +207,7 @@ void TwoDActivate ()
     // TODO: This is a deprecated call!
     XPLMRegisterDrawCallback(CPLabelDrawing,
                              xplm_Phase_Window,
-                             0,                        // after
+                             1,                        // after
                              nullptr);
 }
 
@@ -217,7 +217,7 @@ void TwoDDeactivate ()
 {
     // Unregister the drawing callback
     // TODO: This is a deprecated call!
-    XPLMUnregisterDrawCallback(CPLabelDrawing, xplm_Phase_Window, 0, nullptr);
+    XPLMUnregisterDrawCallback(CPLabelDrawing, xplm_Phase_Window, 1, nullptr);
 }
 
 

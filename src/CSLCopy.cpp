@@ -95,9 +95,6 @@ bool CSLObj::CopyAndReplace ()
         std::ofstream fOut (path, std::ios_base::out | std::ios_base::trunc);
         if (!fOut) { gErrTxt = "Couldn't open output file for (over)writing"; return false; }
         
-        LOG_MSG(logDEBUG, "'%s' -> '%s'",
-                pathOrig.c_str(), path.c_str());
-        
         // Process each line
         int lnNr = 0;
         while (fIn.good() && fOut.good() && !fIn.eof()) {

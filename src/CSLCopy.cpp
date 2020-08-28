@@ -251,7 +251,18 @@ bool CSLObj::TriggerCopyAndReplace ()
         case OLS_INVALID: return false;         // don't do, don't continue loading either
         case OLS_UNAVAIL:                       // possible...
             if (!NeedsObjCopy()) return true;   // ...but not needed, so don't do, just go ahead loading
-            if (bFutValid) return false;        // A thread's still running, so we'll need to wait
+            
+            // Before we copy again we do a last check if the file by now already exists
+            // This is very possible for .obj files which are shared across models of different livery (like fans, engines, glass elements...)
+            if (ExistsFile(path)) {
+                // It does exist, so no new copy is needed, just load it
+                pathOrig.clear();
+                return true;
+            }
+            
+            // A thread's still running, so we'll need to wait
+            if (bFutValid) return false;
+
             // Start a new thread to copy my .obj file
             gThreadCSLId = cslId;
             gThreadPath  = path;

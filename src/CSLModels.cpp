@@ -36,6 +36,7 @@ namespace XPMP2 {
 #define XSB_AIRCRAFT_TXT        "xsb_aircraft.txt"
 #define DEBUG_XSBACTXT_READ     "Processing %s"
 #define INFO_XSBACTXT_DONE      "Read %3d aircraft %s from %s"
+#define WARN_XSBACTXT_IGNORED   "Ignored %d aircraft %s due to outdated format (OBJECT or AIRCRAFT) from %s"
 #define INFO_TOTAL_NUM_MODELS   "Total number of known models now is %lu"
 #define WARN_NO_XSBACTXT_FOUND  "No xsb_aircraft.txt found"
 #define WARN_DUP_PKG_NAME       "Package name (EXPORT_NAME) '%s' in folder '%s' is already in use by '%s'"
@@ -62,6 +63,9 @@ XPLMFlightLoopID gGarbageCollectionID = nullptr;
 constexpr float GARBAGE_COLLECTION_PERIOD = 60.0f;
 /// Unload an unused object after how many seconds?
 constexpr float GARBAGE_COLLECTION_TIMEOUT = 180.0f;
+
+/// a map of a text and a counter
+typedef std::map<std::string, int> mapStrIntTy;
 
 //
 // MARK: CSL Model Info implementation
@@ -781,15 +785,15 @@ void AcTxtLine_OBJ8_AIRCRAFT (CSLModel& csl,
 
 /// Process an OBJECT or AIRCRAFT  line of an `xsb_aircraft.txt` file (which are no longer supported)
 void AcTxtLine_OBJECT_AIRCRAFT (CSLModel& csl,
-                                const std::string& ln,
-                                int lnNr)
+                                const std::string& /*ln*/,
+                                int /*lnNr*/)
 {
     // First of all, save the previously read aircraft
     if (csl.IsValid())
         CSLModelsAdd(csl);
 
     // Then add a warning into the log as we will NOT support this model
-    LOG_MSG(logWARN, WARN_OBJ8_ONLY, lnNr, ln.c_str());
+    // Could be too many and clog up the log - LOG_MSG(logWARN, WARN_OBJ8_ONLY, lnNr, ln.c_str());
 }
 
 /// Process an OBJ8 line of an `xsb_aircraft.txt` file
@@ -870,14 +874,48 @@ void AcTxtLine_MATCHES (CSLModel& csl,
         LOG_MSG(logERR, ERR_TOO_FEW_PARAM, lnNr, tokens[0].c_str(), 1);
 }
 
+
+/// @brief Compiles a string from a map of string->int like "(A320 x 5, A388 x 12)"
+/// @return Total count (17 in the example above)
+int StrCntString (const mapStrIntTy& m, std::string& s)
+{
+    // do nothing if map is empty
+    if (m.empty()) {
+        s.clear();
+        return 0;
+    }
+     
+    // put together the string
+    int n = 0;
+    s.reserve(m.size() * 10);       // a reasonable guess about the string size, probably a bit large
+    s = "(";
+    char buf[100];
+    for (const auto& p: m) {
+        if (p.second > 1)
+            snprintf(buf, sizeof(buf), "%d x %s, ",
+                     p.second, p.first.c_str());
+        else
+            snprintf(buf, sizeof(buf), "%s, ",
+                     p.first.c_str());
+        s += buf;
+        n += p.second;
+    }
+    s.pop_back();                   // remove the final ", "
+    s.pop_back();
+    s += ')';
+    return n;
+}
+
 /// Process one `xsb_aircraft.txt` file for importing OBJ8 models
 const char* CSLModelsProcessAcFile (const std::string& path)
 {
     // for a good but concise message about ignored elements we keep this list
-    std::map<std::string, int> ignored;
+    std::map<std::string, int> ignoredCmd;
     // for a good but concise message about read a/c we keep this map, keyed by ICAO type designator
     std::map<std::string, int> acRead;
-    
+    // for a good but concise message about ignored OBJECTs and AIRCRAFT we keep this list
+    std::map<std::string, int> ignoredObj;
+
     // The package's name
     std::string exportName = "?";
     
@@ -907,14 +945,41 @@ const char* CSLModelsProcessAcFile (const std::string& path)
         std::vector<std::string> tokens = str_tokenize(ln, WHITESPACE);
         if (tokens.empty()) continue;
         
+        // DEPENDENCY: We warn if we don't find the package but try anyway
+        if (tokens[0] == "DEPENDENCY")
+            AcTxtLine_DEPENDENCY(tokens, lnNr);
+        
+        // EXPORT_NAME: Already processed, but needed for model id
+        else if (tokens[0] == "EXPORT_NAME") {
+            exportName = ln.substr(12);
+            trim(exportName);
+        }
+
+        // OBJECT or AIRCRAFT aren't supported any longer, but as they are supposed start
+        // another aircraft we need to make sure to save the one defined previously,
+        // and we use the chance to issue some warnings into the log
+        else if (tokens[0] == "OBJECT" || tokens[0] == "AIRCRAFT") {
+            AcTxtLine_OBJECT_AIRCRAFT(csl, ln, lnNr);
+            if (tokens.size() >= 2)
+                ignoredObj[tokens[1]]++;
+            else
+                ignoredObj["<unknown>"]++;
+        }
+
         // OBJ8_AIRCRAFT: Start a new aircraft specification
-        if (tokens[0] == "OBJ8_AIRCRAFT") {
+        else if (tokens[0] == "OBJ8_AIRCRAFT") {
             if (csl.IsValid()) acRead[csl.GetIcaoType()]++;
             AcTxtLine_OBJ8_AIRCRAFT(csl, ln, path, exportName, lnNr);
+            continue;                   // don't run into the "ignored" counter later
         }
         
+        // -- All following commands only make sense if a model has previously
+        //    been started with OBJ8_AIRCRAFT, which sets the csl's id ---
+        if (csl.GetId().empty())
+            continue;                   // skip the line if no model defined
+        
         // OBJ8: Define the object file to load
-        else if (tokens[0] == "OBJ8")
+        if (tokens[0] == "OBJ8")
             AcTxtLine_OBJ8(csl, tokens, lnNr);
 
         // VERT_OFFSET: Defines the vertical offset of the model, so the wheels correctly touch the ground
@@ -932,25 +997,9 @@ const char* CSLModelsProcessAcFile (const std::string& path)
                  tokens[0] == "MATCHES")
             AcTxtLine_MATCHES(csl, tokens, lnNr);
 
-        // DEPENDENCY: We warn if we don't find the package but try anyway
-        else if (tokens[0] == "DEPENDENCY")
-            AcTxtLine_DEPENDENCY(tokens, lnNr);
-        
-        // EXPORT_NAME: Already processed, but needed for model id
-        else if (tokens[0] == "EXPORT_NAME") {
-            exportName = ln.substr(12);
-            trim(exportName);
-        }
-
-        // OBJECT or AIRCRAFT aren't supported any longer, but as they are supposed start
-        // another aircraft we need to make sure to save the one defined previously,
-        // and we use the chance to issue some warnings into the log
-        else if (tokens[0] == "OBJECT" || tokens[0] == "AIRCRAFT")
-            AcTxtLine_OBJECT_AIRCRAFT(csl, ln, lnNr);
-
         // else...we just ignore it but count the commands for a proper warning later
         else
-            ignored[tokens[0]]++;
+            ignoredCmd[tokens[0]]++;
     }
     
     // Close the xsb_aircraft.txt file
@@ -963,33 +1012,26 @@ const char* CSLModelsProcessAcFile (const std::string& path)
     }
     
     // Log a message about the a/c we've read
-    std::string acList;
-    int totAcRead = 0;
     if (!acRead.empty()) {
-        acList = "(";
-        char buf[25];
-        for (const auto& p: acRead) {
-            if (p.second > 1)
-                snprintf(buf, sizeof(buf), "%d x %s, ",
-                         p.second, p.first.c_str());
-            else
-                snprintf(buf, sizeof(buf), "%s, ",
-                         p.first.c_str());
-            acList += buf;
-            totAcRead += p.second;
-        }
-        acList.pop_back();
-        acList.pop_back();
-        acList += ')';
+        std::string acList;
+        int totAcRead = StrCntString(acRead, acList);
+        LOG_MSG(logINFO, INFO_XSBACTXT_DONE, totAcRead, acList.c_str(),
+                StripXPSysDir(xsbName).c_str());
     }
-    LOG_MSG(logINFO, INFO_XSBACTXT_DONE, totAcRead, acList.c_str(),
-            StripXPSysDir(xsbName).c_str());
+    
+    // Log a message about the a/c we've ignored
+    if (!ignoredObj.empty()) {
+        std::string acList;
+        int totAcRead = StrCntString(ignoredObj, acList);
+        LOG_MSG(logWARN, WARN_XSBACTXT_IGNORED, totAcRead, acList.c_str(),
+                StripXPSysDir(xsbName).c_str());
+    }
     
     // If there were ignored commands we list them once now
-    if (!ignored.empty() && glob.bLogMdlMatch) {
+    if (!ignoredCmd.empty() && glob.bLogMdlMatch) {
         std::string msg(WARN_IGNORED_COMMANDS);
         char buf[25];
-        for (const auto& i: ignored) {
+        for (const auto& i: ignoredCmd) {
             snprintf(buf, sizeof(buf), "%s (%dx), ",
                      i.first.c_str(), i.second);
             msg += buf;

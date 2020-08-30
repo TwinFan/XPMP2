@@ -42,15 +42,12 @@ Recommended sources are:
 You may want to refer to
 [LiveTraffic's detailed CSL model installation instructions](https://twinfan.gitbook.io/livetraffic/setup/installation/step-by-step#bluebell-csl-package-by-oktalist).
 
-It is recommended to converted all CSL models using
-[`CSL2XSB.pl` script](https://github.com/TwinFan/CSL2XSB). In most if not all
-packages this enables access to animations like props and rotors
-(which is not required, but nice to look at). For the X-CSL package
-this conversion is required to make many of the included models work at all
-as X-CSL's packages use `xsb_aircraft.txt` command parameters for textures
-that are not supported by XPMP2.
-
 While it is recommendable to have the models installed somewhere under
 the plugin's folder, the CSL packages' location is a matter of convention.
 Your plugin provides the folder location of CSL packages in one or more
 calls to `XPMPLoadCSLPackage`.
+
+Additional `.obj` files next to the existing ones might be generated
+during runtime by XPMP2 for replacing dataRefs and textures. A plugin can
+control this behaviour via configuration settings.
+[See here for details.](CopyingObjFiles.html)

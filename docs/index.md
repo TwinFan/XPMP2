@@ -20,15 +20,13 @@ Content and availability status:
 - [X] CSL Packages
   - [X] [File format definition](XSBAircraftFormat.html) for `xsb_aircraft.txt`
   - [X] [CSL model dataRefs supported by XPMP2](CSLdataRefs.html)
+  - [X] [Copying `.obj` files on load for replacing animation dataRefs and textures](CopyingObjFiles.html)
 
 ## Requirements ##
 
   - XPMP2 implements [instancing](https://developer.x-plane.com/sdk/XPLMInstance/),
     so it **requires X-Plane 11.10** or later
   - CSL models in **OBJ8 format** (ie. older OBJ7 models are no longer supported)
-  - Coversion of CSL model packages with
-    [CSL2XSB.py](https://github.com/TwinFan/CSL2XSB/releases) is strongly recommended
-    to unlock more model features, though not stricly required.
 
 ## Feature Details ##
 
@@ -96,6 +94,14 @@ To drive CSL models'
 [ANIMations](https://developer.x-plane.com/article/obj8-file-format-specification/#ANIMATION_COMMANDS),
 a long list of dataRefs is provided by XPMP2.
 See its [documentation here](CSLdataRefs.html).
+
+### Copying `.obj` files on load
+
+CSL packages come in different flavours. Popular ones for general use are
+the Bluebell and the X-CSL packages. Both come with different history.
+For XPMP2 to use all their features it needs to change their `.obj` files.
+Performing these changes is built into XPMP2.
+[See here for details.](CopyingObjFiles.html)
 
 Links to outside locations:
 --

@@ -108,7 +108,7 @@ bool CSLObj::CopyAndReplace ()
             
             // After line 3 (the header) we insert a comment
             if (lnNr == 4)
-                fOut << "# Created by XPMP2 based on " << StripXPSysDir(pathOrig) << '\n';
+                fOut << "# Created by " << glob.logAcronym << "/XPMP2 based on " << StripXPSysDir(pathOrig) << '\n';
             
             // Process TEXTURE
             if (bDoTexture && ln[0] == 'T' &&       // quick test

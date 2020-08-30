@@ -80,7 +80,7 @@
 /// @see https://forums.x-plane.org/index.php?/files/file/37041-bluebell-obj8-csl-packages/ for the Bluebell package, which includes the models named here
 std::string PLANE_MODEL[3][3] = {
     { "DH8A", "BER", "" },
-    { "MD11",  "KLM", "" },
+    { "B06",  "TXB", "" },
     { "A321", "", "" },         // Not specifying the airline means: XPMP2 will randomly take any airline's model - with every switch of models
 };
 

@@ -24,11 +24,9 @@ For the sample plugin to work you need to follow instruction in
     "A321", all available in the
     [Bluebell](https://forums.x-plane.org/index.php?/files/file/37041-bluebell-obj8-csl-packages/)
     packages. But matching will find _anything_ if you provide at least one model.
-  - Run [`CSL2XSB.pl` script](https://github.com/TwinFan/CSL2XSB)
-    over the models to enable engine/prop rotation.
 
 Its source code `XPMP2-Sample.cpp` includes a lot of comments explaining
-what is happening. Read that!
+what is happening. Read them!
 
 Expected folder structure of the installation:
 ```
@@ -36,9 +34,10 @@ Expected folder structure of the installation:
   lin_x64/XPMP2-Sample.xpl
   mac_x64/XPMP2-Sample.xpl
   Resources/
-      CSL/        <-- install models here
+      CSL/                 <-- install models here
       Doc8643.txt
       MapIcons.png
+      Obj8DataRefs.txt
       related.txt
   win_x64/XPMP2-Sample.xpl
 ```

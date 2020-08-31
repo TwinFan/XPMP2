@@ -11,10 +11,6 @@ OBJ7. XPMP2 only supported OBJ8 models and processes only the commands
 listed here. Others are ignored. They may raise warnings in `Log.txt` but
 otherwise do no harm.
 
-The [`CSL2XSB.pl` script](https://github.com/TwinFan/CSL2XSB)
-converts entire CSL model packages, including their `xsb_aircraft.txt` file,
-to what XPMP2 expects.
-
 Example
 --
 
@@ -105,10 +101,10 @@ the `<model_id>`.
 ### `OBJ8`
 
 ```
-OBJ8 SOLID YES <package_name>[/<relativePathTo>]/<file.obj>
+OBJ8 SOLID YES <package_name>[/<relativePathTo>]/<file.obj> [<texture.ext> [<texture_lit.ext>]]
 ```
 
-Specifies an `.obj` file to load.
+Specifies an `.obj` file to load and optionally differing textures to use.
 
 One `OBJ8_AIRCRAFT` can consist of multiple `.obj` files, though this is not recommended.
 If multiple `OBJ8` lines are given then _all_ objects will be loaded and
@@ -126,6 +122,13 @@ in the current `xsb_aircraft.txt` file, but could also be defined in another one
 Historically, other parameters than `SOLID YES` were supported,
 but the distinction is no longer needed. In fact, XPMP2 just ignores the
 2nd and 3rd parameter altogether.
+
+The 4th and 5th parameters are optional. They define a different texture
+(livery) to use than originally specified in `<file.obj>`. To be able to use this
+differing texture, XPMP2 creates a copy of `<file.obj>`, namely
+`<file>.<texture>.xpmp2.obj`, in which the object's `TEXTURE` resp.
+`TEXTURE_LIT` commands refer to `<texture.ext>` resp. `<texture_lit.ext>`.
+[See here for details on copying `.obj` files.](CopyingObjFiles.html)
 
 ### `VERT_OFFSET`
 

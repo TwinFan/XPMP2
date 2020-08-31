@@ -113,6 +113,10 @@ std::vector<std::unique_ptr<std::string> > drStrings;
 
 /// Registered dataRefs
 std::vector<XPLMDataRef> ahDataRefs;
+
+/// Standard name for "no model"
+static std::string noMdlName("<none>");     // exit-time destuctor accepted
+
 #pragma clang diagnostic pop
 
 
@@ -184,7 +188,8 @@ Aircraft::~Aircraft ()
     DestroyInstances();
     
     // Decrease the reference counter of the CSL model
-    pCSLMdl->DecRefCnt();
+    if (pCSLMdl)
+        pCSLMdl->DecRefCnt();
 
     // remove myself from the global map of planes
     glob.mapAc.erase(modeS_id);
@@ -236,39 +241,39 @@ int Aircraft::ChangeModel (const std::string& _icaoType,
                              _icaoAirline,
                              _livery,
                              pMdl);
-    // Found a model?
-    if (pMdl) {
-        // Is this a change to the currently used model?
-        const bool bChangeExisting = (pCSLMdl && pMdl != pCSLMdl);
-        if (bChangeExisting) {
-            // remove the current instance (which is based on the previous model)
-            LOG_MSG(logINFO, INFO_MODEL_CHANGE,
-                    modeS_id,
-                    pCSLMdl->GetModelName().c_str(),
-                    pMdl->GetModelName().c_str());
-            DestroyInstances();
-        }
-        // Decrease the reference counter of the current CSL model
-        if (pCSLMdl)
-            pCSLMdl->DecRefCnt();
 
-        // save the newly selected model
-        pCSLMdl         = pMdl;
-        matchQuality    = q;
-        acIcaoType      = _icaoType;
-        acIcaoAirline   = _icaoAirline;
-        acLivery        = _livery;
+    // Is this a change to the currently used model?
+    const bool bChangeExisting = (pCSLMdl && pMdl != pCSLMdl);
+    if (bChangeExisting) {
+        // remove the current instance (which is based on the previous model)
+        LOG_MSG(logINFO, INFO_MODEL_CHANGE,
+                modeS_id,
+                pCSLMdl->GetModelName().c_str(),
+                pMdl ? pMdl->GetModelName().c_str() : noMdlName.c_str());
+        DestroyInstances();
+    }
+    // Decrease the reference counter of the current CSL model
+    if (pCSLMdl)
+        pCSLMdl->DecRefCnt();
 
-        // Increase the reference counter of the CSL model to track that the object is being used
+    // save the newly selected model
+    pCSLMdl         = pMdl;             // could theoretically be nullptr!
+    matchQuality    = q;
+    acIcaoType      = _icaoType;
+    acIcaoAirline   = _icaoAirline;
+    acLivery        = _livery;
+
+    // Increase the reference counter of the CSL model to track that the object is being used
+    if (pCSLMdl)
         pCSLMdl->IncRefCnt();
 
-        // Determin map icon based on icao type
-        MapFindIcon();
-        
-        // inform observers in case this was an actual replacement change
-        if (bChangeExisting)
-            XPMPSendNotification(*this, xpmp_PlaneNotification_ModelChanged);
-    }
+    // Determin map icon based on icao type
+    MapFindIcon();
+    
+    // inform observers in case this was an actual replacement change
+    if (bChangeExisting)
+        XPMPSendNotification(*this, xpmp_PlaneNotification_ModelChanged);
+
     return q;
 }
 
@@ -320,10 +325,6 @@ bool Aircraft::AssignModel (const std::string& _modelName)
 // return the name of the CSL model in use
 const std::string& Aircraft::GetModelName () const
 {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wexit-time-destructors"
-    static std::string noMdlName("<null>");     // exit-time destuctor accepted
-#pragma clang diagnostic pop
     return pCSLMdl ? pCSLMdl->GetModelName() : noMdlName;
 }
 
@@ -482,7 +483,7 @@ bool Aircraft::CreateInstances ()
         if (!hInst) {
             LOG_MSG(logERR, ERR_CREATE_INSTANCE,
                     modeS_id,
-                    pCSLMdl->GetModelName().c_str());
+                    GetModelName().c_str());
             DestroyInstances();             // remove other instances we might have created already
             return false;
         }

@@ -1,6 +1,8 @@
 /// @file       RelatedDoc8643.cpp
-/// @brief      Handling the `related.txt` file for creating groups of similar looking aircraft types,
-///             and Doc8643, the official list of ICAO aircraft type codes.
+/// @brief      Reading of supporting text files:
+///             - `related.txt` for creating groups of similar looking aircraft types;
+///             - `Doc8643.txt`, the official list of ICAO aircraft type codes;
+///             - `Obj8DataRefs.txt`, a mapping list for replacing dataRefs in `.obj` files.
 /// @details    A related group is declared simply by a line of ICAO a/c type codes read from the file.
 ///             Internally, the group is just identified by its line number in `related.txt`.
 ///             So the group "44" might be "A306 A30B A310", the Airbus A300 series.
@@ -33,6 +35,9 @@ namespace XPMP2 {
 #define DEBUG_READ_DOC8643      "doc8643.txt: Reading from '%s'"
 #define ERR_DOC8643_NOT_FOUND   "doc8643.txt: Could not open the file for reading"
 #define ERR_DOC8643_READ_ERR    "doc8643.txt: Line %d did not match expectations: %s"
+
+#define DEBUG_READ_OBJ8DR       "Obj8DataRefs.txt: Trying to read from '%s'"
+#define ERR_OBJ8DR_NOT_FOUND    "Obj8DataRefs.txt: Could not open the file for reading"
 
 #define ERR_CFG_LINE_READ       "Error '%s' while reading line %d of %s"
 #define ERR_CFG_FILE_TOOMANY    "Too many errors while trying to read file"
@@ -199,5 +204,66 @@ bool Doc8643IsTypeValid (const std::string& _type)
     return glob.mapDoc8643.count(_type) > 0;
 }
 
+//
+// MARK: Obj8DataRefs.txt
+//
+
+// Load the content of the provided `Obj8DataRefs.txt` file
+const char* Obj8DataRefsLoad (const std::string& _path)
+{
+    // No need to read more than once
+    if (!glob.listObj8DataRefs.empty())
+        return "";
+    
+    // Open the Obj8DataRefs.txt file
+    LOG_MSG(logDEBUG, DEBUG_READ_OBJ8DR, StripXPSysDir(_path).c_str());
+    std::ifstream fObjDR (_path);
+    if (!fObjDR || !fObjDR.is_open())
+        return ERR_OBJ8DR_NOT_FOUND;
+    
+    // read the file line by line and keep track of the line number for error messages
+    int errCnt = 0;
+    for (int lnNr = 1; fObjDR && errCnt <= ERR_CFG_FILE_MAXWARN; ++lnNr)
+    {
+        // read a line, trim it (remove whitespace at both ends)
+        std::string ln;
+        safeGetline(fObjDR, ln);
+        trim(ln);
+        
+        // skip over empty lines and over comments starting with a semicolon
+        if (ln.empty() || ln[0] == ';')
+            continue;
+        
+        // The remainder are expected to be just two strings
+        std::vector<std::string> tokens = str_tokenize(ln, WHITESPACE);
+        if (tokens.size() != 2) {
+            LOG_MSG(logERR, ERR_CFG_LINE_READ, "Expecting 2 entries", lnNr, StripXPSysDir(_path).c_str());
+            ++errCnt;
+            continue;
+        }
+        
+        // ...of which the first one must include a forward-slash,
+        // because that is our quick-check if a .obj line is to be analyzed any further at all
+        if (tokens[0].find('/') == std::string::npos) {
+            LOG_MSG(logERR, ERR_CFG_LINE_READ, "Left-hand side must include forward slash", lnNr, StripXPSysDir(_path).c_str());
+            ++errCnt;
+            continue;
+        }
+
+        // Just store without any further interpretation
+        glob.listObj8DataRefs.emplace_back(std::move(tokens[0]),
+                                           std::move(tokens[1]));        
+    }
+    
+    // Close the related.txt file
+    fObjDR.close();
+    
+    // too many warnings?
+    if (errCnt > ERR_CFG_FILE_MAXWARN)
+        return ERR_CFG_FILE_TOOMANY;
+    
+    // Success
+    return "";
+}
 
 }   // namespace XPMP2

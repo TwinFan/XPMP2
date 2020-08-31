@@ -30,6 +30,7 @@ typedef std::map<std::string,std::string> mapCSLPackageTy;
 enum ObjLoadStateTy {
     OLS_INVALID = -1,       ///< loading once failed -> invalid!
     OLS_UNAVAIL = 0,        ///< Not yet tried loading the CSL object
+    OLS_COPYING,            ///< creating a new `.obj` file copy, replacing dataRefs and textures
     OLS_LOADING,            ///< async load underway
     OLS_AVAILABLE,          ///< X-Plane object available in `xpObj`
 };
@@ -39,7 +40,8 @@ class CSLObj
 {
 public:
     std::string cslId;      ///< id of the CSL model this belongs to
-    std::string path;       ///< full path to the `.obj` file
+    std::string path;       ///< full path to the (potentially copied) `.obj` file
+    std::string pathOrig;   ///< full path to the original `.obj` file IF there is the need to create a copy upon load
     std::string texture;    ///< texture file if defined, to be used in the TEXTURE line of the .obj file
     std::string text_lit;   ///< texture_lit file if defined, to be used in the TEXTURE_LIT line of the .obj file
 
@@ -64,9 +66,12 @@ public:
     /// Is invalid?
     bool IsInvalid () const                     { return xpObjState == OLS_INVALID; }
 
+    /// Determine which file to load and if we need a copied .obj file
+    void DetermineWhichObjToLoad ();
+
     /// Read the obj file to calculate its vertical offset
     float FetchVertOfsFromObjFile () const;
-
+    
     /// @brief Load and return the underlying X-Plane objects.
     /// @note Can return NULL while async load is underway!
     XPLMObjectRef GetAndLoadObj ();
@@ -74,8 +79,23 @@ public:
     void Load ();
     /// Free up the object
     void Unload ();
+    
+    /// Will this object require copying the `.obj` file upon load?
+    bool NeedsObjCopy () const { return !pathOrig.empty(); }
 
 protected:
+    
+    /// @brief Trigger a separate thread to copy the .obj file if needed
+    /// @return true when copying has finished, false if the loading sequence needs to wait here (for the copy operation to start or finish)
+    bool TriggerCopyAndReplace ();
+    /// Update with the result of the copy operation
+    void SetCopyResult (bool bResult);
+    /// Update _another_ CSLObj with the result of the copy operation
+    static void SetOtherObjCopyResult (bool bResult);
+    
+    /// Perform the copy-on-load functionality, replacing dataRefs and textures, expected to be called via std::async
+    bool CopyAndReplace ();
+    
     /// callback function called when loading is done
     static void XPObjLoadedCB (XPLMObjectRef inObject,
                                void *        inRefcon);
@@ -106,7 +126,9 @@ public:
     /// Vector of match-relevant fields
     typedef std::vector<MatchCritTy> MatchCritVecTy;
 public:
-    /// id, just an arbitrary label read from `xsb_aircraft.txt::OBJ8_AIRCRAFT`
+    /// short id, just an arbitrary label read from `xsb_aircraft.txt::OBJ8_AIRCRAFT`
+    std::string         shortId;
+    /// full id: package name / shortId, expected to be unique
     std::string         cslId;
     /// name, formed by last part of path plus id
     std::string         modelName;
@@ -156,8 +178,8 @@ public:
     void AddMatchCriteria (const std::string& _type,
                            const MatchCritTy& _matchCrit,
                            int lnNr);
-    /// Puts together the model name string from a path component and the provided `shortId`
-    void CompModelName (const std::string& shortId);
+    /// Puts together the model name string from a path component and `shortId`
+    void CompModelName ();
     
     /// Minimum requirement for using this object is: id, type, path
     bool IsValid () const { return !cslId.empty() && !icaoType.empty() && !listObj.empty(); }

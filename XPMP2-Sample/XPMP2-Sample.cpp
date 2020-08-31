@@ -80,7 +80,7 @@
 /// @see https://forums.x-plane.org/index.php?/files/file/37041-bluebell-obj8-csl-packages/ for the Bluebell package, which includes the models named here
 std::string PLANE_MODEL[3][3] = {
     { "DH8A", "BER", "" },
-    { "B77L",  "SUN", "" },
+    { "B06",  "TXB", "" },
     { "A321", "", "" },         // Not specifying the airline means: XPMP2 will randomly take any airline's model - with every switch of models
 };
 
@@ -106,10 +106,13 @@ void LogMsg (const char* szMsg, ... )
 /// Only 3 are left, all of them integers.
 int CBIntPrefsFunc (const char *, [[maybe_unused]] const char * item, int defaultVal)
 {
+    // We always want to replace dataRefs and textures upon load to make the most out of the .obj files
+    if (!strcmp(item, XPMP_CFG_ITM_REPLDATAREFS)) return 1;
+    if (!strcmp(item, XPMP_CFG_ITM_REPLTEXTURE)) return 1;      // actually...this is ON by default anyway, just to be sure
 #if DEBUG
     // in debug version of the plugin we provide most complete log output
-    if (!strcmp(item, "model_matching")) return 1;
-    if (!strcmp(item, "log_level")) return 0;       // DEBUG logging level
+    if (!strcmp(item, XPMP_CFG_ITM_MODELMATCHING)) return 1;
+    if (!strcmp(item, XPMP_CFG_ITM_LOGLEVEL)) return 0;       // DEBUG logging level
 #endif
     // Otherwise we just accept defaults
     return defaultVal;
@@ -889,6 +892,12 @@ PLUGIN_API int XPluginStart(char* outName, char* outSig, char* outDesc)
 	std::strcpy(outSig, "TwinFan.plugin.XPMP2-Sample");
 	std::strcpy(outDesc, "Sample plugin demonstrating using XPMP2 library");
     
+    // use native paths, i.e. Posix style (as opposed to HFS style)
+    // https://developer.x-plane.com/2014/12/mac-plugin-developers-you-should-be-using-native-paths/
+    
+    /* Disable next line only for testing purposes: Does XPMP2 also handle HFS well? */
+    XPLMEnableFeature("XPLM_USE_NATIVE_PATHS",1);
+
     // Create the menu for the plugin
     int my_slot = XPLMAppendMenuItem(XPLMFindPluginsMenu(), "XPMP2 Sample", NULL, 0);
     hMenu = XPLMCreateMenu("XPMP2 Sample", XPLMFindPluginsMenu(), my_slot, CBMenu, NULL);

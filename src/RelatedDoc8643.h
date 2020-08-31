@@ -91,6 +91,26 @@ const Doc8643& Doc8643Get (const std::string& _type);
 /// Is the given aircraft type a valid ICAO type as per Doc8643?
 bool Doc8643IsTypeValid (const std::string& _type);
 
+//
+// MARK: Obj8DataRefs.txt
+//
+
+/// A pair of strings, first one to search for, second one to replace it with
+struct Obj8DataRefs {
+    std::string     s;      ///< search the `.obj` file for this string
+    std::string     r;      ///< if found replace it with this string
+    
+    /// Constructor just loads the strings
+    Obj8DataRefs (std::string&& _s, std::string&& _r) :
+    s (std::move(_s)), r (std::move(_r)) {}
+};
+
+/// a list of Obj8DataRefs definitions
+typedef std::list<Obj8DataRefs> listObj8DataRefsTy;
+
+/// Load the content of the provided `Obj8DataRefs.txt` file
+const char* Obj8DataRefsLoad (const std::string& _path);
+
 }
 
 #endif

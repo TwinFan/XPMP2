@@ -103,12 +103,23 @@ void XPMPSendNotification (const Aircraft& plane, XPMPPlaneNotification _notific
 /// All global config settings and variables are kept in one structure for convenient access and central definition
 struct GlobVars {
 public:
+    // Settings:
     /// Logging level
     logLevelTy      logLvl      = logINFO;
     /// Debug model matching?
     bool            bLogMdlMatch= false;
     /// Clamp all planes to the ground? Default is `false` as clamping is kinda expensive due to Y-Testing.
     bool            bClampAll   = false;
+    
+    /// Replace dataRefs in `.obj` files on load? (defaults to OFF!)
+    bool            bObjReplDataRefs = false;
+    /// Replace textures in `.obj` files on load if needed?
+    bool            bObjReplTextures = true;
+    /// Path to the `Obj8DataRefs.txt` file
+    std::string     pathObj8DataRefs;
+    /// List of dataRef replacement in `.obj` files
+    listObj8DataRefsTy listObj8DataRefs;
+    
     /// Name of the plugin we are serving (used as map layer name or for folders)
     std::string     pluginName  = UNKNOWN_PLUGIN_NAME;
     /// Plugin acronym used in log output

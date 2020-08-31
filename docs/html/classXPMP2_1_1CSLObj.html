@@ -79,6 +79,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2480fb1a48d0e29b3cef3d9951e0e3b0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLObj.html#a2480fb1a48d0e29b3cef3d9951e0e3b0">IsInvalid</a> () const</td></tr>
 <tr class="memdesc:a2480fb1a48d0e29b3cef3d9951e0e3b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is invalid?  <a href="classXPMP2_1_1CSLObj.html#a2480fb1a48d0e29b3cef3d9951e0e3b0">More...</a><br /></td></tr>
 <tr class="separator:a2480fb1a48d0e29b3cef3d9951e0e3b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8fd475060cc43e90df0b2a20ead80aa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLObj.html#ae8fd475060cc43e90df0b2a20ead80aa">DetermineWhichObjToLoad</a> ()</td></tr>
+<tr class="memdesc:ae8fd475060cc43e90df0b2a20ead80aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine which file to load and if we need a copied .obj file.  <a href="classXPMP2_1_1CSLObj.html#ae8fd475060cc43e90df0b2a20ead80aa">More...</a><br /></td></tr>
+<tr class="separator:ae8fd475060cc43e90df0b2a20ead80aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa062bed425dd7d90a4ae36ac9f597661"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLObj.html#aa062bed425dd7d90a4ae36ac9f597661">FetchVertOfsFromObjFile</a> () const</td></tr>
 <tr class="memdesc:aa062bed425dd7d90a4ae36ac9f597661"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the obj file to calculate its vertical offset.  <a href="classXPMP2_1_1CSLObj.html#aa062bed425dd7d90a4ae36ac9f597661">More...</a><br /></td></tr>
 <tr class="separator:aa062bed425dd7d90a4ae36ac9f597661"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -91,6 +94,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab0efcd937fc5e94929fb5570f52ec485"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLObj.html#ab0efcd937fc5e94929fb5570f52ec485">Unload</a> ()</td></tr>
 <tr class="memdesc:ab0efcd937fc5e94929fb5570f52ec485"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free up the object.  <a href="classXPMP2_1_1CSLObj.html#ab0efcd937fc5e94929fb5570f52ec485">More...</a><br /></td></tr>
 <tr class="separator:ab0efcd937fc5e94929fb5570f52ec485"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5760c296ad0bfd930d10c3b32e00733"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLObj.html#ad5760c296ad0bfd930d10c3b32e00733">NeedsObjCopy</a> () const</td></tr>
+<tr class="memdesc:ad5760c296ad0bfd930d10c3b32e00733"><td class="mdescLeft">&#160;</td><td class="mdescRight">Will this object require copying the <code>.obj</code> file upon load?  <a href="classXPMP2_1_1CSLObj.html#ad5760c296ad0bfd930d10c3b32e00733">More...</a><br /></td></tr>
+<tr class="separator:ad5760c296ad0bfd930d10c3b32e00733"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -98,8 +104,11 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:af526855cb7c242ed9a0eba3c17aad2b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">id of the CSL model this belongs to  <a href="classXPMP2_1_1CSLObj.html#af526855cb7c242ed9a0eba3c17aad2b6">More...</a><br /></td></tr>
 <tr class="separator:af526855cb7c242ed9a0eba3c17aad2b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adaa8ae3beb7eb2817e773d8f1ca7074b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLObj.html#adaa8ae3beb7eb2817e773d8f1ca7074b">path</a></td></tr>
-<tr class="memdesc:adaa8ae3beb7eb2817e773d8f1ca7074b"><td class="mdescLeft">&#160;</td><td class="mdescRight">full path to the <code>.obj</code> file  <a href="classXPMP2_1_1CSLObj.html#adaa8ae3beb7eb2817e773d8f1ca7074b">More...</a><br /></td></tr>
+<tr class="memdesc:adaa8ae3beb7eb2817e773d8f1ca7074b"><td class="mdescLeft">&#160;</td><td class="mdescRight">full path to the (potentially copied) <code>.obj</code> file  <a href="classXPMP2_1_1CSLObj.html#adaa8ae3beb7eb2817e773d8f1ca7074b">More...</a><br /></td></tr>
 <tr class="separator:adaa8ae3beb7eb2817e773d8f1ca7074b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5eac34e66a7eb0c47542504c5f17f468"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLObj.html#a5eac34e66a7eb0c47542504c5f17f468">pathOrig</a></td></tr>
+<tr class="memdesc:a5eac34e66a7eb0c47542504c5f17f468"><td class="mdescLeft">&#160;</td><td class="mdescRight">full path to the original <code>.obj</code> file IF there is the need to create a copy upon load  <a href="classXPMP2_1_1CSLObj.html#a5eac34e66a7eb0c47542504c5f17f468">More...</a><br /></td></tr>
+<tr class="separator:a5eac34e66a7eb0c47542504c5f17f468"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af7b3ea626fa6a39a646aad1bd4265d39"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLObj.html#af7b3ea626fa6a39a646aad1bd4265d39">texture</a></td></tr>
 <tr class="memdesc:af7b3ea626fa6a39a646aad1bd4265d39"><td class="mdescLeft">&#160;</td><td class="mdescRight">texture file if defined, to be used in the TEXTURE line of the .obj file  <a href="classXPMP2_1_1CSLObj.html#af7b3ea626fa6a39a646aad1bd4265d39">More...</a><br /></td></tr>
 <tr class="separator:af7b3ea626fa6a39a646aad1bd4265d39"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -109,12 +118,24 @@ Public Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
+<tr class="memitem:a9a1972bf881fd060977738e015fa8c60"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLObj.html#a9a1972bf881fd060977738e015fa8c60">TriggerCopyAndReplace</a> ()</td></tr>
+<tr class="memdesc:a9a1972bf881fd060977738e015fa8c60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Trigger a separate thread to copy the .obj file if needed.  <a href="classXPMP2_1_1CSLObj.html#a9a1972bf881fd060977738e015fa8c60">More...</a><br /></td></tr>
+<tr class="separator:a9a1972bf881fd060977738e015fa8c60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82f22311cdacd866763fc1d1a1d54890"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLObj.html#a82f22311cdacd866763fc1d1a1d54890">SetCopyResult</a> (bool bResult)</td></tr>
+<tr class="memdesc:a82f22311cdacd866763fc1d1a1d54890"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update with the result of the copy operation.  <a href="classXPMP2_1_1CSLObj.html#a82f22311cdacd866763fc1d1a1d54890">More...</a><br /></td></tr>
+<tr class="separator:a82f22311cdacd866763fc1d1a1d54890"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af34c9c614d235711bcfd1ae3d2db200e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLObj.html#af34c9c614d235711bcfd1ae3d2db200e">CopyAndReplace</a> ()</td></tr>
+<tr class="memdesc:af34c9c614d235711bcfd1ae3d2db200e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform the copy-on-load functionality, replacing dataRefs and textures, expected to be called via std::async.  <a href="classXPMP2_1_1CSLObj.html#af34c9c614d235711bcfd1ae3d2db200e">More...</a><br /></td></tr>
+<tr class="separator:af34c9c614d235711bcfd1ae3d2db200e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae54f72953bc0f950b22a0987d10da7b1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLObj.html#ae54f72953bc0f950b22a0987d10da7b1">Invalidate</a> ()</td></tr>
 <tr class="memdesc:ae54f72953bc0f950b22a0987d10da7b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marks the CSL Model invalid in case object loading once failed.  <a href="classXPMP2_1_1CSLObj.html#ae54f72953bc0f950b22a0987d10da7b1">More...</a><br /></td></tr>
 <tr class="separator:ae54f72953bc0f950b22a0987d10da7b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-methods"></a>
 Static Protected Member Functions</h2></td></tr>
+<tr class="memitem:acd2f13d2e67276830eb8065629f364fd"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLObj.html#acd2f13d2e67276830eb8065629f364fd">SetOtherObjCopyResult</a> (bool bResult)</td></tr>
+<tr class="memdesc:acd2f13d2e67276830eb8065629f364fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update <em>another</em> <a class="el" href="classXPMP2_1_1CSLObj.html" title="One .obj file of a CSL model (of which it can have multiple)">CSLObj</a> with the result of the copy operation.  <a href="classXPMP2_1_1CSLObj.html#acd2f13d2e67276830eb8065629f364fd">More...</a><br /></td></tr>
+<tr class="separator:acd2f13d2e67276830eb8065629f364fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0cbc67f6de8f26994743293993b5ef0"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLObj.html#ac0cbc67f6de8f26994743293993b5ef0">XPObjLoadedCB</a> (XPLMObjectRef inObject, void *inRefcon)</td></tr>
 <tr class="memdesc:ac0cbc67f6de8f26994743293993b5ef0"><td class="mdescLeft">&#160;</td><td class="mdescRight">callback function called when loading is done  <a href="classXPMP2_1_1CSLObj.html#ac0cbc67f6de8f26994743293993b5ef0">More...</a><br /></td></tr>
 <tr class="separator:ac0cbc67f6de8f26994743293993b5ef0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -217,6 +238,59 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="af34c9c614d235711bcfd1ae3d2db200e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af34c9c614d235711bcfd1ae3d2db200e">&#9670;&nbsp;</a></span>CopyAndReplace()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::CSLObj::CopyAndReplace </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Perform the copy-on-load functionality, replacing dataRefs and textures, expected to be called via std::async. </p>
+
+</div>
+</div>
+<a id="ae8fd475060cc43e90df0b2a20ead80aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8fd475060cc43e90df0b2a20ead80aa">&#9670;&nbsp;</a></span>DetermineWhichObjToLoad()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::CSLObj::DetermineWhichObjToLoad </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Determine which file to load and if we need a copied .obj file. </p>
+<ol type="1">
+<li>Determine if we need to access a copied file at all<ol type="a">
+<li>Compute that copied file name It will include one of the texture ids if texture replacement is involved It will always end on ".xpmp2.obj"</li>
+<li>Test if that copied file already exists The actual copy operation will only be peformed upon load. </li>
+</ol>
+</li>
+</ol>
+
+</div>
+</div>
 <a id="aa062bed425dd7d90a4ae36ac9f597661"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa062bed425dd7d90a4ae36ac9f597661">&#9670;&nbsp;</a></span>FetchVertOfsFromObjFile()</h2>
 
@@ -358,6 +432,33 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ad5760c296ad0bfd930d10c3b32e00733"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5760c296ad0bfd930d10c3b32e00733">&#9670;&nbsp;</a></span>NeedsObjCopy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::CSLObj::NeedsObjCopy </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Will this object require copying the <code>.obj</code> file upon load? </p>
+
+</div>
+</div>
 <a id="a7d5b4c0c3df53c982bd4d71e5e2a567d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7d5b4c0c3df53c982bd4d71e5e2a567d">&#9670;&nbsp;</a></span>operator=()</h2>
 
@@ -381,6 +482,90 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a82f22311cdacd866763fc1d1a1d54890"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82f22311cdacd866763fc1d1a1d54890">&#9670;&nbsp;</a></span>SetCopyResult()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::CSLObj::SetCopyResult </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>bResult</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Update with the result of the copy operation. </p>
+
+</div>
+</div>
+<a id="acd2f13d2e67276830eb8065629f364fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd2f13d2e67276830eb8065629f364fd">&#9670;&nbsp;</a></span>SetOtherObjCopyResult()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::CSLObj::SetOtherObjCopyResult </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>bResult</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Update <em>another</em> <a class="el" href="classXPMP2_1_1CSLObj.html" title="One .obj file of a CSL model (of which it can have multiple)">CSLObj</a> with the result of the copy operation. </p>
+
+</div>
+</div>
+<a id="a9a1972bf881fd060977738e015fa8c60"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a1972bf881fd060977738e015fa8c60">&#9670;&nbsp;</a></span>TriggerCopyAndReplace()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::CSLObj::TriggerCopyAndReplace </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Trigger a separate thread to copy the .obj file if needed. </p>
+<dl class="section return"><dt>Returns</dt><dd>true when copying has finished, false if the loading sequence needs to wait here (for the copy operation to start or finish) </dd></dl>
 
 </div>
 </div>
@@ -470,7 +655,23 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>full path to the <code>.obj</code> file </p>
+<p>full path to the (potentially copied) <code>.obj</code> file </p>
+
+</div>
+</div>
+<a id="a5eac34e66a7eb0c47542504c5f17f468"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5eac34e66a7eb0c47542504c5f17f468">&#9670;&nbsp;</a></span>pathOrig</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string XPMP2::CSLObj::pathOrig</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>full path to the original <code>.obj</code> file IF there is the need to create a copy upon load </p>
 
 </div>
 </div>
@@ -556,6 +757,7 @@ Protected Attributes</h2></td></tr>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>src/<a class="el" href="CSLModels_8h_source.html">CSLModels.h</a></li>
+<li>src/<a class="el" href="CSLCopy_8cpp.html">CSLCopy.cpp</a></li>
 <li>src/<a class="el" href="CSLModels_8cpp.html">CSLModels.cpp</a></li>
 </ul>
 </div><!-- contents -->

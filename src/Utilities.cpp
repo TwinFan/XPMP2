@@ -76,11 +76,18 @@ void GlobVars::UpdateCfgVals ()
     if (logDEBUG <= i && i <= logINFO)
         logLvl = logLevelTy(i);
     
+    // Ask for replacing dataRefs in OBJ8 files
+    bObjReplDataRefs = prefsFuncInt(XPMP_CFG_SEC_MODELS, XPMP_CFG_ITM_REPLDATAREFS, bObjReplDataRefs) != 0;
+    
+    // Ask for replacing textures in OBJ8 files
+    bObjReplTextures = prefsFuncInt(XPMP_CFG_SEC_MODELS, XPMP_CFG_ITM_REPLTEXTURE, bObjReplTextures) != 0;
+    
+    // Ask for clam-to-ground config
+    bClampAll = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_CLAMPALL, bClampAll) != 0;
+
     // Ask for model matching logging
     bLogMdlMatch = prefsFuncInt(XPMP_CFG_SEC_DEBUG, XPMP_CFG_ITM_MODELMATCHING, bLogMdlMatch) != 0;
     
-    // Ask for clam-to-ground config
-    bClampAll = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_CLAMPALL, bClampAll) != 0;    
 }
 
 // Read version numbers into verXplane/verXPLM
@@ -256,6 +263,14 @@ std::string StripXPSysDir (const std::string& path)
         return path.substr(sysDir.length());
     else
         return path;
+}
+
+// Removes everything after the last dot, the dot including
+void RemoveExtension (std::string& path)
+{
+    std::string::size_type dotPos = path.rfind('.');
+    if (dotPos != std::string::npos)
+        path.erase(dotPos);
 }
 
 //

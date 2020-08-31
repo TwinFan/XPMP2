@@ -40,15 +40,18 @@ using namespace XPMP2;
 namespace XPMP2 {
 
 /// Validates existence of a given file and saves its full path location
-static bool FindResFile (const char* fName, std::string& outPath)
+static bool FindResFile (const char* fName, std::string& outPath,
+                         bool bRequired = true)
 {
     std::string path = glob.resourceDir + fName;
     if (ExistsFile(path)) {
         outPath = std::move(path);
         return true;
     } else {
-        LOG_MSG(logFATAL, ERR_RSRC_FILE_UNAVAIL,
-                fName, glob.resourceDir.c_str());
+        if (bRequired) {
+            LOG_MSG(logFATAL, ERR_RSRC_FILE_UNAVAIL,
+                    fName, glob.resourceDir.c_str());
+        }
         return false;
     }
 }
@@ -81,6 +84,13 @@ const char* XPMPValidateResourceFiles (const char* resourceDir)
         return "Doc8643.txt not found in resource directory";
     if (!FindResFile(RSRC_MAP_ICONS, glob.pathMapIcons))
         return "MapIcons.png not found in resource directory";
+    // this last one is not essentially required:
+    if (!FindResFile(RSRC_OBJ8DATAREFS, glob.pathObj8DataRefs, false) &&
+        glob.bObjReplDataRefs) {
+        LOG_MSG(logWARN, ERR_RSRC_FILE_UNAVAIL,
+                RSRC_OBJ8DATAREFS, glob.resourceDir.c_str());
+
+    }
     
     // Success
     return "";
@@ -167,6 +177,12 @@ const char *    XPMPMultiplayerInit(const char* inPluginName,
     // Load Doc8643.txt
     ret = Doc8643Load(glob.pathDoc8643);
     if (ret[0]) return ret;
+    
+    // If available (it is not required) load the Obj8DataRefs.txt file
+    if (!glob.pathObj8DataRefs.empty()) {
+        ret = Obj8DataRefsLoad(glob.pathObj8DataRefs);
+        if (ret[0]) return ret;
+    }
 
     // Success
     return "";

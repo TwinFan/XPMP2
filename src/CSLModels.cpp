@@ -412,7 +412,7 @@ void CSLModel::AddMatchCriteria (const std::string& _type,
         icaoType != _type)              // but wanted something different now?
     {
         LOG_MSG(logWARN, WARN_DIFF_TYPE, lnNr,
-                icaoType.c_str(), _type.c_str(),
+                _type.c_str(), icaoType.c_str(), 
                 modelName.c_str());
     }
     // set the ICAO aircraft type once and forever

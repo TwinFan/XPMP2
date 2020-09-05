@@ -89,6 +89,14 @@ includes how to install the sample plugin, especially also CSL models.
 The way how XPMP2 picks any of the available CSL models for display
 is [documented here](https://twinfan.github.io/XPMP2/Matching.html).
 
+### Enhancing CSL Models ###
+
+CSL packages come in different flavours. Popular ones for general use are
+the Bluebell and the X-CSL packages. Both come with different history.
+For XPMP2 to use all their features (all liveries, turning rotors, props, wheels...)
+it needs to adapt their `.obj` files. Performing these changes is built into XPMP2,
+[details here](https://twinfan.github.io/XPMP2/CopyingObjFiles.html).
+
 ### TCAS and AI/multiplayer Support ###
 
 XPMP2 provides TCAS blibs and AI/multiplayer data using

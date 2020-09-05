@@ -39,20 +39,21 @@ here on GitHub.
 
 ## Status ##
 
-Available for use, though be aware that enhancement are still possible
-during the LiveTraffic v2.0 Beta phase and certainly due to regular
-issue and bug fixing.
-
+Available, and should be rather reliable now. No (major) bugs are known.
+Future development can certainly extend functionality while trying hard
+to stay backward compatible.
 
 The XPMP2 library has been successfully tested with
-- X-Plane 11.50 Beta 10 under OpenGL, Vulkan, and Metal,
+- X-Plane 11.50 RC3 under OpenGL, Vulkan, and Metal,
 - the enclosed sample plugin,
-- [LiveTraffic v2.0x](https://forums.x-plane.org/index.php?/files/file/49749-livetraffic/)
+- [LiveTraffic v2.10](https://forums.x-plane.org/index.php?/files/file/49749-livetraffic/)
 - on Mac OS,
 - Windows, and
 - Linux (Ubuntu 18.04 and similar).
 
-Apparently, X-Pilot 1.3 also uses XPMP2 already.
+Apparently, the X-Plane versions of [X-Pilot 1.3](http://xpilot-project.org/) and
+[IVAO Altitude](https://www.ivao.aero/softdev/beta/altitudebeta.asp)
+clients also use XPMP2 already.
 
 ## Requirements ##
 

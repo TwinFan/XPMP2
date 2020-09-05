@@ -73,8 +73,9 @@ void GlobVars::UpdateCfgVals ()
     
     // Ask for logging level
     int i = prefsFuncInt(XPMP_CFG_SEC_DEBUG, XPMP_CFG_ITM_LOGLEVEL, logLvl);
-    if (logDEBUG <= i && i <= logINFO)
-        logLvl = logLevelTy(i);
+    if (i < logDEBUG) i = logDEBUG;
+    if (i > logMSG) i = logMSG;
+    logLvl = logLevelTy(i);
     
     // Ask for replacing dataRefs in OBJ8 files
     bObjReplDataRefs = prefsFuncInt(XPMP_CFG_SEC_MODELS, XPMP_CFG_ITM_REPLDATAREFS, bObjReplDataRefs) != 0;

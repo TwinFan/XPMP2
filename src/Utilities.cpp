@@ -86,6 +86,9 @@ void GlobVars::UpdateCfgVals ()
     // Ask for clam-to-ground config
     bClampAll = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_CLAMPALL, bClampAll) != 0;
 
+    // Ask for handling of duplicate XPMP2::Aircraft::modeS_id
+    bHandleDupId = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_HANDLE_DUP_ID, bHandleDupId) != 0;
+
     // Ask for model matching logging
     bLogMdlMatch = prefsFuncInt(XPMP_CFG_SEC_DEBUG, XPMP_CFG_ITM_MODELMATCHING, bLogMdlMatch) != 0;
     

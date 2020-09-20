@@ -34,6 +34,7 @@ using namespace XPMP2;
 #define WARN_MODEL_NOT_FOUND    "Named CSL Model '%s' not found"
 #define FATAL_MODE_S_OUT_OF_RGE "_modeS_id (0x%06X) is out of range [0x%06X..0x%06X]"
 #define FATAL_MODE_S_EXISTS     "_modeS_id (0x%06X) already exists"
+#define DEBUG_REPL_MODE_S       "Replaced duplicate _modeS_id 0x%06X with new unique value 0x%06X"
 #define ERR_CREATE_INSTANCE     "Aircraft 0x%06X: Create Instance FAILED for CSL Model %s"
 #define DEBUG_INSTANCE_CREATED  "Aircraft 0x%06X: Instance created"
 #define DEBUG_INSTANCE_DESTRYD  "Aircraft 0x%06X: Instance destroyed"
@@ -141,8 +142,17 @@ v(DR_NAMES.size(), 0.0f)
             THROW_ERROR(FATAL_MODE_S_OUT_OF_RGE,
                         _modeS_id, MIN_MODE_S_ID, MAX_MODE_S_ID);
         }
-        if (glob.mapAc.count(_modeS_id) != 0) {
-            THROW_ERROR(FATAL_MODE_S_EXISTS, _modeS_id);
+        if (glob.mapAc.count(_modeS_id) != 0)       // _modeS_id already exists
+        {
+            // we shall assign a new unique id?
+            if (glob.bHandleDupId)
+            {
+                modeS_id = glob.NextPlaneId();
+                LOG_MSG(logDEBUG, DEBUG_REPL_MODE_S, _modeS_id, modeS_id);
+            } else {
+                // throw exception
+                THROW_ERROR(FATAL_MODE_S_EXISTS, _modeS_id);
+            }
         }
     }
     

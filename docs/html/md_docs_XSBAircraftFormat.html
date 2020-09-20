@@ -45,8 +45,7 @@ $(function() {
 <div class="contents">
 <div class="textblock"><p>The <code>xsb_aircraft.txt</code> file describes the content of one CSL model package. <a class="el" href="namespaceXPMP2.html">XPMP2</a> reads the file to learn about available CSL models and which ICAO aircraft type designators, airlines, and special liveries they match.</p>
 <p>The <a href="https://github.com/kuroneko/libxplanemp/wiki/LegacyCSL#aircraft-directory-text-file-format">original file format</a> supported more commands necessary to support older formats like <code>.acf</code> or OBJ7. <a class="el" href="namespaceXPMP2.html">XPMP2</a> only supported OBJ8 models and processes only the commands listed here. Others are ignored. They may raise warnings in <code>Log.txt</code> but otherwise do no harm.</p>
-<p>The <a href="https://github.com/TwinFan/CSL2XSB"><code>CSL2XSB.pl</code> script</a> converts entire CSL model packages, including their <code>xsb_aircraft.txt</code> file, to what <a class="el" href="namespaceXPMP2.html">XPMP2</a> expects.</p>
-<h1><a class="anchor" id="autotoc_md27"></a>
+<h1><a class="anchor" id="autotoc_md30"></a>
 Example</h1>
 <p>The following is taken from the beginning of Bluebell's <code>xsb_aircraft.txt</code> file in its <code>BB_Airbus</code> folder:</p>
 <div class="fragment"><div class="line">EXPORT_NAME __Bluebell_Airbus</div>
@@ -60,7 +59,7 @@ Example</h1>
 <div class="line">OBJ8 SOLID YES __Bluebell_Airbus/A306/A306_AHK.obj</div>
 <div class="line">VERT_OFFSET 4.6</div>
 <div class="line">AIRLINE A306 AHK</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md28"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md31"></a>
 Structure</h1>
 <p>A <code>xsb_aircraft.txt</code> file starts defining one (or even more) package name(s) using the <code>EXPORT_NAME</code> command. Packages are identified by these names, which are then used as a root name to define the <code>.obj</code> file locations.</p>
 <p>Then follow one or typically many aircraft definitions. Each aircraft definition starts with an <code>OBJ8_AIRCRAFT</code> command defining a package-unique id. <a class="el" href="namespaceXPMP2.html">XPMP2</a> expects the <em>combination</em> of <code>EXPORT_NAME</code> and <code>OBJ8_AIRCRAFT</code> name to be unique and ignores any duplicates (with a warning written to <code>Log.txt</code>).</p>
@@ -74,7 +73,7 @@ Structure</h1>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md29"></a>
+<h1><a class="anchor" id="autotoc_md32"></a>
 Commands</h1>
 <h2><code>EXPORT_NAME</code></h2>
 <div class="fragment"><div class="line">EXPORT_NAME &lt;package_name&gt;</div>
@@ -88,14 +87,15 @@ Commands</h1>
 <p><a class="el" href="namespaceXPMP2.html">XPMP2</a> uses the <code>&lt;package_name&gt;</code> plus the <code>&lt;model_id&gt;</code> to uniquely refer to a specific CSL model. This combination must be unique.</p>
 <p>Everything after the <code>OBJ8_AIRCRAFT</code> command until the end of the line is considered the <code>&lt;model_id&gt;</code>.</p>
 <h2><code>OBJ8</code></h2>
-<div class="fragment"><div class="line">OBJ8 SOLID YES &lt;package_name&gt;[/&lt;relativePathTo&gt;]/&lt;file.obj&gt;</div>
-</div><!-- fragment --><p>Specifies an <code>.obj</code> file to load.</p>
+<div class="fragment"><div class="line">OBJ8 SOLID YES &lt;package_name&gt;[/&lt;relativePathTo&gt;]/&lt;file.obj&gt; [&lt;texture.ext&gt; [&lt;texture_lit.ext&gt;]]</div>
+</div><!-- fragment --><p>Specifies an <code>.obj</code> file to load and optionally differing textures to use.</p>
 <p>One <code>OBJ8_AIRCRAFT</code> can consist of multiple <code>.obj</code> files, though this is not recommended. If multiple <code>OBJ8</code> lines are given then <em>all</em> objects will be loaded and displayed when the CSL model is needed, assuming that their local coordinate reference is the same, ie. they will all be placed at the same location. (And only <em>if</em> all <code>.obj</code> files are found and loaded will the model be rendered.)</p>
 <p>The location is relative to the given <code>&lt;package_name&gt;</code> (which can be and often is in the current <code>xsb_aircraft.txt</code> file, but could also be defined in another one):</p><ul>
 <li>If a <code>&lt;relativePathTo&gt;</code> is given it needs to start in the same directory where the <code>&lt;package_name&gt;</code>'s <code>xsb_aircraft.txt</code> file is located;</li>
 <li>if no <code>&lt;relativePathTo&gt;</code> is given then the <code>&lt;file.obj&gt;</code> is expected to be in the same directory as the <code>&lt;package_name&gt;</code>'s <code>xsb_aircraft.txt</code> file.</li>
 </ul>
 <p>Historically, other parameters than <code>SOLID YES</code> were supported, but the distinction is no longer needed. In fact, <a class="el" href="namespaceXPMP2.html">XPMP2</a> just ignores the 2nd and 3rd parameter altogether.</p>
+<p>The 4th and 5th parameters are optional. They define a different texture (livery) to use than originally specified in <code>&lt;file.obj&gt;</code>. To be able to use this differing texture, <a class="el" href="namespaceXPMP2.html">XPMP2</a> creates a copy of <code>&lt;file.obj&gt;</code>, namely <code>&lt;file&gt;.&lt;texture&gt;.xpmp2.obj</code>, in which the object's <code>TEXTURE</code> resp. <code>TEXTURE_LIT</code> commands refer to <code>&lt;texture.ext&gt;</code> resp. <code>&lt;texture_lit.ext&gt;</code>. <a href="CopyingObjFiles.html">See here for details on copying <code>.obj</code> files.</a></p>
 <h2><code>VERT_OFFSET</code></h2>
 <div class="fragment"><div class="line">VERT_OFFSET &lt;float_num&gt;</div>
 </div><!-- fragment --><p>Defines the vertical offset for correct placement of the model on the ground with gears down.</p>

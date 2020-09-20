@@ -100,6 +100,9 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a16e5128e928aec332a0bf46516c9fa28"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; <a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>, <a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a16e5128e928aec332a0bf46516c9fa28">mapAcTy</a></td></tr>
 <tr class="memdesc:a16e5128e928aec332a0bf46516c9fa28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map of all aircraft, key is tthe plane id.  <a href="namespaceXPMP2.html#a16e5128e928aec332a0bf46516c9fa28">More...</a><br /></td></tr>
 <tr class="separator:a16e5128e928aec332a0bf46516c9fa28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49528e2e03297cc417346dd688b696e5"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; std::string, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a49528e2e03297cc417346dd688b696e5">mapStrIntTy</a></td></tr>
+<tr class="memdesc:a49528e2e03297cc417346dd688b696e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">a map of a text and a counter  <a href="namespaceXPMP2.html#a49528e2e03297cc417346dd688b696e5">More...</a><br /></td></tr>
+<tr class="separator:a49528e2e03297cc417346dd688b696e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac510f3d4b2df31db550bd822199f06a4"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ac510f3d4b2df31db550bd822199f06a4">mapCSLPackageTy</a></td></tr>
 <tr class="memdesc:ac510f3d4b2df31db550bd822199f06a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map of CSLPackages: Maps an id to the base path (path ends on forward slash)  <a href="namespaceXPMP2.html#ac510f3d4b2df31db550bd822199f06a4">More...</a><br /></td></tr>
 <tr class="separator:ac510f3d4b2df31db550bd822199f06a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -298,9 +301,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aa6d785a6b57cf221eea978b1fac2e44a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aa6d785a6b57cf221eea978b1fac2e44a">AcTxtLine_OBJ8_AIRCRAFT</a> (<a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a> &amp;csl, const std::string &amp;ln, const std::string &amp;xsbAircraftPath, const std::string &amp;exportName, int lnNr)</td></tr>
 <tr class="memdesc:aa6d785a6b57cf221eea978b1fac2e44a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process an OBJ8_AIRCRAFT line of an <code>xsb_aircraft.txt</code> file.  <a href="namespaceXPMP2.html#aa6d785a6b57cf221eea978b1fac2e44a">More...</a><br /></td></tr>
 <tr class="separator:aa6d785a6b57cf221eea978b1fac2e44a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae37b96528580e10f2f3dc39997181165"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ae37b96528580e10f2f3dc39997181165">AcTxtLine_OBJECT_AIRCRAFT</a> (<a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a> &amp;csl, const std::string &amp;ln, int lnNr)</td></tr>
-<tr class="memdesc:ae37b96528580e10f2f3dc39997181165"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process an OBJECT or AIRCRAFT line of an <code>xsb_aircraft.txt</code> file (which are no longer supported)  <a href="namespaceXPMP2.html#ae37b96528580e10f2f3dc39997181165">More...</a><br /></td></tr>
-<tr class="separator:ae37b96528580e10f2f3dc39997181165"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ad73ff73a66f28ec2e2da4a4a4a25cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a5ad73ff73a66f28ec2e2da4a4a4a25cd">AcTxtLine_OBJECT_AIRCRAFT</a> (<a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a> &amp;csl, const std::string &amp;, int)</td></tr>
+<tr class="memdesc:a5ad73ff73a66f28ec2e2da4a4a4a25cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process an OBJECT or AIRCRAFT line of an <code>xsb_aircraft.txt</code> file (which are no longer supported)  <a href="namespaceXPMP2.html#a5ad73ff73a66f28ec2e2da4a4a4a25cd">More...</a><br /></td></tr>
+<tr class="separator:a5ad73ff73a66f28ec2e2da4a4a4a25cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aacbf65140144570e6f981b0e76193ec3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aacbf65140144570e6f981b0e76193ec3">AcTxtLine_OBJ8</a> (<a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a> &amp;csl, std::vector&lt; std::string &gt; &amp;tokens, int lnNr)</td></tr>
 <tr class="separator:aacbf65140144570e6f981b0e76193ec3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2cface2580abc9bbe78ff5a7482295f8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a2cface2580abc9bbe78ff5a7482295f8">AcTxtLine_VERT_OFFSET</a> (<a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a> &amp;csl, std::vector&lt; std::string &gt; &amp;tokens, int lnNr)</td></tr>
@@ -311,6 +314,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aa10f82eda6a1eacb94c07ab60e368faf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aa10f82eda6a1eacb94c07ab60e368faf">AcTxtLine_MATCHES</a> (<a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a> &amp;csl, std::vector&lt; std::string &gt; &amp;tokens, int lnNr)</td></tr>
 <tr class="memdesc:aa10f82eda6a1eacb94c07ab60e368faf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process an ICAO, AIRLINE, LIVERY, or MATCHES line of an <code>xsb_aircraft.txt</code> file.  <a href="namespaceXPMP2.html#aa10f82eda6a1eacb94c07ab60e368faf">More...</a><br /></td></tr>
 <tr class="separator:aa10f82eda6a1eacb94c07ab60e368faf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c9cbefd3b7155089de06824417f66a4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a7c9cbefd3b7155089de06824417f66a4">StrCntString</a> (const <a class="el" href="namespaceXPMP2.html#a49528e2e03297cc417346dd688b696e5">mapStrIntTy</a> &amp;m, std::string &amp;s)</td></tr>
+<tr class="memdesc:a7c9cbefd3b7155089de06824417f66a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a string from a map of string-&gt;int like "(A320 x 5, A388 x 12)".  <a href="namespaceXPMP2.html#a7c9cbefd3b7155089de06824417f66a4">More...</a><br /></td></tr>
+<tr class="separator:a7c9cbefd3b7155089de06824417f66a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e952e82486c0e185062f66b551197fc"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a7e952e82486c0e185062f66b551197fc">CSLModelsProcessAcFile</a> (const std::string &amp;path)</td></tr>
 <tr class="memdesc:a7e952e82486c0e185062f66b551197fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process one <code>xsb_aircraft.txt</code> file for importing OBJ8 models.  <a href="namespaceXPMP2.html#a7e952e82486c0e185062f66b551197fc">More...</a><br /></td></tr>
 <tr class="separator:a7e952e82486c0e185062f66b551197fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -764,6 +770,22 @@ the full integer value </td></tr>
 
 </div>
 </div>
+<a id="a49528e2e03297cc417346dd688b696e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49528e2e03297cc417346dd688b696e5">&#9670;&nbsp;</a></span>mapStrIntTy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef std::map&lt;std::string, int&gt; <a class="el" href="namespaceXPMP2.html#a49528e2e03297cc417346dd688b696e5">XPMP2::mapStrIntTy</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>a map of a text and a counter </p>
+
+</div>
+</div>
 <a id="a3c916033e91411711030f3343edf513e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3c916033e91411711030f3343edf513e">&#9670;&nbsp;</a></span>mmapCSLModelPTy</h2>
 
@@ -1179,8 +1201,8 @@ the full integer value </td></tr>
 
 </div>
 </div>
-<a id="ae37b96528580e10f2f3dc39997181165"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae37b96528580e10f2f3dc39997181165">&#9670;&nbsp;</a></span>AcTxtLine_OBJECT_AIRCRAFT()</h2>
+<a id="a5ad73ff73a66f28ec2e2da4a4a4a25cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ad73ff73a66f28ec2e2da4a4a4a25cd">&#9670;&nbsp;</a></span>AcTxtLine_OBJECT_AIRCRAFT()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1195,13 +1217,13 @@ the full integer value </td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>ln</em>, </td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>lnNr</em>&#160;</td>
+          <td class="paramname">&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -3416,6 +3438,37 @@ template&lt;class T &gt; </div>
 </div><div class="memdoc">
 
 <p>change a std::string to uppercase </p>
+
+</div>
+</div>
+<a id="a7c9cbefd3b7155089de06824417f66a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c9cbefd3b7155089de06824417f66a4">&#9670;&nbsp;</a></span>StrCntString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int XPMP2::StrCntString </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceXPMP2.html#a49528e2e03297cc417346dd688b696e5">mapStrIntTy</a> &amp;&#160;</td>
+          <td class="paramname"><em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compiles a string from a map of string-&gt;int like "(A320 x 5, A388 x 12)". </p>
+<dl class="section return"><dt>Returns</dt><dd>Total count (17 in the example above) </dd></dl>
 
 </div>
 </div>

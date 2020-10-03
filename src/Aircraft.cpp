@@ -419,11 +419,16 @@ void Aircraft::DoMove ()
 {
     // Only for visible planes
     if (IsVisible()) {
-        // Already have instances? Or succeeded in now creating them?
-        if (!listInst.empty() || CreateInstances()) {
+        // Already have instances? 
+        if (!listInst.empty()) {
             // Move the instances (this is probably the single most important line of code ;-) )
             for (XPLMInstanceRef hInst: listInst)
                 XPLMInstanceSetPosition(hInst, &drawInfo, v.data());
+        } else {
+            // Try creating instances
+            // In an attempt to work around a crash documented in TwinFan/LiveTraffic#191 https://github.com/TwinFan/LiveTraffic/issues/191
+            // we create instance only in this flight loop callback but don't set their positions
+            CreateInstances();
         }
     }
 }

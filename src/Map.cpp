@@ -71,13 +71,13 @@ bool IsInRect (float x, float y, const float bounds_ltrb[4])
 ///             `0     | Default | L2J | L4J  `\n
 void Aircraft::MapFindIcon ()
 {
-    // special cases based on icao type directly
-    if (acIcaoType == "GLID" ||
-        acIcaoType == "PARA" ||
-        acIcaoType == "ULAC")
+    // special cases based on related group / icao type
+    if (IsRelatedTo("GLID") ||
+        IsRelatedTo("PARA") ||
+        IsRelatedTo("ULAC"))
     { mapIconRow=2; mapIconCol=2; }
-    else if (acIcaoType == "GYRO" ||
-             acIcaoType == "UHEL")
+    else if (IsRelatedTo("GYRO") ||
+             IsRelatedTo("UHEL"))
     { mapIconRow=2; mapIconCol=0; }
     else if (IsGroundVehicle())
     { mapIconRow=2; mapIconCol=1; }

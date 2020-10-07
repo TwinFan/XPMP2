@@ -215,7 +215,18 @@ Aircraft::~Aircraft ()
 // Is this object a ground vehicle?
 bool Aircraft::IsGroundVehicle() const
 {
-    return acIcaoType == glob.carIcaoType;
+    return IsRelatedTo(glob.carIcaoType);
+}
+
+
+// Is this object "related" to the given ICAO code? (named in the same line in related.txt)
+bool Aircraft::IsRelatedTo(const std::string& _icaoType) const
+{
+    if (acIcaoType == _icaoType)                    // exactly equal types
+        return true;
+    if (!acRelGrp)                                  // this a/c is not in any related group
+        return false;
+    return acRelGrp == RelatedGet(_icaoType);       // compare related group to passed-in type
 }
 
 
@@ -272,6 +283,7 @@ int Aircraft::ChangeModel (const std::string& _icaoType,
     acIcaoType      = _icaoType;
     acIcaoAirline   = _icaoAirline;
     acLivery        = _livery;
+    acRelGrp        = RelatedGet(acIcaoType);
 
     // Increase the reference counter of the CSL model to track that the object is being used
     if (pCSLMdl)
@@ -317,6 +329,7 @@ bool Aircraft::AssignModel (const std::string& _modelName)
     acIcaoType      = pCSLMdl->GetIcaoType();
     acIcaoAirline   = pCSLMdl->GetIcaoAirline();
     acLivery        = pCSLMdl->GetLivery();
+    acRelGrp = RelatedGet(acIcaoType);
 
     // Increase the reference counter of the CSL model to track that the object is being used
     pCSLMdl->IncRefCnt();

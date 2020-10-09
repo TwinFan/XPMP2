@@ -88,6 +88,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a863cef3715811241108af24fa447e78c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a863cef3715811241108af24fa447e78c">IsGroundVehicle</a> () const</td></tr>
 <tr class="memdesc:a863cef3715811241108af24fa447e78c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is this object a ground vehicle?  <a href="classXPMP2_1_1Aircraft.html#a863cef3715811241108af24fa447e78c">More...</a><br /></td></tr>
 <tr class="separator:a863cef3715811241108af24fa447e78c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f752025a5a4c2e325cf9123bb68c1d5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a6f752025a5a4c2e325cf9123bb68c1d5">IsRelatedTo</a> (const std::string &amp;_icaoType) const</td></tr>
+<tr class="memdesc:a6f752025a5a4c2e325cf9123bb68c1d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is this object "related" to the given ICAO code? (named in the same line in related.txt)  <a href="classXPMP2_1_1Aircraft.html#a6f752025a5a4c2e325cf9123bb68c1d5">More...</a><br /></td></tr>
+<tr class="separator:a6f752025a5a4c2e325cf9123bb68c1d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a270e578739a1f3de85fe63774fe323ca"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a270e578739a1f3de85fe63774fe323ca">GetTcasTargetIdx</a> () const</td></tr>
 <tr class="memdesc:a270e578739a1f3de85fe63774fe323ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">return the current TCAS target index (into <code>sim/cockpit2/tcas/targets</code>), 1-based, <code>-1</code> if not used  <a href="classXPMP2_1_1Aircraft.html#a270e578739a1f3de85fe63774fe323ca">More...</a><br /></td></tr>
 <tr class="separator:a270e578739a1f3de85fe63774fe323ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -477,6 +480,9 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a56f616a44e0fec0bfd075c9479ea7d56"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a56f616a44e0fec0bfd075c9479ea7d56">matchQuality</a> = -1</td></tr>
 <tr class="memdesc:a56f616a44e0fec0bfd075c9479ea7d56"><td class="mdescLeft">&#160;</td><td class="mdescRight">quality of the match with the CSL model  <a href="classXPMP2_1_1Aircraft.html#a56f616a44e0fec0bfd075c9479ea7d56">More...</a><br /></td></tr>
 <tr class="separator:a56f616a44e0fec0bfd075c9479ea7d56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3153d307384606cda46134dd07c016f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ab3153d307384606cda46134dd07c016f">acRelGrp</a> = 0</td></tr>
+<tr class="memdesc:ab3153d307384606cda46134dd07c016f"><td class="mdescLeft">&#160;</td><td class="mdescRight">related group, ie. line in <code>related.txt</code> in which this a/c appears, if any  <a href="classXPMP2_1_1Aircraft.html#ab3153d307384606cda46134dd07c016f">More...</a><br /></td></tr>
+<tr class="separator:ab3153d307384606cda46134dd07c016f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa3909a0f2484ffbe7e26541ef244467a"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#aa3909a0f2484ffbe7e26541ef244467a">prev_x</a> = 0.0f</td></tr>
 <tr class="separator:aa3909a0f2484ffbe7e26541ef244467a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a904cd73f2451f73b5460a3a3c8f83362"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a904cd73f2451f73b5460a3a3c8f83362">prev_y</a> = 0.0f</td></tr>
@@ -2242,6 +2248,33 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a6f752025a5a4c2e325cf9123bb68c1d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f752025a5a4c2e325cf9123bb68c1d5">&#9670;&nbsp;</a></span>IsRelatedTo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::Aircraft::IsRelatedTo </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>_icaoType</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Is this object "related" to the given ICAO code? (named in the same line in related.txt) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_icaoType</td><td>ICAO aircraft type designator, to which <code>*this</code> is compared</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>For example, <code>IsRelatedTo("GLID")</code> returns if <code>*this</code> is a glider </p>
+
+</div>
+</div>
 <a id="aa73ec6b3eeb352d66f3fcb0bcf9cf2e2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa73ec6b3eeb352d66f3fcb0bcf9cf2e2">&#9670;&nbsp;</a></span>IsValid()</h2>
 
@@ -3892,6 +3925,30 @@ Friends</h2></td></tr>
 
 <p>Current radar status. </p>
 <dl class="section note"><dt>Note</dt><dd>Only the condition <code>mode != Standby</code> is of interest to <a class="el" href="namespaceXPMP2.html">XPMP2</a> for considering the aircraft for TCAS display </dd></dl>
+
+</div>
+</div>
+<a id="ab3153d307384606cda46134dd07c016f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3153d307384606cda46134dd07c016f">&#9670;&nbsp;</a></span>acRelGrp</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int XPMP2::Aircraft::acRelGrp = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>related group, ie. line in <code>related.txt</code> in which this a/c appears, if any </p>
 
 </div>
 </div>

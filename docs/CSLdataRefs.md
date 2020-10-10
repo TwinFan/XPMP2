@@ -18,16 +18,16 @@ Controls
 dataRef                                     | Getter/Setter             | index into `v`                 | Meaning
 ------------------------------------------- | ------------------------- | ------------------------------ | ---------------------------------
 `libxplanemp/controls/gear_ratio`           | `Get/SetGearRatio`        | `V_CONTROLS_GEAR_RATIO`        | Gear deployment ratio, `0..1`
-`libxplanemp/controls/nws_ratio`            | `Get/SetNoseWheelAngle`   | `V_CONTROLS_NWS_RATIO`         | Nose wheel angle, `-180..+180`
+`libxplanemp/controls/nws_ratio`            | `Get/SetNoseWheelAngle`   | `V_CONTROLS_NWS_RATIO`         | Nose wheel angle, `-45..+45`
 `libxplanemp/controls/flap_ratio`           | `Get/SetFlapRatio`        | `V_CONTROLS_FLAP_RATIO`        | Flaps deployment ratio, `0..1`
 `libxplanemp/controls/spoiler_ratio`        | `Get/SetSpoilerRatio`     | `V_CONTROLS_SPOILER_RATIO`     | Spoiler deployment ratio, `0..1`
 `libxplanemp/controls/speed_brake_ratio`    | `Get/SetSpeedbrakeRatio`  | `V_CONTROLS_SPEED_BRAKE_RATIO` | Speed brakes deployment ratio, `0..1`
 `libxplanemp/controls/slat_ratio`           | `Get/SetSlatRatio`        | `V_CONTROLS_SLAT_RATIO`        | Slats deployment ratio, `0..1`
 `libxplanemp/controls/wing_sweep_ratio`     | `Get/SetWingSweepRatio`   | `V_CONTROLS_WING_SWEEP_RATIO`  | Wing sweep ratio, `0..1`
 `libxplanemp/controls/thrust_ratio`         | `Get/SetThrustRatio`      | `V_CONTROLS_THRUST_RATIO`      | Thrust ratio, `0..1`
-`libxplanemp/controls/yoke_pitch_ratio`     | `Get/SetYokePitchRatio`   | `V_CONTROLS_YOKE_PITCH_RATIO`  | Yoke pitch ratio, `0..1`
-`libxplanemp/controls/yoke_heading_ratio`   | `Get/SetYokeHeadingRatio` | `V_CONTROLS_YOKE_HEADING_RATIO`| Yoke heading ratio, `0..1`
-`libxplanemp/controls/yoke_roll_ratio`      | `Get/SetYokeRollRatio`    | `V_CONTROLS_YOKE_ROLL_RATIO`   | Yoke roll ratio, `0..1`
+`libxplanemp/controls/yoke_pitch_ratio`     | `Get/SetYokePitchRatio`   | `V_CONTROLS_YOKE_PITCH_RATIO`  | Yoke pitch ratio, `-1..0..1`
+`libxplanemp/controls/yoke_heading_ratio`   | `Get/SetYokeHeadingRatio` | `V_CONTROLS_YOKE_HEADING_RATIO`| Yoke heading ratio, `-1..0..1`
+`libxplanemp/controls/yoke_roll_ratio`      | `Get/SetYokeRollRatio`    | `V_CONTROLS_YOKE_ROLL_RATIO`   | Yoke roll ratio, `-1..0..1`
 `libxplanemp/controls/thrust_revers`        | `Get/SetThrustReversRatio`| `V_CONTROLS_THRUST_REVERS`     | Thrust reversers ratio, `0..1`
 `libxplanemp/misc/touch_down`               | `Get/SetTouchDown`        | `V_MISC_TOUCH_DOWN`            | Moment of touch down, `0` or `1`
 
@@ -48,9 +48,9 @@ Gear
 dataRef                                         | Getter/Setter             | index into `v`                        | Meaning
 ----------------------------------------------- | --------------------------| ------------------------------------- | ---------------------------------
 `libxplanemp/controls/gear_ratio`               | `Get/SetGearRatio`        | `V_CONTROLS_GEAR_RATIO`               | Gear deployment ratio, `0..1`
-`libxplanemp/controls/nws_ratio`                | `Get/SetNoseWheelAngle`   | `V_CONTROLS_NWS_RATIO`                | Nose wheel angle, `-180..+180`
-`libxplanemp/gear/nose_gear_deflection_mtr` | `Get/SetNoseGearDeflection`   | `V_GEAR_NOSE_GEAR_DEFLECTION_MTR` | Vertical nose gear deflection in meters
-`libxplanemp/gear/tire_vertical_deflection_mtr` | `Get/SetTireDeflection`   | `V_GEAR_TIRE_VERTICAL_DEFLECTION_MTR` | Vertical (main) gear deflection in meters
+`libxplanemp/controls/nws_ratio`                | `Get/SetNoseWheelAngle`   | `V_CONTROLS_NWS_RATIO`                | Nose wheel angle, `-45..+45`
+`libxplanemp/gear/nose_gear_deflection_mtr` | `Get/SetNoseGearDeflection`   | `V_GEAR_NOSE_GEAR_DEFLECTION_MTR` | Vertical nose gear deflection, `0..1`
+`libxplanemp/gear/tire_vertical_deflection_mtr` | `Get/SetTireDeflection`   | `V_GEAR_TIRE_VERTICAL_DEFLECTION_MTR` | Vertical (main) gear deflection, `0..1`
 `libxplanemp/gear/tire_rotation_angle_deg`      | `Get/SetTireRotAngle`     | `V_GEAR_TIRE_ROTATION_ANGLE_DEG`      | Tire rotation angle, `0..359` degrees
 `libxplanemp/gear/tire_rotation_speed_rpm`      | `Get/SetTireRotRpm`       | `V_GEAR_TIRE_ROTATION_SPEED_RPM`      | Tire rotation speed in revolutions per minute
 `libxplanemp/gear/tire_rotation_speed_rad_sec`  | `Get/SetTireRotRad`       | `V_GEAR_TIRE_ROTATION_SPEED_RAD_SEC`  | Tire rotation speed in radians per second (`= _RPM * PI/30`)

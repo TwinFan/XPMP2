@@ -8,19 +8,23 @@ to the folders holding these files.
 Resources
 --
 
-You should ship the files listed below with your plugin.
-XPMP2 should basically work without them, but lacks some features then.
-They are the files provided here in the `Resources` folder:
+You should ship all the files provided in the `Resources` folder:
 
 - `Doc8643.txt` is a list of ICAO aircraft type designators taken from
   the ICAO web site. This list is required for matching rules related
   to the aircraft type, ie. if no direct match is found in the available
-  models or via the `related.txt` lists.
+  models or via the `related.txt` lists. ICAO provides monthly updates,
+  so this file will update here from time to time, too.
 - `MapIcons.png` contains the aircraft icons displayed in the additional
   map layer. Without this file that map layer cannot be created.
 - `related.txt` defines "similar looking" aircraft types, so that an
   A320 model could be used if no exact match for the A319 at hand is found.
   Without that file this "related" matching cannot take place.
+- `Obj8DataRefs.txt` is only required for the
+  ["Copying .OBJ Files" functionality](CopyingObjFiles.html):
+  It defines dataRef replacements.
+  You don't need to ship this file if you do not enable that functionality
+  in your plugin.
 
 These files have all to be installed in the same folder.
 It is good practice to install these files in a folder named `Resources` in

@@ -319,39 +319,19 @@ void CSLObj::Invalidate ()
 // Am I more specific in terms of matching than o?
 bool CSLModel::MatchCritTy::merge (const MatchCritTy& o)
 {
-    // If the other defines nothing than I am better (at least not worse)
-    if (o.icaoAirline.empty())
-        return true;
-    
-    // If I don't define anything then the other is better
-    if (icaoAirline.empty()) {
-        *this = o;              // overwrite with o
-        return true;            // o is now handled
-    }
-    
-    // If we differ then o needs to be covered seperately
-    if (icaoAirline != o.icaoAirline)
+    // We cannot merge if both sides have defined a value and these values are different
+    if (!icaoAirline.empty() && !o.icaoAirline.empty() &&
+        icaoAirline != o.icaoAirline)
+        return false;
+    if (!livery.empty() && !o.livery.empty() &&
+        livery != o.livery)
         return false;
     
-    // --- We now know: icaoAirline is equal ---
-    
-    // Now the same again for livery
-
-    // If the other defines nothing than I am better (at least not worse)
-    if (o.livery.empty())
-        return true;
-    
-    // If I don't define anything then the other is better
-    if (livery.empty()) {
-        *this = o;              // overwrite with o
-        return true;            // o is now handled
-    }
-    
-    // If we differ then o needs to be covered seperately
-    if (livery != o.livery)
-        return false;
-    
-    // Apparently we are fully equal
+    // Otherwise, we take over the respective non-empty values
+    if (icaoAirline.empty())
+        icaoAirline = o.icaoAirline;
+    if (livery.empty())
+        livery = o.livery;
     return true;
 }
 
@@ -863,9 +843,9 @@ void AcTxtLine_MATCHES (CSLModel& csl,
     if (tokens.size() >= 2) {
         // Add match criteria to the CSL model
         CSLModel::MatchCritTy mc;
-        if (tokens.size() >= 3)             // if given: airline
+        if (tokens.size() >= 3 && tokens[2] != "-")     // if given: airline
             mc.icaoAirline = tokens[2];
-        if (tokens.size() >= 4)             // if given: livery
+        if (tokens.size() >= 4 && tokens[3] != "-")     // if given: livery
             mc.livery = tokens[3];
         // Set/Add all match criteria
         csl.AddMatchCriteria(tokens[1], mc, lnNr);

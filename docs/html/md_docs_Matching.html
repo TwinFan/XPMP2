@@ -48,7 +48,7 @@ $(function() {
 <li>upon creation of a new plane, preferably by instantiating a new object of your aircraft class derived from <a href="html/classXPMP2_1_1Aircraft.html"><code>XPMP2::Aircraft</code></a>,</li>
 <li>when specifically instructed, e.g. by calling <code><a class="el" href="classXPMP2_1_1Aircraft.html#a8b79245eb13698da96e1239c010ec3bc" title="(Potentially) changes the plane&#39;s model after doing a new match attempt">XPMP2::Aircraft::ChangeModel</a></code> or <code><a class="el" href="classXPMP2_1_1Aircraft.html#adb51258e5d6db1652ddc889afbe384b4" title="Finds a match again, using the existing parameters, eg. after more models have been loaded.">XPMP2::Aircraft::ReMatchModel</a></code>.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md21"></a>
+<h1><a class="anchor" id="autotoc_md24"></a>
 Input</h1>
 <p>Matching is based on 3 input parameters:</p><ul>
 <li>The ICAO <b>aircraft type designator</b> of the plane,</li>
@@ -58,7 +58,7 @@ Input</h1>
 <p>All parameters are optional. Pass an empty string if you can't provide details.</p>
 <p>Internally, a fourth parameter named <b>related group</b> is added, derived from the ICAO aircraft type designator: There are many similar looking aircraft models in the world...just think of A319, A320, A321. The <code>related.txt</code> files combines all similar looking models into one line, which make up such a group. Each aircraft type is allowed to appear at maximum once in the entire file. The idea is to use a A320 model if a necessary A319 model is not available.</p>
 <p>Aircraft / airline / livery combinations available for the user are listed in the <code>xsb_aircraft.txt</code> files in the user's CSL model folders. <a class="el" href="namespaceXPMP2.html">XPMP2</a> reads all of these files into a cache when your plugin calls <code>XPMPLoadCSLPackage</code>, i.e. typically at startup.</p>
-<h1><a class="anchor" id="autotoc_md22"></a>
+<h1><a class="anchor" id="autotoc_md25"></a>
 Procedure</h1>
 <p>Model Matching now compares 10 attributes between the parameters you pass during aircraft creation and the available models. They are rated according to the following priority from broad to fine-grained attributes:</p>
 <ol type="1">
@@ -76,7 +76,7 @@ Procedure</h1>
 <p>The better a potential CSL model matches with the passed-in parameters the more of the above attributes match, the higher is the "match quality". Higher priority attributes count more than lower ones: technically it is a bit mask with the number 1 attribute at the most significant bit.</p>
 <p>The model with the best match quality is picked. If there are several models ending up with the same match quality, then <a class="el" href="namespaceXPMP2.html">XPMP2</a> takes a random pick. This often happens if there are several models available for the expected ICAO aircraft type designator, but none of them has the correct livery for the requested operator.</p>
 <p>There is no "default" livery any longer as there was in <code>libxplanemp</code>. The downside is that it is a bit harder to identify non-matching liveries: Asking twice with the same match parameters can end in different models being picked.</p>
-<h1><a class="anchor" id="autotoc_md23"></a>
+<h1><a class="anchor" id="autotoc_md26"></a>
 Logging</h1>
 <p>If you are interested in how models are picked then you can activate logging of model matching: In your configuration callback return <code>1</code> for key <code>XPMP_CFG_ITM_MODELMATCHING</code> and <code>0</code> or <code>1</code> for key <code>XPMP_CFG_ITM_LOGLEVEL</code>.</p>
 <p>With model matching logging activated, <a class="el" href="namespaceXPMP2.html">XPMP2</a> writes info into <code>Log.txt</code> like this:</p>

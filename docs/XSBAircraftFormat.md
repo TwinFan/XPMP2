@@ -48,8 +48,6 @@ Each aircraft definition then includes:
   CSL model.
   The OBJ8 file format is
   [defined by Laminar](https://developer.x-plane.com/article/obj8-file-format-specification/).
-  These files includes references to the texture in use. Textures are **not**
-  defined as part of the `xsb_aircraft.txt` file.
 - Optionally one `VERT_OFFSET` command to define the vertical offset that
   needs to be applied to make the model sitting right on its wheel when
   placed on solid ground.
@@ -178,6 +176,9 @@ Defines matching parameters for XPMP2 matching algorithm.
   (see [its `TEXTURE` command](https://developer.x-plane.com/article/obj8-file-format-specification/#TEXTURE_lttex_file_namegt)). Most plugins will expect this `<operator>`
   code to be one of the
   [ICAO-defined operator codes](https://en.wikipedia.org/wiki/List_of_airline_codes).
+
+  You can use a single dash `-` if you don't want to define an operator,
+  but need to place a value to be able to define a livery with the 3rd parameter:
 - `<livery>` (optional, can only be defined together with `<operator>`)
   distinguishes different liveries of one operator, e.g. special anniversary
   or event liveries.
@@ -192,4 +193,5 @@ Several `MATCHES` lines can be defined per model. The model will then match
 for all the provided codes.
 
 `<acType>` must be the same in all `MATCHES` lines
-of one aircraft definition. Differing `<acType>` values will be ignored.
+of one aircraft definition. Differing `<acType>` values will raise a warning
+but will otherwise be just ignored.

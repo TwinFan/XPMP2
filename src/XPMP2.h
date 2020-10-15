@@ -110,6 +110,8 @@ public:
     bool            bLogMdlMatch= false;
     /// Clamp all planes to the ground? Default is `false` as clamping is kinda expensive due to Y-Testing.
     bool            bClampAll   = false;
+    /// Handle duplicate XPMP2::Aircraft::modeS_id by overwriting with unique id
+    bool            bHandleDupId= false;
     
     /// Replace dataRefs in `.obj` files on load? (defaults to OFF!)
     bool            bObjReplDataRefs = false;

@@ -46,6 +46,7 @@ $(function() {
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
@@ -89,6 +90,8 @@ Macros</h2></td></tr>
 <tr class="separator:a2ba08bc30d53cf04a0fa05091a8dbff7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ad15c29bd72ce67f56275dcd6487d87"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="CSLModels_8cpp.html#a0ad15c29bd72ce67f56275dcd6487d87">INFO_XSBACTXT_DONE</a>&#160;&#160;&#160;&quot;Read %3d aircraft %s from %s&quot;</td></tr>
 <tr class="separator:a0ad15c29bd72ce67f56275dcd6487d87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b014de1f0d2cf7fedb30bcd5b8a1973"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="CSLModels_8cpp.html#a1b014de1f0d2cf7fedb30bcd5b8a1973">WARN_XSBACTXT_IGNORED</a>&#160;&#160;&#160;&quot;Ignored %d aircraft %s due to outdated format (OBJECT or AIRCRAFT) from %s&quot;</td></tr>
+<tr class="separator:a1b014de1f0d2cf7fedb30bcd5b8a1973"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a73c6d86028c3411925d5e846817f6ee2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="CSLModels_8cpp.html#a73c6d86028c3411925d5e846817f6ee2">INFO_TOTAL_NUM_MODELS</a>&#160;&#160;&#160;&quot;Total number of known models now is %lu&quot;</td></tr>
 <tr class="separator:a73c6d86028c3411925d5e846817f6ee2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a30af0fe787b36c8ae015d0e4eb54a4c3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="CSLModels_8cpp.html#a30af0fe787b36c8ae015d0e4eb54a4c3">WARN_NO_XSBACTXT_FOUND</a>&#160;&#160;&#160;&quot;No xsb_aircraft.txt found&quot;</td></tr>
@@ -126,6 +129,12 @@ Macros</h2></td></tr>
 <tr class="memitem:a86bc798df61159758e44fb2f7c8cee8c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="CSLModels_8cpp.html#a86bc798df61159758e44fb2f7c8cee8c">DEBUG_MATCH_NOTFOUND</a>&#160;&#160;&#160;&quot;MATCH ERROR: Using a RANDOM model: %s %s %s - model %s&quot;</td></tr>
 <tr class="separator:a86bc798df61159758e44fb2f7c8cee8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a49528e2e03297cc417346dd688b696e5"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; std::string, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a49528e2e03297cc417346dd688b696e5">XPMP2::mapStrIntTy</a></td></tr>
+<tr class="memdesc:a49528e2e03297cc417346dd688b696e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">a map of a text and a counter  <a href="namespaceXPMP2.html#a49528e2e03297cc417346dd688b696e5">More...</a><br /></td></tr>
+<tr class="separator:a49528e2e03297cc417346dd688b696e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:acc89d808ddbead928b337610cc656926"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#acc89d808ddbead928b337610cc656926">XPMP2::CSLModelGetKeyStr</a> (int _related, const std::string &amp;_type, const std::string &amp;_id)</td></tr>
@@ -148,9 +157,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aa6d785a6b57cf221eea978b1fac2e44a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aa6d785a6b57cf221eea978b1fac2e44a">XPMP2::AcTxtLine_OBJ8_AIRCRAFT</a> (CSLModel &amp;csl, const std::string &amp;ln, const std::string &amp;xsbAircraftPath, const std::string &amp;exportName, int lnNr)</td></tr>
 <tr class="memdesc:aa6d785a6b57cf221eea978b1fac2e44a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process an OBJ8_AIRCRAFT line of an <code>xsb_aircraft.txt</code> file.  <a href="namespaceXPMP2.html#aa6d785a6b57cf221eea978b1fac2e44a">More...</a><br /></td></tr>
 <tr class="separator:aa6d785a6b57cf221eea978b1fac2e44a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae37b96528580e10f2f3dc39997181165"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ae37b96528580e10f2f3dc39997181165">XPMP2::AcTxtLine_OBJECT_AIRCRAFT</a> (CSLModel &amp;csl, const std::string &amp;ln, int lnNr)</td></tr>
-<tr class="memdesc:ae37b96528580e10f2f3dc39997181165"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process an OBJECT or AIRCRAFT line of an <code>xsb_aircraft.txt</code> file (which are no longer supported)  <a href="namespaceXPMP2.html#ae37b96528580e10f2f3dc39997181165">More...</a><br /></td></tr>
-<tr class="separator:ae37b96528580e10f2f3dc39997181165"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ad73ff73a66f28ec2e2da4a4a4a25cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a5ad73ff73a66f28ec2e2da4a4a4a25cd">XPMP2::AcTxtLine_OBJECT_AIRCRAFT</a> (CSLModel &amp;csl, const std::string &amp;, int)</td></tr>
+<tr class="memdesc:a5ad73ff73a66f28ec2e2da4a4a4a25cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process an OBJECT or AIRCRAFT line of an <code>xsb_aircraft.txt</code> file (which are no longer supported)  <a href="namespaceXPMP2.html#a5ad73ff73a66f28ec2e2da4a4a4a25cd">More...</a><br /></td></tr>
+<tr class="separator:a5ad73ff73a66f28ec2e2da4a4a4a25cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aacbf65140144570e6f981b0e76193ec3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aacbf65140144570e6f981b0e76193ec3">XPMP2::AcTxtLine_OBJ8</a> (CSLModel &amp;csl, std::vector&lt; std::string &gt; &amp;tokens, int lnNr)</td></tr>
 <tr class="separator:aacbf65140144570e6f981b0e76193ec3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2cface2580abc9bbe78ff5a7482295f8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a2cface2580abc9bbe78ff5a7482295f8">XPMP2::AcTxtLine_VERT_OFFSET</a> (CSLModel &amp;csl, std::vector&lt; std::string &gt; &amp;tokens, int lnNr)</td></tr>
@@ -161,6 +170,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aa10f82eda6a1eacb94c07ab60e368faf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aa10f82eda6a1eacb94c07ab60e368faf">XPMP2::AcTxtLine_MATCHES</a> (CSLModel &amp;csl, std::vector&lt; std::string &gt; &amp;tokens, int lnNr)</td></tr>
 <tr class="memdesc:aa10f82eda6a1eacb94c07ab60e368faf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process an ICAO, AIRLINE, LIVERY, or MATCHES line of an <code>xsb_aircraft.txt</code> file.  <a href="namespaceXPMP2.html#aa10f82eda6a1eacb94c07ab60e368faf">More...</a><br /></td></tr>
 <tr class="separator:aa10f82eda6a1eacb94c07ab60e368faf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c9cbefd3b7155089de06824417f66a4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a7c9cbefd3b7155089de06824417f66a4">XPMP2::StrCntString</a> (const mapStrIntTy &amp;m, std::string &amp;s)</td></tr>
+<tr class="memdesc:a7c9cbefd3b7155089de06824417f66a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a string from a map of string-&gt;int like "(A320 x 5, A388 x 12)".  <a href="namespaceXPMP2.html#a7c9cbefd3b7155089de06824417f66a4">More...</a><br /></td></tr>
+<tr class="separator:a7c9cbefd3b7155089de06824417f66a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e952e82486c0e185062f66b551197fc"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a7e952e82486c0e185062f66b551197fc">XPMP2::CSLModelsProcessAcFile</a> (const std::string &amp;path)</td></tr>
 <tr class="memdesc:a7e952e82486c0e185062f66b551197fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process one <code>xsb_aircraft.txt</code> file for importing OBJ8 models.  <a href="namespaceXPMP2.html#a7e952e82486c0e185062f66b551197fc">More...</a><br /></td></tr>
 <tr class="separator:a7e952e82486c0e185062f66b551197fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -608,6 +620,20 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
       <table class="memname">
         <tr>
           <td class="memname">#define WARN_REF_CNT_ZERO&#160;&#160;&#160;&quot;Reference counter already 0, can't be decreaed, for %s&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1b014de1f0d2cf7fedb30bcd5b8a1973"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b014de1f0d2cf7fedb30bcd5b8a1973">&#9670;&nbsp;</a></span>WARN_XSBACTXT_IGNORED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define WARN_XSBACTXT_IGNORED&#160;&#160;&#160;&quot;Ignored %d aircraft %s due to outdated format (OBJECT or AIRCRAFT) from %s&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">

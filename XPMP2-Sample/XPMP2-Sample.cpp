@@ -310,16 +310,16 @@ public:
         // This fills a large array of float values:
         const float r = GetTimeUpDown();        // a value between 0 and 1
         SetGearRatio(r);
-        SetNoseWheelAngle(r * 180.0f - 90.0f);  // turn nose wheel -90°..+90°
+        SetNoseWheelAngle(r * 90.0f - 45.0f);  // turn nose wheel -45°..+45°
         SetFlapRatio(r);
         SetSpoilerRatio(r);
         SetSpeedbrakeRatio(r);
         SetSlatRatio(r);
         SetWingSweepRatio(0.0f);
         SetThrustRatio(0.5f);
-        SetYokePitchRatio(0.0f);
-        SetYokeHeadingRatio(0.0f);
-        SetYokeRollRatio(0.0f);
+        SetYokePitchRatio(r);
+        SetYokeHeadingRatio(r);
+        SetYokeRollRatio(r);
 
         // lights
         SetLightsTaxi(false);
@@ -437,15 +437,15 @@ public:
             return xpmpData_Unavailable;
 
         // gear & flight surfaces keep moving for show
+        outSurfaces->yokePitch          =
+        outSurfaces->yokeHeading        =
+        outSurfaces->yokeRoll           =
         outSurfaces->gearPosition       =
         outSurfaces->flapRatio          =
         outSurfaces->spoilerRatio       =
         outSurfaces->speedBrakeRatio    =
         outSurfaces->slatRatio          = GetTimeUpDown();
         outSurfaces->thrust             = 0.5f;
-        outSurfaces->yokePitch          = 0.0f;
-        outSurfaces->yokeHeading        = 0.0f;
-        outSurfaces->yokeRoll           = 0.0f;
         
         // lights: taxi, beacon, and nav lights
         outSurfaces->lights.timeOffset  = 0;            // unused in XPMP2
@@ -585,14 +585,14 @@ XPMPPlaneCallbackResult SetSurfaceData (XPMPPlaneSurfaces_t& data)
 
     // gear & flight surfaces
     data.gearPosition       = 1.0;          // gear is always down
-    data.flapRatio          =               // flight surfaces cycle up and down
+    data.yokePitch          =               // flight surfaces cycle up and down
+    data.yokeHeading        =
+    data.yokeRoll           =
+    data.flapRatio          =
     data.spoilerRatio       =
     data.speedBrakeRatio    =
     data.slatRatio          = GetTimeUpDown();
     data.thrust             = 0.2f;
-    data.yokePitch          = 0.0f;
-    data.yokeHeading        = 0.0f;
-    data.yokeRoll           = 0.0f;
     
     // lights: taxi, beacon, and nav lights
     data.lights.timeOffset  = 0;            // unused in XPMP2

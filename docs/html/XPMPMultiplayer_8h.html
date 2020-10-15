@@ -108,6 +108,9 @@ Macros</h2></td></tr>
 <tr class="memitem:a520d625f8f860916600aa47e1fc33d10"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a520d625f8f860916600aa47e1fc33d10">XPMP_CFG_ITM_CLAMPALL</a>&#160;&#160;&#160;&quot;clamp_all_to_ground&quot;</td></tr>
 <tr class="memdesc:a520d625f8f860916600aa47e1fc33d10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config key: Ensure no plane sinks below ground, no matter of <a class="el" href="classXPMP2_1_1Aircraft.html#a963880325120e921f0564a97e32e440c" title="Shall this plane be clamped to ground (ie. never sink below ground)?">XPMP2::Aircraft::bClampToGround</a>.  <a href="XPMPMultiplayer_8h.html#a520d625f8f860916600aa47e1fc33d10">More...</a><br /></td></tr>
 <tr class="separator:a520d625f8f860916600aa47e1fc33d10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7506ca78ff2e29601c08e935d82a5b44"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a7506ca78ff2e29601c08e935d82a5b44">XPMP_CFG_ITM_HANDLE_DUP_ID</a>&#160;&#160;&#160;&quot;handle_dup_id&quot;</td></tr>
+<tr class="memdesc:a7506ca78ff2e29601c08e935d82a5b44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config key: Boolean: If <a class="el" href="classXPMP2_1_1Aircraft.html#a7180fb04f2307508345fd80201f0709f" title="A plane is uniquely identified by a 24bit number [0x01..0xFFFFFF].">XPMP2::Aircraft::modeS_id</a> already exists then assign a new unique one, overwrites <a class="el" href="classXPMP2_1_1Aircraft.html#a7180fb04f2307508345fd80201f0709f" title="A plane is uniquely identified by a 24bit number [0x01..0xFFFFFF].">XPMP2::Aircraft::modeS_id</a>.  <a href="XPMPMultiplayer_8h.html#a7506ca78ff2e29601c08e935d82a5b44">More...</a><br /></td></tr>
+<tr class="separator:a7506ca78ff2e29601c08e935d82a5b44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5728e039cf8cdf415112b629e7a1667b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a5728e039cf8cdf415112b629e7a1667b">XPMP_CFG_ITM_LOGLEVEL</a>&#160;&#160;&#160;&quot;log_level&quot;</td></tr>
 <tr class="memdesc:a5728e039cf8cdf415112b629e7a1667b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config key: General level of logging into <code>Log.txt</code> (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)  <a href="XPMPMultiplayer_8h.html#a5728e039cf8cdf415112b629e7a1667b">More...</a><br /></td></tr>
 <tr class="separator:a5728e039cf8cdf415112b629e7a1667b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -790,6 +793,22 @@ time offset to avoid lights across planes blink in sync (unused in <a class="el"
 
 </div>
 </div>
+<a id="a7506ca78ff2e29601c08e935d82a5b44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7506ca78ff2e29601c08e935d82a5b44">&#9670;&nbsp;</a></span>XPMP_CFG_ITM_HANDLE_DUP_ID</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define XPMP_CFG_ITM_HANDLE_DUP_ID&#160;&#160;&#160;&quot;handle_dup_id&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Config key: Boolean: If <a class="el" href="classXPMP2_1_1Aircraft.html#a7180fb04f2307508345fd80201f0709f" title="A plane is uniquely identified by a 24bit number [0x01..0xFFFFFF].">XPMP2::Aircraft::modeS_id</a> already exists then assign a new unique one, overwrites <a class="el" href="classXPMP2_1_1Aircraft.html#a7180fb04f2307508345fd80201f0709f" title="A plane is uniquely identified by a 24bit number [0x01..0xFFFFFF].">XPMP2::Aircraft::modeS_id</a>. </p>
+
+</div>
+</div>
 <a id="a5728e039cf8cdf415112b629e7a1667b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5728e039cf8cdf415112b629e7a1667b">&#9670;&nbsp;</a></span>XPMP_CFG_ITM_LOGLEVEL</h2>
 
@@ -922,7 +941,8 @@ time offset to avoid lights across planes blink in sync (unused in <a class="el"
 <code>------- | ------------------- | ---- | ------- | -------------------------------------------------------------------------</code><br  />
 <code>models&#160; | replace_datarefs&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;0&#160;&#160;&#160; | Replace dataRefs in OBJ8 files upon load, creating new OBJ8 files for <a class="el" href="namespaceXPMP2.html">XPMP2</a> (defaults to OFF!)</code><br  />
 <code>models&#160; | replace_texture&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;1&#160;&#160;&#160; | Replace textures in OBJ8 files upon load if needed (specified on the OBJ8 line in xsb_aircraft.txt), creating new OBJ8 files</code><br  />
-<code>planes&#160; | clamp_all_to_ground | int&#160; | &#160;&#160;&#160;1&#160;&#160;&#160; | Ensure no plane sinks below ground, no matter of Aircraft::bClampToGround</code><br  />
+<code>planes&#160; | clamp_all_to_ground | int&#160; | &#160;&#160;&#160;1&#160;&#160;&#160; | Ensure no plane sinks below ground, no matter of <a class="el" href="classXPMP2_1_1Aircraft.html#a963880325120e921f0564a97e32e440c" title="Shall this plane be clamped to ground (ie. never sink below ground)?">XPMP2::Aircraft::bClampToGround</a></code><br  />
+<code>planes&#160; | handle_dup_id&#160;&#160;&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;0&#160;&#160;&#160; | Boolean: If <a class="el" href="classXPMP2_1_1Aircraft.html#a7180fb04f2307508345fd80201f0709f" title="A plane is uniquely identified by a 24bit number [0x01..0xFFFFFF].">XPMP2::Aircraft::modeS_id</a> already exists then assign a new unique one, overwrites <a class="el" href="classXPMP2_1_1Aircraft.html#a7180fb04f2307508345fd80201f0709f" title="A plane is uniquely identified by a 24bit number [0x01..0xFFFFFF].">XPMP2::Aircraft::modeS_id</a></code><br  />
 <code>debug&#160;&#160; | log_level&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;2&#160;&#160;&#160; | General level of logging into Log.txt (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)</code><br  />
 <code>debug&#160;&#160; | model_matching&#160;&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;0&#160;&#160;&#160; | Write information on model matching into Log.txt</code><br  />
 </p><dl class="section note"><dt>Note</dt><dd>There is no immediate requirement to check the value of <code>_section</code> in your implementation. <code>_key</code> by itself is unique. Compare it with any of the <code>XPMP_CFG_ITM_*</code> values and return your value. </dd></dl>

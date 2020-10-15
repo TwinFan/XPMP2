@@ -64,23 +64,23 @@ $(function() {
 <li>[X] CSL Packages<ul>
 <li>[X] <a href="XSBAircraftFormat.html">File format definition</a> for <code>xsb_aircraft.txt</code></li>
 <li>[X] <a href="CSLdataRefs.html">CSL model dataRefs supported by XPMP2</a></li>
+<li>[X] <a href="CopyingObjFiles.html">Copying <code>.obj</code> files on load for replacing animation dataRefs and textures</a></li>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md14"></a>
+<h1><a class="anchor" id="autotoc_md17"></a>
 Requirements</h1>
 <ul>
 <li><a class="el" href="namespaceXPMP2.html">XPMP2</a> implements <a href="https://developer.x-plane.com/sdk/XPLMInstance/">instancing</a>, so it <b>requires X-Plane 11.10</b> or later</li>
 <li>CSL models in <b>OBJ8 format</b> (ie. older OBJ7 models are no longer supported)</li>
-<li>Coversion of CSL model packages with <a href="https://github.com/TwinFan/CSL2XSB/releases">CSL2XSB.py</a> is strongly recommended to unlock more model features, though not stricly required.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md15"></a>
+<h1><a class="anchor" id="autotoc_md18"></a>
 Feature Details</h1>
 <ul>
 <li><a href="Matching.html">Model Matching</a></li>
 <li><a href="TCAS.html">TCAS and AI/Multiplayer support</a></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md16"></a>
+<h1><a class="anchor" id="autotoc_md19"></a>
 Coding, Building, Deployment</h1>
 <p>These aspects are relevant for developers using <a class="el" href="namespaceXPMP2.html">XPMP2</a> in their own plugin:</p>
 <h2>How to Use <a class="el" href="namespaceXPMP2.html">XPMP2</a></h2>
@@ -98,14 +98,16 @@ Coding, Building, Deployment</h1>
 <p>XCode projects, Visual Studio solutions, and a Docker environment for Linux and Mac OS builds are provided. The details are <a href="Building.html">documented here</a>.</p>
 <h2>Deploying Your Plugin</h2>
 <p>Apart from the binaries that you build you will need to ship the files provided here in the 'Resources' folder. Also, users will need to install CSL models. Find <a href="Deploying.html">more details here</a>.</p>
-<h1><a class="anchor" id="autotoc_md17"></a>
+<h1><a class="anchor" id="autotoc_md20"></a>
 CSL Models and Packages</h1>
 <p>These aspects are relevant for CSL model developers and package providers:</p>
 <h2><code>xsb_aircraft.txt</code> File Format</h2>
 <p>The <code>xsb_aircraft.txt</code> file defines the content of one CSL model packages. It´s format is <a href="XSBAircraftFormat.html">define here</a>.</p>
 <h2>dataRefs available to CSL Models</h2>
 <p>To drive CSL models' <a href="https://developer.x-plane.com/article/obj8-file-format-specification/#ANIMATION_COMMANDS">ANIMations</a>, a long list of dataRefs is provided by <a class="el" href="namespaceXPMP2.html">XPMP2</a>. See its <a href="CSLdataRefs.html">documentation here</a>.</p>
-<h1><a class="anchor" id="autotoc_md18"></a>
+<h2>Copying <code>.obj</code> files on load</h2>
+<p>CSL packages come in different flavours. Popular ones for general use are the Bluebell and the X-CSL packages. Both come with different history. For <a class="el" href="namespaceXPMP2.html">XPMP2</a> to use all their features it needs to change their <code>.obj</code> files. Performing these changes is built into <a class="el" href="namespaceXPMP2.html">XPMP2</a>. <a href="CopyingObjFiles.html">See here for details.</a></p>
+<h1><a class="anchor" id="autotoc_md21"></a>
 Links to outside locations:</h1>
 <p><a href="https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/">TCAS Override approach</a> explains how TCAS information is provided, the classic multiplayer dataRefs are maintained and how 3rd party plugins can access this information. <a class="el" href="namespaceXPMP2.html">XPMP2</a> publishes data via the <code>sim/cockpit2/tcas/targets</code> dataRefs.</p>
 <p>Original libxplanemp:</p><ul>

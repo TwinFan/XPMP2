@@ -30,6 +30,7 @@
 #if IBM
 #include <winsock2.h>
 #include <ws2tcpip.h>
+typedef SSIZE_T ssize_t;
 #else
 #include <unistd.h>
 #include <arpa/inet.h>
@@ -605,7 +606,7 @@ size_t UDPMulticast::RecvMC (std::string* _pFromAddr)
     memset(buf, 0, bufSize);
     ssize_t bytesRcvd =
 #if IBM
-    (ssize_t) recvfrom(s, buf, (int)bufSize, 0, &safrom, &fromlen);
+    (ssize_t) recvfrom(f_socket, buf, (int)bufSize, 0, &safrom, &fromlen);
 #else
     recvfrom(f_socket, buf, bufSize, 0, &safrom, &fromlen);
 #endif

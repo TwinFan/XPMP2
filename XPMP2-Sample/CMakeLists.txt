@@ -97,11 +97,8 @@ if (APPLE)
 endif ()
 
 if (WIN32)
-    # Unlike OS X and Linux we build standard libraries statically since X-Plane does not provide them.
-    # target_link_libraries(XPMP2-Sample -static-libgcc -static-libstdc++ opengl32)
-    # MSYS2 for some reason always links against winpthread, so we have to work around it by statically linking the
-    # entire plugin. This allows building the plugin nativaly on Windows.
-    # target_link_libraries(XPMP2-Sample -static)
+    # Link with winsock for network
+    target_link_libraries(XPMP2-Sample wsock32 ws2_32)
 elseif (APPLE)
     # X-Plane supports OS X 10.10+, so this should ensure FlyWithLua can run on
     # all supported versions.

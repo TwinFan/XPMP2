@@ -38,7 +38,7 @@
 
 namespace XPMP2 {
 
-#if not IBM
+#if IBM != 1
 typedef int SOCKET;             ///< Windows defines SOCKET, so we define it for non-Windows manually
 constexpr SOCKET INVALID_SOCKET = -1;
 #endif

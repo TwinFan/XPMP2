@@ -79,12 +79,27 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1multiDataRefsTy.html">multiDataRefsTy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Keeps the dataRef handles for one of the up to 19 legacy AI/Multiplayer slots ("sim/multiplayer/position")  <a href="structXPMP2_1_1multiDataRefsTy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1NetRuntimeError.html">NetRuntimeError</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception raised by <a class="el" href="classXPMP2_1_1SocketNetworking.html" title="Base class for any socket-based networking.">XPMP2::SocketNetworking</a> objects.  <a href="classXPMP2_1_1NetRuntimeError.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1Obj8DataRefs.html">Obj8DataRefs</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pair of strings, first one to search for, second one to replace it with.  <a href="structXPMP2_1_1Obj8DataRefs.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1SocketNetworking.html">SocketNetworking</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base class for any socket-based networking.  <a href="classXPMP2_1_1SocketNetworking.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:unionXPMP2_1_1TcasLightsTy"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#unionXPMP2_1_1TcasLightsTy">TcasLightsTy</a></td></tr>
 <tr class="memdesc:unionXPMP2_1_1TcasLightsTy"><td class="mdescLeft">&#160;</td><td class="mdescRight">A structure simplifying communicaton with sim/cockpit2/tcas/targets/position/lights.  <a href="namespaceXPMP2.html#unionXPMP2_1_1TcasLightsTy">More...</a><br /></td></tr>
 <tr class="separator:unionXPMP2_1_1TcasLightsTy"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1TCPConnection.html">TCPConnection</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Listens to TCP connections and opens a session socket upon connect.  <a href="classXPMP2_1_1TCPConnection.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1UDPMulticast.html">UDPMulticast</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">UDP Multicast, always binding to INADDR_ANY.  <a href="classXPMP2_1_1UDPMulticast.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1UDPReceiver.html">UDPReceiver</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receives UDP messages.  <a href="classXPMP2_1_1UDPReceiver.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1XPMP2Error.html">XPMP2Error</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="namespaceXPMP2.html">XPMP2</a> Exception class, e.g. thrown if there are no CSL models or duplicate modeS_ids when creating an <a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">Aircraft</a>.  <a href="classXPMP2_1_1XPMP2Error.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -554,12 +569,15 @@ Variables</h2></td></tr>
 <tr class="memitem:a87c16bdc6124d61e87a3bfc65a6cc2f2"><td class="memItemLeft" align="right" valign="top">std::array&lt; const char *, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a87c16bdc6124d61e87a3bfc65a6cc2f2">ALL_MAPS</a></td></tr>
 <tr class="memdesc:a87c16bdc6124d61e87a3bfc65a6cc2f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The list of known maps, which are hard-coded by X-Plane's SDK.  <a href="namespaceXPMP2.html#a87c16bdc6124d61e87a3bfc65a6cc2f2">More...</a><br /></td></tr>
 <tr class="separator:a87c16bdc6124d61e87a3bfc65a6cc2f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab619c64e92d373dd6ea21ff2a4dc1272"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ab619c64e92d373dd6ea21ff2a4dc1272">SERR_LEN</a> = 100</td></tr>
+<tr class="memdesc:ab619c64e92d373dd6ea21ff2a4dc1272"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum length of OS error message.  <a href="namespaceXPMP2.html#ab619c64e92d373dd6ea21ff2a4dc1272">More...</a><br /></td></tr>
+<tr class="separator:ab619c64e92d373dd6ea21ff2a4dc1272"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2da5aa0ec780763ab9349f887f0cdad2"><td class="memItemLeft" align="right" valign="top">std::recursive_mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a2da5aa0ec780763ab9349f887f0cdad2">mtxSocketClose</a></td></tr>
+<tr class="memdesc:a2da5aa0ec780763ab9349f887f0cdad2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutex to ensure closing is done in one thread only to avoid race conditions on deleting the buffer.  <a href="namespaceXPMP2.html#a2da5aa0ec780763ab9349f887f0cdad2">More...</a><br /></td></tr>
+<tr class="separator:a2da5aa0ec780763ab9349f887f0cdad2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb629d885c8cea43378488025fdde921"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#afb629d885c8cea43378488025fdde921">ERR_CFG_FILE_MAXWARN</a> = 5</td></tr>
 <tr class="memdesc:afb629d885c8cea43378488025fdde921"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum number of warnings during file read before bailing.  <a href="namespaceXPMP2.html#afb629d885c8cea43378488025fdde921">More...</a><br /></td></tr>
 <tr class="separator:afb629d885c8cea43378488025fdde921"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab619c64e92d373dd6ea21ff2a4dc1272"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ab619c64e92d373dd6ea21ff2a4dc1272">SERR_LEN</a> = 255</td></tr>
-<tr class="memdesc:ab619c64e92d373dd6ea21ff2a4dc1272"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum length of OS error message.  <a href="namespaceXPMP2.html#ab619c64e92d373dd6ea21ff2a4dc1272">More...</a><br /></td></tr>
-<tr class="separator:ab619c64e92d373dd6ea21ff2a4dc1272"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af0d73d5759c5441b1ea934c4db33f8ee"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structXPMP2_1_1Doc8643.html">Doc8643</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#af0d73d5759c5441b1ea934c4db33f8ee">DOC8643_EMPTY</a></td></tr>
 <tr class="separator:af0d73d5759c5441b1ea934c4db33f8ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46675aca62eb955a94fa1eb18f65426f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structXPMP2_1_1GlobVars.html">GlobVars</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a46675aca62eb955a94fa1eb18f65426f">glob</a></td></tr>
@@ -4159,6 +4177,22 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
+<a id="a2da5aa0ec780763ab9349f887f0cdad2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2da5aa0ec780763ab9349f887f0cdad2">&#9670;&nbsp;</a></span>mtxSocketClose</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::recursive_mutex XPMP2::mtxSocketClose</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Mutex to ensure closing is done in one thread only to avoid race conditions on deleting the buffer. </p>
+
+</div>
+</div>
 <a id="a1bce12947cfb542afb194319fd47d5e3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1bce12947cfb542afb194319fd47d5e3">&#9670;&nbsp;</a></span>PI</h2>
 
@@ -4305,7 +4339,7 @@ template&lt;class T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr size_t XPMP2::SERR_LEN = 255</td>
+          <td class="memname">constexpr size_t XPMP2::SERR_LEN = 100</td>
         </tr>
       </table>
   </td>

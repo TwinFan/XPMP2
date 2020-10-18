@@ -67,6 +67,7 @@
 #include "2D.h"
 #include "AIMultiplayer.h"
 #include "Map.h"
+#include "Network.h"
 
 // On Windows, 'max' and 'min' are defined macros in conflict with C++ library. Let's undefine them!
 #if IBM

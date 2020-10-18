@@ -60,6 +60,8 @@ add_library(XPMP2 STATIC
     src/CSLModels.cpp
     src/Map.h
     src/Map.cpp
+    src/Network.h
+    src/Network.cpp
     src/RelatedDoc8643.h
     src/RelatedDoc8643.cpp
     src/Utilities.h

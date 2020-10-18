@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		252C01F423E62040007C231F /* AIMultiplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 252C01F223E62040007C231F /* AIMultiplayer.cpp */; };
 		252C01F523E62040007C231F /* AIMultiplayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 252C01F323E62040007C231F /* AIMultiplayer.h */; };
+		25338211253A39060090E0B3 /* Network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2533820F253A39060090E0B3 /* Network.cpp */; };
+		25338212253A39060090E0B3 /* Network.h in Headers */ = {isa = PBXBuildFile; fileRef = 25338210253A39060090E0B3 /* Network.h */; };
 		253485AA23C289E5002BA65A /* XPMPAircraft.h in Headers */ = {isa = PBXBuildFile; fileRef = 253485A923C289E4002BA65A /* XPMPAircraft.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		25687EA323D8BA5E0084A28B /* XPMP2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2502C17A23BE8A1600578919 /* XPMP2.framework */; };
 		256DC2F724F3141500C1595C /* CSLCopy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 256DC2F624F3141500C1595C /* CSLCopy.cpp */; };
@@ -71,6 +73,8 @@
 		252C01F923E6D64F007C231F /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		252C01FA23E6D64F007C231F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		252C01FB23E6D64F007C231F /* build.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = "<group>"; };
+		2533820F253A39060090E0B3 /* Network.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Network.cpp; sourceTree = "<group>"; };
+		25338210253A39060090E0B3 /* Network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Network.h; sourceTree = "<group>"; };
 		253485A923C289E4002BA65A /* XPMPAircraft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPMPAircraft.h; sourceTree = "<group>"; };
 		256DC2F524F3090B00C1595C /* Obj8DataRefs.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Obj8DataRefs.txt; sourceTree = "<group>"; };
 		256DC2F624F3141500C1595C /* CSLCopy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSLCopy.cpp; sourceTree = "<group>"; };
@@ -102,7 +106,6 @@
 		25EC1C4123BF6DFA000940BB /* CSLModels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSLModels.h; sourceTree = "<group>"; };
 		25EC1C4523BF7569000940BB /* Utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utilities.cpp; sourceTree = "<group>"; };
 		25EC1C4623BF7569000940BB /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
-		25ED259B246752C3008BA734 /* XP1150b8_new_dataRefs.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = XP1150b8_new_dataRefs.txt; sourceTree = "<group>"; };
 		25FF33FD23BFF250001B0AB4 /* Aircraft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Aircraft.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -189,6 +192,8 @@
 				25EC1C4123BF6DFA000940BB /* CSLModels.h */,
 				2575F45323EDFC5E00747524 /* Map.cpp */,
 				2575F45223EDFC5E00747524 /* Map.h */,
+				2533820F253A39060090E0B3 /* Network.cpp */,
+				25338210253A39060090E0B3 /* Network.h */,
 				2589B84923CB4D6F005B76B8 /* RelatedDoc8643.cpp */,
 				2589B84823CB4D6F005B76B8 /* RelatedDoc8643.h */,
 				25EC1C4523BF7569000940BB /* Utilities.cpp */,
@@ -212,7 +217,6 @@
 				25D680BF23BE9BB900C83CC5 /* MainPage.md */,
 				25019BCC24919A1600355472 /* Matching.md */,
 				25019BC824919A1500355472 /* TCAS.md */,
-				25ED259B246752C3008BA734 /* XP1150b8_new_dataRefs.txt */,
 				25D680BE23BE9BB900C83CC5 /* XPMP2.doxygen */,
 				25997FB62476A33E00F36447 /* XSBAircraftFormat.md */,
 			);
@@ -235,6 +239,7 @@
 				25D680BA23BE95FB00C83CC5 /* XPMPMultiplayer.h in Headers */,
 				25D680B923BE95FB00C83CC5 /* XPCAircraft.h in Headers */,
 				252C01F523E62040007C231F /* AIMultiplayer.h in Headers */,
+				25338212253A39060090E0B3 /* Network.h in Headers */,
 				2575F45423EDFC5E00747524 /* Map.h in Headers */,
 				2589B84A23CB4D6F005B76B8 /* RelatedDoc8643.h in Headers */,
 				25AE8CB623E376E2000BE21E /* 2D.h in Headers */,
@@ -270,7 +275,7 @@
 		2502C16023BE3CFC00578919 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1140;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = TwinFan;
 				TargetAttributes = {
 					2502C17923BE8A1600578919 = {
@@ -319,6 +324,7 @@
 				256DC2F724F3141500C1595C /* CSLCopy.cpp in Sources */,
 				252C01F423E62040007C231F /* AIMultiplayer.cpp in Sources */,
 				2575F45523EDFC5E00747524 /* Map.cpp in Sources */,
+				25338211253A39060090E0B3 /* Network.cpp in Sources */,
 				2599B91923BF636E00F92BB5 /* Aircraft.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -74,6 +74,9 @@
 	#error This plugin requires version 300 of the SDK
 #endif
 
+// TODO: Remove!
+#include "../src/Network.h"
+
 /// Initial type / airline / livery to be used to create our 3 planes
 /// @see https://www.icao.int/publications/DOC8643/Pages/Search.aspx for ICAO aircraft types
 
@@ -906,6 +909,29 @@ PLUGIN_API int XPluginStart(char* outName, char* outSig, char* outDesc)
     XPLMAppendMenuItem(hMenu, "Cycle Models",       (void*)3, 0);
     XPLMAppendMenuItem(hMenu, "Toggle AI control",  (void*)4, 0);
     MenuUpdateCheckmarks();
+    
+    // TODO: Remove!
+#define MCASTADDRV4     "224.0.0.255"
+#define MCASTADDRV6     "ff12::1"
+#define MCASTPORT       25000
+#define MCASTBUFSIZE    1024
+    try {
+        std::string from;
+        UDPMulticast mc(MCASTADDRV4,MCASTPORT,8,MCASTBUFSIZE);
+        size_t n = mc.RecvMC(&from);
+        LogMsg("%lu bytes received from %s:\n%s",
+               n, from.c_str(), mc.getBuf());
+        from = mc.getBuf();
+        from += "...and returned from XPMP2-Sample!";
+        n = mc.SendMC(from.c_str(), from.length());
+        LogMsg("%lu bytes sent", n);
+    }
+    catch (const std::runtime_error& e) {
+        LogMsg("Multicast failed: %s", e.what());
+    }
+    
+    
+    
 	return 1;
 }
 

@@ -177,15 +177,36 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a2eba2278b5dd27f9d45ac9c9f1e84457"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a2eba2278b5dd27f9d45ac9c9f1e84457">pathMapIcons</a></td></tr>
 <tr class="memdesc:a2eba2278b5dd27f9d45ac9c9f1e84457"><td class="mdescLeft">&#160;</td><td class="mdescRight">path to file containing plane icons for map display  <a href="structXPMP2_1_1GlobVars.html#a2eba2278b5dd27f9d45ac9c9f1e84457">More...</a><br /></td></tr>
 <tr class="separator:a2eba2278b5dd27f9d45ac9c9f1e84457"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac13c411f6ad8e6568176252002f23793"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#ac13c411f6ad8e6568176252002f23793">remoteMCGroup</a> = &quot;239.255.1.1&quot;</td></tr>
+<tr class="memdesc:ac13c411f6ad8e6568176252002f23793"><td class="mdescLeft">&#160;</td><td class="mdescRight">The multicast group that we use, which is the same X-Plane is using itself for its BEACON.  <a href="structXPMP2_1_1GlobVars.html#ac13c411f6ad8e6568176252002f23793">More...</a><br /></td></tr>
+<tr class="separator:ac13c411f6ad8e6568176252002f23793"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32651e4547bded0cb0c239d2f2f6fd4c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a32651e4547bded0cb0c239d2f2f6fd4c">remotePort</a> = 49788</td></tr>
+<tr class="memdesc:a32651e4547bded0cb0c239d2f2f6fd4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The port we use is <em>different</em> from the port the X-Plane BEACON uses, so we don't get into conflict.  <a href="structXPMP2_1_1GlobVars.html#a32651e4547bded0cb0c239d2f2f6fd4c">More...</a><br /></td></tr>
+<tr class="separator:a32651e4547bded0cb0c239d2f2f6fd4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd9219b93b74ef6721c60c9f42d4c79c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#afd9219b93b74ef6721c60c9f42d4c79c">remoteTTL</a> = 8</td></tr>
+<tr class="memdesc:afd9219b93b74ef6721c60c9f42d4c79c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Time-to-live, or mumber of hops for a multicast message.  <a href="structXPMP2_1_1GlobVars.html#afd9219b93b74ef6721c60c9f42d4c79c">More...</a><br /></td></tr>
+<tr class="separator:afd9219b93b74ef6721c60c9f42d4c79c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a651c94d643a7db31a026c3cd0c029ffa"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a651c94d643a7db31a026c3cd0c029ffa">remoteBufSize</a> = 8192</td></tr>
+<tr class="memdesc:a651c94d643a7db31a026c3cd0c029ffa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Buffer size, ie. max message length we send over multicast.  <a href="structXPMP2_1_1GlobVars.html#a651c94d643a7db31a026c3cd0c029ffa">More...</a><br /></td></tr>
+<tr class="separator:a651c94d643a7db31a026c3cd0c029ffa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac36a9ce8bfe0ff4089395cec20cdc626"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8">RemoteCfgTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#ac36a9ce8bfe0ff4089395cec20cdc626">remoteCfg</a> = <a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8aca8bc64204d3991a6920b5c72f6d5c33">REMOTE_CFG_CONDITIONALLY</a></td></tr>
+<tr class="memdesc:ac36a9ce8bfe0ff4089395cec20cdc626"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration: Are we to support remote connections?  <a href="structXPMP2_1_1GlobVars.html#ac36a9ce8bfe0ff4089395cec20cdc626">More...</a><br /></td></tr>
+<tr class="separator:ac36a9ce8bfe0ff4089395cec20cdc626"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ca0ffcdbdb639bcc5d3a222ec8dbeba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceXPMP2.html#a79adca5f1eba1fbafa63e30a2c9af8e7">RemoteStatusTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a1ca0ffcdbdb639bcc5d3a222ec8dbeba">remoteStatus</a> = <a class="el" href="namespaceXPMP2.html#a79adca5f1eba1fbafa63e30a2c9af8e7a5ef10b1d928df8e76abd8e0acd4d889b">REMOTE_OFF</a></td></tr>
+<tr class="memdesc:a1ca0ffcdbdb639bcc5d3a222ec8dbeba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Status of remote connections to networked clients.  <a href="structXPMP2_1_1GlobVars.html#a1ca0ffcdbdb639bcc5d3a222ec8dbeba">More...</a><br /></td></tr>
+<tr class="separator:a1ca0ffcdbdb639bcc5d3a222ec8dbeba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a857fa0330831eb8280874f94c30f05f6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a857fa0330831eb8280874f94c30f05f6">verXPlane</a> = -1</td></tr>
 <tr class="memdesc:a857fa0330831eb8280874f94c30f05f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">X-Plane's version number (XPLMGetVersions)  <a href="structXPMP2_1_1GlobVars.html#a857fa0330831eb8280874f94c30f05f6">More...</a><br /></td></tr>
 <tr class="separator:a857fa0330831eb8280874f94c30f05f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d4f91904ac75018426ea0ebfa3dbc60"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a5d4f91904ac75018426ea0ebfa3dbc60">verXPLM</a> = -1</td></tr>
 <tr class="memdesc:a5d4f91904ac75018426ea0ebfa3dbc60"><td class="mdescLeft">&#160;</td><td class="mdescRight">XPLM's SDK version number (XPLMGetVersions)  <a href="structXPMP2_1_1GlobVars.html#a5d4f91904ac75018426ea0ebfa3dbc60">More...</a><br /></td></tr>
 <tr class="separator:a5d4f91904ac75018426ea0ebfa3dbc60"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4079d408c4b07eb3f1aed9fa117283d6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a4079d408c4b07eb3f1aed9fa117283d6">bUsingModernGraphicsDriver</a> = false</td></tr>
-<tr class="memdesc:a4079d408c4b07eb3f1aed9fa117283d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Using a modern graphics driver, ie. Vulkan/Metal?  <a href="structXPMP2_1_1GlobVars.html#a4079d408c4b07eb3f1aed9fa117283d6">More...</a><br /></td></tr>
-<tr class="separator:a4079d408c4b07eb3f1aed9fa117283d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1676c605314f5c70aa1e5035c9bd6329"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a1676c605314f5c70aa1e5035c9bd6329">bXPUsingModernGraphicsDriver</a> = false</td></tr>
+<tr class="memdesc:a1676c605314f5c70aa1e5035c9bd6329"><td class="mdescLeft">&#160;</td><td class="mdescRight">Using a modern graphics driver, ie. Vulkan/Metal?  <a href="structXPMP2_1_1GlobVars.html#a1676c605314f5c70aa1e5035c9bd6329">More...</a><br /></td></tr>
+<tr class="separator:a1676c605314f5c70aa1e5035c9bd6329"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7f0ed07516855693b202c3d18cde5c3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#ab7f0ed07516855693b202c3d18cde5c3">bXPNetworkedSetup</a> = false</td></tr>
+<tr class="memdesc:ab7f0ed07516855693b202c3d18cde5c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is X-Plane configured for networked multi-computer or multiplayer setup?  <a href="structXPMP2_1_1GlobVars.html#ab7f0ed07516855693b202c3d18cde5c3">More...</a><br /></td></tr>
+<tr class="separator:ab7f0ed07516855693b202c3d18cde5c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f3744b97488f60be5bbd0e4706224cd"><td class="memItemLeft" align="right" valign="top">std::thread::id&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a3f3744b97488f60be5bbd0e4706224cd">xpThread</a></td></tr>
 <tr class="memdesc:a3f3744b97488f60be5bbd0e4706224cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">id of X-Plane's thread (when it is OK to use XP API calls)  <a href="structXPMP2_1_1GlobVars.html#a3f3744b97488f60be5bbd0e4706224cd">More...</a><br /></td></tr>
 <tr class="separator:a3f3744b97488f60be5bbd0e4706224cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -537,14 +558,30 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a4079d408c4b07eb3f1aed9fa117283d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4079d408c4b07eb3f1aed9fa117283d6">&#9670;&nbsp;</a></span>bUsingModernGraphicsDriver</h2>
+<a id="ab7f0ed07516855693b202c3d18cde5c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7f0ed07516855693b202c3d18cde5c3">&#9670;&nbsp;</a></span>bXPNetworkedSetup</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool XPMP2::GlobVars::bUsingModernGraphicsDriver = false</td>
+          <td class="memname">bool XPMP2::GlobVars::bXPNetworkedSetup = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Is X-Plane configured for networked multi-computer or multiplayer setup? </p>
+
+</div>
+</div>
+<a id="a1676c605314f5c70aa1e5035c9bd6329"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1676c605314f5c70aa1e5035c9bd6329">&#9670;&nbsp;</a></span>bXPUsingModernGraphicsDriver</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::GlobVars::bXPUsingModernGraphicsDriver = false</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -894,6 +931,103 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Configuration callback for integer values. </p>
+
+</div>
+</div>
+<a id="a651c94d643a7db31a026c3cd0c029ffa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a651c94d643a7db31a026c3cd0c029ffa">&#9670;&nbsp;</a></span>remoteBufSize</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t XPMP2::GlobVars::remoteBufSize = 8192</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Buffer size, ie. max message length we send over multicast. </p>
+
+</div>
+</div>
+<a id="ac36a9ce8bfe0ff4089395cec20cdc626"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac36a9ce8bfe0ff4089395cec20cdc626">&#9670;&nbsp;</a></span>remoteCfg</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8">RemoteCfgTy</a> XPMP2::GlobVars::remoteCfg = <a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8aca8bc64204d3991a6920b5c72f6d5c33">REMOTE_CFG_CONDITIONALLY</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Configuration: Are we to support remote connections? </p>
+
+</div>
+</div>
+<a id="ac13c411f6ad8e6568176252002f23793"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac13c411f6ad8e6568176252002f23793">&#9670;&nbsp;</a></span>remoteMCGroup</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string XPMP2::GlobVars::remoteMCGroup = &quot;239.255.1.1&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The multicast group that we use, which is the same X-Plane is using itself for its BEACON. </p>
+<dl class="section see"><dt>See also</dt><dd>&lt;X-Plane&gt;/Instructions/Exchanging Data with X-Plane.rtfd, chapter "DISCOVER X-PLANE BY A BEACON" </dd></dl>
+
+</div>
+</div>
+<a id="a32651e4547bded0cb0c239d2f2f6fd4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32651e4547bded0cb0c239d2f2f6fd4c">&#9670;&nbsp;</a></span>remotePort</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int XPMP2::GlobVars::remotePort = 49788</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The port we use is <em>different</em> from the port the X-Plane BEACON uses, so we don't get into conflict. </p>
+
+</div>
+</div>
+<a id="a1ca0ffcdbdb639bcc5d3a222ec8dbeba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ca0ffcdbdb639bcc5d3a222ec8dbeba">&#9670;&nbsp;</a></span>remoteStatus</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceXPMP2.html#a79adca5f1eba1fbafa63e30a2c9af8e7">RemoteStatusTy</a> XPMP2::GlobVars::remoteStatus = <a class="el" href="namespaceXPMP2.html#a79adca5f1eba1fbafa63e30a2c9af8e7a5ef10b1d928df8e76abd8e0acd4d889b">REMOTE_OFF</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Status of remote connections to networked clients. </p>
+
+</div>
+</div>
+<a id="afd9219b93b74ef6721c60c9f42d4c79c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd9219b93b74ef6721c60c9f42d4c79c">&#9670;&nbsp;</a></span>remoteTTL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int XPMP2::GlobVars::remoteTTL = 8</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Time-to-live, or mumber of hops for a multicast message. </p>
 
 </div>
 </div>

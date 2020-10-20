@@ -68,6 +68,7 @@
 #include "AIMultiplayer.h"
 #include "Map.h"
 #include "Network.h"
+#include "Remote.h"
 
 // On Windows, 'max' and 'min' are defined macros in conflict with C++ library. Let's undefine them!
 #if IBM
@@ -83,6 +84,9 @@
 #define UNKNOWN_PLUGIN_NAME "(unknown)"
 
 namespace XPMP2 {
+
+/// XPMP2 version number
+constexpr float XPMP2_VER = 2.00f;
 
 /// Stores the function and refcon pointer for plane creation/destrcution notifications
 struct XPMPPlaneNotifierTy {
@@ -176,12 +180,28 @@ public:
     /// path to file containing plane icons for map display
     std::string     pathMapIcons;
     
+    /// @brief The multicast group that we use, which is the same X-Plane is using itself for its BEACON
+    /// @see <X-Plane>/Instructions/Exchanging Data with X-Plane.rtfd, chapter "DISCOVER X-PLANE BY A BEACON"
+    std::string     remoteMCGroup   = "239.255.1.1";
+    /// The port we use is _different_ from the port the X-Plane BEACON uses, so we don't get into conflict
+    int             remotePort      = 49788;
+    /// Time-to-live, or mumber of hops for a multicast message
+    int             remoteTTL       = 8;
+    /// Buffer size, ie. max message length we send over multicast
+    size_t          remoteBufSize   = 8192;
+    /// Configuration: Are we to support remote connections?
+    RemoteCfgTy     remoteCfg       = REMOTE_CFG_CONDITIONALLY;
+    /// Status of remote connections to networked clients
+    RemoteStatusTy  remoteStatus    = REMOTE_OFF;
+    
     /// X-Plane's version number (XPLMGetVersions)
     int             verXPlane = -1;
     /// XPLM's SDK version number (XPLMGetVersions)
     int             verXPLM = -1;
     /// Using a modern graphics driver, ie. Vulkan/Metal?
-    bool            bUsingModernGraphicsDriver = false;
+    bool            bXPUsingModernGraphicsDriver = false;
+    /// Is X-Plane configured for networked multi-computer or multiplayer setup?
+    bool            bXPNetworkedSetup = false;
     /// id of X-Plane's thread (when it is OK to use XP API calls)
     std::thread::id xpThread;
 
@@ -209,7 +229,7 @@ public:
     /// Read version numbers into verXplane/verXPLM
     void ReadVersions ();
     /// Using a modern graphics driver, ie. Vulkan/Metal?
-    bool UsingModernGraphicsDriver() const { return bUsingModernGraphicsDriver; }
+    bool UsingModernGraphicsDriver() const { return bXPUsingModernGraphicsDriver; }
     /// Set current thread as main xp Thread
     void ThisThreadIsXP() { xpThread = std::this_thread::get_id();  }
     /// Is this thread XP's main thread?

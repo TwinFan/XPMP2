@@ -108,7 +108,7 @@ elseif (APPLE)
     # Restrict set of symbols exported from the plugin. This reduces changes of
     # conflict with other plugins, in particular ones with Lua interpreter
     # embedded.
-    target_link_libraries(XPMP2-Sample "-exported_symbols_list ${CMAKE_SOURCE_DIR}/XPMP2-Sample.sym_mac")
+    target_link_libraries(XPMP2-Sample "-exported_symbols_list ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample.sym_mac")
 elseif (UNIX)
     # Threads
     set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
@@ -119,7 +119,7 @@ elseif (UNIX)
     # Restrict set of symbols exported from the plugin. This reduces chances of
     # conflict with other plugins, in particular ones with Lua interpreter
     # embedded.
-    target_link_libraries(XPMP2-Sample Threads::Threads -Wl,--version-script -Wl,${CMAKE_SOURCE_DIR}/XPMP2-Sample.sym)
+    target_link_libraries(XPMP2-Sample Threads::Threads -Wl,--version-script -Wl,${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample.sym)
 endif ()
 
 # Header include directories

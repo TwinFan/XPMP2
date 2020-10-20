@@ -85,13 +85,33 @@ void GlobVars::UpdateCfgVals ()
     
     // Ask for clam-to-ground config
     bClampAll = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_CLAMPALL, bClampAll) != 0;
-
+    
     // Ask for handling of duplicate XPMP2::Aircraft::modeS_id
     bHandleDupId = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_HANDLE_DUP_ID, bHandleDupId) != 0;
+
+    // Ask for remote support
+    i = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_SUPPORT_REMOTE, remoteCfg);
+    if (i == 0)     remoteCfg = REMOTE_CFG_CONDITIONALLY;
+    else if (i < 0) remoteCfg = REMOTE_CFG_OFF;
+    else            remoteCfg = REMOTE_CFG_ON;
 
     // Ask for model matching logging
     bLogMdlMatch = prefsFuncInt(XPMP_CFG_SEC_DEBUG, XPMP_CFG_ITM_MODELMATCHING, bLogMdlMatch) != 0;
     
+    // Fetch the network / multiplayer setup from X-Plane, which theoretically can change over time
+    static XPLMDataRef drIsExternalVisual       = XPLMFindDataRef("sim/network/dataout/is_external_visual");        // int/boolean
+    static XPLMDataRef drIsMultiplayer          = XPLMFindDataRef("sim/network/dataout/is_multiplayer_session");    // int/boolean
+    static XPLMDataRef drTrackExternalVisual    = XPLMFindDataRef("sim/network/dataout/track_external_visual");     // int[20]/boolean
+    bXPNetworkedSetup = XPLMGetDatai(drIsExternalVisual) || XPLMGetDatai(drIsMultiplayer);
+    if (!bXPNetworkedSetup) {
+        static int aNull[20] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+        int ai[20];
+        XPLMGetDatavi(drTrackExternalVisual, ai, 0, sizeof(ai)/sizeof(ai[0]));
+        bXPNetworkedSetup = std::memcmp(ai, aNull, sizeof(ai)) != 0;
+    }
+    // Give the Remote module a chance to handle any change in status
+    RemoteUpdateStatus();
+
 }
 
 // Read version numbers into verXplane/verXPLM
@@ -103,9 +123,9 @@ void GlobVars::ReadVersions ()
     // Also read if we are using Vulkan/Metal
     XPLMDataRef drUsingModernDriver = XPLMFindDataRef("sim/graphics/view/using_modern_driver");
     if (drUsingModernDriver)            // dataRef not defined before 11.50
-        bUsingModernGraphicsDriver = XPLMGetDatai(drUsingModernDriver) != 0;
+        bXPUsingModernGraphicsDriver = XPLMGetDatai(drUsingModernDriver) != 0;
     else
-        bUsingModernGraphicsDriver = false;
+        bXPUsingModernGraphicsDriver = false;
 }
 
 //

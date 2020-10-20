@@ -43,6 +43,8 @@ else()
     endif()
 endif()
 
+### XPMP2 Library ###
+
 # Source list
 add_library(XPMP2 STATIC
     inc/XPCAircraft.h
@@ -64,6 +66,8 @@ add_library(XPMP2 STATIC
     src/Network.cpp
     src/RelatedDoc8643.h
     src/RelatedDoc8643.cpp
+    src/Remote.h
+    src/Remote.cpp
     src/Utilities.h
     src/Utilities.cpp
     src/XPMP2.h
@@ -129,3 +133,15 @@ elseif(UNIX OR WIN32)
         COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:XPMP2> ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib
     )
 endif()
+
+### XPMP2-Sample plugin ###
+
+# It is _excluded_ from ALL because it doesn't work perfectly:
+# Only during build of the above XPMP2 library is the mac framework,
+# and in it the public header files, copied to the XPMP2-Sample/lib folder,
+# where XPMP2-Sample expects them. But often, XPMP2-Sample.cpp is compiled
+# before that copy operation already and either finds no files yet (cmake fails)
+# or would use old files.
+set(XPMP2_LIBRARY $<TARGET_FILE:XPMP2> CACHE FILEPATH "libXPMP2" FORCE)
+add_subdirectory(XPMP2-Sample EXCLUDE_FROM_ALL)
+add_dependencies(XPMP2-Sample XPMP2)

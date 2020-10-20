@@ -135,6 +135,9 @@ Typedefs</h2></td></tr>
 <tr class="memitem:ab2e9876c5676c549f74f5acf1f88ed78"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; std::string, XPLMMapLayerID &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ab2e9876c5676c549f74f5acf1f88ed78">mapMapLayerIDTy</a></td></tr>
 <tr class="memdesc:ab2e9876c5676c549f74f5acf1f88ed78"><td class="mdescLeft">&#160;</td><td class="mdescRight">A map holding our layer identifier, indexed by the map's name.  <a href="namespaceXPMP2.html#ab2e9876c5676c549f74f5acf1f88ed78">More...</a><br /></td></tr>
 <tr class="separator:ab2e9876c5676c549f74f5acf1f88ed78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac759ac14a3ef63581d8f4c364d5736d0"><td class="memItemLeft" align="right" valign="top">typedef int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ac759ac14a3ef63581d8f4c364d5736d0">SOCKET</a></td></tr>
+<tr class="memdesc:ac759ac14a3ef63581d8f4c364d5736d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Windows defines SOCKET, so we define it for non-Windows manually.  <a href="namespaceXPMP2.html#ac759ac14a3ef63581d8f4c364d5736d0">More...</a><br /></td></tr>
+<tr class="separator:ac759ac14a3ef63581d8f4c364d5736d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6acdb5b57ca57154789e8a242e2856bb"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; std::string, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a6acdb5b57ca57154789e8a242e2856bb">mapRelatedTy</a></td></tr>
 <tr class="memdesc:a6acdb5b57ca57154789e8a242e2856bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map of group membership: ICAO a/c type maps to line in related.txt.  <a href="namespaceXPMP2.html#a6acdb5b57ca57154789e8a242e2856bb">More...</a><br /></td></tr>
 <tr class="separator:a6acdb5b57ca57154789e8a242e2856bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -218,6 +221,18 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a8bb5e2fcaa8bb9cbc05e43039054ddd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">State of the X-Plane object: Is it being loaded or available?  <a href="namespaceXPMP2.html#a8bb5e2fcaa8bb9cbc05e43039054ddd6">More...</a><br /></td></tr>
 <tr class="separator:a8bb5e2fcaa8bb9cbc05e43039054ddd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73060b65abbe807b35555676346059a8"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8">RemoteCfgTy</a> : int { <a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8aaf330e648f54f093dcf4fa1926a61c5f">REMOTE_CFG_OFF</a> = -1, 
+<a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8aca8bc64204d3991a6920b5c72f6d5c33">REMOTE_CFG_CONDITIONALLY</a> = 0, 
+<a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8aac3dbe5290f2ad92ea72f134d265064b">REMOTE_CFG_ON</a> = 1
+ }</td></tr>
+<tr class="memdesc:a73060b65abbe807b35555676346059a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration for remote communications support.  <a href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8">More...</a><br /></td></tr>
+<tr class="separator:a73060b65abbe807b35555676346059a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79adca5f1eba1fbafa63e30a2c9af8e7"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a79adca5f1eba1fbafa63e30a2c9af8e7">RemoteStatusTy</a> : unsigned { <a class="el" href="namespaceXPMP2.html#a79adca5f1eba1fbafa63e30a2c9af8e7a5ef10b1d928df8e76abd8e0acd4d889b">REMOTE_OFF</a> = 0, 
+<a class="el" href="namespaceXPMP2.html#a79adca5f1eba1fbafa63e30a2c9af8e7af0537d77419ec5268fb08e18d7d5e448">REMOTE_WAITING</a>, 
+<a class="el" href="namespaceXPMP2.html#a79adca5f1eba1fbafa63e30a2c9af8e7a821e20e03766958478fd3edc1a6e603b">REMOTE_SENDING</a>
+ }</td></tr>
+<tr class="memdesc:a79adca5f1eba1fbafa63e30a2c9af8e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">State of remote communcations.  <a href="namespaceXPMP2.html#a79adca5f1eba1fbafa63e30a2c9af8e7">More...</a><br /></td></tr>
+<tr class="separator:a79adca5f1eba1fbafa63e30a2c9af8e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f7e2680dc39872f8204f510de0d8429"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a0f7e2680dc39872f8204f510de0d8429">logLevelTy</a> { <br />
 &#160;&#160;<a class="el" href="namespaceXPMP2.html#a0f7e2680dc39872f8204f510de0d8429a9aa3ef18a114dfbb4ec05236fa8de502">logDEBUG</a> = 0, 
 <a class="el" href="namespaceXPMP2.html#a0f7e2680dc39872f8204f510de0d8429aed4a1bbf5417bc9d1769c82c18d1b256">logINFO</a>, 
@@ -408,6 +423,26 @@ Functions</h2></td></tr>
 <tr class="memitem:aed3b148e89e71de332c83666216eace1"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aed3b148e89e71de332c83666216eace1">Obj8DataRefsLoad</a> (const std::string &amp;_path)</td></tr>
 <tr class="memdesc:aed3b148e89e71de332c83666216eace1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load the content of the provided <code>Obj8DataRefs.txt</code> file.  <a href="namespaceXPMP2.html#aed3b148e89e71de332c83666216eace1">More...</a><br /></td></tr>
 <tr class="separator:aed3b148e89e71de332c83666216eace1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25965fb4194a09facc6d1e4131c7f699"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a25965fb4194a09facc6d1e4131c7f699">RmtMain</a> ()</td></tr>
+<tr class="separator:a25965fb4194a09facc6d1e4131c7f699"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2facb0f5b0f82c98385f721398124781"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a2facb0f5b0f82c98385f721398124781">RmtStartListenThread</a> ()</td></tr>
+<tr class="memdesc:a2facb0f5b0f82c98385f721398124781"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start the background thread to listen to multicast, to see if anybody is interested in our data.  <a href="namespaceXPMP2.html#a2facb0f5b0f82c98385f721398124781">More...</a><br /></td></tr>
+<tr class="separator:a2facb0f5b0f82c98385f721398124781"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae0bf9cbbd62f55cd5913c813c283e06"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aae0bf9cbbd62f55cd5913c813c283e06">RmtStopAll</a> ()</td></tr>
+<tr class="memdesc:aae0bf9cbbd62f55cd5913c813c283e06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop all threads and communication with the network.  <a href="namespaceXPMP2.html#aae0bf9cbbd62f55cd5913c813c283e06">More...</a><br /></td></tr>
+<tr class="separator:aae0bf9cbbd62f55cd5913c813c283e06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9443c5fafa91ba27bb92cd0749cb5d3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aa9443c5fafa91ba27bb92cd0749cb5d3">RemoteInit</a> ()</td></tr>
+<tr class="memdesc:aa9443c5fafa91ba27bb92cd0749cb5d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the module.  <a href="namespaceXPMP2.html#aa9443c5fafa91ba27bb92cd0749cb5d3">More...</a><br /></td></tr>
+<tr class="separator:aa9443c5fafa91ba27bb92cd0749cb5d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a872a568a1e2a9e79654a1aa7c2586b8f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a872a568a1e2a9e79654a1aa7c2586b8f">RemoteCleanup</a> ()</td></tr>
+<tr class="memdesc:a872a568a1e2a9e79654a1aa7c2586b8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Grace cleanup, stops all threads.  <a href="namespaceXPMP2.html#a872a568a1e2a9e79654a1aa7c2586b8f">More...</a><br /></td></tr>
+<tr class="separator:a872a568a1e2a9e79654a1aa7c2586b8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac98a52a6ec2f89a641bf086be525bd30"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ac98a52a6ec2f89a641bf086be525bd30">RemoteUpdateStatus</a> ()</td></tr>
+<tr class="memdesc:ac98a52a6ec2f89a641bf086be525bd30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares current vs. expected status and takes appropriate action.  <a href="namespaceXPMP2.html#ac98a52a6ec2f89a641bf086be525bd30">More...</a><br /></td></tr>
+<tr class="separator:ac98a52a6ec2f89a641bf086be525bd30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f5432dbc6a900a1a846ed5ea1171122"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a1f5432dbc6a900a1a846ed5ea1171122">RemoteUpdateAc</a> ()</td></tr>
+<tr class="memdesc:a1f5432dbc6a900a1a846ed5ea1171122"><td class="mdescLeft">&#160;</td><td class="mdescRight">Regularly called from the flight loop callback.  <a href="namespaceXPMP2.html#a1f5432dbc6a900a1a846ed5ea1171122">More...</a><br /></td></tr>
+<tr class="separator:a1f5432dbc6a900a1a846ed5ea1171122"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca8e7b4d2369722ffd9c82ef6bf9d24d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aca8e7b4d2369722ffd9c82ef6bf9d24d">PrefsFuncIntDefault</a> (const char *, const char *, int _default)</td></tr>
 <tr class="memdesc:aca8e7b4d2369722ffd9c82ef6bf9d24d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default config function just always returns the provided default value.  <a href="namespaceXPMP2.html#aca8e7b4d2369722ffd9c82ef6bf9d24d">More...</a><br /></td></tr>
 <tr class="separator:aca8e7b4d2369722ffd9c82ef6bf9d24d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -495,6 +530,8 @@ Functions</h2></td></tr>
 <tr class="memitem:a750c048f4583d6c893cc4cab954dba97"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a750c048f4583d6c893cc4cab954dba97">CheckEverySoOften</a> (float &amp;_lastCheck, float _interval)</td></tr>
 <tr class="memdesc:a750c048f4583d6c893cc4cab954dba97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience function to check on something at most every x seconds.  <a href="namespaceXPMP2.html#a750c048f4583d6c893cc4cab954dba97">More...</a><br /></td></tr>
 <tr class="separator:a750c048f4583d6c893cc4cab954dba97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0dea749f418ff5f64802cd983d0624e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aa0dea749f418ff5f64802cd983d0624e">strerror_s</a> (char *buf, size_t bufsz, int errnum)</td></tr>
+<tr class="separator:aa0dea749f418ff5f64802cd983d0624e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17cca0fb3c071f9633f952ecc74d9588"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a17cca0fb3c071f9633f952ecc74d9588">TOPOSIX</a> (const std::string &amp;p)</td></tr>
 <tr class="memdesc:a17cca0fb3c071f9633f952ecc74d9588"><td class="mdescLeft">&#160;</td><td class="mdescRight">On Lin/Win there is no need for a conversion, but we do treat <code>p</code> now as <code>std::string</code>  <a href="namespaceXPMP2.html#a17cca0fb3c071f9633f952ecc74d9588">More...</a><br /></td></tr>
 <tr class="separator:a17cca0fb3c071f9633f952ecc74d9588"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -575,11 +612,28 @@ Variables</h2></td></tr>
 <tr class="memitem:a2da5aa0ec780763ab9349f887f0cdad2"><td class="memItemLeft" align="right" valign="top">std::recursive_mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a2da5aa0ec780763ab9349f887f0cdad2">mtxSocketClose</a></td></tr>
 <tr class="memdesc:a2da5aa0ec780763ab9349f887f0cdad2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutex to ensure closing is done in one thread only to avoid race conditions on deleting the buffer.  <a href="namespaceXPMP2.html#a2da5aa0ec780763ab9349f887f0cdad2">More...</a><br /></td></tr>
 <tr class="separator:a2da5aa0ec780763ab9349f887f0cdad2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a667edc6ebcf449eec1b9def9d5d54895"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="namespaceXPMP2.html#ac759ac14a3ef63581d8f4c364d5736d0">SOCKET</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a667edc6ebcf449eec1b9def9d5d54895">INVALID_SOCKET</a> = -1</td></tr>
+<tr class="separator:a667edc6ebcf449eec1b9def9d5d54895"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb629d885c8cea43378488025fdde921"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#afb629d885c8cea43378488025fdde921">ERR_CFG_FILE_MAXWARN</a> = 5</td></tr>
 <tr class="memdesc:afb629d885c8cea43378488025fdde921"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum number of warnings during file read before bailing.  <a href="namespaceXPMP2.html#afb629d885c8cea43378488025fdde921">More...</a><br /></td></tr>
 <tr class="separator:afb629d885c8cea43378488025fdde921"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af0d73d5759c5441b1ea934c4db33f8ee"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structXPMP2_1_1Doc8643.html">Doc8643</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#af0d73d5759c5441b1ea934c4db33f8ee">DOC8643_EMPTY</a></td></tr>
 <tr class="separator:af0d73d5759c5441b1ea934c4db33f8ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44e212856d82c13a3164f1b46d36e57e"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a44e212856d82c13a3164f1b46d36e57e">MC_MAX_ERR</a> =5</td></tr>
+<tr class="memdesc:a44e212856d82c13a3164f1b46d36e57e"><td class="mdescLeft">&#160;</td><td class="mdescRight">after this many errors we no longer try listening  <a href="namespaceXPMP2.html#a44e212856d82c13a3164f1b46d36e57e">More...</a><br /></td></tr>
+<tr class="separator:a44e212856d82c13a3164f1b46d36e57e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7888b053bff81bd2bbdb4b05e881ee1"><td class="memItemLeft" align="right" valign="top">std::thread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aa7888b053bff81bd2bbdb4b05e881ee1">gThrMC</a></td></tr>
+<tr class="memdesc:aa7888b053bff81bd2bbdb4b05e881ee1"><td class="mdescLeft">&#160;</td><td class="mdescRight">remote listening/sending thread  <a href="namespaceXPMP2.html#aa7888b053bff81bd2bbdb4b05e881ee1">More...</a><br /></td></tr>
+<tr class="separator:aa7888b053bff81bd2bbdb4b05e881ee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a749fb0a474fc2a3962db47f7a1cca623"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1UDPMulticast.html">UDPMulticast</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a749fb0a474fc2a3962db47f7a1cca623">gpMc</a> = nullptr</td></tr>
+<tr class="memdesc:a749fb0a474fc2a3962db47f7a1cca623"><td class="mdescLeft">&#160;</td><td class="mdescRight">multicast socket for listening/sending (destructor uses locks, which don't work during modul shutdown, so can't create a global object due to its exit-time destructor)  <a href="namespaceXPMP2.html#a749fb0a474fc2a3962db47f7a1cca623">More...</a><br /></td></tr>
+<tr class="separator:a749fb0a474fc2a3962db47f7a1cca623"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6805757957d11672b0af727f312ffb2"><td class="memItemLeft" align="right" valign="top">volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aa6805757957d11672b0af727f312ffb2">gbStopMCThread</a> = false</td></tr>
+<tr class="memdesc:aa6805757957d11672b0af727f312ffb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shall the listener thread stop?  <a href="namespaceXPMP2.html#aa6805757957d11672b0af727f312ffb2">More...</a><br /></td></tr>
+<tr class="separator:aa6805757957d11672b0af727f312ffb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa396514f7d7cac9a9410ee58ee125f9f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aa396514f7d7cac9a9410ee58ee125f9f">gCntMCErr</a> = 0</td></tr>
+<tr class="memdesc:aa396514f7d7cac9a9410ee58ee125f9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">error counter for listener thread  <a href="namespaceXPMP2.html#aa396514f7d7cac9a9410ee58ee125f9f">More...</a><br /></td></tr>
+<tr class="separator:aa396514f7d7cac9a9410ee58ee125f9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46675aca62eb955a94fa1eb18f65426f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structXPMP2_1_1GlobVars.html">GlobVars</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a46675aca62eb955a94fa1eb18f65426f">glob</a></td></tr>
 <tr class="memdesc:a46675aca62eb955a94fa1eb18f65426f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The one and only global variable structure (accepted to require an exit-time destructor)  <a href="namespaceXPMP2.html#a46675aca62eb955a94fa1eb18f65426f">More...</a><br /></td></tr>
 <tr class="separator:a46675aca62eb955a94fa1eb18f65426f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -596,6 +650,9 @@ Variables</h2></td></tr>
 <tr class="memitem:a1bce12947cfb542afb194319fd47d5e3"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a1bce12947cfb542afb194319fd47d5e3">PI</a> = 3.1415926535897932384626433832795028841971693993751</td></tr>
 <tr class="memdesc:a1bce12947cfb542afb194319fd47d5e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pi.  <a href="namespaceXPMP2.html#a1bce12947cfb542afb194319fd47d5e3">More...</a><br /></td></tr>
 <tr class="separator:a1bce12947cfb542afb194319fd47d5e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb7825a2923e0cb619b5669e76a5991d"><td class="memItemLeft" align="right" valign="top">constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#abb7825a2923e0cb619b5669e76a5991d">XPMP2_VER</a> = 2.00f</td></tr>
+<tr class="memdesc:abb7825a2923e0cb619b5669e76a5991d"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="namespaceXPMP2.html">XPMP2</a> version number.  <a href="namespaceXPMP2.html#abb7825a2923e0cb619b5669e76a5991d">More...</a><br /></td></tr>
+<tr class="separator:abb7825a2923e0cb619b5669e76a5991d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/><h2 class="groupheader">Class Documentation</h2>
 <a name="unionXPMP2_1_1TcasLightsTy" id="unionXPMP2_1_1TcasLightsTy"></a>
@@ -834,6 +891,22 @@ the full integer value </td></tr>
 
 </div>
 </div>
+<a id="ac759ac14a3ef63581d8f4c364d5736d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac759ac14a3ef63581d8f4c364d5736d0">&#9670;&nbsp;</a></span>SOCKET</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef int <a class="el" href="namespaceXPMP2.html#ac759ac14a3ef63581d8f4c364d5736d0">XPMP2::SOCKET</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Windows defines SOCKET, so we define it for non-Windows manually. </p>
+
+</div>
+</div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="a02cd1e5f394cbfb5be34e743013a266f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a02cd1e5f394cbfb5be34e743013a266f">&#9670;&nbsp;</a></span>DR_VALS</h2>
@@ -1006,6 +1079,54 @@ the full integer value </td></tr>
 <tr><td class="fieldname"><a id="a8bb5e2fcaa8bb9cbc05e43039054ddd6ae28b877a76882493dba470e4293f393e"></a>OLS_LOADING&#160;</td><td class="fielddoc"><p>async load underway </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a8bb5e2fcaa8bb9cbc05e43039054ddd6ae3ee1dbf1f09c989fab97b5ae6164553"></a>OLS_AVAILABLE&#160;</td><td class="fielddoc"><p>X-Plane object available in <code>xpObj</code> </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a73060b65abbe807b35555676346059a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73060b65abbe807b35555676346059a8">&#9670;&nbsp;</a></span>RemoteCfgTy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8">XPMP2::RemoteCfgTy</a> : int</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Configuration for remote communications support. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a73060b65abbe807b35555676346059a8aaf330e648f54f093dcf4fa1926a61c5f"></a>REMOTE_CFG_OFF&#160;</td><td class="fielddoc"><p>config: force off </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a73060b65abbe807b35555676346059a8aca8bc64204d3991a6920b5c72f6d5c33"></a>REMOTE_CFG_CONDITIONALLY&#160;</td><td class="fielddoc"><p>config: on if in a netwoked/multiplayer setup </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a73060b65abbe807b35555676346059a8aac3dbe5290f2ad92ea72f134d265064b"></a>REMOTE_CFG_ON&#160;</td><td class="fielddoc"><p>config: force on </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a79adca5f1eba1fbafa63e30a2c9af8e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79adca5f1eba1fbafa63e30a2c9af8e7">&#9670;&nbsp;</a></span>RemoteStatusTy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespaceXPMP2.html#a79adca5f1eba1fbafa63e30a2c9af8e7">XPMP2::RemoteStatusTy</a> : unsigned</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>State of remote communcations. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a79adca5f1eba1fbafa63e30a2c9af8e7a5ef10b1d928df8e76abd8e0acd4d889b"></a>REMOTE_OFF&#160;</td><td class="fielddoc"><p>no remote connectivtiy, not listening, not sending </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a79adca5f1eba1fbafa63e30a2c9af8e7af0537d77419ec5268fb08e18d7d5e448"></a>REMOTE_WAITING&#160;</td><td class="fielddoc"><p>listening for a request to send data, but not actively sending data </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a79adca5f1eba1fbafa63e30a2c9af8e7a821e20e03766958478fd3edc1a6e603b"></a>REMOTE_SENDING&#160;</td><td class="fielddoc"><p>actively sending aircraft data out to the network </p>
 </td></tr>
 </table>
 
@@ -3283,6 +3404,82 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
+<a id="a872a568a1e2a9e79654a1aa7c2586b8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a872a568a1e2a9e79654a1aa7c2586b8f">&#9670;&nbsp;</a></span>RemoteCleanup()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::RemoteCleanup </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Grace cleanup, stops all threads. </p>
+
+</div>
+</div>
+<a id="aa9443c5fafa91ba27bb92cd0749cb5d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9443c5fafa91ba27bb92cd0749cb5d3">&#9670;&nbsp;</a></span>RemoteInit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::RemoteInit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initialize the module. </p>
+
+</div>
+</div>
+<a id="a1f5432dbc6a900a1a846ed5ea1171122"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f5432dbc6a900a1a846ed5ea1171122">&#9670;&nbsp;</a></span>RemoteUpdateAc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::RemoteUpdateAc </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Regularly called from the flight loop callback. </p>
+
+</div>
+</div>
+<a id="ac98a52a6ec2f89a641bf086be525bd30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac98a52a6ec2f89a641bf086be525bd30">&#9670;&nbsp;</a></span>RemoteUpdateStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::RemoteUpdateStatus </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compares current vs. expected status and takes appropriate action. </p>
+
+</div>
+</div>
 <a id="a5551477bae562626cd53262fb138391a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5551477bae562626cd53262fb138391a">&#9670;&nbsp;</a></span>RemoveExtension()</h2>
 
@@ -3300,6 +3497,61 @@ template&lt;class T &gt; </div>
 </div><div class="memdoc">
 
 <p>Removes everything after the last dot, the dot including. </p>
+
+</div>
+</div>
+<a id="a25965fb4194a09facc6d1e4131c7f699"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25965fb4194a09facc6d1e4131c7f699">&#9670;&nbsp;</a></span>RmtMain()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::RmtMain </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2facb0f5b0f82c98385f721398124781"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2facb0f5b0f82c98385f721398124781">&#9670;&nbsp;</a></span>RmtStartListenThread()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::RmtStartListenThread </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Start the background thread to listen to multicast, to see if anybody is interested in our data. </p>
+
+</div>
+</div>
+<a id="aae0bf9cbbd62f55cd5913c813c283e06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae0bf9cbbd62f55cd5913c813c283e06">&#9670;&nbsp;</a></span>RmtStopAll()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::RmtStopAll </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Stop all threads and communication with the network. </p>
 
 </div>
 </div>
@@ -3487,6 +3739,48 @@ template&lt;class T &gt; </div>
 
 <p>Compiles a string from a map of string-&gt;int like "(A320 x 5, A388 x 12)". </p>
 <dl class="section return"><dt>Returns</dt><dd>Total count (17 in the example above) </dd></dl>
+
+</div>
+</div>
+<a id="aa0dea749f418ff5f64802cd983d0624e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0dea749f418ff5f64802cd983d0624e">&#9670;&nbsp;</a></span>strerror_s()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int XPMP2::strerror_s </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>buf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>bufsz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>errnum</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -3967,6 +4261,38 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
+<a id="aa6805757957d11672b0af727f312ffb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6805757957d11672b0af727f312ffb2">&#9670;&nbsp;</a></span>gbStopMCThread</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">volatile bool XPMP2::gbStopMCThread = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Shall the listener thread stop? </p>
+
+</div>
+</div>
+<a id="aa396514f7d7cac9a9410ee58ee125f9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa396514f7d7cac9a9410ee58ee125f9f">&#9670;&nbsp;</a></span>gCntMCErr</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int XPMP2::gCntMCErr = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>error counter for listener thread </p>
+
+</div>
+</div>
 <a id="ad05deda16b7834483c1a6dd64e00bd0a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad05deda16b7834483c1a6dd64e00bd0a">&#9670;&nbsp;</a></span>gFlightLoopID</h2>
 
@@ -4013,6 +4339,60 @@ template&lt;class T &gt; </div>
 
 <p>The one and only global variable structure (accepted to require an exit-time destructor) </p>
 <p>The one and only global variable structure. </p>
+
+</div>
+</div>
+<a id="a749fb0a474fc2a3962db47f7a1cca623"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a749fb0a474fc2a3962db47f7a1cca623">&#9670;&nbsp;</a></span>gpMc</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classXPMP2_1_1UDPMulticast.html">UDPMulticast</a>* XPMP2::gpMc = nullptr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>multicast socket for listening/sending (destructor uses locks, which don't work during modul shutdown, so can't create a global object due to its exit-time destructor) </p>
+
+</div>
+</div>
+<a id="aa7888b053bff81bd2bbdb4b05e881ee1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7888b053bff81bd2bbdb4b05e881ee1">&#9670;&nbsp;</a></span>gThrMC</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::thread XPMP2::gThrMC</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>remote listening/sending thread </p>
+
+</div>
+</div>
+<a id="a667edc6ebcf449eec1b9def9d5d54895"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a667edc6ebcf449eec1b9def9d5d54895">&#9670;&nbsp;</a></span>INVALID_SOCKET</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="namespaceXPMP2.html#ac759ac14a3ef63581d8f4c364d5736d0">SOCKET</a> XPMP2::INVALID_SOCKET = -1</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -4174,6 +4554,30 @@ template&lt;class T &gt; </div>
 </div><div class="memdoc">
 
 <p>Minimum icon size in map in UI units. </p>
+
+</div>
+</div>
+<a id="a44e212856d82c13a3164f1b46d36e57e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44e212856d82c13a3164f1b46d36e57e">&#9670;&nbsp;</a></span>MC_MAX_ERR</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr int XPMP2::MC_MAX_ERR =5</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>after this many errors we no longer try listening </p>
 
 </div>
 </div>
@@ -4374,6 +4778,30 @@ template&lt;class T &gt; </div>
 </div><div class="memdoc">
 
 <p>The drawing phase "xplm_Phase_Airplanes" is deprecated in XP11.50 upwards, but we need it in earlier versions to fake TCAS. </p>
+
+</div>
+</div>
+<a id="abb7825a2923e0cb619b5669e76a5991d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb7825a2923e0cb619b5669e76a5991d">&#9670;&nbsp;</a></span>XPMP2_VER</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr float XPMP2::XPMP2_VER = 2.00f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="namespaceXPMP2.html">XPMP2</a> version number. </p>
 
 </div>
 </div>

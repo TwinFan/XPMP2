@@ -623,6 +623,7 @@ size_t UDPMulticast::RecvMC (std::string* _pFromAddr)
 // frees pMCAddr
 void UDPMulticast::Cleanup ()
 {
+    std::lock_guard<std::recursive_mutex> lock(mtxSocketClose);
     if (pMCAddr) {
         freeaddrinfo(pMCAddr);
         pMCAddr = nullptr;

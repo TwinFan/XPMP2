@@ -86,8 +86,8 @@ int CBIntPrefsFunc (const char *, [[maybe_unused]] const char * item, int defaul
 XPLMMenuID hMenu = nullptr;
 
 // menu indexes, also serving as menu item references
-constexpr unsigned long MENU_ACTIVE = 1;
-constexpr unsigned long MENU_TCAS   = 2;
+constexpr unsigned MENU_ACTIVE = 1;
+constexpr unsigned MENU_TCAS   = 2;
 
 /// Sets all menu checkmarks according to current status
 void MenuUpdateCheckmarks ()
@@ -119,7 +119,7 @@ void MenuUpdateCheckmarks ()
 /// Callback function for menu
 void MenuCallback (void* /*inMenuRef*/, void* inItemRef)
 {
-    switch (reinterpret_cast<unsigned long>(inItemRef))
+    switch (reinterpret_cast<unsigned long long>(inItemRef))
     {
         case MENU_ACTIVE:
             break;
@@ -151,8 +151,8 @@ PLUGIN_API int XPluginStart(char* outName, char* outSig, char* outDesc)
     // Create the menu for the plugin
     int my_slot = XPLMAppendMenuItem(XPLMFindPluginsMenu(), REMOTE_CLIENT_NAME, NULL, 0);
     hMenu = XPLMCreateMenu(REMOTE_CLIENT_NAME, XPLMFindPluginsMenu(), my_slot, MenuCallback, NULL);
-    XPLMAppendMenuItem(hMenu, "Active",             (void*)MENU_ACTIVE, 0);
-    XPLMAppendMenuItem(hMenu, "TCAS Control",       (void*)MENU_TCAS, 0);
+    XPLMAppendMenuItem(hMenu, "Active",             (void*)(unsigned long long)MENU_ACTIVE, 0);
+    XPLMAppendMenuItem(hMenu, "TCAS Control",       (void*)(unsigned long long)MENU_TCAS, 0);
     MenuUpdateCheckmarks();
 	return 1;
 }

@@ -17,6 +17,8 @@
 		2541FA4E253CDD6700AEA532 /* Remote.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2541FA4C253CDD6700AEA532 /* Remote.cpp */; };
 		25687EA323D8BA5E0084A28B /* XPMP2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2502C17A23BE8A1600578919 /* XPMP2.framework */; };
 		256DC2F724F3141500C1595C /* CSLCopy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 256DC2F624F3141500C1595C /* CSLCopy.cpp */; };
+		256EE0002540D7EF0007D517 /* XPMP2-Remote.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 256EDFFF2540D7EF0007D517 /* XPMP2-Remote.cpp */; };
+		256EE0102540E39D0007D517 /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 256EE00F2540E39D0007D517 /* Utilities.cpp */; };
 		2575F45423EDFC5E00747524 /* Map.h in Headers */ = {isa = PBXBuildFile; fileRef = 2575F45223EDFC5E00747524 /* Map.h */; };
 		2575F45523EDFC5E00747524 /* Map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2575F45323EDFC5E00747524 /* Map.cpp */; };
 		2589B84A23CB4D6F005B76B8 /* RelatedDoc8643.h in Headers */ = {isa = PBXBuildFile; fileRef = 2589B84823CB4D6F005B76B8 /* RelatedDoc8643.h */; };
@@ -25,6 +27,9 @@
 		2599B92223BF63F600F92BB5 /* XPMP2.h in Headers */ = {isa = PBXBuildFile; fileRef = 2599B92123BF63F600F92BB5 /* XPMP2.h */; };
 		25AE8CB523E376E2000BE21E /* 2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 25AE8CB323E376E1000BE21E /* 2D.cpp */; };
 		25AE8CB623E376E2000BE21E /* 2D.h in Headers */ = {isa = PBXBuildFile; fileRef = 25AE8CB423E376E2000BE21E /* 2D.h */; };
+		25B071F12540D6C400CCDA1D /* XPMP2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2502C17A23BE8A1600578919 /* XPMP2.framework */; };
+		25B071F22540D6C400CCDA1D /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25D86CC7253E285E00424494 /* CoreFoundation.framework */; };
+		25B071F32540D6C400CCDA1D /* XPLM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25D86CC9253E288900424494 /* XPLM.framework */; };
 		25D680B923BE95FB00C83CC5 /* XPCAircraft.h in Headers */ = {isa = PBXBuildFile; fileRef = 25D680B623BE95FB00C83CC5 /* XPCAircraft.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		25D680BA23BE95FB00C83CC5 /* XPMPMultiplayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 25D680B723BE95FB00C83CC5 /* XPMPMultiplayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		25D680BB23BE95FB00C83CC5 /* XPMPPlaneRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 25D680B823BE95FB00C83CC5 /* XPMPPlaneRenderer.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -42,6 +47,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		25B071ED2540D6C400CCDA1D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2502C16023BE3CFC00578919 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2502C17923BE8A1600578919;
+			remoteInfo = XPMP2;
+		};
 		25D86CCF253E289100424494 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2502C16023BE3CFC00578919 /* Project object */;
@@ -98,6 +110,10 @@
 		2541FA4C253CDD6700AEA532 /* Remote.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Remote.cpp; sourceTree = "<group>"; };
 		256DC2F524F3090B00C1595C /* Obj8DataRefs.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Obj8DataRefs.txt; sourceTree = "<group>"; };
 		256DC2F624F3141500C1595C /* CSLCopy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSLCopy.cpp; sourceTree = "<group>"; };
+		256EDFFF2540D7EF0007D517 /* XPMP2-Remote.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "XPMP2-Remote.cpp"; sourceTree = "<group>"; };
+		256EE0042540DDE10007D517 /* XPMP2-Remote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XPMP2-Remote.h"; sourceTree = "<group>"; };
+		256EE00E2540E39D0007D517 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
+		256EE00F2540E39D0007D517 /* Utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utilities.cpp; sourceTree = "<group>"; };
 		2574E00424578419000E8156 /* index.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = index.md; sourceTree = "<group>"; };
 		2574E0052457842A000E8156 /* html */ = {isa = PBXFileReference; lastKnownFileType = folder; path = html; sourceTree = "<group>"; };
 		2575F44723ECB02400747524 /* Toolchain-ubuntu-osxcross-10.11.cmake */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Toolchain-ubuntu-osxcross-10.11.cmake"; sourceTree = "<group>"; };
@@ -113,6 +129,7 @@
 		2599B92123BF63F600F92BB5 /* XPMP2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPMP2.h; sourceTree = "<group>"; };
 		25AE8CB323E376E1000BE21E /* 2D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = 2D.cpp; sourceTree = "<group>"; };
 		25AE8CB423E376E2000BE21E /* 2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = 2D.h; sourceTree = "<group>"; };
+		25B071F72540D6C400CCDA1D /* XPMP2-Remote.xpl */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "XPMP2-Remote.xpl"; sourceTree = BUILT_PRODUCTS_DIR; };
 		25D1D25523C9285300D20D58 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		25D680B123BE936B00C83CC5 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		25D680B623BE95FB00C83CC5 /* XPCAircraft.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = XPCAircraft.h; sourceTree = "<group>"; };
@@ -142,6 +159,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		25B071F02540D6C400CCDA1D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				25B071F12540D6C400CCDA1D /* XPMP2.framework in Frameworks */,
+				25B071F22540D6C400CCDA1D /* CoreFoundation.framework in Frameworks */,
+				25B071F32540D6C400CCDA1D /* XPLM.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		25D86CBE253E281800424494 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -168,6 +195,7 @@
 				2596FD462447226700C6A41E /* Resources */,
 				25D680BC23BE9B5700C83CC5 /* src */,
 				25D86CD7253E2E5900424494 /* XPMP2-Sample */,
+				256EDFF32540D7730007D517 /* XPMP2-Remote */,
 				25D86CC6253E285E00424494 /* Frameworks */,
 				2502C16923BE3CFC00578919 /* Products */,
 			);
@@ -178,6 +206,7 @@
 			children = (
 				2502C17A23BE8A1600578919 /* XPMP2.framework */,
 				25D86CC0253E281800424494 /* XPMP2-Sample.xpl */,
+				25B071F72540D6C400CCDA1D /* XPMP2-Remote.xpl */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -192,6 +221,17 @@
 				252C01FB23E6D64F007C231F /* build.sh */,
 			);
 			path = docker;
+			sourceTree = "<group>";
+		};
+		256EDFF32540D7730007D517 /* XPMP2-Remote */ = {
+			isa = PBXGroup;
+			children = (
+				256EE00F2540E39D0007D517 /* Utilities.cpp */,
+				256EE00E2540E39D0007D517 /* Utilities.h */,
+				256EE0042540DDE10007D517 /* XPMP2-Remote.h */,
+				256EDFFF2540D7EF0007D517 /* XPMP2-Remote.cpp */,
+			);
+			path = "XPMP2-Remote";
 			sourceTree = "<group>";
 		};
 		2596FD462447226700C6A41E /* Resources */ = {
@@ -330,6 +370,23 @@
 			productReference = 2502C17A23BE8A1600578919 /* XPMP2.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		25B071EB2540D6C400CCDA1D /* XPMP2-Remote */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 25B071F42540D6C400CCDA1D /* Build configuration list for PBXNativeTarget "XPMP2-Remote" */;
+			buildPhases = (
+				25B071EE2540D6C400CCDA1D /* Sources */,
+				25B071F02540D6C400CCDA1D /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				25B071EC2540D6C400CCDA1D /* PBXTargetDependency */,
+			);
+			name = "XPMP2-Remote";
+			productName = "XPMP2-Sample";
+			productReference = 25B071F72540D6C400CCDA1D /* XPMP2-Remote.xpl */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
 		25D86CBF253E281800424494 /* XPMP2-Sample */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 25D86CC3253E281800424494 /* Build configuration list for PBXNativeTarget "XPMP2-Sample" */;
@@ -379,6 +436,7 @@
 			targets = (
 				2502C17923BE8A1600578919 /* XPMP2 */,
 				25D86CBF253E281800424494 /* XPMP2-Sample */,
+				25B071EB2540D6C400CCDA1D /* XPMP2-Remote */,
 			);
 		};
 /* End PBXProject section */
@@ -412,6 +470,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		25B071EE2540D6C400CCDA1D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				256EE0002540D7EF0007D517 /* XPMP2-Remote.cpp in Sources */,
+				256EE0102540E39D0007D517 /* Utilities.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		25D86CBD253E281800424494 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -423,6 +490,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		25B071EC2540D6C400CCDA1D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2502C17923BE8A1600578919 /* XPMP2 */;
+			targetProxy = 25B071ED2540D6C400CCDA1D /* PBXContainerItemProxy */;
+		};
 		25D86CD0253E289100424494 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 2502C17923BE8A1600578919 /* XPMP2 */;
@@ -665,6 +737,88 @@
 			};
 			name = Release;
 		};
+		25B071F52540D6C400CCDA1D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = NO;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				DEFINES_MODULE = NO;
+				DEPLOYMENT_LOCATION = YES;
+				DSTROOT = "$(XPLANE11_ROOT)/Resources/plugins/$(TARGET_NAME)";
+				DYLIB_COMPATIBILITY_VERSION = "";
+				DYLIB_CURRENT_VERSION = "";
+				EXECUTABLE_EXTENSION = xpl;
+				EXECUTABLE_PREFIX = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/XPMP2-Sample/SDK/Libraries/Mac",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "XPMP2-Remote/XPMP2-Remote.h";
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "";
+				INSTALL_PATH = mac_x64;
+				MACH_O_TYPE = mh_bundle;
+				OTHER_LDFLAGS = (
+					"$(OTHER_LDFLAGS)",
+					"-Wl,-exported_symbol",
+					"-Wl,_XPluginStart",
+					"-Wl,-exported_symbol",
+					"-Wl,_XPluginEnable",
+					"-Wl,-exported_symbol",
+					"-Wl,_XPluginReceiveMessage",
+					"-Wl,-exported_symbol",
+					"-Wl,_XPluginDisable",
+					"-Wl,-exported_symbol",
+					"-Wl,_XPluginStop",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = NO;
+			};
+			name = Debug;
+		};
+		25B071F62540D6C400CCDA1D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = NO;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				DEFINES_MODULE = NO;
+				DEPLOYMENT_LOCATION = YES;
+				DSTROOT = "$(XPLANE11_ROOT)/Resources/plugins/$(TARGET_NAME)";
+				DYLIB_COMPATIBILITY_VERSION = "";
+				DYLIB_CURRENT_VERSION = "";
+				EXECUTABLE_EXTENSION = xpl;
+				EXECUTABLE_PREFIX = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/XPMP2-Sample/SDK/Libraries/Mac",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "XPMP2-Remote/XPMP2-Remote.h";
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "";
+				INSTALL_PATH = mac_x64;
+				MACH_O_TYPE = mh_bundle;
+				OTHER_LDFLAGS = (
+					"$(OTHER_LDFLAGS)",
+					"-Wl,-exported_symbol",
+					"-Wl,_XPluginStart",
+					"-Wl,-exported_symbol",
+					"-Wl,_XPluginEnable",
+					"-Wl,-exported_symbol",
+					"-Wl,_XPluginReceiveMessage",
+					"-Wl,-exported_symbol",
+					"-Wl,_XPluginDisable",
+					"-Wl,-exported_symbol",
+					"-Wl,_XPluginStop",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = NO;
+			};
+			name = Release;
+		};
 		25D86CC1253E281800424494 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -762,6 +916,15 @@
 			buildConfigurations = (
 				2502C18023BE8A1700578919 /* Debug */,
 				2502C18123BE8A1700578919 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		25B071F42540D6C400CCDA1D /* Build configuration list for PBXNativeTarget "XPMP2-Remote" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				25B071F52540D6C400CCDA1D /* Debug */,
+				25B071F62540D6C400CCDA1D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

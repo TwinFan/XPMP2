@@ -93,7 +93,7 @@ if (APPLE)
     find_library(IOKIT_LIBRARY IOKit)
     find_library(CORE_FOUNDATION_LIBRARY CoreFoundation)
 
-    target_link_libraries(XPMP2-Sample ${IOKIT_LIBRARY} ${CORE_FOUNDATION_LIBRARY} ${OpenGL_LIBRARY})
+    target_link_libraries(XPMP2-Sample ${IOKIT_LIBRARY} ${CORE_FOUNDATION_LIBRARY})
 endif ()
 
 if (WIN32)

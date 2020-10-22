@@ -34,6 +34,20 @@
                ReferencedContainer = "container:XPMP2.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "NO"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "25B071EB2540D6C400CCDA1D"
+               BuildableName = "XPMP2-Remote.xpl"
+               BlueprintName = "XPMP2-Remote"
+               ReferencedContainer = "container:XPMP2.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

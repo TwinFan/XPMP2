@@ -40,6 +40,7 @@
 
 // Include XPMP2-Remote headers
 #include "Utilities.h"
+#include "Client.h"
 
 //
 // MARK: Constants
@@ -55,14 +56,35 @@ constexpr float REMOTE_CLIENT_VER           = 0.01f;
 
 /// Holds all global variables
 struct XPMP2RCGlobals {
-    /// What's the plugin's status?
-    enum RCStatusTy {
-        RCSTATUS_INACTIVE   = 0,        ///< not running, not sending, not listening
-        RCSTATUS_WAITING,               ///< sending our beacon of interest, but not receiving data yet
-        RCSTATUS_RECEIVING,             ///< actually receiving traffic data
-    } Status = RCSTATUS_INACTIVE;       ///< Current plugin status
     
-    logLevelTy logLvl = logINFO;        ///< Logging level
+    // *** Config values reconciled from sending plugins ***
+    
+    /// Logging level
+    logLevelTy      logLvl      = logINFO;
+    /// Debug model matching?
+    bool            bLogMdlMatch= false;
+    /// Replace dataRefs in `.obj` files on load? (defaults to OFF!)
+    bool            bObjReplDataRefs = false;
+    /// Replace textures in `.obj` files on load if needed?
+    bool            bObjReplTextures = true;
+    
+    /// Default ICAO aircraft type designator if no match can be found
+    std::string     defaultICAO = "A320";
+    /// Ground vehicle type identifier (map decides icon based on this)
+    std::string     carIcaoType = "ZZZC";
+    
+    /// Shall we draw aircraft labels?
+    bool            bDrawLabels = true;
+    /// Maximum distance for drawing labels? [m], defaults to 3nm
+    float           maxLabelDist = 5556.0f;
+    /// Cut off labels at XP's reported visibility mit?
+    bool            bLabelCutOffAtVisibility = true;
+    
+    /// Do we feed X-Plane's maps with our aircraft positions?
+    bool            bMapEnabled = true;
+    /// Do we show labels with the aircraft icons?
+    bool            bMapLabels = true;
+
 };
 
 /// the one and only instance of XPMP2RCGlobals

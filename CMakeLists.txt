@@ -157,9 +157,11 @@ add_library(XPMP2-Remote MODULE
     XPMP2-Sample/SDK/CHeaders/XPLM/XPLMGraphics.h
     XPMP2-Sample/SDK/CHeaders/XPLM/XPLMMenus.h
     # actual XPMP2-Remote client code
+    XPMP2-Remote/Client.h
+    XPMP2-Remote/Client.cpp
     XPMP2-Remote/Utilities.h
-    XPMP2-Remote/XPMP2-Remote.h
     XPMP2-Remote/Utilities.cpp
+    XPMP2-Remote/XPMP2-Remote.h
     XPMP2-Remote/XPMP2-Remote.cpp
 )
 

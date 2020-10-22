@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		252C01F423E62040007C231F /* AIMultiplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 252C01F223E62040007C231F /* AIMultiplayer.cpp */; };
 		252C01F523E62040007C231F /* AIMultiplayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 252C01F323E62040007C231F /* AIMultiplayer.h */; };
+		252FD04E25421C2B00286AE6 /* Client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 252FD04C25421C2A00286AE6 /* Client.cpp */; };
 		25338211253A39060090E0B3 /* Network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2533820F253A39060090E0B3 /* Network.cpp */; };
 		25338212253A39060090E0B3 /* Network.h in Headers */ = {isa = PBXBuildFile; fileRef = 25338210253A39060090E0B3 /* Network.h */; };
 		253485AA23C289E5002BA65A /* XPMPAircraft.h in Headers */ = {isa = PBXBuildFile; fileRef = 253485A923C289E4002BA65A /* XPMPAircraft.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -102,6 +103,8 @@
 		252C01F923E6D64F007C231F /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		252C01FA23E6D64F007C231F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		252C01FB23E6D64F007C231F /* build.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = "<group>"; };
+		252FD04C25421C2A00286AE6 /* Client.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Client.cpp; sourceTree = "<group>"; };
+		252FD04D25421C2B00286AE6 /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
 		2533820F253A39060090E0B3 /* Network.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Network.cpp; sourceTree = "<group>"; };
 		25338210253A39060090E0B3 /* Network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Network.h; sourceTree = "<group>"; };
 		253485A923C289E4002BA65A /* XPMPAircraft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPMPAircraft.h; sourceTree = "<group>"; };
@@ -226,6 +229,8 @@
 		256EDFF32540D7730007D517 /* XPMP2-Remote */ = {
 			isa = PBXGroup;
 			children = (
+				252FD04C25421C2A00286AE6 /* Client.cpp */,
+				252FD04D25421C2B00286AE6 /* Client.h */,
 				256EE00F2540E39D0007D517 /* Utilities.cpp */,
 				256EE00E2540E39D0007D517 /* Utilities.h */,
 				256EE0042540DDE10007D517 /* XPMP2-Remote.h */,
@@ -476,6 +481,7 @@
 			files = (
 				256EE0002540D7EF0007D517 /* XPMP2-Remote.cpp in Sources */,
 				256EE0102540E39D0007D517 /* Utilities.cpp in Sources */,
+				252FD04E25421C2B00286AE6 /* Client.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

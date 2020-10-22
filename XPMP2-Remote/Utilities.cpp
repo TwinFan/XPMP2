@@ -20,7 +20,10 @@
 
 #include "XPMP2-Remote.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
 XPMP2RCGlobals glob;
+#pragma clang diagnostic pop
 
 //
 // MARK: Configuration

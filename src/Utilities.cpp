@@ -110,7 +110,7 @@ void GlobVars::UpdateCfgVals ()
         bXPNetworkedSetup = std::memcmp(ai, aNull, sizeof(ai)) != 0;
     }
     // Give the Remote module a chance to handle any change in status
-    RemoteUpdateStatus();
+    RemoteSenderUpdateStatus();
 
 }
 

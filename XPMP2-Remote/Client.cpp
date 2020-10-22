@@ -1,6 +1,5 @@
-/// @file       Remote.h
-/// @brief      Master/Client communication for aircraft synchronization
-///             on remote networked instances
+/// @file       Client.cpp
+/// @brief      Main Client functionality, processing received data
 /// @author     Birger Hoppe
 /// @copyright  (c) 2020 Birger Hoppe
 /// @copyright  Permission is hereby granted, free of charge, to any person obtaining a
@@ -19,29 +18,36 @@
 ///             OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 ///             THE SOFTWARE.
 
-#ifndef _Remote_h_
-#define _Remote_h_
+#include "XPMP2-Remote.h"
 
-namespace XPMP2 {
+//
+// MARK: Process Messages
+//
 
-/// Configuration for remote communications support
-enum RemoteCfgTy : int {
-    REMOTE_CFG_OFF = -1,            ///< config: force off
-    REMOTE_CFG_CONDITIONALLY = 0,   ///< config: on if in a netwoked/multiplayer setup
-    REMOTE_CFG_ON = 1,              ///< config: force on
-};
-
-/// Initialize the module
-void RemoteInit ();
-
-/// Grace cleanup, stops all threads
-void RemoteCleanup ();
-
-/// Compares current vs. expected status and takes appropriate action
-void RemoteSenderUpdateStatus ();
-
-/// Regularly called from the flight loop callback to send a/c date onto the network
-void RemoteSendAc ();
-
+void ClientProcSettings (const XPMP2::RemoteMsgSettingsTy& _msgSettings)
+{
+    // TODO: The sender's IP address is yet missing
+    LOG_MSG(logDEBUG, "Received settings from %.*s (%u)",
+            (int)sizeof(_msgSettings.name), _msgSettings.name, _msgSettings.hdr.pluginId);
 }
-#endif
+
+//
+// MARK: Global Functions
+//
+
+// Toggles the cient's activitiy status, as based on menu command
+void ClientToggleActive ()
+{
+    if (XPMP2::RemoteGetStatus() == XPMP2::REMOTE_OFF)
+    {
+        // Start the listener to receive message
+        XPMP2::RemoteCBFctTy rmtCBFcts;
+        rmtCBFcts.pfMsgSettings = ClientProcSettings;
+        XPMP2::RemoteRecvStart(rmtCBFcts);
+    }
+    else
+    {
+        // Stop the listener
+        XPMP2::RemoteRecvStop();
+    }
+}

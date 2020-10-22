@@ -411,7 +411,7 @@ float Aircraft::FlightLoopCB(float _elapsedSinceLastCall, float, int _flCounter,
         }
         
         // Feed remote connections
-        RemoteUpdateAc();
+        RemoteSendAc();
 
         // Publish aircraft data on the AI/multiplayer dataRefs
         AIMultiUpdate();

@@ -70,10 +70,13 @@
 int CBIntPrefsFunc (const char *, [[maybe_unused]] const char * item, int defaultVal)
 {
     // We always want to replace dataRefs and textures upon load to make the most out of the .obj files
-    if (!strcmp(item, XPMP_CFG_ITM_REPLDATAREFS)) return 1;
-    if (!strcmp(item, XPMP_CFG_ITM_REPLTEXTURE)) return 1;      // actually...this is ON by default anyway, just to be sure
-    if (!strcmp(item, XPMP_CFG_ITM_MODELMATCHING)) return glob.logLvl == logDEBUG;
-    if (!strcmp(item, XPMP_CFG_ITM_LOGLEVEL)) return glob.logLvl;
+    if (!strcmp(item, XPMP_CFG_ITM_REPLDATAREFS))   return glob.bObjReplDataRefs;       // taken from sending plugins
+    if (!strcmp(item, XPMP_CFG_ITM_REPLTEXTURE))    return glob.bObjReplTextures;       // taken from sending plugins
+    if (!strcmp(item, XPMP_CFG_ITM_CLAMPALL))       return 0;                           // Never needed: The defining coordinates are sent to us, don't interpret them here in any way
+    if (!strcmp(item, XPMP_CFG_ITM_HANDLE_DUP_ID))  return 1;                           // must be on: if receiving from different plugins we can easily run in duplicate ids, which shall be handled
+    if (!strcmp(item, XPMP_CFG_ITM_SUPPORT_REMOTE)) return -1;                          // We don't want this plugin to ever _send_ traffic!
+    if (!strcmp(item, XPMP_CFG_ITM_LOGLEVEL))       return glob.logLvl;                 // taken from sending plugins
+    if (!strcmp(item, XPMP_CFG_ITM_MODELMATCHING))  return glob.bLogMdlMatch;           // taken from sending plugins
     // Otherwise we just accept defaults
     return defaultVal;
 }
@@ -86,31 +89,32 @@ int CBIntPrefsFunc (const char *, [[maybe_unused]] const char * item, int defaul
 XPLMMenuID hMenu = nullptr;
 
 // menu indexes, also serving as menu item references
-constexpr unsigned MENU_ACTIVE = 1;
-constexpr unsigned MENU_TCAS   = 2;
+constexpr std::uintptr_t MENU_ACTIVE = 0;
+constexpr std::uintptr_t MENU_TCAS   = 1;
 
 /// Sets all menu checkmarks according to current status
 void MenuUpdateCheckmarks ()
 {
     // Menu item "Active"
-    switch (glob.Status) {
-        case XPMP2RCGlobals::RCSTATUS_INACTIVE:
-            XPLMSetMenuItemName(hMenu, MENU_ACTIVE, "Activate (currently inactive)", 0);
-            XPLMCheckMenuItem(hMenu, MENU_ACTIVE, xplm_Menu_Unchecked);
-            break;
-
-        case XPMP2RCGlobals::RCSTATUS_WAITING:
+    switch (XPMP2::RemoteGetStatus()) {
+        case XPMP2::REMOTE_RECV_WAITING:
             XPLMSetMenuItemName(hMenu, MENU_ACTIVE, "Active (waiting for data)", 0);
             XPLMCheckMenuItem(hMenu, MENU_ACTIVE, xplm_Menu_Checked);
             break;
 
-        case XPMP2RCGlobals::RCSTATUS_RECEIVING:
+        case XPMP2::REMOTE_RECEIVING:
             XPLMSetMenuItemName(hMenu, MENU_ACTIVE, "Active", 0);
             XPLMCheckMenuItem(hMenu, MENU_ACTIVE, xplm_Menu_Checked);
             break;
+            
+        default:
+            XPLMSetMenuItemName(hMenu, MENU_ACTIVE, "Activate (currently inactive)", 0);
+            XPLMCheckMenuItem(hMenu, MENU_ACTIVE, xplm_Menu_Unchecked);
+            break;
     }
     
-    // Menu item "TCAS Control"
+    // Menu item "TCAS Control" (status display only, hence inactive)
+    XPLMEnableMenuItem(hMenu, MENU_TCAS, false);
     XPLMCheckMenuItem(hMenu, MENU_TCAS, XPMPHasControlOfAIAircraft() ? xplm_Menu_Checked : xplm_Menu_Unchecked);
 }
 
@@ -119,14 +123,20 @@ void MenuUpdateCheckmarks ()
 /// Callback function for menu
 void MenuCallback (void* /*inMenuRef*/, void* inItemRef)
 {
-    switch (reinterpret_cast<unsigned long long>(inItemRef))
+    // TODO: Need regular flight loop callback to get this updated
+    
+    switch (reinterpret_cast<std::uintptr_t>(inItemRef))
     {
         case MENU_ACTIVE:
+            ClientToggleActive();
             break;
             
         case MENU_TCAS:
             break;
     }
+    
+    // Update check marks...things might have changed
+    MenuUpdateCheckmarks();
 }
 
 //
@@ -151,8 +161,8 @@ PLUGIN_API int XPluginStart(char* outName, char* outSig, char* outDesc)
     // Create the menu for the plugin
     int my_slot = XPLMAppendMenuItem(XPLMFindPluginsMenu(), REMOTE_CLIENT_NAME, NULL, 0);
     hMenu = XPLMCreateMenu(REMOTE_CLIENT_NAME, XPLMFindPluginsMenu(), my_slot, MenuCallback, NULL);
-    XPLMAppendMenuItem(hMenu, "Active",             (void*)(unsigned long long)MENU_ACTIVE, 0);
-    XPLMAppendMenuItem(hMenu, "TCAS Control",       (void*)(unsigned long long)MENU_TCAS, 0);
+    XPLMAppendMenuItem(hMenu, "Active",             (void*)MENU_ACTIVE, 0);
+    XPLMAppendMenuItem(hMenu, "TCAS Control",       (void*)MENU_TCAS, 0);
     MenuUpdateCheckmarks();
 	return 1;
 }
@@ -187,9 +197,14 @@ PLUGIN_API int XPluginEnable(void)
     
     // Load our CSL models
     res = XPMPLoadCSLPackage(resourcePath.c_str());     // CSL folder root path
-    if (res[0])
-        LOG_MSG(logERR, "Error while loading CSL packages: %s", res)
-
+    if (res[0]) {
+        LOG_MSG(logERR, "Error while loading CSL packages: %s", res);
+    }
+    
+    // Activate the listener
+    ClientToggleActive();
+    MenuUpdateCheckmarks();
+    
     // Success
     LOG_MSG(logINFO, "Enabled");
 	return 1;

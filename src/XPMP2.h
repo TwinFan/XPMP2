@@ -26,6 +26,7 @@
 #include "XPMPAircraft.h"
 #include "XPCAircraft.h"
 #include "XPMPPlaneRenderer.h"
+#include "XPMPRemote.h"
 
 // X-Plane SDK
 #include "XPLMUtilities.h"
@@ -193,7 +194,11 @@ public:
     RemoteCfgTy     remoteCfg       = REMOTE_CFG_CONDITIONALLY;
     /// Status of remote connections to networked clients
     RemoteStatusTy  remoteStatus    = REMOTE_OFF;
-    
+    /// Are we a listener?
+    bool RemoteIsListener() const { return remoteStatus == REMOTE_RECEIVING || remoteStatus == REMOTE_RECV_WAITING; }
+    /// Are we a sender?
+    bool RemoteIsSender() const { return remoteStatus == REMOTE_SENDING || remoteStatus == REMOTE_SEND_WAITING; }
+
     /// X-Plane's version number (XPLMGetVersions)
     int             verXPlane = -1;
     /// XPLM's SDK version number (XPLMGetVersions)

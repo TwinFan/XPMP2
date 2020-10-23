@@ -189,7 +189,7 @@ PLUGIN_API int XPluginEnable(void)
                                            resourcePath.c_str(),    // path to supplemental files
                                            CBIntPrefsFunc,          // configuration callback function
                                            "A320",                  // default ICAO type
-                                           REMOTE_CLIENT_SHORT);    // plugin short name
+                                           REMOTE_CLIENT_LOG2);     // plugin short name
     if (res[0]) {
         LOG_MSG(logFATAL, "Initialization of XPMP2 failed: %s", res);
         return 0;

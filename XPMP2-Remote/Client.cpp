@@ -27,6 +27,7 @@
 void ClientProcSettings (const XPMP2::RemoteMsgSettingsTy& _msgSettings)
 {
     // TODO: The sender's IP address is yet missing
+    // TODO: The pluginId always appears as 0
     LOG_MSG(logDEBUG, "Received settings from %.*s (%u)",
             (int)sizeof(_msgSettings.name), _msgSettings.name, _msgSettings.hdr.pluginId);
 }

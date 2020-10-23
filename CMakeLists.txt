@@ -251,12 +251,84 @@ set_target_properties(XPMP2-Remote
 # XPMP2-Sample plugin
 ################################################################################
 
-# It is _excluded_ from ALL because it doesn't work perfectly:
-# Only during build of the above XPMP2 library is the mac framework,
-# and in it the public header files, copied to the XPMP2-Sample/lib folder,
-# where XPMP2-Sample expects them. But often, XPMP2-Sample.cpp is compiled
-# before that copy operation already and either finds no files yet (cmake fails)
-# or would use old files.
-set(XPMP2_LIBRARY $<TARGET_FILE:XPMP2> CACHE FILEPATH "libXPMP2" FORCE)
-add_subdirectory(XPMP2-Sample EXCLUDE_FROM_ALL)
+# To be able to build here we use header files from the original location.
+add_library(XPMP2-Sample MODULE
+    # Public XPMP2 header files, usually taken from the XPMP2 framework
+    inc/XPCAircraft.h
+    inc/XPMPAircraft.h
+    inc/XPMPMultiplayer.h
+    inc/XPMPRemote.h
+    inc/XPMPPlaneRenderer.h
+    # X-Plane SDK
+    XPMP2-Sample/SDK/CHeaders/XPLM/XPLMDataAccess.h
+    XPMP2-Sample/SDK/CHeaders/XPLM/XPLMUtilities.h
+    XPMP2-Sample/SDK/CHeaders/XPLM/XPLMPlugin.h
+    XPMP2-Sample/SDK/CHeaders/XPLM/XPLMGraphics.h
+    XPMP2-Sample/SDK/CHeaders/XPLM/XPLMMenus.h
+    # actual XPMP2-Sample code
+    XPMP2-Sample/XPMP2-Sample.cpp
+)
+
+# Header include directories
+target_include_directories(XPMP2-Sample
+    PUBLIC
+        ${ADDITIONAL_INCLUDES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc
+        ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Remote
+        ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/SDK/CHeaders/XPLM
+)
+
+# Which depends on XPMP2
 add_dependencies(XPMP2-Sample XPMP2)
+
+# Link to the just built XPMP2 library
+target_link_libraries(XPMP2-Sample $<TARGET_FILE:XPMP2>)
+
+# Link X-Plane plugin system libraries. They are only provided for OS X and Windows.
+if (WIN32 OR APPLE)
+    target_link_libraries(XPMP2-Sample ${XPLM_LIBRARY})
+endif ()
+
+if (WIN32)
+    # Link with winsock for network
+    target_link_libraries(XPMP2-Sample wsock32 ws2_32)
+elseif (APPLE)
+    target_link_libraries(XPMP2-Sample ${IOKIT_LIBRARY} ${CORE_FOUNDATION_LIBRARY})
+    # X-Plane supports OS X 10.10+
+    target_compile_options(XPMP2-Sample PUBLIC -mmacosx-version-min=10.11)
+    target_link_libraries(XPMP2-Sample -mmacosx-version-min=10.11)
+
+    # Restrict set of symbols exported from the plugin. This reduces changes of
+    # conflict with other plugins, in particular ones with Lua interpreter
+    # embedded.
+    target_link_libraries(XPMP2-Sample "-exported_symbols_list ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/XPMP2-Sample.sym_mac")
+elseif (UNIX)
+    target_link_libraries(XPMP2-Sample ${DL_LIBRARY})
+    # Specify additional runtime search paths for dynamically-linked libraries.
+    # Restrict set of symbols exported from the plugin. This reduces chances of
+    # conflict with other plugins, in particular ones with Lua interpreter
+    # embedded.
+    target_link_libraries(XPMP2-Sample Threads::Threads -Wl,--version-script -Wl,${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/XPMP2-Sample.sym)
+endif ()
+
+# We need C++ 17
+set(CMAKE_CXX_STANDARD 17)
+target_compile_features(XPMP2-Sample PUBLIC cxx_std_17)
+set_property(TARGET XPMP2-Sample PROPERTY CXX_STANDARD_REQUIRED 17)
+set_property(TARGET XPMP2-Sample PROPERTY CXX_STANDARD 17)
+
+# Target directory and file name
+if (WIN32)
+   set_target_properties(XPMP2-Sample PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/win_x64")
+elseif (APPLE)
+   set_target_properties(XPMP2-Sample PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/mac_x64")
+elseif (UNIX)
+   set_target_properties(XPMP2-Sample PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lin_x64")
+endif ()
+
+set_target_properties(XPMP2-Sample
+    PROPERTIES
+    PREFIX ""
+    OUTPUT_NAME "XPMP2-Sample"
+    SUFFIX ".xpl"
+)

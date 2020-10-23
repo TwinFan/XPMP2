@@ -28,6 +28,17 @@
 
 namespace XPMP2 {
 
+// To ensure best network capacity usage as well as identical alignment across platform we enforce tightly packed structures.
+// The approach is very different between Visual C++ and clang / gcc, though:
+#ifdef _MSC_VER                                 // Visual C++
+#pragma pack(push,1)                            // set packing once (ie. not per struct)
+#define PACKED
+#elif defined(__clang__) || defined(__GNUC__)   // Clang (Mac XCode etc) or GNU (Linux)
+#define PACKED __attribute__ ((__packed__)) 
+#else
+#error Unhandled Compiler!
+#endif
+
 //
 // MARK: Network Data Definitions
 //
@@ -47,7 +58,7 @@ struct RemoteMsgHeaderTy {
     std::uint8_t msgVer : 4;        ///< message version
     std::uint8_t filler    = 0;     ///< yet unsed
     std::uint16_t pluginId = 0;     ///< lower 16 bit of the sending plugin's id
-};
+} PACKED;
 
 /// Interest Beacon message version number
 constexpr std::uint8_t RMT_VER_BEACON = 0;
@@ -56,10 +67,11 @@ constexpr std::uint8_t RMT_VER_BEACON = 0;
 constexpr std::uint8_t RMT_VER_SETTINGS = 0;
 /// Settings message, identifying a sending plugin, regularly providing its settings
 struct RemoteMsgSettingsTy {
-    RemoteMsgHeaderTy hdr;          ///< message header
-    char            name[12];       ///< plugin's name, not necessarily zero-terminated if using full 12 chars
-    char            defaultIcao[4]; ///< Default ICAO aircraft type designator if no match can be found
-    char            carIcaoType[4]; ///< Ground vehicle type identifier
+    RemoteMsgHeaderTy hdr;              ///< message header
+    char            name[12];           ///< plugin's name, not necessarily zero-terminated if using full 12 chars
+    char            defaultIcao[4];     ///< Default ICAO aircraft type designator if no match can be found
+    char            carIcaoType[4];     ///< Ground vehicle type identifier
+    float           maxLabelDist;       ///< Maximum distance for drawing labels? [m]
     std::uint8_t logLvl             :3; ///< logging level
     bool bLogMdlMatch               :1; ///< Debug model matching?
     bool bObjReplDataRefs           :1; ///< Replace dataRefs in `.obj` files on load?
@@ -67,18 +79,24 @@ struct RemoteMsgSettingsTy {
     bool bLabelCutOffAtVisibility   :1; ///< Cut off labels at XP's reported visibility mit?
     bool bMapEnabled                :1; ///< Do we feed X-Plane's maps with our aircraft positions?
     bool bMapLabels                 :1; ///< Do we show labels with the aircraft icons?
-    std::uint32_t filler           :23; ///< fill up to 4 byte
-    float           maxLabelDist;   ///< Maximum distance for drawing labels? [m]
-};
+} PACKED;
+
+#ifdef _MSC_VER                                 // Visual C++
+#pragma pack(pop)                               // reseting packing
+#endif
+
+// A few static validations just to make sure that no compiler fiddles with my network message layout
+static_assert(sizeof(RemoteMsgHeaderTy)     ==  4, "RemoteMsgHeaderTy doesn't have size of 4 bytes");
+static_assert(sizeof(RemoteMsgSettingsTy)   == 30, "RemoteMsgSettingsTy doesn't have size of 30 bytes");
+
+//
+// MARK: Miscellaneous
+//
 
 /// Function prototypes for callback functions to handle the received messages
 struct RemoteCBFctTy {
     void (*pfMsgSettings) (const RemoteMsgSettingsTy&) = nullptr;       ///< processes settings messages
 };
-
-//
-// MARK: Miscellaneous
-//
 
 /// State of remote communcations
 enum RemoteStatusTy : unsigned {

@@ -45,10 +45,6 @@ int gCntMCErr = 0;                      ///< error counter for listener thread
 SOCKET gSelfPipe[2] = { INVALID_SOCKET, INVALID_SOCKET };
 #endif
 
-// A few static validation just to make sure that no compiler fiddles with my network message layout
-static_assert(sizeof(RemoteMsgHeaderTy) == 4, "RemoteMsgHeaderTy doesn't have size of 4 bytes");
-static_assert(sizeof(RemoteMsgSettingsTy) == 32, "RemoteMsgSettingsTy doesn't have size of 30 bytes");
-
 //
 // MARK: SENDING Remote Data
 //

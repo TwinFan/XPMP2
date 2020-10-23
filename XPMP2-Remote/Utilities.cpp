@@ -95,13 +95,13 @@ const char* LogGetString (const char* szPath, int ln, const char* szFunc,
         if ( !szFile ) szFile = szPath; else szFile++;
         snprintf(aszMsg, sizeof(aszMsg), "%u:%02u:%06.3f %s %s %s:%d/%s: ",
                  runH, runM, runS,                  // Running time stamp
-                 REMOTE_CLIENT_SHORT, LOG_LEVEL[lvl],
+                 REMOTE_CLIENT_LOG, LOG_LEVEL[lvl],
                  szFile, ln, szFunc);
     }
     else
         snprintf(aszMsg, sizeof(aszMsg), "%u:%02u:%06.3f %s: ",
                  runH, runM, runS,                  // Running time stamp
-                 REMOTE_CLIENT_SHORT);
+                 REMOTE_CLIENT_LOG);
     
     // append given message
     if (args) {

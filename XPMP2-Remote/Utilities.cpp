@@ -22,7 +22,7 @@
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wexit-time-destructors"
-XPMP2RCGlobals glob;
+XPMP2RCGlobals rcGlob;
 #pragma clang diagnostic pop
 
 //
@@ -37,10 +37,13 @@ XPMP2RCGlobals glob;
 // Get total running time from X-Plane (sim/time/total_running_time_sec)
 float GetMiscNetwTime()
 {
-    static XPLMDataRef drMiscNetwTime = nullptr;
-    if (!drMiscNetwTime)
-        drMiscNetwTime = XPLMFindDataRef("sim/network/misc/network_time_sec");
-    return XPLMGetDataf(drMiscNetwTime);
+    // must not use dataRefs from worker threads
+    if (std::this_thread::get_id() != rcGlob.xpThread)
+        return rcGlob.now;
+    
+    // In main thread we can fetch a new time
+    static XPLMDataRef drMiscNetwTime = XPLMFindDataRef("sim/network/misc/network_time_sec");
+    return rcGlob.now = XPLMGetDataf(drMiscNetwTime);
 }
 
 // Convenience function to check on something at most every x seconds

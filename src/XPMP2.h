@@ -207,6 +207,8 @@ public:
     bool            bXPUsingModernGraphicsDriver = false;
     /// Is X-Plane configured for networked multi-computer or multiplayer setup?
     bool            bXPNetworkedSetup = false;
+    /// This plugin's id
+    XPLMPluginID    pluginId = 0;
     /// id of X-Plane's thread (when it is OK to use XP API calls)
     std::thread::id xpThread;
 
@@ -236,7 +238,8 @@ public:
     /// Using a modern graphics driver, ie. Vulkan/Metal?
     bool UsingModernGraphicsDriver() const { return bXPUsingModernGraphicsDriver; }
     /// Set current thread as main xp Thread
-    void ThisThreadIsXP() { xpThread = std::this_thread::get_id();  }
+    void ThisThreadIsXP()
+    { xpThread = std::this_thread::get_id(); pluginId = XPLMGetMyID(); }
     /// Is this thread XP's main thread?
     bool IsXPThread() const { return std::this_thread::get_id() == xpThread; }
 

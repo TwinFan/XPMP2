@@ -595,7 +595,7 @@ size_t UDPMulticast::SendMC (const void* _bufSend, size_t _bufSendSize)
 }
 
 // @brief Receive a multicast
-size_t UDPMulticast::RecvMC (std::string* _pFromAddr)
+size_t UDPMulticast::RecvMC (std::string* _pFromAddr, sockaddr* _pFromSockAddr)
 {
     sockaddr    safrom;
     socklen_t   fromlen = sizeof(safrom);
@@ -616,6 +616,8 @@ size_t UDPMulticast::RecvMC (std::string* _pFromAddr)
     // Sender address wanted?
     if (_pFromAddr)
         *_pFromAddr = GetAddrString(&safrom);
+    if (_pFromSockAddr)
+        memcpy(_pFromSockAddr, &safrom, sizeof(safrom));
     
     return size_t(bytesRcvd);
 }

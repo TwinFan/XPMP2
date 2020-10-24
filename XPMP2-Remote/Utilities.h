@@ -64,7 +64,7 @@ std::string GetPluginName (XPLMPluginID who);
 #endif
 
 /// Logging level
-enum logLevelTy {
+enum logLevelTy : std::uint8_t {
     logDEBUG = 0,       ///< Debug, highest level of detail
     logINFO,            ///< regular info messages
     logWARN,            ///< warnings, i.e. unexpected, but uncritical events, maybe leading to unwanted display, but still: display of aircraft
@@ -87,7 +87,7 @@ void LogMsg ( const char* szFile, int ln, const char* szFunc, logLevelTy lvl, co
 /// @note First parameter after lvl must be the message text,
 ///       which can be a format string with its parameters following like in sprintf
 #define LOG_MSG(lvl,...)  {                                         \
-    if (lvl >= glob.logLvl)                                         \
+    if (lvl >= rcGlob.mergedS.logLvl)                                         \
     {LogMsg(__FILE__, __LINE__, __func__, lvl, __VA_ARGS__);}       \
 }
 

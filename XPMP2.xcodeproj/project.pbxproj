@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -155,13 +155,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		2502C17723BE8A1600578919 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		25B071F02540D6C400CCDA1D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -360,11 +353,10 @@
 			buildConfigurationList = 2502C17F23BE8A1700578919 /* Build configuration list for PBXNativeTarget "XPMP2" */;
 			buildPhases = (
 				2502C17623BE8A1600578919 /* Sources */,
-				2502C17723BE8A1600578919 /* Frameworks */,
 				2502C17523BE8A1600578919 /* Headers */,
-				2502C17823BE8A1600578919 /* Resources */,
 				25D680B323BE94C800C83CC5 /* CopyFiles */,
 				25687EA223D8BA360084A28B /* CopyFiles */,
+				255C338A2544E1FF002C166F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -381,6 +373,7 @@
 			buildPhases = (
 				25B071EE2540D6C400CCDA1D /* Sources */,
 				25B071F02540D6C400CCDA1D /* Frameworks */,
+				255C33772544C9D9002C166F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -446,15 +439,43 @@
 		};
 /* End PBXProject section */
 
-/* Begin PBXResourcesBuildPhase section */
-		2502C17823BE8A1600578919 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
+/* Begin PBXShellScriptBuildPhase section */
+		255C33772544C9D9002C166F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
 			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}/XPMP2-Remote\" \\( -name \"*.cpp\" -or -name \"*.h\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
 		};
-/* End PBXResourcesBuildPhase section */
+		255C338A2544E1FF002C166F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind {\"${SRCROOT}/inc\",\"${SRCROOT}/src\"} \\( -name \"*.cpp\" -or -name \"*.h\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2502C17623BE8A1600578919 /* Sources */ = {

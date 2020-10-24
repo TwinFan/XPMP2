@@ -70,13 +70,13 @@
 int CBIntPrefsFunc (const char *, [[maybe_unused]] const char * item, int defaultVal)
 {
     // We always want to replace dataRefs and textures upon load to make the most out of the .obj files
-    if (!strcmp(item, XPMP_CFG_ITM_REPLDATAREFS))   return glob.bObjReplDataRefs;       // taken from sending plugins
-    if (!strcmp(item, XPMP_CFG_ITM_REPLTEXTURE))    return glob.bObjReplTextures;       // taken from sending plugins
-    if (!strcmp(item, XPMP_CFG_ITM_CLAMPALL))       return 0;                           // Never needed: The defining coordinates are sent to us, don't interpret them here in any way
-    if (!strcmp(item, XPMP_CFG_ITM_HANDLE_DUP_ID))  return 1;                           // must be on: if receiving from different plugins we can easily run in duplicate ids, which shall be handled
-    if (!strcmp(item, XPMP_CFG_ITM_SUPPORT_REMOTE)) return -1;                          // We don't want this plugin to ever _send_ traffic!
-    if (!strcmp(item, XPMP_CFG_ITM_LOGLEVEL))       return glob.logLvl;                 // taken from sending plugins
-    if (!strcmp(item, XPMP_CFG_ITM_MODELMATCHING))  return glob.bLogMdlMatch;           // taken from sending plugins
+    if (!strcmp(item, XPMP_CFG_ITM_REPLDATAREFS))   return rcGlob.mergedS.bObjReplDataRefs; // taken from sending plugins
+    if (!strcmp(item, XPMP_CFG_ITM_REPLTEXTURE))    return rcGlob.mergedS.bObjReplTextures; // taken from sending plugins
+    if (!strcmp(item, XPMP_CFG_ITM_CLAMPALL))       return 0;                               // Never needed: The defining coordinates are sent to us, don't interpret them here in any way
+    if (!strcmp(item, XPMP_CFG_ITM_HANDLE_DUP_ID))  return 1;                               // must be on: if receiving from different plugins we can easily run in duplicate ids, which shall be handled
+    if (!strcmp(item, XPMP_CFG_ITM_SUPPORT_REMOTE)) return -1;                              // We don't want this plugin to ever _send_ traffic!
+    if (!strcmp(item, XPMP_CFG_ITM_LOGLEVEL))       return (int)rcGlob.mergedS.logLvl;      // taken from sending plugins
+    if (!strcmp(item, XPMP_CFG_ITM_MODELMATCHING))  return rcGlob.mergedS.bLogMdlMatch;     // taken from sending plugins
     // Otherwise we just accept defaults
     return defaultVal;
 }
@@ -123,20 +123,47 @@ void MenuUpdateCheckmarks ()
 /// Callback function for menu
 void MenuCallback (void* /*inMenuRef*/, void* inItemRef)
 {
-    // TODO: Need regular flight loop callback to get this updated
-    
-    switch (reinterpret_cast<std::uintptr_t>(inItemRef))
-    {
-        case MENU_ACTIVE:
-            ClientToggleActive();
-            break;
-            
-        case MENU_TCAS:
-            break;
+    // entry point into plugin...catch exceptions latest here
+    try {
+        switch (reinterpret_cast<std::uintptr_t>(inItemRef))
+        {
+            case MENU_ACTIVE:
+                ClientToggleActive();
+                break;
+                
+            case MENU_TCAS:
+                break;
+        }
+        
+        // Update check marks...things might have changed
+        MenuUpdateCheckmarks();
+    }
+    catch (const std::exception& e) {
+        LOG_MSG(logFATAL, ERR_EXCEPTION, e.what());
+    }
+}
+
+//
+// MARK: Regular Tasks
+//
+
+/// ID of our flight loop callback for regular tasks
+XPLMFlightLoopID flId = nullptr;
+
+/// Regular tasks, called by flight loop
+float FlightLoopCallback(float, float, int, void*)
+{
+    // entry point into plugin...catch exceptions latest here
+    try {
+        GetMiscNetwTime();              // update rcGlob.now, e.g. for logging from worker threads
+        MenuUpdateCheckmarks();         // update menu
+    }
+    catch (const std::exception& e) {
+        LOG_MSG(logFATAL, ERR_EXCEPTION, e.what());
     }
     
-    // Update check marks...things might have changed
-    MenuUpdateCheckmarks();
+    // call me every second only
+    return 1.0f;
 }
 
 //
@@ -146,8 +173,12 @@ void MenuCallback (void* /*inMenuRef*/, void* inItemRef)
 PLUGIN_API int XPluginStart(char* outName, char* outSig, char* outDesc)
 {
 #ifdef DEBUG
-    glob.logLvl = logDEBUG;
+    rcGlob.mergedS.logLvl = logDEBUG;
 #endif
+    // this is the XP main thread
+    rcGlob.xpThread = std::this_thread::get_id();
+    GetMiscNetwTime();
+    
     LOG_MSG(logMSG, "%s %.2f starting up...", REMOTE_CLIENT_NAME, REMOTE_CLIENT_VER);
 
     std::strcpy(outName, REMOTE_CLIENT_NAME);
@@ -201,6 +232,16 @@ PLUGIN_API int XPluginEnable(void)
         LOG_MSG(logERR, "Error while loading CSL packages: %s", res);
     }
     
+    // Create a flight loop callback for some regular tasks, called every second
+    XPLMCreateFlightLoop_t flParams = {
+        sizeof(flParams),                           // structSize
+        xplm_FlightLoop_Phase_BeforeFlightModel,    // phase
+        FlightLoopCallback,                         // callbackFunc,
+        nullptr                                     // refcon
+    };
+    flId = XPLMCreateFlightLoop(&flParams);
+    XPLMScheduleFlightLoop(flId, 1.0f, true);
+    
     // Activate the listener
     ClientToggleActive();
     MenuUpdateCheckmarks();
@@ -212,9 +253,11 @@ PLUGIN_API int XPluginEnable(void)
 
 PLUGIN_API void XPluginDisable(void)
 {
-    // Give up AI plane control
-    XPMPMultiplayerDisable();
-        
+    // Stop our flight loop callback
+    if (flId)
+        XPLMDestroyFlightLoop(flId);
+    flId = nullptr;
+    
     // Properly cleanup the XPMP2 library
     XPMPMultiplayerCleanup();
     
@@ -225,5 +268,5 @@ PLUGIN_API void XPluginReceiveMessage(XPLMPluginID who, long inMsg, void*)
 {
     // Some other plugin wants TCAS/AI control, but we don't release as we are displaying live aicraft
     if (inMsg == XPLM_MSG_RELEASE_PLANES)
-        LOG_MSG(logINFO, "%s requested TCAS access", GetPluginName(who).c_str())
+        LOG_MSG(logINFO, "%s requested TCAS access, but we don't release", GetPluginName(who).c_str())
 }

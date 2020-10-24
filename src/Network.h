@@ -165,8 +165,10 @@ public:
     
     /// @brief Receive a multicast, received message is in XPMP2::SocketNetworking::GetBuf()
     /// @param[out] _pFromAddr If given then the sender adress is written into this string
+    /// @param[out] _pFromSockAddr If given then the sender adress is written into this string
     /// @return Number of bytes received
-    size_t RecvMC (std::string* _pFromAddr = nullptr);
+    size_t RecvMC (std::string* _pFromAddr  = nullptr,
+                   sockaddr* _pFromSockAddr = nullptr);
 
 protected:
     void Cleanup ();                    ///< frees pMCAddr

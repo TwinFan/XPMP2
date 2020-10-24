@@ -46,6 +46,28 @@ SOCKET gSelfPipe[2] = { INVALID_SOCKET, INVALID_SOCKET };
 #endif
 
 //
+// MARK: Helper Functions
+//
+
+/// Extracts the numerical address and puts it into addr for generic address use
+void SockaddrToArr (const sockaddr* sa, std::uint32_t addr[4])
+{
+    switch (sa->sa_family) {
+        case AF_INET:
+            addr[0] = ((sockaddr_in*)sa)->sin_addr.s_addr;
+            addr[1] = addr[2] = addr[3] = 0;
+            break;
+            
+        case AF_INET6:
+            memcpy(addr, ((sockaddr_in6*)sa)->sin6_addr.s6_addr, sizeof(addr[4]));
+            break;
+            
+        default:
+            break;
+    }
+}
+
+//
 // MARK: SENDING Remote Data
 //
 
@@ -56,30 +78,29 @@ SOCKET gSelfPipe[2] = { INVALID_SOCKET, INVALID_SOCKET };
 /// Timestamp when we sent our settings the last time
 float gSendSettingsLast = 0.0f;
 /// How often to send settings?
-constexpr float REMOTE_SEND_SETTINGS_INTVL = 60.0f;
+constexpr float REMOTE_SEND_SETTINGS_INTVL = 20.0f;
 
 /// Fill the message header
 void RmtFillMsgHeader (RemoteMsgHeaderTy& hdr, RemoteMsgTy _ty, std::uint8_t _ver)
 {
-    static std::uint16_t myId = XPLMGetMyID() & 0xFFFF;
     hdr.msgTy       = _ty;
     hdr.msgVer      = _ver;
     hdr.filler      = 0;
-    hdr.pluginId    = myId;
+    hdr.pluginId    = std::uint8_t(glob.pluginId & 0xFFFF);
 }
 
 /// Send our settings
 void RmtSendSettings ()
 {
     RemoteMsgSettingsTy s;
-    memset(&s, 0, sizeof(s));
     // Message header
     RmtFillMsgHeader (s.hdr, RMT_MSG_SETTINGS, RMT_VER_SETTINGS);
-    // copy all strings (terminating zero spills over into next field...but doesn't matter, will be overwritten next line anyway)
-    strncpy(s.name, glob.pluginName.c_str(), sizeof(s.name)+1);
-    strncpy(s.defaultIcao, glob.defaultICAO.c_str(), sizeof(s.defaultIcao)+1);
-    strncpy(s.carIcaoType, glob.carIcaoType.c_str(), sizeof(s.carIcaoType)+1);
+    // copy all strings
+    strncpy(s.name, glob.pluginName.c_str(), sizeof(s.name));
+    strncpy(s.defaultIcao, glob.defaultICAO.c_str(), sizeof(s.defaultIcao));
+    strncpy(s.carIcaoType, glob.carIcaoType.c_str(), sizeof(s.carIcaoType));
     // copy further fields
+    s.maxLabelDist              = glob.maxLabelDist;
     s.logLvl                    = (std::uint8_t)glob.logLvl;
     s.bLogMdlMatch              = glob.bLogMdlMatch;
     s.bObjReplDataRefs          = glob.bObjReplDataRefs;
@@ -87,7 +108,7 @@ void RmtSendSettings ()
     s.bLabelCutOffAtVisibility  = glob.bLabelCutOffAtVisibility;
     s.bMapEnabled               = glob.bMapEnabled;
     s.bMapLabels                = glob.bMapLabels;
-    s.maxLabelDist              = glob.maxLabelDist;
+    s.bHaveTCASControl          = XPMPHasControlOfAIAircraft();
     // send the data out
     assert(gpMc);
     if (gpMc->SendMC(&s, sizeof(s)) != sizeof(s))
@@ -230,7 +251,7 @@ void RmtSendBeacon()
 void RmtRecvMain()
 {
     // This is a thread main function, set thread's name
-    SET_THREAD_NAME("XPMP2_Recv");
+    SET_THREAD_NAME((glob.logAcronym + "_Recv").c_str());
     
     try {
         LOG_ASSERT(gpMc != nullptr);
@@ -288,10 +309,14 @@ void RmtRecvMain()
             else if (retval > 0 && FD_ISSET(gpMc->getSocket(), &sRead))
             {
                 // Receive the data (if we are still waiting then we're interested in the sender's address purely for logging purposes)
-                std::string from;
-                const size_t recvSize = gpMc->RecvMC(glob.remoteStatus == REMOTE_RECV_WAITING ? &from : nullptr);
+                sockaddr saFrom;
+                std::string sFrom;
+                const size_t recvSize = gpMc->RecvMC(glob.remoteStatus == REMOTE_RECV_WAITING ? &sFrom : nullptr,
+                                                     &saFrom);
                 if (recvSize >= sizeof(RemoteMsgHeaderTy))
                 {
+                    std::uint32_t from[4];                  // extract the numerical address
+                    SockaddrToArr(&saFrom, from);
                     const RemoteMsgHeaderTy& hdr = *(RemoteMsgHeaderTy*)gpMc->getBuf();
                     switch (hdr.msgTy) {
                         // just ignore any interest beacons
@@ -308,11 +333,11 @@ void RmtRecvMain()
                                     glob.remoteStatus = REMOTE_RECEIVING;
                                     LOG_MSG(logINFO, INFO_MC_RECV_RCVD,
                                             (int)sizeof(s.name), s.name,
-                                            from.c_str());
+                                            sFrom.c_str());
                                 }
                                 // Let the plugin process this message
                                 if (gRmtCBFcts.pfMsgSettings)
-                                    gRmtCBFcts.pfMsgSettings(s);
+                                    gRmtCBFcts.pfMsgSettings(from, sFrom, s);
                             } else {
                                 LOG_MSG(logWARN, "Cannot process Settings message: %lu bytes, version %u", recvSize, hdr.msgVer);
                             }

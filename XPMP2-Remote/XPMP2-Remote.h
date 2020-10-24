@@ -26,12 +26,19 @@
 #include <cstring>
 #include <cmath>
 
+// Standard C++ headers
+#include <string>
+#include <map>
+#include <thread>
+#include <chrono>
+#include <memory>
+
 // X-Plane SDK
 #include "XPLMDataAccess.h"
 #include "XPLMUtilities.h"
 #include "XPLMPlugin.h"
-#include "XPLMGraphics.h"
 #include "XPLMMenus.h"
+#include "XPLMProcessing.h"
 
 // Include XPMP2 headers
 #include "XPMPAircraft.h"
@@ -58,35 +65,18 @@ constexpr float REMOTE_CLIENT_VER           = 0.01f;
 /// Holds all global variables
 struct XPMP2RCGlobals {
     
-    // *** Config values reconciled from sending plugins ***
-    
-    /// Logging level
-    logLevelTy      logLvl      = logINFO;
-    /// Debug model matching?
-    bool            bLogMdlMatch= false;
-    /// Replace dataRefs in `.obj` files on load? (defaults to OFF!)
-    bool            bObjReplDataRefs = false;
-    /// Replace textures in `.obj` files on load if needed?
-    bool            bObjReplTextures = true;
-    
-    /// Default ICAO aircraft type designator if no match can be found
-    std::string     defaultICAO = "A320";
-    /// Ground vehicle type identifier (map decides icon based on this)
-    std::string     carIcaoType = "ZZZC";
-    
-    /// Shall we draw aircraft labels?
-    bool            bDrawLabels = true;
-    /// Maximum distance for drawing labels? [m], defaults to 3nm
-    float           maxLabelDist = 5556.0f;
-    /// Cut off labels at XP's reported visibility mit?
-    bool            bLabelCutOffAtVisibility = true;
-    
-    /// Do we feed X-Plane's maps with our aircraft positions?
-    bool            bMapEnabled = true;
-    /// Do we show labels with the aircraft icons?
-    bool            bMapLabels = true;
+    /// Config values reconciled from sending plugins
+    XPMP2::RemoteMsgSettingsTy mergedS;
 
+    /// The global map of all sending plugins we've ever heard of
+    mapSenderTy gmapSender;
+    
+    /// Latest timestamp read from network_time_sec
+    float now = 0.0f;
+    
+    ///< id of X-Plane's thread (when it is OK to use XP API calls)
+    std::thread::id xpThread;
 };
 
 /// the one and only instance of XPMP2RCGlobals
-extern XPMP2RCGlobals glob;
+extern XPMP2RCGlobals rcGlob;

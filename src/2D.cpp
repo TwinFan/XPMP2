@@ -204,7 +204,8 @@ int CPLabelDrawing (XPLMDrawingPhase     /*inPhase*/,
 void TwoDActivate ()
 {
     // Register the actual drawing func.
-    // TODO: This is a deprecated call!
+    // This actually is a deprecated call, but it is at the same time the recommended way to draw labels,
+    // see https://developer.x-plane.com/code-sample/coachmarks/
     XPLMRegisterDrawCallback(CPLabelDrawing,
                              xplm_Phase_Window,
                              1,                        // after
@@ -216,7 +217,8 @@ void TwoDActivate ()
 void TwoDDeactivate ()
 {
     // Unregister the drawing callback
-    // TODO: This is a deprecated call!
+    // This actually is a deprecated call, but it is at the same time the recommended way to draw labels,
+    // see https://developer.x-plane.com/code-sample/coachmarks/
     XPLMUnregisterDrawCallback(CPLabelDrawing, xplm_Phase_Window, 1, nullptr);
 }
 

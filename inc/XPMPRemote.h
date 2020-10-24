@@ -79,7 +79,17 @@ struct RemoteMsgSettingsTy {
     bool bLabelCutOffAtVisibility   :1; ///< Cut off labels at XP's reported visibility mit?
     bool bMapEnabled                :1; ///< Do we feed X-Plane's maps with our aircraft positions?
     bool bMapLabels                 :1; ///< Do we show labels with the aircraft icons?
+    bool bHaveTCASControl           :1; ///< Do we have AI/TCAS control?
+    
+    /// Constructor sets all to zero
+    RemoteMsgSettingsTy ()
+    { memset(this,0,sizeof(*this)); maxLabelDist = 0.0f; }
+    
 } PACKED;
+
+// TODO: Detail A/C message
+// TODO: Packed Diff A/C message
+// TODO: A/C animation message
 
 #ifdef _MSC_VER                                 // Visual C++
 #pragma pack(pop)                               // reseting packing
@@ -95,7 +105,9 @@ static_assert(sizeof(RemoteMsgSettingsTy)   == 30, "RemoteMsgSettingsTy doesn't 
 
 /// Function prototypes for callback functions to handle the received messages
 struct RemoteCBFctTy {
-    void (*pfMsgSettings) (const RemoteMsgSettingsTy&) = nullptr;       ///< processes settings messages
+    void (*pfMsgSettings) (std::uint32_t from[4],
+                           const std::string& sFrom,
+                           const RemoteMsgSettingsTy&) = nullptr;       ///< processes settings messages
 };
 
 /// State of remote communcations

@@ -30,6 +30,7 @@
 #include <sys/types.h>
 #if IBM
 #include <winsock2.h>
+#include <ws2ipdef.h>           // required for sockaddr_in6 (?)
 #else
 #include <sys/socket.h>
 #include <netdb.h>

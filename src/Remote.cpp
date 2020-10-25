@@ -251,7 +251,11 @@ void RmtSendBeacon()
 void RmtRecvMain()
 {
     // This is a thread main function, set thread's name
+#if IBM
+    SET_THREAD_NAME("XPMP2_Recv");          // found no simple way of turning a normal string like glob.logAcronym into a wchar_t as required by SetThreadDescritpion...so in Windows we stay with a constant text here
+#else
     SET_THREAD_NAME((glob.logAcronym + "_Recv").c_str());
+#endif
     
     try {
         LOG_ASSERT(gpMc != nullptr);

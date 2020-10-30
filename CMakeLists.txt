@@ -35,6 +35,7 @@ if(CMAKE_BUILD_TYPE MATCHES "Debug")
     add_compile_options(-DDEBUG=1)
 	set(XPMP2_DEBUG ON)
 else()
+    add_compile_options(-DNDEBUG=1)
 	set(XPMP2_DEBUG OFF)
 
     if (UNIX)

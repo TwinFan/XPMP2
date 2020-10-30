@@ -21,6 +21,7 @@
 #pragma once
 
 // Standard C headers
+#include <cassert>
 #include <cstdio>
 #include <cstdarg>
 #include <cstring>
@@ -32,6 +33,8 @@
 #include <thread>
 #include <chrono>
 #include <memory>
+#include <atomic>
+#include <mutex>
 
 // X-Plane SDK
 #include "XPLMDataAccess.h"
@@ -76,6 +79,8 @@ struct XPMP2RCGlobals {
     
     ///< id of X-Plane's thread (when it is OK to use XP API calls)
     std::thread::id xpThread;
+    /// Is this thread XP's main thread?
+    bool IsXPThread() const { return std::this_thread::get_id() == xpThread; }
 };
 
 /// the one and only instance of XPMP2RCGlobals

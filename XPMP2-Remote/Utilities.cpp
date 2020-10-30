@@ -20,15 +20,8 @@
 
 #include "XPMP2-Remote.h"
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wexit-time-destructors"
+/// The one global variable object
 XPMP2RCGlobals rcGlob;
-#pragma clang diagnostic pop
-
-//
-// MARK: Configuration
-//
-
 
 //
 // MARK: Misc
@@ -38,7 +31,7 @@ XPMP2RCGlobals rcGlob;
 float GetMiscNetwTime()
 {
     // must not use dataRefs from worker threads
-    if (std::this_thread::get_id() != rcGlob.xpThread)
+    if (!rcGlob.IsXPThread())
         return rcGlob.now;
     
     // In main thread we can fetch a new time
@@ -63,6 +56,19 @@ std::string GetPluginName (XPLMPluginID who)
     char whoName[256];
     XPLMGetPluginInfo(who, whoName, nullptr, nullptr, nullptr);
     return whoName;
+}
+
+//
+// MARK: String functions
+//
+
+// Copy _at most_ `n` chars from location, or less if zero-terminated.
+std::string str_n (const char* s, size_t max)
+{
+    // find end of string, stopping at max
+    size_t i = 0;
+    for (; i < max && *(s+i) != '\0'; ++i);
+    return std::string(s,i);
 }
 
 

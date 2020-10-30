@@ -28,23 +28,6 @@
 
 namespace XPMP2 {
 
-#define ERR_MC_THREAD       "Exception in multicast handling: %s"
-#define ERR_MC_MAX          "Too many errors, I give up on remote functionality!"
-constexpr int MC_MAX_ERR=5;             ///< after this many errors we no longer try listening
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wexit-time-destructors"
-std::thread gThrMC;                     ///< remote listening/sending thread
-#pragma clang diagnostic pop
-UDPMulticast* gpMc = nullptr;           ///< multicast socket for listening/sending (destructor uses locks, which don't work during modul shutdown, so can't create a global object due to its exit-time destructor)
-volatile bool gbStopMCThread = false;   ///< Shall the listener thread stop?
-int gCntMCErr = 0;                      ///< error counter for listener thread
-
-#if APL == 1 || LIN == 1
-/// the self-pipe to shut down the APRS thread gracefully
-SOCKET gSelfPipe[2] = { INVALID_SOCKET, INVALID_SOCKET };
-#endif
-
 //
 // MARK: Helper Functions
 //
@@ -68,33 +51,283 @@ void SockaddrToArr (const sockaddr* sa, std::uint32_t addr[4])
 }
 
 //
-// MARK: SENDING Remote Data
+// MARK: ENQUEUE: Data Cache (XP Main Thread)
+//
+
+// Constant definitions
+constexpr int   REMOTE_RECV_BEACON_INTVL    = 15;       ///< How often to send an Interest Beacon? [s]
+constexpr int   REMOTE_SEND_SETTINGS_INTVL  = 20;       ///< How often to send settings? [s]
+constexpr float REMOTE_SEND_AC_DETAILS_INTVL= 10.f;     ///< How often to send full a/c details? [s]
+
+/// Array holding all dataRef names, defined in Aircraft.cpp
+extern std::vector<const char*> DR_NAMES;
+
+// Global variables
+mapRmtAcCacheTy gmapRmtAcCache;     ///< Cache for last data sent out to the network
+unsigned gFullUpdDue = 0;           ///< What's the full update group that has its turn now?
+unsigned gNxtFullUpdGrpToAssign = 0;///< What's the next group number to assign to the next a/c? (Assigned will be the value incremented by 1)
+
+queueRmtDataTy gqueueRmtData;       ///< the queue for passing data from main to network thread
+std::condition_variable gcvRmtData; ///< notifies the network thread of available data to be processed
+std::mutex gmutexRmtData;           ///< protects modifying access to the queue and the condition variable
+
+// Constructor copies relevant values from the passed-in aircraft
+RmtAcCacheTy::RmtAcCacheTy (const Aircraft& ac) :
+fullUpdGrp(++gNxtFullUpdGrpToAssign), drawInfo(ac.drawInfo), v(ac.v)
+{
+    // roll over on the next-to-assign group
+    if (gNxtFullUpdGrpToAssign >= unsigned(REMOTE_SEND_AC_DETAILS_INTVL))
+        gNxtFullUpdGrpToAssign = 0;
+}
+
+// Updates current values from given aircraft
+void RmtAcCacheTy::UpdateFrom (const Aircraft& ac)
+{
+    drawInfo = ac.drawInfo;
+    v = ac.v;
+}
+
+
+//
+// MARK: Message Types
+//
+
+RemoteMsgBaseTy::RemoteMsgBaseTy (RemoteMsgTy _ty, std::uint8_t _ver) :
+msgTy(_ty), msgVer(_ver), filler(0),
+pluginId(std::uint8_t(glob.pluginId & 0xFFFF))
+{}
+
+RemoteMsgBeaconTy::RemoteMsgBeaconTy() :
+RemoteMsgBaseTy(RMT_MSG_INTEREST_BEACON, RMT_VER_BEACON)
+{}
+
+RemoteMsgSettingsTy::RemoteMsgSettingsTy () :
+RemoteMsgBaseTy(RMT_MSG_SETTINGS, RMT_VER_SETTINGS)
+{
+    // set everything after the header to zero
+    memset(reinterpret_cast<char*>(this) + sizeof(RemoteMsgBaseTy),0,sizeof(*this) - sizeof(RemoteMsgBaseTy));
+    maxLabelDist = 0.0f;
+}
+
+// Default Constructor sets all to zero
+RemoteAcDetailTy::RemoteAcDetailTy ()
+{
+    // set everything to zero
+    memset(this,0,sizeof(*this));
+    lat = lon = 0.0;
+    alt_ft = 0.0f;
+}
+
+// A/c copy constructor fills from passed-in XPMP2::Aircraft object
+RemoteAcDetailTy::RemoteAcDetailTy (const Aircraft& _ac)
+{
+    CopyFrom(_ac);
+}
+
+// Copies values from passed-in XPMP2::Aircraft object
+void RemoteAcDetailTy::CopyFrom (const Aircraft& _ac)
+{
+    strncpy(icaoType,   _ac.acIcaoType.c_str(),                 sizeof(icaoType));
+    strncpy(icaoOp,     _ac.acIcaoAirline.c_str(),              sizeof(icaoOp));
+    strncpy(sShortId,   _ac.GetModel()->GetShortId().c_str(),   sizeof(sShortId));
+    pkgHash = _ac.GetModel()->pkgHash;
+    strncpy(label,      _ac.label.c_str(),                      sizeof(label));
+    SetLabelCol(_ac.colLabel);
+    modeS_id    = _ac.GetModeS_ID();
+    aiPrio   = std::int16_t(_ac.aiPrio);
+
+    // Position: Convert known local coordinates to world coordinates
+    double a,b,c;
+    XPLMLocalToWorld(_ac.drawInfo.x,
+                     _ac.drawInfo.y - _ac.GetVertOfs(),
+                     _ac.drawInfo.z,
+                     &a, &b, &c);
+    lat = a;
+    lon = b;
+    alt_ft = float(c / M_per_FT);
+
+    // Attitude: Copy from drawInfo, but converted to smaller 16 bit types
+    SetPitch    (_ac.drawInfo.pitch);
+    SetHeading  (_ac.drawInfo.heading);
+    SetRoll     (_ac.drawInfo.roll);
+
+    // TODO: Animation values...converted to uint8 I'd say
+}
+
+// set the label color from a float array (4th number, alpha, is always considered 1.0)
+void RemoteAcDetailTy::SetLabelCol (const float _col[4])
+{
+    labelCol[0] = std::uint8_t(_col[0] * 255.0f);
+    labelCol[1] = std::uint8_t(_col[1] * 255.0f);
+    labelCol[2] = std::uint8_t(_col[2] * 255.0f);
+}
+
+// writes color out into a float array
+void RemoteAcDetailTy::GetLabelCol (float _col[4]) const
+{
+    _col[0] = float(labelCol[0]) / 255.0f;
+    _col[1] = float(labelCol[1]) / 255.0f;
+    _col[2] = float(labelCol[2]) / 255.0f;
+    _col[3] = 1.0f;
+}
+
+// Sets heading from float
+void RemoteAcDetailTy::SetHeading (float _h)
+{
+    heading = std::uint16_t(headNormalize(_h) * 100.0f);
+}
+
+
+//
+// MARK: SENDING Remote Data (Worker Thread)
 //
 
 #define DEBUG_MC_SEND_WAIT  "Listening to %s:%d, waiting for someone interested in our data..."
 #define INFO_MC_SEND_WAIT   "Listening on the network, waiting for someone interested in our data..."
 #define INFO_MC_SEND_RCVD   "Received word from %s, will start sending aircraft data"
 
+#define ERR_MC_THREAD       "Exception in multicast handling: %s"
+#define ERR_MC_MAX          "Too many errors, I give up on remote functionality!"
+constexpr int MC_MAX_ERR=5;             ///< after this many errors we no longer try listening
+
+std::thread gThrMC;                     ///< remote listening/sending thread
+UDPMulticast* gpMc = nullptr;           ///< multicast socket for listening/sending (destructor uses locks, which don't work during module shutdown, so can't create a global object due to its exit-time destructor)
+volatile bool gbStopMCThread = false;   ///< Shall the network thread stop?
+int gCntMCErr = 0;                      ///< error counter for network thread
+
+#if APL == 1 || LIN == 1
+/// the self-pipe to shut down the APRS thread gracefully
+SOCKET gSelfPipe[2] = { INVALID_SOCKET, INVALID_SOCKET };
+#endif
+
 /// Timestamp when we sent our settings the last time
 float gSendSettingsLast = 0.0f;
-/// How often to send settings?
-constexpr float REMOTE_SEND_SETTINGS_INTVL = 20.0f;
 
-/// Fill the message header
-void RmtFillMsgHeader (RemoteMsgHeaderTy& hdr, RemoteMsgTy _ty, std::uint8_t _ver)
+// Messages waiting to be filled and send, all having a size of glob.remoteBufSize
+RmtMsgBufTy<RemoteAcDetailTy,RMT_MSG_AC_DETAILED,RMT_VER_AC_DETAIL> gMsgAcDetail;   ///< A/C Detail message
+
+
+// Free up the buffer, basically a reset
+template <class ElemTy, RemoteMsgTy msgTy, std::uint8_t msgVer>
+void RmtMsgBufTy<ElemTy,msgTy,msgVer>::free ()
 {
-    hdr.msgTy       = _ty;
-    hdr.msgVer      = _ver;
-    hdr.filler      = 0;
-    hdr.pluginId    = std::uint8_t(glob.pluginId & 0xFFFF);
+    if (pMsg) std::free (pMsg);
+    pMsg = nullptr;
+    elemCount = 0;
+    size = 0;
+}
+
+// If necessary allocate the required buffer, then initialize it to an empty message
+template <class ElemTy, RemoteMsgTy msgTy, std::uint8_t msgVer>
+void RmtMsgBufTy<ElemTy,msgTy,msgVer>::init ()
+{
+    // if buffer does not exist: create it
+    if (!pMsg) {
+        pMsg = malloc(glob.remoteBufSize);
+        LOG_ASSERT(pMsg);
+    }
+    // initialize the buffer to an empty msg
+    elemCount = 0;
+    std::memset(pMsg, 0, glob.remoteBufSize);
+    // overwrite with a standard initialized message, will set msg type, for example
+    *reinterpret_cast<RemoteMsgBaseTy*>(pMsg) = RemoteMsgBaseTy(msgTy,msgVer);
+    size = sizeof(RemoteMsgBaseTy);     // msg hdr is defined
+}
+
+// Add another element to the buffer, returns if now full
+template <class ElemTy, RemoteMsgTy msgTy, std::uint8_t msgVer>
+bool RmtMsgBufTy<ElemTy,msgTy,msgVer>::add (const ElemTy& _elem)
+{
+    // no buffer defined yet? -> do so!
+    if (!pMsg) init();
+        
+    // space left?
+    if (glob.remoteBufSize - size < sizeof(_elem))
+        throw std::runtime_error(std::string("Trying to add more elements into message than fit: msgTy=") +
+                                 std::to_string(msgTy) + ", elemCount=" + std::to_string(elemCount));
+    
+    // Copy the element into the msg buffer
+    memcpy(reinterpret_cast<char*>(pMsg) + size, &_elem, sizeof(_elem));
+    ++elemCount;
+    size += sizeof(_elem);
+    
+    // no more space for another item?
+    return glob.remoteBufSize - size < sizeof(_elem);
+}
+
+// send the message (if there is any), then reset the buffer
+template <class ElemTy, RemoteMsgTy msgTy, std::uint8_t msgVer>
+void RmtMsgBufTy<ElemTy,msgTy,msgVer>::send ()
+{
+    if (!empty()) {
+        LOG_ASSERT(gpMc);
+        gpMc->SendMC(pMsg, size);
+        init();
+    }
+}
+
+// Perform add(), then if necessary send()
+template <class ElemTy, RemoteMsgTy msgTy, std::uint8_t msgVer>
+bool RmtMsgBufTy<ElemTy,msgTy,msgVer>::add_send (const ElemTy& _elem)
+{
+    if (add(_elem)) {
+        send();
+        return true;
+    }
+    return false;
+}
+
+
+/// Conditions for continued send operation
+inline bool RmtSendContinue ()
+{ return !gbStopMCThread && glob.RemoteIsSender() && gpMc && gpMc->isOpen(); }
+
+
+/// Process the data passed down to us in the queue
+void RmtSendProcessData ()
+{
+    // Loop till forced to shut down or queue with data empty
+    while (RmtSendContinue() && !gqueueRmtData.empty()) {
+        // For taking data out of the queue we need the lock as briefly as possible
+        // (flight loop has priority!)
+        ptrRmtDataBaseTy ptrData(nullptr);
+        {
+            std::unique_lock<std::mutex> lk(gmutexRmtData);
+            // ptrData takes ownership of the queue data!
+            ptrData = std::move(gqueueRmtData.front());
+            gqueueRmtData.pop();
+        }
+        
+        // Further handling depends on the type of message
+        switch (ptrData->msgTy) {
+            // Aircraft detail: Add to pending message, send if full
+            case RMT_MSG_AC_DETAILED: {
+                RmtDataAcDetailTy* pAcDetail = dynamic_cast<RmtDataAcDetailTy*>(ptrData.get());
+                LOG_ASSERT(pAcDetail);
+                gMsgAcDetail.add_send(pAcDetail->msg);
+                break;
+            }
+                
+            // Send out pending message
+            case RMT_MSG_SEND:
+                gMsgAcDetail.send();
+                break;
+                
+            // This type is not expected to happen (because it is send by the receiver)
+            case RMT_MSG_INTEREST_BEACON:
+                LOG_MSG(logWARN, "Received unexpected send queue entry of type RMT_MSG_INTEREST_BEACON");
+                break;
+        }
+        
+        // delete the queue data (we do the explicitely...because we are a nice guy)
+        ptrData.reset();
+    }
 }
 
 /// Send our settings
 void RmtSendSettings ()
 {
     RemoteMsgSettingsTy s;
-    // Message header
-    RmtFillMsgHeader (s.hdr, RMT_MSG_SETTINGS, RMT_VER_SETTINGS);
     // copy all strings
     strncpy(s.name, glob.pluginName.c_str(), sizeof(s.name));
     strncpy(s.defaultIcao, glob.defaultICAO.c_str(), sizeof(s.defaultIcao));
@@ -118,15 +351,33 @@ void RmtSendSettings ()
 /// Sending function, ie. we are actively sending data out
 void RmtSendLoop ()
 {
-    while (!gbStopMCThread && glob.remoteStatus == REMOTE_SENDING && gpMc->isOpen())
+    // when shall settings be sent next? (1st time: right now!)
+    std::chrono::time_point<std::chrono::steady_clock> tpSendSettings =
+    std::chrono::steady_clock::now();
+    // lock to use for the condition variable
+    std::unique_lock<std::mutex> lkRmtData(gmutexRmtData, std::defer_lock);
+    
+    do
     {
-        // TODO: Implement a proper wait mechanism via condition variable
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        
-        // Every once in a while send out or configuration
-        if (CheckEverySoOften(gSendSettingsLast, REMOTE_SEND_SETTINGS_INTVL))
+        // Do we need to send out our settings?
+        if (tpSendSettings <= std::chrono::steady_clock::now()) {
+            tpSendSettings = std::chrono::steady_clock::now() +
+                             std::chrono::seconds(REMOTE_SEND_SETTINGS_INTVL);
             RmtSendSettings();
+        }
+        
+        // Is there any data that needs processing?
+        if (RmtSendContinue() && !gqueueRmtData.empty())
+            RmtSendProcessData();
+        
+        // Wait for a wake-up by the main thread or for a time we need to send settings next
+        if (RmtSendContinue()) {
+            lkRmtData.lock();
+            gcvRmtData.wait_until(lkRmtData, tpSendSettings);
+            lkRmtData.unlock();
+        }
     }
+    while (RmtSendContinue());
 }
 
 /// Thread main function for the sender
@@ -159,7 +410,7 @@ void RmtSendMain()
         else
             LOG_MSG(logINFO, INFO_MC_SEND_WAIT)
         
-        while (!gbStopMCThread && glob.remoteStatus == REMOTE_SEND_WAITING && gpMc->isOpen())
+        while (RmtSendContinue())
         {
             // wait for some signal on either socket (multicast or self-pipe)
             fd_set sRead;
@@ -171,7 +422,7 @@ void RmtSendMain()
             int retval = select(maxSock, &sRead, NULL, NULL, NULL);
 
             // short-cut if we are to shut down (return from 'select' due to closed socket)
-            if (gbStopMCThread)
+            if (!RmtSendContinue())
                 break;
 
             // select call failed???
@@ -191,28 +442,37 @@ void RmtSendMain()
 
                 // Set global status to: we are about to send data, also exits listening loop
                 glob.remoteStatus = REMOTE_SENDING;
+                break;
             }
         }
         
-        // Left the listening loop because we are to send data?
-        if (!gbStopMCThread && glob.remoteStatus == REMOTE_SENDING && gpMc->isOpen())
+#if APL == 1 || LIN == 1
+        // close the self-pipe sockets
+        for (SOCKET &s: gSelfPipe) {
+            if (s != INVALID_SOCKET) close(s);
+            s = INVALID_SOCKET;
+        }
+#endif
+        // Continue? Then send data!
+        if (RmtSendContinue())
             RmtSendLoop();
     }
-    catch (std::runtime_error& e) {
+    catch (std::exception& e) {
         ++gCntMCErr;
         LOG_MSG(logERR, ERR_MC_THREAD, e.what());
+
+#if APL == 1 || LIN == 1
+        // close the self-pipe sockets
+        for (SOCKET &s: gSelfPipe) {
+            if (s != INVALID_SOCKET) close(s);
+            s = INVALID_SOCKET;
+        }
+#endif
     }
     
     // close the multicast socket
-    gpMc->Close();
-
-#if APL == 1 || LIN == 1
-    // close the self-pipe sockets
-    for (SOCKET &s: gSelfPipe) {
-        if (s != INVALID_SOCKET) close(s);
-        s = INVALID_SOCKET;
-    }
-#endif
+    if (gpMc)
+        gpMc->Close();
     
     // Error count too high?
     if (gCntMCErr >= MC_MAX_ERR) {
@@ -225,15 +485,12 @@ void RmtSendMain()
 }
 
 //
-// MARK: RECEIVING Remote Data
+// MARK: RECEIVING Remote Data (Worker Thread)
 //
 
 #define DEBUG_MC_RECV_BEGIN "Receiver started listening to %s:%d"
 #define INFO_MC_RECV_BEGIN  "Receiver started listening on the network..."
 #define INFO_MC_RECV_RCVD   "Receiver received data from %.*s on %s, will start message processing"
-
-/// [s] How often to send an Interest Beacon?
-constexpr int REMOTE_RECV_BEACON_INTVL = 15;
 
 /// The callback function pointers the remote client plugin provided
 RemoteCBFctTy gRmtCBFcts;
@@ -241,11 +498,15 @@ RemoteCBFctTy gRmtCBFcts;
 /// Sends an Interest Beacon
 void RmtSendBeacon()
 {
-    RemoteMsgHeaderTy hdr;
-    RmtFillMsgHeader(hdr, RMT_MSG_INTEREST_BEACON, RMT_VER_BEACON);
-    if (gpMc->SendMC(&hdr, sizeof(hdr)) != sizeof(hdr))
+    RemoteMsgBeaconTy msgBeacon;
+    if (gpMc->SendMC(&msgBeacon, sizeof(msgBeacon)) != sizeof(msgBeacon))
         throw NetRuntimeError("Could not send Interest Beacon multicast");
 }
+
+/// Conditions for continued receive operation
+inline bool RmtRecvContinue ()
+{ return !gbStopMCThread && glob.RemoteIsListener() && gpMc && gpMc->isOpen(); }
+
 
 /// Thread main function for the receiver
 void RmtRecvMain()
@@ -286,7 +547,7 @@ void RmtRecvMain()
         
         // Timeout is 60s, ie. we listen for 60 seconds, then send a beacon, then listen again
         struct timeval timeout = { REMOTE_RECV_BEACON_INTVL, 0 };
-        while (!gbStopMCThread && glob.RemoteIsListener() && gpMc->isOpen())
+        while (RmtRecvContinue())
         {
             // wait for some data on either socket (multicast or self-pipe)
             fd_set sRead;
@@ -298,7 +559,7 @@ void RmtRecvMain()
             int retval = select(maxSock, &sRead, NULL, NULL, &timeout);
 
             // short-cut if we are to shut down (return from 'select' due to closed socket)
-            if (gbStopMCThread)
+            if (!RmtRecvContinue())
                 break;
 
             // select call failed???
@@ -314,14 +575,12 @@ void RmtRecvMain()
             {
                 // Receive the data (if we are still waiting then we're interested in the sender's address purely for logging purposes)
                 sockaddr saFrom;
-                std::string sFrom;
-                const size_t recvSize = gpMc->RecvMC(glob.remoteStatus == REMOTE_RECV_WAITING ? &sFrom : nullptr,
-                                                     &saFrom);
-                if (recvSize >= sizeof(RemoteMsgHeaderTy))
+                const size_t recvSize = gpMc->RecvMC(nullptr, &saFrom);
+                if (recvSize >= sizeof(RemoteMsgBaseTy))
                 {
                     std::uint32_t from[4];                  // extract the numerical address
                     SockaddrToArr(&saFrom, from);
-                    const RemoteMsgHeaderTy& hdr = *(RemoteMsgHeaderTy*)gpMc->getBuf();
+                    const RemoteMsgBaseTy& hdr = *(RemoteMsgBaseTy*)gpMc->getBuf();
                     switch (hdr.msgTy) {
                         // just ignore any interest beacons
                         case RMT_MSG_INTEREST_BEACON:
@@ -331,6 +590,7 @@ void RmtRecvMain()
                         case RMT_MSG_SETTINGS:
                             if (hdr.msgVer == RMT_VER_SETTINGS && recvSize == sizeof(RemoteMsgSettingsTy))
                             {
+                                const std::string sFrom = SocketNetworking::GetAddrString(&saFrom);
                                 const RemoteMsgSettingsTy& s = *(RemoteMsgSettingsTy*)gpMc->getBuf();
                                 // Is this the first set of settings we received? Then we switch status!
                                 if (glob.remoteStatus == REMOTE_RECV_WAITING) {
@@ -343,8 +603,24 @@ void RmtRecvMain()
                                 if (gRmtCBFcts.pfMsgSettings)
                                     gRmtCBFcts.pfMsgSettings(from, sFrom, s);
                             } else {
-                                LOG_MSG(logWARN, "Cannot process Settings message: %lu bytes, version %u", recvSize, hdr.msgVer);
+                                LOG_MSG(logWARN, "Cannot process Settings message: %lu bytes, version %u, from %s",
+                                        recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
                             }
+                            break;
+                            
+                        // Full A/C Details
+                        case RMT_MSG_AC_DETAILED:
+                            if (hdr.msgVer == RMT_VER_AC_DETAIL && recvSize >= sizeof(RemoteMsgAcDetailTy))
+                            {
+                                if (gRmtCBFcts.pfMsgACDetails) {
+                                    const RemoteMsgAcDetailTy& s = *(RemoteMsgAcDetailTy*)gpMc->getBuf();
+                                    gRmtCBFcts.pfMsgACDetails(from, recvSize, s);
+                                }
+                            } else {
+                                LOG_MSG(logWARN, "Cannot process A/C Details message: %lu bytes, version %u, from %s",
+                                        recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
+                            }
+                            break;
                     }
                     
                 } else {
@@ -353,7 +629,7 @@ void RmtRecvMain()
             }
         }
     }
-    catch (std::runtime_error& e) {
+    catch (std::exception& e) {
         ++gCntMCErr;
         LOG_MSG(logERR, ERR_MC_THREAD, e.what());
     }
@@ -380,7 +656,7 @@ void RmtRecvMain()
 }
 
 //
-// MARK: Internal functions
+// MARK: Internal functions (XP Main Thread)
 //
 
 /// Start the background thread to listen to multicast, to see if anybody is interested in our data
@@ -410,7 +686,7 @@ void RmtStartMCThread(bool bSender)
 /// Stop all threads and communication with the network
 void RmtStopAll()
 {
-    // Listener thread
+    // Network thread
     if (gThrMC.joinable()) {
         gbStopMCThread = true;
 #if APL == 1 || LIN == 1
@@ -421,18 +697,23 @@ void RmtStopAll()
 #endif
             if (gpMc)
                 gpMc->Close();
+        // Trigger the thread to wake up for proper exit
+        gcvRmtData.notify_all();
+        // wait for the network thread to finish
         gThrMC.join();
         gThrMC = std::thread();
     }
 }
 
 //
-// MARK: Global public functions
+// MARK: Global public functions (XP Main Thread)
 //
 
 // Initialize the module
 void RemoteInit ()
 {
+    // TODO: Optionally read a config file
+    
     // Create the global multicast object
     if (!gpMc)
         gpMc = new UDPMulticast();
@@ -446,6 +727,9 @@ void RemoteCleanup ()
         delete gpMc;
         gpMc = nullptr;
     }
+    
+    // Remove all message caches
+    gMsgAcDetail.free();
 }
 
 // Returns the current Remote status
@@ -453,6 +737,13 @@ RemoteStatusTy RemoteGetStatus()
 {
     return glob.remoteStatus;
 }
+
+//
+// MARK: Global Enqueue/Send functions (XP Main Thread)
+//
+
+/// The lock that we keep during handling of the flight loop
+std::unique_lock<std::mutex> glockRmtData(gmutexRmtData);
 
 // Compares current vs. expected status and takes appropriate action
 void RemoteSenderUpdateStatus ()
@@ -491,13 +782,128 @@ void RemoteSenderUpdateStatus ()
         RmtStartMCThread(true);
 }
 
+// Informs us that updating a/c will start now, do some prep work
+void RemoteAcEnqueueStarts (float now)
+{
+    // the last actually processed full update group
+    static unsigned lastFullUpdDue = 0;
+
+    // Actively sending?
+    if (glob.remoteStatus == REMOTE_SENDING)
+    {
+        // From here on until RemoteAcEnqueueDone() we keep the lock so that
+        // the flight loop can run uninterrupted
+        if (!glockRmtData)
+            glockRmtData.lock();
+
+        // The current group due for full a/c details update
+        // (basically current time in seconds modulo interval plus 1,
+        //  so the result is in 1..REMOTE_SEND_AC_DETAILS_INTVL)
+        unsigned nxtGrp = unsigned(std::lround(std::fmod(now, REMOTE_SEND_AC_DETAILS_INTVL))) + 1;
+        if (lastFullUpdDue != nxtGrp)           // it's a new group to process!
+            lastFullUpdDue = gFullUpdDue = nxtGrp;
+        else
+            gFullUpdDue = 0;                    // not the same again!
+    }
+    // or are we a receiver?
+    else if (glob.remoteStatus == REMOTE_RECEIVING)
+    {
+        if (gRmtCBFcts.pfBeforeFirstAc)         // Inform client that flight loop processing starts
+            gRmtCBFcts.pfBeforeFirstAc();
+    }
+}
+
 // Regularly called from the flight loop callback
-void RemoteSendAc ()
+void RemoteAcEnqueue (const Aircraft& ac)
 {
     // Can only do anything reasonable if we are to send data
     if (glob.remoteStatus != REMOTE_SENDING)
         return;
+
+    bool bSendFullDetails = false;
+    
+    // Do we know this a/c already?
+    mapRmtAcCacheTy::iterator itCache = gmapRmtAcCache.find(ac.GetModeS_ID());
+    if (itCache == gmapRmtAcCache.end())  {
+        // no, it's a new a/c, so add a record into our cache
+        bSendFullDetails = true;
+        auto p = gmapRmtAcCache.emplace(ac.GetModeS_ID(), ac);
+        itCache = p.first;
+    }
+    RmtAcCacheTy& acCache = itCache->second;
+    
+    // is this an a/c of the group that shall send full details?
+    if (acCache.fullUpdGrp == gFullUpdDue)
+        bSendFullDetails = true;
+    
+    // We should own the mutex already...just to be sure
+    if (!glockRmtData) glockRmtData.lock();
+    
+    // Now add to the full message, protected by a lock
+    if (bSendFullDetails)
+        gqueueRmtData.emplace(new RmtDataAcDetailTy(ac));
+    else {
+        // TODO: Implement RMT_MSG_AC_DIFF
+        // TODO: Implement an "at most 20 times/s" algorithm, ie. cache values, keep a dirty flag, and loop over that data periodically
+        gqueueRmtData.emplace(new RmtDataAcDetailTy(ac));
+    }
 }
+
+// Informs us that all a/c have been processed: All pending messages to be sent now
+void RemoteAcEnqueueDone ()
+{
+    // Actively sending?
+    if (glob.remoteStatus == REMOTE_SENDING)
+    {
+        // Only if we have the lock there's a chance we added anything to be sent now
+        // (also a safe-guard against double-execution)
+        if (glockRmtData) {
+            // Put a signal into the queue that tells the network thread to send out any pending messages
+            gqueueRmtData.emplace(new RmtDataBaseTy(RMT_MSG_SEND));
+            
+            // Release the lock and tell the network thread to wake up for work
+            glockRmtData.unlock();
+            gcvRmtData.notify_one();
+        }
+    }
+    // or are we a receiver?
+    else if (glob.remoteStatus == REMOTE_RECEIVING)
+    {
+        if (gRmtCBFcts.pfAfterLastAc)         // Inform client that flight loop processing ends
+            gRmtCBFcts.pfAfterLastAc();
+    }
+}
+
+// Informs remote connections of a model change
+void RemoteAcChangeModel (const Aircraft& ac)
+{
+    // Can only do anything reasonable if we are to send data
+    if (glob.remoteStatus != REMOTE_SENDING)
+        return;
+
+}
+
+// Inform us about an aircraft deletion
+void RemoteAcRemove (const Aircraft& ac)
+{
+    // Can only do anything reasonable if we are to send data
+    if (glob.remoteStatus != REMOTE_SENDING) {
+        if (!gmapRmtAcCache.empty())           // that's faster than searching for the individual plane...
+            gmapRmtAcCache.clear();            // when we are not/no longer sending then the cache is outdated anyway
+        return;
+    }
+}
+
+// Informs us that there are no more aircraft, clear our caches!
+void RemoteAcClearAll ()
+{
+    // Clear the cache
+    gmapRmtAcCache.clear();
+}
+
+//
+// MARK: Global Receive functions (XP Main Thread)
+//
 
 // Starts the listener, will call provided callback functions with received messages
 void RemoteRecvStart (const RemoteCBFctTy& _rmtCBFcts)
@@ -510,6 +916,7 @@ void RemoteRecvStart (const RemoteCBFctTy& _rmtCBFcts)
 void RemoteRecvStop ()
 {
     RmtStopAll();
+    gRmtCBFcts = RemoteCBFctTy();
 }
 
 };

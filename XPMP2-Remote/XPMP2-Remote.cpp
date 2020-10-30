@@ -157,6 +157,11 @@ float FlightLoopCallback(float, float, int, void*)
     try {
         GetMiscNetwTime();              // update rcGlob.now, e.g. for logging from worker threads
         MenuUpdateCheckmarks();         // update menu
+        // if there aren't any planes yet then the XPMP2 library won't call ClientFlightLoopBegins(), instead we do
+        if (XPMPCountPlanes() == 0) {
+            ClientFlightLoopBegins();
+            ClientFlightLoopEnds();
+        }
     }
     catch (const std::exception& e) {
         LOG_MSG(logFATAL, ERR_EXCEPTION, e.what());
@@ -208,6 +213,7 @@ PLUGIN_API int XPluginEnable(void)
     char pathSep = XPLMGetDirectorySeparator()[0];
     // The plugin's path, results in something like ".../Resources/plugins/XPMP2-Remote/64/XPMP2-Remote.xpl"
     char szPath[256];
+    rcGlob.mergedS.pluginId = std::uint16_t(XPLMGetMyID());
     XPLMGetPluginInfo(XPLMGetMyID(), nullptr, szPath, nullptr, nullptr);
     *(std::strrchr(szPath, pathSep)) = 0;   // Cut off the plugin's file name
     *(std::strrchr(szPath, pathSep)+1) = 0; // Cut off the "64" directory name, but leave the dir separation character

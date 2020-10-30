@@ -27,19 +27,38 @@
 /// Representation of a remote aircraft
 class RemoteAC : public XPMP2::Aircraft {
 protected:
-    /// We keep 2 historic positions to be able to calculate simple linear extrapolation
+    /// @brief We keep 2 historic positions to be able to calculate simple linear extrapolation
+    /// @details Index 0 is the older one, index 1 the newer one
     XPLMDrawInfo_t histPos[2];
+    /// Timestamps when these two positions were valid, index 2 is for the next world coordinates, see below
+    std::chrono::time_point<std::chrono::steady_clock> histTs[3];
+    
+    /// Temporary storage for world coordinates until we can call XPMP2::Aircraft::SetLocation() to turn them into local coordinates
+    double lat      = NAN;
+    double lon      = NAN;
+    double alt_ft   = NAN;
+    
+    /// temporary storage until Create() for A/C details sent by master plugin
+    XPMP2::RemoteAcDetailTy* pAcDetail = nullptr;
     
 public:
-    /// Constructor takes same arguments as XPMP2::Aircraft::Aircraft()
-    RemoteAC (const std::string& _icaoType,
-              const std::string& _icaoAirline,
-              const std::string& _livery,
-              XPMPPlaneID _modeS_id = 0,
-              const std::string& _modelId = "");
+    /// Constructor for use in network thread: Does _not_ Create the aircraft but only stores the passed information
+    RemoteAC (const XPMP2::RemoteAcDetailTy& _acDetails);
+    /// Destructor frees memory of not yet done
+    virtual ~RemoteAC();
+    
+    /// Actually create the aircraft, ultimately calls XPMP2::Aircraft::Create()
+    void Create ();
+    
+    /// Update data from a a/c detail structure
+    void Update (const XPMP2::RemoteAcDetailTy& _acDetails);
     
     /// Called by XPMP2 for position updates, extrapolates from historic positions
     void UpdatePosition (float, int) override;
+    
+protected:
+    /// frees the temporary stored network msg
+    void Free ();
 };
 
 /// Map of remote aircraft; key is the plane id as sent by the sending plugin (while the _modeS_id of the local copy could differ)
@@ -67,6 +86,9 @@ struct SenderTy {
     
     /// Constructor copies values and sets lastMsg to now
     SenderTy (const std::string& _from, const XPMP2::RemoteMsgSettingsTy& _s);
+    
+    /// Find a sender based on plugin id and IP address
+    static SenderTy* Find (XPLMPluginID _id, std::uint32_t _from[4]);
 };
 
 /// smart pointer to such a sender information
@@ -80,3 +102,8 @@ typedef std::map<SenderAddrTy,SenderTy> mapSenderTy;
 
 /// Toggles the cient's activitiy status, as based on menu command
 void ClientToggleActive ();
+
+/// Called at the beginning of each flight loop processing: Get the data lock, create waiting planes
+void ClientFlightLoopBegins ();
+/// Called at the end of each flight loop processing: Release the data lock
+void ClientFlightLoopEnds ();

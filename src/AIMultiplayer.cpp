@@ -167,11 +167,9 @@ union TcasLightsTy {
     } b;
 };
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wexit-time-destructors"
-/// Keeps the dataRef handles for one of the up to 19 legacy AI/Multiplayer slots ("sim/multiplayer/position") (accepted as a global variable requiring an exit-time destructor)
+/// Keeps the dataRef handles for one of the up to 19 legacy AI/Multiplayer slots ("sim/multiplayer/position")
 static std::vector<multiDataRefsTy> gMultiRef;
-/// Keeps the dataRef handles for one of the up to 63 shared data slots ("sim/multiplayer/position/plane#...") (accepted as a global variable requiring an exit-time destructor)
+/// Keeps the dataRef handles for one of the up to 63 shared data slots ("sim/multiplayer/position/plane#...")
 static std::vector<infoDataRefsTy>  gInfoRef;
 
 /// Map of Aircrafts, sorted by (priority-biased) distance
@@ -183,8 +181,6 @@ static std::vector<Aircraft*> vAcByDist;
 
 /// Vector organized by slots (either multiplayer or TCAS target slots)
 static std::vector<Aircraft*> gSlots;
-
-#pragma clang diagnostic pop
 
 /// When did we re-calculate slots last time?
 static float tLastSlotSwitching = 0.0f;
@@ -313,8 +309,6 @@ size_t AIUpdateMultiplayerDataRefs()
 size_t AIUpdateTCASTargets ()
 {
     // Arrays we need every frame over and over again, so we keep them static for performance
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wexit-time-destructors"
     // data arrays for providing TCAS target values
     static std::vector<int>   vModeS;      
     static std::vector<int>   vModeC;      
@@ -335,7 +329,6 @@ size_t AIUpdateTCASTargets ()
     static std::vector<float> vYokeRoll;   
     static std::vector<float> vYokeYaw;    
     static std::vector<int>   vLights;     
-    #pragma clang diagnostic pop
 
     // Start filling up TCAS targets, ordered by distance,
     // so that the closest planes are in the lower slots,

@@ -162,6 +162,17 @@ inline float angleLocCoord (float x1, float z1, float x2, float z2)
 /// (Shortest) difference between 2 angles: How much to turn to go from h1 to h2?
 float headDiff (float head1, float head2);
 
+/// Normalize a heading value to [0..360), works for both float and double values
+template <class numT>
+numT headNormalize (numT _head)
+{
+    if (_head < numT(0))
+        _head += std::ceil(_head/-numT(360)) * numT(360);
+    else if (_head >= numT(360))
+        _head -= std::floor(_head/numT(360)) * numT(360);
+    return _head;
+}
+
 //
 // MARK: Misc
 //

@@ -52,6 +52,17 @@ inline bool CheckEverySoOften (float& _lastCheck, float _interval)
 std::string GetPluginName (XPLMPluginID who);
 
 //
+// MARK: String functions
+//
+
+/// @brief Copy _at most_ `n` chars from location, or less if zero-terminated.
+/// @details Unlike std::string(char*, n) this will _not_ copy null chars
+std::string str_n (const char* s, size_t max);
+
+/// Simplify using str_n() with char arrays
+#define STR_N(s) str_n(s,sizeof(s))
+
+//
 // MARK: Logging Support
 //
 

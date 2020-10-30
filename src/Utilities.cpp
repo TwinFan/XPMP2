@@ -22,16 +22,12 @@
 
 namespace XPMP2 {
 
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wexit-time-destructors"
 #if DEBUG
 GlobVars glob (logDEBUG, true);
 #else
-/// The one and only global variable structure (accepted to require an exit-time destructor)
+/// The one and only global variable structure
 GlobVars glob;
 #endif
-#pragma clang diagnostic pop
 
 //
 // MARK: Configuration
@@ -272,10 +268,7 @@ std::istream& safeGetline(std::istream& is, std::string& t)
 std::string StripXPSysDir (const std::string& path)
 {
     // Fetch XP's system dir once
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wexit-time-destructors"
     static std::string sysDir;
-#pragma clang diagnostic pop
     if (sysDir.empty()) {
         char s[512];
         XPLMGetSystemPath(s);
@@ -428,6 +421,25 @@ std::vector<std::string> str_tokenize (const std::string s,
     v.emplace_back(s.substr(b));
     
     return v;
+}
+
+
+
+
+// Produces a very simple hash, which is the same if the same string is provided, across platform and across executions (unlike std::hash)
+std::uint16_t PJWHash16(const char *pc)
+{
+    std::uint16_t h = 0, high;
+    const unsigned char* s = reinterpret_cast<const unsigned char*>(pc);
+    while (*s)
+    {
+        h <<= 2;                    // shift by 2 bits only, not 4
+        h += *s++;
+        if ((high = h & 0xC000))    // pick the upper 2 bits only, not 4
+            h ^= high >> 14;
+        h &= ~high;
+    }
+    return h;
 }
 
 //

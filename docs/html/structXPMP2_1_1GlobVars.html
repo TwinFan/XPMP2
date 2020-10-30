@@ -60,6 +60,12 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:abaa1a384347a39123c1a94cae71f5ad3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#abaa1a384347a39123c1a94cae71f5ad3">RemoteIsListener</a> () const</td></tr>
+<tr class="memdesc:abaa1a384347a39123c1a94cae71f5ad3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Are we a listener?  <a href="structXPMP2_1_1GlobVars.html#abaa1a384347a39123c1a94cae71f5ad3">More...</a><br /></td></tr>
+<tr class="separator:abaa1a384347a39123c1a94cae71f5ad3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7455983d2337215ac96cee1943bf85ee"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a7455983d2337215ac96cee1943bf85ee">RemoteIsSender</a> () const</td></tr>
+<tr class="memdesc:a7455983d2337215ac96cee1943bf85ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Are we a sender?  <a href="structXPMP2_1_1GlobVars.html#a7455983d2337215ac96cee1943bf85ee">More...</a><br /></td></tr>
+<tr class="separator:a7455983d2337215ac96cee1943bf85ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a75adea872ba540f4c9b42ea15d98279a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a75adea872ba540f4c9b42ea15d98279a">NextPlaneId</a> ()</td></tr>
 <tr class="memdesc:a75adea872ba540f4c9b42ea15d98279a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the next unique artifical plane id.  <a href="structXPMP2_1_1GlobVars.html#a75adea872ba540f4c9b42ea15d98279a">More...</a><br /></td></tr>
 <tr class="separator:a75adea872ba540f4c9b42ea15d98279a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -207,6 +213,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:ab7f0ed07516855693b202c3d18cde5c3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#ab7f0ed07516855693b202c3d18cde5c3">bXPNetworkedSetup</a> = false</td></tr>
 <tr class="memdesc:ab7f0ed07516855693b202c3d18cde5c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is X-Plane configured for networked multi-computer or multiplayer setup?  <a href="structXPMP2_1_1GlobVars.html#ab7f0ed07516855693b202c3d18cde5c3">More...</a><br /></td></tr>
 <tr class="separator:ab7f0ed07516855693b202c3d18cde5c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06f9a5402ba5332e320709bc9b9e1a27"><td class="memItemLeft" align="right" valign="top">XPLMPluginID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a06f9a5402ba5332e320709bc9b9e1a27">pluginId</a> = 0</td></tr>
+<tr class="memdesc:a06f9a5402ba5332e320709bc9b9e1a27"><td class="mdescLeft">&#160;</td><td class="mdescRight">This plugin's id.  <a href="structXPMP2_1_1GlobVars.html#a06f9a5402ba5332e320709bc9b9e1a27">More...</a><br /></td></tr>
+<tr class="separator:a06f9a5402ba5332e320709bc9b9e1a27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f3744b97488f60be5bbd0e4706224cd"><td class="memItemLeft" align="right" valign="top">std::thread::id&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a3f3744b97488f60be5bbd0e4706224cd">xpThread</a></td></tr>
 <tr class="memdesc:a3f3744b97488f60be5bbd0e4706224cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">id of X-Plane's thread (when it is OK to use XP API calls)  <a href="structXPMP2_1_1GlobVars.html#a3f3744b97488f60be5bbd0e4706224cd">More...</a><br /></td></tr>
 <tr class="separator:a3f3744b97488f60be5bbd0e4706224cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -321,6 +330,60 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Read version numbers into verXplane/verXPLM. </p>
+
+</div>
+</div>
+<a id="abaa1a384347a39123c1a94cae71f5ad3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abaa1a384347a39123c1a94cae71f5ad3">&#9670;&nbsp;</a></span>RemoteIsListener()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::GlobVars::RemoteIsListener </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Are we a listener? </p>
+
+</div>
+</div>
+<a id="a7455983d2337215ac96cee1943bf85ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7455983d2337215ac96cee1943bf85ee">&#9670;&nbsp;</a></span>RemoteIsSender()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::GlobVars::RemoteIsSender </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Are we a sender? </p>
 
 </div>
 </div>
@@ -899,6 +962,22 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Current plane ID counter. </p>
+
+</div>
+</div>
+<a id="a06f9a5402ba5332e320709bc9b9e1a27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06f9a5402ba5332e320709bc9b9e1a27">&#9670;&nbsp;</a></span>pluginId</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">XPLMPluginID XPMP2::GlobVars::pluginId = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This plugin's id. </p>
 
 </div>
 </div>

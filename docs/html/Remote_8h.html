@@ -44,7 +44,9 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
@@ -57,10 +59,37 @@ $(function() {
 
 <p><a href="Remote_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RmtAcCacheTy.html">XPMP2::RmtAcCacheTy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds a copy of some aircraft data as was sent out last.  <a href="structXPMP2_1_1RmtAcCacheTy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtDataBaseTy.html">XPMP2::RmtDataBaseTy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base structure for passing information from XP's main thread to the multicast thread.  <a href="classXPMP2_1_1RmtDataBaseTy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtDataAcDetailTy.html">XPMP2::RmtDataAcDetailTy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Passing information about an a/c full detail message: it is actually right away that message.  <a href="classXPMP2_1_1RmtDataAcDetailTy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">XPMP2::RmtMsgBufTy&lt; ElemTy, msgTy, msgVer &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper class to manage the temporary buffers in which the network message are put together.  <a href="classXPMP2_1_1RmtMsgBufTy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespaceXPMP2"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html">XPMP2</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a00488b0c9d15b5bcbe519f41f8dc0369"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; <a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>, RmtAcCacheTy &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a00488b0c9d15b5bcbe519f41f8dc0369">XPMP2::mapRmtAcCacheTy</a></td></tr>
+<tr class="memdesc:a00488b0c9d15b5bcbe519f41f8dc0369"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a map with the plane id as key and the aboce cache structure as payload.  <a href="namespaceXPMP2.html#a00488b0c9d15b5bcbe519f41f8dc0369">More...</a><br /></td></tr>
+<tr class="separator:a00488b0c9d15b5bcbe519f41f8dc0369"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a4da9dcbff89ca918acbf1c9c071a42"><td class="memItemLeft" align="right" valign="top">typedef std::unique_ptr&lt; RmtDataBaseTy &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a7a4da9dcbff89ca918acbf1c9c071a42">XPMP2::ptrRmtDataBaseTy</a></td></tr>
+<tr class="memdesc:a7a4da9dcbff89ca918acbf1c9c071a42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Smart pointer to <a class="el" href="classXPMP2_1_1RmtDataBaseTy.html" title="Base structure for passing information from XP&#39;s main thread to the multicast thread.">XPMP2::RmtDataBaseTy</a> by which we manage objects of this and derived types.  <a href="namespaceXPMP2.html#a7a4da9dcbff89ca918acbf1c9c071a42">More...</a><br /></td></tr>
+<tr class="separator:a7a4da9dcbff89ca918acbf1c9c071a42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96b830c17825cc562fa5ea21497a75cc"><td class="memItemLeft" align="right" valign="top">typedef std::queue&lt; ptrRmtDataBaseTy, std::list&lt; ptrRmtDataBaseTy &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a96b830c17825cc562fa5ea21497a75cc">XPMP2::queueRmtDataTy</a></td></tr>
+<tr class="memdesc:a96b830c17825cc562fa5ea21497a75cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">A queue managing the information objects, used to transfer data between main thread and network thread.  <a href="namespaceXPMP2.html#a96b830c17825cc562fa5ea21497a75cc">More...</a><br /></td></tr>
+<tr class="separator:a96b830c17825cc562fa5ea21497a75cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -70,12 +99,6 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a73060b65abbe807b35555676346059a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration for remote communications support.  <a href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8">More...</a><br /></td></tr>
 <tr class="separator:a73060b65abbe807b35555676346059a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79adca5f1eba1fbafa63e30a2c9af8e7"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a79adca5f1eba1fbafa63e30a2c9af8e7">XPMP2::RemoteStatusTy</a> : unsigned { <a class="el" href="namespaceXPMP2.html#a79adca5f1eba1fbafa63e30a2c9af8e7a5ef10b1d928df8e76abd8e0acd4d889b">XPMP2::REMOTE_OFF</a> = 0, 
-<a class="el" href="namespaceXPMP2.html#a79adca5f1eba1fbafa63e30a2c9af8e7af0537d77419ec5268fb08e18d7d5e448">XPMP2::REMOTE_WAITING</a>, 
-<a class="el" href="namespaceXPMP2.html#a79adca5f1eba1fbafa63e30a2c9af8e7a821e20e03766958478fd3edc1a6e603b">XPMP2::REMOTE_SENDING</a>
- }</td></tr>
-<tr class="memdesc:a79adca5f1eba1fbafa63e30a2c9af8e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">State of remote communcations.  <a href="namespaceXPMP2.html#a79adca5f1eba1fbafa63e30a2c9af8e7">More...</a><br /></td></tr>
-<tr class="separator:a79adca5f1eba1fbafa63e30a2c9af8e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -85,16 +108,30 @@ Functions</h2></td></tr>
 <tr class="memitem:a872a568a1e2a9e79654a1aa7c2586b8f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a872a568a1e2a9e79654a1aa7c2586b8f">XPMP2::RemoteCleanup</a> ()</td></tr>
 <tr class="memdesc:a872a568a1e2a9e79654a1aa7c2586b8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Grace cleanup, stops all threads.  <a href="namespaceXPMP2.html#a872a568a1e2a9e79654a1aa7c2586b8f">More...</a><br /></td></tr>
 <tr class="separator:a872a568a1e2a9e79654a1aa7c2586b8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac98a52a6ec2f89a641bf086be525bd30"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ac98a52a6ec2f89a641bf086be525bd30">XPMP2::RemoteUpdateStatus</a> ()</td></tr>
-<tr class="memdesc:ac98a52a6ec2f89a641bf086be525bd30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares current vs. expected status and takes appropriate action.  <a href="namespaceXPMP2.html#ac98a52a6ec2f89a641bf086be525bd30">More...</a><br /></td></tr>
-<tr class="separator:ac98a52a6ec2f89a641bf086be525bd30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f5432dbc6a900a1a846ed5ea1171122"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a1f5432dbc6a900a1a846ed5ea1171122">XPMP2::RemoteUpdateAc</a> ()</td></tr>
-<tr class="memdesc:a1f5432dbc6a900a1a846ed5ea1171122"><td class="mdescLeft">&#160;</td><td class="mdescRight">Regularly called from the flight loop callback.  <a href="namespaceXPMP2.html#a1f5432dbc6a900a1a846ed5ea1171122">More...</a><br /></td></tr>
-<tr class="separator:a1f5432dbc6a900a1a846ed5ea1171122"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5bd07efee4f0f277dbb85aa680bfc25d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a5bd07efee4f0f277dbb85aa680bfc25d">XPMP2::RemoteSenderUpdateStatus</a> ()</td></tr>
+<tr class="memdesc:a5bd07efee4f0f277dbb85aa680bfc25d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares current vs. expected status and takes appropriate action.  <a href="namespaceXPMP2.html#a5bd07efee4f0f277dbb85aa680bfc25d">More...</a><br /></td></tr>
+<tr class="separator:a5bd07efee4f0f277dbb85aa680bfc25d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38675ed96451eb8c3ad2f0732ca88dd9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a38675ed96451eb8c3ad2f0732ca88dd9">XPMP2::RemoteAcEnqueueStarts</a> (float now)</td></tr>
+<tr class="separator:a38675ed96451eb8c3ad2f0732ca88dd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88eec7f9a82c7b294e3ed6f2a6035680"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a88eec7f9a82c7b294e3ed6f2a6035680">XPMP2::RemoteAcEnqueue</a> (const Aircraft &amp;ac)</td></tr>
+<tr class="memdesc:a88eec7f9a82c7b294e3ed6f2a6035680"><td class="mdescLeft">&#160;</td><td class="mdescRight">Regularly called from the flight loop callback to send a/c date onto the network.  <a href="namespaceXPMP2.html#a88eec7f9a82c7b294e3ed6f2a6035680">More...</a><br /></td></tr>
+<tr class="separator:a88eec7f9a82c7b294e3ed6f2a6035680"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25717cfd87b36df95ed415104f35a293"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a25717cfd87b36df95ed415104f35a293">XPMP2::RemoteAcEnqueueDone</a> ()</td></tr>
+<tr class="memdesc:a25717cfd87b36df95ed415104f35a293"><td class="mdescLeft">&#160;</td><td class="mdescRight">Informs us that all a/c have been processed: All pending messages to be sent now.  <a href="namespaceXPMP2.html#a25717cfd87b36df95ed415104f35a293">More...</a><br /></td></tr>
+<tr class="separator:a25717cfd87b36df95ed415104f35a293"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad70cba70210d4ea07b2346ea2f20e80c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ad70cba70210d4ea07b2346ea2f20e80c">XPMP2::RemoteAcChangeModel</a> (const Aircraft &amp;ac)</td></tr>
+<tr class="memdesc:ad70cba70210d4ea07b2346ea2f20e80c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Informs remote connections of a model change.  <a href="namespaceXPMP2.html#ad70cba70210d4ea07b2346ea2f20e80c">More...</a><br /></td></tr>
+<tr class="separator:ad70cba70210d4ea07b2346ea2f20e80c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c7e0b07d82116863ffe0755e8e6165a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a2c7e0b07d82116863ffe0755e8e6165a">XPMP2::RemoteAcRemove</a> (const Aircraft &amp;ac)</td></tr>
+<tr class="memdesc:a2c7e0b07d82116863ffe0755e8e6165a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Informs us about an aircraft deletion.  <a href="namespaceXPMP2.html#a2c7e0b07d82116863ffe0755e8e6165a">More...</a><br /></td></tr>
+<tr class="separator:a2c7e0b07d82116863ffe0755e8e6165a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19737dc4a05e2fcf2f0f3ca7449311b3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a19737dc4a05e2fcf2f0f3ca7449311b3">XPMP2::RemoteAcClearAll</a> ()</td></tr>
+<tr class="memdesc:a19737dc4a05e2fcf2f0f3ca7449311b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Informs us that there are no more aircraft, clear our caches!  <a href="namespaceXPMP2.html#a19737dc4a05e2fcf2f0f3ca7449311b3">More...</a><br /></td></tr>
+<tr class="separator:a19737dc4a05e2fcf2f0f3ca7449311b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Master/Client communication for aircraft synchronization on remote networked instances. </p>
-<dl class="section author"><dt>Author</dt><dd>Birger Hoppe </dd></dl>
+<p>The network thread tries not to fiddle with main thread's data to reduce the need for synchronization through locks to the bare minimum. Instead the main thread passes a limited information set to the network thread by way of a deque. </p><dl class="section author"><dt>Author</dt><dd>Birger Hoppe </dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>(c) 2020 Birger Hoppe </dd>
 <dd>
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br  />

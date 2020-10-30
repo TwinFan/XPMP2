@@ -256,8 +256,8 @@ public:
                    const std::string& _icaoAirline,
                    const std::string& _livery,
                    XPMPPlaneID _modeS_id = 0,
-                   const std::string& _modelName = "") :
-    Aircraft(_icaoType, _icaoAirline, _livery, _modeS_id, _modelName)
+                   const std::string& _cslId = "") :
+    Aircraft(_icaoType, _icaoAirline, _livery, _modeS_id, _cslId)
     {
         // in our sample implementation, label, radar and info texts
         // are not dynamic. In others, they might be, then update them

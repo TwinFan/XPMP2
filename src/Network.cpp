@@ -54,10 +54,7 @@ constexpr int SERR_LEN = 100;                   // size of buffer for IO error t
 //
 
 /// Mutex to ensure closing is done in one thread only to avoid race conditions on deleting the buffer
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wexit-time-destructors"
 std::recursive_mutex mtxSocketClose;
-#pragma clang diagnostic pop
 
 NetRuntimeError::NetRuntimeError(const std::string& w) :
 std::runtime_error(w), fullWhat(w)
@@ -749,7 +746,7 @@ bool TCPConnection::listenAccept (int numConnections)
         // if we wait for exactly one connection then we "unlisten" once we accepted that one connection:
         return accept(numConnections == 1);
     }
-    catch (std::runtime_error& e) {
+    catch (std::exception& e) {
         LOG_MSG(logERR, "%s", e.what());
     }
     return false;

@@ -70,6 +70,8 @@ Macros</h2></td></tr>
 <tr class="separator:a7fbf5c9fd19c89093e216da4887891f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a310640588557bbed0a0484a06f3ac36e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Aircraft_8cpp.html#a310640588557bbed0a0484a06f3ac36e">FATAL_MODE_S_EXISTS</a>&#160;&#160;&#160;&quot;_modeS_id (0x%06X) already exists&quot;</td></tr>
 <tr class="separator:a310640588557bbed0a0484a06f3ac36e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fbb5134314cf671558dbc1d030e78f4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Aircraft_8cpp.html#a1fbb5134314cf671558dbc1d030e78f4">FATAL_CREATE_INVALID</a>&#160;&#160;&#160;&quot;Called Aircraft::Create() on already defined plane with _modeS_id (0x%06X)&quot;</td></tr>
+<tr class="separator:a1fbb5134314cf671558dbc1d030e78f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf0c9063706ea7dc8f68957bc2aef19c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Aircraft_8cpp.html#adf0c9063706ea7dc8f68957bc2aef19c">DEBUG_REPL_MODE_S</a>&#160;&#160;&#160;&quot;Replaced duplicate _modeS_id 0x%06X with new unique value 0x%06X&quot;</td></tr>
 <tr class="separator:adf0c9063706ea7dc8f68957bc2aef19c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab48e59868c77c717ec7577afa14a1d63"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Aircraft_8cpp.html#ab48e59868c77c717ec7577afa14a1d63">ERR_CREATE_INSTANCE</a>&#160;&#160;&#160;&quot;Aircraft 0x%06X: Create Instance FAILED for CSL Model %s&quot;</td></tr>
@@ -113,9 +115,9 @@ Variables</h2></td></tr>
 <tr class="memitem:ad05deda16b7834483c1a6dd64e00bd0a"><td class="memItemLeft" align="right" valign="top">XPLMFlightLoopID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ad05deda16b7834483c1a6dd64e00bd0a">XPMP2::gFlightLoopID</a> = nullptr</td></tr>
 <tr class="memdesc:ad05deda16b7834483c1a6dd64e00bd0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The id of our flight loop callback.  <a href="namespaceXPMP2.html#ad05deda16b7834483c1a6dd64e00bd0a">More...</a><br /></td></tr>
 <tr class="separator:ad05deda16b7834483c1a6dd64e00bd0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abda29cad912c65cc63ff0d74197c0f79"><td class="memItemLeft" align="right" valign="top">std::vector&lt; const char * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#abda29cad912c65cc63ff0d74197c0f79">XPMP2::DR_NAMES</a></td></tr>
-<tr class="memdesc:abda29cad912c65cc63ff0d74197c0f79"><td class="mdescLeft">&#160;</td><td class="mdescRight">The list of dataRefs we support to be read by the CSL Model (for gear, flaps, lights etc.)  <a href="namespaceXPMP2.html#abda29cad912c65cc63ff0d74197c0f79">More...</a><br /></td></tr>
-<tr class="separator:abda29cad912c65cc63ff0d74197c0f79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc611f81cee3d9896a004d73e6cf184c"><td class="memItemLeft" align="right" valign="top">std::vector&lt; const char * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#acc611f81cee3d9896a004d73e6cf184c">XPMP2::DR_NAMES</a></td></tr>
+<tr class="memdesc:acc611f81cee3d9896a004d73e6cf184c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The list of dataRefs we support to be read by the CSL Model (for gear, flaps, lights etc.)  <a href="namespaceXPMP2.html#acc611f81cee3d9896a004d73e6cf184c">More...</a><br /></td></tr>
+<tr class="separator:acc611f81cee3d9896a004d73e6cf184c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade6c59f595d1b4bfe93b6172b91b5e33"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::unique_ptr&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ade6c59f595d1b4bfe93b6172b91b5e33">XPMP2::drStrings</a></td></tr>
 <tr class="separator:ade6c59f595d1b4bfe93b6172b91b5e33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3d657a6d1c1d533195c3c526f25a762e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; XPLMDataRef &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a3d657a6d1c1d533195c3c526f25a762e">XPMP2::ahDataRefs</a></td></tr>
@@ -254,6 +256,20 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
       <table class="memname">
         <tr>
           <td class="memname">#define ERR_YPROBE&#160;&#160;&#160;&quot;Aircraft 0x%06X: Could not create Y-Probe for terrain testing!&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1fbb5134314cf671558dbc1d030e78f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1fbb5134314cf671558dbc1d030e78f4">&#9670;&nbsp;</a></span>FATAL_CREATE_INVALID</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FATAL_CREATE_INVALID&#160;&#160;&#160;&quot;Called Aircraft::Create() on already defined plane with _modeS_id (0x%06X)&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">

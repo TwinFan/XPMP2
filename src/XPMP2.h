@@ -52,6 +52,7 @@
 #include <map>
 #include <array>
 #include <vector>
+#include <queue>
 #include <valarray>
 #include <algorithm>
 #include <numeric>

@@ -1122,8 +1122,9 @@ CSLModel* CSLModelById (const std::string& _cslId,
 
 
 // Find a model by package name hash and short id
-/// @note This is directly used by XPMP2-Remote client
-CSLModel* CSLModelByPkgShortId (std::uint16_t _pkgHash, const std::string& _shortId)
+/// @note This is directly used by XPMP2-Remote client with a potentially limited short id string
+CSLModel* CSLModelByPkgShortId (std::uint16_t _pkgHash,
+                                const char* _shortId, size_t _shortIdMaxSize)
 {
     // try finding the model by shortId, also verify pckage hash
     mapCSLModelTy::iterator iBest = glob.mapCSLModels.end();
@@ -1131,7 +1132,8 @@ CSLModel* CSLModelByPkgShortId (std::uint16_t _pkgHash, const std::string& _shor
          iter != glob.mapCSLModels.end();
          ++iter)
     {
-        if (iter->second.GetShortId() == _shortId) {    // short id matches at least
+        // short id matches...as far as known
+        if (std::strncmp(iter->second.GetShortId().c_str(), _shortId, _shortIdMaxSize) == 0) {
             if (iter->second.pkgHash == _pkgHash) {     // perfect match!
                 iBest = iter;
                 break;

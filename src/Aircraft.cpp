@@ -45,6 +45,7 @@ using namespace XPMP2;
 #define WARN_PLANES_LEFT_EXIT   "Still %lu aircaft defined during shutdown! Plugin should destroy them prior to shutting down."
 #define ERR_ADD_DATAREF_INIT    "Could not add dataRef %s, XPMP2 not yet initialized?"
 #define ERR_ADD_DATAREF_PLANES  "Could add dataRef %s only if no aircraft are flying, but currently there are %lu aircraft."
+#define ERR_WORKER_THREAD       "Can only be called from XP's main thread!"
 #define DEBUG_DATAREF_ADDED     "Added dataRef %s as index %lu"
 
 namespace XPMP2 {
@@ -988,7 +989,10 @@ size_t XPMPAddModelDataRef (const std::string& dataRef)
     // --- Add the new dataRaf ---
     
     // Must be called from XP's main thread only as we are calling XPLM SDK functions!!
-    LOG_ASSERT(glob.IsXPThread());
+    if (!glob.IsXPThread()) {
+        LOG_MSG(logERR, ERR_WORKER_THREAD);
+        return 0;
+    }
 
     // Copy the provided text: This creates a copy of std::string, pointed to by a smart pointer
     drStrings.emplace_back(std::make_unique<std::string>(dataRef));

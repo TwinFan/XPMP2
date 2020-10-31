@@ -435,7 +435,8 @@ std::uint16_t PJWHash16(const char *pc)
     {
         h <<= 2;                    // shift by 2 bits only, not 4
         h += *s++;
-        if ((high = h & 0xC000))    // pick the upper 2 bits only, not 4
+        high = h & 0xC000;          // pick the upper 2 bits only, not 4
+        if (high)
             h ^= high >> 14;
         h &= ~high;
     }

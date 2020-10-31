@@ -93,7 +93,7 @@ void RmtAcCacheTy::UpdateFrom (const Aircraft& ac)
 //
 
 RemoteMsgBaseTy::RemoteMsgBaseTy (RemoteMsgTy _ty, std::uint8_t _ver) :
-msgTy(_ty), msgVer(_ver), filler(0),
+msgTy(_ty), msgVer(_ver),
 pluginId(std::uint8_t(glob.pluginId & 0xFFFF))
 {}
 
@@ -121,6 +121,11 @@ RemoteAcDetailTy::RemoteAcDetailTy ()
 // A/c copy constructor fills from passed-in XPMP2::Aircraft object
 RemoteAcDetailTy::RemoteAcDetailTy (const Aircraft& _ac)
 {
+    // set everything to zero
+    memset(this, 0, sizeof(*this));
+    lat = lon = 0.0;
+    alt_ft = 0.0f;
+    // then copy from a/c
     CopyFrom(_ac);
 }
 
@@ -133,7 +138,7 @@ void RemoteAcDetailTy::CopyFrom (const Aircraft& _ac)
     pkgHash = _ac.GetModel()->pkgHash;
     strncpy(label,      _ac.label.c_str(),                      sizeof(label));
     SetLabelCol(_ac.colLabel);
-    modeS_id    = _ac.GetModeS_ID();
+    SetModeSId(_ac.GetModeS_ID());
     aiPrio   = std::int16_t(_ac.aiPrio);
 
     // Position: Convert known local coordinates to world coordinates
@@ -152,6 +157,20 @@ void RemoteAcDetailTy::CopyFrom (const Aircraft& _ac)
     SetRoll     (_ac.drawInfo.roll);
 
     // TODO: Animation values...converted to uint8 I'd say
+}
+
+// set modeS_id
+void RemoteAcDetailTy::SetModeSId (XPMPPlaneID _id)
+{
+    modeS_id[0] = std::uint8_t( _id & 0x0000FF       );
+    modeS_id[1] = std::uint8_t((_id & 0x00FF00) >>  8);
+    modeS_id[2] = std::uint8_t((_id & 0xFF0000) >> 16);
+}
+
+// retrieve modeS_id
+XPMPPlaneID RemoteAcDetailTy::GetModeSId() const
+{
+    return (XPMPPlaneID(modeS_id[2]) << 16) | (XPMPPlaneID(modeS_id[1]) << 8) | XPMPPlaneID(modeS_id[0]);
 }
 
 // set the label color from a float array (4th number, alpha, is always considered 1.0)

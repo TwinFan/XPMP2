@@ -60,9 +60,9 @@ void RemoteAC::Create ()
 
     // Create the actual plane
     Aircraft::Create(acIcaoType, acIcaoAirline, acLivery,
-                     pAcDetail->modeS_id, "",
+                     pAcDetail->GetModeSId(), "",
                      XPMP2::CSLModelByPkgShortId(pAcDetail->pkgHash,
-                                                 STR_N(pAcDetail->sShortId)));
+                                                 pAcDetail->sShortId, sizeof(pAcDetail->sShortId)));
     
     // Initialize both historic positions to the only position we know
     histPos[0] = histPos[1];
@@ -118,7 +118,7 @@ void RemoteAC::UpdatePosition (float, int)
         // extrapolate current position based on the two historic ones and current time
         std::chrono::steady_clock::duration dNow = nowFlightLoop - histTs[0];
         try {
-            const float f = dNow / dHist;
+            const float f = float(dNow / dHist);
             drawInfo.x       = histPos[0].x       + f * (histPos[1].x       - histPos[0].x);
             drawInfo.y       = histPos[0].y       + f * (histPos[1].y       - histPos[0].y);
             drawInfo.z       = histPos[0].z       + f * (histPos[1].z       - histPos[0].z);
@@ -343,13 +343,13 @@ void ClientProcAcDetails (std::uint32_t _from[4], size_t _msgLen,
     for (size_t i = 0; i < numAc; ++i) {
         const XPMP2::RemoteAcDetailTy& acDetails = _msgAcDetails.arr[i];
         // Is the aircraft known?
-        mapRemoteAcTy::iterator iAc = pSender->mapAc.find(acDetails.modeS_id);
+        mapRemoteAcTy::iterator iAc = pSender->mapAc.find(acDetails.GetModeSId());
         // Now require access (for each plane, because we want to give the main thread's flight loop a better change to grab the lock if needed)
         std::unique_lock<std::mutex> lk(gmutexData);
         // Is the aircraft known?
         if (iAc == pSender->mapAc.end()) {
             // new aircraft, create an object for it, but not yet the actual plane (as this is the network thread)
-            pSender->mapAc.emplace(acDetails.modeS_id, acDetails);
+            pSender->mapAc.emplace(acDetails.GetModeSId(), acDetails);
             // tell the main thread that it shall process new a/c
             gbSkipNewAc.clear();
         } else {
@@ -365,15 +365,29 @@ void ClientProcAcDetails (std::uint32_t _from[4], size_t _msgLen,
 // MARK: Global Functions
 //
 
-// Toggles the cient's activitiy status, as based on menu command
-void ClientToggleActive ()
+// Initializes the module
+void ClientInit()
 {
-    if (XPMP2::RemoteGetStatus() == XPMP2::REMOTE_OFF)
+    // Initialize the atomic flags to 'set'
+    gbSkipSettingsUpdate.test_and_set();
+    gbSkipNewAc.test_and_set();
+}
+
+// Shuts down the module gracefully
+void ClientCleanup()
+{
+    // Force off
+    ClientToggleActive(-1);
+}
+
+
+// Toggles the cient's activitiy status, as based on menu command
+void ClientToggleActive (int nForce)
+{
+    // Need to start?
+    if (nForce > 0 ||
+        XPMP2::RemoteGetStatus() == XPMP2::REMOTE_OFF)
     {
-        // Set the atomic skip flags, so we skip processing (until needed)
-        gbSkipSettingsUpdate.test_and_set();
-        gbSkipNewAc.test_and_set();
-        
         // Start the listener to receive message
         XPMP2::RemoteCBFctTy rmtCBFcts = {
             ClientFlightLoopBegins,         // before flight loop processing starts
@@ -383,7 +397,9 @@ void ClientToggleActive ()
         };
         XPMP2::RemoteRecvStart(rmtCBFcts);
     }
-    else
+    // Need to stop?
+    else if (nForce < 0 ||
+             XPMP2::RemoteGetStatus() != XPMP2::REMOTE_OFF)
     {
         // Stop the listener
         XPMP2::RemoteRecvStop();

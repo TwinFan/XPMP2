@@ -200,15 +200,7 @@ PLUGIN_API int XPluginStart(char* outName, char* outSig, char* outDesc)
     XPLMAppendMenuItem(hMenu, "Active",             (void*)MENU_ACTIVE, 0);
     XPLMAppendMenuItem(hMenu, "TCAS Control",       (void*)MENU_TCAS, 0);
     MenuUpdateCheckmarks();
-	return 1;
-}
 
-PLUGIN_API void	XPluginStop(void)
-{
-}
-
-PLUGIN_API int XPluginEnable(void)
-{
     // The path separation character, one out of /\:
     char pathSep = XPLMGetDirectorySeparator()[0];
     // The plugin's path, results in something like ".../Resources/plugins/XPMP2-Remote/64/XPMP2-Remote.xpl"
@@ -216,28 +208,43 @@ PLUGIN_API int XPluginEnable(void)
     rcGlob.mergedS.pluginId = std::uint16_t(XPLMGetMyID());
     XPLMGetPluginInfo(XPLMGetMyID(), nullptr, szPath, nullptr, nullptr);
     *(std::strrchr(szPath, pathSep)) = 0;   // Cut off the plugin's file name
-    *(std::strrchr(szPath, pathSep)+1) = 0; // Cut off the "64" directory name, but leave the dir separation character
+    *(std::strrchr(szPath, pathSep) + 1) = 0; // Cut off the "64" directory name, but leave the dir separation character
     // We search in a subdirectory named "Resources" for all we need
     std::string resourcePath = szPath;
     resourcePath += "Resources";            // should now be something like ".../Resources/plugins/XPMP2-Sample/Resources"
 
     // Try initializing XPMP2:
-    const char *res = XPMPMultiplayerInit (REMOTE_CLIENT_NAME,      // plugin name,
-                                           resourcePath.c_str(),    // path to supplemental files
-                                           CBIntPrefsFunc,          // configuration callback function
-                                           "A320",                  // default ICAO type
-                                           REMOTE_CLIENT_LOG2);     // plugin short name
+    const char* res = XPMPMultiplayerInit(REMOTE_CLIENT_NAME,      // plugin name,
+        resourcePath.c_str(),    // path to supplemental files
+        CBIntPrefsFunc,          // configuration callback function
+        "A320",                  // default ICAO type
+        REMOTE_CLIENT_LOG2);     // plugin short name
     if (res[0]) {
         LOG_MSG(logFATAL, "Initialization of XPMP2 failed: %s", res);
         return 0;
     }
-    
+
     // Load our CSL models
     res = XPMPLoadCSLPackage(resourcePath.c_str());     // CSL folder root path
     if (res[0]) {
         LOG_MSG(logERR, "Error while loading CSL packages: %s", res);
     }
-    
+
+    return 1;
+}
+
+PLUGIN_API void	XPluginStop(void)
+{
+    // Properly clean up
+    XPMPMultiplayerCleanup();
+
+}
+
+PLUGIN_API int XPluginEnable(void)
+{
+    // Initialize the Client module
+    ClientInit();
+
     // Create a flight loop callback for some regular tasks, called every second
     XPLMCreateFlightLoop_t flParams = {
         sizeof(flParams),                           // structSize
@@ -263,10 +270,10 @@ PLUGIN_API void XPluginDisable(void)
     if (flId)
         XPLMDestroyFlightLoop(flId);
     flId = nullptr;
-    
-    // Properly cleanup the XPMP2 library
-    XPMPMultiplayerCleanup();
-    
+
+    // Cleanup the client, also removes all planes
+    ClientCleanup();
+
     LOG_MSG(logINFO, "Disabled");
 }
 

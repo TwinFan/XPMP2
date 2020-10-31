@@ -100,8 +100,14 @@ typedef std::map<SenderAddrTy,SenderTy> mapSenderTy;
 // MARK: Global Functions
 //
 
-/// Toggles the cient's activitiy status, as based on menu command
-void ClientToggleActive ();
+/// Initializes the module
+void ClientInit();
+/// Shuts down the module gracefully
+void ClientCleanup();
+
+/// @brief Toggles the cient's activitiy status, as based on menu command
+/// @param nForce 3-way toggle: `-1?  force off, `0` toggle, `+1` force on
+void ClientToggleActive (int nForce = 0);
 
 /// Called at the beginning of each flight loop processing: Get the data lock, create waiting planes
 void ClientFlightLoopBegins ();

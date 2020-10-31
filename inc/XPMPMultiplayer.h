@@ -458,12 +458,14 @@ bool            XPMPIsICAOValid(const char *                inICAO);
 ///          in your XPMP2::Aircraft::UpdatePosition() implementation.
 /// @return  The functions returns the array index you need to use in the
 ///          XPMP2::Aircraft::v array to provide the actual value.
-///          Or `0` when the function was called while planes are active.
+///          Or `0` when an error occured.
 /// @note There is a duplication check: Adding an already existing dataRef,
 ///       no matter if XPMP2-predefined or by the plugin will return the
 ///       already existing index.
 /// @note Can only be called while no plane exists as it influence the size
 ///       of important data arrays. Returns `0` if called while planes exist.
+/// @note Can only be called from XP's main thread as XPLM SDK functions are called.
+///       Returns `0` if called from a worker thread.
 size_t XPMPAddModelDataRef (const std::string& dataRef);
 
 /************************************************************************************

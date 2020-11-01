@@ -1,8 +1,13 @@
 /// @file       XPMPRemote.h
 /// @brief      Semi-public remote network functionality for master/client operations
 /// @details    Technically, this is public functionality from a library
-///             point of view. But it is intended for `XPMPRemoteClient` only,
-///             not for a standard plugin.
+///             point of view. But it is intended for the "XPMP Remote Client" only,
+///             not for a standard plugin.\n
+///             Network messages are packed for space efficiency, but also to avoid
+///             layout differences between compilers/platforms.
+///             However, manual layout tries to do reasonable alignment of numeric values
+///             and 8-byte-alignment of each structure, so that arrays of structures
+///             also align well.
 /// @author     Birger Hoppe
 /// @copyright  (c) 2020 Birger Hoppe
 /// @copyright  Permission is hereby granted, free of charge, to any person obtaining a
@@ -26,6 +31,7 @@
 
 #include <cstdint>
 #include <cmath>
+#include <algorithm>
 
 namespace XPMP2 {
 
@@ -44,7 +50,8 @@ std::uint16_t PJWHash16 (const char *s);
 /// @details This approach is used by the remote client to safe network bandwith.
 ///          If an exact match with `pkgHash` _and_ `shortID` is not found,
 ///          then a model matching the short id alone is returned if available.
-CSLModel* CSLModelByPkgShortId (std::uint16_t _pkgHash, const std::string& _shortId);
+CSLModel* CSLModelByPkgShortId (std::uint16_t _pkgHash,
+                                const char* _shortId, size_t _shortIdMaxSize);
 
 //
 // MARK: Network Data Definitions
@@ -72,12 +79,27 @@ enum RemoteMsgTy : std::uint8_t {
     RMT_MSG_AC_REMOVE,              ///< aircraft is removed
 };
 
+/// Definition for how to map dataRef values to (u)int8, ie. to an integer range of 8 bits
+struct RemoteDataRefPackTy {
+    float       minV  = 0.0f;       ///< minimum transferred value
+    float       range = 0.0f;       ///< range of transferred value = maxV - minV
+
+    /// Constructor sets minimum value and range
+    RemoteDataRefPackTy (float _min, float _max) : minV(_min), range(_max - _min) { assert(range != 0.0f); }
+    
+    /// pack afloat value to integer
+    std::uint8_t pack (float f) const   { return std::uint8_t(std::clamp<float>(f-minV,0.0f,range) * UINT8_MAX / range); }
+    /// unpack an integer value to float
+    float unpack (std::uint8_t i) const { return minV + range*i; }
+};
+
 /// Message header, identical for all message types
 struct RemoteMsgBaseTy {
     RemoteMsgTy  msgTy  : 4;        ///< message type
     std::uint8_t msgVer : 4;        ///< message version
-    std::uint8_t filler    = 0;     ///< yet unsed
+    std::uint8_t filler1   = 0;     ///< yet unsed
     std::uint16_t pluginId = 0;     ///< lower 16 bit of the sending plugin's id
+    std::uint32_t filler2 = 0;      ///< yet unused, fills up to size 8
     /// Constructor just sets the values
     RemoteMsgBaseTy (RemoteMsgTy _ty, std::uint8_t _ver);
 } PACKED;
@@ -89,16 +111,16 @@ struct RemoteMsgBeaconTy : public RemoteMsgBaseTy {
     // don't need additional data fields
     /// Constructor sets appropriate message type
     RemoteMsgBeaconTy();
-};
+} PACKED;
 
 /// Setttings message version number
 constexpr std::uint8_t RMT_VER_SETTINGS = 0;
 /// Settings message, identifying a sending plugin, regularly providing its settings
 struct RemoteMsgSettingsTy : public RemoteMsgBaseTy {
-    char            name[12];           ///< plugin's name, not necessarily zero-terminated if using full 12 chars
+    char            name[16];           ///< plugin's name, not necessarily zero-terminated if using full 12 chars
+    float           maxLabelDist;       ///< Maximum distance for drawing labels? [m]
     char            defaultIcao[4];     ///< Default ICAO aircraft type designator if no match can be found
     char            carIcaoType[4];     ///< Ground vehicle type identifier
-    float           maxLabelDist;       ///< Maximum distance for drawing labels? [m]
     std::uint8_t logLvl             :3; ///< logging level
     bool bLogMdlMatch               :1; ///< Debug model matching?
     bool bObjReplDataRefs           :1; ///< Replace dataRefs in `.obj` files on load?
@@ -107,6 +129,7 @@ struct RemoteMsgSettingsTy : public RemoteMsgBaseTy {
     bool bMapEnabled                :1; ///< Do we feed X-Plane's maps with our aircraft positions?
     bool bMapLabels                 :1; ///< Do we show labels with the aircraft icons?
     bool bHaveTCASControl           :1; ///< Do we have AI/TCAS control?
+    std::uint16_t filler;               ///< yet unused, fills size up for a multiple of 8
     
     /// Constructor sets most values to zero
     RemoteMsgSettingsTy ();
@@ -121,18 +144,20 @@ struct RemoteAcDetailTy {
     char            icaoOp[4];          ///< icao airline code
     char            sShortId[20];       ///< CSL model's short id
     std::uint16_t   pkgHash;            ///< hash value of package name
-    char            label[24];          ///< label
+    bool            bValid : 1;         ///< is this object valid? (Will be reset in case of exceptions)
+    bool            bVisible : 1;       ///< Shall this plane be drawn at the moment?
+    char            label[23];          ///< label
+    std::uint8_t    modeS_id[3];        ///< plane's unique id at the sender side (might differ remotely in case of duplicates)
     std::uint8_t    labelCol[3];        ///< label color (RGB)
-    std::uint32_t   modeS_id : 24;      ///< plane's unique id at the sender side (might differ remotely in case of duplicates)
-    // ^ the above has 64 bytes, so that the doubles start on an 8-byte bounday:
+    float           alt_ft;             ///< [ft] current altitude
+    // ^ the above has 64 bytes, so that these doubles start on an 8-byte bounday:
     double          lat;                ///< latitude
     double          lon;                ///< longitude
-    float           alt_ft;             ///< [ft] current altitude
     std::int16_t    pitch;              ///< [0.01°] pitch/100
     std::uint16_t   heading;            ///< [0.01°] heading/100
     std::int16_t    roll;               ///< [0.01°] roll/100
     std::int16_t    aiPrio;             ///< priority for display in limited TCAS target slots, `-1` indicates "no TCAS display"
-    
+
     // TODO: bVisible, bInvalid
     // TODO: Animation values...converted to uint8 I'd say
 
@@ -145,6 +170,9 @@ struct RemoteAcDetailTy {
     void CopyFrom (const Aircraft& _ac);
     
     // Getters/Setters for the packed members
+    void SetModeSId (XPMPPlaneID _id);          ///< set modeS_id
+    XPMPPlaneID GetModeSId () const;            ///< retrieve modeS_id
+
     void SetLabelCol (const float _col[4]);     ///< set the label color from a float array (4th number, alpha, is always considered 1.0)
     void GetLabelCol (float _col[4]) const;     ///< writes color out into a float array
     
@@ -184,10 +212,12 @@ struct RemoteMsgAcRemoveTy : public RemoteMsgBaseTy {
 #pragma pack(pop)                               // reseting packing
 #endif
 
-// A few static validations just to make sure that no compiler fiddles with my network message layout
-static_assert(sizeof(RemoteMsgBaseTy)       ==  4, "RemoteMsgBaseTy doesn't have expected size");
-static_assert(sizeof(RemoteMsgSettingsTy)   == 30, "RemoteMsgSettingsTy doesn't have expected size");
-static_assert(sizeof(RemoteMsgAcDetailTy)   == 92, "RemoteMsgAcDetailTy doesn't have expected size");
+// A few static validations just to make sure that no compiler fiddles with my network message layout.
+// Note that each individual structure size is a multiple of 8 for good array alignment.
+static_assert(sizeof(RemoteMsgBaseTy)       ==   8, "RemoteMsgBaseTy doesn't have expected size");
+static_assert(sizeof(RemoteMsgSettingsTy)   ==  40, "RemoteMsgSettingsTy doesn't have expected size");
+static_assert(sizeof(RemoteAcDetailTy)      ==  88, "RemoteAcDetailTy doesn't have expected size");
+static_assert(sizeof(RemoteMsgAcDetailTy)   ==  96, "RemoteMsgAcDetailTy doesn't have expected size");
 
 //
 // MARK: Miscellaneous

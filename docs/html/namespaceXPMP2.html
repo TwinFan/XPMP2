@@ -91,6 +91,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteCBFctTy.html">RemoteCBFctTy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function prototypes for callback functions to handle the received messages.  <a href="structXPMP2_1_1RemoteCBFctTy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteDataRefPackTy.html">RemoteDataRefPackTy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Definition for how to map dataRef values to (u)int8, ie. to an integer range of 8 bits.  <a href="structXPMP2_1_1RemoteDataRefPackTy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteMsgAcDetailTy.html">RemoteMsgAcDetailTy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C detail message, has an inherited header plus an array of <a class="el" href="structXPMP2_1_1RemoteAcDetailTy.html" title="A/C details, packed into an array message.">XPMP2::RemoteAcDetailTy</a> elements.  <a href="structXPMP2_1_1RemoteMsgAcDetailTy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -314,9 +317,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a93dd489d301924f0d1ff5cdf98bc03ae"><td class="memItemLeft" align="right" valign="top">std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a93dd489d301924f0d1ff5cdf98bc03ae">PJWHash16</a> (const char *s)</td></tr>
 <tr class="memdesc:a93dd489d301924f0d1ff5cdf98bc03ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Produces a reproducible(!) hash value for strings.  <a href="namespaceXPMP2.html#a93dd489d301924f0d1ff5cdf98bc03ae">More...</a><br /></td></tr>
 <tr class="separator:a93dd489d301924f0d1ff5cdf98bc03ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75dcb0c50b67fbdc330ef140a3de8291"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a75dcb0c50b67fbdc330ef140a3de8291">CSLModelByPkgShortId</a> (std::uint16_t _pkgHash, const std::string &amp;_shortId)</td></tr>
-<tr class="memdesc:a75dcb0c50b67fbdc330ef140a3de8291"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find a model by package name hash and short id.  <a href="namespaceXPMP2.html#a75dcb0c50b67fbdc330ef140a3de8291">More...</a><br /></td></tr>
-<tr class="separator:a75dcb0c50b67fbdc330ef140a3de8291"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae3b70587d1931c467cb67b8e89619ee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aae3b70587d1931c467cb67b8e89619ee">CSLModelByPkgShortId</a> (std::uint16_t _pkgHash, const char *_shortId, size_t _shortIdMaxSize)</td></tr>
+<tr class="memdesc:aae3b70587d1931c467cb67b8e89619ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find a model by package name hash and short id.  <a href="namespaceXPMP2.html#aae3b70587d1931c467cb67b8e89619ee">More...</a><br /></td></tr>
+<tr class="separator:aae3b70587d1931c467cb67b8e89619ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b834d198234c7dc1d421b34ac4a8f60"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceXPMP2.html#a79adca5f1eba1fbafa63e30a2c9af8e7">RemoteStatusTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a2b834d198234c7dc1d421b34ac4a8f60">RemoteGetStatus</a> ()</td></tr>
 <tr class="memdesc:a2b834d198234c7dc1d421b34ac4a8f60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the current Remote status.  <a href="namespaceXPMP2.html#a2b834d198234c7dc1d421b34ac4a8f60">More...</a><br /></td></tr>
 <tr class="separator:a2b834d198234c7dc1d421b34ac4a8f60"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -504,9 +507,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a04c9d1720c1193b9557808639af7b6ba"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a04c9d1720c1193b9557808639af7b6ba">RmtSendContinue</a> ()</td></tr>
 <tr class="memdesc:a04c9d1720c1193b9557808639af7b6ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conditions for continued send operation.  <a href="namespaceXPMP2.html#a04c9d1720c1193b9557808639af7b6ba">More...</a><br /></td></tr>
 <tr class="separator:a04c9d1720c1193b9557808639af7b6ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b84dcc42125258923529d082a89b864"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a5b84dcc42125258923529d082a89b864">RmtSendProcessData</a> ()</td></tr>
-<tr class="memdesc:a5b84dcc42125258923529d082a89b864"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process the data passed down to us in the queue.  <a href="namespaceXPMP2.html#a5b84dcc42125258923529d082a89b864">More...</a><br /></td></tr>
-<tr class="separator:a5b84dcc42125258923529d082a89b864"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a225c87e31801e3206fe4627b5348a7cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a225c87e31801e3206fe4627b5348a7cb">RmtSendProcessQueue</a> ()</td></tr>
+<tr class="memdesc:a225c87e31801e3206fe4627b5348a7cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process the data passed down to us in the queue.  <a href="namespaceXPMP2.html#a225c87e31801e3206fe4627b5348a7cb">More...</a><br /></td></tr>
+<tr class="separator:a225c87e31801e3206fe4627b5348a7cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae16cf9e633441e00287bfb109846472a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ae16cf9e633441e00287bfb109846472a">RmtSendSettings</a> ()</td></tr>
 <tr class="memdesc:ae16cf9e633441e00287bfb109846472a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send our settings.  <a href="namespaceXPMP2.html#ae16cf9e633441e00287bfb109846472a">More...</a><br /></td></tr>
 <tr class="separator:ae16cf9e633441e00287bfb109846472a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -608,18 +611,18 @@ Functions</h2></td></tr>
 <tr class="memitem:a13880be9d3ac7d5c89c2744b3d8421b5"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a13880be9d3ac7d5c89c2744b3d8421b5">LogGetString</a> (const char *szFile, int ln, const char *szFunc, <a class="el" href="namespaceXPMP2.html#a0f7e2680dc39872f8204f510de0d8429">logLevelTy</a> lvl, const char *szMsg, va_list args)</td></tr>
 <tr class="memdesc:a13880be9d3ac7d5c89c2744b3d8421b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ptr to static buffer filled with formatted log string.  <a href="namespaceXPMP2.html#a13880be9d3ac7d5c89c2744b3d8421b5">More...</a><br /></td></tr>
 <tr class="separator:a13880be9d3ac7d5c89c2744b3d8421b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a280126bec1bacabc7e641490838051e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a280126bec1bacabc7e641490838051e7">LogMsg</a> (const char *szFile, int ln, const char *szFunc, <a class="el" href="namespaceXPMP2.html#a0f7e2680dc39872f8204f510de0d8429">logLevelTy</a> lvl, const char *szMsg,...) <a class="el" href="Utilities_8h.html#acd75f53ca68709be80b85a25af798a36">XPMP2_FMTARGS</a>(5)</td></tr>
+<tr class="memitem:a280126bec1bacabc7e641490838051e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a280126bec1bacabc7e641490838051e7">LogMsg</a> (const char *szFile, int ln, const char *szFunc, <a class="el" href="namespaceXPMP2.html#a0f7e2680dc39872f8204f510de0d8429">logLevelTy</a> lvl, const char *szMsg,...) <a class="el" href="src_2Utilities_8h.html#acd75f53ca68709be80b85a25af798a36">XPMP2_FMTARGS</a>(5)</td></tr>
 <tr class="memdesc:a280126bec1bacabc7e641490838051e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log Text to log file.  <a href="namespaceXPMP2.html#a280126bec1bacabc7e641490838051e7">More...</a><br /></td></tr>
 <tr class="separator:a280126bec1bacabc7e641490838051e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c489fe2e8cd7b90326998fca3c62985"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a8c489fe2e8cd7b90326998fca3c62985">PrefsFuncFloatDefault</a> (const char *, const char *, float _default)</td></tr>
 <tr class="separator:a8c489fe2e8cd7b90326998fca3c62985"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab576ba7b8cb93346aa211652a931e361"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ab576ba7b8cb93346aa211652a931e361">rtrim</a> (std::string &amp;s, const char *t=<a class="el" href="Utilities_8h.html#abfa0d183e035eb9705b5faec98294d0f">WHITESPACE</a>)</td></tr>
+<tr class="memitem:ab576ba7b8cb93346aa211652a931e361"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ab576ba7b8cb93346aa211652a931e361">rtrim</a> (std::string &amp;s, const char *t=<a class="el" href="src_2Utilities_8h.html#abfa0d183e035eb9705b5faec98294d0f">WHITESPACE</a>)</td></tr>
 <tr class="memdesc:ab576ba7b8cb93346aa211652a931e361"><td class="mdescLeft">&#160;</td><td class="mdescRight">trimming of string (from right)  <a href="namespaceXPMP2.html#ab576ba7b8cb93346aa211652a931e361">More...</a><br /></td></tr>
 <tr class="separator:ab576ba7b8cb93346aa211652a931e361"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32ace40d4b80d9b46f400a0772280537"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a32ace40d4b80d9b46f400a0772280537">ltrim</a> (std::string &amp;s, const char *t=<a class="el" href="Utilities_8h.html#abfa0d183e035eb9705b5faec98294d0f">WHITESPACE</a>)</td></tr>
+<tr class="memitem:a32ace40d4b80d9b46f400a0772280537"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a32ace40d4b80d9b46f400a0772280537">ltrim</a> (std::string &amp;s, const char *t=<a class="el" href="src_2Utilities_8h.html#abfa0d183e035eb9705b5faec98294d0f">WHITESPACE</a>)</td></tr>
 <tr class="memdesc:a32ace40d4b80d9b46f400a0772280537"><td class="mdescLeft">&#160;</td><td class="mdescRight">trimming of string (from left)  <a href="namespaceXPMP2.html#a32ace40d4b80d9b46f400a0772280537">More...</a><br /></td></tr>
 <tr class="separator:a32ace40d4b80d9b46f400a0772280537"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa1b475bc49c7524b8a3ec26b52aed6f5"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aa1b475bc49c7524b8a3ec26b52aed6f5">trim</a> (std::string &amp;s, const char *t=<a class="el" href="Utilities_8h.html#abfa0d183e035eb9705b5faec98294d0f">WHITESPACE</a>)</td></tr>
+<tr class="memitem:aa1b475bc49c7524b8a3ec26b52aed6f5"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aa1b475bc49c7524b8a3ec26b52aed6f5">trim</a> (std::string &amp;s, const char *t=<a class="el" href="src_2Utilities_8h.html#abfa0d183e035eb9705b5faec98294d0f">WHITESPACE</a>)</td></tr>
 <tr class="memdesc:aa1b475bc49c7524b8a3ec26b52aed6f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">trimming of string (from both ends)  <a href="namespaceXPMP2.html#aa1b475bc49c7524b8a3ec26b52aed6f5">More...</a><br /></td></tr>
 <tr class="separator:aa1b475bc49c7524b8a3ec26b52aed6f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0dde56f3584558b8f103c27cc375e052"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
@@ -754,6 +757,9 @@ Variables</h2></td></tr>
 <tr class="separator:afb629d885c8cea43378488025fdde921"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af0d73d5759c5441b1ea934c4db33f8ee"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structXPMP2_1_1Doc8643.html">Doc8643</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#af0d73d5759c5441b1ea934c4db33f8ee">DOC8643_EMPTY</a></td></tr>
 <tr class="separator:af0d73d5759c5441b1ea934c4db33f8ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a716a121e87d84fd453e59fbcfd96dee4"><td class="memItemLeft" align="right" valign="top">const std::array&lt; <a class="el" href="structXPMP2_1_1RemoteDataRefPackTy.html">RemoteDataRefPackTy</a>, <a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa3efd8e40f4308bc421015776084f580b">V_COUNT</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a716a121e87d84fd453e59fbcfd96dee4">REMOTE_DR_DEF</a></td></tr>
+<tr class="memdesc:a716a121e87d84fd453e59fbcfd96dee4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines per dataRef the value range we support transferring to the remote client.  <a href="namespaceXPMP2.html#a716a121e87d84fd453e59fbcfd96dee4">More...</a><br /></td></tr>
+<tr class="separator:a716a121e87d84fd453e59fbcfd96dee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfb3536c59ea62eb3f6f7ddb0f0b860e"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#adfb3536c59ea62eb3f6f7ddb0f0b860e">REMOTE_RECV_BEACON_INTVL</a> = 15</td></tr>
 <tr class="memdesc:adfb3536c59ea62eb3f6f7ddb0f0b860e"><td class="mdescLeft">&#160;</td><td class="mdescRight">How often to send an Interest Beacon? [s].  <a href="namespaceXPMP2.html#adfb3536c59ea62eb3f6f7ddb0f0b860e">More...</a><br /></td></tr>
 <tr class="separator:adfb3536c59ea62eb3f6f7ddb0f0b860e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2320,8 +2326,8 @@ atan2 returns 0° when pointing along the x axis, ie. east, when we would expect
 
 </div>
 </div>
-<a id="a75dcb0c50b67fbdc330ef140a3de8291"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a75dcb0c50b67fbdc330ef140a3de8291">&#9670;&nbsp;</a></span>CSLModelByPkgShortId()</h2>
+<a id="aae3b70587d1931c467cb67b8e89619ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae3b70587d1931c467cb67b8e89619ee">&#9670;&nbsp;</a></span>CSLModelByPkgShortId()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2335,8 +2341,14 @@ atan2 returns 0° when pointing along the x axis, ie. east, when we would expect
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>_shortId</em>&#160;</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>_shortId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>_shortIdMaxSize</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -2348,7 +2360,7 @@ atan2 returns 0° when pointing along the x axis, ie. east, when we would expect
 
 <p>Find a model by package name hash and short id. </p>
 <p>This approach is used by the remote client to safe network bandwith. If an exact match with <code>pkgHash</code> <em>and</em> <code>shortID</code> is not found, then a model matching the short id alone is returned if available.</p>
-<dl class="section note"><dt>Note</dt><dd>This is directly used by XPMP2-Remote client </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This is directly used by XPMP2-Remote client with a potentially limited short id string </dd></dl>
 
 </div>
 </div>
@@ -3233,7 +3245,7 @@ template&lt;class IteratorT &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>t</em> = <code><a class="el" href="Utilities_8h.html#abfa0d183e035eb9705b5faec98294d0f">WHITESPACE</a></code>&#160;</td>
+          <td class="paramname"><em>t</em> = <code><a class="el" href="src_2Utilities_8h.html#abfa0d183e035eb9705b5faec98294d0f">WHITESPACE</a></code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -4138,14 +4150,14 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a id="a5b84dcc42125258923529d082a89b864"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5b84dcc42125258923529d082a89b864">&#9670;&nbsp;</a></span>RmtSendProcessData()</h2>
+<a id="a225c87e31801e3206fe4627b5348a7cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a225c87e31801e3206fe4627b5348a7cb">&#9670;&nbsp;</a></span>RmtSendProcessQueue()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void XPMP2::RmtSendProcessData </td>
+          <td class="memname">void XPMP2::RmtSendProcessQueue </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -4234,7 +4246,7 @@ template&lt;class T &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>t</em> = <code><a class="el" href="Utilities_8h.html#abfa0d183e035eb9705b5faec98294d0f">WHITESPACE</a></code>&#160;</td>
+          <td class="paramname"><em>t</em> = <code><a class="el" href="src_2Utilities_8h.html#abfa0d183e035eb9705b5faec98294d0f">WHITESPACE</a></code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -4541,7 +4553,7 @@ template&lt;class T &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>t</em> = <code><a class="el" href="Utilities_8h.html#abfa0d183e035eb9705b5faec98294d0f">WHITESPACE</a></code>&#160;</td>
+          <td class="paramname"><em>t</em> = <code><a class="el" href="src_2Utilities_8h.html#abfa0d183e035eb9705b5faec98294d0f">WHITESPACE</a></code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -5466,6 +5478,22 @@ template&lt;class T &gt; </div>
 </div><div class="memdoc">
 
 <p>Pi. </p>
+
+</div>
+</div>
+<a id="a716a121e87d84fd453e59fbcfd96dee4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a716a121e87d84fd453e59fbcfd96dee4">&#9670;&nbsp;</a></span>REMOTE_DR_DEF</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::array&lt;<a class="el" href="structXPMP2_1_1RemoteDataRefPackTy.html">RemoteDataRefPackTy</a>,<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa3efd8e40f4308bc421015776084f580b">V_COUNT</a>&gt; XPMP2::REMOTE_DR_DEF</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Defines per dataRef the value range we support transferring to the remote client. </p>
 
 </div>
 </div>

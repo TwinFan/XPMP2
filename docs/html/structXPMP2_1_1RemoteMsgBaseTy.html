@@ -85,11 +85,14 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a87ad6caf93b516a125aeb7504d5b6efb"><td class="memItemLeft" align="right" valign="top">std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteMsgBaseTy.html#a87ad6caf93b516a125aeb7504d5b6efb">msgVer</a>: 4</td></tr>
 <tr class="memdesc:a87ad6caf93b516a125aeb7504d5b6efb"><td class="mdescLeft">&#160;</td><td class="mdescRight">message version  <a href="structXPMP2_1_1RemoteMsgBaseTy.html#a87ad6caf93b516a125aeb7504d5b6efb">More...</a><br /></td></tr>
 <tr class="separator:a87ad6caf93b516a125aeb7504d5b6efb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a18ea7ab326222428d81b6ec14645edc4"><td class="memItemLeft" align="right" valign="top">std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteMsgBaseTy.html#a18ea7ab326222428d81b6ec14645edc4">filler</a> = 0</td></tr>
-<tr class="memdesc:a18ea7ab326222428d81b6ec14645edc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">yet unsed  <a href="structXPMP2_1_1RemoteMsgBaseTy.html#a18ea7ab326222428d81b6ec14645edc4">More...</a><br /></td></tr>
-<tr class="separator:a18ea7ab326222428d81b6ec14645edc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04982fe10a6276bece34b756f3237573"><td class="memItemLeft" align="right" valign="top">std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteMsgBaseTy.html#a04982fe10a6276bece34b756f3237573">filler1</a> = 0</td></tr>
+<tr class="memdesc:a04982fe10a6276bece34b756f3237573"><td class="mdescLeft">&#160;</td><td class="mdescRight">yet unsed  <a href="structXPMP2_1_1RemoteMsgBaseTy.html#a04982fe10a6276bece34b756f3237573">More...</a><br /></td></tr>
+<tr class="separator:a04982fe10a6276bece34b756f3237573"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3854d380944fa5e31afcf88b2546b20a"><td class="memItemLeft" align="right" valign="top">std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteMsgBaseTy.html#a3854d380944fa5e31afcf88b2546b20a">pluginId</a> = 0</td></tr>
+<tr class="memdesc:a3854d380944fa5e31afcf88b2546b20a"><td class="mdescLeft">&#160;</td><td class="mdescRight">lower 16 bit of the sending plugin's id  <a href="structXPMP2_1_1RemoteMsgBaseTy.html#a3854d380944fa5e31afcf88b2546b20a">More...</a><br /></td></tr>
 <tr class="separator:a3854d380944fa5e31afcf88b2546b20a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08f1810e47c366da599e3df28b25949c"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteMsgBaseTy.html#a08f1810e47c366da599e3df28b25949c">filler2</a> = 0</td></tr>
+<tr class="separator:a08f1810e47c366da599e3df28b25949c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Message header, identical for all message types. </p>
@@ -125,19 +128,34 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a18ea7ab326222428d81b6ec14645edc4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a18ea7ab326222428d81b6ec14645edc4">&#9670;&nbsp;</a></span>filler</h2>
+<a id="a04982fe10a6276bece34b756f3237573"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04982fe10a6276bece34b756f3237573">&#9670;&nbsp;</a></span>filler1</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::uint8_t XPMP2::RemoteMsgBaseTy::filler = 0</td>
+          <td class="memname">std::uint8_t XPMP2::RemoteMsgBaseTy::filler1 = 0</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>yet unsed </p>
+
+</div>
+</div>
+<a id="a08f1810e47c366da599e3df28b25949c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08f1810e47c366da599e3df28b25949c">&#9670;&nbsp;</a></span>filler2</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint32_t XPMP2::RemoteMsgBaseTy::filler2 = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>yet unused, fills up to size 8 </p>
 
 </div>
 </div>
@@ -184,6 +202,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
 <p>lower 16 bit of the sending plugin's id </p>
 
 </div>

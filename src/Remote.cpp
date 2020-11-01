@@ -29,6 +29,57 @@
 namespace XPMP2 {
 
 //
+// MARK: dataRefs packing
+//
+
+/// Defines per dataRef the value range we support transferring to the remote client
+const std::array<RemoteDataRefPackTy,V_COUNT> REMOTE_DR_DEF = { {
+    {   0.0f,     1.0f},        // V_CONTROLS_GEAR_RATIO = 0,                `libxplanemp/controls/gear_ratio` and \n`sim/cockpit2/tcas/targets/position/gear_deploy`
+    { -90.0f,    90.0f},        // V_CONTROLS_NWS_RATIO,                     `libxplanemp/controls/nws_ratio`, the nose wheel angle, actually in degrees
+    {   0.0f,     1.0f},        // V_CONTROLS_FLAP_RATIO,                    `libxplanemp/controls/flap_ratio` and \n`sim/cockpit2/tcas/targets/position/flap_ratio` and `...flap_ratio2`
+    {   0.0f,     1.0f},        // V_CONTROLS_SPOILER_RATIO,                 `libxplanemp/controls/spoiler_ratio`
+    {   0.0f,     1.0f},        // V_CONTROLS_SPEED_BRAKE_RATIO,             `libxplanemp/controls/speed_brake_ratio` and \n`sim/cockpit2/tcas/targets/position/speedbrake_ratio`
+    {   0.0f,     1.0f},        // V_CONTROLS_SLAT_RATIO,                    `libxplanemp/controls/slat_ratio` and \n`sim/cockpit2/tcas/targets/position/slat_ratio`
+    {   0.0f,     1.0f},        // V_CONTROLS_WING_SWEEP_RATIO,              `libxplanemp/controls/wing_sweep_ratio` and \n`sim/cockpit2/tcas/targets/position/wing_sweep`
+    {   0.0f,     1.0f},        // V_CONTROLS_THRUST_RATIO,                  `libxplanemp/controls/thrust_ratio` and \n`sim/cockpit2/tcas/targets/position/throttle`
+    {   0.0f,     1.0f},        // V_CONTROLS_YOKE_PITCH_RATIO,              `libxplanemp/controls/yoke_pitch_ratio` and \n`sim/cockpit2/tcas/targets/position/yolk_pitch`
+    {   0.0f,     1.0f},        // V_CONTROLS_YOKE_HEADING_RATIO,            `libxplanemp/controls/yoke_heading_ratio` and \n`sim/cockpit2/tcas/targets/position/yolk_yaw`
+    {   0.0f,     1.0f},        // V_CONTROLS_YOKE_ROLL_RATIO,               `libxplanemp/controls/yoke_roll_ratio` and \n`sim/cockpit2/tcas/targets/position/yolk_roll`
+    {   0.0f,     1.0f},        // V_CONTROLS_THRUST_REVERS,                 `libxplanemp/controls/thrust_revers`
+    {   0.0f,     1.0f},        // V_CONTROLS_TAXI_LITES_ON,                 `libxplanemp/controls/taxi_lites_on` and \n`sim/cockpit2/tcas/targets/position/lights`
+    {   0.0f,     1.0f},        // V_CONTROLS_LANDING_LITES_ON,              `libxplanemp/controls/landing_lites_on` and \n`sim/cockpit2/tcas/targets/position/lights`
+    {   0.0f,     1.0f},        // V_CONTROLS_BEACON_LITES_ON,               `libxplanemp/controls/beacon_lites_on` and \n`sim/cockpit2/tcas/targets/position/lights`
+    {   0.0f,     1.0f},        // V_CONTROLS_STROBE_LITES_ON,               `libxplanemp/controls/strobe_lites_on` and \n`sim/cockpit2/tcas/targets/position/lights`
+    {   0.0f,     1.0f},        // V_CONTROLS_NAV_LITES_ON,                  `libxplanemp/controls/nav_lites_on` and \n`sim/cockpit2/tcas/targets/position/lights`
+    {   0.0f,    10.0f},        // V_GEAR_NOSE_GEAR_DEFLECTION_MTR,          `libxplanemp/gear/nose_gear_deflection_mtr`
+    {   0.0f,    10.0f},        // V_GEAR_TIRE_VERTICAL_DEFLECTION_MTR,      `libxplanemp/gear/tire_vertical_deflection_mtr`
+    {   0.0f,   360.0f},        // V_GEAR_TIRE_ROTATION_ANGLE_DEG,           `libxplanemp/gear/tire_rotation_angle_deg`
+    {   0.0f,  1000.0f},        // V_GEAR_TIRE_ROTATION_SPEED_RPM,           `libxplanemp/gear/tire_rotation_speed_rpm`
+    {   0.0f,   100.0f},        // V_GEAR_TIRE_ROTATION_SPEED_RAD_SEC,       `libxplanemp/gear/tire_rotation_speed_rad_sec`
+    {   0.0f,   360.0f},        // V_ENGINES_ENGINE_ROTATION_ANGLE_DEG,      `libxplanemp/engines/engine_rotation_angle_deg`
+    {   0.0f, 15000.0f},        // V_ENGINES_ENGINE_ROTATION_SPEED_RPM,      `libxplanemp/engines/engine_rotation_speed_rpm`
+    {   0.0f,  1500.0f},        // V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC,  `libxplanemp/engines/engine_rotation_speed_rad_sec`
+    {   0.0f,   260.0f},        // V_ENGINES_PROP_ROTATION_ANGLE_DEG,        `libxplanemp/engines/prop_rotation_angle_deg`
+    {   0.0f,  3000.0f},        // V_ENGINES_PROP_ROTATION_SPEED_RPM,        `libxplanemp/engines/prop_rotation_speed_rpm`
+    {   0.0f,   300.0f},        // V_ENGINES_PROP_ROTATION_SPEED_RAD_SEC,    `libxplanemp/engines/prop_rotation_speed_rad_sec`
+    {   0.0f,     1.0f},        // V_ENGINES_THRUST_REVERSER_DEPLOY_RATIO,   `libxplanemp/engines/thrust_reverser_deploy_ratio`
+    {   0.0f,   360.0f},        // V_ENGINES_ENGINE_ROTATION_ANGLE_DEG1,     `libxplanemp/engines/engine_rotation_angle_deg1`
+    {   0.0f,   360.0f},        // V_ENGINES_ENGINE_ROTATION_ANGLE_DEG2,     `libxplanemp/engines/engine_rotation_angle_deg2`
+    {   0.0f,   360.0f},        // V_ENGINES_ENGINE_ROTATION_ANGLE_DEG3,     `libxplanemp/engines/engine_rotation_angle_deg3`
+    {   0.0f,   360.0f},        // V_ENGINES_ENGINE_ROTATION_ANGLE_DEG4,     `libxplanemp/engines/engine_rotation_angle_deg4`
+    {   0.0f, 15000.0f},        // V_ENGINES_ENGINE_ROTATION_SPEED_RPM1,     `libxplanemp/engines/engine_rotation_speed_rpm1`
+    {   0.0f, 15000.0f},        // V_ENGINES_ENGINE_ROTATION_SPEED_RPM2,     `libxplanemp/engines/engine_rotation_speed_rpm2`
+    {   0.0f, 15000.0f},        // V_ENGINES_ENGINE_ROTATION_SPEED_RPM3,     `libxplanemp/engines/engine_rotation_speed_rpm3`
+    {   0.0f, 15000.0f},        // V_ENGINES_ENGINE_ROTATION_SPEED_RPM4,     `libxplanemp/engines/engine_rotation_speed_rpm4`
+    {   0.0f,  1500.0f},        // V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC1, `libxplanemp/engines/engine_rotation_speed_rad_sec1`
+    {   0.0f,  1500.0f},        // V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC2, `libxplanemp/engines/engine_rotation_speed_rad_sec2`
+    {   0.0f,  1500.0f},        // V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC3, `libxplanemp/engines/engine_rotation_speed_rad_sec3`
+    {   0.0f,  1500.0f},        // V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC4, `libxplanemp/engines/engine_rotation_speed_rad_sec4`
+    {   0.0f,     1.0f},        // V_MISC_TOUCH_DOWN,                        `libxplanemp/misc/touch_down`
+} };
+
+
+//
 // MARK: Helper Functions
 //
 
@@ -92,14 +143,20 @@ void RmtAcCacheTy::UpdateFrom (const Aircraft& ac)
 // MARK: Message Types
 //
 
+// --- RemoteMsgBaseTy ---
+
 RemoteMsgBaseTy::RemoteMsgBaseTy (RemoteMsgTy _ty, std::uint8_t _ver) :
 msgTy(_ty), msgVer(_ver),
 pluginId(std::uint8_t(glob.pluginId & 0xFFFF))
 {}
 
+// --- RemoteMsgBeaconTy ---
+
 RemoteMsgBeaconTy::RemoteMsgBeaconTy() :
 RemoteMsgBaseTy(RMT_MSG_INTEREST_BEACON, RMT_VER_BEACON)
 {}
+
+// --- RemoteMsgSettingsTy ---
 
 RemoteMsgSettingsTy::RemoteMsgSettingsTy () :
 RemoteMsgBaseTy(RMT_MSG_SETTINGS, RMT_VER_SETTINGS)
@@ -108,6 +165,8 @@ RemoteMsgBaseTy(RMT_MSG_SETTINGS, RMT_VER_SETTINGS)
     memset(reinterpret_cast<char*>(this) + sizeof(RemoteMsgBaseTy),0,sizeof(*this) - sizeof(RemoteMsgBaseTy));
     maxLabelDist = 0.0f;
 }
+
+// --- RemoteAcDetailTy ---
 
 // Default Constructor sets all to zero
 RemoteAcDetailTy::RemoteAcDetailTy ()
@@ -136,6 +195,8 @@ void RemoteAcDetailTy::CopyFrom (const Aircraft& _ac)
     strncpy(icaoOp,     _ac.acIcaoAirline.c_str(),              sizeof(icaoOp));
     strncpy(sShortId,   _ac.GetModel()->GetShortId().c_str(),   sizeof(sShortId));
     pkgHash = _ac.GetModel()->pkgHash;
+    bValid = _ac.IsValid();
+    bVisible = _ac.IsVisible();
     strncpy(label,      _ac.label.c_str(),                      sizeof(label));
     SetLabelCol(_ac.colLabel);
     SetModeSId(_ac.GetModeS_ID());
@@ -303,7 +364,7 @@ inline bool RmtSendContinue ()
 
 
 /// Process the data passed down to us in the queue
-void RmtSendProcessData ()
+void RmtSendProcessQueue ()
 {
     // Loop till forced to shut down or queue with data empty
     while (RmtSendContinue() && !gqueueRmtData.empty()) {
@@ -387,7 +448,7 @@ void RmtSendLoop ()
         
         // Is there any data that needs processing?
         if (RmtSendContinue() && !gqueueRmtData.empty())
-            RmtSendProcessData();
+            RmtSendProcessQueue();
         
         // Wait for a wake-up by the main thread or for a time we need to send settings next
         if (RmtSendContinue()) {

@@ -1,9 +1,9 @@
 /// @file       XPMPRemote.h
 /// @brief      Semi-public remote network functionality for master/client operations
 /// @details    Technically, this is public functionality from a library
-///             point of view. But it is intended for `XPMPRemoteClient` only,
+///             point of view. But it is intended for the "XPMP Remote Client" only,
 ///             not for a standard plugin.\n
-///             Network message are packed for space efficiency, but also to avoid
+///             Network messages are packed for space efficiency, but also to avoid
 ///             layout differences between compilers/platforms.
 ///             However, manual layout tries to do reasonable alignment of numeric values
 ///             and 8-byte-alignment of each structure, so that arrays of structures
@@ -31,6 +31,7 @@
 
 #include <cstdint>
 #include <cmath>
+#include <algorithm>
 
 namespace XPMP2 {
 
@@ -76,6 +77,20 @@ enum RemoteMsgTy : std::uint8_t {
     RMT_MSG_AC_DIFF,                ///< aircraft differences only
     RMT_MSG_AC_ANIM,                ///< aircraft animation values (dataRef values) only
     RMT_MSG_AC_REMOVE,              ///< aircraft is removed
+};
+
+/// Definition for how to map dataRef values to (u)int8, ie. to an integer range of 8 bits
+struct RemoteDataRefPackTy {
+    float       minV  = 0.0f;       ///< minimum transferred value
+    float       range = 0.0f;       ///< range of transferred value = maxV - minV
+
+    /// Constructor sets minimum value and range
+    RemoteDataRefPackTy (float _min, float _max) : minV(_min), range(_max - _min) { assert(range != 0.0f); }
+    
+    /// pack afloat value to integer
+    std::uint8_t pack (float f) const   { return std::uint8_t(std::clamp<float>(f-minV,0.0f,range) * UINT8_MAX / range); }
+    /// unpack an integer value to float
+    float unpack (std::uint8_t i) const { return minV + range*i; }
 };
 
 /// Message header, identical for all message types

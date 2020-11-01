@@ -92,6 +92,11 @@ void RemoteAC::Update (const XPMP2::RemoteAcDetailTy& _acDetails)
     drawInfo.roll       = _acDetails.GetRoll();
     aiPrio              = _acDetails.aiPrio;
     
+    // Validity and Visibility
+    SetVisible(_acDetails.bVisible);
+    if (!_acDetails.bValid)
+        SetInvalid();
+    
     
     // TODO: Animation dataRefs
 }

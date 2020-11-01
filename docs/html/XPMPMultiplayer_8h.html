@@ -1229,10 +1229,14 @@ This enum is only used with deprecated concepts (class <a class="el" href="class
 </div><div class="memdoc">
 
 <p>Add a user-defined dataRef to the list of dataRefs supported by every plane. </p>
-<p>All planes created by <a class="el" href="namespaceXPMP2.html">XPMP2</a> define the same set of dataRefs. See <a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266f" title="The dataRefs provided by XPMP2 to the CSL models.">XPMP2::DR_VALS</a> for the definitions that come pre-defined with <a class="el" href="namespaceXPMP2.html">XPMP2</a>. Here you can add more dataRefs that you want to set in your <a class="el" href="classXPMP2_1_1Aircraft.html#a021df5cf849d0bfc7468b84d2ba731e6" title="Called right before updating the aircraft&#39;s placement in the world.">XPMP2::Aircraft::UpdatePosition()</a> implementation. </p><dl class="section return"><dt>Returns</dt><dd>The functions returns the array index you need to use in the <a class="el" href="classXPMP2_1_1Aircraft.html#a8c2ccee83b592cd2a7064a380c660c5b" title="actual dataRef values to be provided to the CSL model">XPMP2::Aircraft::v</a> array to provide the actual value. Or <code>0</code> when the function was called while planes are active. </dd></dl>
+<p>All planes created by <a class="el" href="namespaceXPMP2.html">XPMP2</a> define the same set of dataRefs. See <a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266f" title="The dataRefs provided by XPMP2 to the CSL models.">XPMP2::DR_VALS</a> for the definitions that come pre-defined with <a class="el" href="namespaceXPMP2.html">XPMP2</a>. Here you can add more dataRefs that you want to set in your <a class="el" href="classXPMP2_1_1Aircraft.html#a021df5cf849d0bfc7468b84d2ba731e6" title="Called right before updating the aircraft&#39;s placement in the world.">XPMP2::Aircraft::UpdatePosition()</a> implementation. </p><dl class="section return"><dt>Returns</dt><dd>The functions returns the array index you need to use in the <a class="el" href="classXPMP2_1_1Aircraft.html#a8c2ccee83b592cd2a7064a380c660c5b" title="actual dataRef values to be provided to the CSL model">XPMP2::Aircraft::v</a> array to provide the actual value. Or <code>0</code> when an error occured. </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>There is a duplication check: Adding an already existing dataRef, no matter if XPMP2-predefined or by the plugin will return the already existing index. </dd>
 <dd>
-Can only be called while no plane exists as it influence the size of important data arrays. Returns <code>0</code> if called while planes exist. </dd></dl>
+Can only be called while no plane exists as it influence the size of important data arrays. Returns <code>0</code> if called while planes exist. </dd>
+<dd>
+Can only be called from XP's main thread as XPLM SDK functions are called. Returns <code>0</code> if called from a worker thread. </dd>
+<dd>
+User-defined dataRefs are <em>not</em> transfered to the <a class="el" href="namespaceXPMP2.html">XPMP2</a> Remote Client for display on network-connected X-Plane instances. </dd></dl>
 
 </div>
 </div>
@@ -2458,7 +2462,7 @@ Can only be called while no plane exists as it influence the size of important d
 </div><div class="memdoc">
 
 <p>Overrides the plugin's name to be used in Log output. </p>
-<p>The same as providing a plugin name with <a class="el" href="XPMPMultiplayer_8h.html#a2dc9cac25ba883b352fd77c6cbd10460" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a>. If no name is provided, it defaults to the plugin's name as set in <a class="el" href="XPMP2-Sample_8cpp.html#a3d7458933ac3c2c1c404fe5bfa8a83f1">XPluginStart()</a>. </p><dl class="section note"><dt>Note</dt><dd>Replaces the compile-time macro <code>XPMP_CLIENT_LONGNAME</code> needed in <code>libxplanemp</code>. </dd></dl>
+<p>The same as providing a plugin name with <a class="el" href="XPMPMultiplayer_8h.html#a2dc9cac25ba883b352fd77c6cbd10460" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a>. If no name is provided, it defaults to the plugin's name as set in <a class="el" href="XPMP2-Remote_8cpp.html#a3d7458933ac3c2c1c404fe5bfa8a83f1">XPluginStart()</a>. </p><dl class="section note"><dt>Note</dt><dd>Replaces the compile-time macro <code>XPMP_CLIENT_LONGNAME</code> needed in <code>libxplanemp</code>. </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">inPluginName</td><td>Your plugin's name, used as map layer name, and as folder name under <code>Aircraft</code> </td></tr>

@@ -1,5 +1,6 @@
 /// @file       XPMP2-Remote.cpp
-/// @brief      XPMP2 Remote Client: Displays aircraft served from other XPMP2-based plugins in the network
+/// @brief      XPMP2 Remote Client: Displays aircraft served from other
+///             XPMP2-based plugins in the network
 /// @details    This plugin is intended to be used in a multi-computer simulator
 ///             setup, usually in the PCs used for external visuals.\n
 ///             The typical setup would be:

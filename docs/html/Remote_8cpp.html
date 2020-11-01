@@ -89,9 +89,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a04c9d1720c1193b9557808639af7b6ba"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a04c9d1720c1193b9557808639af7b6ba">XPMP2::RmtSendContinue</a> ()</td></tr>
 <tr class="memdesc:a04c9d1720c1193b9557808639af7b6ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conditions for continued send operation.  <a href="namespaceXPMP2.html#a04c9d1720c1193b9557808639af7b6ba">More...</a><br /></td></tr>
 <tr class="separator:a04c9d1720c1193b9557808639af7b6ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b84dcc42125258923529d082a89b864"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a5b84dcc42125258923529d082a89b864">XPMP2::RmtSendProcessData</a> ()</td></tr>
-<tr class="memdesc:a5b84dcc42125258923529d082a89b864"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process the data passed down to us in the queue.  <a href="namespaceXPMP2.html#a5b84dcc42125258923529d082a89b864">More...</a><br /></td></tr>
-<tr class="separator:a5b84dcc42125258923529d082a89b864"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a225c87e31801e3206fe4627b5348a7cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a225c87e31801e3206fe4627b5348a7cb">XPMP2::RmtSendProcessQueue</a> ()</td></tr>
+<tr class="memdesc:a225c87e31801e3206fe4627b5348a7cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process the data passed down to us in the queue.  <a href="namespaceXPMP2.html#a225c87e31801e3206fe4627b5348a7cb">More...</a><br /></td></tr>
+<tr class="separator:a225c87e31801e3206fe4627b5348a7cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae16cf9e633441e00287bfb109846472a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ae16cf9e633441e00287bfb109846472a">XPMP2::RmtSendSettings</a> ()</td></tr>
 <tr class="memdesc:ae16cf9e633441e00287bfb109846472a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send our settings.  <a href="namespaceXPMP2.html#ae16cf9e633441e00287bfb109846472a">More...</a><br /></td></tr>
 <tr class="separator:ae16cf9e633441e00287bfb109846472a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -157,6 +157,9 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
+<tr class="memitem:a716a121e87d84fd453e59fbcfd96dee4"><td class="memItemLeft" align="right" valign="top">const std::array&lt; RemoteDataRefPackTy, V_COUNT &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a716a121e87d84fd453e59fbcfd96dee4">XPMP2::REMOTE_DR_DEF</a></td></tr>
+<tr class="memdesc:a716a121e87d84fd453e59fbcfd96dee4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines per dataRef the value range we support transferring to the remote client.  <a href="namespaceXPMP2.html#a716a121e87d84fd453e59fbcfd96dee4">More...</a><br /></td></tr>
+<tr class="separator:a716a121e87d84fd453e59fbcfd96dee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfb3536c59ea62eb3f6f7ddb0f0b860e"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#adfb3536c59ea62eb3f6f7ddb0f0b860e">XPMP2::REMOTE_RECV_BEACON_INTVL</a> = 15</td></tr>
 <tr class="memdesc:adfb3536c59ea62eb3f6f7ddb0f0b860e"><td class="mdescLeft">&#160;</td><td class="mdescRight">How often to send an Interest Beacon? [s].  <a href="namespaceXPMP2.html#adfb3536c59ea62eb3f6f7ddb0f0b860e">More...</a><br /></td></tr>
 <tr class="separator:adfb3536c59ea62eb3f6f7ddb0f0b860e"><td class="memSeparator" colspan="2">&#160;</td></tr>

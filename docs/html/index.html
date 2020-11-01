@@ -46,15 +46,21 @@ $(function() {
 <div class="textblock"><p><a class="anchor" id="md_docs_MainPage"></a></p>
 <h1><a class="anchor" id="autotoc_md22"></a>
 API</h1>
-<p>The public API of <a class="el" href="namespaceXPMP2.html">XPMP2</a> consists of the following 4 header files, which are provided in the <code>inc</code> folder:</p>
+<h2>Required Header Files</h2>
+<p>A new plugin, which wants to use the <a class="el" href="namespaceXPMP2.html">XPMP2</a> library, needs to include the following 2 header files, provided in the <code>inc</code> folder:</p>
 <ul>
-<li><a class="el" href="XPMPMultiplayer_8h.html" title="Initialization and general control functions for XPMP2.">XPMPMultiplayer.h</a> - Initialisation and general control functions</li>
-<li><a class="el" href="XPMPAircraft_8h.html" title="XPMP2::Aircraft represent an aircraft as managed by XPMP2.">XPMPAircraft.h</a> - Defines the class <code><a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a></code>, which represents an aircraft. Subclass this class!</li>
+<li><a class="el" href="XPMPMultiplayer_8h.html" title="Initialization and general control functions for XPMP2.">XPMPMultiplayer.h</a> - Initialization and general control functions</li>
+<li><a class="el" href="XPMPAircraft_8h.html" title="XPMP2::Aircraft represent an aircraft as managed by XPMP2.">XPMPAircraft.h</a> - Defines the class <code><a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a></code>, which represents an aircraft. <b>Subclass this class</b> in your plugin!</li>
 </ul>
-<p><b>The following header files are deprecated</b> and only provided only for backward compatibility with previous <code>libxplanemp</code>, <em>not to be used for new projects</em>:</p>
+<h2>Additional Header Files</h2>
+<p>There are 3 additional headers files, which are usually <b>not required</b>:</p>
+<p>The following header files are deprecated and provided only for backward compatibility with previous <code>libxplanemp</code>, <em>not to be used for new projects</em>:</p>
 <ul>
 <li><a class="el" href="XPCAircraft_8h.html" title="XPMP2::Aircraft / XPCAircraft represent an aircraft as managed by XPMP2.">XPCAircraft.h</a> - Defines the class <code><a class="el" href="classXPCAircraft.html" title="Legacy wrapper class as provided by original libxplanemp.">XPCAircraft</a></code>, representing an aircraft in <code><a class="el" href="namespaceXPMP2.html">XPMP2</a></code>, now derived from <code><a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a></code>.</li>
 <li><a class="el" href="XPMPPlaneRenderer_8h.html" title="Rendering functions.">XPMPPlaneRenderer.h</a> - Three rendering control functions, which serve no purpose any longer.</li>
+</ul>
+<p>The following header file is for use by the "XPMP2 Remote Client":</p><ul>
+<li><a class="el" href="XPMPRemote_8h.html" title="Semi-public remote network functionality for master/client operations.">XPMPRemote.h</a> - Defines network functionality and data structure for synchronizing planes between networked computers.</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md23"></a>
 Quick Links to Detailed Documentation:</h1>

@@ -58,11 +58,15 @@ $(function() {
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;cmath&gt;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
 </div>
 <p><a href="XPMPRemote_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteDataRefPackTy.html">XPMP2::RemoteDataRefPackTy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Definition for how to map dataRef values to (u)int8, ie. to an integer range of 8 bits.  <a href="structXPMP2_1_1RemoteDataRefPackTy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteMsgBaseTy.html">XPMP2::RemoteMsgBaseTy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message header, identical for all message types.  <a href="structXPMP2_1_1RemoteMsgBaseTy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -122,9 +126,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a93dd489d301924f0d1ff5cdf98bc03ae"><td class="memItemLeft" align="right" valign="top">std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a93dd489d301924f0d1ff5cdf98bc03ae">XPMP2::PJWHash16</a> (const char *s)</td></tr>
 <tr class="memdesc:a93dd489d301924f0d1ff5cdf98bc03ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Produces a reproducible(!) hash value for strings.  <a href="namespaceXPMP2.html#a93dd489d301924f0d1ff5cdf98bc03ae">More...</a><br /></td></tr>
 <tr class="separator:a93dd489d301924f0d1ff5cdf98bc03ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75dcb0c50b67fbdc330ef140a3de8291"><td class="memItemLeft" align="right" valign="top">CSLModel *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a75dcb0c50b67fbdc330ef140a3de8291">XPMP2::CSLModelByPkgShortId</a> (std::uint16_t _pkgHash, const std::string &amp;_shortId)</td></tr>
-<tr class="memdesc:a75dcb0c50b67fbdc330ef140a3de8291"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find a model by package name hash and short id.  <a href="namespaceXPMP2.html#a75dcb0c50b67fbdc330ef140a3de8291">More...</a><br /></td></tr>
-<tr class="separator:a75dcb0c50b67fbdc330ef140a3de8291"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae3b70587d1931c467cb67b8e89619ee"><td class="memItemLeft" align="right" valign="top">CSLModel *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aae3b70587d1931c467cb67b8e89619ee">XPMP2::CSLModelByPkgShortId</a> (std::uint16_t _pkgHash, const char *_shortId, size_t _shortIdMaxSize)</td></tr>
+<tr class="memdesc:aae3b70587d1931c467cb67b8e89619ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find a model by package name hash and short id.  <a href="namespaceXPMP2.html#aae3b70587d1931c467cb67b8e89619ee">More...</a><br /></td></tr>
+<tr class="separator:aae3b70587d1931c467cb67b8e89619ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b834d198234c7dc1d421b34ac4a8f60"><td class="memItemLeft" align="right" valign="top">RemoteStatusTy&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a2b834d198234c7dc1d421b34ac4a8f60">XPMP2::RemoteGetStatus</a> ()</td></tr>
 <tr class="memdesc:a2b834d198234c7dc1d421b34ac4a8f60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the current Remote status.  <a href="namespaceXPMP2.html#a2b834d198234c7dc1d421b34ac4a8f60">More...</a><br /></td></tr>
 <tr class="separator:a2b834d198234c7dc1d421b34ac4a8f60"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -154,7 +158,8 @@ Variables</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Semi-public remote network functionality for master/client operations. </p>
-<p>Technically, this is public functionality from a library point of view. But it is intended for <code>XPMPRemoteClient</code> only, not for a standard plugin. </p><dl class="section author"><dt>Author</dt><dd>Birger Hoppe </dd></dl>
+<p>Technically, this is public functionality from a library point of view. But it is intended for the "XPMP Remote Client" only, not for a standard plugin.<br  />
+ Network messages are packed for space efficiency, but also to avoid layout differences between compilers/platforms. However, manual layout tries to do reasonable alignment of numeric values and 8-byte-alignment of each structure, so that arrays of structures also align well. </p><dl class="section author"><dt>Author</dt><dd>Birger Hoppe </dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>(c) 2020 Birger Hoppe </dd>
 <dd>
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br  />

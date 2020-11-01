@@ -466,6 +466,8 @@ bool            XPMPIsICAOValid(const char *                inICAO);
 ///       of important data arrays. Returns `0` if called while planes exist.
 /// @note Can only be called from XP's main thread as XPLM SDK functions are called.
 ///       Returns `0` if called from a worker thread.
+/// @note User-defined dataRefs are _not_ transfered to the XPMP2 Remote Client
+///       for display on network-connected X-Plane instances.
 size_t XPMPAddModelDataRef (const std::string& dataRef);
 
 /************************************************************************************

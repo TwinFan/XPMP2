@@ -31,6 +31,7 @@
 
 #include <cstdint>
 #include <cmath>
+#include <array>
 #include <algorithm>
 
 namespace XPMP2 {
@@ -90,8 +91,11 @@ struct RemoteDataRefPackTy {
     /// pack afloat value to integer
     std::uint8_t pack (float f) const   { return std::uint8_t(std::clamp<float>(f-minV,0.0f,range) * UINT8_MAX / range); }
     /// unpack an integer value to float
-    float unpack (std::uint8_t i) const { return minV + range*i; }
+    float unpack (std::uint8_t i) const { return minV + range*float(i)/255.0f; }
 };
+
+/// An array holding all dataRef packing definitions
+extern const std::array<RemoteDataRefPackTy,V_COUNT> REMOTE_DR_DEF;
 
 /// Message header, identical for all message types
 struct RemoteMsgBaseTy {
@@ -138,6 +142,8 @@ struct RemoteMsgSettingsTy : public RemoteMsgBaseTy {
 
 /// A/C detail message version number
 constexpr std::uint8_t RMT_VER_AC_DETAIL = 0;
+/// Number of dataRef values supported, it's rounded up to the next 8 bit boundary
+constexpr size_t RMT_V_COUNT = XPMP2::V_COUNT + (XPMP2::V_COUNT%8 == 0 ? 0 : (8-XPMP2::V_COUNT%8) );
 /// A/C details, packed into an array message
 struct RemoteAcDetailTy {
     char            icaoType[4];        ///< icao a/c type
@@ -157,9 +163,8 @@ struct RemoteAcDetailTy {
     std::uint16_t   heading;            ///< [0.01°] heading/100
     std::int16_t    roll;               ///< [0.01°] roll/100
     std::int16_t    aiPrio;             ///< priority for display in limited TCAS target slots, `-1` indicates "no TCAS display"
-
-    // TODO: bVisible, bInvalid
-    // TODO: Animation values...converted to uint8 I'd say
+    ///< Array of _packed_ dataRef values for CSL model animation
+    std::uint8_t    v[RMT_V_COUNT];
 
     /// Default Constructor sets all to zero
     RemoteAcDetailTy ();
@@ -214,10 +219,10 @@ struct RemoteMsgAcRemoveTy : public RemoteMsgBaseTy {
 
 // A few static validations just to make sure that no compiler fiddles with my network message layout.
 // Note that each individual structure size is a multiple of 8 for good array alignment.
-static_assert(sizeof(RemoteMsgBaseTy)       ==   8, "RemoteMsgBaseTy doesn't have expected size");
-static_assert(sizeof(RemoteMsgSettingsTy)   ==  40, "RemoteMsgSettingsTy doesn't have expected size");
-static_assert(sizeof(RemoteAcDetailTy)      ==  88, "RemoteAcDetailTy doesn't have expected size");
-static_assert(sizeof(RemoteMsgAcDetailTy)   ==  96, "RemoteMsgAcDetailTy doesn't have expected size");
+static_assert(sizeof(RemoteMsgBaseTy)       ==   8,     "RemoteMsgBaseTy doesn't have expected size");
+static_assert(sizeof(RemoteMsgSettingsTy)   ==  40,     "RemoteMsgSettingsTy doesn't have expected size");
+static_assert(sizeof(RemoteAcDetailTy)      ==  88+48,  "RemoteAcDetailTy doesn't have expected size");
+static_assert(sizeof(RemoteMsgAcDetailTy)   ==  96+48,  "RemoteMsgAcDetailTy doesn't have expected size");
 
 //
 // MARK: Miscellaneous

@@ -35,7 +35,7 @@ namespace XPMP2 {
 /// Defines per dataRef the value range we support transferring to the remote client
 const std::array<RemoteDataRefPackTy,V_COUNT> REMOTE_DR_DEF = { {
     {   0.0f,     1.0f},        // V_CONTROLS_GEAR_RATIO = 0,                `libxplanemp/controls/gear_ratio` and \n`sim/cockpit2/tcas/targets/position/gear_deploy`
-    { -90.0f,    90.0f},        // V_CONTROLS_NWS_RATIO,                     `libxplanemp/controls/nws_ratio`, the nose wheel angle, actually in degrees
+    {-127.0f,   128.0f},        // V_CONTROLS_NWS_RATIO,                     `libxplanemp/controls/nws_ratio`, the nose wheel angle, actually in degrees
     {   0.0f,     1.0f},        // V_CONTROLS_FLAP_RATIO,                    `libxplanemp/controls/flap_ratio` and \n`sim/cockpit2/tcas/targets/position/flap_ratio` and `...flap_ratio2`
     {   0.0f,     1.0f},        // V_CONTROLS_SPOILER_RATIO,                 `libxplanemp/controls/spoiler_ratio`
     {   0.0f,     1.0f},        // V_CONTROLS_SPEED_BRAKE_RATIO,             `libxplanemp/controls/speed_brake_ratio` and \n`sim/cockpit2/tcas/targets/position/speedbrake_ratio`
@@ -217,7 +217,9 @@ void RemoteAcDetailTy::CopyFrom (const Aircraft& _ac)
     SetHeading  (_ac.drawInfo.heading);
     SetRoll     (_ac.drawInfo.roll);
 
-    // TODO: Animation values...converted to uint8 I'd say
+    // dataRef Animation values converted to uint8
+    for (size_t i = 0; i < XPMP2::V_COUNT; ++i)
+        v[i] = REMOTE_DR_DEF[i].pack(_ac.v[i]);
 }
 
 // set modeS_id

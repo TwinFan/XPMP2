@@ -97,8 +97,9 @@ void RemoteAC::Update (const XPMP2::RemoteAcDetailTy& _acDetails)
     if (!_acDetails.bValid)
         SetInvalid();
     
-    
-    // TODO: Animation dataRefs
+    // Animation dataRefs
+    for (size_t i = 0; i < XPMP2::V_COUNT; ++i)
+        v[i] = XPMP2::REMOTE_DR_DEF[i].unpack(_acDetails.v[i]);
 }
 
 // Called by XPMP2 for position updates, extrapolates from historic positions

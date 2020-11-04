@@ -242,7 +242,12 @@ protected:
     
 private:
     bool bDestroyInst           = false;    ///< Instance to be destroyed in next flight loop callback?
-    
+
+    /// @brief Number of dataRefs at the moment we call XPLMInstanceSetPosition
+    /// @see https://github.com/TwinFan/XPMP2/issues/23
+    /// @note Temporary validation to track down why in some rare cases X-Plane crashes later in the XPLMInstanceSetPosition call
+    size_t numDataRefsDuringCreateInstance = 0;
+
 public:
     /// Constructor creates a new aircraft object, which will be managed and displayed
     /// @exception XPMP2::XPMP2Error Mode S id invalid or duplicate, no model found during model matching

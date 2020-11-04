@@ -83,6 +83,9 @@
 
 namespace XPMP2 {
 
+/// XPMP2 version number
+constexpr float XPMP2_VER = 1.11f;
+
 /// Stores the function and refcon pointer for plane creation/destrcution notifications
 struct XPMPPlaneNotifierTy {
     XPMPPlaneNotifier_f func    = nullptr;

@@ -149,9 +149,9 @@ const char *    XPMPMultiplayerInit(const char* inPluginName,
     }
 
     // Get X-Plane's version numbers
-    glob.ReadVersions();    
-    LOG_MSG(logINFO, "XPMP2 Initializing under X-Plane version %d/%s and XPLM version %d",
-            glob.verXPlane, GetGraphicsDriverTxt(), glob.verXPLM);
+    glob.ReadVersions();
+    LOG_MSG(logINFO, "XPMP2 %.2f initializing under X-Plane version %d/%s and XPLM version %d",
+            XPMP2_VER, glob.verXPlane, GetGraphicsDriverTxt(), glob.verXPLM);
 
     // And get initial config values (defines, e.g., log level, which we'll need soon)
     glob.UpdateCfgVals();

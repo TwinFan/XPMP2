@@ -117,14 +117,19 @@ extern std::vector<const char*> DR_NAMES;
 mapRmtAcCacheTy gmapRmtAcCache;     ///< Cache for last data sent out to the network
 unsigned gFullUpdDue = 0;           ///< What's the full update group that has its turn now?
 unsigned gNxtFullUpdGrpToAssign = 0;///< What's the next group number to assign to the next a/c? (Assigned will be the value incremented by 1)
+float gNow = 0.0f;                  ///< Current network timestamp
+float gNxtTxfTime = 0.0f;           ///< When to actually process position updates next?
 
 queueRmtDataTy gqueueRmtData;       ///< the queue for passing data from main to network thread
 std::condition_variable gcvRmtData; ///< notifies the network thread of available data to be processed
 std::mutex gmutexRmtData;           ///< protects modifying access to the queue and the condition variable
 
 // Constructor copies relevant values from the passed-in aircraft
-RmtAcCacheTy::RmtAcCacheTy (const Aircraft& ac) :
-fullUpdGrp(++gNxtFullUpdGrpToAssign), drawInfo(ac.drawInfo), v(ac.v)
+RmtAcCacheTy::RmtAcCacheTy (const Aircraft& ac,
+                            double _lat, double _lon, double _alt_ft) :
+fullUpdGrp(++gNxtFullUpdGrpToAssign),
+lat(_lat), lon(_lon), alt_ft(_alt_ft),
+drawInfo(ac.drawInfo), v(ac.v)
 {
     // roll over on the next-to-assign group
     if (gNxtFullUpdGrpToAssign >= unsigned(REMOTE_SEND_AC_DETAILS_INTVL))
@@ -132,10 +137,16 @@ fullUpdGrp(++gNxtFullUpdGrpToAssign), drawInfo(ac.drawInfo), v(ac.v)
 }
 
 // Updates current values from given aircraft
-void RmtAcCacheTy::UpdateFrom (const Aircraft& ac)
+void RmtAcCacheTy::UpdateFrom (const Aircraft& ac,
+                               double _lat, double _lon, double _alt_ft)
 {
     drawInfo = ac.drawInfo;
+    lat = _lat;
+    lon = _lon;
+    alt_ft = _alt_ft;
     v = ac.v;
+    bValid      = ac.IsValid();
+    bVisible    = ac.IsVisible();
 }
 
 
@@ -178,18 +189,20 @@ RemoteAcDetailTy::RemoteAcDetailTy ()
 }
 
 // A/c copy constructor fills from passed-in XPMP2::Aircraft object
-RemoteAcDetailTy::RemoteAcDetailTy (const Aircraft& _ac)
+RemoteAcDetailTy::RemoteAcDetailTy (const Aircraft& _ac,
+                                    double _lat, double _lon, float _alt_ft)
 {
     // set everything to zero
     memset(this, 0, sizeof(*this));
     lat = lon = 0.0;
     alt_ft = 0.0f;
     // then copy from a/c
-    CopyFrom(_ac);
+    CopyFrom(_ac, _lat, _lon, _alt_ft);
 }
 
 // Copies values from passed-in XPMP2::Aircraft object
-void RemoteAcDetailTy::CopyFrom (const Aircraft& _ac)
+void RemoteAcDetailTy::CopyFrom (const Aircraft& _ac,
+                                 double _lat, double _lon, float _alt_ft)
 {
     strncpy(icaoType,   _ac.acIcaoType.c_str(),                 sizeof(icaoType));
     strncpy(icaoOp,     _ac.acIcaoAirline.c_str(),              sizeof(icaoOp));
@@ -201,16 +214,11 @@ void RemoteAcDetailTy::CopyFrom (const Aircraft& _ac)
     SetLabelCol(_ac.colLabel);
     SetModeSId(_ac.GetModeS_ID());
     aiPrio   = std::int16_t(_ac.aiPrio);
-
-    // Position: Convert known local coordinates to world coordinates
-    double a,b,c;
-    XPLMLocalToWorld(_ac.drawInfo.x,
-                     _ac.drawInfo.y - _ac.GetVertOfs(),
-                     _ac.drawInfo.z,
-                     &a, &b, &c);
-    lat = a;
-    lon = b;
-    alt_ft = float(c / M_per_FT);
+    
+    // World Position
+    lat = _lat;
+    lon = _lon;
+    alt_ft = _alt_ft;
 
     // Attitude: Copy from drawInfo, but converted to smaller 16 bit types
     SetPitch    (_ac.drawInfo.pitch);
@@ -260,6 +268,27 @@ void RemoteAcDetailTy::SetHeading (float _h)
 }
 
 
+// --- RemoteAcDetailTy ---
+
+RemoteAcPosUpdateTy::RemoteAcPosUpdateTy (XPMPPlaneID _modeS_id,
+                                          std::int16_t _dLat,
+                                          std::int16_t _dLon,
+                                          std::int16_t _dAlt_ft,
+                                          float _pitch, float _heading, float _roll) :
+modeS_id(_modeS_id),
+dLat(_dLat), dLon(_dLon), dAlt_ft(_dAlt_ft)
+{
+    SetPitch(_pitch);
+    SetHeading(_heading);
+    SetRoll(_roll);
+}
+
+// Sets heading from float
+void RemoteAcPosUpdateTy::SetHeading (float _h)
+{
+    heading = std::uint16_t(headNormalize(_h) * 100.0f);
+}
+
 //
 // MARK: SENDING Remote Data (Worker Thread)
 //
@@ -286,12 +315,14 @@ SOCKET gSelfPipe[2] = { INVALID_SOCKET, INVALID_SOCKET };
 float gSendSettingsLast = 0.0f;
 
 // Messages waiting to be filled and send, all having a size of glob.remoteBufSize
-RmtMsgBufTy<RemoteAcDetailTy,RMT_MSG_AC_DETAILED,RMT_VER_AC_DETAIL> gMsgAcDetail;   ///< A/C Detail message
+RmtMsgBufTy<RemoteAcDetailTy,RMT_MSG_AC_DETAILED,RMT_VER_AC_DETAIL> gMsgAcDetail;               ///< A/C Detail message
+RmtMsgBufTy<RemoteAcPosUpdateTy,RMT_MSG_AC_POS_UPDATE,RMT_VER_AC_POS_UPDATE> gMsgAcPosUpdate;   ///< A/C Position Update message
+RmtMsgBufTy<XPMPPlaneID,RMT_MSG_AC_REMOVE,RMT_VER_AC_REMOVE> gMsgAcRemove;                      ///< A/C Removal message
 
 
 // Free up the buffer, basically a reset
-template <class ElemTy, RemoteMsgTy msgTy, std::uint8_t msgVer>
-void RmtMsgBufTy<ElemTy,msgTy,msgVer>::free ()
+template <class ElemTy, RemoteMsgTy MsgTy, std::uint8_t msgVer>
+void RmtMsgBufTy<ElemTy,MsgTy,msgVer>::free ()
 {
     if (pMsg) std::free (pMsg);
     pMsg = nullptr;
@@ -300,8 +331,8 @@ void RmtMsgBufTy<ElemTy,msgTy,msgVer>::free ()
 }
 
 // If necessary allocate the required buffer, then initialize it to an empty message
-template <class ElemTy, RemoteMsgTy msgTy, std::uint8_t msgVer>
-void RmtMsgBufTy<ElemTy,msgTy,msgVer>::init ()
+template <class ElemTy, RemoteMsgTy MsgTy, std::uint8_t msgVer>
+void RmtMsgBufTy<ElemTy,MsgTy,msgVer>::init ()
 {
     // if buffer does not exist: create it
     if (!pMsg) {
@@ -312,21 +343,21 @@ void RmtMsgBufTy<ElemTy,msgTy,msgVer>::init ()
     elemCount = 0;
     std::memset(pMsg, 0, glob.remoteBufSize);
     // overwrite with a standard initialized message, will set msg type, for example
-    *reinterpret_cast<RemoteMsgBaseTy*>(pMsg) = RemoteMsgBaseTy(msgTy,msgVer);
+    *reinterpret_cast<RemoteMsgBaseTy*>(pMsg) = RemoteMsgBaseTy(MsgTy,msgVer);
     size = sizeof(RemoteMsgBaseTy);     // msg hdr is defined
 }
 
 // Add another element to the buffer, returns if now full
-template <class ElemTy, RemoteMsgTy msgTy, std::uint8_t msgVer>
-bool RmtMsgBufTy<ElemTy,msgTy,msgVer>::add (const ElemTy& _elem)
+template <class ElemTy, RemoteMsgTy MsgTy, std::uint8_t msgVer>
+bool RmtMsgBufTy<ElemTy,MsgTy,msgVer>::add (const ElemTy& _elem)
 {
     // no buffer defined yet? -> do so!
     if (!pMsg) init();
         
     // space left?
     if (glob.remoteBufSize - size < sizeof(_elem))
-        throw std::runtime_error(std::string("Trying to add more elements into message than fit: msgTy=") +
-                                 std::to_string(msgTy) + ", elemCount=" + std::to_string(elemCount));
+        throw std::runtime_error(std::string("Trying to add more elements into message than fit: MsgTy=") +
+                                 std::to_string(MsgTy) + ", elemCount=" + std::to_string(elemCount));
     
     // Copy the element into the msg buffer
     memcpy(reinterpret_cast<char*>(pMsg) + size, &_elem, sizeof(_elem));
@@ -338,22 +369,22 @@ bool RmtMsgBufTy<ElemTy,msgTy,msgVer>::add (const ElemTy& _elem)
 }
 
 // send the message (if there is any), then reset the buffer
-template <class ElemTy, RemoteMsgTy msgTy, std::uint8_t msgVer>
-void RmtMsgBufTy<ElemTy,msgTy,msgVer>::send ()
+template <class ElemTy, RemoteMsgTy MsgTy, std::uint8_t msgVer>
+void RmtMsgBufTy<ElemTy,MsgTy,msgVer>::send (UDPMulticast& _mc)
 {
     if (!empty()) {
-        LOG_ASSERT(gpMc);
-        gpMc->SendMC(pMsg, size);
+        _mc.SendMC(pMsg, size);
         init();
     }
 }
 
 // Perform add(), then if necessary send()
-template <class ElemTy, RemoteMsgTy msgTy, std::uint8_t msgVer>
-bool RmtMsgBufTy<ElemTy,msgTy,msgVer>::add_send (const ElemTy& _elem)
+template <class ElemTy, RemoteMsgTy MsgTy, std::uint8_t msgVer>
+bool RmtMsgBufTy<ElemTy,MsgTy,msgVer>::add_send (const ElemTy& _elem,
+                                                 UDPMulticast& _mc)
 {
     if (add(_elem)) {
-        send();
+        send(_mc);
         return true;
     }
     return false;
@@ -368,6 +399,8 @@ inline bool RmtSendContinue ()
 /// Process the data passed down to us in the queue
 void RmtSendProcessQueue ()
 {
+    LOG_ASSERT(gpMc != nullptr);
+    
     // Loop till forced to shut down or queue with data empty
     while (RmtSendContinue() && !gqueueRmtData.empty()) {
         // For taking data out of the queue we need the lock as briefly as possible
@@ -386,18 +419,29 @@ void RmtSendProcessQueue ()
             case RMT_MSG_AC_DETAILED: {
                 RmtDataAcDetailTy* pAcDetail = dynamic_cast<RmtDataAcDetailTy*>(ptrData.get());
                 LOG_ASSERT(pAcDetail);
-                gMsgAcDetail.add_send(pAcDetail->msg);
+                gMsgAcDetail.add_send(pAcDetail->data, *gpMc);
+                break;
+            }
+                
+            // Aircraft position update: Add to pending message, send if full
+            case RMT_MSG_AC_POS_UPDATE: {
+                RmtDataAcPosUpdateTy* pAcPosUpd = dynamic_cast<RmtDataAcPosUpdateTy*>(ptrData.get());
+                LOG_ASSERT(pAcPosUpd);
+                gMsgAcPosUpdate.add_send(pAcPosUpd->data, *gpMc);
                 break;
             }
                 
             // Send out pending message
             case RMT_MSG_SEND:
-                gMsgAcDetail.send();
+                gMsgAcDetail.send(*gpMc);
+                gMsgAcPosUpdate.send(*gpMc);
+                gMsgAcRemove.send(*gpMc);
                 break;
                 
-            // This type is not expected to happen (because it is send by the receiver)
+            // This type is not expected to happen (because it is send by the receiver or directly)
+            case RMT_MSG_SETTINGS:
             case RMT_MSG_INTEREST_BEACON:
-                LOG_MSG(logWARN, "Received unexpected send queue entry of type RMT_MSG_INTEREST_BEACON");
+                LOG_MSG(logWARN, "Received unexpected send queue entry of type RMT_MSG_SETTINGS or RMT_MSG_INTEREST_BEACON");
                 break;
         }
         
@@ -703,6 +747,25 @@ void RmtRecvMain()
                                         recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
                             }
                             break;
+
+                        // A/C Position Update
+                        case RMT_MSG_AC_POS_UPDATE:
+                            if (hdr.msgVer == RMT_VER_AC_POS_UPDATE && recvSize >= sizeof(RemoteMsgAcPosUpdateTy))
+                            {
+                                if (gRmtCBFcts.pfMsgACPosUpdate) {
+                                    const RemoteMsgAcPosUpdateTy& s = *(RemoteMsgAcPosUpdateTy*)gpMc->getBuf();
+                                    gRmtCBFcts.pfMsgACPosUpdate(from, recvSize, s);
+                                }
+                            } else {
+                                LOG_MSG(logWARN, "Cannot process A/C Pos Update message: %lu bytes, version %u, from %s",
+                                        recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
+                            }
+                            break;
+
+                        // This type is not expected to happen (because it is a marker for the sender queue only)
+                        case RMT_MSG_SEND:
+                            LOG_MSG(logWARN, "Received unexpected message type RMT_MSG_SEND");
+                            break;
                     }
                     
                 } else {
@@ -867,6 +930,9 @@ void RemoteSenderUpdateStatus ()
 // Informs us that updating a/c will start now, do some prep work
 void RemoteAcEnqueueStarts (float now)
 {
+    // store the timestampe for later use
+    gNow = now;
+    
     // the last actually processed full update group
     static unsigned lastFullUpdDue = 0;
 
@@ -899,36 +965,62 @@ void RemoteAcEnqueueStarts (float now)
 void RemoteAcEnqueue (const Aircraft& ac)
 {
     // Can only do anything reasonable if we are to send data
-    if (glob.remoteStatus != REMOTE_SENDING)
+    // and also aren't too fast based on max trasnfer frequency
+    if (glob.remoteStatus != REMOTE_SENDING ||
+        gNow < gNxtTxfTime)
         return;
 
     bool bSendFullDetails = false;
+    
+    // Position: Convert known local coordinates to world coordinates
+    double lat, lon, alt_ft;
+    XPLMLocalToWorld(ac.drawInfo.x,
+                     ac.drawInfo.y - ac.GetVertOfs(),
+                     ac.drawInfo.z,
+                     &lat, &lon, &alt_ft);
+    alt_ft /= M_per_FT;
     
     // Do we know this a/c already?
     mapRmtAcCacheTy::iterator itCache = gmapRmtAcCache.find(ac.GetModeS_ID());
     if (itCache == gmapRmtAcCache.end())  {
         // no, it's a new a/c, so add a record into our cache
         bSendFullDetails = true;
-        auto p = gmapRmtAcCache.emplace(ac.GetModeS_ID(), ac);
+        auto p = gmapRmtAcCache.emplace(ac.GetModeS_ID(),
+                                        RmtAcCacheTy(ac,lat,lon,float(alt_ft)));
         itCache = p.first;
     }
     RmtAcCacheTy& acCache = itCache->second;
-    
-    // is this an a/c of the group that shall send full details?
-    if (acCache.fullUpdGrp == gFullUpdDue)
+
+    // Is this an a/c of the group that shall send full details?
+    // Or did visibility/validity change?
+    if (!bSendFullDetails &&
+        (acCache.fullUpdGrp == gFullUpdDue       ||
+         acCache.bVisible   != ac.IsVisible()    ||
+         acCache.bValid     != ac.IsValid()      ||
+         // are the differences that we need to send too large for a pos update msg?
+         std::abs(lat - acCache.lat) > REMOTE_MAX_DIFF_DEGREE ||
+         std::abs(lon - acCache.lon) > REMOTE_MAX_DIFF_DEGREE ||
+         std::abs(alt_ft - acCache.alt_ft) > REMOTE_MAX_DIFF_ALT_FT))
         bSendFullDetails = true;
-    
+        
     // We should own the mutex already...just to be sure
     if (!glockRmtData) glockRmtData.lock();
     
-    // Now add to the full message, protected by a lock
-    if (bSendFullDetails)
-        gqueueRmtData.emplace(new RmtDataAcDetailTy(ac));
-    else {
-        // TODO: Implement RMT_MSG_AC_DIFF
-        // TODO: Implement an "at most 20 times/s" algorithm, ie. cache values, keep a dirty flag, and loop over that data periodically
-        gqueueRmtData.emplace(new RmtDataAcDetailTy(ac));
+    if (bSendFullDetails) {
+        // add to the full data, protected by a lock
+        gqueueRmtData.emplace(new RmtDataAcDetailTy(RemoteAcDetailTy(ac,lat,lon,float(alt_ft))));
     }
+    else {
+        // add the position update to the queue, containing a delta position
+        gqueueRmtData.emplace(new RmtDataAcPosUpdateTy(RemoteAcPosUpdateTy(
+            ac.GetModeS_ID(),                                                   // modeS_id
+            std::int16_t((lat       - acCache.lat)      / REMOTE_DEGREE_RES),   // dLat
+            std::int16_t((lon       - acCache.lon)      / REMOTE_DEGREE_RES),   // dLon
+            std::int16_t((alt_ft    - acCache.alt_ft)   / REMOTE_ALT_FT_RES),   // dAlt_ft
+            ac.GetPitch(), ac.GetHeading(), ac.GetRoll()
+        )));
+    }
+    acCache.UpdateFrom(ac, lat, lon, alt_ft);
 }
 
 // Informs us that all a/c have been processed: All pending messages to be sent now
@@ -947,6 +1039,10 @@ void RemoteAcEnqueueDone ()
             glockRmtData.unlock();
             gcvRmtData.notify_one();
         }
+        
+        // When to send next earliest?
+        if (gNow >= gNxtTxfTime)
+            gNxtTxfTime = gNow + 1.0f/float(glob.remoteTxfFrequ);
     }
     // or are we a receiver?
     else if (glob.remoteStatus == REMOTE_RECEIVING)

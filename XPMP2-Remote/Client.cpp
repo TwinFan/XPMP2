@@ -20,7 +20,7 @@
 
 #include "XPMP2-Remote.h"
 
-#define INFO_NEW_SENDER_PLUGIN  "First data received from %.*s @ %s"
+#define INFO_NEW_SENDER_PLUGIN  "First data received from %.*s (%u) @ %s"
 #define INFO_GOT_AI_CONTROL     "Have TCAS / AI control now"
 #define INFO_DEACTIVATED        "Deactivated, stopped listening to network"
 
@@ -86,6 +86,7 @@ void RemoteAC::Update (const XPMP2::RemoteAcDetailTy& _acDetails)
     lon = _acDetails.lon;
     alt_ft = double(_acDetails.alt_ft);
     histTs[2] = std::chrono::steady_clock::now();
+    bWorldCoordUpdated = true;          // flag for UpdatePosition() to read fresh data
 
     drawInfo.pitch      = _acDetails.GetPitch();
     drawInfo.heading    = _acDetails.GetHeading();
@@ -102,13 +103,28 @@ void RemoteAC::Update (const XPMP2::RemoteAcDetailTy& _acDetails)
         v[i] = XPMP2::REMOTE_DR_DEF[i].unpack(_acDetails.v[i]);
 }
 
+// Update data from an a/c position update
+void RemoteAC::Update (const XPMP2::RemoteAcPosUpdateTy& _acPosUpd)
+{
+    // Update position information based on diff values in the position update
+    lat     += XPMP2::REMOTE_DEGREE_RES * double(_acPosUpd.dLat);
+    lon     += XPMP2::REMOTE_DEGREE_RES * double(_acPosUpd.dLon);
+    alt_ft  += XPMP2::REMOTE_ALT_FT_RES * double(_acPosUpd.dAlt_ft);
+    histTs[2] = std::chrono::steady_clock::now();
+    bWorldCoordUpdated = true;          // flag for UpdatePosition() to read fresh data
+
+    drawInfo.pitch      = _acPosUpd.GetPitch();
+    drawInfo.heading    = _acPosUpd.GetHeading();
+    drawInfo.roll       = _acPosUpd.GetRoll();
+}
+
 // Called by XPMP2 for position updates, extrapolates from historic positions
 void RemoteAC::UpdatePosition (float, int)
 {
     // If we have a fresh world position then that's the one that counts
-    if (!std::isnan(lat)) {
+    if (bWorldCoordUpdated) {
         SetLocation(lat, lon, alt_ft);      // Convert to local, stored in drawInfo
-        lat = lon = alt_ft = NAN;           // world coords processed
+        bWorldCoordUpdated = false;
 
         // cycle the historic positions and save the new one
         histPos[0] = histPos[1];
@@ -199,7 +215,7 @@ void ClientCBRetryGetAI (void*)
         ClientTryGetAI();
 }
 
-/// Try getting TCAS/AI control
+// Try getting TCAS/AI control
 void ClientTryGetAI ()
 {
     // make sure we do this from the main thread only!
@@ -220,7 +236,7 @@ void ClientTryGetAI ()
     }
 }
 
-/// Stop TCAS/AI control
+// Stop TCAS/AI control
 void ClientReleaseAI ()
 {
     XPMPMultiplayerDisable();
@@ -238,10 +254,6 @@ void ClientProcSettings (std::uint32_t from[4],
                          const std::string& sFrom,
                          const XPMP2::RemoteMsgSettingsTy& _msgSettings)
 {
-    LOG_MSG(logDEBUG, "Received settings from %.*s (%u) @ %s",
-            (int)sizeof(_msgSettings.name), _msgSettings.name,
-            _msgSettings.pluginId, sFrom.c_str());
-    
     // Require access
     std::lock_guard<std::mutex> lk(gmutexData);
     
@@ -251,6 +263,7 @@ void ClientProcSettings (std::uint32_t from[4],
         // Seeing this plugin the first time!
         LOG_MSG(logINFO, INFO_NEW_SENDER_PLUGIN,
                 (int)sizeof(_msgSettings.name), _msgSettings.name,
+                _msgSettings.pluginId,
                 sFrom.c_str());
         rcGlob.gmapSender.emplace(SenderAddrTy (_msgSettings.pluginId, from),
                                   SenderTy(sFrom, _msgSettings));
@@ -304,14 +317,11 @@ void ClientFlightLoopBegins ()
                       rcGlob.mergedS.bMapLabels);
         if (rcGlob.mergedS.bHaveTCASControl)
             ClientTryGetAI();
-        else
-            // TODO: In a setup where a local plugin feeds the client the plugin might give up TCAS for this client...but then reports `false` here and the client would also give up TCAS...which is not wanted.
-            //       Possible solution: Do not actually give up right now, but only if any other plugin asks
-            ClientReleaseAI();
     }
     
     // Store current time once for all position calculations
     nowFlightLoop = std::chrono::steady_clock::now();
+    GetMiscNetwTime();
 
     // Acquire the data access lock once and keep it while the flight loop is running
     glockDataMain.lock();
@@ -334,7 +344,7 @@ void ClientFlightLoopEnds ()
     glockDataMain.unlock();
 }
 
-/// @brief Handle A/C Details messages
+/// @brief Handle A/C Details messages, called by XPMP2 via callback
 /// @details 1. If the aircraft does not exist create it
 ///          2. Else update it's data
 void ClientProcAcDetails (std::uint32_t _from[4], size_t _msgLen,
@@ -364,8 +374,33 @@ void ClientProcAcDetails (std::uint32_t _from[4], size_t _msgLen,
         }
         lk.unlock();
     }
-    
 }
+
+/// Handle A/C Position Update message, called by XPMP2 via callback
+void ClientProcAcPosUpdate (std::uint32_t _from[4], size_t _msgLen,
+                            const XPMP2::RemoteMsgAcPosUpdateTy& _msgAcPosUpdate)
+{
+    // Find the sender, bail if we don't know it
+    SenderTy* pSender = SenderTy::Find(_msgAcPosUpdate.pluginId, _from);
+    if (!pSender) return;
+    
+    // Loop over all aircraft contained in the message
+    const size_t numAc = _msgAcPosUpdate.NumElem(_msgLen);
+    for (size_t i = 0; i < numAc; ++i) {
+        const XPMP2::RemoteAcPosUpdateTy& acPosUpd = _msgAcPosUpdate.arr[i];
+        // Is the aircraft known?
+        mapRemoteAcTy::iterator iAc = pSender->mapAc.find(XPMPPlaneID(acPosUpd.modeS_id));
+        // Is the aircraft known?
+        if (iAc != pSender->mapAc.end()) {
+            // Now require access (for each plane, because we want to give the main thread's flight loop a better change to grab the lock if needed)
+            std::lock_guard<std::mutex> lk(gmutexData);
+            // known aircraft, update its data
+            iAc->second.Update(acPosUpd);
+        }
+    }
+
+}
+
 
 //
 // MARK: Global Functions
@@ -400,6 +435,7 @@ void ClientToggleActive (int nForce)
             ClientFlightLoopEnds,           // after flight loop processing ends
             ClientProcSettings,             // Settings
             ClientProcAcDetails,            // Aircraft Details
+            ClientProcAcPosUpdate,          // Aircraft Position Update
         };
         XPMP2::RemoteRecvStart(rmtCBFcts);
     }

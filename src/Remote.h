@@ -42,13 +42,18 @@ enum RemoteCfgTy : int {
 /// Holds a copy of some aircraft data as was sent out last
 struct RmtAcCacheTy {
     const unsigned  fullUpdGrp;         ///< full update group, with which planes are distributed to load balance sending XPMP2::RMT_MSG_AC_DETAILED messages
+    double lat;                         ///< degree latitude
+    double lon;                         ///< degree longitude
+    double alt_ft;                      ///< feet altitude
     XPLMDrawInfo_t  drawInfo;           ///< position and orientation last sent
     std::vector<float> v;               ///< dataRef values
-    
+    bool bValid     : 1;                ///< is this object valid? (Will be reset in case of exceptions)
+    bool bVisible   : 1;                ///< Shall this plane be drawn at the moment?
+
     /// Constructor copies relevant values from the passed-in aircraft
-    RmtAcCacheTy (const Aircraft& ac);
+    RmtAcCacheTy (const Aircraft& ac, double _lat, double _lon, double _alt_ft);
     /// Updates current values from given aircraft
-    void UpdateFrom (const Aircraft& ac);
+    void UpdateFrom (const Aircraft& ac, double _lat, double _lon, double _alt_ft);
 };
 
 /// Defines a map with the plane id as key and the aboce cache structure as payload
@@ -74,25 +79,29 @@ typedef std::queue<ptrRmtDataBaseTy,std::list<ptrRmtDataBaseTy> > queueRmtDataTy
 
 
 /// Passing information about an a/c full detail message: it is actually right away that message
-class RmtDataAcDetailTy : public RmtDataBaseTy {
+template <class ElemTy, RemoteMsgTy MsgTy>
+class RmtDataEnqeueTy : public RmtDataBaseTy {
 public:
-    /// the entire network message pre-packed
-    RemoteAcDetailTy msg;
+    /// the payload data
+    ElemTy data;
 public:
-    /// Default constructor only sets message type, leaves rest empty
-    RmtDataAcDetailTy () : RmtDataBaseTy(RMT_MSG_AC_DETAILED) {}
-    /// Aircraft copy constructor passes the XPMP2::Aircraft object on to the `msg` member
-    RmtDataAcDetailTy (const Aircraft& _ac) :
-    RmtDataBaseTy(RMT_MSG_AC_DETAILED), msg(_ac) {}
+    /// Default constructor only sets message type, leaves rest defaulted
+    RmtDataEnqeueTy () : RmtDataBaseTy(MsgTy) {}
+    /// Data copy constructor copies the passed-in data
+    RmtDataEnqeueTy (const ElemTy& _elem) : RmtDataBaseTy(MsgTy), data(_elem) {}
 };
 
+// predefine required template instances
+typedef RmtDataEnqeueTy<RemoteAcDetailTy,RMT_MSG_AC_DETAILED> RmtDataAcDetailTy;
+typedef RmtDataEnqeueTy<RemoteAcPosUpdateTy,RMT_MSG_AC_POS_UPDATE> RmtDataAcPosUpdateTy;
+typedef RmtDataEnqeueTy<XPMPPlaneID,RMT_MSG_AC_REMOVE> RmtDataAcRemoveTy;
 
 //
 // MARK: SENDING Data Structures
 //
 
 /// Helper class to manage the temporary buffers in which the network message are put together
-template <class ElemTy, RemoteMsgTy msgTy, std::uint8_t msgVer>
+template <class ElemTy, RemoteMsgTy MsgTy, std::uint8_t msgVer>
 class RmtMsgBufTy {
 public:
     void*           pMsg = nullptr;     ///< points to the actual message buffer of size glob.remoteBufSize
@@ -112,9 +121,9 @@ public:
     /// is empty, contains no payload?
     bool empty () const { return !elemCount; }
     /// send the message (if there is any), then reset the buffer
-    void send ();
+    void send (UDPMulticast& _mc);
     /// Perform add(), then if necessary send(); returns if sent
-    bool add_send (const ElemTy& _elem);
+    bool add_send (const ElemTy& _elem, UDPMulticast& _mc);
 };
 
 

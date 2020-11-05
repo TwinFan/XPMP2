@@ -103,10 +103,13 @@ void MenuUpdateCheckmarks ()
             XPLMCheckMenuItem(hMenu, MENU_ACTIVE, xplm_Menu_Checked);
             break;
 
-        case XPMP2::REMOTE_RECEIVING:
-            XPLMSetMenuItemName(hMenu, MENU_ACTIVE, "Active", 0);
+        case XPMP2::REMOTE_RECEIVING: {
+            char s[50];
+            snprintf (s, sizeof(s), "Active (%ld aircraft)", XPMPCountPlanes());
+            XPLMSetMenuItemName(hMenu, MENU_ACTIVE, s, 0);
             XPLMCheckMenuItem(hMenu, MENU_ACTIVE, xplm_Menu_Checked);
             break;
+        }
             
         default:
             XPLMSetMenuItemName(hMenu, MENU_ACTIVE, "Activate (currently inactive)", 0);
@@ -280,7 +283,14 @@ PLUGIN_API void XPluginDisable(void)
 
 PLUGIN_API void XPluginReceiveMessage(XPLMPluginID who, long inMsg, void*)
 {
-    // Some other plugin wants TCAS/AI control, but we don't release as we are displaying live aicraft
-    if (inMsg == XPLM_MSG_RELEASE_PLANES)
-        LOG_MSG(logINFO, "%s requested TCAS access, but we don't release", GetPluginName(who).c_str())
+    // Some other plugin wants TCAS/AI control
+    if (inMsg == XPLM_MSG_RELEASE_PLANES) {
+        // If indeed our configuration says we no longer need it, then we can give it up
+        if (!rcGlob.mergedS.bHaveTCASControl) {
+            LOG_MSG(logINFO, "%s requested TCAS access, we release", GetPluginName(who).c_str())
+            ClientReleaseAI();
+        } else {
+            LOG_MSG(logINFO, "%s requested TCAS access, but we don't release", GetPluginName(who).c_str())
+        }
+    }
 }

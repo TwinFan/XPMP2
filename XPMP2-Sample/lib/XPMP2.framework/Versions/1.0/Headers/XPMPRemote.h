@@ -29,6 +29,7 @@
 #ifndef _XPMPRemote_h_
 #define _XPMPRemote_h_
 
+#include <cassert>
 #include <cstdint>
 #include <cmath>
 #include <array>
@@ -75,7 +76,7 @@ enum RemoteMsgTy : std::uint8_t {
     RMT_MSG_SEND,                   ///< internal indicator telling to send out all pending messages
     RMT_MSG_SETTINGS,               ///< a sender's id and its settings
     RMT_MSG_AC_DETAILED,            ///< aircraft full details, needed to create new a/c objects and to re-synch all remote data
-    RMT_MSG_AC_DIFF,                ///< aircraft differences only
+    RMT_MSG_AC_POS_UPDATE,          ///< aircraft differences only
     RMT_MSG_AC_ANIM,                ///< aircraft animation values (dataRef values) only
     RMT_MSG_AC_REMOVE,              ///< aircraft is removed
 };
@@ -97,6 +98,10 @@ struct RemoteDataRefPackTy {
 /// An array holding all dataRef packing definitions
 extern const std::array<RemoteDataRefPackTy,V_COUNT> REMOTE_DR_DEF;
 
+//
+// MARK: Message Header (Base)
+//
+
 /// Message header, identical for all message types
 struct RemoteMsgBaseTy {
     RemoteMsgTy  msgTy  : 4;        ///< message type
@@ -108,6 +113,10 @@ struct RemoteMsgBaseTy {
     RemoteMsgBaseTy (RemoteMsgTy _ty, std::uint8_t _ver);
 } PACKED;
 
+//
+// MARK: Beacon of Interest
+//
+
 /// Interest Beacon message version number
 constexpr std::uint8_t RMT_VER_BEACON = 0;
 /// "Beacon of Interest", ie. some message on the multicast just to wake up sender
@@ -116,6 +125,10 @@ struct RemoteMsgBeaconTy : public RemoteMsgBaseTy {
     /// Constructor sets appropriate message type
     RemoteMsgBeaconTy();
 } PACKED;
+
+//
+// MARK: Settings
+//
 
 /// Setttings message version number
 constexpr std::uint8_t RMT_VER_SETTINGS = 0;
@@ -140,9 +153,13 @@ struct RemoteMsgSettingsTy : public RemoteMsgBaseTy {
     
 } PACKED;
 
+//
+// MARK: A/C Details
+//
+
 /// A/C detail message version number
 constexpr std::uint8_t RMT_VER_AC_DETAIL = 0;
-/// Number of dataRef values supported, it's rounded up to the next 8 bit boundary
+/// Number of dataRef values supported, it's rounded up to the next multiple of 8
 constexpr size_t RMT_V_COUNT = XPMP2::V_COUNT + (XPMP2::V_COUNT%8 == 0 ? 0 : (8-XPMP2::V_COUNT%8) );
 /// A/C details, packed into an array message
 struct RemoteAcDetailTy {
@@ -169,10 +186,9 @@ struct RemoteAcDetailTy {
     /// Default Constructor sets all to zero
     RemoteAcDetailTy ();
     /// A/c copy constructor fills from passed-in XPMP2::Aircraft object
-    RemoteAcDetailTy (const Aircraft& _ac);
-    /// @brief Copies values from passed-in XPMP2::Aircraft object
-    /// @note Main thread only! Uses XP SDK functions to convert coordinates
-    void CopyFrom (const Aircraft& _ac);
+    RemoteAcDetailTy (const Aircraft& _ac, double _lat, double _lon, float _alt_ft);
+    /// Copies values from passed-in XPMP2::Aircraft object
+    void CopyFrom (const Aircraft& _ac, double _lat, double _lon, float _alt_ft);
     
     // Getters/Setters for the packed members
     void SetModeSId (XPMPPlaneID _id);          ///< set modeS_id
@@ -203,14 +219,80 @@ struct RemoteMsgAcDetailTy : public RemoteMsgBaseTy {
     static size_t NumElem (size_t _msgLen) { return (_msgLen - sizeof(RemoteMsgBaseTy)) / sizeof(RemoteAcDetailTy); }
 } PACKED;
 
-// TODO: Packed Diff A/C message
-// TODO: A/C animation message
+//
+// MARK: A/C Position Update
+//
 
-/// A/C detail message version number
+/// A/C Position update message version number
+constexpr std::uint8_t RMT_VER_AC_POS_UPDATE = 0;
+
+/// What is the maximum difference a RemoteAcPosUpdateTy can hold?
+constexpr double REMOTE_DEGREE_RES          = 0.00000001;                   ///< resolution of degree updates
+constexpr double REMOTE_MAX_DIFF_DEGREE     = REMOTE_DEGREE_RES * INT16_MAX;///< maximum degree difference that can be represented in a pos update msg
+constexpr double REMOTE_ALT_FT_RES          = 0.01;                         ///< resolution of altitude[ft] updates
+constexpr double REMOTE_MAX_DIFF_ALT_FT     = REMOTE_ALT_FT_RES * INT16_MAX;///< maximum altitude[ft] difference that can be represented in a pos update msg
+
+/// @brief A/C Position updates based on global coordinates
+/// @details for space efficiency only deltas to last msg are given in
+///          0.0000001 degree lat/lon (roughly 1 centimeter resolution) and
+///          0.01 ft altitude
+struct RemoteAcPosUpdateTy {
+    std::uint32_t   modeS_id;           ///< plane's unique id at the sender side (might differ remotely in case of duplicates)
+    std::int16_t    dLat;               ///< [0.0000001 degrees] latitude position difference
+    std::int16_t    dLon;               ///< [0.0000001 degrees] longitude position difference
+    std::int16_t    dAlt_ft;            ///< [0.01 ft] altitude difference
+    std::int16_t    pitch;              ///< [0.01 degree] pitch/100
+    std::uint16_t   heading;            ///< [0.01 degree] heading/100
+    std::int16_t    roll;               ///< [0.01 degree] roll/100
+    
+    /// Default Constructor sets all 0
+    RemoteAcPosUpdateTy () { memset(this,0,sizeof(*this)); }
+    /// Constructor sets all values
+    RemoteAcPosUpdateTy (XPMPPlaneID _modeS_id,
+                         std::int16_t _dLat, std::int16_t _dLon, std::int16_t _dAlt_ft,
+                         float _pitch, float _heading, float _roll);
+    
+    void SetPitch (float _p) { pitch = std::int16_t(_p*100.0f); }  ///< sets pitch from float
+    float GetPitch () const { return float(pitch) / 100.0f; }               ///< returns float pitch
+
+    /// @brief Sets heading from float
+    /// @note Only works well for `0 <= _h < 360`
+    void SetHeading (float _h);
+    float GetHeading () const { return float(heading) / 100.0f; }           ///< returns float heading
+
+    void SetRoll (float _r) { roll = std::int16_t(std::lround(_r*100.0f)); }///< sets pitch from float
+    float GetRoll () const { return float(roll) / 100.0f; }                 ///< returns float pitch
+} PACKED;
+
+/// A/C detail message, has an inherited header plus an array of XPMP2::RemoteAcDetailTy elements
+struct RemoteMsgAcPosUpdateTy : public RemoteMsgBaseTy {
+    RemoteAcPosUpdateTy arr[1];         ///< basis for the array of actual position updates
+    
+    /// Constructor sets expected message type and version
+    RemoteMsgAcPosUpdateTy () : RemoteMsgBaseTy(RMT_MSG_AC_POS_UPDATE, RMT_VER_AC_POS_UPDATE) {}
+    /// Convert msg len to number of arr elements
+    static size_t NumElem (size_t _msgLen) { return (_msgLen - sizeof(RemoteMsgBaseTy)) / sizeof(RemoteAcPosUpdateTy); }
+} PACKED;
+
+//
+// TODO: A/C animation dataRefs
+//
+
+//
+// MARK: A/C Removal
+//
+
+
+/// A/C removal message version number
 constexpr std::uint8_t RMT_VER_AC_REMOVE = 0;
-/// A/C detail message, with all full details of an aircraft, required to start drawing that aircraft
+/// A/C removal message, an array of plane ids
 struct RemoteMsgAcRemoveTy : public RemoteMsgBaseTy {
-    std::uint32_t   modeS_id : 24;      ///< plane's unique id at the sender side (might differ remotely in case of duplicates)
+    XPMPPlaneID   arr[1];             ///< plane's unique id at the sender side (might differ remotely in case of duplicates)
+
+    /// Constructor sets expected message type and version
+    RemoteMsgAcRemoveTy () : RemoteMsgBaseTy(RMT_MSG_AC_REMOVE, RMT_VER_AC_REMOVE) {}
+    /// Convert msg len to number of arr elements
+    static size_t NumElem (size_t _msgLen) { return (_msgLen - sizeof(RemoteMsgBaseTy)) / sizeof(XPMPPlaneID); }
 } PACKED;
 
 #ifdef _MSC_VER                                 // Visual C++
@@ -223,6 +305,7 @@ static_assert(sizeof(RemoteMsgBaseTy)       ==   8,     "RemoteMsgBaseTy doesn't
 static_assert(sizeof(RemoteMsgSettingsTy)   ==  40,     "RemoteMsgSettingsTy doesn't have expected size");
 static_assert(sizeof(RemoteAcDetailTy)      ==  88+48,  "RemoteAcDetailTy doesn't have expected size");
 static_assert(sizeof(RemoteMsgAcDetailTy)   ==  96+48,  "RemoteMsgAcDetailTy doesn't have expected size");
+static_assert(sizeof(RemoteAcPosUpdateTy)   ==  16,     "RemoteAcPosUpdateTy doesn't have expected size");
 
 //
 // MARK: Miscellaneous
@@ -241,6 +324,9 @@ struct RemoteCBFctTy {
     /// Callback for processing A/C Details messages
     void (*pfMsgACDetails) (std::uint32_t from[4], size_t msgLen,
                             const RemoteMsgAcDetailTy&) = nullptr;
+    /// Callback for processing A/C Details messages
+    void (*pfMsgACPosUpdate) (std::uint32_t from[4], size_t msgLen,
+                              const RemoteMsgAcPosUpdateTy&) = nullptr;
 };
 
 /// State of remote communcations

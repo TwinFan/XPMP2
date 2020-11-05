@@ -33,10 +33,11 @@ protected:
     /// Timestamps when these two positions were valid, index 2 is for the next world coordinates, see below
     std::chrono::time_point<std::chrono::steady_clock> histTs[3];
     
-    /// Temporary storage for world coordinates until we can call XPMP2::Aircraft::SetLocation() to turn them into local coordinates
-    double lat      = NAN;
-    double lon      = NAN;
-    double alt_ft   = NAN;
+    // World coordinates
+    double lat      = NAN;              ///< latitude
+    double lon      = NAN;              ///< longitude
+    double alt_ft   = NAN;              ///< altitude [ft]
+    bool bWorldCoordUpdated = false;    ///< shall freshly set values be used in the next UpdatePosition callback?
     
     /// temporary storage until Create() for A/C details sent by master plugin
     XPMP2::RemoteAcDetailTy* pAcDetail = nullptr;
@@ -50,9 +51,11 @@ public:
     /// Actually create the aircraft, ultimately calls XPMP2::Aircraft::Create()
     void Create ();
     
-    /// Update data from a a/c detail structure
+    /// Update data from an a/c detail structure
     void Update (const XPMP2::RemoteAcDetailTy& _acDetails);
-    
+    /// Update data from an a/c position update
+    void Update (const XPMP2::RemoteAcPosUpdateTy& _acPosUpd);
+
     /// Called by XPMP2 for position updates, extrapolates from historic positions
     void UpdatePosition (float, int) override;
     
@@ -104,6 +107,11 @@ typedef std::map<SenderAddrTy,SenderTy> mapSenderTy;
 void ClientInit();
 /// Shuts down the module gracefully
 void ClientCleanup();
+
+/// Try getting TCAS/AI control
+void ClientTryGetAI ();
+/// Stop TCAS/AI control
+void ClientReleaseAI ();
 
 /// @brief Toggles the cient's activitiy status, as based on menu command
 /// @param nForce 3-way toggle: `-1?  force off, `0` toggle, `+1` force on

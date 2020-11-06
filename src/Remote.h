@@ -42,6 +42,7 @@ enum RemoteCfgTy : int {
 /// Holds a copy of some aircraft data as was sent out last
 struct RmtAcCacheTy {
     const unsigned  fullUpdGrp;         ///< full update group, with which planes are distributed to load balance sending XPMP2::RMT_MSG_AC_DETAILED messages
+    float ts;                           ///< timestamp this position was valid (XP network time)
     double lat;                         ///< degree latitude
     double lon;                         ///< degree longitude
     double alt_ft;                      ///< feet altitude

@@ -27,25 +27,28 @@
 /// Representation of a remote aircraft
 class RemoteAC : public XPMP2::Aircraft {
 protected:
+    // A few defining information taken over from the sender
+    XPMPPlaneID   senderId = 0;         ///< sender's plane id (might be different here in case of deduplication)
+    std::uint16_t pkgHash = 0;          ///< hash value of CSL model package
+    std::string   sShortId;             ///< CSL model's short id
+    
     /// @brief We keep 2 historic positions to be able to calculate simple linear extrapolation
     /// @details Index 0 is the older one, index 1 the newer one
     XPLMDrawInfo_t histPos[2];
-    /// Timestamps when these two positions were valid, index 2 is for the next world coordinates, see below
-    std::chrono::time_point<std::chrono::steady_clock> histTs[3];
+    /// Timestamps when these two positions were valid
+    std::chrono::time_point<std::chrono::steady_clock> histTs[2];
     
     // World coordinates
     double lat      = NAN;              ///< latitude
     double lon      = NAN;              ///< longitude
     double alt_ft   = NAN;              ///< altitude [ft]
+    std::chrono::duration<int,std::ratio<1, 10000>> diffTime;   ///< time difference to previous historic position as passed in by the sender
     bool bWorldCoordUpdated = false;    ///< shall freshly set values be used in the next UpdatePosition callback?
-    
-    /// temporary storage until Create() for A/C details sent by master plugin
-    XPMP2::RemoteAcDetailTy* pAcDetail = nullptr;
     
 public:
     /// Constructor for use in network thread: Does _not_ Create the aircraft but only stores the passed information
     RemoteAC (const XPMP2::RemoteAcDetailTy& _acDetails);
-    /// Destructor frees memory of not yet done
+    /// Destructor 
     virtual ~RemoteAC();
     
     /// Actually create the aircraft, ultimately calls XPMP2::Aircraft::Create()
@@ -58,10 +61,6 @@ public:
 
     /// Called by XPMP2 for position updates, extrapolates from historic positions
     void UpdatePosition (float, int) override;
-    
-protected:
-    /// frees the temporary stored network msg
-    void Free ();
 };
 
 /// Map of remote aircraft; key is the plane id as sent by the sending plugin (while the _modeS_id of the local copy could differ)

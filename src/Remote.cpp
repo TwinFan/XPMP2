@@ -127,7 +127,7 @@ std::mutex gmutexRmtData;           ///< protects modifying access to the queue 
 // Constructor copies relevant values from the passed-in aircraft
 RmtAcCacheTy::RmtAcCacheTy (const Aircraft& ac,
                             double _lat, double _lon, double _alt_ft) :
-fullUpdGrp(++gNxtFullUpdGrpToAssign),
+fullUpdGrp(++gNxtFullUpdGrpToAssign), ts(gNow),
 lat(_lat), lon(_lon), alt_ft(_alt_ft),
 drawInfo(ac.drawInfo), v(ac.v)
 {
@@ -140,10 +140,11 @@ drawInfo(ac.drawInfo), v(ac.v)
 void RmtAcCacheTy::UpdateFrom (const Aircraft& ac,
                                double _lat, double _lon, double _alt_ft)
 {
-    drawInfo = ac.drawInfo;
+    ts = gNow;                      // is valid right now
     lat = _lat;
     lon = _lon;
     alt_ft = _alt_ft;
+    drawInfo = ac.drawInfo;
     v = ac.v;
     bValid      = ac.IsValid();
     bVisible    = ac.IsVisible();
@@ -190,30 +191,29 @@ RemoteAcDetailTy::RemoteAcDetailTy ()
 
 // A/c copy constructor fills from passed-in XPMP2::Aircraft object
 RemoteAcDetailTy::RemoteAcDetailTy (const Aircraft& _ac,
-                                    double _lat, double _lon, float _alt_ft)
+                                    double _lat, double _lon, float _alt_ft,
+                                    std::uint16_t _dTime)
 {
     // set everything to zero
     memset(this, 0, sizeof(*this));
     lat = lon = 0.0;
     alt_ft = 0.0f;
     // then copy from a/c
-    CopyFrom(_ac, _lat, _lon, _alt_ft);
+    CopyFrom(_ac, _lat, _lon, _alt_ft, _dTime);
 }
 
 // Copies values from passed-in XPMP2::Aircraft object
 void RemoteAcDetailTy::CopyFrom (const Aircraft& _ac,
-                                 double _lat, double _lon, float _alt_ft)
+                                 double _lat, double _lon, float _alt_ft,
+                                 std::uint16_t _dTime)
 {
+    modeS_id = _ac.GetModeS_ID();
     strncpy(icaoType,   _ac.acIcaoType.c_str(),                 sizeof(icaoType));
     strncpy(icaoOp,     _ac.acIcaoAirline.c_str(),              sizeof(icaoOp));
     strncpy(sShortId,   _ac.GetModel()->GetShortId().c_str(),   sizeof(sShortId));
     pkgHash = _ac.GetModel()->pkgHash;
-    bValid = _ac.IsValid();
-    bVisible = _ac.IsVisible();
     strncpy(label,      _ac.label.c_str(),                      sizeof(label));
     SetLabelCol(_ac.colLabel);
-    SetModeSId(_ac.GetModeS_ID());
-    aiPrio   = std::int16_t(_ac.aiPrio);
     
     // World Position
     lat = _lat;
@@ -225,23 +225,14 @@ void RemoteAcDetailTy::CopyFrom (const Aircraft& _ac,
     SetHeading  (_ac.drawInfo.heading);
     SetRoll     (_ac.drawInfo.roll);
 
+    aiPrio   = std::int16_t(_ac.aiPrio);
+    dTime    = _dTime;
+    bValid   = _ac.IsValid();
+    bVisible = _ac.IsVisible();
+
     // dataRef Animation values converted to uint8
     for (size_t i = 0; i < XPMP2::V_COUNT; ++i)
         v[i] = REMOTE_DR_DEF[i].pack(_ac.v[i]);
-}
-
-// set modeS_id
-void RemoteAcDetailTy::SetModeSId (XPMPPlaneID _id)
-{
-    modeS_id[0] = std::uint8_t( _id & 0x0000FF       );
-    modeS_id[1] = std::uint8_t((_id & 0x00FF00) >>  8);
-    modeS_id[2] = std::uint8_t((_id & 0xFF0000) >> 16);
-}
-
-// retrieve modeS_id
-XPMPPlaneID RemoteAcDetailTy::GetModeSId() const
-{
-    return (XPMPPlaneID(modeS_id[2]) << 16) | (XPMPPlaneID(modeS_id[1]) << 8) | XPMPPlaneID(modeS_id[0]);
 }
 
 // set the label color from a float array (4th number, alpha, is always considered 1.0)
@@ -274,9 +265,12 @@ RemoteAcPosUpdateTy::RemoteAcPosUpdateTy (XPMPPlaneID _modeS_id,
                                           std::int16_t _dLat,
                                           std::int16_t _dLon,
                                           std::int16_t _dAlt_ft,
+                                          std::uint16_t _dTime,
                                           float _pitch, float _heading, float _roll) :
 modeS_id(_modeS_id),
-dLat(_dLat), dLon(_dLon), dAlt_ft(_dAlt_ft)
+dLat(_dLat), dLon(_dLon), dAlt_ft(_dAlt_ft),
+dTime(_dTime),
+filler1(0)
 {
     SetPitch(_pitch);
     SetHeading(_heading);
@@ -998,9 +992,10 @@ void RemoteAcEnqueue (const Aircraft& ac)
          acCache.bVisible   != ac.IsVisible()    ||
          acCache.bValid     != ac.IsValid()      ||
          // are the differences that we need to send too large for a pos update msg?
-         std::abs(lat - acCache.lat) > REMOTE_MAX_DIFF_DEGREE ||
-         std::abs(lon - acCache.lon) > REMOTE_MAX_DIFF_DEGREE ||
-         std::abs(alt_ft - acCache.alt_ft) > REMOTE_MAX_DIFF_ALT_FT))
+         std::abs(lat -    acCache.lat)    > REMOTE_MAX_DIFF_DEGREE ||
+         std::abs(lon -    acCache.lon)    > REMOTE_MAX_DIFF_DEGREE ||
+         std::abs(alt_ft - acCache.alt_ft) > REMOTE_MAX_DIFF_ALT_FT ||
+         gNow -            acCache.ts      > REMOTE_MAX_DIFF_TIME))
         bSendFullDetails = true;
         
     // We should own the mutex already...just to be sure
@@ -1008,15 +1003,17 @@ void RemoteAcEnqueue (const Aircraft& ac)
     
     if (bSendFullDetails) {
         // add to the full data, protected by a lock
-        gqueueRmtData.emplace(new RmtDataAcDetailTy(RemoteAcDetailTy(ac,lat,lon,float(alt_ft))));
+        gqueueRmtData.emplace(new RmtDataAcDetailTy(RemoteAcDetailTy(ac,lat,lon,float(alt_ft),
+                                                                     (std::uint16_t)std::lround((gNow  - acCache.ts)     / REMOTE_TIME_RES))));
     }
     else {
         // add the position update to the queue, containing a delta position
         gqueueRmtData.emplace(new RmtDataAcPosUpdateTy(RemoteAcPosUpdateTy(
             ac.GetModeS_ID(),                                                   // modeS_id
-            std::int16_t((lat       - acCache.lat)      / REMOTE_DEGREE_RES),   // dLat
-            std::int16_t((lon       - acCache.lon)      / REMOTE_DEGREE_RES),   // dLon
-            std::int16_t((alt_ft    - acCache.alt_ft)   / REMOTE_ALT_FT_RES),   // dAlt_ft
+            (std::int16_t) std::lround((lat   - acCache.lat)    / REMOTE_DEGREE_RES),   // dLat
+            (std::int16_t) std::lround((lon   - acCache.lon)    / REMOTE_DEGREE_RES),   // dLon
+            (std::int16_t) std::lround((alt_ft- acCache.alt_ft) / REMOTE_ALT_FT_RES),   // dAlt_ft
+            (std::uint16_t)std::lround((gNow  - acCache.ts)     / REMOTE_TIME_RES),     // dTime
             ac.GetPitch(), ac.GetHeading(), ac.GetRoll()
         )));
     }

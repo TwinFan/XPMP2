@@ -192,7 +192,7 @@ public:
     /// Buffer size, ie. max message length we send over multicast
     size_t          remoteBufSize   = 8192;
     /// Max transfer frequency per second
-    int             remoteTxfFrequ  = 20;
+    int             remoteTxfFrequ  = 5;
     /// Configuration: Are we to support remote connections?
     RemoteCfgTy     remoteCfg       = REMOTE_CFG_CONDITIONALLY;
     /// Status of remote connections to networked clients

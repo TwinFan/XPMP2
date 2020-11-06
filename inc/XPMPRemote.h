@@ -31,6 +31,7 @@
 
 #include <cassert>
 #include <cstdint>
+#include <cstring>
 #include <cmath>
 #include <array>
 #include <algorithm>
@@ -53,7 +54,7 @@ std::uint16_t PJWHash16 (const char *s);
 ///          If an exact match with `pkgHash` _and_ `shortID` is not found,
 ///          then a model matching the short id alone is returned if available.
 CSLModel* CSLModelByPkgShortId (std::uint16_t _pkgHash,
-                                const char* _shortId, size_t _shortIdMaxSize);
+                                const std::string& _shortId);
 
 //
 // MARK: Network Data Definitions
@@ -159,18 +160,14 @@ struct RemoteMsgSettingsTy : public RemoteMsgBaseTy {
 
 /// A/C detail message version number
 constexpr std::uint8_t RMT_VER_AC_DETAIL = 0;
-/// Number of dataRef values supported, it's rounded up to the next multiple of 8
-constexpr size_t RMT_V_COUNT = XPMP2::V_COUNT + (XPMP2::V_COUNT%8 == 0 ? 0 : (8-XPMP2::V_COUNT%8) );
 /// A/C details, packed into an array message
 struct RemoteAcDetailTy {
+    std::uint32_t   modeS_id;           ///< plane's unique id at the sender side (might differ remotely in case of duplicates)
     char            icaoType[4];        ///< icao a/c type
     char            icaoOp[4];          ///< icao airline code
     char            sShortId[20];       ///< CSL model's short id
     std::uint16_t   pkgHash;            ///< hash value of package name
-    bool            bValid : 1;         ///< is this object valid? (Will be reset in case of exceptions)
-    bool            bVisible : 1;       ///< Shall this plane be drawn at the moment?
     char            label[23];          ///< label
-    std::uint8_t    modeS_id[3];        ///< plane's unique id at the sender side (might differ remotely in case of duplicates)
     std::uint8_t    labelCol[3];        ///< label color (RGB)
     float           alt_ft;             ///< [ft] current altitude
     // ^ the above has 64 bytes, so that these doubles start on an 8-byte bounday:
@@ -179,21 +176,24 @@ struct RemoteAcDetailTy {
     std::int16_t    pitch;              ///< [0.01°] pitch/100
     std::uint16_t   heading;            ///< [0.01°] heading/100
     std::int16_t    roll;               ///< [0.01°] roll/100
+    
     std::int16_t    aiPrio;             ///< priority for display in limited TCAS target slots, `-1` indicates "no TCAS display"
+    std::uint16_t   dTime;              ///< [0.0001s] time difference to previous position in 1/10000s
+    bool            bValid : 1;         ///< is this object valid? (Will be reset in case of exceptions)
+    bool            bVisible : 1;       ///< Shall this plane be drawn at the moment?
+    
+    std::uint8_t    filler[3];          ///< yet unused
+    
     ///< Array of _packed_ dataRef values for CSL model animation
-    std::uint8_t    v[RMT_V_COUNT];
+    std::uint8_t    v[XPMP2::V_COUNT];    // 42
 
     /// Default Constructor sets all to zero
     RemoteAcDetailTy ();
     /// A/c copy constructor fills from passed-in XPMP2::Aircraft object
-    RemoteAcDetailTy (const Aircraft& _ac, double _lat, double _lon, float _alt_ft);
+    RemoteAcDetailTy (const Aircraft& _ac, double _lat, double _lon, float _alt_ft, std::uint16_t _dTime);
     /// Copies values from passed-in XPMP2::Aircraft object
-    void CopyFrom (const Aircraft& _ac, double _lat, double _lon, float _alt_ft);
+    void CopyFrom (const Aircraft& _ac, double _lat, double _lon, float _alt_ft, std::uint16_t _dTime);
     
-    // Getters/Setters for the packed members
-    void SetModeSId (XPMPPlaneID _id);          ///< set modeS_id
-    XPMPPlaneID GetModeSId () const;            ///< retrieve modeS_id
-
     void SetLabelCol (const float _col[4]);     ///< set the label color from a float array (4th number, alpha, is always considered 1.0)
     void GetLabelCol (float _col[4]) const;     ///< writes color out into a float array
     
@@ -231,6 +231,8 @@ constexpr double REMOTE_DEGREE_RES          = 0.00000001;                   ///<
 constexpr double REMOTE_MAX_DIFF_DEGREE     = REMOTE_DEGREE_RES * INT16_MAX;///< maximum degree difference that can be represented in a pos update msg
 constexpr double REMOTE_ALT_FT_RES          = 0.01;                         ///< resolution of altitude[ft] updates
 constexpr double REMOTE_MAX_DIFF_ALT_FT     = REMOTE_ALT_FT_RES * INT16_MAX;///< maximum altitude[ft] difference that can be represented in a pos update msg
+constexpr float  REMOTE_TIME_RES            = 0.0001f;                      ///< resolution of time difference
+constexpr float  REMOTE_MAX_DIFF_TIME       = REMOTE_TIME_RES * UINT16_MAX; ///< maximum time difference thatn can be represented in a pos update msg
 
 /// @brief A/C Position updates based on global coordinates
 /// @details for space efficiency only deltas to last msg are given in
@@ -241,15 +243,18 @@ struct RemoteAcPosUpdateTy {
     std::int16_t    dLat;               ///< [0.0000001 degrees] latitude position difference
     std::int16_t    dLon;               ///< [0.0000001 degrees] longitude position difference
     std::int16_t    dAlt_ft;            ///< [0.01 ft] altitude difference
+    std::uint16_t   dTime;              ///< [0.0001s] time difference to previous position in 1/10000s
     std::int16_t    pitch;              ///< [0.01 degree] pitch/100
     std::uint16_t   heading;            ///< [0.01 degree] heading/100
     std::int16_t    roll;               ///< [0.01 degree] roll/100
+    std::uint16_t   filler1;            ///< not yet used (for 4-byte alignment)
     
     /// Default Constructor sets all 0
-    RemoteAcPosUpdateTy () { memset(this,0,sizeof(*this)); }
+    RemoteAcPosUpdateTy () { std::memset(this,0,sizeof(*this)); }
     /// Constructor sets all values
     RemoteAcPosUpdateTy (XPMPPlaneID _modeS_id,
-                         std::int16_t _dLat, std::int16_t _dLon, std::int16_t _dAlt_ft,
+                         std::int16_t _dLat, std::int16_t _dLon,
+                         std::int16_t _dAlt_ft, std::uint16_t _dTime,
                          float _pitch, float _heading, float _roll);
     
     void SetPitch (float _p) { pitch = std::int16_t(_p*100.0f); }  ///< sets pitch from float
@@ -303,9 +308,11 @@ struct RemoteMsgAcRemoveTy : public RemoteMsgBaseTy {
 // Note that each individual structure size is a multiple of 8 for good array alignment.
 static_assert(sizeof(RemoteMsgBaseTy)       ==   8,     "RemoteMsgBaseTy doesn't have expected size");
 static_assert(sizeof(RemoteMsgSettingsTy)   ==  40,     "RemoteMsgSettingsTy doesn't have expected size");
-static_assert(sizeof(RemoteAcDetailTy)      ==  88+48,  "RemoteAcDetailTy doesn't have expected size");
-static_assert(sizeof(RemoteMsgAcDetailTy)   ==  96+48,  "RemoteMsgAcDetailTy doesn't have expected size");
-static_assert(sizeof(RemoteAcPosUpdateTy)   ==  16,     "RemoteAcPosUpdateTy doesn't have expected size");
+static_assert(sizeof(RemoteAcDetailTy)      ==  94+42,  "RemoteAcDetailTy doesn't have expected size");
+static_assert(sizeof(RemoteMsgAcDetailTy)   == 102+42,  "RemoteMsgAcDetailTy doesn't have expected size");
+static_assert(sizeof(RemoteAcPosUpdateTy)   ==  20,     "RemoteAcPosUpdateTy doesn't have expected size");
+static_assert(sizeof(RemoteMsgAcPosUpdateTy)==  28,     "RemoteMsgAcPosUpdateTy doesn't have expected size");
+static_assert(sizeof(RemoteMsgAcRemoveTy)   ==  12,     "RemoteMsgAcRemoveTy doesn't have expected size");
 
 //
 // MARK: Miscellaneous

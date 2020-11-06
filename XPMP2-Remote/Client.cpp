@@ -33,43 +33,29 @@ std::chrono::time_point<std::chrono::steady_clock> nowFlightLoop;
 
 // Constructor for use in network thread: Does _not_ Create the aircraft but only stores the passed information
 RemoteAC::RemoteAC (const XPMP2::RemoteAcDetailTy& _acDetails) :
-XPMP2::Aircraft()               // do _not_ create an actual plane!
+XPMP2::Aircraft(),              // do _not_ create an actual plane!
+senderId(_acDetails.modeS_id),
+pkgHash(_acDetails.pkgHash),
+sShortId(str_n(_acDetails.sShortId, sizeof(_acDetails.sShortId)))
 {
     // Initialization
-    histPos[0] = {sizeof(XPLMDrawInfo_t), 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+    histPos[0] = {sizeof(XPLMDrawInfo_t), NAN, NAN, NAN, 0.0f, 0.0f, 0.0f};
     histPos[1] = histPos[0];
     
-    // temporarily store the information without doing anything with it yet
-    pAcDetail = new XPMP2::RemoteAcDetailTy(_acDetails);
-    LOG_ASSERT(pAcDetail);
+    // store the a/c detail information
+    Update(_acDetails);
 }
 
 // Destructor
 RemoteAC::~RemoteAC()
-{
-    Free();
-}
+{}
 
 // Actually create the aircraft, ultimately calls XPMP2::Aircraft::Create()
 void RemoteAC::Create ()
 {
-    LOG_ASSERT(pAcDetail);
-
-    // Save all information
-    Update(*pAcDetail);
-
     // Create the actual plane
-    Aircraft::Create(acIcaoType, acIcaoAirline, acLivery,
-                     pAcDetail->GetModeSId(), "",
-                     XPMP2::CSLModelByPkgShortId(pAcDetail->pkgHash,
-                                                 pAcDetail->sShortId, sizeof(pAcDetail->sShortId)));
-    
-    // Initialize both historic positions to the only position we know
-    histPos[0] = histPos[1];
-    histTs[0]  = histTs[1];
-    
-    // don't need pAcDetail any longer, free up that space
-    Free();
+    Aircraft::Create(acIcaoType, acIcaoAirline, acLivery, senderId, "",
+                     XPMP2::CSLModelByPkgShortId(pkgHash, sShortId));
 }
 
 // Update data from a a/c detail structure
@@ -85,7 +71,7 @@ void RemoteAC::Update (const XPMP2::RemoteAcDetailTy& _acDetails)
     lat = _acDetails.lat;
     lon = _acDetails.lon;
     alt_ft = double(_acDetails.alt_ft);
-    histTs[2] = std::chrono::steady_clock::now();
+    diffTime = std::chrono::duration<int,std::ratio<1, 10000>>(_acDetails.dTime);
     bWorldCoordUpdated = true;          // flag for UpdatePosition() to read fresh data
 
     drawInfo.pitch      = _acDetails.GetPitch();
@@ -101,6 +87,9 @@ void RemoteAC::Update (const XPMP2::RemoteAcDetailTy& _acDetails)
     // Animation dataRefs
     for (size_t i = 0; i < XPMP2::V_COUNT; ++i)
         v[i] = XPMP2::REMOTE_DR_DEF[i].unpack(_acDetails.v[i]);
+/*
+    LOG_MSG(logDEBUG, " 0x%06X: %.7f / %.7f, %.1f",
+            GetModeS_ID(), lat, lon, alt_ft);*/
 }
 
 // Update data from an a/c position update
@@ -110,12 +99,18 @@ void RemoteAC::Update (const XPMP2::RemoteAcPosUpdateTy& _acPosUpd)
     lat     += XPMP2::REMOTE_DEGREE_RES * double(_acPosUpd.dLat);
     lon     += XPMP2::REMOTE_DEGREE_RES * double(_acPosUpd.dLon);
     alt_ft  += XPMP2::REMOTE_ALT_FT_RES * double(_acPosUpd.dAlt_ft);
-    histTs[2] = std::chrono::steady_clock::now();
+    diffTime = std::chrono::duration<int,std::ratio<1, 10000>>(_acPosUpd.dTime);
     bWorldCoordUpdated = true;          // flag for UpdatePosition() to read fresh data
 
     drawInfo.pitch      = _acPosUpd.GetPitch();
     drawInfo.heading    = _acPosUpd.GetHeading();
     drawInfo.roll       = _acPosUpd.GetRoll();
+/*
+    LOG_MSG(logDEBUG, "0x%06X: %.7f / %.7f, %.1f  <-- %+.7f / %+.7f, %+.1f",
+            GetModeS_ID(), lat, lon, alt_ft,
+            _acPosUpd.dLat * XPMP2::REMOTE_DEGREE_RES,
+            _acPosUpd.dLon * XPMP2::REMOTE_DEGREE_RES,
+            _acPosUpd.dAlt_ft * XPMP2::REMOTE_ALT_FT_RES); */
 }
 
 // Called by XPMP2 for position updates, extrapolates from historic positions
@@ -128,25 +123,40 @@ void RemoteAC::UpdatePosition (float, int)
 
         // cycle the historic positions and save the new one
         histPos[0] = histPos[1];
-        histTs[0]  = histTs[1];
         histPos[1] = drawInfo;
-        histTs[1]  = histTs[2];             // [2] was also set in Update()
+        // Timestamp: This one [1] is valid _now_
+        histTs[1]  = nowFlightLoop;
+        histTs[0]  = histTs[1] - diffTime;
+
+        // Special handling for heading as [0] and [1] could be on different sides of 0 / 360 degrees:
+        // We push things towards positive figures larger than 360
+        // as we can then just use fmod(h,360) and don't care about negatives
+        if (histPos[0].heading >= 360.0f)       // if we increased the value last time we need to normalize it before re-calculation
+            histPos[0].heading -= 360.0f;
+        const float diffHead = histPos[0].heading - histPos[1].heading;
+        if (diffHead > 180.0f)
+            histPos[1].heading += 360.0f;
+        else if (diffHead < -180.0f)
+            histPos[0].heading += 360.0f;
     }
-    
-    std::chrono::steady_clock::duration dHist = histTs[1] - histTs[0];
-    if (dHist == std::chrono::steady_clock::duration::zero())
-        drawInfo = histPos[1];
-    else {
-        // extrapolate current position based on the two historic ones and current time
-        std::chrono::steady_clock::duration dNow = nowFlightLoop - histTs[0];
+    // extrapolate based on last 2 positions if 2 positions are known with differing timestamps
+    else if (!std::isnan(histPos[0].x) && histTs[1] > histTs[0]) {
+        const std::chrono::steady_clock::duration dHist = histTs[1] - histTs[0];
+        const std::chrono::steady_clock::duration dNow = nowFlightLoop - histTs[0];
         try {
-            const float f = float(dNow / dHist);
+            const float f = float(dNow.count()) / float(dHist.count());
             drawInfo.x       = histPos[0].x       + f * (histPos[1].x       - histPos[0].x);
             drawInfo.y       = histPos[0].y       + f * (histPos[1].y       - histPos[0].y);
             drawInfo.z       = histPos[0].z       + f * (histPos[1].z       - histPos[0].z);
             drawInfo.pitch   = histPos[0].pitch   + f * (histPos[1].pitch   - histPos[0].pitch);
-            drawInfo.heading = histPos[0].heading + f * (histPos[1].heading - histPos[0].heading);
+            drawInfo.heading = std::fmod(histPos[0].heading + f * (histPos[1].heading - histPos[0].heading), 360.0f);
             drawInfo.roll    = histPos[0].roll    + f * (histPos[1].roll    - histPos[0].roll);
+
+/*                LOG_MSG(logDEBUG, "0x%06X: %.2f / %.2f / %.2f  ==> %+8.2f / %+8.2f / %+8.2f  [%.4f]",
+                        GetModeS_ID(), drawInfo.x, drawInfo.y, drawInfo.z,
+                        drawInfo.x-prevDraw.x,
+                        drawInfo.y-prevDraw.y,
+                        drawInfo.z-prevDraw.z, f); */
         }
         catch (...) {
             drawInfo = histPos[1];
@@ -154,14 +164,6 @@ void RemoteAC::UpdatePosition (float, int)
     }
     
     // TODO: Animation dataRefs
-}
-
-// frees the temporary stored network msg
-void RemoteAC::Free ()
-{
-    if (pAcDetail)
-        delete pAcDetail;
-    pAcDetail = nullptr;
 }
 
 //
@@ -326,7 +328,7 @@ void ClientFlightLoopBegins ()
     // Acquire the data access lock once and keep it while the flight loop is running
     glockDataMain.lock();
 
-    // If needed create new aircraft the have been prepared in the meantime
+    // If needed create new aircraft that have been prepared in the meantime
     if (gbSkipNewAc.test_and_set()) {
         for (auto& s: rcGlob.gmapSender) {              // loop all senders
             for (auto& a: s.second.mapAc) {             // loop all a/c of that sender                
@@ -359,13 +361,13 @@ void ClientProcAcDetails (std::uint32_t _from[4], size_t _msgLen,
     for (size_t i = 0; i < numAc; ++i) {
         const XPMP2::RemoteAcDetailTy& acDetails = _msgAcDetails.arr[i];
         // Is the aircraft known?
-        mapRemoteAcTy::iterator iAc = pSender->mapAc.find(acDetails.GetModeSId());
+        mapRemoteAcTy::iterator iAc = pSender->mapAc.find(acDetails.modeS_id);
         // Now require access (for each plane, because we want to give the main thread's flight loop a better change to grab the lock if needed)
         std::unique_lock<std::mutex> lk(gmutexData);
         // Is the aircraft known?
         if (iAc == pSender->mapAc.end()) {
             // new aircraft, create an object for it, but not yet the actual plane (as this is the network thread)
-            pSender->mapAc.emplace(acDetails.GetModeSId(), acDetails);
+            pSender->mapAc.emplace(acDetails.modeS_id, acDetails);
             // tell the main thread that it shall process new a/c
             gbSkipNewAc.clear();
         } else {

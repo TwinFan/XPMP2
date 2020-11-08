@@ -70,6 +70,12 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:af4101a3ca1e1c5011d511d7d614ae6fb"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteCBFctTy.html#af4101a3ca1e1c5011d511d7d614ae6fb">pfMsgACDetails</a> )(std::uint32_t from[4], size_t msgLen, const <a class="el" href="structXPMP2_1_1RemoteMsgAcDetailTy.html">RemoteMsgAcDetailTy</a> &amp;) = nullptr</td></tr>
 <tr class="memdesc:af4101a3ca1e1c5011d511d7d614ae6fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for processing A/C Details messages.  <a href="structXPMP2_1_1RemoteCBFctTy.html#af4101a3ca1e1c5011d511d7d614ae6fb">More...</a><br /></td></tr>
 <tr class="separator:af4101a3ca1e1c5011d511d7d614ae6fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f10edc5b77571cd41424bbba923d55e"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteCBFctTy.html#a8f10edc5b77571cd41424bbba923d55e">pfMsgACPosUpdate</a> )(std::uint32_t from[4], size_t msgLen, const <a class="el" href="structXPMP2_1_1RemoteMsgAcPosUpdateTy.html">RemoteMsgAcPosUpdateTy</a> &amp;) = nullptr</td></tr>
+<tr class="memdesc:a8f10edc5b77571cd41424bbba923d55e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for processing A/C Details messages.  <a href="structXPMP2_1_1RemoteCBFctTy.html#a8f10edc5b77571cd41424bbba923d55e">More...</a><br /></td></tr>
+<tr class="separator:a8f10edc5b77571cd41424bbba923d55e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9919f4ffa755b51f39359a1399e9ebad"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteCBFctTy.html#a9919f4ffa755b51f39359a1399e9ebad">pfMsgACAnim</a> )(std::uint32_t from[4], size_t msgLen, const <a class="el" href="structXPMP2_1_1RemoteMsgAcAnimTy.html">RemoteMsgAcAnimTy</a> &amp;) = nullptr</td></tr>
+<tr class="memdesc:a9919f4ffa755b51f39359a1399e9ebad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for processing A/C Animation dataRef messages.  <a href="structXPMP2_1_1RemoteCBFctTy.html#a9919f4ffa755b51f39359a1399e9ebad">More...</a><br /></td></tr>
+<tr class="separator:a9919f4ffa755b51f39359a1399e9ebad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Function prototypes for callback functions to handle the received messages. </p>
@@ -106,6 +112,22 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a9919f4ffa755b51f39359a1399e9ebad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9919f4ffa755b51f39359a1399e9ebad">&#9670;&nbsp;</a></span>pfMsgACAnim</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(* XPMP2::RemoteCBFctTy::pfMsgACAnim) (std::uint32_t from[4], size_t msgLen, const <a class="el" href="structXPMP2_1_1RemoteMsgAcAnimTy.html">RemoteMsgAcAnimTy</a> &amp;) = nullptr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Callback for processing A/C Animation dataRef messages. </p>
+
+</div>
+</div>
 <a id="af4101a3ca1e1c5011d511d7d614ae6fb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af4101a3ca1e1c5011d511d7d614ae6fb">&#9670;&nbsp;</a></span>pfMsgACDetails</h2>
 
@@ -114,6 +136,22 @@ Public Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">void(* XPMP2::RemoteCBFctTy::pfMsgACDetails) (std::uint32_t from[4], size_t msgLen, const <a class="el" href="structXPMP2_1_1RemoteMsgAcDetailTy.html">RemoteMsgAcDetailTy</a> &amp;) = nullptr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Callback for processing A/C Details messages. </p>
+
+</div>
+</div>
+<a id="a8f10edc5b77571cd41424bbba923d55e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f10edc5b77571cd41424bbba923d55e">&#9670;&nbsp;</a></span>pfMsgACPosUpdate</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void(* XPMP2::RemoteCBFctTy::pfMsgACPosUpdate) (std::uint32_t from[4], size_t msgLen, const <a class="el" href="structXPMP2_1_1RemoteMsgAcPosUpdateTy.html">RemoteMsgAcPosUpdateTy</a> &amp;) = nullptr</td>
         </tr>
       </table>
 </div><div class="memdoc">

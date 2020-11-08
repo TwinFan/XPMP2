@@ -41,7 +41,6 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classRemoteAC-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -71,14 +70,20 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a77007b6d42af78b64e6c8c1b752dac72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for use in network thread: Does <em>not</em> Create the aircraft but only stores the passed information.  <a href="classRemoteAC.html#a77007b6d42af78b64e6c8c1b752dac72">More...</a><br /></td></tr>
 <tr class="separator:a77007b6d42af78b64e6c8c1b752dac72"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a910c14acda3148af43a3a19fc96bd433"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRemoteAC.html#a910c14acda3148af43a3a19fc96bd433">~RemoteAC</a> ()</td></tr>
-<tr class="memdesc:a910c14acda3148af43a3a19fc96bd433"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor frees memory of not yet done.  <a href="classRemoteAC.html#a910c14acda3148af43a3a19fc96bd433">More...</a><br /></td></tr>
+<tr class="memdesc:a910c14acda3148af43a3a19fc96bd433"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="classRemoteAC.html#a910c14acda3148af43a3a19fc96bd433">More...</a><br /></td></tr>
 <tr class="separator:a910c14acda3148af43a3a19fc96bd433"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6832c4e8b24b18b033ea28fdc2a23723"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRemoteAC.html#a6832c4e8b24b18b033ea28fdc2a23723">Create</a> ()</td></tr>
 <tr class="memdesc:a6832c4e8b24b18b033ea28fdc2a23723"><td class="mdescLeft">&#160;</td><td class="mdescRight">Actually create the aircraft, ultimately calls <a class="el" href="classXPMP2_1_1Aircraft.html#a7ece414d098de338e22e995ba4a696df" title="Creates a plane, only a valid operation if object was created using the default constructor.">XPMP2::Aircraft::Create()</a>  <a href="classRemoteAC.html#a6832c4e8b24b18b033ea28fdc2a23723">More...</a><br /></td></tr>
 <tr class="separator:a6832c4e8b24b18b033ea28fdc2a23723"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa60cc716ca51aa144a4260cefdf92fc4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRemoteAC.html#aa60cc716ca51aa144a4260cefdf92fc4">Update</a> (const <a class="el" href="structXPMP2_1_1RemoteAcDetailTy.html">XPMP2::RemoteAcDetailTy</a> &amp;_acDetails)</td></tr>
-<tr class="memdesc:aa60cc716ca51aa144a4260cefdf92fc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update data from a a/c detail structure.  <a href="classRemoteAC.html#aa60cc716ca51aa144a4260cefdf92fc4">More...</a><br /></td></tr>
+<tr class="memdesc:aa60cc716ca51aa144a4260cefdf92fc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update data from an a/c detail structure.  <a href="classRemoteAC.html#aa60cc716ca51aa144a4260cefdf92fc4">More...</a><br /></td></tr>
 <tr class="separator:aa60cc716ca51aa144a4260cefdf92fc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a621e2f180ef5254e644923bdf1a099c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRemoteAC.html#a621e2f180ef5254e644923bdf1a099c4">Update</a> (const <a class="el" href="structXPMP2_1_1RemoteAcPosUpdateTy.html">XPMP2::RemoteAcPosUpdateTy</a> &amp;_acPosUpd)</td></tr>
+<tr class="memdesc:a621e2f180ef5254e644923bdf1a099c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update data from an a/c position update.  <a href="classRemoteAC.html#a621e2f180ef5254e644923bdf1a099c4">More...</a><br /></td></tr>
+<tr class="separator:a621e2f180ef5254e644923bdf1a099c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d6429ad8e5a7ecd89950ea66beca92a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRemoteAC.html#a7d6429ad8e5a7ecd89950ea66beca92a">Update</a> (const <a class="el" href="structXPMP2_1_1RemoteAcAnimTy.html">XPMP2::RemoteAcAnimTy</a> &amp;_acAnim)</td></tr>
+<tr class="memdesc:a7d6429ad8e5a7ecd89950ea66beca92a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update data from an a/c animation dataRefs message.  <a href="classRemoteAC.html#a7d6429ad8e5a7ecd89950ea66beca92a">More...</a><br /></td></tr>
+<tr class="separator:a7d6429ad8e5a7ecd89950ea66beca92a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac482ed0731dc4561bb25c16605d2c773"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRemoteAC.html#ac482ed0731dc4561bb25c16605d2c773">UpdatePosition</a> (float, int) override</td></tr>
 <tr class="memdesc:ac482ed0731dc4561bb25c16605d2c773"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called by <a class="el" href="namespaceXPMP2.html">XPMP2</a> for position updates, extrapolates from historic positions.  <a href="classRemoteAC.html#ac482ed0731dc4561bb25c16605d2c773">More...</a><br /></td></tr>
 <tr class="separator:ac482ed0731dc4561bb25c16605d2c773"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -401,52 +406,38 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a21cc6547b402f4bf58c2ba69edaeff41 inherit pub_methods_classXPMP2_1_1Aircraft"><td class="mdescLeft">&#160;</td><td class="mdescRight">Actually draw the map label.  <a href="classXPMP2_1_1Aircraft.html#a21cc6547b402f4bf58c2ba69edaeff41">More...</a><br /></td></tr>
 <tr class="separator:a21cc6547b402f4bf58c2ba69edaeff41 inherit pub_methods_classXPMP2_1_1Aircraft"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:a249819f2fb0bd42828de41ec99f4a66a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRemoteAC.html#a249819f2fb0bd42828de41ec99f4a66a">Free</a> ()</td></tr>
-<tr class="memdesc:a249819f2fb0bd42828de41ec99f4a66a"><td class="mdescLeft">&#160;</td><td class="mdescRight">frees the temporary stored network msg  <a href="classRemoteAC.html#a249819f2fb0bd42828de41ec99f4a66a">More...</a><br /></td></tr>
-<tr class="separator:a249819f2fb0bd42828de41ec99f4a66a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_methods_classXPMP2_1_1Aircraft"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classXPMP2_1_1Aircraft')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classXPMP2_1_1Aircraft.html">XPMP2::Aircraft</a></td></tr>
-<tr class="memitem:a77e0c946b09651412f069bdb90d62e2b inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a77e0c946b09651412f069bdb90d62e2b">DoMove</a> ()</td></tr>
-<tr class="memdesc:a77e0c946b09651412f069bdb90d62e2b inherit pro_methods_classXPMP2_1_1Aircraft"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal: This puts the instance into XP's sky and makes it move.  <a href="classXPMP2_1_1Aircraft.html#a77e0c946b09651412f069bdb90d62e2b">More...</a><br /></td></tr>
-<tr class="separator:a77e0c946b09651412f069bdb90d62e2b inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95ea1b91278beff8d55cf1d3a43d426b inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a95ea1b91278beff8d55cf1d3a43d426b">UpdateDistBearingCamera</a> (const XPLMCameraPosition_t &amp;posCam)</td></tr>
-<tr class="memdesc:a95ea1b91278beff8d55cf1d3a43d426b inherit pro_methods_classXPMP2_1_1Aircraft"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal: Update the plane's distance/bearing from the camera location.  <a href="classXPMP2_1_1Aircraft.html#a95ea1b91278beff8d55cf1d3a43d426b">More...</a><br /></td></tr>
-<tr class="separator:a95ea1b91278beff8d55cf1d3a43d426b inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9621ef28e3152d723547f874f9b9c700 inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a9621ef28e3152d723547f874f9b9c700">ClampToGround</a> ()</td></tr>
-<tr class="memdesc:a9621ef28e3152d723547f874f9b9c700 inherit pro_methods_classXPMP2_1_1Aircraft"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clamp to ground: Make sure the plane is not below ground, corrects <a class="el" href="classXPMP2_1_1Aircraft.html#a883ea3e9a9a1cca7debe7755f066e848" title="Holds position (in local coordinates!) and orientation (pitch, heading roll) of the aircraft.">Aircraft::drawInfo</a> if needed.  <a href="classXPMP2_1_1Aircraft.html#a9621ef28e3152d723547f874f9b9c700">More...</a><br /></td></tr>
-<tr class="separator:a9621ef28e3152d723547f874f9b9c700 inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a902c95948577f74d247bc49c5dbbdb04 inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a902c95948577f74d247bc49c5dbbdb04">CreateInstances</a> ()</td></tr>
-<tr class="memdesc:a902c95948577f74d247bc49c5dbbdb04 inherit pro_methods_classXPMP2_1_1Aircraft"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create the instances required to represent the plane, return if successful.  <a href="classXPMP2_1_1Aircraft.html#a902c95948577f74d247bc49c5dbbdb04">More...</a><br /></td></tr>
-<tr class="separator:a902c95948577f74d247bc49c5dbbdb04 inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6444f31ebbfdc0de9cbaa4674fd17b8a inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a6444f31ebbfdc0de9cbaa4674fd17b8a">DestroyInstances</a> ()</td></tr>
-<tr class="memdesc:a6444f31ebbfdc0de9cbaa4674fd17b8a inherit pro_methods_classXPMP2_1_1Aircraft"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy all instances.  <a href="classXPMP2_1_1Aircraft.html#a6444f31ebbfdc0de9cbaa4674fd17b8a">More...</a><br /></td></tr>
-<tr class="separator:a6444f31ebbfdc0de9cbaa4674fd17b8a inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31b10bb56e92481ea74c93e220694809 inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a31b10bb56e92481ea74c93e220694809">ComputeMapLabel</a> ()</td></tr>
-<tr class="memdesc:a31b10bb56e92481ea74c93e220694809 inherit pro_methods_classXPMP2_1_1Aircraft"><td class="mdescLeft">&#160;</td><td class="mdescRight">Put together the map label.  <a href="classXPMP2_1_1Aircraft.html#a31b10bb56e92481ea74c93e220694809">More...</a><br /></td></tr>
-<tr class="separator:a31b10bb56e92481ea74c93e220694809 inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f50879fcaff911cee0581733fdb4d3f inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a4f50879fcaff911cee0581733fdb4d3f">SetTcasTargetIdx</a> (int _idx)</td></tr>
-<tr class="memdesc:a4f50879fcaff911cee0581733fdb4d3f inherit pro_methods_classXPMP2_1_1Aircraft"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define the TCAS target index in use.  <a href="classXPMP2_1_1Aircraft.html#a4f50879fcaff911cee0581733fdb4d3f">More...</a><br /></td></tr>
-<tr class="separator:a4f50879fcaff911cee0581733fdb4d3f inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
+<tr class="memitem:ac4982f925d17a496ab8de1073b36d43c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRemoteAC.html#ac4982f925d17a496ab8de1073b36d43c">senderId</a> = 0</td></tr>
+<tr class="memdesc:ac4982f925d17a496ab8de1073b36d43c"><td class="mdescLeft">&#160;</td><td class="mdescRight">sender's plane id (might be different here in case of deduplication)  <a href="classRemoteAC.html#ac4982f925d17a496ab8de1073b36d43c">More...</a><br /></td></tr>
+<tr class="separator:ac4982f925d17a496ab8de1073b36d43c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3d89dec14f739387ad07b068f20f581"><td class="memItemLeft" align="right" valign="top">std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRemoteAC.html#ac3d89dec14f739387ad07b068f20f581">pkgHash</a> = 0</td></tr>
+<tr class="memdesc:ac3d89dec14f739387ad07b068f20f581"><td class="mdescLeft">&#160;</td><td class="mdescRight">hash value of CSL model package  <a href="classRemoteAC.html#ac3d89dec14f739387ad07b068f20f581">More...</a><br /></td></tr>
+<tr class="separator:ac3d89dec14f739387ad07b068f20f581"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3cfd408b1ff7ac92db64cfa49fbb2e9"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRemoteAC.html#ae3cfd408b1ff7ac92db64cfa49fbb2e9">sShortId</a></td></tr>
+<tr class="memdesc:ae3cfd408b1ff7ac92db64cfa49fbb2e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">CSL model's short id.  <a href="classRemoteAC.html#ae3cfd408b1ff7ac92db64cfa49fbb2e9">More...</a><br /></td></tr>
+<tr class="separator:ae3cfd408b1ff7ac92db64cfa49fbb2e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac295f264fbaa841b9b47472680e31530"><td class="memItemLeft" align="right" valign="top">XPLMDrawInfo_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRemoteAC.html#ac295f264fbaa841b9b47472680e31530">histPos</a> [2]</td></tr>
 <tr class="memdesc:ac295f264fbaa841b9b47472680e31530"><td class="mdescLeft">&#160;</td><td class="mdescRight">We keep 2 historic positions to be able to calculate simple linear extrapolation.  <a href="classRemoteAC.html#ac295f264fbaa841b9b47472680e31530">More...</a><br /></td></tr>
 <tr class="separator:ac295f264fbaa841b9b47472680e31530"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03ba6e777503c33dd5bd0e8003dfabda"><td class="memItemLeft" align="right" valign="top">std::chrono::time_point&lt; std::chrono::steady_clock &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRemoteAC.html#a03ba6e777503c33dd5bd0e8003dfabda">histTs</a> [3]</td></tr>
-<tr class="memdesc:a03ba6e777503c33dd5bd0e8003dfabda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timestamps when these two positions were valid, index 2 is for the next world coordinates, see below.  <a href="classRemoteAC.html#a03ba6e777503c33dd5bd0e8003dfabda">More...</a><br /></td></tr>
-<tr class="separator:a03ba6e777503c33dd5bd0e8003dfabda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade50a5cf353cb84cfe7f185782a8d742"><td class="memItemLeft" align="right" valign="top">std::chrono::time_point&lt; std::chrono::steady_clock &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRemoteAC.html#ade50a5cf353cb84cfe7f185782a8d742">histTs</a> [2]</td></tr>
+<tr class="memdesc:ade50a5cf353cb84cfe7f185782a8d742"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timestamps when these two positions were valid.  <a href="classRemoteAC.html#ade50a5cf353cb84cfe7f185782a8d742">More...</a><br /></td></tr>
+<tr class="separator:ade50a5cf353cb84cfe7f185782a8d742"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3644d5e10b1e16d12bd1f3e9757a9f45"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRemoteAC.html#a3644d5e10b1e16d12bd1f3e9757a9f45">lat</a> = NAN</td></tr>
-<tr class="memdesc:a3644d5e10b1e16d12bd1f3e9757a9f45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Temporary storage for world coordinates until we can call <a class="el" href="classXPMP2_1_1Aircraft.html#ad0fb2622b03447e6854687c4acec5de6" title="Converts world coordinates to local coordinates, writes to Aircraft::drawInfo.">XPMP2::Aircraft::SetLocation()</a> to turn them into local coordinates.  <a href="classRemoteAC.html#a3644d5e10b1e16d12bd1f3e9757a9f45">More...</a><br /></td></tr>
+<tr class="memdesc:a3644d5e10b1e16d12bd1f3e9757a9f45"><td class="mdescLeft">&#160;</td><td class="mdescRight">latitude  <a href="classRemoteAC.html#a3644d5e10b1e16d12bd1f3e9757a9f45">More...</a><br /></td></tr>
 <tr class="separator:a3644d5e10b1e16d12bd1f3e9757a9f45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a222f4ff2c7d30dcfc05ed8719afa5a9f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRemoteAC.html#a222f4ff2c7d30dcfc05ed8719afa5a9f">lon</a> = NAN</td></tr>
+<tr class="memdesc:a222f4ff2c7d30dcfc05ed8719afa5a9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">longitude  <a href="classRemoteAC.html#a222f4ff2c7d30dcfc05ed8719afa5a9f">More...</a><br /></td></tr>
 <tr class="separator:a222f4ff2c7d30dcfc05ed8719afa5a9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aea5ac9dead4a1be6aaf9956b7e315e65"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRemoteAC.html#aea5ac9dead4a1be6aaf9956b7e315e65">alt_ft</a> = NAN</td></tr>
+<tr class="memdesc:aea5ac9dead4a1be6aaf9956b7e315e65"><td class="mdescLeft">&#160;</td><td class="mdescRight">altitude [ft]  <a href="classRemoteAC.html#aea5ac9dead4a1be6aaf9956b7e315e65">More...</a><br /></td></tr>
 <tr class="separator:aea5ac9dead4a1be6aaf9956b7e315e65"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f503d71ec5e33d92753849736fab63f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structXPMP2_1_1RemoteAcDetailTy.html">XPMP2::RemoteAcDetailTy</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRemoteAC.html#a8f503d71ec5e33d92753849736fab63f">pAcDetail</a> = nullptr</td></tr>
-<tr class="memdesc:a8f503d71ec5e33d92753849736fab63f"><td class="mdescLeft">&#160;</td><td class="mdescRight">temporary storage until <a class="el" href="classRemoteAC.html#a6832c4e8b24b18b033ea28fdc2a23723" title="Actually create the aircraft, ultimately calls XPMP2::Aircraft::Create()">Create()</a> for A/C details sent by master plugin  <a href="classRemoteAC.html#a8f503d71ec5e33d92753849736fab63f">More...</a><br /></td></tr>
-<tr class="separator:a8f503d71ec5e33d92753849736fab63f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a325e7622f547f3496df5d531e57750a6"><td class="memItemLeft" align="right" valign="top">std::chrono::duration&lt; int, std::ratio&lt; 1, 10000 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRemoteAC.html#a325e7622f547f3496df5d531e57750a6">diffTime</a></td></tr>
+<tr class="memdesc:a325e7622f547f3496df5d531e57750a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">time difference to previous historic position as passed in by the sender  <a href="classRemoteAC.html#a325e7622f547f3496df5d531e57750a6">More...</a><br /></td></tr>
+<tr class="separator:a325e7622f547f3496df5d531e57750a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f2aaa8e4972f3bd13c9309e8246cd45"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRemoteAC.html#a5f2aaa8e4972f3bd13c9309e8246cd45">bWorldCoordUpdated</a> = false</td></tr>
+<tr class="memdesc:a5f2aaa8e4972f3bd13c9309e8246cd45"><td class="mdescLeft">&#160;</td><td class="mdescRight">shall freshly set values be used in the next UpdatePosition callback?  <a href="classRemoteAC.html#a5f2aaa8e4972f3bd13c9309e8246cd45">More...</a><br /></td></tr>
+<tr class="separator:a5f2aaa8e4972f3bd13c9309e8246cd45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classXPMP2_1_1Aircraft"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classXPMP2_1_1Aircraft')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classXPMP2_1_1Aircraft.html">XPMP2::Aircraft</a></td></tr>
 <tr class="memitem:a7180fb04f2307508345fd80201f0709f inherit pro_attribs_classXPMP2_1_1Aircraft"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a7180fb04f2307508345fd80201f0709f">modeS_id</a> = 0</td></tr>
 <tr class="memdesc:a7180fb04f2307508345fd80201f0709f inherit pro_attribs_classXPMP2_1_1Aircraft"><td class="mdescLeft">&#160;</td><td class="mdescRight">A plane is uniquely identified by a 24bit number [0x01..0xFFFFFF].  <a href="classXPMP2_1_1Aircraft.html#a7180fb04f2307508345fd80201f0709f">More...</a><br /></td></tr>
@@ -551,6 +542,28 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:a8f5bfa2ee408382168b2ccef6aafb20c inherit pub_attribs_classXPMP2_1_1Aircraft"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPMultiplayer_8h.html#structXPMPInfoTexts__t">XPMPInfoTexts_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a8f5bfa2ee408382168b2ccef6aafb20c">acInfoTexts</a></td></tr>
 <tr class="memdesc:a8f5bfa2ee408382168b2ccef6aafb20c inherit pub_attribs_classXPMP2_1_1Aircraft"><td class="mdescLeft">&#160;</td><td class="mdescRight">Informational texts passed on via multiplayer shared dataRefs.  <a href="classXPMP2_1_1Aircraft.html#a8f5bfa2ee408382168b2ccef6aafb20c">More...</a><br /></td></tr>
 <tr class="separator:a8f5bfa2ee408382168b2ccef6aafb20c inherit pub_attribs_classXPMP2_1_1Aircraft"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classXPMP2_1_1Aircraft"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classXPMP2_1_1Aircraft')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classXPMP2_1_1Aircraft.html">XPMP2::Aircraft</a></td></tr>
+<tr class="memitem:a77e0c946b09651412f069bdb90d62e2b inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a77e0c946b09651412f069bdb90d62e2b">DoMove</a> ()</td></tr>
+<tr class="memdesc:a77e0c946b09651412f069bdb90d62e2b inherit pro_methods_classXPMP2_1_1Aircraft"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal: This puts the instance into XP's sky and makes it move.  <a href="classXPMP2_1_1Aircraft.html#a77e0c946b09651412f069bdb90d62e2b">More...</a><br /></td></tr>
+<tr class="separator:a77e0c946b09651412f069bdb90d62e2b inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95ea1b91278beff8d55cf1d3a43d426b inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a95ea1b91278beff8d55cf1d3a43d426b">UpdateDistBearingCamera</a> (const XPLMCameraPosition_t &amp;posCam)</td></tr>
+<tr class="memdesc:a95ea1b91278beff8d55cf1d3a43d426b inherit pro_methods_classXPMP2_1_1Aircraft"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal: Update the plane's distance/bearing from the camera location.  <a href="classXPMP2_1_1Aircraft.html#a95ea1b91278beff8d55cf1d3a43d426b">More...</a><br /></td></tr>
+<tr class="separator:a95ea1b91278beff8d55cf1d3a43d426b inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9621ef28e3152d723547f874f9b9c700 inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a9621ef28e3152d723547f874f9b9c700">ClampToGround</a> ()</td></tr>
+<tr class="memdesc:a9621ef28e3152d723547f874f9b9c700 inherit pro_methods_classXPMP2_1_1Aircraft"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clamp to ground: Make sure the plane is not below ground, corrects <a class="el" href="classXPMP2_1_1Aircraft.html#a883ea3e9a9a1cca7debe7755f066e848" title="Holds position (in local coordinates!) and orientation (pitch, heading roll) of the aircraft.">Aircraft::drawInfo</a> if needed.  <a href="classXPMP2_1_1Aircraft.html#a9621ef28e3152d723547f874f9b9c700">More...</a><br /></td></tr>
+<tr class="separator:a9621ef28e3152d723547f874f9b9c700 inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a902c95948577f74d247bc49c5dbbdb04 inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a902c95948577f74d247bc49c5dbbdb04">CreateInstances</a> ()</td></tr>
+<tr class="memdesc:a902c95948577f74d247bc49c5dbbdb04 inherit pro_methods_classXPMP2_1_1Aircraft"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create the instances required to represent the plane, return if successful.  <a href="classXPMP2_1_1Aircraft.html#a902c95948577f74d247bc49c5dbbdb04">More...</a><br /></td></tr>
+<tr class="separator:a902c95948577f74d247bc49c5dbbdb04 inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6444f31ebbfdc0de9cbaa4674fd17b8a inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a6444f31ebbfdc0de9cbaa4674fd17b8a">DestroyInstances</a> ()</td></tr>
+<tr class="memdesc:a6444f31ebbfdc0de9cbaa4674fd17b8a inherit pro_methods_classXPMP2_1_1Aircraft"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy all instances.  <a href="classXPMP2_1_1Aircraft.html#a6444f31ebbfdc0de9cbaa4674fd17b8a">More...</a><br /></td></tr>
+<tr class="separator:a6444f31ebbfdc0de9cbaa4674fd17b8a inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31b10bb56e92481ea74c93e220694809 inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a31b10bb56e92481ea74c93e220694809">ComputeMapLabel</a> ()</td></tr>
+<tr class="memdesc:a31b10bb56e92481ea74c93e220694809 inherit pro_methods_classXPMP2_1_1Aircraft"><td class="mdescLeft">&#160;</td><td class="mdescRight">Put together the map label.  <a href="classXPMP2_1_1Aircraft.html#a31b10bb56e92481ea74c93e220694809">More...</a><br /></td></tr>
+<tr class="separator:a31b10bb56e92481ea74c93e220694809 inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f50879fcaff911cee0581733fdb4d3f inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a4f50879fcaff911cee0581733fdb4d3f">SetTcasTargetIdx</a> (int _idx)</td></tr>
+<tr class="memdesc:a4f50879fcaff911cee0581733fdb4d3f inherit pro_methods_classXPMP2_1_1Aircraft"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define the TCAS target index in use.  <a href="classXPMP2_1_1Aircraft.html#a4f50879fcaff911cee0581733fdb4d3f">More...</a><br /></td></tr>
+<tr class="separator:a4f50879fcaff911cee0581733fdb4d3f inherit pro_methods_classXPMP2_1_1Aircraft"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_static_methods_classXPMP2_1_1Aircraft"><td colspan="2" onclick="javascript:toggleInherit('pro_static_methods_classXPMP2_1_1Aircraft')"><img src="closed.png" alt="-"/>&#160;Static Protected Member Functions inherited from <a class="el" href="classXPMP2_1_1Aircraft.html">XPMP2::Aircraft</a></td></tr>
 <tr class="memitem:a87623ad988fedbbf83a389ad49eaa2e1 inherit pro_static_methods_classXPMP2_1_1Aircraft"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a87623ad988fedbbf83a389ad49eaa2e1">FlightLoopCB</a> (float, float, int, void *)</td></tr>
 <tr class="memdesc:a87623ad988fedbbf83a389ad49eaa2e1 inherit pro_static_methods_classXPMP2_1_1Aircraft"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal: Flight loop callback function controlling update and movement of all planes.  <a href="classXPMP2_1_1Aircraft.html#a87623ad988fedbbf83a389ad49eaa2e1">More...</a><br /></td></tr>
@@ -602,7 +615,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Destructor frees memory of not yet done. </p>
+<p>Destructor. </p>
 
 </div>
 </div>
@@ -626,35 +639,28 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a249819f2fb0bd42828de41ec99f4a66a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a249819f2fb0bd42828de41ec99f4a66a">&#9670;&nbsp;</a></span>Free()</h2>
+<a id="a7d6429ad8e5a7ecd89950ea66beca92a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d6429ad8e5a7ecd89950ea66beca92a">&#9670;&nbsp;</a></span>Update() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void RemoteAC::Free </td>
+          <td class="memname">void RemoteAC::Update </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="structXPMP2_1_1RemoteAcAnimTy.html">XPMP2::RemoteAcAnimTy</a> &amp;&#160;</td>
+          <td class="paramname"><em>_acAnim</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>frees the temporary stored network msg </p>
+<p>Update data from an a/c animation dataRefs message. </p>
 
 </div>
 </div>
 <a id="aa60cc716ca51aa144a4260cefdf92fc4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa60cc716ca51aa144a4260cefdf92fc4">&#9670;&nbsp;</a></span>Update()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa60cc716ca51aa144a4260cefdf92fc4">&#9670;&nbsp;</a></span>Update() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -669,7 +675,27 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Update data from a a/c detail structure. </p>
+<p>Update data from an a/c detail structure. </p>
+
+</div>
+</div>
+<a id="a621e2f180ef5254e644923bdf1a099c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a621e2f180ef5254e644923bdf1a099c4">&#9670;&nbsp;</a></span>Update() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void RemoteAC::Update </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structXPMP2_1_1RemoteAcPosUpdateTy.html">XPMP2::RemoteAcPosUpdateTy</a> &amp;&#160;</td>
+          <td class="paramname"><em>_acPosUpd</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Update data from an a/c position update. </p>
 
 </div>
 </div>
@@ -734,6 +760,56 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>altitude [ft] </p>
+
+</div>
+</div>
+<a id="a5f2aaa8e4972f3bd13c9309e8246cd45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f2aaa8e4972f3bd13c9309e8246cd45">&#9670;&nbsp;</a></span>bWorldCoordUpdated</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool RemoteAC::bWorldCoordUpdated = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>shall freshly set values be used in the next UpdatePosition callback? </p>
+
+</div>
+</div>
+<a id="a325e7622f547f3496df5d531e57750a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a325e7622f547f3496df5d531e57750a6">&#9670;&nbsp;</a></span>diffTime</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::chrono::duration&lt;int,std::ratio&lt;1, 10000&gt; &gt; RemoteAC::diffTime</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>time difference to previous historic position as passed in by the sender </p>
+
 </div>
 </div>
 <a id="ac295f264fbaa841b9b47472680e31530"></a>
@@ -761,8 +837,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a03ba6e777503c33dd5bd0e8003dfabda"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a03ba6e777503c33dd5bd0e8003dfabda">&#9670;&nbsp;</a></span>histTs</h2>
+<a id="ade50a5cf353cb84cfe7f185782a8d742"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade50a5cf353cb84cfe7f185782a8d742">&#9670;&nbsp;</a></span>histTs</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -771,7 +847,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::chrono::time_point&lt;std::chrono::steady_clock&gt; RemoteAC::histTs[3]</td>
+          <td class="memname">std::chrono::time_point&lt;std::chrono::steady_clock&gt; RemoteAC::histTs[2]</td>
         </tr>
       </table>
   </td>
@@ -781,7 +857,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Timestamps when these two positions were valid, index 2 is for the next world coordinates, see below. </p>
+<p>Timestamps when these two positions were valid. </p>
 
 </div>
 </div>
@@ -805,7 +881,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Temporary storage for world coordinates until we can call <a class="el" href="classXPMP2_1_1Aircraft.html#ad0fb2622b03447e6854687c4acec5de6" title="Converts world coordinates to local coordinates, writes to Aircraft::drawInfo.">XPMP2::Aircraft::SetLocation()</a> to turn them into local coordinates. </p>
+<p>latitude </p>
 
 </div>
 </div>
@@ -829,10 +905,12 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>longitude </p>
+
 </div>
 </div>
-<a id="a8f503d71ec5e33d92753849736fab63f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8f503d71ec5e33d92753849736fab63f">&#9670;&nbsp;</a></span>pAcDetail</h2>
+<a id="ac3d89dec14f739387ad07b068f20f581"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3d89dec14f739387ad07b068f20f581">&#9670;&nbsp;</a></span>pkgHash</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -841,7 +919,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structXPMP2_1_1RemoteAcDetailTy.html">XPMP2::RemoteAcDetailTy</a>* RemoteAC::pAcDetail = nullptr</td>
+          <td class="memname">std::uint16_t RemoteAC::pkgHash = 0</td>
         </tr>
       </table>
   </td>
@@ -851,7 +929,55 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>temporary storage until <a class="el" href="classRemoteAC.html#a6832c4e8b24b18b033ea28fdc2a23723" title="Actually create the aircraft, ultimately calls XPMP2::Aircraft::Create()">Create()</a> for A/C details sent by master plugin </p>
+<p>hash value of CSL model package </p>
+
+</div>
+</div>
+<a id="ac4982f925d17a496ab8de1073b36d43c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4982f925d17a496ab8de1073b36d43c">&#9670;&nbsp;</a></span>senderId</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> RemoteAC::senderId = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>sender's plane id (might be different here in case of deduplication) </p>
+
+</div>
+</div>
+<a id="ae3cfd408b1ff7ac92db64cfa49fbb2e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3cfd408b1ff7ac92db64cfa49fbb2e9">&#9670;&nbsp;</a></span>sShortId</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string RemoteAC::sShortId</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>CSL model's short id. </p>
 
 </div>
 </div>

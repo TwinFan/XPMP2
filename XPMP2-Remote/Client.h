@@ -58,6 +58,8 @@ public:
     void Update (const XPMP2::RemoteAcDetailTy& _acDetails);
     /// Update data from an a/c position update
     void Update (const XPMP2::RemoteAcPosUpdateTy& _acPosUpd);
+    /// Update data from an a/c animation dataRefs message
+    void Update (const XPMP2::RemoteAcAnimTy& _acAnim);
 
     /// Called by XPMP2 for position updates, extrapolates from historic positions
     void UpdatePosition (float, int) override;

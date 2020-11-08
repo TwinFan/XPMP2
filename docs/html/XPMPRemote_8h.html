@@ -56,8 +56,11 @@ $(function() {
 
 <p>Semi-public remote network functionality for master/client operations.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
+<div class="textblock"><code>#include &lt;cassert&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;cstring&gt;</code><br />
 <code>#include &lt;cmath&gt;</code><br />
+<code>#include &lt;array&gt;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
 </div>
 <p><a href="XPMPRemote_8h_source.html">Go to the source code of this file.</a></p>
@@ -82,8 +85,23 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteMsgAcDetailTy.html">XPMP2::RemoteMsgAcDetailTy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C detail message, has an inherited header plus an array of <a class="el" href="structXPMP2_1_1RemoteAcDetailTy.html" title="A/C details, packed into an array message.">XPMP2::RemoteAcDetailTy</a> elements.  <a href="structXPMP2_1_1RemoteMsgAcDetailTy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteAcPosUpdateTy.html">XPMP2::RemoteAcPosUpdateTy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Position updates based on global coordinates.  <a href="structXPMP2_1_1RemoteAcPosUpdateTy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteMsgAcPosUpdateTy.html">XPMP2::RemoteMsgAcPosUpdateTy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C detail message, has an inherited header plus an array of <a class="el" href="structXPMP2_1_1RemoteAcDetailTy.html" title="A/C details, packed into an array message.">XPMP2::RemoteAcDetailTy</a> elements.  <a href="structXPMP2_1_1RemoteMsgAcPosUpdateTy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteAcAnimTy.html">XPMP2::RemoteAcAnimTy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C animation dataRef changes.  <a href="structXPMP2_1_1RemoteAcAnimTy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:structXPMP2_1_1RemoteAcAnimTy_1_1DataRefValTy"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteAcAnimTy.html#structXPMP2_1_1RemoteAcAnimTy_1_1DataRefValTy">XPMP2::RemoteAcAnimTy::DataRefValTy</a></td></tr>
+<tr class="memdesc:structXPMP2_1_1RemoteAcAnimTy_1_1DataRefValTy"><td class="mdescLeft">&#160;</td><td class="mdescRight">dataRef animation types and value  <a href="structXPMP2_1_1RemoteAcAnimTy.html#structXPMP2_1_1RemoteAcAnimTy_1_1DataRefValTy">More...</a><br /></td></tr>
+<tr class="separator:structXPMP2_1_1RemoteAcAnimTy_1_1DataRefValTy"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteMsgAcAnimTy.html">XPMP2::RemoteMsgAcAnimTy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C animation dataRef message, has an inherited header plus an array of <em>variable sized</em> <a class="el" href="structXPMP2_1_1RemoteAcAnimTy.html" title="A/C animation dataRef changes.">XPMP2::RemoteAcAnimTy</a> elements.  <a href="structXPMP2_1_1RemoteMsgAcAnimTy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteMsgAcRemoveTy.html">XPMP2::RemoteMsgAcRemoveTy</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C detail message, with all full details of an aircraft, required to start drawing that aircraft.  <a href="structXPMP2_1_1RemoteMsgAcRemoveTy.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C removal message, an array of plane ids.  <a href="structXPMP2_1_1RemoteMsgAcRemoveTy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteCBFctTy.html">XPMP2::RemoteCBFctTy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function prototypes for callback functions to handle the received messages.  <a href="structXPMP2_1_1RemoteCBFctTy.html#details">More...</a><br /></td></tr>
@@ -102,7 +120,7 @@ Enumerations</h2></td></tr>
 <a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191adb84f910e936f32d947a63fedb0a67fe">XPMP2::RMT_MSG_SETTINGS</a>, 
 <a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191acd20d4b40b6d840f3fe0fa8d8f106ccc">XPMP2::RMT_MSG_AC_DETAILED</a>, 
 <br />
-&#160;&#160;<a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191aa5a73320d7edd873c0e46fe9f0641f2c">XPMP2::RMT_MSG_AC_DIFF</a>, 
+&#160;&#160;<a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191aeb33b4aa3b4e91246738032d13309f7c">XPMP2::RMT_MSG_AC_POS_UPDATE</a>, 
 <a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191a983f022c861dd9823c0f33431f8a39b4">XPMP2::RMT_MSG_AC_ANIM</a>, 
 <a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191a69944e774752bf633b8c86441de05316">XPMP2::RMT_MSG_AC_REMOVE</a>
 <br />
@@ -126,9 +144,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a93dd489d301924f0d1ff5cdf98bc03ae"><td class="memItemLeft" align="right" valign="top">std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a93dd489d301924f0d1ff5cdf98bc03ae">XPMP2::PJWHash16</a> (const char *s)</td></tr>
 <tr class="memdesc:a93dd489d301924f0d1ff5cdf98bc03ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Produces a reproducible(!) hash value for strings.  <a href="namespaceXPMP2.html#a93dd489d301924f0d1ff5cdf98bc03ae">More...</a><br /></td></tr>
 <tr class="separator:a93dd489d301924f0d1ff5cdf98bc03ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae3b70587d1931c467cb67b8e89619ee"><td class="memItemLeft" align="right" valign="top">CSLModel *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aae3b70587d1931c467cb67b8e89619ee">XPMP2::CSLModelByPkgShortId</a> (std::uint16_t _pkgHash, const char *_shortId, size_t _shortIdMaxSize)</td></tr>
-<tr class="memdesc:aae3b70587d1931c467cb67b8e89619ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find a model by package name hash and short id.  <a href="namespaceXPMP2.html#aae3b70587d1931c467cb67b8e89619ee">More...</a><br /></td></tr>
-<tr class="separator:aae3b70587d1931c467cb67b8e89619ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75dcb0c50b67fbdc330ef140a3de8291"><td class="memItemLeft" align="right" valign="top">CSLModel *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a75dcb0c50b67fbdc330ef140a3de8291">XPMP2::CSLModelByPkgShortId</a> (std::uint16_t _pkgHash, const std::string &amp;_shortId)</td></tr>
+<tr class="memdesc:a75dcb0c50b67fbdc330ef140a3de8291"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find a model by package name hash and short id.  <a href="namespaceXPMP2.html#a75dcb0c50b67fbdc330ef140a3de8291">More...</a><br /></td></tr>
+<tr class="separator:a75dcb0c50b67fbdc330ef140a3de8291"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b834d198234c7dc1d421b34ac4a8f60"><td class="memItemLeft" align="right" valign="top">RemoteStatusTy&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a2b834d198234c7dc1d421b34ac4a8f60">XPMP2::RemoteGetStatus</a> ()</td></tr>
 <tr class="memdesc:a2b834d198234c7dc1d421b34ac4a8f60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the current Remote status.  <a href="namespaceXPMP2.html#a2b834d198234c7dc1d421b34ac4a8f60">More...</a><br /></td></tr>
 <tr class="separator:a2b834d198234c7dc1d421b34ac4a8f60"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -141,6 +159,9 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
+<tr class="memitem:ae0fc92edd795aae73ddcabe29d3a45ff"><td class="memItemLeft" align="right" valign="top">const std::array&lt; RemoteDataRefPackTy, V_COUNT &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ae0fc92edd795aae73ddcabe29d3a45ff">XPMP2::REMOTE_DR_DEF</a></td></tr>
+<tr class="memdesc:ae0fc92edd795aae73ddcabe29d3a45ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">An array holding all dataRef packing definitions.  <a href="namespaceXPMP2.html#ae0fc92edd795aae73ddcabe29d3a45ff">More...</a><br /></td></tr>
+<tr class="separator:ae0fc92edd795aae73ddcabe29d3a45ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6b877335e2fa029736148ac9ad25538d"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structXPMP2_1_1RemoteMsgBaseTy.html">XPMP2::RemoteMsgBaseTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a6b877335e2fa029736148ac9ad25538d">XPMP2::PACKED</a></td></tr>
 <tr class="separator:a6b877335e2fa029736148ac9ad25538d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07a623157625932fbc06f9a7fec52a2d"><td class="memItemLeft" align="right" valign="top">constexpr std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a07a623157625932fbc06f9a7fec52a2d">XPMP2::RMT_VER_BEACON</a> = 0</td></tr>
@@ -152,8 +173,32 @@ Variables</h2></td></tr>
 <tr class="memitem:a7b8bdf3fb126614b5afaa0769c576da4"><td class="memItemLeft" align="right" valign="top">constexpr std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a7b8bdf3fb126614b5afaa0769c576da4">XPMP2::RMT_VER_AC_DETAIL</a> = 0</td></tr>
 <tr class="memdesc:a7b8bdf3fb126614b5afaa0769c576da4"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C detail message version number.  <a href="namespaceXPMP2.html#a7b8bdf3fb126614b5afaa0769c576da4">More...</a><br /></td></tr>
 <tr class="separator:a7b8bdf3fb126614b5afaa0769c576da4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5bf001f7f885e62205d4786a89b4822"><td class="memItemLeft" align="right" valign="top">constexpr std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#af5bf001f7f885e62205d4786a89b4822">XPMP2::RMT_VER_AC_POS_UPDATE</a> = 0</td></tr>
+<tr class="memdesc:af5bf001f7f885e62205d4786a89b4822"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Position update message version number.  <a href="namespaceXPMP2.html#af5bf001f7f885e62205d4786a89b4822">More...</a><br /></td></tr>
+<tr class="separator:af5bf001f7f885e62205d4786a89b4822"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a31d65d8acfda8f5ef167609af2cd59"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a7a31d65d8acfda8f5ef167609af2cd59">XPMP2::REMOTE_DEGREE_RES</a> = 0.00000001</td></tr>
+<tr class="memdesc:a7a31d65d8acfda8f5ef167609af2cd59"><td class="mdescLeft">&#160;</td><td class="mdescRight">What is the maximum difference a <a class="el" href="structXPMP2_1_1RemoteAcPosUpdateTy.html" title="A/C Position updates based on global coordinates.">RemoteAcPosUpdateTy</a> can hold?  <a href="namespaceXPMP2.html#a7a31d65d8acfda8f5ef167609af2cd59">More...</a><br /></td></tr>
+<tr class="separator:a7a31d65d8acfda8f5ef167609af2cd59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0fec57ed2a517c42fb402badf49c305"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#af0fec57ed2a517c42fb402badf49c305">XPMP2::REMOTE_MAX_DIFF_DEGREE</a> = REMOTE_DEGREE_RES * INT16_MAX</td></tr>
+<tr class="memdesc:af0fec57ed2a517c42fb402badf49c305"><td class="mdescLeft">&#160;</td><td class="mdescRight">maximum degree difference that can be represented in a pos update msg  <a href="namespaceXPMP2.html#af0fec57ed2a517c42fb402badf49c305">More...</a><br /></td></tr>
+<tr class="separator:af0fec57ed2a517c42fb402badf49c305"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc7e052ad0866d69d24626b05ac87f4e"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#adc7e052ad0866d69d24626b05ac87f4e">XPMP2::REMOTE_ALT_FT_RES</a> = 0.01</td></tr>
+<tr class="memdesc:adc7e052ad0866d69d24626b05ac87f4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">resolution of altitude[ft] updates  <a href="namespaceXPMP2.html#adc7e052ad0866d69d24626b05ac87f4e">More...</a><br /></td></tr>
+<tr class="separator:adc7e052ad0866d69d24626b05ac87f4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cfe20dfd5fc62b8df222bad06c4264b"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a7cfe20dfd5fc62b8df222bad06c4264b">XPMP2::REMOTE_MAX_DIFF_ALT_FT</a> = REMOTE_ALT_FT_RES * INT16_MAX</td></tr>
+<tr class="memdesc:a7cfe20dfd5fc62b8df222bad06c4264b"><td class="mdescLeft">&#160;</td><td class="mdescRight">maximum altitude[ft] difference that can be represented in a pos update msg  <a href="namespaceXPMP2.html#a7cfe20dfd5fc62b8df222bad06c4264b">More...</a><br /></td></tr>
+<tr class="separator:a7cfe20dfd5fc62b8df222bad06c4264b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bb9c8890eda4a1f041fbabe729eea5c"><td class="memItemLeft" align="right" valign="top">constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a7bb9c8890eda4a1f041fbabe729eea5c">XPMP2::REMOTE_TIME_RES</a> = 0.0001f</td></tr>
+<tr class="memdesc:a7bb9c8890eda4a1f041fbabe729eea5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">resolution of time difference  <a href="namespaceXPMP2.html#a7bb9c8890eda4a1f041fbabe729eea5c">More...</a><br /></td></tr>
+<tr class="separator:a7bb9c8890eda4a1f041fbabe729eea5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55ceb092b906dadc4407be3db2991ab3"><td class="memItemLeft" align="right" valign="top">constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a55ceb092b906dadc4407be3db2991ab3">XPMP2::REMOTE_MAX_DIFF_TIME</a> = REMOTE_TIME_RES * UINT16_MAX</td></tr>
+<tr class="memdesc:a55ceb092b906dadc4407be3db2991ab3"><td class="mdescLeft">&#160;</td><td class="mdescRight">maximum time difference thatn can be represented in a pos update msg  <a href="namespaceXPMP2.html#a55ceb092b906dadc4407be3db2991ab3">More...</a><br /></td></tr>
+<tr class="separator:a55ceb092b906dadc4407be3db2991ab3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1aa3e38765c120fe499c40a8b53143e9"><td class="memItemLeft" align="right" valign="top">constexpr std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a1aa3e38765c120fe499c40a8b53143e9">XPMP2::RMT_VER_AC_ANIM</a> = 0</td></tr>
+<tr class="memdesc:a1aa3e38765c120fe499c40a8b53143e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Position update message version number.  <a href="namespaceXPMP2.html#a1aa3e38765c120fe499c40a8b53143e9">More...</a><br /></td></tr>
+<tr class="separator:a1aa3e38765c120fe499c40a8b53143e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27f745bec429920efc88450b98accd31"><td class="memItemLeft" align="right" valign="top">constexpr std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a27f745bec429920efc88450b98accd31">XPMP2::RMT_VER_AC_REMOVE</a> = 0</td></tr>
-<tr class="memdesc:a27f745bec429920efc88450b98accd31"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C detail message version number.  <a href="namespaceXPMP2.html#a27f745bec429920efc88450b98accd31">More...</a><br /></td></tr>
+<tr class="memdesc:a27f745bec429920efc88450b98accd31"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C removal message version number.  <a href="namespaceXPMP2.html#a27f745bec429920efc88450b98accd31">More...</a><br /></td></tr>
 <tr class="separator:a27f745bec429920efc88450b98accd31"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -165,7 +210,38 @@ Variables</h2></td></tr>
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br  />
  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.<br  />
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </dd></dl>
-</div></div><!-- contents -->
+</div><hr/><h2 class="groupheader">Class Documentation</h2>
+<a name="structXPMP2_1_1RemoteAcAnimTy_1_1DataRefValTy" id="structXPMP2_1_1RemoteAcAnimTy_1_1DataRefValTy"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structXPMP2_1_1RemoteAcAnimTy_1_1DataRefValTy">&#9670;&nbsp;</a></span>XPMP2::RemoteAcAnimTy::DataRefValTy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct XPMP2::RemoteAcAnimTy::DataRefValTy</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><p>dataRef animation types and value </p>
+</div><table class="fieldtable">
+<tr><th colspan="3">Class Members</th></tr>
+<tr><td class="fieldtype">
+<a id="a2c9a51259c0eb87a43e7652034edb2d9"></a><a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6f">DR_VALS</a></td>
+<td class="fieldname">
+idx</td>
+<td class="fielddoc">
+index into <a class="el" href="classXPMP2_1_1Aircraft.html#a8c2ccee83b592cd2a7064a380c660c5b" title="actual dataRef values to be provided to the CSL model">XPMP2::Aircraft::v</a> </td></tr>
+<tr><td class="fieldtype">
+<a id="a32acb94ada2ee126dbda660596c46c67"></a>uint8_t</td>
+<td class="fieldname">
+v</td>
+<td class="fielddoc">
+dataRef animation value </td></tr>
+</table>
+
+</div>
+</div>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

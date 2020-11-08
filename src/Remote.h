@@ -79,7 +79,7 @@ typedef std::unique_ptr<RmtDataBaseTy> ptrRmtDataBaseTy;
 typedef std::queue<ptrRmtDataBaseTy,std::list<ptrRmtDataBaseTy> > queueRmtDataTy;
 
 
-/// Passing information about an a/c full detail message: it is actually right away that message
+/// Passing information about any data type (like a/c full detail message); the data is contained as copy
 template <class ElemTy, RemoteMsgTy MsgTy>
 class RmtDataEnqeueTy : public RmtDataBaseTy {
 public:
@@ -93,9 +93,31 @@ public:
 };
 
 // predefine required template instances
-typedef RmtDataEnqeueTy<RemoteAcDetailTy,RMT_MSG_AC_DETAILED> RmtDataAcDetailTy;
-typedef RmtDataEnqeueTy<RemoteAcPosUpdateTy,RMT_MSG_AC_POS_UPDATE> RmtDataAcPosUpdateTy;
-typedef RmtDataEnqeueTy<XPMPPlaneID,RMT_MSG_AC_REMOVE> RmtDataAcRemoveTy;
+typedef RmtDataEnqeueTy<RemoteAcDetailTy,RMT_MSG_AC_DETAILED> RmtDataAcDetailTy;            ///< A/C Detail queue type
+typedef RmtDataEnqeueTy<RemoteAcPosUpdateTy,RMT_MSG_AC_POS_UPDATE> RmtDataAcPosUpdateTy;    ///< A/C Position Update queue type
+typedef RmtDataEnqeueTy<XPMPPlaneID,RMT_MSG_AC_REMOVE> RmtDataAcRemoveTy;                   ///< A/C Removal queue type
+
+/// @brief Animation dataRef requires a special queue data type as each msg element is already of variable length
+/// @details This queue structure provides for the maximum possible length.
+///          As it is copied directly into the network message it requires to
+///          be packed like a network message is with 1-byte alignment
+class RmtDataAcAnimTy : public RmtDataBaseTy {
+public:
+    union {
+        /// The animation dataRef values element
+        RemoteAcAnimTy  data;
+        /// a declaration that only makes sure that enough memory is reserved so that XPMP2::RmtDataAcAnimTy::data::v can fill up to max
+        char            bufSize[RemoteAcAnimTy::msgSize(V_COUNT)];
+    };
+public:
+    /// Default constructor only sets message type and id, makes sure `data` is initialized
+    RmtDataAcAnimTy (XPMPPlaneID _id) : RmtDataBaseTy(RMT_MSG_AC_ANIM), data(_id) {}
+    /// Add a pair of animation type and value to the structure
+    void add (DR_VALS idx, float f);
+};
+
+/// Smart pointer to XPMP2::RmtDataAcAnimTy
+typedef std::unique_ptr<RmtDataAcAnimTy> ptrRmtDataAcAnimTy;
 
 //
 // MARK: SENDING Data Structures
@@ -117,7 +139,7 @@ public:
     void free ();
     /// If necessary allocate the required buffer, then initialize it to an empty message
     void init ();
-    /// Add another element to the buffer, returns if now full
+    /// Add another element to the buffer, returns if successful (otherwise full!)
     bool add (const ElemTy& _elem);
     /// is empty, contains no payload?
     bool empty () const { return !elemCount; }

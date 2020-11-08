@@ -85,8 +85,14 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1Obj8DataRefs.html">Obj8DataRefs</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pair of strings, first one to search for, second one to replace it with.  <a href="structXPMP2_1_1Obj8DataRefs.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteAcAnimTy.html">RemoteAcAnimTy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C animation dataRef changes.  <a href="structXPMP2_1_1RemoteAcAnimTy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteAcDetailTy.html">RemoteAcDetailTy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C details, packed into an array message.  <a href="structXPMP2_1_1RemoteAcDetailTy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteAcPosUpdateTy.html">RemoteAcPosUpdateTy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Position updates based on global coordinates.  <a href="structXPMP2_1_1RemoteAcPosUpdateTy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteCBFctTy.html">RemoteCBFctTy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function prototypes for callback functions to handle the received messages.  <a href="structXPMP2_1_1RemoteCBFctTy.html#details">More...</a><br /></td></tr>
@@ -94,11 +100,17 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteDataRefPackTy.html">RemoteDataRefPackTy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Definition for how to map dataRef values to (u)int8, ie. to an integer range of 8 bits.  <a href="structXPMP2_1_1RemoteDataRefPackTy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteMsgAcAnimTy.html">RemoteMsgAcAnimTy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C animation dataRef message, has an inherited header plus an array of <em>variable sized</em> <a class="el" href="structXPMP2_1_1RemoteAcAnimTy.html" title="A/C animation dataRef changes.">XPMP2::RemoteAcAnimTy</a> elements.  <a href="structXPMP2_1_1RemoteMsgAcAnimTy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteMsgAcDetailTy.html">RemoteMsgAcDetailTy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C detail message, has an inherited header plus an array of <a class="el" href="structXPMP2_1_1RemoteAcDetailTy.html" title="A/C details, packed into an array message.">XPMP2::RemoteAcDetailTy</a> elements.  <a href="structXPMP2_1_1RemoteMsgAcDetailTy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteMsgAcPosUpdateTy.html">RemoteMsgAcPosUpdateTy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C detail message, has an inherited header plus an array of <a class="el" href="structXPMP2_1_1RemoteAcDetailTy.html" title="A/C details, packed into an array message.">XPMP2::RemoteAcDetailTy</a> elements.  <a href="structXPMP2_1_1RemoteMsgAcPosUpdateTy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteMsgAcRemoveTy.html">RemoteMsgAcRemoveTy</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C detail message, with all full details of an aircraft, required to start drawing that aircraft.  <a href="structXPMP2_1_1RemoteMsgAcRemoveTy.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C removal message, an array of plane ids.  <a href="structXPMP2_1_1RemoteMsgAcRemoveTy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteMsgBaseTy.html">RemoteMsgBaseTy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message header, identical for all message types.  <a href="structXPMP2_1_1RemoteMsgBaseTy.html#details">More...</a><br /></td></tr>
@@ -112,11 +124,16 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RmtAcCacheTy.html">RmtAcCacheTy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds a copy of some aircraft data as was sent out last.  <a href="structXPMP2_1_1RmtAcCacheTy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtDataAcDetailTy.html">RmtDataAcDetailTy</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Passing information about an a/c full detail message: it is actually right away that message.  <a href="classXPMP2_1_1RmtDataAcDetailTy.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtDataAcAnimTy.html">RmtDataAcAnimTy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Animation dataRef requires a special queue data type as each msg element is already of variable length.  <a href="classXPMP2_1_1RmtDataAcAnimTy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:unionXPMP2_1_1RmtDataAcAnimTy_8____unnamed____"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#unionXPMP2_1_1RmtDataAcAnimTy_8____unnamed____">RmtDataAcAnimTy.__unnamed__</a></td></tr>
+<tr class="separator:unionXPMP2_1_1RmtDataAcAnimTy_8____unnamed____"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtDataBaseTy.html">RmtDataBaseTy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base structure for passing information from XP's main thread to the multicast thread.  <a href="classXPMP2_1_1RmtDataBaseTy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtDataEnqeueTy.html">RmtDataEnqeueTy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Passing information about any data type (like a/c full detail message); the data is contained as copy.  <a href="classXPMP2_1_1RmtDataEnqeueTy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">RmtMsgBufTy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper class to manage the temporary buffers in which the network message are put together.  <a href="classXPMP2_1_1RmtMsgBufTy.html#details">More...</a><br /></td></tr>
@@ -192,76 +209,88 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a96b830c17825cc562fa5ea21497a75cc"><td class="memItemLeft" align="right" valign="top">typedef std::queue&lt; <a class="el" href="namespaceXPMP2.html#a7a4da9dcbff89ca918acbf1c9c071a42">ptrRmtDataBaseTy</a>, std::list&lt; <a class="el" href="namespaceXPMP2.html#a7a4da9dcbff89ca918acbf1c9c071a42">ptrRmtDataBaseTy</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a96b830c17825cc562fa5ea21497a75cc">queueRmtDataTy</a></td></tr>
 <tr class="memdesc:a96b830c17825cc562fa5ea21497a75cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">A queue managing the information objects, used to transfer data between main thread and network thread.  <a href="namespaceXPMP2.html#a96b830c17825cc562fa5ea21497a75cc">More...</a><br /></td></tr>
 <tr class="separator:a96b830c17825cc562fa5ea21497a75cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1adbf817aa232f5e45fd9d91d1fd713"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="classXPMP2_1_1RmtDataEnqeueTy.html">RmtDataEnqeueTy</a>&lt; <a class="el" href="structXPMP2_1_1RemoteAcDetailTy.html">RemoteAcDetailTy</a>, <a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191acd20d4b40b6d840f3fe0fa8d8f106ccc">RMT_MSG_AC_DETAILED</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ae1adbf817aa232f5e45fd9d91d1fd713">RmtDataAcDetailTy</a></td></tr>
+<tr class="memdesc:ae1adbf817aa232f5e45fd9d91d1fd713"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Detail queue type.  <a href="namespaceXPMP2.html#ae1adbf817aa232f5e45fd9d91d1fd713">More...</a><br /></td></tr>
+<tr class="separator:ae1adbf817aa232f5e45fd9d91d1fd713"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac13b4aa8db7e35267bf7faf6f75f296d"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="classXPMP2_1_1RmtDataEnqeueTy.html">RmtDataEnqeueTy</a>&lt; <a class="el" href="structXPMP2_1_1RemoteAcPosUpdateTy.html">RemoteAcPosUpdateTy</a>, <a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191aeb33b4aa3b4e91246738032d13309f7c">RMT_MSG_AC_POS_UPDATE</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ac13b4aa8db7e35267bf7faf6f75f296d">RmtDataAcPosUpdateTy</a></td></tr>
+<tr class="memdesc:ac13b4aa8db7e35267bf7faf6f75f296d"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Position Update queue type.  <a href="namespaceXPMP2.html#ac13b4aa8db7e35267bf7faf6f75f296d">More...</a><br /></td></tr>
+<tr class="separator:ac13b4aa8db7e35267bf7faf6f75f296d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62ba7238900cb00589a1dc9c604426f6"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="classXPMP2_1_1RmtDataEnqeueTy.html">RmtDataEnqeueTy</a>&lt; <a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>, <a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191a69944e774752bf633b8c86441de05316">RMT_MSG_AC_REMOVE</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a62ba7238900cb00589a1dc9c604426f6">RmtDataAcRemoveTy</a></td></tr>
+<tr class="memdesc:a62ba7238900cb00589a1dc9c604426f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Removal queue type.  <a href="namespaceXPMP2.html#a62ba7238900cb00589a1dc9c604426f6">More...</a><br /></td></tr>
+<tr class="separator:a62ba7238900cb00589a1dc9c604426f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9875d031d4c0e3b664418c4afa04e37f"><td class="memItemLeft" align="right" valign="top">typedef std::unique_ptr&lt; <a class="el" href="classXPMP2_1_1RmtDataAcAnimTy.html">RmtDataAcAnimTy</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a9875d031d4c0e3b664418c4afa04e37f">ptrRmtDataAcAnimTy</a></td></tr>
+<tr class="memdesc:a9875d031d4c0e3b664418c4afa04e37f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Smart pointer to <a class="el" href="classXPMP2_1_1RmtDataAcAnimTy.html" title="Animation dataRef requires a special queue data type as each msg element is already of variable lengt...">XPMP2::RmtDataAcAnimTy</a>.  <a href="namespaceXPMP2.html#a9875d031d4c0e3b664418c4afa04e37f">More...</a><br /></td></tr>
+<tr class="separator:a9875d031d4c0e3b664418c4afa04e37f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a912872fb93caaed2b06632872341f2c0"><td class="memItemLeft" align="right" valign="top">typedef std::list&lt; <a class="el" href="structXPMP2_1_1XPMPPlaneNotifierTy.html">XPMPPlaneNotifierTy</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a912872fb93caaed2b06632872341f2c0">listXPMPPlaneNotifierTy</a></td></tr>
 <tr class="separator:a912872fb93caaed2b06632872341f2c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a02cd1e5f394cbfb5be34e743013a266f"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266f">DR_VALS</a> { <br />
-&#160;&#160;<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266faecc809ce72de733e93e7a7ebe3c5fdb8">V_CONTROLS_GEAR_RATIO</a> = 0, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa7486e5d074c57e3659ea360af8259cd0">V_CONTROLS_NWS_RATIO</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fae6c536ecc7d456dec2eb92bc133a58a4">V_CONTROLS_FLAP_RATIO</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa4997bbb844bc2feecafe66dbd7d1460a">V_CONTROLS_SPOILER_RATIO</a>, 
+<tr class="memitem:ad6d6ee38cd64999ab35363f200e08a6f"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6f">DR_VALS</a> : std::uint8_t { <br />
+&#160;&#160;<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6faecc809ce72de733e93e7a7ebe3c5fdb8">V_CONTROLS_GEAR_RATIO</a> = 0, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa7486e5d074c57e3659ea360af8259cd0">V_CONTROLS_NWS_RATIO</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fae6c536ecc7d456dec2eb92bc133a58a4">V_CONTROLS_FLAP_RATIO</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa4997bbb844bc2feecafe66dbd7d1460a">V_CONTROLS_SPOILER_RATIO</a>, 
 <br />
-&#160;&#160;<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fafa90195583c773cc347962aba6f24f65">V_CONTROLS_SPEED_BRAKE_RATIO</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fad29a08cd8fffff4fc340f96af6ba9a16">V_CONTROLS_SLAT_RATIO</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa0c74827721eded8c3f061424c5053af1">V_CONTROLS_WING_SWEEP_RATIO</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa08c67b635f1841714b2deb1d87c56b8a">V_CONTROLS_THRUST_RATIO</a>, 
+&#160;&#160;<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fafa90195583c773cc347962aba6f24f65">V_CONTROLS_SPEED_BRAKE_RATIO</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fad29a08cd8fffff4fc340f96af6ba9a16">V_CONTROLS_SLAT_RATIO</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa0c74827721eded8c3f061424c5053af1">V_CONTROLS_WING_SWEEP_RATIO</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa08c67b635f1841714b2deb1d87c56b8a">V_CONTROLS_THRUST_RATIO</a>, 
 <br />
-&#160;&#160;<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa0d87a06d16c44c6224ab838cfe41c2e2">V_CONTROLS_YOKE_PITCH_RATIO</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa0713414453fff3c1de122489dad562aa">V_CONTROLS_YOKE_HEADING_RATIO</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa48b5a231f042ed897243587cdd264e3c">V_CONTROLS_YOKE_ROLL_RATIO</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fad49569b34c7ad888332e5ea22bc1aab6">V_CONTROLS_THRUST_REVERS</a>, 
+&#160;&#160;<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa0d87a06d16c44c6224ab838cfe41c2e2">V_CONTROLS_YOKE_PITCH_RATIO</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa0713414453fff3c1de122489dad562aa">V_CONTROLS_YOKE_HEADING_RATIO</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa48b5a231f042ed897243587cdd264e3c">V_CONTROLS_YOKE_ROLL_RATIO</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fad49569b34c7ad888332e5ea22bc1aab6">V_CONTROLS_THRUST_REVERS</a>, 
 <br />
-&#160;&#160;<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa5962c873affe0b879ec83027ce6712df">V_CONTROLS_TAXI_LITES_ON</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fae81875ed5127335494625f6edb767517">V_CONTROLS_LANDING_LITES_ON</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266faaa002a404284b91a5de89fa95cae0843">V_CONTROLS_BEACON_LITES_ON</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266faedb66c1d7a44ea75dcf658f942a22aee">V_CONTROLS_STROBE_LITES_ON</a>, 
+&#160;&#160;<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa5962c873affe0b879ec83027ce6712df">V_CONTROLS_TAXI_LITES_ON</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fae81875ed5127335494625f6edb767517">V_CONTROLS_LANDING_LITES_ON</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6faaa002a404284b91a5de89fa95cae0843">V_CONTROLS_BEACON_LITES_ON</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6faedb66c1d7a44ea75dcf658f942a22aee">V_CONTROLS_STROBE_LITES_ON</a>, 
 <br />
-&#160;&#160;<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fabf85f238575bae4e4436edcf5480e56a">V_CONTROLS_NAV_LITES_ON</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa30b6bf53a2fe3eabdbca695a799fba10">V_GEAR_NOSE_GEAR_DEFLECTION_MTR</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa691c640f22c0fcacb743699e9feeaddf">V_GEAR_TIRE_VERTICAL_DEFLECTION_MTR</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa1620386dd6f9cd2f89902838c634146a">V_GEAR_TIRE_ROTATION_ANGLE_DEG</a>, 
+&#160;&#160;<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fabf85f238575bae4e4436edcf5480e56a">V_CONTROLS_NAV_LITES_ON</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa30b6bf53a2fe3eabdbca695a799fba10">V_GEAR_NOSE_GEAR_DEFLECTION_MTR</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa691c640f22c0fcacb743699e9feeaddf">V_GEAR_TIRE_VERTICAL_DEFLECTION_MTR</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa1620386dd6f9cd2f89902838c634146a">V_GEAR_TIRE_ROTATION_ANGLE_DEG</a>, 
 <br />
-&#160;&#160;<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa7c5942c387de19ffe64b2aa5489050dd">V_GEAR_TIRE_ROTATION_SPEED_RPM</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fad76e4f47dddafb0cbbe6f0e039939c31">V_GEAR_TIRE_ROTATION_SPEED_RAD_SEC</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa8598329ba23614267bbf926552969c69">V_ENGINES_ENGINE_ROTATION_ANGLE_DEG</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fad0bcdbbf281ad6f2a13c34cf5c679ed0">V_ENGINES_ENGINE_ROTATION_SPEED_RPM</a>, 
+&#160;&#160;<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa7c5942c387de19ffe64b2aa5489050dd">V_GEAR_TIRE_ROTATION_SPEED_RPM</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fad76e4f47dddafb0cbbe6f0e039939c31">V_GEAR_TIRE_ROTATION_SPEED_RAD_SEC</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa8598329ba23614267bbf926552969c69">V_ENGINES_ENGINE_ROTATION_ANGLE_DEG</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fad0bcdbbf281ad6f2a13c34cf5c679ed0">V_ENGINES_ENGINE_ROTATION_SPEED_RPM</a>, 
 <br />
-&#160;&#160;<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa5daa5997d55fe800c5e8e57f53267c3a">V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa482431e2e5fc0e8901cc503242ebad75">V_ENGINES_PROP_ROTATION_ANGLE_DEG</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fab7845c7cf8ab7502066a87739354a08c">V_ENGINES_PROP_ROTATION_SPEED_RPM</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa241b0f15f54af159be385ae463816d57">V_ENGINES_PROP_ROTATION_SPEED_RAD_SEC</a>, 
+&#160;&#160;<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa5daa5997d55fe800c5e8e57f53267c3a">V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa482431e2e5fc0e8901cc503242ebad75">V_ENGINES_PROP_ROTATION_ANGLE_DEG</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fab7845c7cf8ab7502066a87739354a08c">V_ENGINES_PROP_ROTATION_SPEED_RPM</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa241b0f15f54af159be385ae463816d57">V_ENGINES_PROP_ROTATION_SPEED_RAD_SEC</a>, 
 <br />
-&#160;&#160;<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa8ecbfb451618ff41e78fbbff8a3ba4a5">V_ENGINES_THRUST_REVERSER_DEPLOY_RATIO</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa84e0fca136683b9e3192168c69b83034">V_ENGINES_ENGINE_ROTATION_ANGLE_DEG1</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fae6671c7fe0753db23a57a9651ffa579c">V_ENGINES_ENGINE_ROTATION_ANGLE_DEG2</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa27f0080f7f55acc4e0e8d08a8f702df1">V_ENGINES_ENGINE_ROTATION_ANGLE_DEG3</a>, 
+&#160;&#160;<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa8ecbfb451618ff41e78fbbff8a3ba4a5">V_ENGINES_THRUST_REVERSER_DEPLOY_RATIO</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa84e0fca136683b9e3192168c69b83034">V_ENGINES_ENGINE_ROTATION_ANGLE_DEG1</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fae6671c7fe0753db23a57a9651ffa579c">V_ENGINES_ENGINE_ROTATION_ANGLE_DEG2</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa27f0080f7f55acc4e0e8d08a8f702df1">V_ENGINES_ENGINE_ROTATION_ANGLE_DEG3</a>, 
 <br />
-&#160;&#160;<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa7b6c9bef73ae0cc064bf554d1de89232">V_ENGINES_ENGINE_ROTATION_ANGLE_DEG4</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fae0a60380f89578176ba9a83d927f00ef">V_ENGINES_ENGINE_ROTATION_SPEED_RPM1</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fabbd9d0e161429547e16fcb9264da682b">V_ENGINES_ENGINE_ROTATION_SPEED_RPM2</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fad427c5d8e5bd2a897382d7b48a1821d3">V_ENGINES_ENGINE_ROTATION_SPEED_RPM3</a>, 
+&#160;&#160;<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa7b6c9bef73ae0cc064bf554d1de89232">V_ENGINES_ENGINE_ROTATION_ANGLE_DEG4</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fae0a60380f89578176ba9a83d927f00ef">V_ENGINES_ENGINE_ROTATION_SPEED_RPM1</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fabbd9d0e161429547e16fcb9264da682b">V_ENGINES_ENGINE_ROTATION_SPEED_RPM2</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fad427c5d8e5bd2a897382d7b48a1821d3">V_ENGINES_ENGINE_ROTATION_SPEED_RPM3</a>, 
 <br />
-&#160;&#160;<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fab2137e67b4a5d03bc27d75498fd70880">V_ENGINES_ENGINE_ROTATION_SPEED_RPM4</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa256582231ea70361fdd5303dfcdfc16f">V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC1</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa2cf84031f5c5a2a5b02e9ef1b53b5050">V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC2</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa04d8e0da3829ba48a07466a8ee3c3c3e">V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC3</a>, 
+&#160;&#160;<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fab2137e67b4a5d03bc27d75498fd70880">V_ENGINES_ENGINE_ROTATION_SPEED_RPM4</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa256582231ea70361fdd5303dfcdfc16f">V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC1</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa2cf84031f5c5a2a5b02e9ef1b53b5050">V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC2</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa04d8e0da3829ba48a07466a8ee3c3c3e">V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC3</a>, 
 <br />
-&#160;&#160;<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa4433cb324d1116ab18c2442707e8aaef">V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC4</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa25cf6c69cb178e853ba81c058f19bb5d">V_MISC_TOUCH_DOWN</a>, 
-<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa3efd8e40f4308bc421015776084f580b">V_COUNT</a>
+&#160;&#160;<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa4433cb324d1116ab18c2442707e8aaef">V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC4</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa25cf6c69cb178e853ba81c058f19bb5d">V_MISC_TOUCH_DOWN</a>, 
+<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa3efd8e40f4308bc421015776084f580b">V_COUNT</a>
 <br />
  }</td></tr>
-<tr class="memdesc:a02cd1e5f394cbfb5be34e743013a266f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The dataRefs provided by <a class="el" href="namespaceXPMP2.html">XPMP2</a> to the CSL models.  <a href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266f">More...</a><br /></td></tr>
-<tr class="separator:a02cd1e5f394cbfb5be34e743013a266f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:ad6d6ee38cd64999ab35363f200e08a6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The dataRefs provided by <a class="el" href="namespaceXPMP2.html">XPMP2</a> to the CSL models.  <a href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6f">More...</a><br /></td></tr>
+<tr class="separator:ad6d6ee38cd64999ab35363f200e08a6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38a30db370f191740d6f3969ea38f191"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191">RemoteMsgTy</a> : std::uint8_t { <br />
 &#160;&#160;<a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191aaa89928b8fd242fb3c8ed929eb3825c9">RMT_MSG_INTEREST_BEACON</a> = 0, 
 <a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191aac7bd1bcef4fd12ecd3af8d97cb77b76">RMT_MSG_SEND</a>, 
 <a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191adb84f910e936f32d947a63fedb0a67fe">RMT_MSG_SETTINGS</a>, 
 <a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191acd20d4b40b6d840f3fe0fa8d8f106ccc">RMT_MSG_AC_DETAILED</a>, 
 <br />
-&#160;&#160;<a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191aa5a73320d7edd873c0e46fe9f0641f2c">RMT_MSG_AC_DIFF</a>, 
+&#160;&#160;<a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191aeb33b4aa3b4e91246738032d13309f7c">RMT_MSG_AC_POS_UPDATE</a>, 
 <a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191a983f022c861dd9823c0f33431f8a39b4">RMT_MSG_AC_ANIM</a>, 
 <a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191a69944e774752bf633b8c86441de05316">RMT_MSG_AC_REMOVE</a>
 <br />
@@ -317,9 +346,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a93dd489d301924f0d1ff5cdf98bc03ae"><td class="memItemLeft" align="right" valign="top">std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a93dd489d301924f0d1ff5cdf98bc03ae">PJWHash16</a> (const char *s)</td></tr>
 <tr class="memdesc:a93dd489d301924f0d1ff5cdf98bc03ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Produces a reproducible(!) hash value for strings.  <a href="namespaceXPMP2.html#a93dd489d301924f0d1ff5cdf98bc03ae">More...</a><br /></td></tr>
 <tr class="separator:a93dd489d301924f0d1ff5cdf98bc03ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae3b70587d1931c467cb67b8e89619ee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aae3b70587d1931c467cb67b8e89619ee">CSLModelByPkgShortId</a> (std::uint16_t _pkgHash, const char *_shortId, size_t _shortIdMaxSize)</td></tr>
-<tr class="memdesc:aae3b70587d1931c467cb67b8e89619ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find a model by package name hash and short id.  <a href="namespaceXPMP2.html#aae3b70587d1931c467cb67b8e89619ee">More...</a><br /></td></tr>
-<tr class="separator:aae3b70587d1931c467cb67b8e89619ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75dcb0c50b67fbdc330ef140a3de8291"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a75dcb0c50b67fbdc330ef140a3de8291">CSLModelByPkgShortId</a> (std::uint16_t _pkgHash, const std::string &amp;_shortId)</td></tr>
+<tr class="memdesc:a75dcb0c50b67fbdc330ef140a3de8291"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find a model by package name hash and short id.  <a href="namespaceXPMP2.html#a75dcb0c50b67fbdc330ef140a3de8291">More...</a><br /></td></tr>
+<tr class="separator:a75dcb0c50b67fbdc330ef140a3de8291"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b834d198234c7dc1d421b34ac4a8f60"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceXPMP2.html#a79adca5f1eba1fbafa63e30a2c9af8e7">RemoteStatusTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a2b834d198234c7dc1d421b34ac4a8f60">RemoteGetStatus</a> ()</td></tr>
 <tr class="memdesc:a2b834d198234c7dc1d421b34ac4a8f60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the current Remote status.  <a href="namespaceXPMP2.html#a2b834d198234c7dc1d421b34ac4a8f60">More...</a><br /></td></tr>
 <tr class="separator:a2b834d198234c7dc1d421b34ac4a8f60"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -680,6 +709,9 @@ Variables</h2></td></tr>
 <tr class="memitem:adb7631159f1c3263d5cefad76434e91d"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#adb7631159f1c3263d5cefad76434e91d">M_per_NM</a> = 1852</td></tr>
 <tr class="memdesc:adb7631159f1c3263d5cefad76434e91d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert nautical miles to meters.  <a href="namespaceXPMP2.html#adb7631159f1c3263d5cefad76434e91d">More...</a><br /></td></tr>
 <tr class="separator:adb7631159f1c3263d5cefad76434e91d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0fc92edd795aae73ddcabe29d3a45ff"><td class="memItemLeft" align="right" valign="top">const std::array&lt; <a class="el" href="structXPMP2_1_1RemoteDataRefPackTy.html">RemoteDataRefPackTy</a>, <a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa3efd8e40f4308bc421015776084f580b">V_COUNT</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ae0fc92edd795aae73ddcabe29d3a45ff">REMOTE_DR_DEF</a></td></tr>
+<tr class="memdesc:ae0fc92edd795aae73ddcabe29d3a45ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">An array holding all dataRef packing definitions.  <a href="namespaceXPMP2.html#ae0fc92edd795aae73ddcabe29d3a45ff">More...</a><br /></td></tr>
+<tr class="separator:ae0fc92edd795aae73ddcabe29d3a45ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6b877335e2fa029736148ac9ad25538d"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structXPMP2_1_1RemoteMsgBaseTy.html">XPMP2::RemoteMsgBaseTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a6b877335e2fa029736148ac9ad25538d">PACKED</a></td></tr>
 <tr class="separator:a6b877335e2fa029736148ac9ad25538d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07a623157625932fbc06f9a7fec52a2d"><td class="memItemLeft" align="right" valign="top">constexpr std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a07a623157625932fbc06f9a7fec52a2d">RMT_VER_BEACON</a> = 0</td></tr>
@@ -691,8 +723,32 @@ Variables</h2></td></tr>
 <tr class="memitem:a7b8bdf3fb126614b5afaa0769c576da4"><td class="memItemLeft" align="right" valign="top">constexpr std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a7b8bdf3fb126614b5afaa0769c576da4">RMT_VER_AC_DETAIL</a> = 0</td></tr>
 <tr class="memdesc:a7b8bdf3fb126614b5afaa0769c576da4"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C detail message version number.  <a href="namespaceXPMP2.html#a7b8bdf3fb126614b5afaa0769c576da4">More...</a><br /></td></tr>
 <tr class="separator:a7b8bdf3fb126614b5afaa0769c576da4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5bf001f7f885e62205d4786a89b4822"><td class="memItemLeft" align="right" valign="top">constexpr std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#af5bf001f7f885e62205d4786a89b4822">RMT_VER_AC_POS_UPDATE</a> = 0</td></tr>
+<tr class="memdesc:af5bf001f7f885e62205d4786a89b4822"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Position update message version number.  <a href="namespaceXPMP2.html#af5bf001f7f885e62205d4786a89b4822">More...</a><br /></td></tr>
+<tr class="separator:af5bf001f7f885e62205d4786a89b4822"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a31d65d8acfda8f5ef167609af2cd59"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a7a31d65d8acfda8f5ef167609af2cd59">REMOTE_DEGREE_RES</a> = 0.00000001</td></tr>
+<tr class="memdesc:a7a31d65d8acfda8f5ef167609af2cd59"><td class="mdescLeft">&#160;</td><td class="mdescRight">What is the maximum difference a <a class="el" href="structXPMP2_1_1RemoteAcPosUpdateTy.html" title="A/C Position updates based on global coordinates.">RemoteAcPosUpdateTy</a> can hold?  <a href="namespaceXPMP2.html#a7a31d65d8acfda8f5ef167609af2cd59">More...</a><br /></td></tr>
+<tr class="separator:a7a31d65d8acfda8f5ef167609af2cd59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0fec57ed2a517c42fb402badf49c305"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#af0fec57ed2a517c42fb402badf49c305">REMOTE_MAX_DIFF_DEGREE</a> = <a class="el" href="namespaceXPMP2.html#a7a31d65d8acfda8f5ef167609af2cd59">REMOTE_DEGREE_RES</a> * INT16_MAX</td></tr>
+<tr class="memdesc:af0fec57ed2a517c42fb402badf49c305"><td class="mdescLeft">&#160;</td><td class="mdescRight">maximum degree difference that can be represented in a pos update msg  <a href="namespaceXPMP2.html#af0fec57ed2a517c42fb402badf49c305">More...</a><br /></td></tr>
+<tr class="separator:af0fec57ed2a517c42fb402badf49c305"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc7e052ad0866d69d24626b05ac87f4e"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#adc7e052ad0866d69d24626b05ac87f4e">REMOTE_ALT_FT_RES</a> = 0.01</td></tr>
+<tr class="memdesc:adc7e052ad0866d69d24626b05ac87f4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">resolution of altitude[ft] updates  <a href="namespaceXPMP2.html#adc7e052ad0866d69d24626b05ac87f4e">More...</a><br /></td></tr>
+<tr class="separator:adc7e052ad0866d69d24626b05ac87f4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cfe20dfd5fc62b8df222bad06c4264b"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a7cfe20dfd5fc62b8df222bad06c4264b">REMOTE_MAX_DIFF_ALT_FT</a> = <a class="el" href="namespaceXPMP2.html#adc7e052ad0866d69d24626b05ac87f4e">REMOTE_ALT_FT_RES</a> * INT16_MAX</td></tr>
+<tr class="memdesc:a7cfe20dfd5fc62b8df222bad06c4264b"><td class="mdescLeft">&#160;</td><td class="mdescRight">maximum altitude[ft] difference that can be represented in a pos update msg  <a href="namespaceXPMP2.html#a7cfe20dfd5fc62b8df222bad06c4264b">More...</a><br /></td></tr>
+<tr class="separator:a7cfe20dfd5fc62b8df222bad06c4264b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bb9c8890eda4a1f041fbabe729eea5c"><td class="memItemLeft" align="right" valign="top">constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a7bb9c8890eda4a1f041fbabe729eea5c">REMOTE_TIME_RES</a> = 0.0001f</td></tr>
+<tr class="memdesc:a7bb9c8890eda4a1f041fbabe729eea5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">resolution of time difference  <a href="namespaceXPMP2.html#a7bb9c8890eda4a1f041fbabe729eea5c">More...</a><br /></td></tr>
+<tr class="separator:a7bb9c8890eda4a1f041fbabe729eea5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55ceb092b906dadc4407be3db2991ab3"><td class="memItemLeft" align="right" valign="top">constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a55ceb092b906dadc4407be3db2991ab3">REMOTE_MAX_DIFF_TIME</a> = <a class="el" href="namespaceXPMP2.html#a7bb9c8890eda4a1f041fbabe729eea5c">REMOTE_TIME_RES</a> * UINT16_MAX</td></tr>
+<tr class="memdesc:a55ceb092b906dadc4407be3db2991ab3"><td class="mdescLeft">&#160;</td><td class="mdescRight">maximum time difference thatn can be represented in a pos update msg  <a href="namespaceXPMP2.html#a55ceb092b906dadc4407be3db2991ab3">More...</a><br /></td></tr>
+<tr class="separator:a55ceb092b906dadc4407be3db2991ab3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1aa3e38765c120fe499c40a8b53143e9"><td class="memItemLeft" align="right" valign="top">constexpr std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a1aa3e38765c120fe499c40a8b53143e9">RMT_VER_AC_ANIM</a> = 0</td></tr>
+<tr class="memdesc:a1aa3e38765c120fe499c40a8b53143e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Position update message version number.  <a href="namespaceXPMP2.html#a1aa3e38765c120fe499c40a8b53143e9">More...</a><br /></td></tr>
+<tr class="separator:a1aa3e38765c120fe499c40a8b53143e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27f745bec429920efc88450b98accd31"><td class="memItemLeft" align="right" valign="top">constexpr std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a27f745bec429920efc88450b98accd31">RMT_VER_AC_REMOVE</a> = 0</td></tr>
-<tr class="memdesc:a27f745bec429920efc88450b98accd31"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C detail message version number.  <a href="namespaceXPMP2.html#a27f745bec429920efc88450b98accd31">More...</a><br /></td></tr>
+<tr class="memdesc:a27f745bec429920efc88450b98accd31"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C removal message version number.  <a href="namespaceXPMP2.html#a27f745bec429920efc88450b98accd31">More...</a><br /></td></tr>
 <tr class="separator:a27f745bec429920efc88450b98accd31"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a04e1b9e39a6403f8d0ed3d3be96d7832"><td class="memItemLeft" align="right" valign="top">constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a04e1b9e39a6403f8d0ed3d3be96d7832">FAR_AWAY_VAL_GL</a> = 9999999.9f</td></tr>
 <tr class="memdesc:a04e1b9e39a6403f8d0ed3d3be96d7832"><td class="mdescLeft">&#160;</td><td class="mdescRight">Don't dare using NAN...but with this coordinate for x/y/z a plane should be far out and virtually invisible.  <a href="namespaceXPMP2.html#a04e1b9e39a6403f8d0ed3d3be96d7832">More...</a><br /></td></tr>
@@ -757,9 +813,6 @@ Variables</h2></td></tr>
 <tr class="separator:afb629d885c8cea43378488025fdde921"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af0d73d5759c5441b1ea934c4db33f8ee"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structXPMP2_1_1Doc8643.html">Doc8643</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#af0d73d5759c5441b1ea934c4db33f8ee">DOC8643_EMPTY</a></td></tr>
 <tr class="separator:af0d73d5759c5441b1ea934c4db33f8ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a716a121e87d84fd453e59fbcfd96dee4"><td class="memItemLeft" align="right" valign="top">const std::array&lt; <a class="el" href="structXPMP2_1_1RemoteDataRefPackTy.html">RemoteDataRefPackTy</a>, <a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa3efd8e40f4308bc421015776084f580b">V_COUNT</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a716a121e87d84fd453e59fbcfd96dee4">REMOTE_DR_DEF</a></td></tr>
-<tr class="memdesc:a716a121e87d84fd453e59fbcfd96dee4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines per dataRef the value range we support transferring to the remote client.  <a href="namespaceXPMP2.html#a716a121e87d84fd453e59fbcfd96dee4">More...</a><br /></td></tr>
-<tr class="separator:a716a121e87d84fd453e59fbcfd96dee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfb3536c59ea62eb3f6f7ddb0f0b860e"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#adfb3536c59ea62eb3f6f7ddb0f0b860e">REMOTE_RECV_BEACON_INTVL</a> = 15</td></tr>
 <tr class="memdesc:adfb3536c59ea62eb3f6f7ddb0f0b860e"><td class="mdescLeft">&#160;</td><td class="mdescRight">How often to send an Interest Beacon? [s].  <a href="namespaceXPMP2.html#adfb3536c59ea62eb3f6f7ddb0f0b860e">More...</a><br /></td></tr>
 <tr class="separator:adfb3536c59ea62eb3f6f7ddb0f0b860e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -778,6 +831,12 @@ Variables</h2></td></tr>
 <tr class="memitem:aad77725db1cc43d172d818c74650a75a"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aad77725db1cc43d172d818c74650a75a">gNxtFullUpdGrpToAssign</a> = 0</td></tr>
 <tr class="memdesc:aad77725db1cc43d172d818c74650a75a"><td class="mdescLeft">&#160;</td><td class="mdescRight">What's the next group number to assign to the next a/c? (Assigned will be the value incremented by 1)  <a href="namespaceXPMP2.html#aad77725db1cc43d172d818c74650a75a">More...</a><br /></td></tr>
 <tr class="separator:aad77725db1cc43d172d818c74650a75a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47686bf8386efaaae032aa52a28228dd"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a47686bf8386efaaae032aa52a28228dd">gNow</a> = 0.0f</td></tr>
+<tr class="memdesc:a47686bf8386efaaae032aa52a28228dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current network timestamp.  <a href="namespaceXPMP2.html#a47686bf8386efaaae032aa52a28228dd">More...</a><br /></td></tr>
+<tr class="separator:a47686bf8386efaaae032aa52a28228dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00b5b75606a0d9bb1b323d86019c279e"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a00b5b75606a0d9bb1b323d86019c279e">gNxtTxfTime</a> = 0.0f</td></tr>
+<tr class="memdesc:a00b5b75606a0d9bb1b323d86019c279e"><td class="mdescLeft">&#160;</td><td class="mdescRight">When to actually process position updates next?  <a href="namespaceXPMP2.html#a00b5b75606a0d9bb1b323d86019c279e">More...</a><br /></td></tr>
+<tr class="separator:a00b5b75606a0d9bb1b323d86019c279e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a051f74af56a28e1161f1e7267c88153e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceXPMP2.html#a96b830c17825cc562fa5ea21497a75cc">queueRmtDataTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a051f74af56a28e1161f1e7267c88153e">gqueueRmtData</a></td></tr>
 <tr class="memdesc:a051f74af56a28e1161f1e7267c88153e"><td class="mdescLeft">&#160;</td><td class="mdescRight">the queue for passing data from main to network thread  <a href="namespaceXPMP2.html#a051f74af56a28e1161f1e7267c88153e">More...</a><br /></td></tr>
 <tr class="separator:a051f74af56a28e1161f1e7267c88153e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -808,6 +867,15 @@ Variables</h2></td></tr>
 <tr class="memitem:a259af53d263e31c7e31e810b83b27703"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">RmtMsgBufTy</a>&lt; <a class="el" href="structXPMP2_1_1RemoteAcDetailTy.html">RemoteAcDetailTy</a>, <a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191acd20d4b40b6d840f3fe0fa8d8f106ccc">RMT_MSG_AC_DETAILED</a>, <a class="el" href="namespaceXPMP2.html#a7b8bdf3fb126614b5afaa0769c576da4">RMT_VER_AC_DETAIL</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a259af53d263e31c7e31e810b83b27703">gMsgAcDetail</a></td></tr>
 <tr class="memdesc:a259af53d263e31c7e31e810b83b27703"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Detail message.  <a href="namespaceXPMP2.html#a259af53d263e31c7e31e810b83b27703">More...</a><br /></td></tr>
 <tr class="separator:a259af53d263e31c7e31e810b83b27703"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a030d6e6a67e9a764499b08c073d6457e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">RmtMsgBufTy</a>&lt; <a class="el" href="structXPMP2_1_1RemoteAcPosUpdateTy.html">RemoteAcPosUpdateTy</a>, <a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191aeb33b4aa3b4e91246738032d13309f7c">RMT_MSG_AC_POS_UPDATE</a>, <a class="el" href="namespaceXPMP2.html#af5bf001f7f885e62205d4786a89b4822">RMT_VER_AC_POS_UPDATE</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a030d6e6a67e9a764499b08c073d6457e">gMsgAcPosUpdate</a></td></tr>
+<tr class="memdesc:a030d6e6a67e9a764499b08c073d6457e"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Position Update message.  <a href="namespaceXPMP2.html#a030d6e6a67e9a764499b08c073d6457e">More...</a><br /></td></tr>
+<tr class="separator:a030d6e6a67e9a764499b08c073d6457e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae44036a919477658e0b17aa03095b8ff"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">RmtMsgBufTy</a>&lt; <a class="el" href="structXPMP2_1_1RemoteAcAnimTy.html">RemoteAcAnimTy</a>, <a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191a983f022c861dd9823c0f33431f8a39b4">RMT_MSG_AC_ANIM</a>, <a class="el" href="namespaceXPMP2.html#a1aa3e38765c120fe499c40a8b53143e9">RMT_VER_AC_ANIM</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ae44036a919477658e0b17aa03095b8ff">gMsgAcAnim</a></td></tr>
+<tr class="memdesc:ae44036a919477658e0b17aa03095b8ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Animation dataRefs message.  <a href="namespaceXPMP2.html#ae44036a919477658e0b17aa03095b8ff">More...</a><br /></td></tr>
+<tr class="separator:ae44036a919477658e0b17aa03095b8ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7784f82bd022f7edc60ac93e0f92b78"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">RmtMsgBufTy</a>&lt; <a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>, <a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191a69944e774752bf633b8c86441de05316">RMT_MSG_AC_REMOVE</a>, <a class="el" href="namespaceXPMP2.html#a27f745bec429920efc88450b98accd31">RMT_VER_AC_REMOVE</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ae7784f82bd022f7edc60ac93e0f92b78">gMsgAcRemove</a></td></tr>
+<tr class="memdesc:ae7784f82bd022f7edc60ac93e0f92b78"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Removal message.  <a href="namespaceXPMP2.html#ae7784f82bd022f7edc60ac93e0f92b78">More...</a><br /></td></tr>
+<tr class="separator:ae7784f82bd022f7edc60ac93e0f92b78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1f4aa16c141997a88bf99ce8c5626d55"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structXPMP2_1_1RemoteCBFctTy.html">RemoteCBFctTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a1f4aa16c141997a88bf99ce8c5626d55">gRmtCBFcts</a></td></tr>
 <tr class="memdesc:a1f4aa16c141997a88bf99ce8c5626d55"><td class="mdescLeft">&#160;</td><td class="mdescRight">The callback function pointers the remote client plugin provided.  <a href="namespaceXPMP2.html#a1f4aa16c141997a88bf99ce8c5626d55">More...</a><br /></td></tr>
 <tr class="separator:a1f4aa16c141997a88bf99ce8c5626d55"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -832,6 +900,35 @@ Variables</h2></td></tr>
 <tr class="separator:abb7825a2923e0cb619b5669e76a5991d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/><h2 class="groupheader">Class Documentation</h2>
+<a name="unionXPMP2_1_1RmtDataAcAnimTy_8____unnamed____" id="unionXPMP2_1_1RmtDataAcAnimTy_8____unnamed____"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#unionXPMP2_1_1RmtDataAcAnimTy_8____unnamed____">&#9670;&nbsp;</a></span>XPMP2::RmtDataAcAnimTy.__unnamed__</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">union XPMP2::RmtDataAcAnimTy.__unnamed__</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"></div><table class="fieldtable">
+<tr><th colspan="3">Class Members</th></tr>
+<tr><td class="fieldtype">
+<a id="a943ec238c1701c8de739aff031085bab"></a>char</td>
+<td class="fieldname">
+bufSize[<a class="el" href="structXPMP2_1_1RemoteAcAnimTy.html#a47f54c1420eab4cd88212fc65a7b064d">RemoteAcAnimTy::msgSize</a>(<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa3efd8e40f4308bc421015776084f580b">V_COUNT</a>)]</td>
+<td class="fielddoc">
+a declaration that only makes sure that enough memory is reserved so that XPMP2::RmtDataAcAnimTy::data::v can fill up to max </td></tr>
+<tr><td class="fieldtype">
+<a id="a8d777f385d3dfec8815d20f7496026dc"></a><a class="el" href="structXPMP2_1_1RemoteAcAnimTy.html">RemoteAcAnimTy</a></td>
+<td class="fieldname">
+data</td>
+<td class="fielddoc">
+The animation dataRef values element. </td></tr>
+</table>
+
+</div>
+</div>
 <a name="unionXPMP2_1_1TcasLightsTy" id="unionXPMP2_1_1TcasLightsTy"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#unionXPMP2_1_1TcasLightsTy">&#9670;&nbsp;</a></span>XPMP2::TcasLightsTy</h2>
 
@@ -1084,6 +1181,22 @@ the full integer value </td></tr>
 
 </div>
 </div>
+<a id="a9875d031d4c0e3b664418c4afa04e37f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9875d031d4c0e3b664418c4afa04e37f">&#9670;&nbsp;</a></span>ptrRmtDataAcAnimTy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef std::unique_ptr&lt;<a class="el" href="classXPMP2_1_1RmtDataAcAnimTy.html">RmtDataAcAnimTy</a>&gt; <a class="el" href="namespaceXPMP2.html#a9875d031d4c0e3b664418c4afa04e37f">XPMP2::ptrRmtDataAcAnimTy</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Smart pointer to <a class="el" href="classXPMP2_1_1RmtDataAcAnimTy.html" title="Animation dataRef requires a special queue data type as each msg element is already of variable lengt...">XPMP2::RmtDataAcAnimTy</a>. </p>
+
+</div>
+</div>
 <a id="a7a4da9dcbff89ca918acbf1c9c071a42"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7a4da9dcbff89ca918acbf1c9c071a42">&#9670;&nbsp;</a></span>ptrRmtDataBaseTy</h2>
 
@@ -1116,6 +1229,54 @@ the full integer value </td></tr>
 
 </div>
 </div>
+<a id="ae1adbf817aa232f5e45fd9d91d1fd713"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1adbf817aa232f5e45fd9d91d1fd713">&#9670;&nbsp;</a></span>RmtDataAcDetailTy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="classXPMP2_1_1RmtDataEnqeueTy.html">RmtDataEnqeueTy</a>&lt;<a class="el" href="structXPMP2_1_1RemoteAcDetailTy.html">RemoteAcDetailTy</a>,<a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191acd20d4b40b6d840f3fe0fa8d8f106ccc">RMT_MSG_AC_DETAILED</a>&gt; <a class="el" href="namespaceXPMP2.html#ae1adbf817aa232f5e45fd9d91d1fd713">XPMP2::RmtDataAcDetailTy</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A/C Detail queue type. </p>
+
+</div>
+</div>
+<a id="ac13b4aa8db7e35267bf7faf6f75f296d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac13b4aa8db7e35267bf7faf6f75f296d">&#9670;&nbsp;</a></span>RmtDataAcPosUpdateTy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="classXPMP2_1_1RmtDataEnqeueTy.html">RmtDataEnqeueTy</a>&lt;<a class="el" href="structXPMP2_1_1RemoteAcPosUpdateTy.html">RemoteAcPosUpdateTy</a>,<a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191aeb33b4aa3b4e91246738032d13309f7c">RMT_MSG_AC_POS_UPDATE</a>&gt; <a class="el" href="namespaceXPMP2.html#ac13b4aa8db7e35267bf7faf6f75f296d">XPMP2::RmtDataAcPosUpdateTy</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A/C Position Update queue type. </p>
+
+</div>
+</div>
+<a id="a62ba7238900cb00589a1dc9c604426f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62ba7238900cb00589a1dc9c604426f6">&#9670;&nbsp;</a></span>RmtDataAcRemoveTy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="classXPMP2_1_1RmtDataEnqeueTy.html">RmtDataEnqeueTy</a>&lt;<a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>,<a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191a69944e774752bf633b8c86441de05316">RMT_MSG_AC_REMOVE</a>&gt; <a class="el" href="namespaceXPMP2.html#a62ba7238900cb00589a1dc9c604426f6">XPMP2::RmtDataAcRemoveTy</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A/C Removal queue type. </p>
+
+</div>
+</div>
 <a id="ac759ac14a3ef63581d8f4c364d5736d0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac759ac14a3ef63581d8f4c364d5736d0">&#9670;&nbsp;</a></span>SOCKET</h2>
 
@@ -1133,119 +1294,119 @@ the full integer value </td></tr>
 </div>
 </div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="a02cd1e5f394cbfb5be34e743013a266f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a02cd1e5f394cbfb5be34e743013a266f">&#9670;&nbsp;</a></span>DR_VALS</h2>
+<a id="ad6d6ee38cd64999ab35363f200e08a6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6d6ee38cd64999ab35363f200e08a6f">&#9670;&nbsp;</a></span>DR_VALS</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">enum <a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266f">XPMP2::DR_VALS</a></td>
+          <td class="memname">enum <a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6f">XPMP2::DR_VALS</a> : std::uint8_t</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>The dataRefs provided by <a class="el" href="namespaceXPMP2.html">XPMP2</a> to the CSL models. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266faecc809ce72de733e93e7a7ebe3c5fdb8"></a>V_CONTROLS_GEAR_RATIO&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/gear_ratio</code> and <br  />
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6faecc809ce72de733e93e7a7ebe3c5fdb8"></a>V_CONTROLS_GEAR_RATIO&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/gear_ratio</code> and <br  />
 <code>sim/cockpit2/tcas/targets/position/gear_deploy</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa7486e5d074c57e3659ea360af8259cd0"></a>V_CONTROLS_NWS_RATIO&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/nws_ratio</code>, the nose wheel angle, actually in degrees </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fa7486e5d074c57e3659ea360af8259cd0"></a>V_CONTROLS_NWS_RATIO&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/nws_ratio</code>, the nose wheel angle, actually in degrees </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fae6c536ecc7d456dec2eb92bc133a58a4"></a>V_CONTROLS_FLAP_RATIO&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/flap_ratio</code> and <br  />
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fae6c536ecc7d456dec2eb92bc133a58a4"></a>V_CONTROLS_FLAP_RATIO&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/flap_ratio</code> and <br  />
 <code>sim/cockpit2/tcas/targets/position/flap_ratio</code> and <code>...flap_ratio2</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa4997bbb844bc2feecafe66dbd7d1460a"></a>V_CONTROLS_SPOILER_RATIO&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/spoiler_ratio</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fa4997bbb844bc2feecafe66dbd7d1460a"></a>V_CONTROLS_SPOILER_RATIO&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/spoiler_ratio</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fafa90195583c773cc347962aba6f24f65"></a>V_CONTROLS_SPEED_BRAKE_RATIO&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/speed_brake_ratio</code> and <br  />
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fafa90195583c773cc347962aba6f24f65"></a>V_CONTROLS_SPEED_BRAKE_RATIO&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/speed_brake_ratio</code> and <br  />
 <code>sim/cockpit2/tcas/targets/position/speedbrake_ratio</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fad29a08cd8fffff4fc340f96af6ba9a16"></a>V_CONTROLS_SLAT_RATIO&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/slat_ratio</code> and <br  />
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fad29a08cd8fffff4fc340f96af6ba9a16"></a>V_CONTROLS_SLAT_RATIO&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/slat_ratio</code> and <br  />
 <code>sim/cockpit2/tcas/targets/position/slat_ratio</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa0c74827721eded8c3f061424c5053af1"></a>V_CONTROLS_WING_SWEEP_RATIO&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/wing_sweep_ratio</code> and <br  />
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fa0c74827721eded8c3f061424c5053af1"></a>V_CONTROLS_WING_SWEEP_RATIO&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/wing_sweep_ratio</code> and <br  />
 <code>sim/cockpit2/tcas/targets/position/wing_sweep</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa08c67b635f1841714b2deb1d87c56b8a"></a>V_CONTROLS_THRUST_RATIO&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/thrust_ratio</code> and <br  />
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fa08c67b635f1841714b2deb1d87c56b8a"></a>V_CONTROLS_THRUST_RATIO&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/thrust_ratio</code> and <br  />
 <code>sim/cockpit2/tcas/targets/position/throttle</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa0d87a06d16c44c6224ab838cfe41c2e2"></a>V_CONTROLS_YOKE_PITCH_RATIO&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/yoke_pitch_ratio</code> and <br  />
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fa0d87a06d16c44c6224ab838cfe41c2e2"></a>V_CONTROLS_YOKE_PITCH_RATIO&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/yoke_pitch_ratio</code> and <br  />
 <code>sim/cockpit2/tcas/targets/position/yolk_pitch</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa0713414453fff3c1de122489dad562aa"></a>V_CONTROLS_YOKE_HEADING_RATIO&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/yoke_heading_ratio</code> and <br  />
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fa0713414453fff3c1de122489dad562aa"></a>V_CONTROLS_YOKE_HEADING_RATIO&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/yoke_heading_ratio</code> and <br  />
 <code>sim/cockpit2/tcas/targets/position/yolk_yaw</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa48b5a231f042ed897243587cdd264e3c"></a>V_CONTROLS_YOKE_ROLL_RATIO&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/yoke_roll_ratio</code> and <br  />
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fa48b5a231f042ed897243587cdd264e3c"></a>V_CONTROLS_YOKE_ROLL_RATIO&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/yoke_roll_ratio</code> and <br  />
 <code>sim/cockpit2/tcas/targets/position/yolk_roll</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fad49569b34c7ad888332e5ea22bc1aab6"></a>V_CONTROLS_THRUST_REVERS&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/thrust_revers</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fad49569b34c7ad888332e5ea22bc1aab6"></a>V_CONTROLS_THRUST_REVERS&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/thrust_revers</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa5962c873affe0b879ec83027ce6712df"></a>V_CONTROLS_TAXI_LITES_ON&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/taxi_lites_on</code> and <br  />
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fa5962c873affe0b879ec83027ce6712df"></a>V_CONTROLS_TAXI_LITES_ON&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/taxi_lites_on</code> and <br  />
 <code>sim/cockpit2/tcas/targets/position/lights</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fae81875ed5127335494625f6edb767517"></a>V_CONTROLS_LANDING_LITES_ON&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/landing_lites_on</code> and <br  />
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fae81875ed5127335494625f6edb767517"></a>V_CONTROLS_LANDING_LITES_ON&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/landing_lites_on</code> and <br  />
 <code>sim/cockpit2/tcas/targets/position/lights</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266faaa002a404284b91a5de89fa95cae0843"></a>V_CONTROLS_BEACON_LITES_ON&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/beacon_lites_on</code> and <br  />
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6faaa002a404284b91a5de89fa95cae0843"></a>V_CONTROLS_BEACON_LITES_ON&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/beacon_lites_on</code> and <br  />
 <code>sim/cockpit2/tcas/targets/position/lights</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266faedb66c1d7a44ea75dcf658f942a22aee"></a>V_CONTROLS_STROBE_LITES_ON&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/strobe_lites_on</code> and <br  />
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6faedb66c1d7a44ea75dcf658f942a22aee"></a>V_CONTROLS_STROBE_LITES_ON&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/strobe_lites_on</code> and <br  />
 <code>sim/cockpit2/tcas/targets/position/lights</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fabf85f238575bae4e4436edcf5480e56a"></a>V_CONTROLS_NAV_LITES_ON&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/nav_lites_on</code> and <br  />
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fabf85f238575bae4e4436edcf5480e56a"></a>V_CONTROLS_NAV_LITES_ON&#160;</td><td class="fielddoc"><p><code>libxplanemp/controls/nav_lites_on</code> and <br  />
 <code>sim/cockpit2/tcas/targets/position/lights</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa30b6bf53a2fe3eabdbca695a799fba10"></a>V_GEAR_NOSE_GEAR_DEFLECTION_MTR&#160;</td><td class="fielddoc"><p><code>libxplanemp/gear/nose_gear_deflection_mtr</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fa30b6bf53a2fe3eabdbca695a799fba10"></a>V_GEAR_NOSE_GEAR_DEFLECTION_MTR&#160;</td><td class="fielddoc"><p><code>libxplanemp/gear/nose_gear_deflection_mtr</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa691c640f22c0fcacb743699e9feeaddf"></a>V_GEAR_TIRE_VERTICAL_DEFLECTION_MTR&#160;</td><td class="fielddoc"><p><code>libxplanemp/gear/tire_vertical_deflection_mtr</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fa691c640f22c0fcacb743699e9feeaddf"></a>V_GEAR_TIRE_VERTICAL_DEFLECTION_MTR&#160;</td><td class="fielddoc"><p><code>libxplanemp/gear/tire_vertical_deflection_mtr</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa1620386dd6f9cd2f89902838c634146a"></a>V_GEAR_TIRE_ROTATION_ANGLE_DEG&#160;</td><td class="fielddoc"><p><code>libxplanemp/gear/tire_rotation_angle_deg</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fa1620386dd6f9cd2f89902838c634146a"></a>V_GEAR_TIRE_ROTATION_ANGLE_DEG&#160;</td><td class="fielddoc"><p><code>libxplanemp/gear/tire_rotation_angle_deg</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa7c5942c387de19ffe64b2aa5489050dd"></a>V_GEAR_TIRE_ROTATION_SPEED_RPM&#160;</td><td class="fielddoc"><p><code>libxplanemp/gear/tire_rotation_speed_rpm</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fa7c5942c387de19ffe64b2aa5489050dd"></a>V_GEAR_TIRE_ROTATION_SPEED_RPM&#160;</td><td class="fielddoc"><p><code>libxplanemp/gear/tire_rotation_speed_rpm</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fad76e4f47dddafb0cbbe6f0e039939c31"></a>V_GEAR_TIRE_ROTATION_SPEED_RAD_SEC&#160;</td><td class="fielddoc"><p><code>libxplanemp/gear/tire_rotation_speed_rad_sec</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fad76e4f47dddafb0cbbe6f0e039939c31"></a>V_GEAR_TIRE_ROTATION_SPEED_RAD_SEC&#160;</td><td class="fielddoc"><p><code>libxplanemp/gear/tire_rotation_speed_rad_sec</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa8598329ba23614267bbf926552969c69"></a>V_ENGINES_ENGINE_ROTATION_ANGLE_DEG&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_angle_deg</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fa8598329ba23614267bbf926552969c69"></a>V_ENGINES_ENGINE_ROTATION_ANGLE_DEG&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_angle_deg</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fad0bcdbbf281ad6f2a13c34cf5c679ed0"></a>V_ENGINES_ENGINE_ROTATION_SPEED_RPM&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_speed_rpm</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fad0bcdbbf281ad6f2a13c34cf5c679ed0"></a>V_ENGINES_ENGINE_ROTATION_SPEED_RPM&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_speed_rpm</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa5daa5997d55fe800c5e8e57f53267c3a"></a>V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_speed_rad_sec</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fa5daa5997d55fe800c5e8e57f53267c3a"></a>V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_speed_rad_sec</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa482431e2e5fc0e8901cc503242ebad75"></a>V_ENGINES_PROP_ROTATION_ANGLE_DEG&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/prop_rotation_angle_deg</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fa482431e2e5fc0e8901cc503242ebad75"></a>V_ENGINES_PROP_ROTATION_ANGLE_DEG&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/prop_rotation_angle_deg</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fab7845c7cf8ab7502066a87739354a08c"></a>V_ENGINES_PROP_ROTATION_SPEED_RPM&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/prop_rotation_speed_rpm</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fab7845c7cf8ab7502066a87739354a08c"></a>V_ENGINES_PROP_ROTATION_SPEED_RPM&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/prop_rotation_speed_rpm</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa241b0f15f54af159be385ae463816d57"></a>V_ENGINES_PROP_ROTATION_SPEED_RAD_SEC&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/prop_rotation_speed_rad_sec</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fa241b0f15f54af159be385ae463816d57"></a>V_ENGINES_PROP_ROTATION_SPEED_RAD_SEC&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/prop_rotation_speed_rad_sec</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa8ecbfb451618ff41e78fbbff8a3ba4a5"></a>V_ENGINES_THRUST_REVERSER_DEPLOY_RATIO&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/thrust_reverser_deploy_ratio</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fa8ecbfb451618ff41e78fbbff8a3ba4a5"></a>V_ENGINES_THRUST_REVERSER_DEPLOY_RATIO&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/thrust_reverser_deploy_ratio</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa84e0fca136683b9e3192168c69b83034"></a>V_ENGINES_ENGINE_ROTATION_ANGLE_DEG1&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_angle_deg1</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fa84e0fca136683b9e3192168c69b83034"></a>V_ENGINES_ENGINE_ROTATION_ANGLE_DEG1&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_angle_deg1</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fae6671c7fe0753db23a57a9651ffa579c"></a>V_ENGINES_ENGINE_ROTATION_ANGLE_DEG2&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_angle_deg2</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fae6671c7fe0753db23a57a9651ffa579c"></a>V_ENGINES_ENGINE_ROTATION_ANGLE_DEG2&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_angle_deg2</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa27f0080f7f55acc4e0e8d08a8f702df1"></a>V_ENGINES_ENGINE_ROTATION_ANGLE_DEG3&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_angle_deg3</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fa27f0080f7f55acc4e0e8d08a8f702df1"></a>V_ENGINES_ENGINE_ROTATION_ANGLE_DEG3&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_angle_deg3</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa7b6c9bef73ae0cc064bf554d1de89232"></a>V_ENGINES_ENGINE_ROTATION_ANGLE_DEG4&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_angle_deg4</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fa7b6c9bef73ae0cc064bf554d1de89232"></a>V_ENGINES_ENGINE_ROTATION_ANGLE_DEG4&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_angle_deg4</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fae0a60380f89578176ba9a83d927f00ef"></a>V_ENGINES_ENGINE_ROTATION_SPEED_RPM1&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_speed_rpm1</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fae0a60380f89578176ba9a83d927f00ef"></a>V_ENGINES_ENGINE_ROTATION_SPEED_RPM1&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_speed_rpm1</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fabbd9d0e161429547e16fcb9264da682b"></a>V_ENGINES_ENGINE_ROTATION_SPEED_RPM2&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_speed_rpm2</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fabbd9d0e161429547e16fcb9264da682b"></a>V_ENGINES_ENGINE_ROTATION_SPEED_RPM2&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_speed_rpm2</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fad427c5d8e5bd2a897382d7b48a1821d3"></a>V_ENGINES_ENGINE_ROTATION_SPEED_RPM3&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_speed_rpm3</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fad427c5d8e5bd2a897382d7b48a1821d3"></a>V_ENGINES_ENGINE_ROTATION_SPEED_RPM3&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_speed_rpm3</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fab2137e67b4a5d03bc27d75498fd70880"></a>V_ENGINES_ENGINE_ROTATION_SPEED_RPM4&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_speed_rpm4</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fab2137e67b4a5d03bc27d75498fd70880"></a>V_ENGINES_ENGINE_ROTATION_SPEED_RPM4&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_speed_rpm4</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa256582231ea70361fdd5303dfcdfc16f"></a>V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC1&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_speed_rad_sec1</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fa256582231ea70361fdd5303dfcdfc16f"></a>V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC1&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_speed_rad_sec1</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa2cf84031f5c5a2a5b02e9ef1b53b5050"></a>V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC2&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_speed_rad_sec2</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fa2cf84031f5c5a2a5b02e9ef1b53b5050"></a>V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC2&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_speed_rad_sec2</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa04d8e0da3829ba48a07466a8ee3c3c3e"></a>V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC3&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_speed_rad_sec3</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fa04d8e0da3829ba48a07466a8ee3c3c3e"></a>V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC3&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_speed_rad_sec3</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa4433cb324d1116ab18c2442707e8aaef"></a>V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC4&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_speed_rad_sec4</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fa4433cb324d1116ab18c2442707e8aaef"></a>V_ENGINES_ENGINE_ROTATION_SPEED_RAD_SEC4&#160;</td><td class="fielddoc"><p><code>libxplanemp/engines/engine_rotation_speed_rad_sec4</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa25cf6c69cb178e853ba81c058f19bb5d"></a>V_MISC_TOUCH_DOWN&#160;</td><td class="fielddoc"><p><code>libxplanemp/misc/touch_down</code> </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fa25cf6c69cb178e853ba81c058f19bb5d"></a>V_MISC_TOUCH_DOWN&#160;</td><td class="fielddoc"><p><code>libxplanemp/misc/touch_down</code> </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a02cd1e5f394cbfb5be34e743013a266fa3efd8e40f4308bc421015776084f580b"></a>V_COUNT&#160;</td><td class="fielddoc"><p>always last, number of dataRefs <a class="el" href="namespaceXPMP2.html">XPMP2</a> pre-defines </p>
+<tr><td class="fieldname"><a id="ad6d6ee38cd64999ab35363f200e08a6fa3efd8e40f4308bc421015776084f580b"></a>V_COUNT&#160;</td><td class="fielddoc"><p>always last, number of dataRefs <a class="el" href="namespaceXPMP2.html">XPMP2</a> pre-defines </p>
 </td></tr>
 </table>
 
@@ -1355,7 +1516,7 @@ the full integer value </td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="a38a30db370f191740d6f3969ea38f191acd20d4b40b6d840f3fe0fa8d8f106ccc"></a>RMT_MSG_AC_DETAILED&#160;</td><td class="fielddoc"><p>aircraft full details, needed to create new a/c objects and to re-synch all remote data </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a38a30db370f191740d6f3969ea38f191aa5a73320d7edd873c0e46fe9f0641f2c"></a>RMT_MSG_AC_DIFF&#160;</td><td class="fielddoc"><p>aircraft differences only </p>
+<tr><td class="fieldname"><a id="a38a30db370f191740d6f3969ea38f191aeb33b4aa3b4e91246738032d13309f7c"></a>RMT_MSG_AC_POS_UPDATE&#160;</td><td class="fielddoc"><p>aircraft differences only </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a38a30db370f191740d6f3969ea38f191a983f022c861dd9823c0f33431f8a39b4"></a>RMT_MSG_AC_ANIM&#160;</td><td class="fielddoc"><p>aircraft animation values (dataRef values) only </p>
 </td></tr>
@@ -2326,8 +2487,8 @@ atan2 returns 0° when pointing along the x axis, ie. east, when we would expect
 
 </div>
 </div>
-<a id="aae3b70587d1931c467cb67b8e89619ee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aae3b70587d1931c467cb67b8e89619ee">&#9670;&nbsp;</a></span>CSLModelByPkgShortId()</h2>
+<a id="a75dcb0c50b67fbdc330ef140a3de8291"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75dcb0c50b67fbdc330ef140a3de8291">&#9670;&nbsp;</a></span>CSLModelByPkgShortId()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2341,14 +2502,8 @@ atan2 returns 0° when pointing along the x axis, ie. east, when we would expect
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>_shortId</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>_shortIdMaxSize</em>&#160;</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>_shortId</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -5092,6 +5247,22 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
+<a id="ae44036a919477658e0b17aa03095b8ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae44036a919477658e0b17aa03095b8ff">&#9670;&nbsp;</a></span>gMsgAcAnim</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">RmtMsgBufTy</a>&lt;<a class="el" href="structXPMP2_1_1RemoteAcAnimTy.html">RemoteAcAnimTy</a>, <a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191a983f022c861dd9823c0f33431f8a39b4">RMT_MSG_AC_ANIM</a>, <a class="el" href="namespaceXPMP2.html#a1aa3e38765c120fe499c40a8b53143e9">RMT_VER_AC_ANIM</a>&gt; XPMP2::gMsgAcAnim</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A/C Animation dataRefs message. </p>
+
+</div>
+</div>
 <a id="a259af53d263e31c7e31e810b83b27703"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a259af53d263e31c7e31e810b83b27703">&#9670;&nbsp;</a></span>gMsgAcDetail</h2>
 
@@ -5105,6 +5276,38 @@ template&lt;class T &gt; </div>
 </div><div class="memdoc">
 
 <p>A/C Detail message. </p>
+
+</div>
+</div>
+<a id="a030d6e6a67e9a764499b08c073d6457e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a030d6e6a67e9a764499b08c073d6457e">&#9670;&nbsp;</a></span>gMsgAcPosUpdate</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">RmtMsgBufTy</a>&lt;<a class="el" href="structXPMP2_1_1RemoteAcPosUpdateTy.html">RemoteAcPosUpdateTy</a>,<a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191aeb33b4aa3b4e91246738032d13309f7c">RMT_MSG_AC_POS_UPDATE</a>,<a class="el" href="namespaceXPMP2.html#af5bf001f7f885e62205d4786a89b4822">RMT_VER_AC_POS_UPDATE</a>&gt; XPMP2::gMsgAcPosUpdate</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A/C Position Update message. </p>
+
+</div>
+</div>
+<a id="ae7784f82bd022f7edc60ac93e0f92b78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7784f82bd022f7edc60ac93e0f92b78">&#9670;&nbsp;</a></span>gMsgAcRemove</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">RmtMsgBufTy</a>&lt;<a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>,<a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191a69944e774752bf633b8c86441de05316">RMT_MSG_AC_REMOVE</a>,<a class="el" href="namespaceXPMP2.html#a27f745bec429920efc88450b98accd31">RMT_VER_AC_REMOVE</a>&gt; XPMP2::gMsgAcRemove</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A/C Removal message. </p>
 
 </div>
 </div>
@@ -5124,6 +5327,22 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
+<a id="a47686bf8386efaaae032aa52a28228dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47686bf8386efaaae032aa52a28228dd">&#9670;&nbsp;</a></span>gNow</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::gNow = 0.0f</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Current network timestamp. </p>
+
+</div>
+</div>
 <a id="aad77725db1cc43d172d818c74650a75a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aad77725db1cc43d172d818c74650a75a">&#9670;&nbsp;</a></span>gNxtFullUpdGrpToAssign</h2>
 
@@ -5137,6 +5356,22 @@ template&lt;class T &gt; </div>
 </div><div class="memdoc">
 
 <p>What's the next group number to assign to the next a/c? (Assigned will be the value incremented by 1) </p>
+
+</div>
+</div>
+<a id="a00b5b75606a0d9bb1b323d86019c279e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00b5b75606a0d9bb1b323d86019c279e">&#9670;&nbsp;</a></span>gNxtTxfTime</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::gNxtTxfTime = 0.0f</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>When to actually process position updates next? </p>
 
 </div>
 </div>
@@ -5481,19 +5716,141 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a id="a716a121e87d84fd453e59fbcfd96dee4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a716a121e87d84fd453e59fbcfd96dee4">&#9670;&nbsp;</a></span>REMOTE_DR_DEF</h2>
+<a id="adc7e052ad0866d69d24626b05ac87f4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc7e052ad0866d69d24626b05ac87f4e">&#9670;&nbsp;</a></span>REMOTE_ALT_FT_RES</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr double XPMP2::REMOTE_ALT_FT_RES = 0.01</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>resolution of altitude[ft] updates </p>
+
+</div>
+</div>
+<a id="a7a31d65d8acfda8f5ef167609af2cd59"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a31d65d8acfda8f5ef167609af2cd59">&#9670;&nbsp;</a></span>REMOTE_DEGREE_RES</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr double XPMP2::REMOTE_DEGREE_RES = 0.00000001</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>What is the maximum difference a <a class="el" href="structXPMP2_1_1RemoteAcPosUpdateTy.html" title="A/C Position updates based on global coordinates.">RemoteAcPosUpdateTy</a> can hold? </p>
+<p>resolution of degree updates </p>
+
+</div>
+</div>
+<a id="ae0fc92edd795aae73ddcabe29d3a45ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0fc92edd795aae73ddcabe29d3a45ff">&#9670;&nbsp;</a></span>REMOTE_DR_DEF</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const std::array&lt;<a class="el" href="structXPMP2_1_1RemoteDataRefPackTy.html">RemoteDataRefPackTy</a>,<a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266fa3efd8e40f4308bc421015776084f580b">V_COUNT</a>&gt; XPMP2::REMOTE_DR_DEF</td>
+          <td class="memname">const std::array&lt; <a class="el" href="structXPMP2_1_1RemoteDataRefPackTy.html">RemoteDataRefPackTy</a>, <a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa3efd8e40f4308bc421015776084f580b">V_COUNT</a> &gt; XPMP2::REMOTE_DR_DEF</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p>An array holding all dataRef packing definitions. </p>
 <p>Defines per dataRef the value range we support transferring to the remote client. </p>
+
+</div>
+</div>
+<a id="a7cfe20dfd5fc62b8df222bad06c4264b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7cfe20dfd5fc62b8df222bad06c4264b">&#9670;&nbsp;</a></span>REMOTE_MAX_DIFF_ALT_FT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr double XPMP2::REMOTE_MAX_DIFF_ALT_FT = <a class="el" href="namespaceXPMP2.html#adc7e052ad0866d69d24626b05ac87f4e">REMOTE_ALT_FT_RES</a> * INT16_MAX</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>maximum altitude[ft] difference that can be represented in a pos update msg </p>
+
+</div>
+</div>
+<a id="af0fec57ed2a517c42fb402badf49c305"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0fec57ed2a517c42fb402badf49c305">&#9670;&nbsp;</a></span>REMOTE_MAX_DIFF_DEGREE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr double XPMP2::REMOTE_MAX_DIFF_DEGREE = <a class="el" href="namespaceXPMP2.html#a7a31d65d8acfda8f5ef167609af2cd59">REMOTE_DEGREE_RES</a> * INT16_MAX</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>maximum degree difference that can be represented in a pos update msg </p>
+
+</div>
+</div>
+<a id="a55ceb092b906dadc4407be3db2991ab3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55ceb092b906dadc4407be3db2991ab3">&#9670;&nbsp;</a></span>REMOTE_MAX_DIFF_TIME</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr float XPMP2::REMOTE_MAX_DIFF_TIME = <a class="el" href="namespaceXPMP2.html#a7bb9c8890eda4a1f041fbabe729eea5c">REMOTE_TIME_RES</a> * UINT16_MAX</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>maximum time difference thatn can be represented in a pos update msg </p>
 
 </div>
 </div>
@@ -5569,6 +5926,54 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
+<a id="a7bb9c8890eda4a1f041fbabe729eea5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bb9c8890eda4a1f041fbabe729eea5c">&#9670;&nbsp;</a></span>REMOTE_TIME_RES</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr float XPMP2::REMOTE_TIME_RES = 0.0001f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>resolution of time difference </p>
+
+</div>
+</div>
+<a id="a1aa3e38765c120fe499c40a8b53143e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1aa3e38765c120fe499c40a8b53143e9">&#9670;&nbsp;</a></span>RMT_VER_AC_ANIM</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr std::uint8_t XPMP2::RMT_VER_AC_ANIM = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A/C Position update message version number. </p>
+
+</div>
+</div>
 <a id="a7b8bdf3fb126614b5afaa0769c576da4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7b8bdf3fb126614b5afaa0769c576da4">&#9670;&nbsp;</a></span>RMT_VER_AC_DETAIL</h2>
 
@@ -5593,6 +5998,30 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
+<a id="af5bf001f7f885e62205d4786a89b4822"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5bf001f7f885e62205d4786a89b4822">&#9670;&nbsp;</a></span>RMT_VER_AC_POS_UPDATE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr std::uint8_t XPMP2::RMT_VER_AC_POS_UPDATE = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A/C Position update message version number. </p>
+
+</div>
+</div>
 <a id="a27f745bec429920efc88450b98accd31"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a27f745bec429920efc88450b98accd31">&#9670;&nbsp;</a></span>RMT_VER_AC_REMOVE</h2>
 
@@ -5613,7 +6042,7 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>A/C detail message version number. </p>
+<p>A/C removal message version number. </p>
 
 </div>
 </div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.18"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>XPMP2: XPMP2::RmtMsgBufTy&lt; ElemTy, msgTy, msgVer &gt; Class Template Reference</title>
+<title>XPMP2: XPMP2::RmtMsgBufTy&lt; ElemTy, MsgTy, msgVer &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -48,7 +48,7 @@ $(function() {
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="classXPMP2_1_1RmtMsgBufTy-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">XPMP2::RmtMsgBufTy&lt; ElemTy, msgTy, msgVer &gt; Class Template Reference</div>  </div>
+<div class="title">XPMP2::RmtMsgBufTy&lt; ElemTy, MsgTy, msgVer &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -59,62 +59,62 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a5600c491b1dc02cb6509fefe185b7d3f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#a5600c491b1dc02cb6509fefe185b7d3f">RmtMsgBufTy</a> ()</td></tr>
-<tr class="memdesc:a5600c491b1dc02cb6509fefe185b7d3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor: everything stays zeroed.  <a href="classXPMP2_1_1RmtMsgBufTy.html#a5600c491b1dc02cb6509fefe185b7d3f">More...</a><br /></td></tr>
-<tr class="separator:a5600c491b1dc02cb6509fefe185b7d3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a622d89dff12d271953b90869d260813e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#a622d89dff12d271953b90869d260813e">~RmtMsgBufTy</a> ()</td></tr>
-<tr class="memdesc:a622d89dff12d271953b90869d260813e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor makes sure the buffer is freed up.  <a href="classXPMP2_1_1RmtMsgBufTy.html#a622d89dff12d271953b90869d260813e">More...</a><br /></td></tr>
-<tr class="separator:a622d89dff12d271953b90869d260813e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9611dda8327afd0535496ffb9979b353"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#a9611dda8327afd0535496ffb9979b353">free</a> ()</td></tr>
-<tr class="memdesc:a9611dda8327afd0535496ffb9979b353"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free up the buffer, basically a reset.  <a href="classXPMP2_1_1RmtMsgBufTy.html#a9611dda8327afd0535496ffb9979b353">More...</a><br /></td></tr>
-<tr class="separator:a9611dda8327afd0535496ffb9979b353"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad56f3b35e37f88721d7e9ecc711f0971"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#ad56f3b35e37f88721d7e9ecc711f0971">init</a> ()</td></tr>
-<tr class="memdesc:ad56f3b35e37f88721d7e9ecc711f0971"><td class="mdescLeft">&#160;</td><td class="mdescRight">If necessary allocate the required buffer, then initialize it to an empty message.  <a href="classXPMP2_1_1RmtMsgBufTy.html#ad56f3b35e37f88721d7e9ecc711f0971">More...</a><br /></td></tr>
-<tr class="separator:ad56f3b35e37f88721d7e9ecc711f0971"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5100111b442752b854c97b6fdc48a77"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#af5100111b442752b854c97b6fdc48a77">add</a> (const ElemTy &amp;_elem)</td></tr>
-<tr class="memdesc:af5100111b442752b854c97b6fdc48a77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add another element to the buffer, returns if now full.  <a href="classXPMP2_1_1RmtMsgBufTy.html#af5100111b442752b854c97b6fdc48a77">More...</a><br /></td></tr>
-<tr class="separator:af5100111b442752b854c97b6fdc48a77"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a70cdc4c31039506624d18ae006dd86db"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#a70cdc4c31039506624d18ae006dd86db">empty</a> () const</td></tr>
-<tr class="memdesc:a70cdc4c31039506624d18ae006dd86db"><td class="mdescLeft">&#160;</td><td class="mdescRight">is empty, contains no payload?  <a href="classXPMP2_1_1RmtMsgBufTy.html#a70cdc4c31039506624d18ae006dd86db">More...</a><br /></td></tr>
-<tr class="separator:a70cdc4c31039506624d18ae006dd86db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5c9520433766d6b5b170cd9b072d8f6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#ac5c9520433766d6b5b170cd9b072d8f6">send</a> ()</td></tr>
-<tr class="memdesc:ac5c9520433766d6b5b170cd9b072d8f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">send the message (if there is any), then reset the buffer  <a href="classXPMP2_1_1RmtMsgBufTy.html#ac5c9520433766d6b5b170cd9b072d8f6">More...</a><br /></td></tr>
-<tr class="separator:ac5c9520433766d6b5b170cd9b072d8f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8bf55f7eed69d1ce34d3592dbdb732ca"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#a8bf55f7eed69d1ce34d3592dbdb732ca">add_send</a> (const ElemTy &amp;_elem)</td></tr>
-<tr class="memdesc:a8bf55f7eed69d1ce34d3592dbdb732ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform <a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#af5100111b442752b854c97b6fdc48a77" title="Add another element to the buffer, returns if now full.">add()</a>, then if necessary <a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#ac5c9520433766d6b5b170cd9b072d8f6" title="send the message (if there is any), then reset the buffer">send()</a>; returns if sent.  <a href="classXPMP2_1_1RmtMsgBufTy.html#a8bf55f7eed69d1ce34d3592dbdb732ca">More...</a><br /></td></tr>
-<tr class="separator:a8bf55f7eed69d1ce34d3592dbdb732ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6c9b69baa93a4a9dac5d9c4ad2d9670"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#aa6c9b69baa93a4a9dac5d9c4ad2d9670">RmtMsgBufTy</a> ()</td></tr>
+<tr class="memdesc:aa6c9b69baa93a4a9dac5d9c4ad2d9670"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor: everything stays zeroed.  <a href="classXPMP2_1_1RmtMsgBufTy.html#aa6c9b69baa93a4a9dac5d9c4ad2d9670">More...</a><br /></td></tr>
+<tr class="separator:aa6c9b69baa93a4a9dac5d9c4ad2d9670"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3025d0d1126f1fc072febd2c3c069e78"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#a3025d0d1126f1fc072febd2c3c069e78">~RmtMsgBufTy</a> ()</td></tr>
+<tr class="memdesc:a3025d0d1126f1fc072febd2c3c069e78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor makes sure the buffer is freed up.  <a href="classXPMP2_1_1RmtMsgBufTy.html#a3025d0d1126f1fc072febd2c3c069e78">More...</a><br /></td></tr>
+<tr class="separator:a3025d0d1126f1fc072febd2c3c069e78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a2f589dfdd5e91563a3cffeba72c976"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#a9a2f589dfdd5e91563a3cffeba72c976">free</a> ()</td></tr>
+<tr class="memdesc:a9a2f589dfdd5e91563a3cffeba72c976"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free up the buffer, basically a reset.  <a href="classXPMP2_1_1RmtMsgBufTy.html#a9a2f589dfdd5e91563a3cffeba72c976">More...</a><br /></td></tr>
+<tr class="separator:a9a2f589dfdd5e91563a3cffeba72c976"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a77b3823e06b25433e657097303e225"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#a6a77b3823e06b25433e657097303e225">init</a> ()</td></tr>
+<tr class="memdesc:a6a77b3823e06b25433e657097303e225"><td class="mdescLeft">&#160;</td><td class="mdescRight">If necessary allocate the required buffer, then initialize it to an empty message.  <a href="classXPMP2_1_1RmtMsgBufTy.html#a6a77b3823e06b25433e657097303e225">More...</a><br /></td></tr>
+<tr class="separator:a6a77b3823e06b25433e657097303e225"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c83d526f3d31363184b38d041e37902"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#a7c83d526f3d31363184b38d041e37902">add</a> (const ElemTy &amp;_elem)</td></tr>
+<tr class="memdesc:a7c83d526f3d31363184b38d041e37902"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add another element to the buffer, returns if successful (otherwise full!)  <a href="classXPMP2_1_1RmtMsgBufTy.html#a7c83d526f3d31363184b38d041e37902">More...</a><br /></td></tr>
+<tr class="separator:a7c83d526f3d31363184b38d041e37902"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ef913812c57e680bbd6eea5f444fa51"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#a6ef913812c57e680bbd6eea5f444fa51">empty</a> () const</td></tr>
+<tr class="memdesc:a6ef913812c57e680bbd6eea5f444fa51"><td class="mdescLeft">&#160;</td><td class="mdescRight">is empty, contains no payload?  <a href="classXPMP2_1_1RmtMsgBufTy.html#a6ef913812c57e680bbd6eea5f444fa51">More...</a><br /></td></tr>
+<tr class="separator:a6ef913812c57e680bbd6eea5f444fa51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acad0c85245d3812ba43462f271c4ab7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#acad0c85245d3812ba43462f271c4ab7f">send</a> (<a class="el" href="classXPMP2_1_1UDPMulticast.html">UDPMulticast</a> &amp;_mc)</td></tr>
+<tr class="memdesc:acad0c85245d3812ba43462f271c4ab7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">send the message (if there is any), then reset the buffer  <a href="classXPMP2_1_1RmtMsgBufTy.html#acad0c85245d3812ba43462f271c4ab7f">More...</a><br /></td></tr>
+<tr class="separator:acad0c85245d3812ba43462f271c4ab7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a524e98bf3d134f65df08cf238d7de1c7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#a524e98bf3d134f65df08cf238d7de1c7">add_send</a> (const ElemTy &amp;_elem, <a class="el" href="classXPMP2_1_1UDPMulticast.html">UDPMulticast</a> &amp;_mc)</td></tr>
+<tr class="memdesc:a524e98bf3d134f65df08cf238d7de1c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform <a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#a7c83d526f3d31363184b38d041e37902" title="Add another element to the buffer, returns if successful (otherwise full!)">add()</a>, then if necessary <a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#acad0c85245d3812ba43462f271c4ab7f" title="send the message (if there is any), then reset the buffer">send()</a>; returns if sent.  <a href="classXPMP2_1_1RmtMsgBufTy.html#a524e98bf3d134f65df08cf238d7de1c7">More...</a><br /></td></tr>
+<tr class="separator:a524e98bf3d134f65df08cf238d7de1c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a5138e03073cc312822d8767cc406496d"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#a5138e03073cc312822d8767cc406496d">pMsg</a> = nullptr</td></tr>
-<tr class="memdesc:a5138e03073cc312822d8767cc406496d"><td class="mdescLeft">&#160;</td><td class="mdescRight">points to the actual message buffer of size glob.remoteBufSize  <a href="classXPMP2_1_1RmtMsgBufTy.html#a5138e03073cc312822d8767cc406496d">More...</a><br /></td></tr>
-<tr class="separator:a5138e03073cc312822d8767cc406496d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af154174a1387076c97571ce71e3da771"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#af154174a1387076c97571ce71e3da771">elemCount</a> = 0</td></tr>
-<tr class="memdesc:af154174a1387076c97571ce71e3da771"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of elements already added to the message  <a href="classXPMP2_1_1RmtMsgBufTy.html#af154174a1387076c97571ce71e3da771">More...</a><br /></td></tr>
-<tr class="separator:af154174a1387076c97571ce71e3da771"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ac24600b87fc733c3c311b0bd714d7a"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#a9ac24600b87fc733c3c311b0bd714d7a">size</a> = 0</td></tr>
-<tr class="memdesc:a9ac24600b87fc733c3c311b0bd714d7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">current message size  <a href="classXPMP2_1_1RmtMsgBufTy.html#a9ac24600b87fc733c3c311b0bd714d7a">More...</a><br /></td></tr>
-<tr class="separator:a9ac24600b87fc733c3c311b0bd714d7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff84381c51efa1f1550fee5abeb08e43"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#aff84381c51efa1f1550fee5abeb08e43">pMsg</a> = nullptr</td></tr>
+<tr class="memdesc:aff84381c51efa1f1550fee5abeb08e43"><td class="mdescLeft">&#160;</td><td class="mdescRight">points to the actual message buffer of size glob.remoteBufSize  <a href="classXPMP2_1_1RmtMsgBufTy.html#aff84381c51efa1f1550fee5abeb08e43">More...</a><br /></td></tr>
+<tr class="separator:aff84381c51efa1f1550fee5abeb08e43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7db756f9388dc8c8ba3b179961886637"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#a7db756f9388dc8c8ba3b179961886637">elemCount</a> = 0</td></tr>
+<tr class="memdesc:a7db756f9388dc8c8ba3b179961886637"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of elements already added to the message  <a href="classXPMP2_1_1RmtMsgBufTy.html#a7db756f9388dc8c8ba3b179961886637">More...</a><br /></td></tr>
+<tr class="separator:a7db756f9388dc8c8ba3b179961886637"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a386e6aaa7389dbe49bab477ca2241080"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#a386e6aaa7389dbe49bab477ca2241080">size</a> = 0</td></tr>
+<tr class="memdesc:a386e6aaa7389dbe49bab477ca2241080"><td class="mdescLeft">&#160;</td><td class="mdescRight">current message size  <a href="classXPMP2_1_1RmtMsgBufTy.html#a386e6aaa7389dbe49bab477ca2241080">More...</a><br /></td></tr>
+<tr class="separator:a386e6aaa7389dbe49bab477ca2241080"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;class ElemTy, RemoteMsgTy msgTy, std::uint8_t msgVer&gt;<br />
-class XPMP2::RmtMsgBufTy&lt; ElemTy, msgTy, msgVer &gt;</h3>
+<div class="textblock"><h3>template&lt;class ElemTy, RemoteMsgTy MsgTy, std::uint8_t msgVer&gt;<br />
+class XPMP2::RmtMsgBufTy&lt; ElemTy, MsgTy, msgVer &gt;</h3>
 
 <p>Helper class to manage the temporary buffers in which the network message are put together. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a5600c491b1dc02cb6509fefe185b7d3f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5600c491b1dc02cb6509fefe185b7d3f">&#9670;&nbsp;</a></span>RmtMsgBufTy()</h2>
+<a id="aa6c9b69baa93a4a9dac5d9c4ad2d9670"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6c9b69baa93a4a9dac5d9c4ad2d9670">&#9670;&nbsp;</a></span>RmtMsgBufTy()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class ElemTy , RemoteMsgTy msgTy, std::uint8_t msgVer&gt; </div>
+template&lt;class ElemTy , RemoteMsgTy MsgTy, std::uint8_t msgVer&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">XPMP2::RmtMsgBufTy</a>&lt; ElemTy, msgTy, msgVer &gt;::<a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">RmtMsgBufTy</a> </td>
+          <td class="memname"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">XPMP2::RmtMsgBufTy</a>&lt; ElemTy, MsgTy, msgVer &gt;::<a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">RmtMsgBufTy</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -131,19 +131,19 @@ template&lt;class ElemTy , RemoteMsgTy msgTy, std::uint8_t msgVer&gt; </div>
 
 </div>
 </div>
-<a id="a622d89dff12d271953b90869d260813e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a622d89dff12d271953b90869d260813e">&#9670;&nbsp;</a></span>~RmtMsgBufTy()</h2>
+<a id="a3025d0d1126f1fc072febd2c3c069e78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3025d0d1126f1fc072febd2c3c069e78">&#9670;&nbsp;</a></span>~RmtMsgBufTy()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class ElemTy , RemoteMsgTy msgTy, std::uint8_t msgVer&gt; </div>
+template&lt;class ElemTy , RemoteMsgTy MsgTy, std::uint8_t msgVer&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">XPMP2::RmtMsgBufTy</a>&lt; ElemTy, msgTy, msgVer &gt;::~<a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">RmtMsgBufTy</a> </td>
+          <td class="memname"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">XPMP2::RmtMsgBufTy</a>&lt; ElemTy, MsgTy, msgVer &gt;::~<a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">RmtMsgBufTy</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -161,16 +161,16 @@ template&lt;class ElemTy , RemoteMsgTy msgTy, std::uint8_t msgVer&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="af5100111b442752b854c97b6fdc48a77"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af5100111b442752b854c97b6fdc48a77">&#9670;&nbsp;</a></span>add()</h2>
+<a id="a7c83d526f3d31363184b38d041e37902"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c83d526f3d31363184b38d041e37902">&#9670;&nbsp;</a></span>add()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class ElemTy , RemoteMsgTy msgTy, std::uint8_t msgVer&gt; </div>
+template&lt;class ElemTy , RemoteMsgTy MsgTy, std::uint8_t msgVer&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">XPMP2::RmtMsgBufTy</a>&lt; ElemTy, msgTy, msgVer &gt;::add </td>
+          <td class="memname">bool <a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">XPMP2::RmtMsgBufTy</a>&lt; ElemTy, MsgTy, msgVer &gt;::add </td>
           <td>(</td>
           <td class="paramtype">const ElemTy &amp;&#160;</td>
           <td class="paramname"><em>_elem</em></td><td>)</td>
@@ -179,45 +179,55 @@ template&lt;class ElemTy , RemoteMsgTy msgTy, std::uint8_t msgVer&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Add another element to the buffer, returns if now full. </p>
+<p>Add another element to the buffer, returns if successful (otherwise full!) </p>
 
 </div>
 </div>
-<a id="a8bf55f7eed69d1ce34d3592dbdb732ca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8bf55f7eed69d1ce34d3592dbdb732ca">&#9670;&nbsp;</a></span>add_send()</h2>
+<a id="a524e98bf3d134f65df08cf238d7de1c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a524e98bf3d134f65df08cf238d7de1c7">&#9670;&nbsp;</a></span>add_send()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class ElemTy , RemoteMsgTy msgTy, std::uint8_t msgVer&gt; </div>
+template&lt;class ElemTy , RemoteMsgTy MsgTy, std::uint8_t msgVer&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">XPMP2::RmtMsgBufTy</a>&lt; ElemTy, msgTy, msgVer &gt;::add_send </td>
+          <td class="memname">bool <a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">XPMP2::RmtMsgBufTy</a>&lt; ElemTy, MsgTy, msgVer &gt;::add_send </td>
           <td>(</td>
           <td class="paramtype">const ElemTy &amp;&#160;</td>
-          <td class="paramname"><em>_elem</em></td><td>)</td>
+          <td class="paramname"><em>_elem</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="classXPMP2_1_1UDPMulticast.html">UDPMulticast</a> &amp;&#160;</td>
+          <td class="paramname"><em>_mc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Perform <a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#af5100111b442752b854c97b6fdc48a77" title="Add another element to the buffer, returns if now full.">add()</a>, then if necessary <a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#ac5c9520433766d6b5b170cd9b072d8f6" title="send the message (if there is any), then reset the buffer">send()</a>; returns if sent. </p>
+<p>Perform <a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#a7c83d526f3d31363184b38d041e37902" title="Add another element to the buffer, returns if successful (otherwise full!)">add()</a>, then if necessary <a class="el" href="classXPMP2_1_1RmtMsgBufTy.html#acad0c85245d3812ba43462f271c4ab7f" title="send the message (if there is any), then reset the buffer">send()</a>; returns if sent. </p>
 
 </div>
 </div>
-<a id="a70cdc4c31039506624d18ae006dd86db"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a70cdc4c31039506624d18ae006dd86db">&#9670;&nbsp;</a></span>empty()</h2>
+<a id="a6ef913812c57e680bbd6eea5f444fa51"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ef913812c57e680bbd6eea5f444fa51">&#9670;&nbsp;</a></span>empty()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class ElemTy , RemoteMsgTy msgTy, std::uint8_t msgVer&gt; </div>
+template&lt;class ElemTy , RemoteMsgTy MsgTy, std::uint8_t msgVer&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">XPMP2::RmtMsgBufTy</a>&lt; ElemTy, msgTy, msgVer &gt;::empty </td>
+          <td class="memname">bool <a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">XPMP2::RmtMsgBufTy</a>&lt; ElemTy, MsgTy, msgVer &gt;::empty </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -234,16 +244,16 @@ template&lt;class ElemTy , RemoteMsgTy msgTy, std::uint8_t msgVer&gt; </div>
 
 </div>
 </div>
-<a id="a9611dda8327afd0535496ffb9979b353"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9611dda8327afd0535496ffb9979b353">&#9670;&nbsp;</a></span>free()</h2>
+<a id="a9a2f589dfdd5e91563a3cffeba72c976"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a2f589dfdd5e91563a3cffeba72c976">&#9670;&nbsp;</a></span>free()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class ElemTy , RemoteMsgTy msgTy, std::uint8_t msgVer&gt; </div>
+template&lt;class ElemTy , RemoteMsgTy MsgTy, std::uint8_t msgVer&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">XPMP2::RmtMsgBufTy</a>&lt; ElemTy, msgTy, msgVer &gt;::free</td>
+          <td class="memname">void <a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">XPMP2::RmtMsgBufTy</a>&lt; ElemTy, MsgTy, msgVer &gt;::free</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -252,16 +262,16 @@ template&lt;class ElemTy , RemoteMsgTy msgTy, std::uint8_t msgVer&gt; </div>
 
 </div>
 </div>
-<a id="ad56f3b35e37f88721d7e9ecc711f0971"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad56f3b35e37f88721d7e9ecc711f0971">&#9670;&nbsp;</a></span>init()</h2>
+<a id="a6a77b3823e06b25433e657097303e225"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a77b3823e06b25433e657097303e225">&#9670;&nbsp;</a></span>init()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class ElemTy , RemoteMsgTy msgTy, std::uint8_t msgVer&gt; </div>
+template&lt;class ElemTy , RemoteMsgTy MsgTy, std::uint8_t msgVer&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">XPMP2::RmtMsgBufTy</a>&lt; ElemTy, msgTy, msgVer &gt;::init</td>
+          <td class="memname">void <a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">XPMP2::RmtMsgBufTy</a>&lt; ElemTy, MsgTy, msgVer &gt;::init</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -270,16 +280,20 @@ template&lt;class ElemTy , RemoteMsgTy msgTy, std::uint8_t msgVer&gt; </div>
 
 </div>
 </div>
-<a id="ac5c9520433766d6b5b170cd9b072d8f6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac5c9520433766d6b5b170cd9b072d8f6">&#9670;&nbsp;</a></span>send()</h2>
+<a id="acad0c85245d3812ba43462f271c4ab7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acad0c85245d3812ba43462f271c4ab7f">&#9670;&nbsp;</a></span>send()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class ElemTy , RemoteMsgTy msgTy, std::uint8_t msgVer&gt; </div>
+template&lt;class ElemTy , RemoteMsgTy MsgTy, std::uint8_t msgVer&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">XPMP2::RmtMsgBufTy</a>&lt; ElemTy, msgTy, msgVer &gt;::send</td>
+          <td class="memname">void <a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">XPMP2::RmtMsgBufTy</a>&lt; ElemTy, MsgTy, msgVer &gt;::send </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classXPMP2_1_1UDPMulticast.html">UDPMulticast</a> &amp;&#160;</td>
+          <td class="paramname"><em>_mc</em></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -289,16 +303,16 @@ template&lt;class ElemTy , RemoteMsgTy msgTy, std::uint8_t msgVer&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="af154174a1387076c97571ce71e3da771"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af154174a1387076c97571ce71e3da771">&#9670;&nbsp;</a></span>elemCount</h2>
+<a id="a7db756f9388dc8c8ba3b179961886637"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7db756f9388dc8c8ba3b179961886637">&#9670;&nbsp;</a></span>elemCount</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class ElemTy , RemoteMsgTy msgTy, std::uint8_t msgVer&gt; </div>
+template&lt;class ElemTy , RemoteMsgTy MsgTy, std::uint8_t msgVer&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">size_t <a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">XPMP2::RmtMsgBufTy</a>&lt; ElemTy, msgTy, msgVer &gt;::elemCount = 0</td>
+          <td class="memname">size_t <a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">XPMP2::RmtMsgBufTy</a>&lt; ElemTy, MsgTy, msgVer &gt;::elemCount = 0</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -307,16 +321,16 @@ template&lt;class ElemTy , RemoteMsgTy msgTy, std::uint8_t msgVer&gt; </div>
 
 </div>
 </div>
-<a id="a5138e03073cc312822d8767cc406496d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5138e03073cc312822d8767cc406496d">&#9670;&nbsp;</a></span>pMsg</h2>
+<a id="aff84381c51efa1f1550fee5abeb08e43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff84381c51efa1f1550fee5abeb08e43">&#9670;&nbsp;</a></span>pMsg</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class ElemTy , RemoteMsgTy msgTy, std::uint8_t msgVer&gt; </div>
+template&lt;class ElemTy , RemoteMsgTy MsgTy, std::uint8_t msgVer&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void* <a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">XPMP2::RmtMsgBufTy</a>&lt; ElemTy, msgTy, msgVer &gt;::pMsg = nullptr</td>
+          <td class="memname">void* <a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">XPMP2::RmtMsgBufTy</a>&lt; ElemTy, MsgTy, msgVer &gt;::pMsg = nullptr</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -325,16 +339,16 @@ template&lt;class ElemTy , RemoteMsgTy msgTy, std::uint8_t msgVer&gt; </div>
 
 </div>
 </div>
-<a id="a9ac24600b87fc733c3c311b0bd714d7a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ac24600b87fc733c3c311b0bd714d7a">&#9670;&nbsp;</a></span>size</h2>
+<a id="a386e6aaa7389dbe49bab477ca2241080"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a386e6aaa7389dbe49bab477ca2241080">&#9670;&nbsp;</a></span>size</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class ElemTy , RemoteMsgTy msgTy, std::uint8_t msgVer&gt; </div>
+template&lt;class ElemTy , RemoteMsgTy MsgTy, std::uint8_t msgVer&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">size_t <a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">XPMP2::RmtMsgBufTy</a>&lt; ElemTy, msgTy, msgVer &gt;::size = 0</td>
+          <td class="memname">size_t <a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">XPMP2::RmtMsgBufTy</a>&lt; ElemTy, MsgTy, msgVer &gt;::size = 0</td>
         </tr>
       </table>
 </div><div class="memdoc">

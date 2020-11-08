@@ -59,30 +59,48 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a049918fcb659f435f8241d7f4c0aca6f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RmtAcCacheTy.html#a049918fcb659f435f8241d7f4c0aca6f">RmtAcCacheTy</a> (const <a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> &amp;ac)</td></tr>
-<tr class="memdesc:a049918fcb659f435f8241d7f4c0aca6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor copies relevant values from the passed-in aircraft.  <a href="structXPMP2_1_1RmtAcCacheTy.html#a049918fcb659f435f8241d7f4c0aca6f">More...</a><br /></td></tr>
-<tr class="separator:a049918fcb659f435f8241d7f4c0aca6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01f4cb1e772bd10abcf10c763a016c10"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RmtAcCacheTy.html#a01f4cb1e772bd10abcf10c763a016c10">UpdateFrom</a> (const <a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> &amp;ac)</td></tr>
-<tr class="memdesc:a01f4cb1e772bd10abcf10c763a016c10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates current values from given aircraft.  <a href="structXPMP2_1_1RmtAcCacheTy.html#a01f4cb1e772bd10abcf10c763a016c10">More...</a><br /></td></tr>
-<tr class="separator:a01f4cb1e772bd10abcf10c763a016c10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6b2cf646878c1dba63377268e695b28"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RmtAcCacheTy.html#ac6b2cf646878c1dba63377268e695b28">RmtAcCacheTy</a> (const <a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> &amp;ac, double _lat, double _lon, double _alt_ft)</td></tr>
+<tr class="memdesc:ac6b2cf646878c1dba63377268e695b28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor copies relevant values from the passed-in aircraft.  <a href="structXPMP2_1_1RmtAcCacheTy.html#ac6b2cf646878c1dba63377268e695b28">More...</a><br /></td></tr>
+<tr class="separator:ac6b2cf646878c1dba63377268e695b28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef49d620e396ab0abbfe67867264dd97"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RmtAcCacheTy.html#aef49d620e396ab0abbfe67867264dd97">UpdateFrom</a> (const <a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> &amp;ac, double _lat, double _lon, double _alt_ft)</td></tr>
+<tr class="memdesc:aef49d620e396ab0abbfe67867264dd97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates current values from given aircraft.  <a href="structXPMP2_1_1RmtAcCacheTy.html#aef49d620e396ab0abbfe67867264dd97">More...</a><br /></td></tr>
+<tr class="separator:aef49d620e396ab0abbfe67867264dd97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:af046c933f32806c50c58b618f80ae662"><td class="memItemLeft" align="right" valign="top">const unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RmtAcCacheTy.html#af046c933f32806c50c58b618f80ae662">fullUpdGrp</a></td></tr>
 <tr class="memdesc:af046c933f32806c50c58b618f80ae662"><td class="mdescLeft">&#160;</td><td class="mdescRight">full update group, with which planes are distributed to load balance sending <a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191acd20d4b40b6d840f3fe0fa8d8f106ccc" title="aircraft full details, needed to create new a/c objects and to re-synch all remote data">XPMP2::RMT_MSG_AC_DETAILED</a> messages  <a href="structXPMP2_1_1RmtAcCacheTy.html#af046c933f32806c50c58b618f80ae662">More...</a><br /></td></tr>
 <tr class="separator:af046c933f32806c50c58b618f80ae662"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e7dca5d0ead51a1e3fa4a4fcc452913"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RmtAcCacheTy.html#a0e7dca5d0ead51a1e3fa4a4fcc452913">ts</a></td></tr>
+<tr class="memdesc:a0e7dca5d0ead51a1e3fa4a4fcc452913"><td class="mdescLeft">&#160;</td><td class="mdescRight">timestamp this position was valid (XP network time)  <a href="structXPMP2_1_1RmtAcCacheTy.html#a0e7dca5d0ead51a1e3fa4a4fcc452913">More...</a><br /></td></tr>
+<tr class="separator:a0e7dca5d0ead51a1e3fa4a4fcc452913"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74aa070de17c93516c26c14cc61ff4bb"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RmtAcCacheTy.html#a74aa070de17c93516c26c14cc61ff4bb">lat</a></td></tr>
+<tr class="memdesc:a74aa070de17c93516c26c14cc61ff4bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">degree latitude  <a href="structXPMP2_1_1RmtAcCacheTy.html#a74aa070de17c93516c26c14cc61ff4bb">More...</a><br /></td></tr>
+<tr class="separator:a74aa070de17c93516c26c14cc61ff4bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6e3e70d0801fa67906fcdb6cc0c1813"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RmtAcCacheTy.html#ae6e3e70d0801fa67906fcdb6cc0c1813">lon</a></td></tr>
+<tr class="memdesc:ae6e3e70d0801fa67906fcdb6cc0c1813"><td class="mdescLeft">&#160;</td><td class="mdescRight">degree longitude  <a href="structXPMP2_1_1RmtAcCacheTy.html#ae6e3e70d0801fa67906fcdb6cc0c1813">More...</a><br /></td></tr>
+<tr class="separator:ae6e3e70d0801fa67906fcdb6cc0c1813"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa559965f320aaf3889d9728b2973fa17"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RmtAcCacheTy.html#aa559965f320aaf3889d9728b2973fa17">alt_ft</a></td></tr>
+<tr class="memdesc:aa559965f320aaf3889d9728b2973fa17"><td class="mdescLeft">&#160;</td><td class="mdescRight">feet altitude  <a href="structXPMP2_1_1RmtAcCacheTy.html#aa559965f320aaf3889d9728b2973fa17">More...</a><br /></td></tr>
+<tr class="separator:aa559965f320aaf3889d9728b2973fa17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab0eea155c26f54ee3fa944ec7277614f"><td class="memItemLeft" align="right" valign="top">XPLMDrawInfo_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RmtAcCacheTy.html#ab0eea155c26f54ee3fa944ec7277614f">drawInfo</a></td></tr>
 <tr class="memdesc:ab0eea155c26f54ee3fa944ec7277614f"><td class="mdescLeft">&#160;</td><td class="mdescRight">position and orientation last sent  <a href="structXPMP2_1_1RmtAcCacheTy.html#ab0eea155c26f54ee3fa944ec7277614f">More...</a><br /></td></tr>
 <tr class="separator:ab0eea155c26f54ee3fa944ec7277614f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d1b03101876e504a4b2f2737754a3e5"><td class="memItemLeft" align="right" valign="top">std::vector&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RmtAcCacheTy.html#a6d1b03101876e504a4b2f2737754a3e5">v</a></td></tr>
 <tr class="memdesc:a6d1b03101876e504a4b2f2737754a3e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">dataRef values  <a href="structXPMP2_1_1RmtAcCacheTy.html#a6d1b03101876e504a4b2f2737754a3e5">More...</a><br /></td></tr>
 <tr class="separator:a6d1b03101876e504a4b2f2737754a3e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad16ff39d8d068c565545874cceeecc67"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RmtAcCacheTy.html#ad16ff39d8d068c565545874cceeecc67">bValid</a>: 1</td></tr>
+<tr class="memdesc:ad16ff39d8d068c565545874cceeecc67"><td class="mdescLeft">&#160;</td><td class="mdescRight">is this object valid? (Will be reset in case of exceptions)  <a href="structXPMP2_1_1RmtAcCacheTy.html#ad16ff39d8d068c565545874cceeecc67">More...</a><br /></td></tr>
+<tr class="separator:ad16ff39d8d068c565545874cceeecc67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae63c1fbd4794ef76e694367c95657ca6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RmtAcCacheTy.html#ae63c1fbd4794ef76e694367c95657ca6">bVisible</a>: 1</td></tr>
+<tr class="memdesc:ae63c1fbd4794ef76e694367c95657ca6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shall this plane be drawn at the moment?  <a href="structXPMP2_1_1RmtAcCacheTy.html#ae63c1fbd4794ef76e694367c95657ca6">More...</a><br /></td></tr>
+<tr class="separator:ae63c1fbd4794ef76e694367c95657ca6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Holds a copy of some aircraft data as was sent out last. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a049918fcb659f435f8241d7f4c0aca6f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a049918fcb659f435f8241d7f4c0aca6f">&#9670;&nbsp;</a></span>RmtAcCacheTy()</h2>
+<a id="ac6b2cf646878c1dba63377268e695b28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6b2cf646878c1dba63377268e695b28">&#9670;&nbsp;</a></span>RmtAcCacheTy()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -91,8 +109,30 @@ Public Attributes</h2></td></tr>
           <td class="memname">XPMP2::RmtAcCacheTy::RmtAcCacheTy </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> &amp;&#160;</td>
-          <td class="paramname"><em>ac</em></td><td>)</td>
+          <td class="paramname"><em>ac</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>_lat</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>_lon</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>_alt_ft</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -102,8 +142,8 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a01f4cb1e772bd10abcf10c763a016c10"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01f4cb1e772bd10abcf10c763a016c10">&#9670;&nbsp;</a></span>UpdateFrom()</h2>
+<a id="aef49d620e396ab0abbfe67867264dd97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef49d620e396ab0abbfe67867264dd97">&#9670;&nbsp;</a></span>UpdateFrom()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -112,8 +152,30 @@ Public Attributes</h2></td></tr>
           <td class="memname">void XPMP2::RmtAcCacheTy::UpdateFrom </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> &amp;&#160;</td>
-          <td class="paramname"><em>ac</em></td><td>)</td>
+          <td class="paramname"><em>ac</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>_lat</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>_lon</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>_alt_ft</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -123,6 +185,54 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="aa559965f320aaf3889d9728b2973fa17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa559965f320aaf3889d9728b2973fa17">&#9670;&nbsp;</a></span>alt_ft</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double XPMP2::RmtAcCacheTy::alt_ft</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>feet altitude </p>
+
+</div>
+</div>
+<a id="ad16ff39d8d068c565545874cceeecc67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad16ff39d8d068c565545874cceeecc67">&#9670;&nbsp;</a></span>bValid</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::RmtAcCacheTy::bValid</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>is this object valid? (Will be reset in case of exceptions) </p>
+
+</div>
+</div>
+<a id="ae63c1fbd4794ef76e694367c95657ca6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae63c1fbd4794ef76e694367c95657ca6">&#9670;&nbsp;</a></span>bVisible</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::RmtAcCacheTy::bVisible</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Shall this plane be drawn at the moment? </p>
+
+</div>
+</div>
 <a id="ab0eea155c26f54ee3fa944ec7277614f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab0eea155c26f54ee3fa944ec7277614f">&#9670;&nbsp;</a></span>drawInfo</h2>
 
@@ -152,6 +262,54 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>full update group, with which planes are distributed to load balance sending <a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191acd20d4b40b6d840f3fe0fa8d8f106ccc" title="aircraft full details, needed to create new a/c objects and to re-synch all remote data">XPMP2::RMT_MSG_AC_DETAILED</a> messages </p>
+
+</div>
+</div>
+<a id="a74aa070de17c93516c26c14cc61ff4bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74aa070de17c93516c26c14cc61ff4bb">&#9670;&nbsp;</a></span>lat</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double XPMP2::RmtAcCacheTy::lat</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>degree latitude </p>
+
+</div>
+</div>
+<a id="ae6e3e70d0801fa67906fcdb6cc0c1813"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6e3e70d0801fa67906fcdb6cc0c1813">&#9670;&nbsp;</a></span>lon</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double XPMP2::RmtAcCacheTy::lon</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>degree longitude </p>
+
+</div>
+</div>
+<a id="a0e7dca5d0ead51a1e3fa4a4fcc452913"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e7dca5d0ead51a1e3fa4a4fcc452913">&#9670;&nbsp;</a></span>ts</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::RmtAcCacheTy::ts</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>timestamp this position was valid (XP network time) </p>
 
 </div>
 </div>

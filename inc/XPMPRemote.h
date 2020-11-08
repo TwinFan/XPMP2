@@ -207,6 +207,8 @@ struct RemoteAcDetailTy {
 
     void SetRoll (float _r) { roll = std::int16_t(std::lround(_r*100.0f)); }  ///< sets pitch from float
     float GetRoll () const { return float(roll) / 100.0f; }                   ///< returns float pitch
+
+    static constexpr size_t msgSize () { return sizeof(RemoteAcDetailTy); }   ///< message size
 } PACKED;
 
 /// A/C detail message, has an inherited header plus an array of XPMP2::RemoteAcDetailTy elements
@@ -216,7 +218,7 @@ struct RemoteMsgAcDetailTy : public RemoteMsgBaseTy {
     /// Constructor sets expected message type and version
     RemoteMsgAcDetailTy () : RemoteMsgBaseTy(RMT_MSG_AC_DETAILED, RMT_VER_AC_DETAIL) {}
     /// Convert msg len to number of arr elements
-    static size_t NumElem (size_t _msgLen) { return (_msgLen - sizeof(RemoteMsgBaseTy)) / sizeof(RemoteAcDetailTy); }
+    static constexpr size_t NumElem (size_t _msgLen) { return (_msgLen - sizeof(RemoteMsgBaseTy)) / sizeof(RemoteAcDetailTy); }
 } PACKED;
 
 //
@@ -267,6 +269,8 @@ struct RemoteAcPosUpdateTy {
 
     void SetRoll (float _r) { roll = std::int16_t(std::lround(_r*100.0f)); }///< sets pitch from float
     float GetRoll () const { return float(roll) / 100.0f; }                 ///< returns float pitch
+
+    static constexpr size_t msgSize () { return sizeof(RemoteAcPosUpdateTy); }    ///< message size
 } PACKED;
 
 /// A/C detail message, has an inherited header plus an array of XPMP2::RemoteAcDetailTy elements
@@ -276,12 +280,53 @@ struct RemoteMsgAcPosUpdateTy : public RemoteMsgBaseTy {
     /// Constructor sets expected message type and version
     RemoteMsgAcPosUpdateTy () : RemoteMsgBaseTy(RMT_MSG_AC_POS_UPDATE, RMT_VER_AC_POS_UPDATE) {}
     /// Convert msg len to number of arr elements
-    static size_t NumElem (size_t _msgLen) { return (_msgLen - sizeof(RemoteMsgBaseTy)) / sizeof(RemoteAcPosUpdateTy); }
+    static constexpr size_t NumElem (size_t _msgLen) { return (_msgLen - sizeof(RemoteMsgBaseTy)) / sizeof(RemoteAcPosUpdateTy); }
 } PACKED;
 
 //
-// TODO: A/C animation dataRefs
+// MARK: A/C animation dataRefs
 //
+
+/// A/C Position update message version number
+constexpr std::uint8_t RMT_VER_AC_ANIM = 0;
+
+/// @brief A/C animation dataRef changes
+/// @details This structure has variable length depending on the number of
+///          actual dataRef values to carry. And several of these variable
+///          length structures are added into one variable length network message.
+/// @note Structure must stay aligned with XPMP2::RmtDataAcAnimTy
+struct RemoteAcAnimTy {
+    std::uint32_t   modeS_id = 0;       ///< plane's unique id at the sender side (might differ remotely in case of duplicates)
+    std::uint8_t    numVals = 0;        ///< number of dataRef values in the following array
+    std::uint8_t    filler = 0;         ///< not yet used
+    
+    /// dataRef animation types and value
+    struct DataRefValTy {
+        DR_VALS         idx;            ///< index into XPMP2::Aircraft::v
+        std::uint8_t    v;              ///< dataRef animation value
+    } v[1];                             ///< array of dataRef animation types and value
+    
+    /// Constructor
+    RemoteAcAnimTy (XPMPPlaneID _id) : modeS_id(_id) { v[0].idx = DR_VALS(0); v[0].v = 0; }
+    
+    /// message size assuming `num` array elements
+    static constexpr size_t msgSize (std::uint8_t num)
+    { return sizeof(RemoteAcAnimTy) + (num-1) * sizeof(DataRefValTy); }
+    /// current message size
+    size_t msgSize() const { return msgSize(numVals); }
+} PACKED;
+
+/// A/C animation dataRef message, has an inherited header plus an array of _variable sized_ XPMP2::RemoteAcAnimTy elements
+struct RemoteMsgAcAnimTy : public RemoteMsgBaseTy {
+    RemoteAcAnimTy animData;            ///< message data starts here but extend beyond this point!
+    
+    /// Constructor sets expected message type and version
+    RemoteMsgAcAnimTy () : RemoteMsgBaseTy(RMT_MSG_AC_ANIM, RMT_VER_AC_ANIM), animData(0) {}
+    
+    /// Returns a pointer to the first/next animation data element in the message
+    const RemoteAcAnimTy* next (size_t _msgLen, const RemoteAcAnimTy* pCurr = nullptr) const;
+} PACKED;
+
 
 //
 // MARK: A/C Removal
@@ -297,7 +342,7 @@ struct RemoteMsgAcRemoveTy : public RemoteMsgBaseTy {
     /// Constructor sets expected message type and version
     RemoteMsgAcRemoveTy () : RemoteMsgBaseTy(RMT_MSG_AC_REMOVE, RMT_VER_AC_REMOVE) {}
     /// Convert msg len to number of arr elements
-    static size_t NumElem (size_t _msgLen) { return (_msgLen - sizeof(RemoteMsgBaseTy)) / sizeof(XPMPPlaneID); }
+    static constexpr size_t NumElem (size_t _msgLen) { return (_msgLen - sizeof(RemoteMsgBaseTy)) / sizeof(XPMPPlaneID); }
 } PACKED;
 
 #ifdef _MSC_VER                                 // Visual C++
@@ -305,13 +350,14 @@ struct RemoteMsgAcRemoveTy : public RemoteMsgBaseTy {
 #endif
 
 // A few static validations just to make sure that no compiler fiddles with my network message layout.
-// Note that each individual structure size is a multiple of 8 for good array alignment.
 static_assert(sizeof(RemoteMsgBaseTy)       ==   8,     "RemoteMsgBaseTy doesn't have expected size");
 static_assert(sizeof(RemoteMsgSettingsTy)   ==  40,     "RemoteMsgSettingsTy doesn't have expected size");
 static_assert(sizeof(RemoteAcDetailTy)      ==  94+42,  "RemoteAcDetailTy doesn't have expected size");
 static_assert(sizeof(RemoteMsgAcDetailTy)   == 102+42,  "RemoteMsgAcDetailTy doesn't have expected size");
 static_assert(sizeof(RemoteAcPosUpdateTy)   ==  20,     "RemoteAcPosUpdateTy doesn't have expected size");
 static_assert(sizeof(RemoteMsgAcPosUpdateTy)==  28,     "RemoteMsgAcPosUpdateTy doesn't have expected size");
+static_assert(sizeof(RemoteAcAnimTy)        ==   8,     "RemoteAcAnimTy doesn't have expected size");
+static_assert(RemoteAcAnimTy::msgSize(V_COUNT) == 90,   "RemoteAcAnimTy for V_COUNT dataRefs doesn't have expected size");
 static_assert(sizeof(RemoteMsgAcRemoveTy)   ==  12,     "RemoteMsgAcRemoveTy doesn't have expected size");
 
 //
@@ -334,6 +380,9 @@ struct RemoteCBFctTy {
     /// Callback for processing A/C Details messages
     void (*pfMsgACPosUpdate) (std::uint32_t from[4], size_t msgLen,
                               const RemoteMsgAcPosUpdateTy&) = nullptr;
+    /// Callback for processing A/C Animation dataRef messages
+    void (*pfMsgACAnim) (std::uint32_t from[4], size_t msgLen,
+                         const RemoteMsgAcAnimTy&) = nullptr;
 };
 
 /// State of remote communcations

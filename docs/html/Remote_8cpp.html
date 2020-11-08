@@ -157,9 +157,6 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a716a121e87d84fd453e59fbcfd96dee4"><td class="memItemLeft" align="right" valign="top">const std::array&lt; RemoteDataRefPackTy, V_COUNT &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a716a121e87d84fd453e59fbcfd96dee4">XPMP2::REMOTE_DR_DEF</a></td></tr>
-<tr class="memdesc:a716a121e87d84fd453e59fbcfd96dee4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines per dataRef the value range we support transferring to the remote client.  <a href="namespaceXPMP2.html#a716a121e87d84fd453e59fbcfd96dee4">More...</a><br /></td></tr>
-<tr class="separator:a716a121e87d84fd453e59fbcfd96dee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfb3536c59ea62eb3f6f7ddb0f0b860e"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#adfb3536c59ea62eb3f6f7ddb0f0b860e">XPMP2::REMOTE_RECV_BEACON_INTVL</a> = 15</td></tr>
 <tr class="memdesc:adfb3536c59ea62eb3f6f7ddb0f0b860e"><td class="mdescLeft">&#160;</td><td class="mdescRight">How often to send an Interest Beacon? [s].  <a href="namespaceXPMP2.html#adfb3536c59ea62eb3f6f7ddb0f0b860e">More...</a><br /></td></tr>
 <tr class="separator:adfb3536c59ea62eb3f6f7ddb0f0b860e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -178,6 +175,12 @@ Variables</h2></td></tr>
 <tr class="memitem:aad77725db1cc43d172d818c74650a75a"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aad77725db1cc43d172d818c74650a75a">XPMP2::gNxtFullUpdGrpToAssign</a> = 0</td></tr>
 <tr class="memdesc:aad77725db1cc43d172d818c74650a75a"><td class="mdescLeft">&#160;</td><td class="mdescRight">What's the next group number to assign to the next a/c? (Assigned will be the value incremented by 1)  <a href="namespaceXPMP2.html#aad77725db1cc43d172d818c74650a75a">More...</a><br /></td></tr>
 <tr class="separator:aad77725db1cc43d172d818c74650a75a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47686bf8386efaaae032aa52a28228dd"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a47686bf8386efaaae032aa52a28228dd">XPMP2::gNow</a> = 0.0f</td></tr>
+<tr class="memdesc:a47686bf8386efaaae032aa52a28228dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current network timestamp.  <a href="namespaceXPMP2.html#a47686bf8386efaaae032aa52a28228dd">More...</a><br /></td></tr>
+<tr class="separator:a47686bf8386efaaae032aa52a28228dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00b5b75606a0d9bb1b323d86019c279e"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a00b5b75606a0d9bb1b323d86019c279e">XPMP2::gNxtTxfTime</a> = 0.0f</td></tr>
+<tr class="memdesc:a00b5b75606a0d9bb1b323d86019c279e"><td class="mdescLeft">&#160;</td><td class="mdescRight">When to actually process position updates next?  <a href="namespaceXPMP2.html#a00b5b75606a0d9bb1b323d86019c279e">More...</a><br /></td></tr>
+<tr class="separator:a00b5b75606a0d9bb1b323d86019c279e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a051f74af56a28e1161f1e7267c88153e"><td class="memItemLeft" align="right" valign="top">queueRmtDataTy&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a051f74af56a28e1161f1e7267c88153e">XPMP2::gqueueRmtData</a></td></tr>
 <tr class="memdesc:a051f74af56a28e1161f1e7267c88153e"><td class="mdescLeft">&#160;</td><td class="mdescRight">the queue for passing data from main to network thread  <a href="namespaceXPMP2.html#a051f74af56a28e1161f1e7267c88153e">More...</a><br /></td></tr>
 <tr class="separator:a051f74af56a28e1161f1e7267c88153e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -208,6 +211,15 @@ Variables</h2></td></tr>
 <tr class="memitem:a259af53d263e31c7e31e810b83b27703"><td class="memItemLeft" align="right" valign="top">RmtMsgBufTy&lt; RemoteAcDetailTy, RMT_MSG_AC_DETAILED, RMT_VER_AC_DETAIL &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a259af53d263e31c7e31e810b83b27703">XPMP2::gMsgAcDetail</a></td></tr>
 <tr class="memdesc:a259af53d263e31c7e31e810b83b27703"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Detail message.  <a href="namespaceXPMP2.html#a259af53d263e31c7e31e810b83b27703">More...</a><br /></td></tr>
 <tr class="separator:a259af53d263e31c7e31e810b83b27703"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a030d6e6a67e9a764499b08c073d6457e"><td class="memItemLeft" align="right" valign="top">RmtMsgBufTy&lt; RemoteAcPosUpdateTy, RMT_MSG_AC_POS_UPDATE, RMT_VER_AC_POS_UPDATE &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a030d6e6a67e9a764499b08c073d6457e">XPMP2::gMsgAcPosUpdate</a></td></tr>
+<tr class="memdesc:a030d6e6a67e9a764499b08c073d6457e"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Position Update message.  <a href="namespaceXPMP2.html#a030d6e6a67e9a764499b08c073d6457e">More...</a><br /></td></tr>
+<tr class="separator:a030d6e6a67e9a764499b08c073d6457e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae44036a919477658e0b17aa03095b8ff"><td class="memItemLeft" align="right" valign="top">RmtMsgBufTy&lt; RemoteAcAnimTy, RMT_MSG_AC_ANIM, RMT_VER_AC_ANIM &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ae44036a919477658e0b17aa03095b8ff">XPMP2::gMsgAcAnim</a></td></tr>
+<tr class="memdesc:ae44036a919477658e0b17aa03095b8ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Animation dataRefs message.  <a href="namespaceXPMP2.html#ae44036a919477658e0b17aa03095b8ff">More...</a><br /></td></tr>
+<tr class="separator:ae44036a919477658e0b17aa03095b8ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7784f82bd022f7edc60ac93e0f92b78"><td class="memItemLeft" align="right" valign="top">RmtMsgBufTy&lt; <a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>, RMT_MSG_AC_REMOVE, RMT_VER_AC_REMOVE &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ae7784f82bd022f7edc60ac93e0f92b78">XPMP2::gMsgAcRemove</a></td></tr>
+<tr class="memdesc:ae7784f82bd022f7edc60ac93e0f92b78"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Removal message.  <a href="namespaceXPMP2.html#ae7784f82bd022f7edc60ac93e0f92b78">More...</a><br /></td></tr>
+<tr class="separator:ae7784f82bd022f7edc60ac93e0f92b78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1f4aa16c141997a88bf99ce8c5626d55"><td class="memItemLeft" align="right" valign="top">RemoteCBFctTy&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a1f4aa16c141997a88bf99ce8c5626d55">XPMP2::gRmtCBFcts</a></td></tr>
 <tr class="memdesc:a1f4aa16c141997a88bf99ce8c5626d55"><td class="mdescLeft">&#160;</td><td class="mdescRight">The callback function pointers the remote client plugin provided.  <a href="namespaceXPMP2.html#a1f4aa16c141997a88bf99ce8c5626d55">More...</a><br /></td></tr>
 <tr class="separator:a1f4aa16c141997a88bf99ce8c5626d55"><td class="memSeparator" colspan="2">&#160;</td></tr>

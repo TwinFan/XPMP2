@@ -27,6 +27,7 @@
 #include "XPLMCamera.h"
 #include "XPLMMap.h"
 
+#include <cstdint>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -48,7 +49,7 @@ constexpr double M_per_FT   = 0.3048;   // meter per 1 foot
 constexpr int M_per_NM      = 1852;     // meter per one nautical mile
 
 /// The dataRefs provided by XPMP2 to the CSL models
-enum DR_VALS {
+enum DR_VALS : std::uint8_t {
     V_CONTROLS_GEAR_RATIO = 0,                  ///< `libxplanemp/controls/gear_ratio` and \n`sim/cockpit2/tcas/targets/position/gear_deploy`
     V_CONTROLS_NWS_RATIO,                       ///< `libxplanemp/controls/nws_ratio`, the nose wheel angle, actually in degrees
     V_CONTROLS_FLAP_RATIO,                      ///< `libxplanemp/controls/flap_ratio` and \n`sim/cockpit2/tcas/targets/position/flap_ratio` and `...flap_ratio2`

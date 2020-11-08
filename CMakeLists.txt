@@ -17,7 +17,7 @@ add_definitions(-DAPL=$<BOOL:${APPLE}> -DIBM=$<BOOL:${WIN32}> -DLIN=$<AND:$<BOOL
 if (WIN32)
     add_compile_options(/wd4996 /wd4068)
 else()
-    add_compile_options(-Wall -Wshadow -Wfloat-equal -Wextra -Wno-deprecated-declarations -Wno-unknown-pragmas)
+    add_compile_options(-Wall -Wshadow -Wno-float-equal -Wextra -Wno-deprecated-declarations -Wno-unknown-pragmas)
 
     # Force-enable exception support. This is most likely redundant, although for C
     # code the default is the opposite. Since we are mixing C++ and C libraries,

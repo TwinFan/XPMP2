@@ -311,6 +311,7 @@ float gSendSettingsLast = 0.0f;
 // Messages waiting to be filled and send, all having a size of glob.remoteBufSize
 RmtMsgBufTy<RemoteAcDetailTy,RMT_MSG_AC_DETAILED,RMT_VER_AC_DETAIL> gMsgAcDetail;               ///< A/C Detail message
 RmtMsgBufTy<RemoteAcPosUpdateTy,RMT_MSG_AC_POS_UPDATE,RMT_VER_AC_POS_UPDATE> gMsgAcPosUpdate;   ///< A/C Position Update message
+RmtMsgBufTy<RemoteAcAnimTy, RMT_MSG_AC_ANIM, RMT_VER_AC_ANIM> gMsgAcAnim;                       ///< A/C Animation dataRefs message
 RmtMsgBufTy<XPMPPlaneID,RMT_MSG_AC_REMOVE,RMT_VER_AC_REMOVE> gMsgAcRemove;                      ///< A/C Removal message
 
 
@@ -348,18 +349,16 @@ bool RmtMsgBufTy<ElemTy,MsgTy,msgVer>::add (const ElemTy& _elem)
     // no buffer defined yet? -> do so!
     if (!pMsg) init();
         
-    // space left?
-    if (glob.remoteBufSize - size < sizeof(_elem))
-        throw std::runtime_error(std::string("Trying to add more elements into message than fit: MsgTy=") +
-                                 std::to_string(MsgTy) + ", elemCount=" + std::to_string(elemCount));
+    // no space left?
+    const size_t elemSize = _elem.msgSize();
+    if (glob.remoteBufSize - size < elemSize)
+        return false;
     
     // Copy the element into the msg buffer
-    memcpy(reinterpret_cast<char*>(pMsg) + size, &_elem, sizeof(_elem));
+    memcpy(reinterpret_cast<char*>(pMsg) + size, &_elem, elemSize);
     ++elemCount;
-    size += sizeof(_elem);
-    
-    // no more space for another item?
-    return glob.remoteBufSize - size < sizeof(_elem);
+    size += elemSize;
+    return true;
 }
 
 // send the message (if there is any), then reset the buffer
@@ -377,11 +376,45 @@ template <class ElemTy, RemoteMsgTy MsgTy, std::uint8_t msgVer>
 bool RmtMsgBufTy<ElemTy,MsgTy,msgVer>::add_send (const ElemTy& _elem,
                                                  UDPMulticast& _mc)
 {
-    if (add(_elem)) {
+    if (!add(_elem)) {
         send(_mc);
+        if (!add(_elem)) {
+            throw std::runtime_error("Could not add new alement after sending/initializing a new message!");
+        }
         return true;
     }
     return false;
+}
+
+
+// Add a pair of animation type and value to the structure
+void RmtDataAcAnimTy::add (DR_VALS idx, float f)
+{
+    LOG_ASSERT(data.numVals < V_COUNT);
+    data.v[data.numVals].idx = idx;
+    data.v[data.numVals].v   = REMOTE_DR_DEF[idx].pack(f);
+    ++data.numVals;
+}
+
+
+// Returns a pointer to the first/next animation data element in the message
+const RemoteAcAnimTy* RemoteMsgAcAnimTy::next (size_t _msgLen,
+                                               const RemoteAcAnimTy* pCurr) const
+{
+    // first element asked? That's simple...
+    if (!pCurr)
+        return &animData;
+    
+    // for all others we need to base on the current one and add its variable size
+    const char* p = reinterpret_cast<const char*>(pCurr);
+    p += pCurr->msgSize();
+    
+    // Is this now beyond the message size?
+    if (size_t(p - reinterpret_cast<const char*>(this)) >= _msgLen)
+        return nullptr;
+    
+    // Should be valid, cast as required
+    return reinterpret_cast<const RemoteAcAnimTy*>(p);
 }
 
 
@@ -425,10 +458,19 @@ void RmtSendProcessQueue ()
                 break;
             }
                 
+            // Aircraft animation dataRef values
+            case RMT_MSG_AC_ANIM: {
+                RmtDataAcAnimTy* pAcAnim = dynamic_cast<RmtDataAcAnimTy*>(ptrData.get());
+                LOG_ASSERT(pAcAnim);
+                gMsgAcAnim.add_send(pAcAnim->data, *gpMc);
+                break;
+            }
+                
             // Send out pending message
             case RMT_MSG_SEND:
                 gMsgAcDetail.send(*gpMc);
                 gMsgAcPosUpdate.send(*gpMc);
+                gMsgAcAnim.send(*gpMc);
                 gMsgAcRemove.send(*gpMc);
                 break;
                 
@@ -756,6 +798,20 @@ void RmtRecvMain()
                             }
                             break;
 
+                        // A/C Animdation dataRefs
+                        case RMT_MSG_AC_ANIM:
+                            if (hdr.msgVer == RMT_VER_AC_ANIM && recvSize >= sizeof(RemoteMsgAcAnimTy))
+                            {
+                                if (gRmtCBFcts.pfMsgACAnim) {
+                                    const RemoteMsgAcAnimTy& s = *(RemoteMsgAcAnimTy*)gpMc->getBuf();
+                                    gRmtCBFcts.pfMsgACAnim(from, recvSize, s);
+                                }
+                            } else {
+                                LOG_MSG(logWARN, "Cannot process A/C Pos Update message: %lu bytes, version %u, from %s",
+                                        recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
+                            }
+                            break;
+
                         // This type is not expected to happen (because it is a marker for the sender queue only)
                         case RMT_MSG_SEND:
                             LOG_MSG(logWARN, "Received unexpected message type RMT_MSG_SEND");
@@ -1016,6 +1072,20 @@ void RemoteAcEnqueue (const Aircraft& ac)
             (std::uint16_t)std::lround((gNow  - acCache.ts)     / REMOTE_TIME_RES),     // dTime
             ac.GetPitch(), ac.GetHeading(), ac.GetRoll()
         )));
+        
+        // Have animation dataRefs changed? We do a quick check by memcmp first
+        LOG_ASSERT(acCache.v.size() >= V_COUNT && ac.v.size() >= V_COUNT);
+        if (std::memcmp(acCache.v.data(), ac.v.data(),
+                        sizeof(acCache.v[0]) * V_COUNT) != 0) {
+            // Let's create the message and put it into the queue
+            ptrRmtDataAcAnimTy pAnimData = std::make_unique<RmtDataAcAnimTy>(ac.GetModeS_ID());
+            // Loop over all _pre-defined_ animation dataRefs and add changed values to the msg data
+            for (std::uint8_t idx = 0; idx < V_COUNT; ++idx)
+                if (ac.v[idx] != acCache.v[idx])
+                    pAnimData->add(DR_VALS(idx), ac.v[idx]);
+            // Add the data to the queue
+            gqueueRmtData.emplace(std::move(pAnimData));
+        }
     }
     acCache.UpdateFrom(ac, lat, lon, alt_ft);
 }

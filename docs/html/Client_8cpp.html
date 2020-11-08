@@ -58,7 +58,7 @@ $(function() {
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a3bf7418fac5b94b1e1aec8e4d375f29a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Client_8cpp.html#a3bf7418fac5b94b1e1aec8e4d375f29a">INFO_NEW_SENDER_PLUGIN</a>&#160;&#160;&#160;&quot;First data received from %.*s @ %s&quot;</td></tr>
+<tr class="memitem:a3bf7418fac5b94b1e1aec8e4d375f29a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Client_8cpp.html#a3bf7418fac5b94b1e1aec8e4d375f29a">INFO_NEW_SENDER_PLUGIN</a>&#160;&#160;&#160;&quot;First data received from %.*s (%u) @ %s&quot;</td></tr>
 <tr class="separator:a3bf7418fac5b94b1e1aec8e4d375f29a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f44e3dcd049ae0bc31e28b80b282cf4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Client_8cpp.html#a6f44e3dcd049ae0bc31e28b80b282cf4">INFO_GOT_AI_CONTROL</a>&#160;&#160;&#160;&quot;Have TCAS / AI control now&quot;</td></tr>
 <tr class="separator:a6f44e3dcd049ae0bc31e28b80b282cf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -89,8 +89,14 @@ Functions</h2></td></tr>
 <tr class="memdesc:acb74d868777ae340bd2b14c9e803a7b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called at the end of each flight loop processing: Release the data lock.  <a href="Client_8cpp.html#acb74d868777ae340bd2b14c9e803a7b6">More...</a><br /></td></tr>
 <tr class="separator:acb74d868777ae340bd2b14c9e803a7b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21d5b3dcb57e64d70094e4ea73fc6d64"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Client_8cpp.html#a21d5b3dcb57e64d70094e4ea73fc6d64">ClientProcAcDetails</a> (std::uint32_t _from[4], size_t _msgLen, const <a class="el" href="structXPMP2_1_1RemoteMsgAcDetailTy.html">XPMP2::RemoteMsgAcDetailTy</a> &amp;_msgAcDetails)</td></tr>
-<tr class="memdesc:a21d5b3dcb57e64d70094e4ea73fc6d64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle A/C Details messages.  <a href="Client_8cpp.html#a21d5b3dcb57e64d70094e4ea73fc6d64">More...</a><br /></td></tr>
+<tr class="memdesc:a21d5b3dcb57e64d70094e4ea73fc6d64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle A/C Details messages, called by <a class="el" href="namespaceXPMP2.html">XPMP2</a> via callback.  <a href="Client_8cpp.html#a21d5b3dcb57e64d70094e4ea73fc6d64">More...</a><br /></td></tr>
 <tr class="separator:a21d5b3dcb57e64d70094e4ea73fc6d64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac174c5055397a7592599156e12809309"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Client_8cpp.html#ac174c5055397a7592599156e12809309">ClientProcAcPosUpdate</a> (std::uint32_t _from[4], size_t _msgLen, const <a class="el" href="structXPMP2_1_1RemoteMsgAcPosUpdateTy.html">XPMP2::RemoteMsgAcPosUpdateTy</a> &amp;_msgAcPosUpdate)</td></tr>
+<tr class="memdesc:ac174c5055397a7592599156e12809309"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle A/C Position Update message, called by <a class="el" href="namespaceXPMP2.html">XPMP2</a> via callback.  <a href="Client_8cpp.html#ac174c5055397a7592599156e12809309">More...</a><br /></td></tr>
+<tr class="separator:ac174c5055397a7592599156e12809309"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a833e4844721bac28b2378f779ce33512"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Client_8cpp.html#a833e4844721bac28b2378f779ce33512">ClientProcAcAnim</a> (std::uint32_t _from[4], size_t _msgLen, const <a class="el" href="structXPMP2_1_1RemoteMsgAcAnimTy.html">XPMP2::RemoteMsgAcAnimTy</a> &amp;_msgAcAnim)</td></tr>
+<tr class="memdesc:a833e4844721bac28b2378f779ce33512"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle A/C Animation dataRef messages, called by <a class="el" href="namespaceXPMP2.html">XPMP2</a> via callback.  <a href="Client_8cpp.html#a833e4844721bac28b2378f779ce33512">More...</a><br /></td></tr>
+<tr class="separator:a833e4844721bac28b2378f779ce33512"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9468b490f91608f7a52052855e631e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Client_8cpp.html#ab9468b490f91608f7a52052855e631e7">ClientInit</a> ()</td></tr>
 <tr class="memdesc:ab9468b490f91608f7a52052855e631e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the module.  <a href="Client_8cpp.html#ab9468b490f91608f7a52052855e631e7">More...</a><br /></td></tr>
 <tr class="separator:ab9468b490f91608f7a52052855e631e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -162,7 +168,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define INFO_NEW_SENDER_PLUGIN&#160;&#160;&#160;&quot;First data received from %.*s @ %s&quot;</td>
+          <td class="memname">#define INFO_NEW_SENDER_PLUGIN&#160;&#160;&#160;&quot;First data received from %.*s (%u) @ %s&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -266,6 +272,42 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 </div>
 </div>
+<a id="a833e4844721bac28b2378f779ce33512"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a833e4844721bac28b2378f779ce33512">&#9670;&nbsp;</a></span>ClientProcAcAnim()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ClientProcAcAnim </td>
+          <td>(</td>
+          <td class="paramtype">std::uint32_t&#160;</td>
+          <td class="paramname"><em>_from</em>[4], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>_msgLen</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structXPMP2_1_1RemoteMsgAcAnimTy.html">XPMP2::RemoteMsgAcAnimTy</a> &amp;&#160;</td>
+          <td class="paramname"><em>_msgAcAnim</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Handle A/C Animation dataRef messages, called by <a class="el" href="namespaceXPMP2.html">XPMP2</a> via callback. </p>
+
+</div>
+</div>
 <a id="a21d5b3dcb57e64d70094e4ea73fc6d64"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a21d5b3dcb57e64d70094e4ea73fc6d64">&#9670;&nbsp;</a></span>ClientProcAcDetails()</h2>
 
@@ -298,13 +340,49 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
       </table>
 </div><div class="memdoc">
 
-<p>Handle A/C Details messages. </p>
+<p>Handle A/C Details messages, called by <a class="el" href="namespaceXPMP2.html">XPMP2</a> via callback. </p>
 <ol type="1">
 <li>If the aircraft does not exist create it<ol type="a">
 <li>Else update it's data </li>
 </ol>
 </li>
 </ol>
+
+</div>
+</div>
+<a id="ac174c5055397a7592599156e12809309"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac174c5055397a7592599156e12809309">&#9670;&nbsp;</a></span>ClientProcAcPosUpdate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ClientProcAcPosUpdate </td>
+          <td>(</td>
+          <td class="paramtype">std::uint32_t&#160;</td>
+          <td class="paramname"><em>_from</em>[4], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>_msgLen</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structXPMP2_1_1RemoteMsgAcPosUpdateTy.html">XPMP2::RemoteMsgAcPosUpdateTy</a> &amp;&#160;</td>
+          <td class="paramname"><em>_msgAcPosUpdate</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Handle A/C Position Update message, called by <a class="el" href="namespaceXPMP2.html">XPMP2</a> via callback. </p>
 
 </div>
 </div>

@@ -113,6 +113,16 @@ void RemoteAC::Update (const XPMP2::RemoteAcPosUpdateTy& _acPosUpd)
             _acPosUpd.dAlt_ft * XPMP2::REMOTE_ALT_FT_RES); */
 }
 
+// Update data from an a/c animation dataRefs message
+void RemoteAC::Update (const XPMP2::RemoteAcAnimTy& _acAnim)
+{
+    // Loop over all includes values and update the respective dataRef values
+    for (std::uint8_t idx = 0; idx < _acAnim.numVals; ++idx) {
+        const XPMP2::RemoteAcAnimTy::DataRefValTy& dr = _acAnim.v[idx];
+        v[dr.idx] = XPMP2::REMOTE_DR_DEF[dr.idx].unpack(dr.v);
+    }
+}
+
 // Called by XPMP2 for position updates, extrapolates from historic positions
 void RemoteAC::UpdatePosition (float, int)
 {
@@ -392,7 +402,6 @@ void ClientProcAcPosUpdate (std::uint32_t _from[4], size_t _msgLen,
         const XPMP2::RemoteAcPosUpdateTy& acPosUpd = _msgAcPosUpdate.arr[i];
         // Is the aircraft known?
         mapRemoteAcTy::iterator iAc = pSender->mapAc.find(XPMPPlaneID(acPosUpd.modeS_id));
-        // Is the aircraft known?
         if (iAc != pSender->mapAc.end()) {
             // Now require access (for each plane, because we want to give the main thread's flight loop a better change to grab the lock if needed)
             std::lock_guard<std::mutex> lk(gmutexData);
@@ -403,6 +412,29 @@ void ClientProcAcPosUpdate (std::uint32_t _from[4], size_t _msgLen,
 
 }
 
+/// Handle A/C Animation dataRef messages, called by XPMP2 via callback
+void ClientProcAcAnim (std::uint32_t _from[4], size_t _msgLen,
+                       const XPMP2::RemoteMsgAcAnimTy& _msgAcAnim)
+{
+    // Find the sender, bail if we don't know it
+    SenderTy* pSender = SenderTy::Find(_msgAcAnim.pluginId, _from);
+    if (!pSender) return;
+
+    // Loop all animation data elements in the message
+    for (const XPMP2::RemoteAcAnimTy* pAnim = _msgAcAnim.next(_msgLen);
+         pAnim;
+         pAnim = _msgAcAnim.next(_msgLen, pAnim))
+    {
+        // Is the aircraft known?
+        mapRemoteAcTy::iterator iAc = pSender->mapAc.find(XPMPPlaneID(pAnim->modeS_id));
+        if (iAc != pSender->mapAc.end()) {
+            // Now require access (for each plane, because we want to give the main thread's flight loop a better change to grab the lock if needed)
+            std::lock_guard<std::mutex> lk(gmutexData);
+            // known aircraft, update its data
+            iAc->second.Update(*pAnim);
+        }
+    }
+}
 
 //
 // MARK: Global Functions
@@ -438,6 +470,7 @@ void ClientToggleActive (int nForce)
             ClientProcSettings,             // Settings
             ClientProcAcDetails,            // Aircraft Details
             ClientProcAcPosUpdate,          // Aircraft Position Update
+            ClientProcAcAnim,               // Aircraft Animarion dataRef values
         };
         XPMP2::RemoteRecvStart(rmtCBFcts);
     }

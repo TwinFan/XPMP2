@@ -67,12 +67,17 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtDataBaseTy.html">XPMP2::RmtDataBaseTy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base structure for passing information from XP's main thread to the multicast thread.  <a href="classXPMP2_1_1RmtDataBaseTy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtDataAcDetailTy.html">XPMP2::RmtDataAcDetailTy</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Passing information about an a/c full detail message: it is actually right away that message.  <a href="classXPMP2_1_1RmtDataAcDetailTy.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtDataEnqeueTy.html">XPMP2::RmtDataEnqeueTy&lt; ElemTy, MsgTy &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Passing information about any data type (like a/c full detail message); the data is contained as copy.  <a href="classXPMP2_1_1RmtDataEnqeueTy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">XPMP2::RmtMsgBufTy&lt; ElemTy, msgTy, msgVer &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtDataAcAnimTy.html">XPMP2::RmtDataAcAnimTy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Animation dataRef requires a special queue data type as each msg element is already of variable length.  <a href="classXPMP2_1_1RmtDataAcAnimTy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">XPMP2::RmtMsgBufTy&lt; ElemTy, MsgTy, msgVer &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper class to manage the temporary buffers in which the network message are put together.  <a href="classXPMP2_1_1RmtMsgBufTy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:unionXPMP2_1_1RmtDataAcAnimTy_8____unnamed____"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#unionXPMP2_1_1RmtDataAcAnimTy_8____unnamed____">XPMP2::RmtDataAcAnimTy.__unnamed__</a></td></tr>
+<tr class="separator:unionXPMP2_1_1RmtDataAcAnimTy_8____unnamed____"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -90,6 +95,18 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a96b830c17825cc562fa5ea21497a75cc"><td class="memItemLeft" align="right" valign="top">typedef std::queue&lt; ptrRmtDataBaseTy, std::list&lt; ptrRmtDataBaseTy &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a96b830c17825cc562fa5ea21497a75cc">XPMP2::queueRmtDataTy</a></td></tr>
 <tr class="memdesc:a96b830c17825cc562fa5ea21497a75cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">A queue managing the information objects, used to transfer data between main thread and network thread.  <a href="namespaceXPMP2.html#a96b830c17825cc562fa5ea21497a75cc">More...</a><br /></td></tr>
 <tr class="separator:a96b830c17825cc562fa5ea21497a75cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1adbf817aa232f5e45fd9d91d1fd713"><td class="memItemLeft" align="right" valign="top">typedef RmtDataEnqeueTy&lt; RemoteAcDetailTy, RMT_MSG_AC_DETAILED &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ae1adbf817aa232f5e45fd9d91d1fd713">XPMP2::RmtDataAcDetailTy</a></td></tr>
+<tr class="memdesc:ae1adbf817aa232f5e45fd9d91d1fd713"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Detail queue type.  <a href="namespaceXPMP2.html#ae1adbf817aa232f5e45fd9d91d1fd713">More...</a><br /></td></tr>
+<tr class="separator:ae1adbf817aa232f5e45fd9d91d1fd713"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac13b4aa8db7e35267bf7faf6f75f296d"><td class="memItemLeft" align="right" valign="top">typedef RmtDataEnqeueTy&lt; RemoteAcPosUpdateTy, RMT_MSG_AC_POS_UPDATE &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ac13b4aa8db7e35267bf7faf6f75f296d">XPMP2::RmtDataAcPosUpdateTy</a></td></tr>
+<tr class="memdesc:ac13b4aa8db7e35267bf7faf6f75f296d"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Position Update queue type.  <a href="namespaceXPMP2.html#ac13b4aa8db7e35267bf7faf6f75f296d">More...</a><br /></td></tr>
+<tr class="separator:ac13b4aa8db7e35267bf7faf6f75f296d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62ba7238900cb00589a1dc9c604426f6"><td class="memItemLeft" align="right" valign="top">typedef RmtDataEnqeueTy&lt; <a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>, RMT_MSG_AC_REMOVE &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a62ba7238900cb00589a1dc9c604426f6">XPMP2::RmtDataAcRemoveTy</a></td></tr>
+<tr class="memdesc:a62ba7238900cb00589a1dc9c604426f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Removal queue type.  <a href="namespaceXPMP2.html#a62ba7238900cb00589a1dc9c604426f6">More...</a><br /></td></tr>
+<tr class="separator:a62ba7238900cb00589a1dc9c604426f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9875d031d4c0e3b664418c4afa04e37f"><td class="memItemLeft" align="right" valign="top">typedef std::unique_ptr&lt; RmtDataAcAnimTy &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a9875d031d4c0e3b664418c4afa04e37f">XPMP2::ptrRmtDataAcAnimTy</a></td></tr>
+<tr class="memdesc:a9875d031d4c0e3b664418c4afa04e37f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Smart pointer to <a class="el" href="classXPMP2_1_1RmtDataAcAnimTy.html" title="Animation dataRef requires a special queue data type as each msg element is already of variable lengt...">XPMP2::RmtDataAcAnimTy</a>.  <a href="namespaceXPMP2.html#a9875d031d4c0e3b664418c4afa04e37f">More...</a><br /></td></tr>
+<tr class="separator:a9875d031d4c0e3b664418c4afa04e37f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -137,7 +154,37 @@ Functions</h2></td></tr>
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br  />
  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.<br  />
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </dd></dl>
-</div></div><!-- contents -->
+</div><hr/><h2 class="groupheader">Class Documentation</h2>
+<a name="unionXPMP2_1_1RmtDataAcAnimTy_8____unnamed____" id="unionXPMP2_1_1RmtDataAcAnimTy_8____unnamed____"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#unionXPMP2_1_1RmtDataAcAnimTy_8____unnamed____">&#9670;&nbsp;</a></span>XPMP2::RmtDataAcAnimTy.__unnamed__</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">union XPMP2::RmtDataAcAnimTy.__unnamed__</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"></div><table class="fieldtable">
+<tr><th colspan="3">Class Members</th></tr>
+<tr><td class="fieldtype">
+<a id="a943ec238c1701c8de739aff031085bab"></a>char</td>
+<td class="fieldname">
+bufSize[<a class="el" href="structXPMP2_1_1RemoteAcAnimTy.html#a47f54c1420eab4cd88212fc65a7b064d">RemoteAcAnimTy::msgSize</a>(<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa3efd8e40f4308bc421015776084f580b">V_COUNT</a>)]</td>
+<td class="fielddoc">
+a declaration that only makes sure that enough memory is reserved so that XPMP2::RmtDataAcAnimTy::data::v can fill up to max </td></tr>
+<tr><td class="fieldtype">
+<a id="a8d777f385d3dfec8815d20f7496026dc"></a><a class="el" href="structXPMP2_1_1RemoteAcAnimTy.html">RemoteAcAnimTy</a></td>
+<td class="fieldname">
+data</td>
+<td class="fielddoc">
+The animation dataRef values element. </td></tr>
+</table>
+
+</div>
+</div>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

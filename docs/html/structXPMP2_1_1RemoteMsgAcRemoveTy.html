@@ -44,6 +44,8 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structXPMP2_1_1RemoteMsgAcRemoveTy-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -51,7 +53,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>A/C detail message, with all full details of an aircraft, required to start drawing that aircraft.  
+<p>A/C removal message, an array of plane ids.  
  <a href="structXPMP2_1_1RemoteMsgAcRemoveTy.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="XPMPRemote_8h_source.html">XPMPRemote.h</a>&gt;</code></p>
@@ -67,11 +69,27 @@ $(function() {
   </map>
 </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a5889621c8f0e82a26103c6b73a17321d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteMsgAcRemoveTy.html#a5889621c8f0e82a26103c6b73a17321d">RemoteMsgAcRemoveTy</a> ()</td></tr>
+<tr class="memdesc:a5889621c8f0e82a26103c6b73a17321d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor sets expected message type and version.  <a href="structXPMP2_1_1RemoteMsgAcRemoveTy.html#a5889621c8f0e82a26103c6b73a17321d">More...</a><br /></td></tr>
+<tr class="separator:a5889621c8f0e82a26103c6b73a17321d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_structXPMP2_1_1RemoteMsgBaseTy"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_structXPMP2_1_1RemoteMsgBaseTy')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="structXPMP2_1_1RemoteMsgBaseTy.html">XPMP2::RemoteMsgBaseTy</a></td></tr>
+<tr class="memitem:ac5487976886e2b07ebd92323f7081ff4 inherit pub_methods_structXPMP2_1_1RemoteMsgBaseTy"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteMsgBaseTy.html#ac5487976886e2b07ebd92323f7081ff4">RemoteMsgBaseTy</a> (<a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191">RemoteMsgTy</a> _ty, std::uint8_t _ver)</td></tr>
+<tr class="memdesc:ac5487976886e2b07ebd92323f7081ff4 inherit pub_methods_structXPMP2_1_1RemoteMsgBaseTy"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor just sets the values.  <a href="structXPMP2_1_1RemoteMsgBaseTy.html#ac5487976886e2b07ebd92323f7081ff4">More...</a><br /></td></tr>
+<tr class="separator:ac5487976886e2b07ebd92323f7081ff4 inherit pub_methods_structXPMP2_1_1RemoteMsgBaseTy"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:af78472defdc0444d5ffcfe6bf31da7bf"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteMsgAcRemoveTy.html#af78472defdc0444d5ffcfe6bf31da7bf">NumElem</a> (size_t _msgLen)</td></tr>
+<tr class="memdesc:af78472defdc0444d5ffcfe6bf31da7bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert msg len to number of arr elements.  <a href="structXPMP2_1_1RemoteMsgAcRemoveTy.html#af78472defdc0444d5ffcfe6bf31da7bf">More...</a><br /></td></tr>
+<tr class="separator:af78472defdc0444d5ffcfe6bf31da7bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ab1c1dc7f93df01dac78c101b65efc83e"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteMsgAcRemoveTy.html#ab1c1dc7f93df01dac78c101b65efc83e">modeS_id</a>: 24</td></tr>
-<tr class="memdesc:ab1c1dc7f93df01dac78c101b65efc83e"><td class="mdescLeft">&#160;</td><td class="mdescRight">plane's unique id at the sender side (might differ remotely in case of duplicates)  <a href="structXPMP2_1_1RemoteMsgAcRemoveTy.html#ab1c1dc7f93df01dac78c101b65efc83e">More...</a><br /></td></tr>
-<tr class="separator:ab1c1dc7f93df01dac78c101b65efc83e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d17d23fe0835debb551990f85faf443"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteMsgAcRemoveTy.html#a7d17d23fe0835debb551990f85faf443">arr</a> [1]</td></tr>
+<tr class="memdesc:a7d17d23fe0835debb551990f85faf443"><td class="mdescLeft">&#160;</td><td class="mdescRight">plane's unique id at the sender side (might differ remotely in case of duplicates)  <a href="structXPMP2_1_1RemoteMsgAcRemoveTy.html#a7d17d23fe0835debb551990f85faf443">More...</a><br /></td></tr>
+<tr class="separator:a7d17d23fe0835debb551990f85faf443"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_structXPMP2_1_1RemoteMsgBaseTy"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_structXPMP2_1_1RemoteMsgBaseTy')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="structXPMP2_1_1RemoteMsgBaseTy.html">XPMP2::RemoteMsgBaseTy</a></td></tr>
 <tr class="memitem:a35011ef4521c18eb6f63c12ad689e3f8 inherit pub_attribs_structXPMP2_1_1RemoteMsgBaseTy"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191">RemoteMsgTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteMsgBaseTy.html#a35011ef4521c18eb6f63c12ad689e3f8">msgTy</a>: 4</td></tr>
 <tr class="memdesc:a35011ef4521c18eb6f63c12ad689e3f8 inherit pub_attribs_structXPMP2_1_1RemoteMsgBaseTy"><td class="mdescLeft">&#160;</td><td class="mdescRight">message type  <a href="structXPMP2_1_1RemoteMsgBaseTy.html#a35011ef4521c18eb6f63c12ad689e3f8">More...</a><br /></td></tr>
@@ -87,25 +105,75 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a3854d380944fa5e31afcf88b2546b20a inherit pub_attribs_structXPMP2_1_1RemoteMsgBaseTy"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08f1810e47c366da599e3df28b25949c inherit pub_attribs_structXPMP2_1_1RemoteMsgBaseTy"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteMsgBaseTy.html#a08f1810e47c366da599e3df28b25949c">filler2</a> = 0</td></tr>
 <tr class="separator:a08f1810e47c366da599e3df28b25949c inherit pub_attribs_structXPMP2_1_1RemoteMsgBaseTy"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pub_methods_structXPMP2_1_1RemoteMsgBaseTy"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_structXPMP2_1_1RemoteMsgBaseTy')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="structXPMP2_1_1RemoteMsgBaseTy.html">XPMP2::RemoteMsgBaseTy</a></td></tr>
-<tr class="memitem:ac5487976886e2b07ebd92323f7081ff4 inherit pub_methods_structXPMP2_1_1RemoteMsgBaseTy"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteMsgBaseTy.html#ac5487976886e2b07ebd92323f7081ff4">RemoteMsgBaseTy</a> (<a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191">RemoteMsgTy</a> _ty, std::uint8_t _ver)</td></tr>
-<tr class="memdesc:ac5487976886e2b07ebd92323f7081ff4 inherit pub_methods_structXPMP2_1_1RemoteMsgBaseTy"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor just sets the values.  <a href="structXPMP2_1_1RemoteMsgBaseTy.html#ac5487976886e2b07ebd92323f7081ff4">More...</a><br /></td></tr>
-<tr class="separator:ac5487976886e2b07ebd92323f7081ff4 inherit pub_methods_structXPMP2_1_1RemoteMsgBaseTy"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A/C detail message, with all full details of an aircraft, required to start drawing that aircraft. </p>
-</div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="ab1c1dc7f93df01dac78c101b65efc83e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab1c1dc7f93df01dac78c101b65efc83e">&#9670;&nbsp;</a></span>modeS_id</h2>
+<div class="textblock"><p>A/C removal message, an array of plane ids. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a5889621c8f0e82a26103c6b73a17321d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5889621c8f0e82a26103c6b73a17321d">&#9670;&nbsp;</a></span>RemoteMsgAcRemoveTy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">XPMP2::RemoteMsgAcRemoveTy::RemoteMsgAcRemoveTy </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructor sets expected message type and version. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="af78472defdc0444d5ffcfe6bf31da7bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af78472defdc0444d5ffcfe6bf31da7bf">&#9670;&nbsp;</a></span>NumElem()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static constexpr size_t XPMP2::RemoteMsgAcRemoveTy::NumElem </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>_msgLen</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convert msg len to number of arr elements. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a7d17d23fe0835debb551990f85faf443"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d17d23fe0835debb551990f85faf443">&#9670;&nbsp;</a></span>arr</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::uint32_t XPMP2::RemoteMsgAcRemoveTy::modeS_id</td>
+          <td class="memname"><a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> XPMP2::RemoteMsgAcRemoveTy::arr[1]</td>
         </tr>
       </table>
 </div><div class="memdoc">

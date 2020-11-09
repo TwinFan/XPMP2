@@ -124,7 +124,7 @@ void RemoteAC::Update (const XPMP2::RemoteAcAnimTy& _acAnim)
 }
 
 // Called by XPMP2 for position updates, extrapolates from historic positions
-void RemoteAC::UpdatePosition (float, int)
+void RemoteAC::UpdatePosition (float _elapsed, int)
 {
     // If we have a fresh world position then that's the one that counts
     if (bWorldCoordUpdated) {
@@ -173,7 +173,15 @@ void RemoteAC::UpdatePosition (float, int)
         }
     }
     
-    // TODO: Animation dataRefs
+    // Special handling for rotational dataRefs:
+    // These are the only ones we move ourselves as they need to keep going every frame
+    // for good looks.
+    // Idea: Turn them based on defined speed
+    if (GetTireRotRpm() > 1.0f) SetTireRotAngle(std::fmod(GetTireRotAngle() + GetTireRotRpm()/60.0f * _elapsed * 360.0f, 360.0f));
+    if (GetEngineRotRpm() > 1.0f) SetEngineRotAngle(std::fmod(GetEngineRotAngle() + GetEngineRotRpm()/60.0f * _elapsed * 360.0f, 360.0f));
+    for (size_t i = 1; i <= 4; i++)
+        if (GetEngineRotRpm(i) > 1.0f) SetEngineRotAngle(i, std::fmod(GetEngineRotAngle(i) + GetEngineRotRpm(i)/60.0f * _elapsed * 360.0f, 360.0f));
+    if (GetPropRotRpm() > 1.0f) SetPropRotAngle(std::fmod(GetPropRotAngle() + GetPropRotRpm()/60.0f * _elapsed * 360.0f, 360.0f));
 }
 
 //

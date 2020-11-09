@@ -1081,7 +1081,15 @@ void RemoteAcEnqueue (const Aircraft& ac)
             ptrRmtDataAcAnimTy pAnimData = std::make_unique<RmtDataAcAnimTy>(ac.GetModeS_ID());
             // Loop over all _pre-defined_ animation dataRefs and add changed values to the msg data
             for (std::uint8_t idx = 0; idx < V_COUNT; ++idx)
-                if (ac.v[idx] != acCache.v[idx])
+                if (ac.v[idx] != acCache.v[idx] &&
+                    // skip over those dataRef which change all the time and are recalculate in the client on its own
+                    idx != XPMP2::V_GEAR_TIRE_ROTATION_ANGLE_DEG &&
+                    idx != XPMP2::V_ENGINES_ENGINE_ROTATION_ANGLE_DEG &&
+                    idx != XPMP2::V_ENGINES_PROP_ROTATION_ANGLE_DEG &&
+                    idx != XPMP2::V_ENGINES_ENGINE_ROTATION_ANGLE_DEG1 &&
+                    idx != XPMP2::V_ENGINES_ENGINE_ROTATION_ANGLE_DEG2 &&
+                    idx != XPMP2::V_ENGINES_ENGINE_ROTATION_ANGLE_DEG3 &&
+                    idx != XPMP2::V_ENGINES_ENGINE_ROTATION_ANGLE_DEG4)
                     pAnimData->add(DR_VALS(idx), ac.v[idx]);
             // Add the data to the queue
             gqueueRmtData.emplace(std::move(pAnimData));

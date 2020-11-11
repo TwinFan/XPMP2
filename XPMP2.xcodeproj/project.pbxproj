@@ -117,6 +117,7 @@
 		256EE0042540DDE10007D517 /* XPMP2-Remote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XPMP2-Remote.h"; sourceTree = "<group>"; };
 		256EE00E2540E39D0007D517 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		256EE00F2540E39D0007D517 /* Utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utilities.cpp; sourceTree = "<group>"; };
+		256F4687255C9A6A00FBE18A /* XPMP2.example.prf */ = {isa = PBXFileReference; lastKnownFileType = text; path = XPMP2.example.prf; sourceTree = "<group>"; };
 		2574E00424578419000E8156 /* index.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = index.md; sourceTree = "<group>"; };
 		2574E0052457842A000E8156 /* html */ = {isa = PBXFileReference; lastKnownFileType = folder; path = html; sourceTree = "<group>"; };
 		2575F44723ECB02400747524 /* Toolchain-ubuntu-osxcross-10.11.cmake */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Toolchain-ubuntu-osxcross-10.11.cmake"; sourceTree = "<group>"; };
@@ -239,6 +240,7 @@
 				2596FD482447226700C6A41E /* Doc8643.txt */,
 				2596FD592447226700C6A41E /* MapIcons.png */,
 				2596FD5A2447226700C6A41E /* related.txt */,
+				256F4687255C9A6A00FBE18A /* XPMP2.example.prf */,
 			);
 			path = Resources;
 			sourceTree = "<group>";

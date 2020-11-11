@@ -51,6 +51,110 @@ XPMPPlaneID GlobVars::NextPlaneId ()
 }
 
 
+// Read from a generic `XPMP2.prf` or `XPMP2.<logAcronym>.prf` config file
+/// @details Goal is to provide some few configuration options independend
+///          of the plugin using XPMP2. This is useful e.g. when configuring
+///          non-standard network settings for remote connections.\n
+///          For even greate flexibility the function will try a plugin-specific
+///          file first, named "XPMP2.<logAcronym>.prf" (with spaces replaced
+///          with underscores) and if that is not found
+///          it tries the generic file "XPMP2.prf".\n
+///          A config file is completely optional, none is required.
+void GlobVars::ReadConfigFile ()
+{
+    // Put together the plugin-spcific file name
+    std::string cfgFileName = trim(logAcronym) + ".prf";
+    std::replace(cfgFileName.begin(), cfgFileName.end(), ' ', '_');
+    cfgFileName = GetXPSystemPath() + "Output/preferences/XPMP2." + cfgFileName;
+    
+    // If that file doesn't exist try the generic version
+    if (!ExistsFile(cfgFileName)) {
+        cfgFileName = GetXPSystemPath() + "Output/preferences/XPMP2.prf";
+        if (!ExistsFile(cfgFileName))       // does also not exist, that's OK then
+            return;
+    }
+    
+    // Open that config file, which we think does exist
+    LOG_MSG(logINFO, "Reading configuration from %s", cfgFileName.c_str());
+    std::ifstream fIn (cfgFileName);
+    if (!fIn) {
+        char sErr[100];
+        strerror_s(sErr, sizeof(sErr), errno);
+        LOG_MSG(logERR, "Could not open config file '%s': %s", cfgFileName.c_str(), sErr);
+        return;
+    }
+    
+    // Read from the file
+    std::vector<std::string> ln;
+    std::string lnBuf;
+    int errCnt = 0;
+    while (fIn && errCnt <= 3) {
+        safeGetline(fIn, lnBuf);            // read line and break into tokens, delimited by spaces
+        if (lnBuf.empty() ||                // skip empty lines or comments without warning
+            lnBuf[0] == '#')
+            continue;
+
+        // otherwise should be 2 tokens
+        ln = str_tokenize(lnBuf, " ");
+        if (ln.size() != 2) {
+            // wrong number of words in that line
+            LOG_MSG(logWARN,"Expected two words (key, value) in config file '%s', line '%s' -> ignored",
+                    cfgFileName.c_str(), lnBuf.c_str());
+            errCnt++;
+            continue;
+        }
+
+        // *** Process actual configuration entries ***
+        
+        int iVal = 0;
+        try {iVal = (int) std::stol(ln[1]); }
+        catch (...) { iVal = 0; }
+        if (ln[0] == "logLvl")              logLvl = (logLevelTy) std::clamp<int>(iVal, int(logDEBUG), int(logFATAL));
+        else if (ln[0] == "defaultICAO")    defaultICAO = ln[1];
+        else if (ln[0] == "carIcaoType")    carIcaoType = ln[1];
+        else if (ln[0] == "remoteSupport") {
+            str_tolower(ln[1]);
+            if (ln[1] == "on")              glob.remoteCfg = REMOTE_CFG_ON;
+            else if (ln[1] == "auto")       glob.remoteCfg = REMOTE_CFG_AUTO;
+            else if (ln[1] == "off")        glob.remoteCfg = REMOTE_CFG_OFF;
+            else {
+                LOG_MSG(logWARN, "Ignored unknown value '%s' for 'remoteSupport' in file '%s'",
+                        ln[1].c_str(), cfgFileName.c_str());
+            }
+        }
+        else if (ln[0] == "remoteMCGroup")  remoteMCGroup = ln[1];
+        else if (ln[0] == "remotePort")     remotePort = iVal;
+        else if (ln[0] == "remoteTTL")      remoteTTL = iVal;
+        else if (ln[0] == "remoteBufSize")  remoteBufSize = (size_t)iVal;
+        else if (ln[0] == "remoteTxfFrequ") remoteTxfFrequ = iVal;
+        else {
+            LOG_MSG(logWARN, "Ignored unknown config item '%s' from file '%s'",
+                    ln[0].c_str(), cfgFileName.c_str());
+        }
+    }
+
+    // problem was not just eof?
+    if (!fIn && !fIn.eof()) {
+        char sErr[100];
+        strerror_s(sErr, sizeof(sErr), errno);
+        LOG_MSG(logERR, "Could not read from config file '%s': %s",
+                cfgFileName.c_str(), sErr);
+        return;
+    }
+    
+    // close file
+    fIn.close();
+
+    // too many warnings?
+    if (errCnt > 3) {
+        LOG_MSG(logERR, "Too many errors while trying to process config file '%s'",
+                cfgFileName.c_str());
+        return;
+    }
+    
+}
+
+
 /// Default config function just always returns the provided default value
 int     PrefsFuncIntDefault     (const char *, const char *, int _default)
 {
@@ -87,7 +191,7 @@ void GlobVars::UpdateCfgVals ()
 
     // Ask for remote support
     i = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_SUPPORT_REMOTE, remoteCfg);
-    if (i == 0)     remoteCfg = REMOTE_CFG_CONDITIONALLY;
+    if (i == 0)     remoteCfg = REMOTE_CFG_AUTO;
     else if (i < 0) remoteCfg = REMOTE_CFG_OFF;
     else            remoteCfg = REMOTE_CFG_ON;
 
@@ -264,8 +368,8 @@ std::istream& safeGetline(std::istream& is, std::string& t)
     return is;
 }
 
-// If a path starts with X-Plane's system directory it is stripped
-std::string StripXPSysDir (const std::string& path)
+// Returns XP's system directory, including a trailing slash
+const std::string& GetXPSystemPath ()
 {
     // Fetch XP's system dir once
     static std::string sysDir;
@@ -274,10 +378,15 @@ std::string StripXPSysDir (const std::string& path)
         XPLMGetSystemPath(s);
         sysDir = s;
     }
-    
+    return sysDir;
+}
+
+// If a path starts with X-Plane's system directory it is stripped
+std::string StripXPSysDir (const std::string& path)
+{
     // does the path begin with it?
-    if (path.find(sysDir) == 0)
-        return path.substr(sysDir.length());
+    if (path.find(GetXPSystemPath()) == 0)
+        return path.substr(GetXPSystemPath().length());
     else
         return path;
 }

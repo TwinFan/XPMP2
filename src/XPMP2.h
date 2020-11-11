@@ -194,7 +194,7 @@ public:
     /// Max transfer frequency per second
     int             remoteTxfFrequ  = 5;
     /// Configuration: Are we to support remote connections?
-    RemoteCfgTy     remoteCfg       = REMOTE_CFG_CONDITIONALLY;
+    RemoteCfgTy     remoteCfg       = REMOTE_CFG_AUTO;
     /// Status of remote connections to networked clients
     RemoteStatusTy  remoteStatus    = REMOTE_OFF;
     /// Are we a listener?
@@ -234,6 +234,8 @@ public:
     /// Constructor
     GlobVars (logLevelTy _logLvl = logINFO, bool _logMdlMatch = false) :
     logLvl(_logLvl), bLogMdlMatch(_logMdlMatch) {}
+    /// Read from a generic `XPMP2.prf` or `XPMP2.<logAcronym>.prf` config file
+    void ReadConfigFile ();
     /// Update all settings, e.g. for logging level, by calling prefsFuncInt
     void UpdateCfgVals ();
     /// Read version numbers into verXplane/verXPLM

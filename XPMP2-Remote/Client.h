@@ -31,7 +31,8 @@ protected:
     XPMPPlaneID   senderId = 0;         ///< sender's plane id (might be different here in case of deduplication)
     std::uint16_t pkgHash = 0;          ///< hash value of CSL model package
     std::string   sShortId;             ///< CSL model's short id
-    
+    bool bDeleteMe = false;             ///< flag that this a/c needs to removed
+
     /// @brief We keep 2 historic positions to be able to calculate simple linear extrapolation
     /// @details Index 0 is the older one, index 1 the newer one
     XPLMDrawInfo_t histPos[2];
@@ -63,6 +64,11 @@ public:
 
     /// Called by XPMP2 for position updates, extrapolates from historic positions
     void UpdatePosition (float, int) override;
+    
+    /// Mark this aircraft as to-be-deleted in the next flight loop (can't do in worker thread)
+    void MarkForDeletion () { bDeleteMe = true; }
+    /// To be deleted?
+    bool IsToBeDeleted () const { return bDeleteMe; }
 };
 
 /// Map of remote aircraft; key is the plane id as sent by the sending plugin (while the _modeS_id of the local copy could differ)

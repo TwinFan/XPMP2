@@ -221,7 +221,7 @@ std::unique_lock<std::mutex> glockDataMain(gmutexData, std::defer_lock);
 /// Indicates if it is needed in the main thread to process updates to settings
 std::atomic_flag gbSkipSettingsUpdate = ATOMIC_FLAG_INIT;
 /// Indicates if it is needed in the main thread to process new aircraft
-std::atomic_flag gbSkipNewAc = ATOMIC_FLAG_INIT;
+std::atomic_flag gbSkipAcMaintenance = ATOMIC_FLAG_INIT;
 
 void ClientTryGetAI ();
 
@@ -346,12 +346,20 @@ void ClientFlightLoopBegins ()
     // Acquire the data access lock once and keep it while the flight loop is running
     glockDataMain.lock();
 
-    // If needed create new aircraft that have been prepared in the meantime
-    if (gbSkipNewAc.test_and_set()) {
+    // If needed create new or remove deleted aircraft that have been prepared in the meantime
+    if (gbSkipAcMaintenance.test_and_set()) {
         for (auto& s: rcGlob.gmapSender) {              // loop all senders
-            for (auto& a: s.second.mapAc) {             // loop all a/c of that sender                
-                if (a.second.GetModeS_ID() == 0)        // create a/c if not created
-                    a.second.Create();
+            // loop all a/c of that sender
+            mapRemoteAcTy::iterator acIter = s.second.mapAc.begin();
+            while (acIter != s.second.mapAc.end()) {
+                // a/c to be deleted?
+                if (acIter->second.IsToBeDeleted())
+                    acIter = s.second.mapAc.erase(acIter);
+                // create a/c if not created
+                else if (acIter->second.GetModeS_ID() == 0)
+                    (acIter++)->second.Create();
+                else
+                    acIter++;
             }
         }
     }
@@ -387,7 +395,7 @@ void ClientProcAcDetails (std::uint32_t _from[4], size_t _msgLen,
             // new aircraft, create an object for it, but not yet the actual plane (as this is the network thread)
             pSender->mapAc.emplace(acDetails.modeS_id, acDetails);
             // tell the main thread that it shall process new a/c
-            gbSkipNewAc.clear();
+            gbSkipAcMaintenance.clear();
         } else {
             // known aircraft, update its data
             iAc->second.Update(acDetails);
@@ -444,6 +452,34 @@ void ClientProcAcAnim (std::uint32_t _from[4], size_t _msgLen,
     }
 }
 
+/// Handle A/C Removal message, called by XPMP2 via callback
+void ClientProcAcRemove (std::uint32_t _from[4], size_t _msgLen,
+                         const XPMP2::RemoteMsgAcRemoveTy& _msgAcRemove)
+{
+    // Find the sender, bail if we don't know it
+    SenderTy* pSender = SenderTy::Find(_msgAcRemove.pluginId, _from);
+    if (!pSender) return;
+    
+    // Loop over all aircraft contained in the message
+    const size_t numAc = _msgAcRemove.NumElem(_msgLen);
+    for (size_t i = 0; i < numAc; ++i) {
+        const XPMP2::RemoteAcRemoveTy& acRemove = _msgAcRemove.arr[i];
+        // Is the aircraft known?
+        mapRemoteAcTy::iterator iAc = pSender->mapAc.find(XPMPPlaneID(acRemove.modeS_id));
+        if (iAc != pSender->mapAc.end()) {
+            // Now require access (for each plane, because we want to give the main thread's flight loop a better change to grab the lock if needed)
+            std::lock_guard<std::mutex> lk(gmutexData);
+            // mark this a/c for deletion (which must happen in XP's main thread)
+            iAc->second.MarkForDeletion();
+            // tell the main thread that it shall process removed a/c
+            gbSkipAcMaintenance.clear();
+        }
+    }
+
+}
+
+
+
 //
 // MARK: Global Functions
 //
@@ -453,7 +489,7 @@ void ClientInit()
 {
     // Initialize the atomic flags to 'set'
     gbSkipSettingsUpdate.test_and_set();
-    gbSkipNewAc.test_and_set();
+    gbSkipAcMaintenance.test_and_set();
 }
 
 // Shuts down the module gracefully
@@ -479,6 +515,7 @@ void ClientToggleActive (int nForce)
             ClientProcAcDetails,            // Aircraft Details
             ClientProcAcPosUpdate,          // Aircraft Position Update
             ClientProcAcAnim,               // Aircraft Animarion dataRef values
+            ClientProcAcRemove,             // Aircraft Removal
         };
         XPMP2::RemoteRecvStart(rmtCBFcts);
     }

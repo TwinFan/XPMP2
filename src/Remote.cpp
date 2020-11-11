@@ -116,6 +116,7 @@ extern std::vector<const char*> DR_NAMES;
 // Global variables
 mapRmtAcCacheTy gmapRmtAcCache;     ///< Cache for last data sent out to the network
 unsigned gFullUpdDue = 0;           ///< What's the full update group that has its turn now?
+unsigned gFullUpdLastDone = 0;      ///< the last actually processed full update group
 unsigned gNxtFullUpdGrpToAssign = 0;///< What's the next group number to assign to the next a/c? (Assigned will be the value incremented by 1)
 float gNow = 0.0f;                  ///< Current network timestamp
 float gNxtTxfTime = 0.0f;           ///< When to actually process position updates next?
@@ -123,6 +124,9 @@ float gNxtTxfTime = 0.0f;           ///< When to actually process position updat
 queueRmtDataTy gqueueRmtData;       ///< the queue for passing data from main to network thread
 std::condition_variable gcvRmtData; ///< notifies the network thread of available data to be processed
 std::mutex gmutexRmtData;           ///< protects modifying access to the queue and the condition variable
+/// The lock that we keep during handling of the flight loop
+std::unique_lock<std::mutex> glockRmtData(gmutexRmtData);
+
 
 // Constructor copies relevant values from the passed-in aircraft
 RmtAcCacheTy::RmtAcCacheTy (const Aircraft& ac,
@@ -312,7 +316,7 @@ float gSendSettingsLast = 0.0f;
 RmtMsgBufTy<RemoteAcDetailTy,RMT_MSG_AC_DETAILED,RMT_VER_AC_DETAIL> gMsgAcDetail;               ///< A/C Detail message
 RmtMsgBufTy<RemoteAcPosUpdateTy,RMT_MSG_AC_POS_UPDATE,RMT_VER_AC_POS_UPDATE> gMsgAcPosUpdate;   ///< A/C Position Update message
 RmtMsgBufTy<RemoteAcAnimTy, RMT_MSG_AC_ANIM, RMT_VER_AC_ANIM> gMsgAcAnim;                       ///< A/C Animation dataRefs message
-RmtMsgBufTy<XPMPPlaneID,RMT_MSG_AC_REMOVE,RMT_VER_AC_REMOVE> gMsgAcRemove;                      ///< A/C Removal message
+RmtMsgBufTy<RemoteAcRemoveTy,RMT_MSG_AC_REMOVE,RMT_VER_AC_REMOVE> gMsgAcRemove;                 ///< A/C Removal message
 
 
 // Free up the buffer, basically a reset
@@ -463,6 +467,14 @@ void RmtSendProcessQueue ()
                 RmtDataAcAnimTy* pAcAnim = dynamic_cast<RmtDataAcAnimTy*>(ptrData.get());
                 LOG_ASSERT(pAcAnim);
                 gMsgAcAnim.add_send(pAcAnim->data, *gpMc);
+                break;
+            }
+                
+            // Aircraft removal (the XPMP2::Aircraft object will already be gone by this time!)
+            case RMT_MSG_AC_REMOVE: {
+                RmtDataAcRemoveTy* pAcRemoval = dynamic_cast<RmtDataAcRemoveTy*>(ptrData.get());
+                LOG_ASSERT(pAcRemoval);
+                gMsgAcRemove.add_send(pAcRemoval->data, *gpMc);
                 break;
             }
                 
@@ -807,7 +819,21 @@ void RmtRecvMain()
                                     gRmtCBFcts.pfMsgACAnim(from, recvSize, s);
                                 }
                             } else {
-                                LOG_MSG(logWARN, "Cannot process A/C Pos Update message: %lu bytes, version %u, from %s",
+                                LOG_MSG(logWARN, "Cannot process A/C Animations message: %lu bytes, version %u, from %s",
+                                        recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
+                            }
+                            break;
+
+                        // A/C Removal
+                        case RMT_MSG_AC_REMOVE:
+                            if (hdr.msgVer == RMT_VER_AC_REMOVE && recvSize >= sizeof(RemoteMsgAcRemoveTy))
+                            {
+                                if (gRmtCBFcts.pfMsgACRemove) {
+                                    const RemoteMsgAcRemoveTy& s = *(RemoteMsgAcRemoveTy*)gpMc->getBuf();
+                                    gRmtCBFcts.pfMsgACRemove(from, recvSize, s);
+                                }
+                            } else {
+                                LOG_MSG(logWARN, "Cannot process A/C Remove message: %lu bytes, version %u, from %s",
                                         recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
                             }
                             break;
@@ -892,6 +918,9 @@ void RmtStopAll()
 #endif
             if (gpMc)
                 gpMc->Close();
+        // Make sure the lock is no longer held
+        if (glockRmtData)
+            glockRmtData.unlock();
         // Trigger the thread to wake up for proper exit
         gcvRmtData.notify_all();
         // wait for the network thread to finish
@@ -937,9 +966,6 @@ RemoteStatusTy RemoteGetStatus()
 // MARK: Global Enqueue/Send functions (XP Main Thread)
 //
 
-/// The lock that we keep during handling of the flight loop
-std::unique_lock<std::mutex> glockRmtData(gmutexRmtData);
-
 // Compares current vs. expected status and takes appropriate action
 void RemoteSenderUpdateStatus ()
 {
@@ -983,9 +1009,6 @@ void RemoteAcEnqueueStarts (float now)
     // store the timestampe for later use
     gNow = now;
     
-    // the last actually processed full update group
-    static unsigned lastFullUpdDue = 0;
-
     // Actively sending?
     if (glob.remoteStatus == REMOTE_SENDING)
     {
@@ -997,9 +1020,9 @@ void RemoteAcEnqueueStarts (float now)
         // The current group due for full a/c details update
         // (basically current time in seconds modulo interval plus 1,
         //  so the result is in 1..REMOTE_SEND_AC_DETAILS_INTVL)
-        unsigned nxtGrp = unsigned(std::lround(std::fmod(now, REMOTE_SEND_AC_DETAILS_INTVL))) + 1;
-        if (lastFullUpdDue != nxtGrp)           // it's a new group to process!
-            lastFullUpdDue = gFullUpdDue = nxtGrp;
+        unsigned nxtGrp = unsigned(std::fmod(now, REMOTE_SEND_AC_DETAILS_INTVL)) + 1;
+        if (gFullUpdLastDone != nxtGrp)          // it's a new group to process!
+            gFullUpdDue = nxtGrp;
         else
             gFullUpdDue = 0;                    // not the same again!
     }
@@ -1041,13 +1064,14 @@ void RemoteAcEnqueue (const Aircraft& ac)
     }
     RmtAcCacheTy& acCache = itCache->second;
 
-    // Is this an a/c of the group that shall send full details?
-    // Or did visibility/validity change?
     if (!bSendFullDetails &&
+        // Is this an a/c of the group that shall send full details?
         (acCache.fullUpdGrp == gFullUpdDue       ||
+         // Or did visibility/validity change?
          acCache.bVisible   != ac.IsVisible()    ||
          acCache.bValid     != ac.IsValid()      ||
-         // are the differences that we need to send too large for a pos update msg?
+         // TODO: Identify and handle CSL model changes
+         // Or are the differences that we need to send too large for a pos update msg?
          std::abs(lat -    acCache.lat)    > REMOTE_MAX_DIFF_DEGREE ||
          std::abs(lon -    acCache.lon)    > REMOTE_MAX_DIFF_DEGREE ||
          std::abs(alt_ft - acCache.alt_ft) > REMOTE_MAX_DIFF_ALT_FT ||
@@ -1061,6 +1085,9 @@ void RemoteAcEnqueue (const Aircraft& ac)
         // add to the full data, protected by a lock
         gqueueRmtData.emplace(new RmtDataAcDetailTy(RemoteAcDetailTy(ac,lat,lon,float(alt_ft),
                                                                      (std::uint16_t)std::lround((gNow  - acCache.ts)     / REMOTE_TIME_RES))));
+        // Which full update group did we actually really process?
+        if (gFullUpdDue > 0)
+            gFullUpdLastDone = gFullUpdDue;
     }
     else {
         // add the position update to the queue, containing a delta position
@@ -1125,15 +1152,10 @@ void RemoteAcEnqueueDone ()
         if (gRmtCBFcts.pfAfterLastAc)         // Inform client that flight loop processing ends
             gRmtCBFcts.pfAfterLastAc();
     }
-}
-
-// Informs remote connections of a model change
-void RemoteAcChangeModel (const Aircraft& ac)
-{
-    // Can only do anything reasonable if we are to send data
-    if (glob.remoteStatus != REMOTE_SENDING)
-        return;
-
+    
+    // In any case make sure the lock is no longer held
+    if (glockRmtData)
+        glockRmtData.unlock();
 }
 
 // Inform us about an aircraft deletion
@@ -1145,11 +1167,42 @@ void RemoteAcRemove (const Aircraft& ac)
             gmapRmtAcCache.clear();            // when we are not/no longer sending then the cache is outdated anyway
         return;
     }
+    
+    // We need the mutex to add to the queue
+    bool bDidLock = false;                      // this isn't the most safe solution...but a recursive_mutex doesn't work with the condition variable used to notify the network thread
+    if (!glockRmtData) {
+        glockRmtData.lock();
+        bDidLock = true;
+    }
+    
+    // Add the plane id to the queue, marked for removal
+    gqueueRmtData.emplace(new RmtDataAcRemoveTy(RemoteAcRemoveTy(ac.GetModeS_ID())));
+    
+    // Remove the plane from the cache
+    gmapRmtAcCache.erase(ac.GetModeS_ID());
+    
+    // Undo the lock if we locked earlier
+    if (bDidLock)
+        glockRmtData.unlock();
 }
 
 // Informs us that there are no more aircraft, clear our caches!
 void RemoteAcClearAll ()
 {
+    // Can only do anything reasonable if we are to send data
+    if (glob.remoteStatus != REMOTE_SENDING) {
+        if (!gmapRmtAcCache.empty())           // that's faster than searching for the individual plane...
+            gmapRmtAcCache.clear();            // when we are not/no longer sending then the cache is outdated anyway
+        return;
+    }
+    
+    // Put a signal into the queue that tells the network thread to send out any pending messages
+    // (at least the last A/C removal message will still wait there)
+    gqueueRmtData.emplace(new RmtDataBaseTy(RMT_MSG_SEND));
+    
+    // Tell the network thread to wake up for work
+    gcvRmtData.notify_one();
+
     // Clear the cache
     gmapRmtAcCache.clear();
 }

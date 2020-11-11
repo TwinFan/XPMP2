@@ -335,14 +335,25 @@ struct RemoteMsgAcAnimTy : public RemoteMsgBaseTy {
 
 /// A/C removal message version number
 constexpr std::uint8_t RMT_VER_AC_REMOVE = 0;
+
+/// A/C Removal only includes the plane id, structure required for msgSize() function
+struct RemoteAcRemoveTy {
+    std::uint32_t   modeS_id;           ///< plane's unique id at the sender side (might differ remotely in case of duplicates)
+    
+    /// Constructor sets plane id
+    RemoteAcRemoveTy (XPMPPlaneID _id = 0) : modeS_id(_id) {}
+
+    static constexpr size_t msgSize () { return sizeof(RemoteAcRemoveTy); }    ///< message size
+} PACKED;
+
 /// A/C removal message, an array of plane ids
 struct RemoteMsgAcRemoveTy : public RemoteMsgBaseTy {
-    XPMPPlaneID   arr[1];             ///< plane's unique id at the sender side (might differ remotely in case of duplicates)
+    RemoteAcRemoveTy   arr[1];          ///< plane's unique id at the sender side (might differ remotely in case of duplicates)
 
     /// Constructor sets expected message type and version
     RemoteMsgAcRemoveTy () : RemoteMsgBaseTy(RMT_MSG_AC_REMOVE, RMT_VER_AC_REMOVE) {}
     /// Convert msg len to number of arr elements
-    static constexpr size_t NumElem (size_t _msgLen) { return (_msgLen - sizeof(RemoteMsgBaseTy)) / sizeof(XPMPPlaneID); }
+    static constexpr size_t NumElem (size_t _msgLen) { return (_msgLen - sizeof(RemoteMsgBaseTy)) / sizeof(arr[0]); }
 } PACKED;
 
 #ifdef _MSC_VER                                 // Visual C++
@@ -383,6 +394,9 @@ struct RemoteCBFctTy {
     /// Callback for processing A/C Animation dataRef messages
     void (*pfMsgACAnim) (std::uint32_t from[4], size_t msgLen,
                          const RemoteMsgAcAnimTy&) = nullptr;
+    /// Callback for processing A/C Removal messages
+    void (*pfMsgACRemove) (std::uint32_t from[4], size_t msgLen,
+                           const RemoteMsgAcRemoveTy&) = nullptr;
 };
 
 /// State of remote communcations

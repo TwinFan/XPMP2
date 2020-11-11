@@ -95,7 +95,7 @@ public:
 // predefine required template instances
 typedef RmtDataEnqeueTy<RemoteAcDetailTy,RMT_MSG_AC_DETAILED> RmtDataAcDetailTy;            ///< A/C Detail queue type
 typedef RmtDataEnqeueTy<RemoteAcPosUpdateTy,RMT_MSG_AC_POS_UPDATE> RmtDataAcPosUpdateTy;    ///< A/C Position Update queue type
-typedef RmtDataEnqeueTy<XPMPPlaneID,RMT_MSG_AC_REMOVE> RmtDataAcRemoveTy;                   ///< A/C Removal queue type
+typedef RmtDataEnqeueTy<RemoteAcRemoveTy,RMT_MSG_AC_REMOVE> RmtDataAcRemoveTy;                   ///< A/C Removal queue type
 
 /// @brief Animation dataRef requires a special queue data type as each msg element is already of variable length
 /// @details This queue structure provides for the maximum possible length.
@@ -174,9 +174,6 @@ void RemoteAcEnqueue (const Aircraft& ac);
 
 /// Informs us that all a/c have been processed: All pending messages to be sent now
 void RemoteAcEnqueueDone ();
-
-/// Informs remote connections of a model change
-void RemoteAcChangeModel (const Aircraft& ac);
 
 /// Informs us about an aircraft deletion
 void RemoteAcRemove (const Aircraft& ac);

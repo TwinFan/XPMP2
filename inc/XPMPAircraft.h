@@ -262,6 +262,11 @@ public:
     /// Destructor cleans up all resources acquired
     virtual ~Aircraft();
     
+    /// Aircraft must not be copied as they reference non-copyable resources like XP instances
+    Aircraft (const Aircraft&) = delete;
+    /// Aircraft must not be copied as they reference non-copyable resources like XP instances
+    Aircraft& operator=(const Aircraft&) = delete;
+
     /// @brief Creates a plane, only a valid operation if object was created using the default constructor
     /// @exception Tried on already defined object; XPMP2::XPMP2Error Mode S id invalid or duplicate, no model found during model matching
     /// @param _icaoType ICAO aircraft type designator, like 'A320', 'B738', 'C172'

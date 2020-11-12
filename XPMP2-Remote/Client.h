@@ -24,6 +24,8 @@
 // MARK: Aircraft Administration
 //
 
+struct SenderTy;
+
 /// Representation of a remote aircraft
 class RemoteAC : public XPMP2::Aircraft {
 protected:
@@ -46,9 +48,12 @@ protected:
     std::chrono::duration<int,std::ratio<1, 10000>> diffTime;   ///< time difference to previous historic position as passed in by the sender
     bool bWorldCoordUpdated = false;    ///< shall freshly set values be used in the next UpdatePosition callback?
     
+    // The sending plugin this plane came from
+    SenderTy& sender;
+    
 public:
     /// Constructor for use in network thread: Does _not_ Create the aircraft but only stores the passed information
-    RemoteAC (const XPMP2::RemoteAcDetailTy& _acDetails);
+    RemoteAC (SenderTy& _sender, const XPMP2::RemoteAcDetailTy& _acDetails);
     /// Destructor 
     virtual ~RemoteAC();
     
@@ -101,9 +106,7 @@ struct SenderTy {
     static SenderTy* Find (XPLMPluginID _id, std::uint32_t _from[4]);
 };
 
-/// smart pointer to such a sender information
-typedef std::unique_ptr<RemoteAC> RempteACPtr;
-
+/// map of sender information
 typedef std::map<SenderAddrTy,SenderTy> mapSenderTy;
 
 //

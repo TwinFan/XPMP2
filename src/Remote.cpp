@@ -107,7 +107,6 @@ void SockaddrToArr (const sockaddr* sa, std::uint32_t addr[4])
 
 // Constant definitions
 constexpr int   REMOTE_RECV_BEACON_INTVL    = 15;       ///< How often to send an Interest Beacon? [s]
-constexpr int   REMOTE_SEND_SETTINGS_INTVL  = 20;       ///< How often to send settings? [s]
 constexpr float REMOTE_SEND_AC_DETAILS_INTVL= 10.f;     ///< How often to send full a/c details? [s]
 
 /// Array holding all dataRef names, defined in Aircraft.cpp
@@ -936,8 +935,6 @@ void RmtStopAll()
 // Initialize the module
 void RemoteInit ()
 {
-    // TODO: Optionally read a config file
-    
     // Create the global multicast object
     if (!gpMc)
         gpMc = new UDPMulticast();

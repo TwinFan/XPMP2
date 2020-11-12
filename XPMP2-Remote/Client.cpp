@@ -21,6 +21,8 @@
 #include "XPMP2-Remote.h"
 
 #define INFO_NEW_SENDER_PLUGIN  "First data received from %.*s (%u) @ %s"
+#define INFO_SENDER_PLUGIN_LOST "Sender %.*s (%u) @ %s fell silent, removed"
+#define WARN_LOST_PLANE_CONTACT "Lost contact to plane 0x%06X of %.*s (%u) @ %s"
 #define INFO_GOT_AI_CONTROL     "Have TCAS / AI control now"
 #define INFO_DEACTIVATED        "Deactivated, stopped listening to network"
 
@@ -32,11 +34,12 @@
 std::chrono::time_point<std::chrono::steady_clock> nowFlightLoop;
 
 // Constructor for use in network thread: Does _not_ Create the aircraft but only stores the passed information
-RemoteAC::RemoteAC (const XPMP2::RemoteAcDetailTy& _acDetails) :
+RemoteAC::RemoteAC (SenderTy& _sender, const XPMP2::RemoteAcDetailTy& _acDetails) :
 XPMP2::Aircraft(),              // do _not_ create an actual plane!
 senderId(_acDetails.modeS_id),
 pkgHash(_acDetails.pkgHash),
-sShortId(str_n(_acDetails.sShortId, sizeof(_acDetails.sShortId)))
+sShortId(str_n(_acDetails.sShortId, sizeof(_acDetails.sShortId))),
+sender(_sender)
 {
     // Initialization
     histPos[0] = {sizeof(XPLMDrawInfo_t), NAN, NAN, NAN, 0.0f, 0.0f, 0.0f};
@@ -153,23 +156,38 @@ void RemoteAC::UpdatePosition (float _elapsed, int)
     else if (!std::isnan(histPos[0].x) && histTs[1] > histTs[0]) {
         const std::chrono::steady_clock::duration dHist = histTs[1] - histTs[0];
         const std::chrono::steady_clock::duration dNow = nowFlightLoop - histTs[0];
-        try {
-            const float f = float(dNow.count()) / float(dHist.count());
-            drawInfo.x       = histPos[0].x       + f * (histPos[1].x       - histPos[0].x);
-            drawInfo.y       = histPos[0].y       + f * (histPos[1].y       - histPos[0].y);
-            drawInfo.z       = histPos[0].z       + f * (histPos[1].z       - histPos[0].z);
-            drawInfo.pitch   = histPos[0].pitch   + f * (histPos[1].pitch   - histPos[0].pitch);
-            drawInfo.heading = std::fmod(histPos[0].heading + f * (histPos[1].heading - histPos[0].heading), 360.0f);
-            drawInfo.roll    = histPos[0].roll    + f * (histPos[1].roll    - histPos[0].roll);
+        
+        // We extrapolate only for a maximum of 1s, after that planes just stop
+        // (If the sender is, e.g., stuck in an X-Plane dialog then that sender
+        //  will not send position updates, so stopping is fairly close to reality.)
+        if (dNow - dHist <= std::chrono::seconds(1)) {
+            try {
+                const float f = float(dNow.count()) / float(dHist.count());
+                drawInfo.x       = histPos[0].x       + f * (histPos[1].x       - histPos[0].x);
+                drawInfo.y       = histPos[0].y       + f * (histPos[1].y       - histPos[0].y);
+                drawInfo.z       = histPos[0].z       + f * (histPos[1].z       - histPos[0].z);
+                drawInfo.pitch   = histPos[0].pitch   + f * (histPos[1].pitch   - histPos[0].pitch);
+                drawInfo.heading = std::fmod(histPos[0].heading + f * (histPos[1].heading - histPos[0].heading), 360.0f);
+                drawInfo.roll    = histPos[0].roll    + f * (histPos[1].roll    - histPos[0].roll);
 
-/*                LOG_MSG(logDEBUG, "0x%06X: %.2f / %.2f / %.2f  ==> %+8.2f / %+8.2f / %+8.2f  [%.4f]",
-                        GetModeS_ID(), drawInfo.x, drawInfo.y, drawInfo.z,
-                        drawInfo.x-prevDraw.x,
-                        drawInfo.y-prevDraw.y,
-                        drawInfo.z-prevDraw.z, f); */
-        }
-        catch (...) {
-            drawInfo = histPos[1];
+/*                    LOG_MSG(logDEBUG, "0x%06X: %.2f / %.2f / %.2f  ==> %+8.2f / %+8.2f / %+8.2f  [%.4f]",
+                            GetModeS_ID(), drawInfo.x, drawInfo.y, drawInfo.z,
+                            drawInfo.x-prevDraw.x,
+                            drawInfo.y-prevDraw.y,
+                            drawInfo.z-prevDraw.z, f); */
+            }
+            catch (...) {
+                drawInfo = histPos[1];
+            }
+        } else {
+            // This plane has no updates...but the sender is updated?
+            // Then we lost contact to this plane and shall remove it
+            if (nowFlightLoop - sender.lastMsg < std::chrono::milliseconds(500)) {
+                LOG_MSG(logWARN, WARN_LOST_PLANE_CONTACT, senderId,
+                        (int)sizeof(sender.settings.name), sender.settings.name,
+                        sender.settings.pluginId, sender.sFrom.c_str());
+                SetInvalid();
+            }
         }
     }
     
@@ -188,8 +206,7 @@ void RemoteAC::UpdatePosition (float _elapsed, int)
 // MARK: Sender Administration
 //
 
-// TODO: Identify stale connections and drop them
-
+// uses memcmp to compare sender addresses
 bool SenderAddrTy::operator< (const SenderAddrTy& o) const
 {
     return memcmp(this, &o, sizeof(*this)) < 0;
@@ -341,10 +358,28 @@ void ClientFlightLoopBegins ()
     
     // Store current time once for all position calculations
     nowFlightLoop = std::chrono::steady_clock::now();
-    GetMiscNetwTime();
 
     // Acquire the data access lock once and keep it while the flight loop is running
     glockDataMain.lock();
+    
+    // Every 10 seconds clean up outdated senders
+    static float lastSenderCleanup = 0;
+    if (GetMiscNetwTime() - lastSenderCleanup > 10.0f) {
+        lastSenderCleanup = GetMiscNetwTime();
+        for (mapSenderTy::iterator sIter = rcGlob.gmapSender.begin();
+             sIter != rcGlob.gmapSender.end();)
+        {
+            const SenderTy& sdr = sIter->second;
+            if (nowFlightLoop - sdr.lastMsg > std::chrono::seconds(2 * XPMP2::REMOTE_SEND_SETTINGS_INTVL)) {
+                LOG_MSG(logINFO, INFO_SENDER_PLUGIN_LOST,
+                        (int)sizeof(sdr.settings.name), sdr.settings.name,
+                        sdr.settings.pluginId, sdr.sFrom.c_str());
+                sIter = rcGlob.gmapSender.erase(sIter);
+            }
+            else
+                sIter++;
+        }
+    }
 
     // If needed create new or remove deleted aircraft that have been prepared in the meantime
     if (gbSkipAcMaintenance.test_and_set()) {
@@ -381,7 +416,8 @@ void ClientProcAcDetails (std::uint32_t _from[4], size_t _msgLen,
     // Find the sender, bail if we don't know it
     SenderTy* pSender = SenderTy::Find(_msgAcDetails.pluginId, _from);
     if (!pSender) return;
-    
+    pSender->lastMsg  = std::chrono::steady_clock::now();
+
     // Loop over all aircraft contained in the message
     const size_t numAc = _msgAcDetails.NumElem(_msgLen);
     for (size_t i = 0; i < numAc; ++i) {
@@ -393,7 +429,9 @@ void ClientProcAcDetails (std::uint32_t _from[4], size_t _msgLen,
         // Is the aircraft known?
         if (iAc == pSender->mapAc.end()) {
             // new aircraft, create an object for it, but not yet the actual plane (as this is the network thread)
-            pSender->mapAc.emplace(acDetails.modeS_id, acDetails);
+            pSender->mapAc.emplace(std::piecewise_construct,
+                                   std::forward_as_tuple(acDetails.modeS_id),
+                                   std::forward_as_tuple(*pSender, acDetails));
             // tell the main thread that it shall process new a/c
             gbSkipAcMaintenance.clear();
         } else {
@@ -411,7 +449,8 @@ void ClientProcAcPosUpdate (std::uint32_t _from[4], size_t _msgLen,
     // Find the sender, bail if we don't know it
     SenderTy* pSender = SenderTy::Find(_msgAcPosUpdate.pluginId, _from);
     if (!pSender) return;
-    
+    pSender->lastMsg  = std::chrono::steady_clock::now();
+
     // Loop over all aircraft contained in the message
     const size_t numAc = _msgAcPosUpdate.NumElem(_msgLen);
     for (size_t i = 0; i < numAc; ++i) {
@@ -435,6 +474,7 @@ void ClientProcAcAnim (std::uint32_t _from[4], size_t _msgLen,
     // Find the sender, bail if we don't know it
     SenderTy* pSender = SenderTy::Find(_msgAcAnim.pluginId, _from);
     if (!pSender) return;
+    pSender->lastMsg  = std::chrono::steady_clock::now();
 
     // Loop all animation data elements in the message
     for (const XPMP2::RemoteAcAnimTy* pAnim = _msgAcAnim.next(_msgLen);
@@ -459,7 +499,8 @@ void ClientProcAcRemove (std::uint32_t _from[4], size_t _msgLen,
     // Find the sender, bail if we don't know it
     SenderTy* pSender = SenderTy::Find(_msgAcRemove.pluginId, _from);
     if (!pSender) return;
-    
+    pSender->lastMsg  = std::chrono::steady_clock::now();
+
     // Loop over all aircraft contained in the message
     const size_t numAc = _msgAcRemove.NumElem(_msgLen);
     for (size_t i = 0; i < numAc; ++i) {

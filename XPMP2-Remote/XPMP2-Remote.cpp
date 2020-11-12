@@ -97,6 +97,7 @@ constexpr std::uintptr_t MENU_TCAS   = 1;
 void MenuUpdateCheckmarks ()
 {
     // Menu item "Active"
+    // TODO: Menu tree for connected plugins information: Name, IP, # aircraft
     switch (XPMP2::RemoteGetStatus()) {
         case XPMP2::REMOTE_RECV_WAITING:
             XPLMSetMenuItemName(hMenu, MENU_ACTIVE, "Active (waiting for data)", 0);

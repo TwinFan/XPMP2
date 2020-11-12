@@ -131,6 +131,9 @@ struct RemoteMsgBeaconTy : public RemoteMsgBaseTy {
 // MARK: Settings
 //
 
+/// How often to send settings? [s]
+constexpr int   REMOTE_SEND_SETTINGS_INTVL  = 20;
+
 /// Setttings message version number
 constexpr std::uint8_t RMT_VER_SETTINGS = 0;
 /// Settings message, identifying a sending plugin, regularly providing its settings

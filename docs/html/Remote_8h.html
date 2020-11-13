@@ -101,9 +101,9 @@ Typedefs</h2></td></tr>
 <tr class="memitem:ac13b4aa8db7e35267bf7faf6f75f296d"><td class="memItemLeft" align="right" valign="top">typedef RmtDataEnqeueTy&lt; RemoteAcPosUpdateTy, RMT_MSG_AC_POS_UPDATE &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ac13b4aa8db7e35267bf7faf6f75f296d">XPMP2::RmtDataAcPosUpdateTy</a></td></tr>
 <tr class="memdesc:ac13b4aa8db7e35267bf7faf6f75f296d"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Position Update queue type.  <a href="namespaceXPMP2.html#ac13b4aa8db7e35267bf7faf6f75f296d">More...</a><br /></td></tr>
 <tr class="separator:ac13b4aa8db7e35267bf7faf6f75f296d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a62ba7238900cb00589a1dc9c604426f6"><td class="memItemLeft" align="right" valign="top">typedef RmtDataEnqeueTy&lt; <a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>, RMT_MSG_AC_REMOVE &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a62ba7238900cb00589a1dc9c604426f6">XPMP2::RmtDataAcRemoveTy</a></td></tr>
-<tr class="memdesc:a62ba7238900cb00589a1dc9c604426f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Removal queue type.  <a href="namespaceXPMP2.html#a62ba7238900cb00589a1dc9c604426f6">More...</a><br /></td></tr>
-<tr class="separator:a62ba7238900cb00589a1dc9c604426f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f54948b9cb7e90713cc0de92d0d6de1"><td class="memItemLeft" align="right" valign="top">typedef RmtDataEnqeueTy&lt; RemoteAcRemoveTy, RMT_MSG_AC_REMOVE &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a7f54948b9cb7e90713cc0de92d0d6de1">XPMP2::RmtDataAcRemoveTy</a></td></tr>
+<tr class="memdesc:a7f54948b9cb7e90713cc0de92d0d6de1"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Removal queue type.  <a href="namespaceXPMP2.html#a7f54948b9cb7e90713cc0de92d0d6de1">More...</a><br /></td></tr>
+<tr class="separator:a7f54948b9cb7e90713cc0de92d0d6de1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9875d031d4c0e3b664418c4afa04e37f"><td class="memItemLeft" align="right" valign="top">typedef std::unique_ptr&lt; RmtDataAcAnimTy &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a9875d031d4c0e3b664418c4afa04e37f">XPMP2::ptrRmtDataAcAnimTy</a></td></tr>
 <tr class="memdesc:a9875d031d4c0e3b664418c4afa04e37f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Smart pointer to <a class="el" href="classXPMP2_1_1RmtDataAcAnimTy.html" title="Animation dataRef requires a special queue data type as each msg element is already of variable lengt...">XPMP2::RmtDataAcAnimTy</a>.  <a href="namespaceXPMP2.html#a9875d031d4c0e3b664418c4afa04e37f">More...</a><br /></td></tr>
 <tr class="separator:a9875d031d4c0e3b664418c4afa04e37f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -111,7 +111,7 @@ Typedefs</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:a73060b65abbe807b35555676346059a8"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8">XPMP2::RemoteCfgTy</a> : int { <a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8aaf330e648f54f093dcf4fa1926a61c5f">XPMP2::REMOTE_CFG_OFF</a> = -1, 
-<a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8aca8bc64204d3991a6920b5c72f6d5c33">XPMP2::REMOTE_CFG_CONDITIONALLY</a> = 0, 
+<a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8ab8d962a27d1a09e12344172f6d2a0aee">XPMP2::REMOTE_CFG_AUTO</a> = 0, 
 <a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8aac3dbe5290f2ad92ea72f134d265064b">XPMP2::REMOTE_CFG_ON</a> = 1
  }</td></tr>
 <tr class="memdesc:a73060b65abbe807b35555676346059a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration for remote communications support.  <a href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8">More...</a><br /></td></tr>
@@ -136,9 +136,6 @@ Functions</h2></td></tr>
 <tr class="memitem:a25717cfd87b36df95ed415104f35a293"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a25717cfd87b36df95ed415104f35a293">XPMP2::RemoteAcEnqueueDone</a> ()</td></tr>
 <tr class="memdesc:a25717cfd87b36df95ed415104f35a293"><td class="mdescLeft">&#160;</td><td class="mdescRight">Informs us that all a/c have been processed: All pending messages to be sent now.  <a href="namespaceXPMP2.html#a25717cfd87b36df95ed415104f35a293">More...</a><br /></td></tr>
 <tr class="separator:a25717cfd87b36df95ed415104f35a293"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad70cba70210d4ea07b2346ea2f20e80c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ad70cba70210d4ea07b2346ea2f20e80c">XPMP2::RemoteAcChangeModel</a> (const Aircraft &amp;ac)</td></tr>
-<tr class="memdesc:ad70cba70210d4ea07b2346ea2f20e80c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Informs remote connections of a model change.  <a href="namespaceXPMP2.html#ad70cba70210d4ea07b2346ea2f20e80c">More...</a><br /></td></tr>
-<tr class="separator:ad70cba70210d4ea07b2346ea2f20e80c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2c7e0b07d82116863ffe0755e8e6165a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a2c7e0b07d82116863ffe0755e8e6165a">XPMP2::RemoteAcRemove</a> (const Aircraft &amp;ac)</td></tr>
 <tr class="memdesc:a2c7e0b07d82116863ffe0755e8e6165a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Informs us about an aircraft deletion.  <a href="namespaceXPMP2.html#a2c7e0b07d82116863ffe0755e8e6165a">More...</a><br /></td></tr>
 <tr class="separator:a2c7e0b07d82116863ffe0755e8e6165a"><td class="memSeparator" colspan="2">&#160;</td></tr>

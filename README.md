@@ -1,4 +1,4 @@
-XPMP 2
+XPMP 2 and XPMP2 Remote Client
 =========
 
 The original X-Plane Multiplay Library is the work of many fantastic people,
@@ -20,8 +20,12 @@ of the library outdated...it is basically replaced by one line of code calling
 Concepts like the syntax of the `xsb_aircraft.txt` file or certainly the idea of an
 multi-pass matching to find a good model are retained, though re-implemented (read: can have new bugs).
 
+Added is support for synchronizing planes across the network with the remote
+machines running the included [**XPMP2 Remote Client**](#XPMP2-Remote-Client-Synchronizing-Planes-across-the-Network).
+
 XPMP2 does no longer call any OpenGL function and hence does not require
-to be linked to an OpenGL library. The included XPMP2-Sample application does not link to OpenGL.
+to be linked to an OpenGL library. The included XPMP2 Remote Client and
+XPMP2-Sample applications do not link to OpenGL.
 
 Despite its new approach, XPMP2 shall be your **drop-in replacement for libxplanemp**:
 The original header files are still provided with the same name.
@@ -30,7 +34,7 @@ The original [XPCAircraft class](https://twinfan.github.io/XPMP2/html/classXPCAi
 is still there, now derived from [XPMP2::Aircraft](https://twinfan.github.io/XPMP2/html/classXPMP2_1_1Aircraft.html).
 See [here](https://twinfan.github.io/XPMP2/BackwardsCompatibility.html) for more details.
 
-## Pre-Built Release ##
+## Pre-Built Library Release ##
 
 If you don't want to build the library yourself you can find archives with
 headers and release/debug builds in the
@@ -45,15 +49,17 @@ to stay backward compatible.
 
 The XPMP2 library has been successfully tested with
 - X-Plane 11.50 RC3 under OpenGL, Vulkan, and Metal,
+- the enclosed [XPMP2 Remote Client](#XPMP2-Remote-Client-Synchronizing-Planes-across-the-Network),
 - the enclosed sample plugin,
-- [LiveTraffic v2.10](https://forums.x-plane.org/index.php?/files/file/49749-livetraffic/)
+- [LiveTraffic v2.20](https://forums.x-plane.org/index.php?/files/file/49749-livetraffic/)
+- [X-Pilot 1.3](http://xpilot-project.org/)
 - on Mac OS,
 - Windows, and
 - Linux (Ubuntu 18.04 and similar).
 
-Apparently, the X-Plane versions of [X-Pilot 1.3](http://xpilot-project.org/) and
+Apparently, also the X-Plane version of the
 [IVAO Altitude](https://www.ivao.aero/softdev/beta/altitudebeta.asp)
-clients also use XPMP2 already.
+client seems to be built upon XPMP2.
 
 ## Requirements ##
 
@@ -113,3 +119,15 @@ then TCAS is provided by writing the classic multiplayer dataRefs directly.
 XPMP2 creates an additional layer in X-Plane's internal map, named after the
 plugin's name. This layer displays all planes as currently controled by XPMP2
 with an icon roughly matching the plane type, taken from `Resources/MapIcons.png`.
+
+## XPMP2 Remote Client: Synchronizing Planes across the Network ##
+
+Planes displayed using XPMP2 can by synchronized across the network.
+The included **XPMP2 Remote Client** needs to run on all remote computers,
+receives aircraft data from any number of XPMP2-based plugins anywhere
+in the network, and displays the aircraft using the same CSL model,
+at the same world location with the same animation dataRefs.
+
+This supports usage in networked setups like
+- [Networking Multiple Computers for Multiple Displays](https://x-plane.com/manuals/desktop/#networkingmultiplecomputersformultipledisplays)
+- [Networked Multiplayer](https://x-plane.com/manuals/desktop/#networkedmultiplayer)

@@ -94,6 +94,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteAcPosUpdateTy.html">RemoteAcPosUpdateTy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Position updates based on global coordinates.  <a href="structXPMP2_1_1RemoteAcPosUpdateTy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteAcRemoveTy.html">RemoteAcRemoveTy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Removal only includes the plane id, structure required for <a class="el" href="structXPMP2_1_1RemoteAcRemoveTy.html#a43189ba97efbb188f6b852dbaafd6234" title="message size">msgSize()</a> function.  <a href="structXPMP2_1_1RemoteAcRemoveTy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteCBFctTy.html">RemoteCBFctTy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function prototypes for callback functions to handle the received messages.  <a href="structXPMP2_1_1RemoteCBFctTy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -215,9 +218,9 @@ Typedefs</h2></td></tr>
 <tr class="memitem:ac13b4aa8db7e35267bf7faf6f75f296d"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="classXPMP2_1_1RmtDataEnqeueTy.html">RmtDataEnqeueTy</a>&lt; <a class="el" href="structXPMP2_1_1RemoteAcPosUpdateTy.html">RemoteAcPosUpdateTy</a>, <a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191aeb33b4aa3b4e91246738032d13309f7c">RMT_MSG_AC_POS_UPDATE</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ac13b4aa8db7e35267bf7faf6f75f296d">RmtDataAcPosUpdateTy</a></td></tr>
 <tr class="memdesc:ac13b4aa8db7e35267bf7faf6f75f296d"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Position Update queue type.  <a href="namespaceXPMP2.html#ac13b4aa8db7e35267bf7faf6f75f296d">More...</a><br /></td></tr>
 <tr class="separator:ac13b4aa8db7e35267bf7faf6f75f296d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a62ba7238900cb00589a1dc9c604426f6"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="classXPMP2_1_1RmtDataEnqeueTy.html">RmtDataEnqeueTy</a>&lt; <a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>, <a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191a69944e774752bf633b8c86441de05316">RMT_MSG_AC_REMOVE</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a62ba7238900cb00589a1dc9c604426f6">RmtDataAcRemoveTy</a></td></tr>
-<tr class="memdesc:a62ba7238900cb00589a1dc9c604426f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Removal queue type.  <a href="namespaceXPMP2.html#a62ba7238900cb00589a1dc9c604426f6">More...</a><br /></td></tr>
-<tr class="separator:a62ba7238900cb00589a1dc9c604426f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f54948b9cb7e90713cc0de92d0d6de1"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="classXPMP2_1_1RmtDataEnqeueTy.html">RmtDataEnqeueTy</a>&lt; <a class="el" href="structXPMP2_1_1RemoteAcRemoveTy.html">RemoteAcRemoveTy</a>, <a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191a69944e774752bf633b8c86441de05316">RMT_MSG_AC_REMOVE</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a7f54948b9cb7e90713cc0de92d0d6de1">RmtDataAcRemoveTy</a></td></tr>
+<tr class="memdesc:a7f54948b9cb7e90713cc0de92d0d6de1"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Removal queue type.  <a href="namespaceXPMP2.html#a7f54948b9cb7e90713cc0de92d0d6de1">More...</a><br /></td></tr>
+<tr class="separator:a7f54948b9cb7e90713cc0de92d0d6de1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9875d031d4c0e3b664418c4afa04e37f"><td class="memItemLeft" align="right" valign="top">typedef std::unique_ptr&lt; <a class="el" href="classXPMP2_1_1RmtDataAcAnimTy.html">RmtDataAcAnimTy</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a9875d031d4c0e3b664418c4afa04e37f">ptrRmtDataAcAnimTy</a></td></tr>
 <tr class="memdesc:a9875d031d4c0e3b664418c4afa04e37f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Smart pointer to <a class="el" href="classXPMP2_1_1RmtDataAcAnimTy.html" title="Animation dataRef requires a special queue data type as each msg element is already of variable lengt...">XPMP2::RmtDataAcAnimTy</a>.  <a href="namespaceXPMP2.html#a9875d031d4c0e3b664418c4afa04e37f">More...</a><br /></td></tr>
 <tr class="separator:a9875d031d4c0e3b664418c4afa04e37f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -320,7 +323,7 @@ Enumerations</h2></td></tr>
 <tr class="memdesc:a8bb5e2fcaa8bb9cbc05e43039054ddd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">State of the X-Plane object: Is it being loaded or available?  <a href="namespaceXPMP2.html#a8bb5e2fcaa8bb9cbc05e43039054ddd6">More...</a><br /></td></tr>
 <tr class="separator:a8bb5e2fcaa8bb9cbc05e43039054ddd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a73060b65abbe807b35555676346059a8"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8">RemoteCfgTy</a> : int { <a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8aaf330e648f54f093dcf4fa1926a61c5f">REMOTE_CFG_OFF</a> = -1, 
-<a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8aca8bc64204d3991a6920b5c72f6d5c33">REMOTE_CFG_CONDITIONALLY</a> = 0, 
+<a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8ab8d962a27d1a09e12344172f6d2a0aee">REMOTE_CFG_AUTO</a> = 0, 
 <a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8aac3dbe5290f2ad92ea72f134d265064b">REMOTE_CFG_ON</a> = 1
  }</td></tr>
 <tr class="memdesc:a73060b65abbe807b35555676346059a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration for remote communications support.  <a href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8">More...</a><br /></td></tr>
@@ -533,6 +536,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a1f4ff80c7874adf6360f5c419dfbd4b0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a1f4ff80c7874adf6360f5c419dfbd4b0">SockaddrToArr</a> (const sockaddr *sa, std::uint32_t addr[4])</td></tr>
 <tr class="memdesc:a1f4ff80c7874adf6360f5c419dfbd4b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extracts the numerical address and puts it into addr for generic address use.  <a href="namespaceXPMP2.html#a1f4ff80c7874adf6360f5c419dfbd4b0">More...</a><br /></td></tr>
 <tr class="separator:a1f4ff80c7874adf6360f5c419dfbd4b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82aa0446701d39ee10843fd0e2a73511"><td class="memItemLeft" align="right" valign="top">std::unique_lock&lt; std::mutex &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a82aa0446701d39ee10843fd0e2a73511">glockRmtData</a> (<a class="el" href="namespaceXPMP2.html#aed2d3e14e9b68dd9f6339050eb172eba">gmutexRmtData</a>)</td></tr>
+<tr class="memdesc:a82aa0446701d39ee10843fd0e2a73511"><td class="mdescLeft">&#160;</td><td class="mdescRight">The lock that we keep during handling of the flight loop.  <a href="namespaceXPMP2.html#a82aa0446701d39ee10843fd0e2a73511">More...</a><br /></td></tr>
+<tr class="separator:a82aa0446701d39ee10843fd0e2a73511"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a04c9d1720c1193b9557808639af7b6ba"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a04c9d1720c1193b9557808639af7b6ba">RmtSendContinue</a> ()</td></tr>
 <tr class="memdesc:a04c9d1720c1193b9557808639af7b6ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conditions for continued send operation.  <a href="namespaceXPMP2.html#a04c9d1720c1193b9557808639af7b6ba">More...</a><br /></td></tr>
 <tr class="separator:a04c9d1720c1193b9557808639af7b6ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -569,9 +575,6 @@ Functions</h2></td></tr>
 <tr class="memitem:a872a568a1e2a9e79654a1aa7c2586b8f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a872a568a1e2a9e79654a1aa7c2586b8f">RemoteCleanup</a> ()</td></tr>
 <tr class="memdesc:a872a568a1e2a9e79654a1aa7c2586b8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Grace cleanup, stops all threads.  <a href="namespaceXPMP2.html#a872a568a1e2a9e79654a1aa7c2586b8f">More...</a><br /></td></tr>
 <tr class="separator:a872a568a1e2a9e79654a1aa7c2586b8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82aa0446701d39ee10843fd0e2a73511"><td class="memItemLeft" align="right" valign="top">std::unique_lock&lt; std::mutex &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a82aa0446701d39ee10843fd0e2a73511">glockRmtData</a> (<a class="el" href="namespaceXPMP2.html#aed2d3e14e9b68dd9f6339050eb172eba">gmutexRmtData</a>)</td></tr>
-<tr class="memdesc:a82aa0446701d39ee10843fd0e2a73511"><td class="mdescLeft">&#160;</td><td class="mdescRight">The lock that we keep during handling of the flight loop.  <a href="namespaceXPMP2.html#a82aa0446701d39ee10843fd0e2a73511">More...</a><br /></td></tr>
-<tr class="separator:a82aa0446701d39ee10843fd0e2a73511"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5bd07efee4f0f277dbb85aa680bfc25d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a5bd07efee4f0f277dbb85aa680bfc25d">RemoteSenderUpdateStatus</a> ()</td></tr>
 <tr class="memdesc:a5bd07efee4f0f277dbb85aa680bfc25d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares current vs. expected status and takes appropriate action.  <a href="namespaceXPMP2.html#a5bd07efee4f0f277dbb85aa680bfc25d">More...</a><br /></td></tr>
 <tr class="separator:a5bd07efee4f0f277dbb85aa680bfc25d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -583,9 +586,6 @@ Functions</h2></td></tr>
 <tr class="memitem:a25717cfd87b36df95ed415104f35a293"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a25717cfd87b36df95ed415104f35a293">RemoteAcEnqueueDone</a> ()</td></tr>
 <tr class="memdesc:a25717cfd87b36df95ed415104f35a293"><td class="mdescLeft">&#160;</td><td class="mdescRight">Informs us that all a/c have been processed: All pending messages to be sent now.  <a href="namespaceXPMP2.html#a25717cfd87b36df95ed415104f35a293">More...</a><br /></td></tr>
 <tr class="separator:a25717cfd87b36df95ed415104f35a293"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad70cba70210d4ea07b2346ea2f20e80c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ad70cba70210d4ea07b2346ea2f20e80c">RemoteAcChangeModel</a> (const <a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> &amp;ac)</td></tr>
-<tr class="memdesc:ad70cba70210d4ea07b2346ea2f20e80c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Informs remote connections of a model change.  <a href="namespaceXPMP2.html#ad70cba70210d4ea07b2346ea2f20e80c">More...</a><br /></td></tr>
-<tr class="separator:ad70cba70210d4ea07b2346ea2f20e80c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2c7e0b07d82116863ffe0755e8e6165a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a2c7e0b07d82116863ffe0755e8e6165a">RemoteAcRemove</a> (const <a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> &amp;ac)</td></tr>
 <tr class="memdesc:a2c7e0b07d82116863ffe0755e8e6165a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Informs us about an aircraft deletion.  <a href="namespaceXPMP2.html#a2c7e0b07d82116863ffe0755e8e6165a">More...</a><br /></td></tr>
 <tr class="separator:a2c7e0b07d82116863ffe0755e8e6165a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -613,6 +613,9 @@ Functions</h2></td></tr>
 <tr class="memitem:afd7e3b9aa7b0322856d7f875ae12c22c"><td class="memItemLeft" align="right" valign="top">std::istream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#afd7e3b9aa7b0322856d7f875ae12c22c">safeGetline</a> (std::istream &amp;is, std::string &amp;t)</td></tr>
 <tr class="memdesc:afd7e3b9aa7b0322856d7f875ae12c22c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a line from a text file, no matter if ending on CRLF or LF.  <a href="namespaceXPMP2.html#afd7e3b9aa7b0322856d7f875ae12c22c">More...</a><br /></td></tr>
 <tr class="separator:afd7e3b9aa7b0322856d7f875ae12c22c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a805cbbbcae887868f1c3c223a9a5b176"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a805cbbbcae887868f1c3c223a9a5b176">GetXPSystemPath</a> ()</td></tr>
+<tr class="memdesc:a805cbbbcae887868f1c3c223a9a5b176"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns XP's system directory, including a trailing slash.  <a href="namespaceXPMP2.html#a805cbbbcae887868f1c3c223a9a5b176">More...</a><br /></td></tr>
+<tr class="separator:a805cbbbcae887868f1c3c223a9a5b176"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa50f651323a749a94fea153b56615a29"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aa50f651323a749a94fea153b56615a29">StripXPSysDir</a> (const std::string &amp;path)</td></tr>
 <tr class="memdesc:aa50f651323a749a94fea153b56615a29"><td class="mdescLeft">&#160;</td><td class="mdescRight">If a path starts with X-Plane's system directory it is stripped.  <a href="namespaceXPMP2.html#aa50f651323a749a94fea153b56615a29">More...</a><br /></td></tr>
 <tr class="separator:aa50f651323a749a94fea153b56615a29"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -717,6 +720,9 @@ Variables</h2></td></tr>
 <tr class="memitem:a07a623157625932fbc06f9a7fec52a2d"><td class="memItemLeft" align="right" valign="top">constexpr std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a07a623157625932fbc06f9a7fec52a2d">RMT_VER_BEACON</a> = 0</td></tr>
 <tr class="memdesc:a07a623157625932fbc06f9a7fec52a2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interest Beacon message version number.  <a href="namespaceXPMP2.html#a07a623157625932fbc06f9a7fec52a2d">More...</a><br /></td></tr>
 <tr class="separator:a07a623157625932fbc06f9a7fec52a2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e68828e781b9f0125c079aa5fafc9bc"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a8e68828e781b9f0125c079aa5fafc9bc">REMOTE_SEND_SETTINGS_INTVL</a> = 20</td></tr>
+<tr class="memdesc:a8e68828e781b9f0125c079aa5fafc9bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">How often to send settings? [s].  <a href="namespaceXPMP2.html#a8e68828e781b9f0125c079aa5fafc9bc">More...</a><br /></td></tr>
+<tr class="separator:a8e68828e781b9f0125c079aa5fafc9bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a13739e57ca9c87073e10a76376c9cf08"><td class="memItemLeft" align="right" valign="top">constexpr std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a13739e57ca9c87073e10a76376c9cf08">RMT_VER_SETTINGS</a> = 0</td></tr>
 <tr class="memdesc:a13739e57ca9c87073e10a76376c9cf08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setttings message version number.  <a href="namespaceXPMP2.html#a13739e57ca9c87073e10a76376c9cf08">More...</a><br /></td></tr>
 <tr class="separator:a13739e57ca9c87073e10a76376c9cf08"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -816,9 +822,6 @@ Variables</h2></td></tr>
 <tr class="memitem:adfb3536c59ea62eb3f6f7ddb0f0b860e"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#adfb3536c59ea62eb3f6f7ddb0f0b860e">REMOTE_RECV_BEACON_INTVL</a> = 15</td></tr>
 <tr class="memdesc:adfb3536c59ea62eb3f6f7ddb0f0b860e"><td class="mdescLeft">&#160;</td><td class="mdescRight">How often to send an Interest Beacon? [s].  <a href="namespaceXPMP2.html#adfb3536c59ea62eb3f6f7ddb0f0b860e">More...</a><br /></td></tr>
 <tr class="separator:adfb3536c59ea62eb3f6f7ddb0f0b860e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e68828e781b9f0125c079aa5fafc9bc"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a8e68828e781b9f0125c079aa5fafc9bc">REMOTE_SEND_SETTINGS_INTVL</a> = 20</td></tr>
-<tr class="memdesc:a8e68828e781b9f0125c079aa5fafc9bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">How often to send settings? [s].  <a href="namespaceXPMP2.html#a8e68828e781b9f0125c079aa5fafc9bc">More...</a><br /></td></tr>
-<tr class="separator:a8e68828e781b9f0125c079aa5fafc9bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af8c1fb9ef6218075c1e6f6f349a6ad50"><td class="memItemLeft" align="right" valign="top">constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#af8c1fb9ef6218075c1e6f6f349a6ad50">REMOTE_SEND_AC_DETAILS_INTVL</a> = 10.f</td></tr>
 <tr class="memdesc:af8c1fb9ef6218075c1e6f6f349a6ad50"><td class="mdescLeft">&#160;</td><td class="mdescRight">How often to send full a/c details? [s].  <a href="namespaceXPMP2.html#af8c1fb9ef6218075c1e6f6f349a6ad50">More...</a><br /></td></tr>
 <tr class="separator:af8c1fb9ef6218075c1e6f6f349a6ad50"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -828,6 +831,9 @@ Variables</h2></td></tr>
 <tr class="memitem:a0393a3a36643ec5d365baa2973f6d12d"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a0393a3a36643ec5d365baa2973f6d12d">gFullUpdDue</a> = 0</td></tr>
 <tr class="memdesc:a0393a3a36643ec5d365baa2973f6d12d"><td class="mdescLeft">&#160;</td><td class="mdescRight">What's the full update group that has its turn now?  <a href="namespaceXPMP2.html#a0393a3a36643ec5d365baa2973f6d12d">More...</a><br /></td></tr>
 <tr class="separator:a0393a3a36643ec5d365baa2973f6d12d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04b66c96d0960d3cc55db4462299db61"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a04b66c96d0960d3cc55db4462299db61">gFullUpdLastDone</a> = 0</td></tr>
+<tr class="memdesc:a04b66c96d0960d3cc55db4462299db61"><td class="mdescLeft">&#160;</td><td class="mdescRight">the last actually processed full update group  <a href="namespaceXPMP2.html#a04b66c96d0960d3cc55db4462299db61">More...</a><br /></td></tr>
+<tr class="separator:a04b66c96d0960d3cc55db4462299db61"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad77725db1cc43d172d818c74650a75a"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aad77725db1cc43d172d818c74650a75a">gNxtFullUpdGrpToAssign</a> = 0</td></tr>
 <tr class="memdesc:aad77725db1cc43d172d818c74650a75a"><td class="mdescLeft">&#160;</td><td class="mdescRight">What's the next group number to assign to the next a/c? (Assigned will be the value incremented by 1)  <a href="namespaceXPMP2.html#aad77725db1cc43d172d818c74650a75a">More...</a><br /></td></tr>
 <tr class="separator:aad77725db1cc43d172d818c74650a75a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -844,7 +850,6 @@ Variables</h2></td></tr>
 <tr class="memdesc:a784261dfa8be7ae77782c802e36a7048"><td class="mdescLeft">&#160;</td><td class="mdescRight">notifies the network thread of available data to be processed  <a href="namespaceXPMP2.html#a784261dfa8be7ae77782c802e36a7048">More...</a><br /></td></tr>
 <tr class="separator:a784261dfa8be7ae77782c802e36a7048"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed2d3e14e9b68dd9f6339050eb172eba"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aed2d3e14e9b68dd9f6339050eb172eba">gmutexRmtData</a></td></tr>
-<tr class="memdesc:aed2d3e14e9b68dd9f6339050eb172eba"><td class="mdescLeft">&#160;</td><td class="mdescRight">protects modifying access to the queue and the condition variable  <a href="namespaceXPMP2.html#aed2d3e14e9b68dd9f6339050eb172eba">More...</a><br /></td></tr>
 <tr class="separator:aed2d3e14e9b68dd9f6339050eb172eba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a44e212856d82c13a3164f1b46d36e57e"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a44e212856d82c13a3164f1b46d36e57e">MC_MAX_ERR</a> =5</td></tr>
 <tr class="memdesc:a44e212856d82c13a3164f1b46d36e57e"><td class="mdescLeft">&#160;</td><td class="mdescRight">after this many errors we no longer try listening  <a href="namespaceXPMP2.html#a44e212856d82c13a3164f1b46d36e57e">More...</a><br /></td></tr>
@@ -873,9 +878,9 @@ Variables</h2></td></tr>
 <tr class="memitem:ae44036a919477658e0b17aa03095b8ff"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">RmtMsgBufTy</a>&lt; <a class="el" href="structXPMP2_1_1RemoteAcAnimTy.html">RemoteAcAnimTy</a>, <a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191a983f022c861dd9823c0f33431f8a39b4">RMT_MSG_AC_ANIM</a>, <a class="el" href="namespaceXPMP2.html#a1aa3e38765c120fe499c40a8b53143e9">RMT_VER_AC_ANIM</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ae44036a919477658e0b17aa03095b8ff">gMsgAcAnim</a></td></tr>
 <tr class="memdesc:ae44036a919477658e0b17aa03095b8ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Animation dataRefs message.  <a href="namespaceXPMP2.html#ae44036a919477658e0b17aa03095b8ff">More...</a><br /></td></tr>
 <tr class="separator:ae44036a919477658e0b17aa03095b8ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7784f82bd022f7edc60ac93e0f92b78"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">RmtMsgBufTy</a>&lt; <a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>, <a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191a69944e774752bf633b8c86441de05316">RMT_MSG_AC_REMOVE</a>, <a class="el" href="namespaceXPMP2.html#a27f745bec429920efc88450b98accd31">RMT_VER_AC_REMOVE</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ae7784f82bd022f7edc60ac93e0f92b78">gMsgAcRemove</a></td></tr>
-<tr class="memdesc:ae7784f82bd022f7edc60ac93e0f92b78"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Removal message.  <a href="namespaceXPMP2.html#ae7784f82bd022f7edc60ac93e0f92b78">More...</a><br /></td></tr>
-<tr class="separator:ae7784f82bd022f7edc60ac93e0f92b78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af47ce8c642b069ca99c0fa1d86b667ec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">RmtMsgBufTy</a>&lt; <a class="el" href="structXPMP2_1_1RemoteAcRemoveTy.html">RemoteAcRemoveTy</a>, <a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191a69944e774752bf633b8c86441de05316">RMT_MSG_AC_REMOVE</a>, <a class="el" href="namespaceXPMP2.html#a27f745bec429920efc88450b98accd31">RMT_VER_AC_REMOVE</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#af47ce8c642b069ca99c0fa1d86b667ec">gMsgAcRemove</a></td></tr>
+<tr class="memdesc:af47ce8c642b069ca99c0fa1d86b667ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">A/C Removal message.  <a href="namespaceXPMP2.html#af47ce8c642b069ca99c0fa1d86b667ec">More...</a><br /></td></tr>
+<tr class="separator:af47ce8c642b069ca99c0fa1d86b667ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1f4aa16c141997a88bf99ce8c5626d55"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structXPMP2_1_1RemoteCBFctTy.html">RemoteCBFctTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a1f4aa16c141997a88bf99ce8c5626d55">gRmtCBFcts</a></td></tr>
 <tr class="memdesc:a1f4aa16c141997a88bf99ce8c5626d55"><td class="mdescLeft">&#160;</td><td class="mdescRight">The callback function pointers the remote client plugin provided.  <a href="namespaceXPMP2.html#a1f4aa16c141997a88bf99ce8c5626d55">More...</a><br /></td></tr>
 <tr class="separator:a1f4aa16c141997a88bf99ce8c5626d55"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1261,14 +1266,14 @@ the full integer value </td></tr>
 
 </div>
 </div>
-<a id="a62ba7238900cb00589a1dc9c604426f6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a62ba7238900cb00589a1dc9c604426f6">&#9670;&nbsp;</a></span>RmtDataAcRemoveTy</h2>
+<a id="a7f54948b9cb7e90713cc0de92d0d6de1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f54948b9cb7e90713cc0de92d0d6de1">&#9670;&nbsp;</a></span>RmtDataAcRemoveTy</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef <a class="el" href="classXPMP2_1_1RmtDataEnqeueTy.html">RmtDataEnqeueTy</a>&lt;<a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>,<a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191a69944e774752bf633b8c86441de05316">RMT_MSG_AC_REMOVE</a>&gt; <a class="el" href="namespaceXPMP2.html#a62ba7238900cb00589a1dc9c604426f6">XPMP2::RmtDataAcRemoveTy</a></td>
+          <td class="memname">typedef <a class="el" href="classXPMP2_1_1RmtDataEnqeueTy.html">RmtDataEnqeueTy</a>&lt;<a class="el" href="structXPMP2_1_1RemoteAcRemoveTy.html">RemoteAcRemoveTy</a>,<a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191a69944e774752bf633b8c86441de05316">RMT_MSG_AC_REMOVE</a>&gt; <a class="el" href="namespaceXPMP2.html#a7f54948b9cb7e90713cc0de92d0d6de1">XPMP2::RmtDataAcRemoveTy</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1486,7 +1491,7 @@ the full integer value </td></tr>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a73060b65abbe807b35555676346059a8aaf330e648f54f093dcf4fa1926a61c5f"></a>REMOTE_CFG_OFF&#160;</td><td class="fielddoc"><p>config: force off </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a73060b65abbe807b35555676346059a8aca8bc64204d3991a6920b5c72f6d5c33"></a>REMOTE_CFG_CONDITIONALLY&#160;</td><td class="fielddoc"><p>config: on if in a netwoked/multiplayer setup </p>
+<tr><td class="fieldname"><a id="a73060b65abbe807b35555676346059a8ab8d962a27d1a09e12344172f6d2a0aee"></a>REMOTE_CFG_AUTO&#160;</td><td class="fielddoc"><p>config: on if in a netwoked/multiplayer setup </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a73060b65abbe807b35555676346059a8aac3dbe5290f2ad92ea72f134d265064b"></a>REMOTE_CFG_ON&#160;</td><td class="fielddoc"><p>config: force on </p>
 </td></tr>
@@ -3086,6 +3091,25 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
+<a id="a805cbbbcae887868f1c3c223a9a5b176"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a805cbbbcae887868f1c3c223a9a5b176">&#9670;&nbsp;</a></span>GetXPSystemPath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; XPMP2::GetXPSystemPath </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns XP's system directory, including a trailing slash. </p>
+
+</div>
+</div>
 <a id="a82aa0446701d39ee10843fd0e2a73511"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a82aa0446701d39ee10843fd0e2a73511">&#9670;&nbsp;</a></span>glockRmtData()</h2>
 
@@ -3919,26 +3943,6 @@ template&lt;class T &gt; </div>
 </div><div class="memdoc">
 
 <p>Read the <code>related.txt</code> file, full path passed in. </p>
-
-</div>
-</div>
-<a id="ad70cba70210d4ea07b2346ea2f20e80c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad70cba70210d4ea07b2346ea2f20e80c">&#9670;&nbsp;</a></span>RemoteAcChangeModel()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void XPMP2::RemoteAcChangeModel </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> &amp;&#160;</td>
-          <td class="paramname"><em>ac</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Informs remote connections of a model change. </p>
 
 </div>
 </div>
@@ -5199,6 +5203,22 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
+<a id="a04b66c96d0960d3cc55db4462299db61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04b66c96d0960d3cc55db4462299db61">&#9670;&nbsp;</a></span>gFullUpdLastDone</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned XPMP2::gFullUpdLastDone = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>the last actually processed full update group </p>
+
+</div>
+</div>
 <a id="a0da9348ac8cf4e1da8c2ec2c031c6228"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0da9348ac8cf4e1da8c2ec2c031c6228">&#9670;&nbsp;</a></span>gGarbageCollectionID</h2>
 
@@ -5295,14 +5315,14 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a id="ae7784f82bd022f7edc60ac93e0f92b78"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae7784f82bd022f7edc60ac93e0f92b78">&#9670;&nbsp;</a></span>gMsgAcRemove</h2>
+<a id="af47ce8c642b069ca99c0fa1d86b667ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af47ce8c642b069ca99c0fa1d86b667ec">&#9670;&nbsp;</a></span>gMsgAcRemove</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">RmtMsgBufTy</a>&lt;<a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>,<a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191a69944e774752bf633b8c86441de05316">RMT_MSG_AC_REMOVE</a>,<a class="el" href="namespaceXPMP2.html#a27f745bec429920efc88450b98accd31">RMT_VER_AC_REMOVE</a>&gt; XPMP2::gMsgAcRemove</td>
+          <td class="memname"><a class="el" href="classXPMP2_1_1RmtMsgBufTy.html">RmtMsgBufTy</a>&lt;<a class="el" href="structXPMP2_1_1RemoteAcRemoveTy.html">RemoteAcRemoveTy</a>,<a class="el" href="namespaceXPMP2.html#a38a30db370f191740d6f3969ea38f191a69944e774752bf633b8c86441de05316">RMT_MSG_AC_REMOVE</a>,<a class="el" href="namespaceXPMP2.html#a27f745bec429920efc88450b98accd31">RMT_VER_AC_REMOVE</a>&gt; XPMP2::gMsgAcRemove</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -5322,7 +5342,6 @@ template&lt;class T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-
 <p>protects modifying access to the queue and the condition variable </p>
 
 </div>

@@ -60,17 +60,6 @@ CSLModel* CSLModelByPkgShortId (std::uint16_t _pkgHash,
 // MARK: Network Data Definitions
 //
 
-// To ensure best network capacity usage as well as identical alignment across platform we enforce tightly packed structures.
-// The approach is very different between Visual C++ and clang / gcc, though:
-#ifdef _MSC_VER                                 // Visual C++
-#pragma pack(push,1)                            // set packing once (ie. not per struct)
-#define PACKED
-#elif defined(__clang__) || defined(__GNUC__)   // Clang (Mac XCode etc) or GNU (Linux)
-#define PACKED __attribute__ ((__packed__)) 
-#else
-#error Unhandled Compiler!
-#endif
-
 /// Message type
 enum RemoteMsgTy : std::uint8_t {
     RMT_MSG_INTEREST_BEACON = 0,    ///< beacon sent by a remote client to signal interest in data
@@ -102,6 +91,17 @@ extern const std::array<RemoteDataRefPackTy,V_COUNT> REMOTE_DR_DEF;
 //
 // MARK: Message Header (Base)
 //
+
+// To ensure best network capacity usage as well as identical alignment across platform we enforce tightly packed structures.
+// The approach is very different between Visual C++ and clang / gcc, though:
+#ifdef _MSC_VER                                 // Visual C++
+#pragma pack(push,1)                            // set packing once (ie. not per struct)
+#define PACKED
+#elif defined(__clang__) || defined(__GNUC__)   // Clang (Mac XCode etc) or GNU (Linux)
+#define PACKED __attribute__ ((__packed__))
+#else
+#error Unhandled Compiler!
+#endif
 
 /// Message header, identical for all message types
 struct RemoteMsgBaseTy {

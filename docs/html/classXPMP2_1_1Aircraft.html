@@ -87,6 +87,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab75acdc7aa8062edcc63fba161790ef4"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ab75acdc7aa8062edcc63fba161790ef4">~Aircraft</a> ()</td></tr>
 <tr class="memdesc:ab75acdc7aa8062edcc63fba161790ef4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor cleans up all resources acquired.  <a href="classXPMP2_1_1Aircraft.html#ab75acdc7aa8062edcc63fba161790ef4">More...</a><br /></td></tr>
 <tr class="separator:ab75acdc7aa8062edcc63fba161790ef4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae12d5db27746c63638db0b4148c6c3e0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ae12d5db27746c63638db0b4148c6c3e0">Aircraft</a> (const <a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> &amp;)=delete</td></tr>
+<tr class="memdesc:ae12d5db27746c63638db0b4148c6c3e0"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">Aircraft</a> must not be copied as they reference non-copyable resources like XP instances.  <a href="classXPMP2_1_1Aircraft.html#ae12d5db27746c63638db0b4148c6c3e0">More...</a><br /></td></tr>
+<tr class="separator:ae12d5db27746c63638db0b4148c6c3e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bb93aaf99637a8eb4bdac281e957a92"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a7bb93aaf99637a8eb4bdac281e957a92">operator=</a> (const <a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> &amp;)=delete</td></tr>
+<tr class="memdesc:a7bb93aaf99637a8eb4bdac281e957a92"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">Aircraft</a> must not be copied as they reference non-copyable resources like XP instances.  <a href="classXPMP2_1_1Aircraft.html#a7bb93aaf99637a8eb4bdac281e957a92">More...</a><br /></td></tr>
+<tr class="separator:a7bb93aaf99637a8eb4bdac281e957a92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7ece414d098de338e22e995ba4a696df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a7ece414d098de338e22e995ba4a696df">Create</a> (const std::string &amp;_icaoType, const std::string &amp;_icaoAirline, const std::string &amp;_livery, <a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> _modeS_id=0, const std::string &amp;_cslId=&quot;&quot;, <a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a> *_pCSLModel=nullptr)</td></tr>
 <tr class="memdesc:a7ece414d098de338e22e995ba4a696df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a plane, only a valid operation if object was created using the default constructor.  <a href="classXPMP2_1_1Aircraft.html#a7ece414d098de338e22e995ba4a696df">More...</a><br /></td></tr>
 <tr class="separator:a7ece414d098de338e22e995ba4a696df"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -551,7 +557,7 @@ Friends</h2></td></tr>
 <dl class="section note"><dt>Note</dt><dd>In modern implementations, this class shall be subclassed by your plugin's code. </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="af77ba40523a9e43e4c4c3ca433210817"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af77ba40523a9e43e4c4c3ca433210817">&#9670;&nbsp;</a></span>Aircraft() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af77ba40523a9e43e4c4c3ca433210817">&#9670;&nbsp;</a></span>Aircraft() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -615,7 +621,7 @@ Friends</h2></td></tr>
 </div>
 </div>
 <a id="a37c1336870ae988f3cb39b3e2f14df88"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a37c1336870ae988f3cb39b3e2f14df88">&#9670;&nbsp;</a></span>Aircraft() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a37c1336870ae988f3cb39b3e2f14df88">&#9670;&nbsp;</a></span>Aircraft() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -657,6 +663,34 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Destructor cleans up all resources acquired. </p>
+
+</div>
+</div>
+<a id="ae12d5db27746c63638db0b4148c6c3e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae12d5db27746c63638db0b4148c6c3e0">&#9670;&nbsp;</a></span>Aircraft() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">XPMP2::Aircraft::Aircraft </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">Aircraft</a> must not be copied as they reference non-copyable resources like XP instances. </p>
 
 </div>
 </div>
@@ -2560,6 +2594,34 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Prepare map coordinates. </p>
+
+</div>
+</div>
+<a id="a7bb93aaf99637a8eb4bdac281e957a92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bb93aaf99637a8eb4bdac281e957a92">&#9670;&nbsp;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a>&amp; XPMP2::Aircraft::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">Aircraft</a> must not be copied as they reference non-copyable resources like XP instances. </p>
 
 </div>
 </div>

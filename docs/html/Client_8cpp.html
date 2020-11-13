@@ -60,6 +60,10 @@ $(function() {
 Macros</h2></td></tr>
 <tr class="memitem:a3bf7418fac5b94b1e1aec8e4d375f29a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Client_8cpp.html#a3bf7418fac5b94b1e1aec8e4d375f29a">INFO_NEW_SENDER_PLUGIN</a>&#160;&#160;&#160;&quot;First data received from %.*s (%u) @ %s&quot;</td></tr>
 <tr class="separator:a3bf7418fac5b94b1e1aec8e4d375f29a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1535415b9b7f418104892a34806533d4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Client_8cpp.html#a1535415b9b7f418104892a34806533d4">INFO_SENDER_PLUGIN_LOST</a>&#160;&#160;&#160;&quot;Sender %.*s (%u) @ %s fell silent, removed&quot;</td></tr>
+<tr class="separator:a1535415b9b7f418104892a34806533d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40d3aea35cbd1ab63bdc0ac831677691"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Client_8cpp.html#a40d3aea35cbd1ab63bdc0ac831677691">WARN_LOST_PLANE_CONTACT</a>&#160;&#160;&#160;&quot;Lost contact to plane 0x%06X of %.*s (%u) @ %s&quot;</td></tr>
+<tr class="separator:a40d3aea35cbd1ab63bdc0ac831677691"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f44e3dcd049ae0bc31e28b80b282cf4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Client_8cpp.html#a6f44e3dcd049ae0bc31e28b80b282cf4">INFO_GOT_AI_CONTROL</a>&#160;&#160;&#160;&quot;Have TCAS / AI control now&quot;</td></tr>
 <tr class="separator:a6f44e3dcd049ae0bc31e28b80b282cf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8aeb7ba784e7c1be612a523bf045191a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Client_8cpp.html#a8aeb7ba784e7c1be612a523bf045191a">INFO_DEACTIVATED</a>&#160;&#160;&#160;&quot;Deactivated, stopped listening to network&quot;</td></tr>
@@ -97,6 +101,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a833e4844721bac28b2378f779ce33512"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Client_8cpp.html#a833e4844721bac28b2378f779ce33512">ClientProcAcAnim</a> (std::uint32_t _from[4], size_t _msgLen, const <a class="el" href="structXPMP2_1_1RemoteMsgAcAnimTy.html">XPMP2::RemoteMsgAcAnimTy</a> &amp;_msgAcAnim)</td></tr>
 <tr class="memdesc:a833e4844721bac28b2378f779ce33512"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle A/C Animation dataRef messages, called by <a class="el" href="namespaceXPMP2.html">XPMP2</a> via callback.  <a href="Client_8cpp.html#a833e4844721bac28b2378f779ce33512">More...</a><br /></td></tr>
 <tr class="separator:a833e4844721bac28b2378f779ce33512"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16eb4f4c5d5003a591f13bc968a1c947"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Client_8cpp.html#a16eb4f4c5d5003a591f13bc968a1c947">ClientProcAcRemove</a> (std::uint32_t _from[4], size_t _msgLen, const <a class="el" href="structXPMP2_1_1RemoteMsgAcRemoveTy.html">XPMP2::RemoteMsgAcRemoveTy</a> &amp;_msgAcRemove)</td></tr>
+<tr class="memdesc:a16eb4f4c5d5003a591f13bc968a1c947"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle A/C Removal message, called by <a class="el" href="namespaceXPMP2.html">XPMP2</a> via callback.  <a href="Client_8cpp.html#a16eb4f4c5d5003a591f13bc968a1c947">More...</a><br /></td></tr>
+<tr class="separator:a16eb4f4c5d5003a591f13bc968a1c947"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9468b490f91608f7a52052855e631e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Client_8cpp.html#ab9468b490f91608f7a52052855e631e7">ClientInit</a> ()</td></tr>
 <tr class="memdesc:ab9468b490f91608f7a52052855e631e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the module.  <a href="Client_8cpp.html#ab9468b490f91608f7a52052855e631e7">More...</a><br /></td></tr>
 <tr class="separator:ab9468b490f91608f7a52052855e631e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -120,9 +127,9 @@ Variables</h2></td></tr>
 <tr class="memitem:ad724708deadff6109ce820805d1ccd30"><td class="memItemLeft" align="right" valign="top">std::atomic_flag&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Client_8cpp.html#ad724708deadff6109ce820805d1ccd30">gbSkipSettingsUpdate</a> = ATOMIC_FLAG_INIT</td></tr>
 <tr class="memdesc:ad724708deadff6109ce820805d1ccd30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates if it is needed in the main thread to process updates to settings.  <a href="Client_8cpp.html#ad724708deadff6109ce820805d1ccd30">More...</a><br /></td></tr>
 <tr class="separator:ad724708deadff6109ce820805d1ccd30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c52f1c7d6d51afe4b845cf0eadfe371"><td class="memItemLeft" align="right" valign="top">std::atomic_flag&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Client_8cpp.html#a0c52f1c7d6d51afe4b845cf0eadfe371">gbSkipNewAc</a> = ATOMIC_FLAG_INIT</td></tr>
-<tr class="memdesc:a0c52f1c7d6d51afe4b845cf0eadfe371"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates if it is needed in the main thread to process new aircraft.  <a href="Client_8cpp.html#a0c52f1c7d6d51afe4b845cf0eadfe371">More...</a><br /></td></tr>
-<tr class="separator:a0c52f1c7d6d51afe4b845cf0eadfe371"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70fe19143be09a879a54326f600a448c"><td class="memItemLeft" align="right" valign="top">std::atomic_flag&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Client_8cpp.html#a70fe19143be09a879a54326f600a448c">gbSkipAcMaintenance</a> = ATOMIC_FLAG_INIT</td></tr>
+<tr class="memdesc:a70fe19143be09a879a54326f600a448c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates if it is needed in the main thread to process new aircraft.  <a href="Client_8cpp.html#a70fe19143be09a879a54326f600a448c">More...</a><br /></td></tr>
+<tr class="separator:a70fe19143be09a879a54326f600a448c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Main Client functionality, processing received data. </p>
@@ -169,6 +176,34 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
       <table class="memname">
         <tr>
           <td class="memname">#define INFO_NEW_SENDER_PLUGIN&#160;&#160;&#160;&quot;First data received from %.*s (%u) @ %s&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1535415b9b7f418104892a34806533d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1535415b9b7f418104892a34806533d4">&#9670;&nbsp;</a></span>INFO_SENDER_PLUGIN_LOST</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define INFO_SENDER_PLUGIN_LOST&#160;&#160;&#160;&quot;Sender %.*s (%u) @ %s fell silent, removed&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a40d3aea35cbd1ab63bdc0ac831677691"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40d3aea35cbd1ab63bdc0ac831677691">&#9670;&nbsp;</a></span>WARN_LOST_PLANE_CONTACT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define WARN_LOST_PLANE_CONTACT&#160;&#160;&#160;&quot;Lost contact to plane 0x%06X of %.*s (%u) @ %s&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -386,6 +421,42 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 </div>
 </div>
+<a id="a16eb4f4c5d5003a591f13bc968a1c947"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16eb4f4c5d5003a591f13bc968a1c947">&#9670;&nbsp;</a></span>ClientProcAcRemove()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ClientProcAcRemove </td>
+          <td>(</td>
+          <td class="paramtype">std::uint32_t&#160;</td>
+          <td class="paramname"><em>_from</em>[4], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>_msgLen</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structXPMP2_1_1RemoteMsgAcRemoveTy.html">XPMP2::RemoteMsgAcRemoveTy</a> &amp;&#160;</td>
+          <td class="paramname"><em>_msgAcRemove</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Handle A/C Removal message, called by <a class="el" href="namespaceXPMP2.html">XPMP2</a> via callback. </p>
+
+</div>
+</div>
 <a id="a50189d8c12d23ce51af65702cfc8c93d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a50189d8c12d23ce51af65702cfc8c93d">&#9670;&nbsp;</a></span>ClientProcSettings()</h2>
 
@@ -540,14 +611,14 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 </div>
 </div>
-<a id="a0c52f1c7d6d51afe4b845cf0eadfe371"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c52f1c7d6d51afe4b845cf0eadfe371">&#9670;&nbsp;</a></span>gbSkipNewAc</h2>
+<a id="a70fe19143be09a879a54326f600a448c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70fe19143be09a879a54326f600a448c">&#9670;&nbsp;</a></span>gbSkipAcMaintenance</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::atomic_flag gbSkipNewAc = ATOMIC_FLAG_INIT</td>
+          <td class="memname">std::atomic_flag gbSkipAcMaintenance = ATOMIC_FLAG_INIT</td>
         </tr>
       </table>
 </div><div class="memdoc">

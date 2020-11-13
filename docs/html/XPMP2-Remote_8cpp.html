@@ -62,6 +62,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a4c43c206c26e5258e5cd61023c90cb04"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#a4c43c206c26e5258e5cd61023c90cb04">MenuUpdateCheckmarks</a> ()</td></tr>
 <tr class="memdesc:a4c43c206c26e5258e5cd61023c90cb04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets all menu checkmarks according to current status.  <a href="XPMP2-Remote_8cpp.html#a4c43c206c26e5258e5cd61023c90cb04">More...</a><br /></td></tr>
 <tr class="separator:a4c43c206c26e5258e5cd61023c90cb04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a050cafa0489634122127d1e8285af39b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#a050cafa0489634122127d1e8285af39b">MenuUpdateSenders</a> ()</td></tr>
+<tr class="memdesc:a050cafa0489634122127d1e8285af39b"><td class="mdescLeft">&#160;</td><td class="mdescRight">(Re)Create the submenu listing information about connected senders  <a href="XPMP2-Remote_8cpp.html#a050cafa0489634122127d1e8285af39b">More...</a><br /></td></tr>
+<tr class="separator:a050cafa0489634122127d1e8285af39b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a13c2f2832ba3e093e3fdbe2af67b307f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#a13c2f2832ba3e093e3fdbe2af67b307f">MenuCallback</a> (void *, void *inItemRef)</td></tr>
 <tr class="memdesc:a13c2f2832ba3e093e3fdbe2af67b307f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback function for menu.  <a href="XPMP2-Remote_8cpp.html#a13c2f2832ba3e093e3fdbe2af67b307f">More...</a><br /></td></tr>
 <tr class="separator:a13c2f2832ba3e093e3fdbe2af67b307f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -84,10 +87,18 @@ Variables</h2></td></tr>
 <tr class="memitem:ac9fce27897774a040a76bdca6b996493"><td class="memItemLeft" align="right" valign="top">XPLMMenuID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#ac9fce27897774a040a76bdca6b996493">hMenu</a> = nullptr</td></tr>
 <tr class="memdesc:ac9fce27897774a040a76bdca6b996493"><td class="mdescLeft">&#160;</td><td class="mdescRight">menu id of our plugin's menu  <a href="XPMP2-Remote_8cpp.html#ac9fce27897774a040a76bdca6b996493">More...</a><br /></td></tr>
 <tr class="separator:ac9fce27897774a040a76bdca6b996493"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeeab005b853026167633c25bc693e16c"><td class="memItemLeft" align="right" valign="top">XPLMMenuID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#aeeab005b853026167633c25bc693e16c">hSenders</a> = nullptr</td></tr>
+<tr class="memdesc:aeeab005b853026167633c25bc693e16c"><td class="mdescLeft">&#160;</td><td class="mdescRight">menu id of the Senders submenu  <a href="XPMP2-Remote_8cpp.html#aeeab005b853026167633c25bc693e16c">More...</a><br /></td></tr>
+<tr class="separator:aeeab005b853026167633c25bc693e16c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a583a175cdb2c4af50630f47dfeacf832"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#a583a175cdb2c4af50630f47dfeacf832">numSendersInMenu</a> = 0</td></tr>
+<tr class="memdesc:a583a175cdb2c4af50630f47dfeacf832"><td class="mdescLeft">&#160;</td><td class="mdescRight">how many lines to we currently server in the menu?  <a href="XPMP2-Remote_8cpp.html#a583a175cdb2c4af50630f47dfeacf832">More...</a><br /></td></tr>
+<tr class="separator:a583a175cdb2c4af50630f47dfeacf832"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a01f35c17d5fa447d85debe140ae1cb08"><td class="memItemLeft" align="right" valign="top">constexpr std::uintptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#a01f35c17d5fa447d85debe140ae1cb08">MENU_ACTIVE</a> = 0</td></tr>
 <tr class="separator:a01f35c17d5fa447d85debe140ae1cb08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8bf1418c4c15243d1671d388c3923cf"><td class="memItemLeft" align="right" valign="top">constexpr std::uintptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#ae8bf1418c4c15243d1671d388c3923cf">MENU_TCAS</a> = 1</td></tr>
 <tr class="separator:ae8bf1418c4c15243d1671d388c3923cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d50a6e7c99b273c658df48f69bb52fd"><td class="memItemLeft" align="right" valign="top">constexpr std::uintptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#a0d50a6e7c99b273c658df48f69bb52fd">MENU_SENDER</a> = 2</td></tr>
+<tr class="separator:a0d50a6e7c99b273c658df48f69bb52fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd3a6022f744800f5d68a320f05f1ee8"><td class="memItemLeft" align="right" valign="top">XPLMFlightLoopID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#afd3a6022f744800f5d68a320f05f1ee8">flId</a> = nullptr</td></tr>
 <tr class="memdesc:afd3a6022f744800f5d68a320f05f1ee8"><td class="mdescLeft">&#160;</td><td class="mdescRight">ID of our flight loop callback for regular tasks.  <a href="XPMP2-Remote_8cpp.html#afd3a6022f744800f5d68a320f05f1ee8">More...</a><br /></td></tr>
 <tr class="separator:afd3a6022f744800f5d68a320f05f1ee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -248,6 +259,25 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 </div>
 </div>
+<a id="a050cafa0489634122127d1e8285af39b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a050cafa0489634122127d1e8285af39b">&#9670;&nbsp;</a></span>MenuUpdateSenders()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MenuUpdateSenders </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>(Re)Create the submenu listing information about connected senders </p>
+
+</div>
+</div>
 <a id="a55afbaabbad064e1794529cee35cc412"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a55afbaabbad064e1794529cee35cc412">&#9670;&nbsp;</a></span>XPluginDisable()</h2>
 
@@ -403,6 +433,22 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 </div>
 </div>
+<a id="aeeab005b853026167633c25bc693e16c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeeab005b853026167633c25bc693e16c">&#9670;&nbsp;</a></span>hSenders</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">XPLMMenuID hSenders = nullptr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>menu id of the Senders submenu </p>
+
+</div>
+</div>
 <a id="a01f35c17d5fa447d85debe140ae1cb08"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a01f35c17d5fa447d85debe140ae1cb08">&#9670;&nbsp;</a></span>MENU_ACTIVE</h2>
 
@@ -414,6 +460,28 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
       <table class="memname">
         <tr>
           <td class="memname">constexpr std::uintptr_t MENU_ACTIVE = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0d50a6e7c99b273c658df48f69bb52fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d50a6e7c99b273c658df48f69bb52fd">&#9670;&nbsp;</a></span>MENU_SENDER</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr std::uintptr_t MENU_SENDER = 2</td>
         </tr>
       </table>
   </td>
@@ -444,6 +512,22 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a583a175cdb2c4af50630f47dfeacf832"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a583a175cdb2c4af50630f47dfeacf832">&#9670;&nbsp;</a></span>numSendersInMenu</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int numSendersInMenu = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>how many lines to we currently server in the menu? </p>
 
 </div>
 </div>

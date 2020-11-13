@@ -151,6 +151,7 @@ void RmtAcCacheTy::UpdateFrom (const Aircraft& ac,
     v = ac.v;
     bValid      = ac.IsValid();
     bVisible    = ac.IsVisible();
+    pCSLMdl     = ac.GetModel();
 }
 
 
@@ -1067,7 +1068,8 @@ void RemoteAcEnqueue (const Aircraft& ac)
          // Or did visibility/validity change?
          acCache.bVisible   != ac.IsVisible()    ||
          acCache.bValid     != ac.IsValid()      ||
-         // TODO: Identify and handle CSL model changes
+         // Did the CSL model change?
+         acCache.pCSLMdl    != ac.GetModel()    ||
          // Or are the differences that we need to send too large for a pos update msg?
          std::abs(lat -    acCache.lat)    > REMOTE_MAX_DIFF_DEGREE ||
          std::abs(lon -    acCache.lon)    > REMOTE_MAX_DIFF_DEGREE ||

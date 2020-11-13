@@ -38,7 +38,7 @@ RemoteAC::RemoteAC (SenderTy& _sender, const XPMP2::RemoteAcDetailTy& _acDetails
 XPMP2::Aircraft(),              // do _not_ create an actual plane!
 senderId(_acDetails.modeS_id),
 pkgHash(_acDetails.pkgHash),
-sShortId(str_n(_acDetails.sShortId, sizeof(_acDetails.sShortId))),
+sShortId(STR_N(_acDetails.sShortId)),
 sender(_sender)
 {
     // Initialization
@@ -59,6 +59,7 @@ void RemoteAC::Create ()
     // Create the actual plane
     Aircraft::Create(acIcaoType, acIcaoAirline, acLivery, senderId, "",
                      XPMP2::CSLModelByPkgShortId(pkgHash, sShortId));
+    bCSLModelChanged = false;
 }
 
 // Update data from a a/c detail structure
@@ -67,6 +68,14 @@ void RemoteAC::Update (const XPMP2::RemoteAcDetailTy& _acDetails)
     acIcaoType      = STR_N(_acDetails.icaoType);
     acIcaoAirline   = STR_N(_acDetails.icaoOp);
     acLivery.clear();
+
+    // CSL Model: Did it change? (Will be set during UpdatePosition())
+    bCSLModelChanged = (pkgHash != _acDetails.pkgHash) || (sShortId != _acDetails.sShortId);
+    if (bCSLModelChanged) {
+        pkgHash  = _acDetails.pkgHash;
+        sShortId = _acDetails.sShortId;
+    }
+    
     label = STR_N(_acDetails.label);
     _acDetails.GetLabelCol(colLabel);
 
@@ -129,6 +138,14 @@ void RemoteAC::Update (const XPMP2::RemoteAcAnimTy& _acAnim)
 // Called by XPMP2 for position updates, extrapolates from historic positions
 void RemoteAC::UpdatePosition (float _elapsed, int)
 {
+    // Did the CSL model change?
+    if (bCSLModelChanged) {
+        bCSLModelChanged = false;
+        XPMP2::CSLModel *pNewCSLModel = XPMP2::CSLModelByPkgShortId(pkgHash, sShortId);
+        if (pNewCSLModel && pNewCSLModel != pCSLMdl)
+            AssignModel("", pNewCSLModel);
+    }
+    
     // If we have a fresh world position then that's the one that counts
     if (bWorldCoordUpdated) {
         SetLocation(lat, lon, alt_ft);      // Convert to local, stored in drawInfo

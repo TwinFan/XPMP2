@@ -832,11 +832,32 @@ void PlanesCycleModels ()
     XPMPEnableMap(true, gbMapLabels);
 }
 
+/// @brief Rematch CSL models based on existing definition
+/// @details This will pick a different (partly random) CSL model
+///          for those planes, for which no exact match has been found.
+///          The A321 is defined without operator code, so each re-match
+///          will pick any of the available A321 models.
+void PlanesRematch ()
+{
+    if (pSamplePlane)
+        pSamplePlane->ReMatchModel();
+    if (pLegacyPlane)
+        pLegacyPlane->ReMatchModel();
+    if (hStdPlane) {
+        // There is no standard C function for this task. If really want it
+        // we need to go the detour of fetching the underlying aircraft object
+        XPMP2::Aircraft* pStdAc = XPMPGetAircraft(hStdPlane);
+        if (pStdAc)
+            pStdAc->ReMatchModel();
+    }
+        
+}
+
 void MenuUpdateCheckmarks ()
 {
     XPLMCheckMenuItem(hMenu, 0, ArePlanesCreated()           ? xplm_Menu_Checked : xplm_Menu_Unchecked);
     XPLMCheckMenuItem(hMenu, 1, gbVisible                    ? xplm_Menu_Checked : xplm_Menu_Unchecked);
-    XPLMCheckMenuItem(hMenu, 3, XPMPHasControlOfAIAircraft() ? xplm_Menu_Checked : xplm_Menu_Unchecked);
+    XPLMCheckMenuItem(hMenu, 4, XPMPHasControlOfAIAircraft() ? xplm_Menu_Checked : xplm_Menu_Unchecked);
 }
 
 /// Callback function for the case that we might get AI access later
@@ -868,8 +889,13 @@ void CBMenu (void* /*inMenuRef*/, void* inItemRef)
     {
         PlanesCycleModels();
     }
-    // Toggle AI control?
+    // Rematch Models?
     else if (inItemRef == (void*)4)
+    {
+        PlanesRematch();
+    }
+    // Toggle AI control?
+    else if (inItemRef == (void*)5)
     {
         if (XPMPHasControlOfAIAircraft())
             XPMPMultiplayerDisable();
@@ -903,7 +929,8 @@ PLUGIN_API int XPluginStart(char* outName, char* outSig, char* outDesc)
     XPLMAppendMenuItem(hMenu, "Toggle Planes",      (void*)1, 0);
     XPLMAppendMenuItem(hMenu, "Toggle Visibility",  (void*)2, 0);
     XPLMAppendMenuItem(hMenu, "Cycle Models",       (void*)3, 0);
-    XPLMAppendMenuItem(hMenu, "Toggle AI control",  (void*)4, 0);
+    XPLMAppendMenuItem(hMenu, "Rematch Models",     (void*)4, 0);
+    XPLMAppendMenuItem(hMenu, "Toggle AI control",  (void*)5, 0);
     MenuUpdateCheckmarks();
 	return 1;
 }

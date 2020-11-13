@@ -48,6 +48,9 @@ protected:
     std::chrono::duration<int,std::ratio<1, 10000>> diffTime;   ///< time difference to previous historic position as passed in by the sender
     bool bWorldCoordUpdated = false;    ///< shall freshly set values be used in the next UpdatePosition callback?
     
+    // Did the CSL model change? Will force model-reload during UpdatePosition()
+    bool bCSLModelChanged = false;
+    
     // The sending plugin this plane came from
     SenderTy& sender;
     

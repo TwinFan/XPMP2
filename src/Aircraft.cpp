@@ -37,7 +37,7 @@ using namespace XPMP2;
 #define FATAL_CREATE_INVALID    "Called Aircraft::Create() on already defined plane with _modeS_id (0x%06X)"
 #define DEBUG_REPL_MODE_S       "Replaced duplicate _modeS_id 0x%06X with new unique value 0x%06X"
 #define ERR_CREATE_INSTANCE     "Aircraft 0x%06X: Create Instance FAILED for CSL Model %s"
-#define DEBUG_INSTANCE_CREATED  "Aircraft 0x%06X: Instance created"
+#define DEBUG_INSTANCE_CREATED  "Aircraft 0x%06X: Instance created of model %s for '%s'"
 #define DEBUG_INSTANCE_DESTRYD  "Aircraft 0x%06X: Instance destroyed"
 #define INFO_MODEL_CHANGE       "Aircraft 0x%06X: Changing model from %s to %s"
 #define ERR_YPROBE              "Aircraft 0x%06X: Could not create Y-Probe for terrain testing!"
@@ -479,8 +479,8 @@ float Aircraft::FlightLoopCB(float _elapsedSinceLastCall, float, int _flCounter,
 // This puts the instance into XP's sky and makes it move
 void Aircraft::DoMove ()
 {
-    // Only for visible planes
-    if (IsVisible()) {
+    // Only for planes that are to be rendered
+    if (IsRendered()) {
         // Already have instances? 
         if (!listInst.empty()) {
             // Move the instances (this is probably the single most important line of code ;-) )
@@ -570,7 +570,8 @@ bool Aircraft::CreateInstances ()
     }
     
     // Success!
-    LOG_MSG(logDEBUG, DEBUG_INSTANCE_CREATED, modeS_id);
+    LOG_MSG(logDEBUG, DEBUG_INSTANCE_CREATED, modeS_id, GetModelName().c_str(),
+            label.c_str());
     return true;
 }
 
@@ -584,12 +585,14 @@ void Aircraft::DestroyInstances ()
         return;
     }
 
-    while (!listInst.empty()) {
-        XPLMDestroyInstance(listInst.back());
-        listInst.pop_back();
+    if (!listInst.empty()) {
+        while (!listInst.empty()) {
+            XPLMDestroyInstance(listInst.back());
+            listInst.pop_back();
+        }
+        LOG_MSG(logDEBUG, DEBUG_INSTANCE_DESTRYD, modeS_id);
     }
     bDestroyInst = false;
-    LOG_MSG(logDEBUG, DEBUG_INSTANCE_DESTRYD, modeS_id);
 }
 
 
@@ -741,6 +744,21 @@ void Aircraft::SetVisible (bool _bVisible)
         ResetTcasTargetIdx();
         DestroyInstances();
     }
+}
+
+// Switch rendering of the CSL model on or off
+void Aircraft::SetRender (bool _bRender)
+{
+    // no change?
+    if (bRender == _bRender)
+        return;
+    
+    // Set the flag
+    bRender = _bRender;
+    
+    // In case rendering is _now_ switched off: Remove the instance (but leave AI as is!)
+    if (!bRender)
+        DestroyInstances();
 }
 
 //

@@ -107,7 +107,8 @@ extern const std::array<RemoteDataRefPackTy,V_COUNT> REMOTE_DR_DEF;
 struct RemoteMsgBaseTy {
     RemoteMsgTy  msgTy  : 4;        ///< message type
     std::uint8_t msgVer : 4;        ///< message version
-    std::uint8_t filler1   = 0;     ///< yet unsed
+    bool         bLocalSender : 1;  ///< is the sender "local", ie. on same machine?
+    std::uint8_t filler1      : 7;  ///< yet unsed
     std::uint16_t pluginId = 0;     ///< lower 16 bit of the sending plugin's id
     std::uint32_t filler2 = 0;      ///< yet unused, fills up to size 8
     /// Constructor just sets the values
@@ -184,7 +185,8 @@ struct RemoteAcDetailTy {
     std::uint16_t   dTime;              ///< [0.0001s] time difference to previous position in 1/10000s
     bool            bValid : 1;         ///< is this object valid? (Will be reset in case of exceptions)
     bool            bVisible : 1;       ///< Shall this plane be drawn at the moment?
-    
+    bool            bRender : 1;        ///< Shall the CSL model be drawn in 3D world?
+
     std::uint8_t    filler[3];          ///< yet unused
     
     ///< Array of _packed_ dataRef values for CSL model animation
@@ -385,20 +387,20 @@ struct RemoteCBFctTy {
     /// Called in flight loop after processing last aircraft
     void (*pfAfterLastAc)() = nullptr;
     /// Callback for processing Settings messages
-    void (*pfMsgSettings) (std::uint32_t from[4],
+    void (*pfMsgSettings) (const std::uint32_t from[4],
                            const std::string& sFrom,
                            const RemoteMsgSettingsTy&) = nullptr;
     /// Callback for processing A/C Details messages
-    void (*pfMsgACDetails) (std::uint32_t from[4], size_t msgLen,
+    void (*pfMsgACDetails) (const std::uint32_t from[4], size_t msgLen,
                             const RemoteMsgAcDetailTy&) = nullptr;
     /// Callback for processing A/C Details messages
-    void (*pfMsgACPosUpdate) (std::uint32_t from[4], size_t msgLen,
+    void (*pfMsgACPosUpdate) (const std::uint32_t from[4], size_t msgLen,
                               const RemoteMsgAcPosUpdateTy&) = nullptr;
     /// Callback for processing A/C Animation dataRef messages
-    void (*pfMsgACAnim) (std::uint32_t from[4], size_t msgLen,
+    void (*pfMsgACAnim) (const std::uint32_t from[4], size_t msgLen,
                          const RemoteMsgAcAnimTy&) = nullptr;
     /// Callback for processing A/C Removal messages
-    void (*pfMsgACRemove) (std::uint32_t from[4], size_t msgLen,
+    void (*pfMsgACRemove) (const std::uint32_t from[4], size_t msgLen,
                            const RemoteMsgAcRemoveTy&) = nullptr;
 };
 

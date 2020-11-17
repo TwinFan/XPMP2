@@ -88,16 +88,17 @@ typedef std::map<XPMPPlaneID,RemoteAC> mapRemoteAcTy;
 
 /// Uniquely identifies a sending plugin
 struct SenderAddrTy {
-    XPLMPluginID pluginId;              ///< sender's plugin id within X-Plane (first to speed up memcmp as usually this will already differ between plugins)
+    const XPLMPluginID pluginId;        ///< sender's plugin id within X-Plane (first to speed up memcmp as usually this will already differ between plugins)
     std::uint32_t from[4];              ///< numerical part of sender's IP address (only differentiating in rare cases of two plugins on different PCs having the same plugin id)
     bool operator< (const SenderAddrTy& o) const;   ///< uses memcmp to compare this
     /// Constructor just fills values
-    SenderAddrTy (XPLMPluginID _id, std::uint32_t _from[4]) :
+    SenderAddrTy (XPLMPluginID _id, const std::uint32_t _from[4]) :
     pluginId(_id) { memcpy(from, _from, sizeof(from)); }
 };
 
 struct SenderTy {
     std::string sFrom;                  ///< string representaton of the sender's IP address
+    const bool bLocal;                  ///< is this a local sender on the same computer?
     XPMP2::RemoteMsgSettingsTy settings;///< that plugin's settings
     std::chrono::time_point<std::chrono::steady_clock> lastMsg;
     mapRemoteAcTy mapAc;                ///< map of aircraft sent by this plugin
@@ -106,7 +107,7 @@ struct SenderTy {
     SenderTy (const std::string& _from, const XPMP2::RemoteMsgSettingsTy& _s);
     
     /// Find a sender based on plugin id and IP address
-    static SenderTy* Find (XPLMPluginID _id, std::uint32_t _from[4]);
+    static SenderTy* Find (XPLMPluginID _id, const std::uint32_t _from[4]);
 };
 
 /// map of sender information

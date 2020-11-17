@@ -57,15 +57,15 @@ $(function() {
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a4cf1ef5d7576a52fa2bda99c334a3e02"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSenderAddrTy.html#a4cf1ef5d7576a52fa2bda99c334a3e02">operator&lt;</a> (const <a class="el" href="structSenderAddrTy.html">SenderAddrTy</a> &amp;o) const</td></tr>
 <tr class="separator:a4cf1ef5d7576a52fa2bda99c334a3e02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad81e0e88fbdd0f2aba61c316eebfcf52"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSenderAddrTy.html#ad81e0e88fbdd0f2aba61c316eebfcf52">SenderAddrTy</a> (XPLMPluginID _id, std::uint32_t _from[4])</td></tr>
-<tr class="memdesc:ad81e0e88fbdd0f2aba61c316eebfcf52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor just fills values.  <a href="structSenderAddrTy.html#ad81e0e88fbdd0f2aba61c316eebfcf52">More...</a><br /></td></tr>
-<tr class="separator:ad81e0e88fbdd0f2aba61c316eebfcf52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a023e9431345213763940cc2f63fd74bc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSenderAddrTy.html#a023e9431345213763940cc2f63fd74bc">SenderAddrTy</a> (XPLMPluginID _id, const std::uint32_t _from[4])</td></tr>
+<tr class="memdesc:a023e9431345213763940cc2f63fd74bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor just fills values.  <a href="structSenderAddrTy.html#a023e9431345213763940cc2f63fd74bc">More...</a><br /></td></tr>
+<tr class="separator:a023e9431345213763940cc2f63fd74bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a67dd117697c1de0f644c59e15b498966"><td class="memItemLeft" align="right" valign="top">XPLMPluginID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSenderAddrTy.html#a67dd117697c1de0f644c59e15b498966">pluginId</a></td></tr>
-<tr class="memdesc:a67dd117697c1de0f644c59e15b498966"><td class="mdescLeft">&#160;</td><td class="mdescRight">sender's plugin id within X-Plane (first to speed up memcmp as usually this will already differ between plugins)  <a href="structSenderAddrTy.html#a67dd117697c1de0f644c59e15b498966">More...</a><br /></td></tr>
-<tr class="separator:a67dd117697c1de0f644c59e15b498966"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3c8801b8ce41ab75ca51ab54cd8926c"><td class="memItemLeft" align="right" valign="top">const XPLMPluginID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSenderAddrTy.html#aa3c8801b8ce41ab75ca51ab54cd8926c">pluginId</a></td></tr>
+<tr class="memdesc:aa3c8801b8ce41ab75ca51ab54cd8926c"><td class="mdescLeft">&#160;</td><td class="mdescRight">sender's plugin id within X-Plane (first to speed up memcmp as usually this will already differ between plugins)  <a href="structSenderAddrTy.html#aa3c8801b8ce41ab75ca51ab54cd8926c">More...</a><br /></td></tr>
+<tr class="separator:aa3c8801b8ce41ab75ca51ab54cd8926c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46c3896c4e19d76326c355cd3f40c771"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSenderAddrTy.html#a46c3896c4e19d76326c355cd3f40c771">from</a> [4]</td></tr>
 <tr class="memdesc:a46c3896c4e19d76326c355cd3f40c771"><td class="mdescLeft">&#160;</td><td class="mdescRight">numerical part of sender's IP address (only differentiating in rare cases of two plugins on different PCs having the same plugin id)  <a href="structSenderAddrTy.html#a46c3896c4e19d76326c355cd3f40c771">More...</a><br /></td></tr>
 <tr class="separator:a46c3896c4e19d76326c355cd3f40c771"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -73,8 +73,8 @@ Public Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Uniquely identifies a sending plugin. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ad81e0e88fbdd0f2aba61c316eebfcf52"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad81e0e88fbdd0f2aba61c316eebfcf52">&#9670;&nbsp;</a></span>SenderAddrTy()</h2>
+<a id="a023e9431345213763940cc2f63fd74bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a023e9431345213763940cc2f63fd74bc">&#9670;&nbsp;</a></span>SenderAddrTy()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -91,7 +91,7 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::uint32_t&#160;</td>
+          <td class="paramtype">const std::uint32_t&#160;</td>
           <td class="paramname"><em>_from</em>[4]&#160;</td>
         </tr>
         <tr>
@@ -148,14 +148,14 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a67dd117697c1de0f644c59e15b498966"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a67dd117697c1de0f644c59e15b498966">&#9670;&nbsp;</a></span>pluginId</h2>
+<a id="aa3c8801b8ce41ab75ca51ab54cd8926c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3c8801b8ce41ab75ca51ab54cd8926c">&#9670;&nbsp;</a></span>pluginId</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">XPLMPluginID SenderAddrTy::pluginId</td>
+          <td class="memname">const XPLMPluginID SenderAddrTy::pluginId</td>
         </tr>
       </table>
 </div><div class="memdoc">

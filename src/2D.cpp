@@ -135,10 +135,10 @@ void TwoDDrawLabels ()
     // Loop over all aircraft and draw their labels
     for (auto& p: glob.mapAc)
     {
-        // skip if a/c is invisible
         Aircraft& ac = *p.second;
         try {
-            if (!ac.IsVisible())
+            // skip if a/c is not rendered
+            if (!ac.IsRendered())
                 continue;
         
             // Exit if aircraft is father away from camera than we would draw labels for

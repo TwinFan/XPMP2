@@ -45,6 +45,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">Network.cpp File Reference</div>  </div>
@@ -63,6 +64,15 @@ Namespaces</h2></td></tr>
 <tr class="memitem:namespaceXPMP2"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html">XPMP2</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a257908e94cc048230d5496bd7360fac8"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; InetAddrTy &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a257908e94cc048230d5496bd7360fac8">XPMP2::NetwGetLocalAddresses</a> ()</td></tr>
+<tr class="memdesc:a257908e94cc048230d5496bd7360fac8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return all local addresses (also cached locally)  <a href="namespaceXPMP2.html#a257908e94cc048230d5496bd7360fac8">More...</a><br /></td></tr>
+<tr class="separator:a257908e94cc048230d5496bd7360fac8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3798b0e785d88d7aa07545f0a6428492"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a3798b0e785d88d7aa07545f0a6428492">XPMP2::NetwIsLocalAddr</a> (const InetAddrTy &amp;addr)</td></tr>
+<tr class="memdesc:a3798b0e785d88d7aa07545f0a6428492"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is given address a local one?  <a href="namespaceXPMP2.html#a3798b0e785d88d7aa07545f0a6428492">More...</a><br /></td></tr>
+<tr class="separator:a3798b0e785d88d7aa07545f0a6428492"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:ab619c64e92d373dd6ea21ff2a4dc1272"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ab619c64e92d373dd6ea21ff2a4dc1272">XPMP2::SERR_LEN</a> = 100</td></tr>
@@ -71,6 +81,9 @@ Variables</h2></td></tr>
 <tr class="memitem:a2da5aa0ec780763ab9349f887f0cdad2"><td class="memItemLeft" align="right" valign="top">std::recursive_mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a2da5aa0ec780763ab9349f887f0cdad2">XPMP2::mtxSocketClose</a></td></tr>
 <tr class="memdesc:a2da5aa0ec780763ab9349f887f0cdad2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutex to ensure closing is done in one thread only to avoid race conditions on deleting the buffer.  <a href="namespaceXPMP2.html#a2da5aa0ec780763ab9349f887f0cdad2">More...</a><br /></td></tr>
 <tr class="separator:a2da5aa0ec780763ab9349f887f0cdad2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25c2a04db933766f2bbe5d6fa992329e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; InetAddrTy &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a25c2a04db933766f2bbe5d6fa992329e">XPMP2::gaddrLocal</a></td></tr>
+<tr class="memdesc:a25c2a04db933766f2bbe5d6fa992329e"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of local IP addresses.  <a href="namespaceXPMP2.html#a25c2a04db933766f2bbe5d6fa992329e">More...</a><br /></td></tr>
+<tr class="separator:a25c2a04db933766f2bbe5d6fa992329e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Low-level network communications, especially for TCP/UDP. </p>

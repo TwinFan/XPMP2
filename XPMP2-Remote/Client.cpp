@@ -90,7 +90,11 @@ void RemoteAC::Update (const XPMP2::RemoteAcDetailTy& _acDetails)
     drawInfo.heading    = _acDetails.GetHeading();
     drawInfo.roll       = _acDetails.GetRoll();
     aiPrio              = _acDetails.aiPrio;
-    
+
+    // Don't render local planes (the local plugin does already),
+    // or if explicitely instructed so by the sender
+    SetRender(sender.bLocal ? false : _acDetails.bRender);
+
     // Validity and Visibility
     SetVisible(_acDetails.bVisible);
     if (!_acDetails.bValid)
@@ -231,11 +235,17 @@ bool SenderAddrTy::operator< (const SenderAddrTy& o) const
 
 // Constructor copies values and sets lastMsg to now
 SenderTy::SenderTy (const std::string& _from, const XPMP2::RemoteMsgSettingsTy& _s) :
-sFrom(_from), settings(_s), lastMsg(std::chrono::steady_clock::now())
-{}
+sFrom(_from), bLocal(_s.bLocalSender),
+settings(_s), lastMsg(std::chrono::steady_clock::now())
+{
+    // Remove port number from IP adress
+    const size_t posColon = sFrom.rfind(':');
+    if (posColon != std::string::npos)
+        sFrom.erase(posColon);
+}
 
 // Find a sender based on plugin id and IP address
-SenderTy* SenderTy::Find (XPLMPluginID _id, std::uint32_t _from[4])
+SenderTy* SenderTy::Find (XPLMPluginID _id, const std::uint32_t _from[4])
 {
     SenderAddrTy senderId (_id, _from);
     mapSenderTy::iterator itSender = rcGlob.gmapSender.find(senderId);
@@ -304,7 +314,7 @@ void ClientReleaseAI ()
 ///             This merged version shall become our local settings.
 ///          3. In a last step the changes to current actual settings are determined
 ///             and necessary action taken.
-void ClientProcSettings (std::uint32_t from[4],
+void ClientProcSettings (const std::uint32_t from[4],
                          const std::string& sFrom,
                          const XPMP2::RemoteMsgSettingsTy& _msgSettings)
 {
@@ -319,8 +329,9 @@ void ClientProcSettings (std::uint32_t from[4],
                 (int)sizeof(_msgSettings.name), _msgSettings.name,
                 _msgSettings.pluginId,
                 sFrom.c_str());
-        rcGlob.gmapSender.emplace(SenderAddrTy (_msgSettings.pluginId, from),
-                                  SenderTy(sFrom, _msgSettings));
+        rcGlob.gmapSender.emplace(std::piecewise_construct,
+                                  std::forward_as_tuple(_msgSettings.pluginId, from),
+                                  std::forward_as_tuple(sFrom, _msgSettings));
         
         // If this one also happens to be the first plugin at all then it defines
         // some settings that cannot be well merged
@@ -427,7 +438,7 @@ void ClientFlightLoopEnds ()
 /// @brief Handle A/C Details messages, called by XPMP2 via callback
 /// @details 1. If the aircraft does not exist create it
 ///          2. Else update it's data
-void ClientProcAcDetails (std::uint32_t _from[4], size_t _msgLen,
+void ClientProcAcDetails (const std::uint32_t _from[4], size_t _msgLen,
                           const XPMP2::RemoteMsgAcDetailTy& _msgAcDetails)
 {
     // Find the sender, bail if we don't know it
@@ -460,7 +471,7 @@ void ClientProcAcDetails (std::uint32_t _from[4], size_t _msgLen,
 }
 
 /// Handle A/C Position Update message, called by XPMP2 via callback
-void ClientProcAcPosUpdate (std::uint32_t _from[4], size_t _msgLen,
+void ClientProcAcPosUpdate (const std::uint32_t _from[4], size_t _msgLen,
                             const XPMP2::RemoteMsgAcPosUpdateTy& _msgAcPosUpdate)
 {
     // Find the sender, bail if we don't know it
@@ -485,7 +496,7 @@ void ClientProcAcPosUpdate (std::uint32_t _from[4], size_t _msgLen,
 }
 
 /// Handle A/C Animation dataRef messages, called by XPMP2 via callback
-void ClientProcAcAnim (std::uint32_t _from[4], size_t _msgLen,
+void ClientProcAcAnim (const std::uint32_t _from[4], size_t _msgLen,
                        const XPMP2::RemoteMsgAcAnimTy& _msgAcAnim)
 {
     // Find the sender, bail if we don't know it
@@ -510,7 +521,7 @@ void ClientProcAcAnim (std::uint32_t _from[4], size_t _msgLen,
 }
 
 /// Handle A/C Removal message, called by XPMP2 via callback
-void ClientProcAcRemove (std::uint32_t _from[4], size_t _msgLen,
+void ClientProcAcRemove (const std::uint32_t _from[4], size_t _msgLen,
                          const XPMP2::RemoteMsgAcRemoveTy& _msgAcRemove)
 {
     // Find the sender, bail if we don't know it
@@ -533,7 +544,6 @@ void ClientProcAcRemove (std::uint32_t _from[4], size_t _msgLen,
             gbSkipAcMaintenance.clear();
         }
     }
-
 }
 
 

@@ -785,4 +785,79 @@ void TCPConnection::GetAddrHints (struct addrinfo& hints)
     hints.ai_protocol = IPPROTO_TCP;
 }
 
+//
+// MARK: IP address helpers
+//
+
+/// List of local IP addresses
+std::vector<InetAddrTy> gaddrLocal;
+
+/// Extracts the numerical address and puts it into addr for generic address use
+void InetAddrTy::CopyFrom (const sockaddr* sa)
+{
+    switch (sa->sa_family) {
+        case AF_INET: {
+            const sockaddr_in* sa4 = (sockaddr_in*)sa;
+            addr[0] = sa4->sin_addr.s_addr;
+            addr[1] = addr[2] = addr[3] = 0;
+            break;
+        }
+            
+        case AF_INET6: {
+            const sockaddr_in6* sa6 = (sockaddr_in6*)sa;
+            memcpy(addr, sa6->sin6_addr.s6_addr, sizeof(addr));
+            break;
+        }
+            
+        default:
+            memset(addr, 0, sizeof(addr));
+            break;
+    }
+}
+
+
+/// Return all local addresses (also cached locally)
+const std::vector<InetAddrTy>& NetwGetLocalAddresses ()
+{
+    // Need to fill the cache?
+    if (gaddrLocal.empty()) {
+#if IBM
+        // TODO: Implement local interfaces on Windows
+#error Implement this
+#else
+        // Fetch all local interface addresses
+        struct ifaddrs *ifaddr = nullptr;
+        if (getifaddrs(&ifaddr) == -1) {
+            LOG_MSG(logERR, "getifaddrs failed: %s",
+                    SocketNetworking::GetLastErr().c_str());
+            return gaddrLocal;
+        }
+
+        // add valid addresses to our local cache array
+        for (struct ifaddrs *ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next) {
+            // ignore empty addresses and everything that is not IP
+            if (ifa->ifa_addr == NULL)
+                continue;
+            if (ifa->ifa_addr->sa_family != AF_INET &&
+                ifa->ifa_addr->sa_family != AF_INET6)
+                continue;
+            // the others add to our list of local addresses
+            gaddrLocal.emplace_back(ifa->ifa_addr);
+        }
+        
+        // free the return list
+        freeifaddrs(ifaddr);
+#endif
+    }
+    return gaddrLocal;
+}
+
+/// Is given address a local one?
+bool NetwIsLocalAddr (const InetAddrTy& addr)
+{
+    const std::vector<InetAddrTy>& loc = NetwGetLocalAddresses();
+    return std::find(loc.cbegin(),loc.cend(),addr) != loc.cend();
+}
+
+
 } // namespace XPMP2

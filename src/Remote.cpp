@@ -80,28 +80,6 @@ const std::array<RemoteDataRefPackTy,V_COUNT> REMOTE_DR_DEF = { {
 
 
 //
-// MARK: Helper Functions
-//
-
-/// Extracts the numerical address and puts it into addr for generic address use
-void SockaddrToArr (const sockaddr* sa, std::uint32_t addr[4])
-{
-    switch (sa->sa_family) {
-        case AF_INET:
-            addr[0] = ((sockaddr_in*)sa)->sin_addr.s_addr;
-            addr[1] = addr[2] = addr[3] = 0;
-            break;
-            
-        case AF_INET6:
-            memcpy(addr, ((sockaddr_in6*)sa)->sin6_addr.s6_addr, sizeof(addr[4]));
-            break;
-            
-        default:
-            break;
-    }
-}
-
-//
 // MARK: ENQUEUE: Data Cache (XP Main Thread)
 //
 
@@ -151,6 +129,7 @@ void RmtAcCacheTy::UpdateFrom (const Aircraft& ac,
     v = ac.v;
     bValid      = ac.IsValid();
     bVisible    = ac.IsVisible();
+    bRender     = ac.IsRendered();
     pCSLMdl     = ac.GetModel();
 }
 
@@ -163,6 +142,7 @@ void RmtAcCacheTy::UpdateFrom (const Aircraft& ac,
 
 RemoteMsgBaseTy::RemoteMsgBaseTy (RemoteMsgTy _ty, std::uint8_t _ver) :
 msgTy(_ty), msgVer(_ver),
+bLocalSender(false), filler1(0),
 pluginId(std::uint8_t(glob.pluginId & 0xFFFF))
 {}
 
@@ -233,6 +213,7 @@ void RemoteAcDetailTy::CopyFrom (const Aircraft& _ac,
     dTime    = _dTime;
     bValid   = _ac.IsValid();
     bVisible = _ac.IsVisible();
+    bRender  = _ac.IsRendered();
 
     // dataRef Animation values converted to uint8
     for (size_t i = 0; i < XPMP2::V_COUNT; ++i)
@@ -752,9 +733,9 @@ void RmtRecvMain()
                 const size_t recvSize = gpMc->RecvMC(nullptr, &saFrom);
                 if (recvSize >= sizeof(RemoteMsgBaseTy))
                 {
-                    std::uint32_t from[4];                  // extract the numerical address
-                    SockaddrToArr(&saFrom, from);
-                    const RemoteMsgBaseTy& hdr = *(RemoteMsgBaseTy*)gpMc->getBuf();
+                    const InetAddrTy from(&saFrom);           // extract the numerical address
+                    RemoteMsgBaseTy& hdr = *(RemoteMsgBaseTy*)gpMc->getBuf();
+                    hdr.bLocalSender = NetwIsLocalAddr(from);
                     switch (hdr.msgTy) {
                         // just ignore any interest beacons
                         case RMT_MSG_INTEREST_BEACON:
@@ -775,7 +756,7 @@ void RmtRecvMain()
                                 }
                                 // Let the plugin process this message
                                 if (gRmtCBFcts.pfMsgSettings)
-                                    gRmtCBFcts.pfMsgSettings(from, sFrom, s);
+                                    gRmtCBFcts.pfMsgSettings(from.addr, sFrom, s);
                             } else {
                                 LOG_MSG(logWARN, "Cannot process Settings message: %lu bytes, version %u, from %s",
                                         recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
@@ -788,7 +769,7 @@ void RmtRecvMain()
                             {
                                 if (gRmtCBFcts.pfMsgACDetails) {
                                     const RemoteMsgAcDetailTy& s = *(RemoteMsgAcDetailTy*)gpMc->getBuf();
-                                    gRmtCBFcts.pfMsgACDetails(from, recvSize, s);
+                                    gRmtCBFcts.pfMsgACDetails(from.addr, recvSize, s);
                                 }
                             } else {
                                 LOG_MSG(logWARN, "Cannot process A/C Details message: %lu bytes, version %u, from %s",
@@ -802,7 +783,7 @@ void RmtRecvMain()
                             {
                                 if (gRmtCBFcts.pfMsgACPosUpdate) {
                                     const RemoteMsgAcPosUpdateTy& s = *(RemoteMsgAcPosUpdateTy*)gpMc->getBuf();
-                                    gRmtCBFcts.pfMsgACPosUpdate(from, recvSize, s);
+                                    gRmtCBFcts.pfMsgACPosUpdate(from.addr, recvSize, s);
                                 }
                             } else {
                                 LOG_MSG(logWARN, "Cannot process A/C Pos Update message: %lu bytes, version %u, from %s",
@@ -816,7 +797,7 @@ void RmtRecvMain()
                             {
                                 if (gRmtCBFcts.pfMsgACAnim) {
                                     const RemoteMsgAcAnimTy& s = *(RemoteMsgAcAnimTy*)gpMc->getBuf();
-                                    gRmtCBFcts.pfMsgACAnim(from, recvSize, s);
+                                    gRmtCBFcts.pfMsgACAnim(from.addr, recvSize, s);
                                 }
                             } else {
                                 LOG_MSG(logWARN, "Cannot process A/C Animations message: %lu bytes, version %u, from %s",
@@ -830,7 +811,7 @@ void RmtRecvMain()
                             {
                                 if (gRmtCBFcts.pfMsgACRemove) {
                                     const RemoteMsgAcRemoveTy& s = *(RemoteMsgAcRemoveTy*)gpMc->getBuf();
-                                    gRmtCBFcts.pfMsgACRemove(from, recvSize, s);
+                                    gRmtCBFcts.pfMsgACRemove(from.addr, recvSize, s);
                                 }
                             } else {
                                 LOG_MSG(logWARN, "Cannot process A/C Remove message: %lu bytes, version %u, from %s",
@@ -1066,6 +1047,7 @@ void RemoteAcEnqueue (const Aircraft& ac)
         // Is this an a/c of the group that shall send full details?
         (acCache.fullUpdGrp == gFullUpdDue       ||
          // Or did visibility/validity change?
+         acCache.bRender    != ac.IsRendered()   ||
          acCache.bVisible   != ac.IsVisible()    ||
          acCache.bValid     != ac.IsValid()      ||
          // Did the CSL model change?

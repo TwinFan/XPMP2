@@ -59,15 +59,18 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ac404f6b1b6faeb5ee97b76240701fe9f"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structSenderTy.html">SenderTy</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSenderTy.html#ac404f6b1b6faeb5ee97b76240701fe9f">Find</a> (XPLMPluginID _id, std::uint32_t _from[4])</td></tr>
-<tr class="memdesc:ac404f6b1b6faeb5ee97b76240701fe9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find a sender based on plugin id and IP address.  <a href="structSenderTy.html#ac404f6b1b6faeb5ee97b76240701fe9f">More...</a><br /></td></tr>
-<tr class="separator:ac404f6b1b6faeb5ee97b76240701fe9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed0ad4af010eeb53d25f61f9621cc240"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structSenderTy.html">SenderTy</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSenderTy.html#aed0ad4af010eeb53d25f61f9621cc240">Find</a> (XPLMPluginID _id, const std::uint32_t _from[4])</td></tr>
+<tr class="memdesc:aed0ad4af010eeb53d25f61f9621cc240"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find a sender based on plugin id and IP address.  <a href="structSenderTy.html#aed0ad4af010eeb53d25f61f9621cc240">More...</a><br /></td></tr>
+<tr class="separator:aed0ad4af010eeb53d25f61f9621cc240"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a56d43ef24fddf1eb9d74df0264f1e7fd"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSenderTy.html#a56d43ef24fddf1eb9d74df0264f1e7fd">sFrom</a></td></tr>
 <tr class="memdesc:a56d43ef24fddf1eb9d74df0264f1e7fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">string representaton of the sender's IP address  <a href="structSenderTy.html#a56d43ef24fddf1eb9d74df0264f1e7fd">More...</a><br /></td></tr>
 <tr class="separator:a56d43ef24fddf1eb9d74df0264f1e7fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b38c514bf55a000684c5f7406621a3f"><td class="memItemLeft" align="right" valign="top">const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSenderTy.html#a0b38c514bf55a000684c5f7406621a3f">bLocal</a></td></tr>
+<tr class="memdesc:a0b38c514bf55a000684c5f7406621a3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">is this a local sender on the same computer?  <a href="structSenderTy.html#a0b38c514bf55a000684c5f7406621a3f">More...</a><br /></td></tr>
+<tr class="separator:a0b38c514bf55a000684c5f7406621a3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aefc228b148e7395a021a1be75bf5e763"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structXPMP2_1_1RemoteMsgSettingsTy.html">XPMP2::RemoteMsgSettingsTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSenderTy.html#aefc228b148e7395a021a1be75bf5e763">settings</a></td></tr>
 <tr class="memdesc:aefc228b148e7395a021a1be75bf5e763"><td class="mdescLeft">&#160;</td><td class="mdescRight">that plugin's settings  <a href="structSenderTy.html#aefc228b148e7395a021a1be75bf5e763">More...</a><br /></td></tr>
 <tr class="separator:aefc228b148e7395a021a1be75bf5e763"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -109,8 +112,8 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ac404f6b1b6faeb5ee97b76240701fe9f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac404f6b1b6faeb5ee97b76240701fe9f">&#9670;&nbsp;</a></span>Find()</h2>
+<a id="aed0ad4af010eeb53d25f61f9621cc240"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed0ad4af010eeb53d25f61f9621cc240">&#9670;&nbsp;</a></span>Find()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -127,7 +130,7 @@ Public Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::uint32_t&#160;</td>
+          <td class="paramtype">const std::uint32_t&#160;</td>
           <td class="paramname"><em>_from</em>[4]&#160;</td>
         </tr>
         <tr>
@@ -148,6 +151,22 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="a0b38c514bf55a000684c5f7406621a3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b38c514bf55a000684c5f7406621a3f">&#9670;&nbsp;</a></span>bLocal</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const bool SenderTy::bLocal</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>is this a local sender on the same computer? </p>
+
+</div>
+</div>
 <a id="a17322a2d958d9eed605d9a627c91293d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a17322a2d958d9eed605d9a627c91293d">&#9670;&nbsp;</a></span>lastMsg</h2>
 

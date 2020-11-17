@@ -152,9 +152,6 @@ void MenuUpdateSenders ()
         std::string s (STR_N(snd.settings.name));
         s += " @ ";
         s += snd.sFrom;
-        size_t posColon = s.rfind(':');         // remove port number
-        if (posColon != std::string::npos)
-            s.erase(posColon);
         s += ": ";
         s += std::to_string(snd.mapAc.size());
         s += " aircraft";

@@ -159,6 +159,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab79b047f2e4257fa34f0142ba3b4fe9a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ab79b047f2e4257fa34f0142ba3b4fe9a">IsVisible</a> () const</td></tr>
 <tr class="memdesc:ab79b047f2e4257fa34f0142ba3b4fe9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the plane visible?  <a href="classXPMP2_1_1Aircraft.html#ab79b047f2e4257fa34f0142ba3b4fe9a">More...</a><br /></td></tr>
 <tr class="separator:ab79b047f2e4257fa34f0142ba3b4fe9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a257866d74d7c4be521361db454e3ae6c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a257866d74d7c4be521361db454e3ae6c">SetRender</a> (bool _bRender)</td></tr>
+<tr class="memdesc:a257866d74d7c4be521361db454e3ae6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Switch rendering of the CSL model on or off.  <a href="classXPMP2_1_1Aircraft.html#a257866d74d7c4be521361db454e3ae6c">More...</a><br /></td></tr>
+<tr class="separator:a257866d74d7c4be521361db454e3ae6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d1c6fee34b057b3351f27e0e37dfb78"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a0d1c6fee34b057b3351f27e0e37dfb78">IsRendered</a> () const</td></tr>
+<tr class="memdesc:a0d1c6fee34b057b3351f27e0e37dfb78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is this plane to be rendered?  <a href="classXPMP2_1_1Aircraft.html#a0d1c6fee34b057b3351f27e0e37dfb78">More...</a><br /></td></tr>
+<tr class="separator:a0d1c6fee34b057b3351f27e0e37dfb78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc986f4195712ed50435799f660235d3"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#acc986f4195712ed50435799f660235d3">GetCameraDist</a> () const</td></tr>
 <tr class="memdesc:acc986f4195712ed50435799f660235d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Distance to camera [m].  <a href="classXPMP2_1_1Aircraft.html#acc986f4195712ed50435799f660235d3">More...</a><br /></td></tr>
 <tr class="separator:acc986f4195712ed50435799f660235d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -486,8 +492,11 @@ Protected Attributes</h2></td></tr>
 <tr class="memdesc:aa0611e562c6f6b6244f3b0157e0f0d6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">is this object valid? (Will be reset in case of exceptions)  <a href="classXPMP2_1_1Aircraft.html#aa0611e562c6f6b6244f3b0157e0f0d6e">More...</a><br /></td></tr>
 <tr class="separator:aa0611e562c6f6b6244f3b0157e0f0d6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a558246fc8b275c03a650bdaf04205c38"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a558246fc8b275c03a650bdaf04205c38">bVisible</a> = true</td></tr>
-<tr class="memdesc:a558246fc8b275c03a650bdaf04205c38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shall this plane be drawn at the moment?  <a href="classXPMP2_1_1Aircraft.html#a558246fc8b275c03a650bdaf04205c38">More...</a><br /></td></tr>
+<tr class="memdesc:a558246fc8b275c03a650bdaf04205c38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shall this plane be drawn at the moment and be visible to TCAS/interfaces?  <a href="classXPMP2_1_1Aircraft.html#a558246fc8b275c03a650bdaf04205c38">More...</a><br /></td></tr>
 <tr class="separator:a558246fc8b275c03a650bdaf04205c38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98e3f6bdbb65cc9b5279a6df79bf390f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a98e3f6bdbb65cc9b5279a6df79bf390f">bRender</a> = true</td></tr>
+<tr class="memdesc:a98e3f6bdbb65cc9b5279a6df79bf390f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shall the CSL model be drawn in 3D world? (if !bRender &amp;&amp; bVivile then still visible on TCAS/interfaces, Remote Client uses this for local senders' planes to take over TCAS but not drawing)  <a href="classXPMP2_1_1Aircraft.html#a98e3f6bdbb65cc9b5279a6df79bf390f">More...</a><br /></td></tr>
+<tr class="separator:a98e3f6bdbb65cc9b5279a6df79bf390f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf23d2e810c2ef748ed7a9e6a138993e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1CSLModel.html">XPMP2::CSLModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#acf23d2e810c2ef748ed7a9e6a138993e">pCSLMdl</a> = nullptr</td></tr>
 <tr class="memdesc:acf23d2e810c2ef748ed7a9e6a138993e"><td class="mdescLeft">&#160;</td><td class="mdescRight">the CSL model in use  <a href="classXPMP2_1_1Aircraft.html#acf23d2e810c2ef748ed7a9e6a138993e">More...</a><br /></td></tr>
 <tr class="separator:acf23d2e810c2ef748ed7a9e6a138993e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2427,6 +2436,33 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a0d1c6fee34b057b3351f27e0e37dfb78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d1c6fee34b057b3351f27e0e37dfb78">&#9670;&nbsp;</a></span>IsRendered()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::Aircraft::IsRendered </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Is this plane to be rendered? </p>
+
+</div>
+</div>
 <a id="aa73ec6b3eeb352d66f3fcb0bcf9cf2e2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa73ec6b3eeb352d66f3fcb0bcf9cf2e2">&#9670;&nbsp;</a></span>IsValid()</h2>
 
@@ -3336,6 +3372,34 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a257866d74d7c4be521361db454e3ae6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a257866d74d7c4be521361db454e3ae6c">&#9670;&nbsp;</a></span>SetRender()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetRender </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>_bRender</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Switch rendering of the CSL model on or off. </p>
+
+</div>
+</div>
 <a id="aa628a1457c6588cc2bab4aadca1ffcd0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa628a1457c6588cc2bab4aadca1ffcd0">&#9670;&nbsp;</a></span>SetReversDeployRatio()</h2>
 
@@ -4167,6 +4231,30 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a98e3f6bdbb65cc9b5279a6df79bf390f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98e3f6bdbb65cc9b5279a6df79bf390f">&#9670;&nbsp;</a></span>bRender</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::Aircraft::bRender = true</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Shall the CSL model be drawn in 3D world? (if !bRender &amp;&amp; bVivile then still visible on TCAS/interfaces, Remote Client uses this for local senders' planes to take over TCAS but not drawing) </p>
+
+</div>
+</div>
 <a id="aa0611e562c6f6b6244f3b0157e0f0d6e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa0611e562c6f6b6244f3b0157e0f0d6e">&#9670;&nbsp;</a></span>bValid</h2>
 
@@ -4211,7 +4299,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Shall this plane be drawn at the moment? </p>
+<p>Shall this plane be drawn at the moment and be visible to TCAS/interfaces? </p>
 
 </div>
 </div>

@@ -50,6 +50,7 @@ struct RmtAcCacheTy {
     std::vector<float> v;               ///< dataRef values
     bool bValid     : 1;                ///< is this object valid? (Will be reset in case of exceptions)
     bool bVisible   : 1;                ///< Shall this plane be drawn at the moment?
+    bool bRender    : 1;                ///< Shall the CSL model be drawn in 3D world?
     const CSLModel* pCSLMdl;            ///< the CSL model in use
 
     /// Constructor copies relevant values from the passed-in aircraft

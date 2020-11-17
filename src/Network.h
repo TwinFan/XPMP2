@@ -34,6 +34,7 @@
 #else
 #include <sys/socket.h>
 #include <netdb.h>
+#include <ifaddrs.h>
 #endif
 #include <stdexcept>
 
@@ -213,6 +214,39 @@ public:
 protected:
     virtual void GetAddrHints (struct addrinfo& hints);
 };
+
+
+/// Numerical IP address, used for both ipv4 and ipv6, for ease of handling
+struct InetAddrTy {
+    std::uint32_t   addr[4] = {0,0,0,0};
+    
+    /// Default does nothing
+    InetAddrTy () {}
+    /// Take over from structure
+    InetAddrTy (const sockaddr* sa) { CopyFrom(sa); }
+    
+    /// Take over address from structure
+    void CopyFrom (const sockaddr* sa);
+
+    /// Equality means: all elements are equal
+    bool operator==(const InetAddrTy& o) const
+    { return std::memcmp(this, &o, sizeof(*this)) == 0; }
+    
+    /// Comparison also uses memcmp for defined order
+    bool operator<(const InetAddrTy& o) const
+    { return std::memcmp(this, &o, sizeof(*this)) < 0; }
+
+};
+
+/// Return all local addresses (also cached locally)
+const std::vector<InetAddrTy>& NetwGetLocalAddresses ();
+
+/// Is given address a local one?
+bool NetwIsLocalAddr (const InetAddrTy& addr);
+/// Is given address a local one?
+inline bool NetwIsLocalAddr (const sockaddr* sa)
+{ return NetwIsLocalAddr(InetAddrTy(sa)); }
+
 
 } // namespace XPMP2
 

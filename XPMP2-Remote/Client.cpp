@@ -328,7 +328,7 @@ void ClientProcSettings (const std::uint32_t from[4],
         LOG_MSG(logINFO, INFO_NEW_SENDER_PLUGIN,
                 (int)sizeof(_msgSettings.name), _msgSettings.name,
                 _msgSettings.pluginId,
-                sFrom.c_str());
+                (_msgSettings.bLocalSender ? sFrom + " (local)" : sFrom).c_str());
         rcGlob.gmapSender.emplace(std::piecewise_construct,
                                   std::forward_as_tuple(_msgSettings.pluginId, from),
                                   std::forward_as_tuple(sFrom, _msgSettings));

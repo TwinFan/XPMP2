@@ -204,14 +204,45 @@ void GlobVars::UpdateCfgVals ()
     static XPLMDataRef drIsExternalVisual       = XPLMFindDataRef("sim/network/dataout/is_external_visual");        // int/boolean
     static XPLMDataRef drIsMultiplayer          = XPLMFindDataRef("sim/network/dataout/is_multiplayer_session");    // int/boolean
     static XPLMDataRef drTrackExternalVisual    = XPLMFindDataRef("sim/network/dataout/track_external_visual");     // int[20]/boolean
-    bXPNetworkedSetup = XPLMGetDatai(drIsExternalVisual) || XPLMGetDatai(drIsMultiplayer);
-    if (!bXPNetworkedSetup) {
+    const bool bWasNetworkedSetup = bXPNetworkedSetup;
+    bXPNetworkedSetup = false;
+    if (XPLMGetDatai(drIsExternalVisual)) {
+        if (!bWasNetworkedSetup) LOG_MSG(logINFO, "This X-Plane instance is configured as an External Visual.");
+        bXPNetworkedSetup = true;
+    }
+    else if (XPLMGetDatai(drIsMultiplayer)) {
+        if (!bWasNetworkedSetup) LOG_MSG(logINFO, "This X-Plane instance is part of a multiplayer session.");
+        bXPNetworkedSetup = true;
+    }
+    else {
         static int aNull[20] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
         int ai[20];
         XPLMGetDatavi(drTrackExternalVisual, ai, 0, sizeof(ai)/sizeof(ai[0]));
-        bXPNetworkedSetup = std::memcmp(ai, aNull, sizeof(ai)) != 0;
+        if (std::memcmp(ai, aNull, sizeof(ai)) != 0) {
+            if (!bWasNetworkedSetup) LOG_MSG(logINFO, "This X-Plane instance is a Master with one or more External Visuals.");
+            bXPNetworkedSetup = true;
+        }
+        // Last thing we check: Is the XPLM2 Remote Client running?
+        // Because if it is then the user clearly intended communication with it, even locally
+        else {
+            // Note: Finding a plugin can fail during startup depending on startup sequence!
+            //       So it is never sufficient to search for a plugin once only.
+            static XPLMPluginID idRemoteClient = XPLM_NO_PLUGIN_ID;
+            static int nSearches = 5;           // we search up to 5 times for this reason
+            if (idRemoteClient == XPLM_NO_PLUGIN_ID && nSearches-- > 0)
+                idRemoteClient = XPLMFindPluginBySignature(REMOTE_SIGNATURE);
+            if (idRemoteClient != XPLM_NO_PLUGIN_ID) {
+                if (!bWasNetworkedSetup) LOG_MSG(logINFO, "The XPMP2 Remote Client is running locally.");
+                bXPNetworkedSetup = true;
+            }
+        }
     }
-    // Give the Remote module a chance to handle any change in status
+    // Previously we were in a networked setup, but now no longer?
+    if (bWasNetworkedSetup && !bXPNetworkedSetup) {
+        LOG_MSG(logINFO, "This X-Plane instance is no longer in any networked setup.");
+    }
+    // Give the Remote module a chance to handle any changes in status
+    // (which not only depends on bXPNetworkedSetup but also on number of planes)
     RemoteSenderUpdateStatus();
 
 }

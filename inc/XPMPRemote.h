@@ -38,6 +38,9 @@
 
 namespace XPMP2 {
 
+/// The signature of the XPMP2 Remote Client
+constexpr const char* REMOTE_SIGNATURE      =  "TwinFan.plugin.XPMP2.Remote";
+
 //
 // MARK: Global Helpers
 //

@@ -32,7 +32,6 @@
 
 #include "XPMP2.h"
 
-constexpr const char* REMOTE_SIGNATURE = "TwinFan.plugin.XPMP2.Remote";
 #define INFO_AI_CONTROL         "Have control now over AI/Multiplayer planes"
 #define INFO_AI_CONTROL_ENDS    "Released control of AI/Multiplayer planes"
 #define INFO_REMOTE_CLIENT_AI   "XPMP2 Remote Client controls TCAS. We don't need control as our planes will show up there."

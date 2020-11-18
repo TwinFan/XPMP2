@@ -388,7 +388,8 @@ void ClientFlightLoopBegins ()
     nowFlightLoop = std::chrono::steady_clock::now();
 
     // Acquire the data access lock once and keep it while the flight loop is running
-    glockDataMain.lock();
+    if (!glockDataMain)
+        glockDataMain.lock();
     
     // Every 10 seconds clean up outdated senders
     static float lastSenderCleanup = 0;
@@ -429,10 +430,11 @@ void ClientFlightLoopBegins ()
 }
 
 // Called at the end of each flight loop processing: Release the data lock
-void ClientFlightLoopEnds ()
+void ClientFlightLoopEnds () noexcept
 {
     // Release the data access lock
-    glockDataMain.unlock();
+    try { glockDataMain.unlock(); }
+    catch(...) { /* ignore all errors */ }
 }
 
 /// @brief Handle A/C Details messages, called by XPMP2 via callback
@@ -598,6 +600,9 @@ void ClientToggleActive (int nForce)
     else if (nForce < 0 ||
              XPMP2::RemoteGetStatus() != XPMP2::REMOTE_OFF)
     {
+        // Release the data access lock, just a safety measure so that we don't hinder shutdown in case we f--- up
+        try { glockDataMain.unlock(); }
+        catch (...) { /* ignore all errors */ }
         // Stop the listener
         XPMP2::RemoteRecvStop();
         // Shut down everything

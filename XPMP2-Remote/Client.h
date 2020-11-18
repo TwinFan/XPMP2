@@ -134,4 +134,4 @@ void ClientToggleActive (int nForce = 0);
 /// Called at the beginning of each flight loop processing: Get the data lock, create waiting planes
 void ClientFlightLoopBegins ();
 /// Called at the end of each flight loop processing: Release the data lock
-void ClientFlightLoopEnds ();
+void ClientFlightLoopEnds () noexcept;

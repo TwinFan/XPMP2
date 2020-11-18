@@ -217,7 +217,13 @@ float FlightLoopCallback(float, float, int, void*)
         GetMiscNetwTime();              // update rcGlob.now, e.g. for logging from worker threads
         // if there aren't any planes yet then the XPMP2 library won't call ClientFlightLoopBegins(), instead we do
         if (XPMPCountPlanes() == 0) {
-            ClientFlightLoopBegins();
+            try {
+                // The first plane(s) would be instanciated here, and that could fail, e.g. if there are no CSL models installed
+                ClientFlightLoopBegins();
+            }
+            catch (const std::exception& e) {
+                LOG_MSG(logFATAL, ERR_EXCEPTION, e.what());
+            }
             ClientFlightLoopEnds();
         }
         MenuUpdateCheckmarks();         // update menu
@@ -254,19 +260,6 @@ PLUGIN_API int XPluginStart(char* outName, char* outSig, char* outDesc)
     // https://developer.x-plane.com/2014/12/mac-plugin-developers-you-should-be-using-native-paths/
     XPLMEnableFeature("XPLM_USE_NATIVE_PATHS",1);
 
-    // Create the menu for the plugin
-    int my_slot = XPLMAppendMenuItem(XPLMFindPluginsMenu(), REMOTE_CLIENT_NAME, NULL, 0);
-    hMenu = XPLMCreateMenu(REMOTE_CLIENT_NAME, XPLMFindPluginsMenu(), my_slot, MenuCallback, NULL);
-    XPLMAppendMenuItem(hMenu, "Active",             (void*)MENU_ACTIVE, 0);
-    XPLMAppendMenuItem(hMenu, "TCAS Control",       (void*)MENU_TCAS, 0);
-    
-    // The Senders submenu lists connected plugins with IP address and number of aircraft
-    XPLMAppendMenuItem(hMenu, "Senders",            (void*)MENU_SENDER, 0);
-    hSenders = XPLMCreateMenu("Senders", hMenu, MENU_SENDER, MenuCallback, (void*)MENU_SENDER);
-    XPLMAppendMenuItem(hSenders, "(none)", (void*)MENU_SENDER, 0);
-    
-    MenuUpdateCheckmarks();
-
     // The path separation character, one out of /\:
     char pathSep = XPLMGetDirectorySeparator()[0];
     // The plugin's path, results in something like ".../Resources/plugins/XPMP2-Remote/64/XPMP2-Remote.xpl"
@@ -296,6 +289,30 @@ PLUGIN_API int XPluginStart(char* outName, char* outSig, char* outDesc)
         LOG_MSG(logERR, "Error while loading CSL packages: %s", res);
     }
 
+    // Create the menu for the plugin
+    int my_slot = XPLMAppendMenuItem(XPLMFindPluginsMenu(), REMOTE_CLIENT_NAME, NULL, 0);
+    hMenu = XPLMCreateMenu(REMOTE_CLIENT_NAME, XPLMFindPluginsMenu(), my_slot, MenuCallback, NULL);
+
+    // No CSL models installed?
+    if (XPMPGetNumberOfInstalledModels() <= 0) {
+        XPLMAppendMenuItem(hMenu, "Disabled - No CSL models installed!", (void*)MENU_ACTIVE, 0);
+        XPLMEnableMenuItem(hMenu, 0, false);
+        LOG_MSG(logFATAL, "There are no CSL models installed, XPMP2 Remote Client CANNOT START!");
+        LOG_MSG(logFATAL, "Make sure the same set of CSL models is available under XPMP2-Remote/Resources as is for your sending plugins.");
+        return 1;
+    }
+
+    // Define "proper" menu
+    XPLMAppendMenuItem(hMenu, "Active", (void*)MENU_ACTIVE, 0);
+    XPLMAppendMenuItem(hMenu, "TCAS Control", (void*)MENU_TCAS, 0);
+
+    // The Senders submenu lists connected plugins with IP address and number of aircraft
+    XPLMAppendMenuItem(hMenu, "Senders", (void*)MENU_SENDER, 0);
+    hSenders = XPLMCreateMenu("Senders", hMenu, MENU_SENDER, MenuCallback, (void*)MENU_SENDER);
+    XPLMAppendMenuItem(hSenders, "(none)", (void*)MENU_SENDER, 0);
+
+    MenuUpdateCheckmarks();
+
     return 1;
 }
 
@@ -310,6 +327,11 @@ PLUGIN_API int XPluginEnable(void)
 {
     // Initialize the Client module
     ClientInit();
+
+    // No CSL models installed? Then don't try starting
+    if (XPMPGetNumberOfInstalledModels() <= 0) {
+        return 1;
+    }
 
     // Create a flight loop callback for some regular tasks, called every second
     XPLMCreateFlightLoop_t flParams = {

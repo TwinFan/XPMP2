@@ -1100,7 +1100,8 @@ void RemoteAcEnqueue (const Aircraft& ac)
                     idx != XPMP2::V_ENGINES_ENGINE_ROTATION_ANGLE_DEG4)
                     pAnimData->add(DR_VALS(idx), ac.v[idx]);
             // Add the data to the queue
-            gqueueRmtData.emplace(std::move(pAnimData));
+            if (pAnimData->data.numVals > 0)
+                gqueueRmtData.emplace(std::move(pAnimData));
         }
     }
     acCache.UpdateFrom(ac, lat, lon, alt_ft);

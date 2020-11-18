@@ -97,8 +97,8 @@ if (APPLE)
 endif ()
 
 if (WIN32)
-    # Link with winsock for network
-    target_link_libraries(XPMP2-Sample wsock32 ws2_32)
+    # Link with winsock for network and iphlpap for GetAdaptersAddresses
+    target_link_libraries(XPMP2-Sample wsock32 ws2_32 iphlpapi)
 elseif (APPLE)
     # X-Plane supports OS X 10.10+, so this should ensure FlyWithLua can run on
     # all supported versions.

@@ -575,6 +575,13 @@ void ClientToggleActive (int nForce)
     if (nForce > 0 ||
         XPMP2::RemoteGetStatus() == XPMP2::REMOTE_OFF)
     {
+        // Try already to get TCAS control so we have it before others can snatch it away.
+        // This is not in accordance with what is laid out in "TCAS Override"
+        // https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/#Plugin_coordination
+        // but we serve a good deed here: We can combine several plugins' TCAS needs,
+        // but only if we are in control:
+        ClientTryGetAI();
+
         // Start the listener to receive message
         XPMP2::RemoteCBFctTy rmtCBFcts = {
             ClientFlightLoopBegins,         // before flight loop processing starts

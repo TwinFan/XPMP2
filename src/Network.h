@@ -31,6 +31,7 @@
 #if IBM
 #include <winsock2.h>
 #include <ws2ipdef.h>           // required for sockaddr_in6 (?)
+#include <iphlpapi.h>           // for GetAdaptersAddresses
 #else
 #include <sys/socket.h>
 #include <netdb.h>

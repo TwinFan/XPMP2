@@ -63,7 +63,9 @@ XPMPPlaneID GlobVars::NextPlaneId ()
 void GlobVars::ReadConfigFile ()
 {
     // Put together the plugin-spcific file name
-    std::string cfgFileName = trim(logAcronym) + ".prf";
+    std::string cfgFileName = logAcronym;
+    trim(cfgFileName);
+    cfgFileName += ".prf";
     std::replace(cfgFileName.begin(), cfgFileName.end(), ' ', '_');
     cfgFileName = GetXPSystemPath() + "Output/preferences/XPMP2." + cfgFileName;
     

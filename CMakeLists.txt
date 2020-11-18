@@ -194,8 +194,8 @@ if (WIN32 OR APPLE)
 endif ()
 
 if (WIN32)
-    # Link with winsock for network
-    target_link_libraries(XPMP2-Remote wsock32 ws2_32)
+    # Link with winsock for network and iphlpap for GetAdaptersAddresses
+    target_link_libraries(XPMP2-Remote wsock32 ws2_32 iphlpapi)
 elseif (APPLE)
     # Link OS X core system libraries.
     find_library(IOKIT_LIBRARY IOKit)
@@ -291,8 +291,8 @@ if (WIN32 OR APPLE)
 endif ()
 
 if (WIN32)
-    # Link with winsock for network
-    target_link_libraries(XPMP2-Sample wsock32 ws2_32)
+    # Link with winsock for network and iphlpap for GetAdaptersAddresses
+    target_link_libraries(XPMP2-Sample wsock32 ws2_32 iphlpapi)
 elseif (APPLE)
     target_link_libraries(XPMP2-Sample ${IOKIT_LIBRARY} ${CORE_FOUNDATION_LIBRARY})
     # X-Plane supports OS X 10.10+

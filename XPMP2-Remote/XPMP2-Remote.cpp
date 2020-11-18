@@ -119,8 +119,7 @@ void MenuUpdateCheckmarks ()
             break;
     }
     
-    // Menu item "TCAS Control" (status display only, hence inactive)
-    XPLMEnableMenuItem(hMenu, MENU_TCAS, false);
+    // Menu item "TCAS Control" (status display)
     XPLMCheckMenuItem(hMenu, MENU_TCAS, XPMPHasControlOfAIAircraft() ? xplm_Menu_Checked : xplm_Menu_Unchecked);
 }
 
@@ -150,8 +149,10 @@ void MenuUpdateSenders ()
         
         // Put together plugin name, IP address, number of aircraft
         std::string s (STR_N(snd.settings.name));
-        s += " @ ";
-        s += snd.sFrom;
+        if (!snd.bLocal) {
+            s += " @ ";
+            s += snd.sFrom;
+        }
         s += ": ";
         s += std::to_string(snd.mapAc.size());
         s += " aircraft";
@@ -179,11 +180,17 @@ void MenuCallback (void* /*inMenuRef*/, void* inItemRef)
     try {
         switch (reinterpret_cast<std::uintptr_t>(inItemRef))
         {
+            // Toggle activation of plugin
             case MENU_ACTIVE:
                 ClientToggleActive();
                 break;
                 
+            // Toggle TCAS/AI status
             case MENU_TCAS:
+                if (XPMPHasControlOfAIAircraft())
+                    ClientReleaseAI();
+                else
+                    ClientTryGetAI();
                 break;
         }
         
@@ -338,14 +345,8 @@ PLUGIN_API void XPluginDisable(void)
 
 PLUGIN_API void XPluginReceiveMessage(XPLMPluginID who, long inMsg, void*)
 {
-    // Some other plugin wants TCAS/AI control
+    // Some other plugin wants TCAS/AI control, but we never release automatically
     if (inMsg == XPLM_MSG_RELEASE_PLANES) {
-        // If indeed our configuration says we no longer need it, then we can give it up
-        if (!rcGlob.mergedS.bHaveTCASControl) {
-            LOG_MSG(logINFO, "%s requested TCAS access, we release", GetPluginName(who).c_str())
-            ClientReleaseAI();
-        } else {
-            LOG_MSG(logINFO, "%s requested TCAS access, but we don't release", GetPluginName(who).c_str())
-        }
+        LOG_MSG(logINFO, "%s requested TCAS access, but we don't release automatically", GetPluginName(who).c_str())
     }
 }

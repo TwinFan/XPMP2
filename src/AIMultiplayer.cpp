@@ -32,9 +32,11 @@
 
 #include "XPMP2.h"
 
+constexpr const char* REMOTE_SIGNATURE = "TwinFan.plugin.XPMP2.Remote";
 #define INFO_AI_CONTROL         "Have control now over AI/Multiplayer planes"
 #define INFO_AI_CONTROL_ENDS    "Released control of AI/Multiplayer planes"
-#define WARN_NO_AI_CONTROL      "%s controls TCAS / AI. %s could NOT acquire control, our planes will NOT appear on TCAS or maps."
+#define INFO_REMOTE_CLIENT_AI   "XPMP2 Remote Client controls TCAS. We don't need control as our planes will show up there."
+#define WARN_NO_AI_CONTROL      "%s controls TCAS / AI. %s could NOT acquire control, our planes might NOT appear on TCAS or 3rd party apps."
 #define DEBUG_AI_SLOT_ASSIGN    "Aircraft %llu: ASSIGNING AI Slot %d (%s, %s, %s)"
 #define DEBUG_AI_SLOT_RELEASE   "Aircraft %llu: RELEASING AI Slot %d (%s, %s, %s)"
 
@@ -991,14 +993,21 @@ const char *    XPMPMultiplayerEnable(void (*_callback)(void*),
             int total=0, active=0;
             XPLMPluginID who=0;
             char whoName[256];
+            char signature[256] = "";
             XPLMCountAircraft(&total, &active, &who);
             
             // Maybe the controlling plugin released control immediately,
             // in that case "who" is now -1
             if (who >= 0)
             {
-                XPLMGetPluginInfo(who, whoName, nullptr, nullptr, nullptr);
+                XPLMGetPluginInfo(who, whoName, nullptr, signature, nullptr);
             
+                // If it is the Remote Client we don't need to warn...the Remote Client will show our planes
+                if (strncmp(signature, REMOTE_SIGNATURE, sizeof(signature)) == 0) {
+                    LOG_MSG(logINFO, INFO_REMOTE_CLIENT_AI);
+                    return INFO_REMOTE_CLIENT_AI;
+                }
+
                 // Write a proper message and return it also to caller
                 snprintf(szWarn, sizeof(szWarn), WARN_NO_AI_CONTROL,
                          whoName, glob.pluginName.c_str());

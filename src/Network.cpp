@@ -822,8 +822,51 @@ const std::vector<InetAddrTy>& NetwGetLocalAddresses ()
     // Need to fill the cache?
     if (gaddrLocal.empty()) {
 #if IBM
-        // TODO: Implement local interfaces on Windows
-#error Implement this
+        // Fetch all local interface addresses
+        ULONG ret = NO_ERROR;
+        ULONG bufLen = 15000;
+        IP_ADAPTER_ADDRESSES* pAddresses = NULL;
+        do {
+            // allocate a return buffer
+            pAddresses = (IP_ADAPTER_ADDRESSES*)malloc(bufLen);
+            if (!pAddresses) {
+                LOG_MSG(logERR, "malloc failed for %lu bytes", bufLen);
+                return gaddrLocal;
+            }
+            // try fetching all local addresses
+            ret = GetAdaptersAddresses(AF_UNSPEC, 0, NULL, pAddresses, &bufLen);
+            switch (ret) {
+            case ERROR_NO_DATA:                 // no addresses found (?)
+                return gaddrLocal;
+            case ERROR_BUFFER_OVERFLOW:         // buffer too small, but bufLen has the required size now, try again
+                free(pAddresses);
+                pAddresses = NULL;
+                break;
+            case NO_ERROR:                      // success
+                break;
+            default:
+                LOG_MSG(logERR, "GetAdaptersAddresses failed with error: %d", ret);
+                return gaddrLocal;
+            }
+        } while (ret == ERROR_BUFFER_OVERFLOW);
+
+        // Walk the list of addresses and add to our own vector
+        for (const IP_ADAPTER_ADDRESSES* pAddr = pAddresses;
+             pAddr;
+             pAddr = pAddr->Next)
+        {
+            // Walk the list of unicast addresses
+            for (const IP_ADAPTER_UNICAST_ADDRESS* pUni = pAddr->FirstUnicastAddress;
+                 pUni;
+                 pUni = pUni->Next)
+            {
+                gaddrLocal.emplace_back(pUni->Address.lpSockaddr);
+            }
+        }
+
+        // free the memory
+        free(pAddresses);
+        pAddresses = NULL;
 #else
         // Fetch all local interface addresses
         struct ifaddrs *ifaddr = nullptr;

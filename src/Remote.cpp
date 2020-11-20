@@ -700,8 +700,6 @@ void RmtRecvMain()
         else
             LOG_MSG(logINFO, INFO_MC_RECV_BEGIN)
         
-        // Timeout is 60s, ie. we listen for 60 seconds, then send a beacon, then listen again
-        struct timeval timeout = { REMOTE_RECV_BEACON_INTVL, 0 };
         while (RmtRecvContinue())
         {
             // wait for some data on either socket (multicast or self-pipe)
@@ -711,6 +709,8 @@ void RmtRecvMain()
 #if APL == 1 || LIN == 1
             FD_SET(gSelfPipe[0], &sRead);        // check the self-pipe
 #endif
+            // Timeout is 15s, ie. we listen for 15 seconds, then send a beacon, then listen again
+            struct timeval timeout = { REMOTE_RECV_BEACON_INTVL, 0 };
             int retval = select(maxSock, &sRead, NULL, NULL, &timeout);
 
             // short-cut if we are to shut down (return from 'select' due to closed socket)

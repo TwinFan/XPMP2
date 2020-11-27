@@ -195,6 +195,8 @@ public:
     int             remoteTxfFrequ  = 5;
     /// Configuration: Are we to support remote connections?
     RemoteCfgTy     remoteCfg       = REMOTE_CFG_AUTO;
+    /// Configuration file entry: Are we to support remote connections?
+    RemoteCfgTy     remoteCfgFromIni= REMOTE_CFG_AUTO;
     /// Status of remote connections to networked clients
     RemoteStatusTy  remoteStatus    = REMOTE_OFF;
     /// Are we a listener?

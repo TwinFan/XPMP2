@@ -116,9 +116,9 @@ void GlobVars::ReadConfigFile ()
         else if (ln[0] == "carIcaoType")    carIcaoType = ln[1];
         else if (ln[0] == "remoteSupport") {
             str_tolower(ln[1]);
-            if (ln[1] == "on")              glob.remoteCfg = REMOTE_CFG_ON;
-            else if (ln[1] == "auto")       glob.remoteCfg = REMOTE_CFG_AUTO;
-            else if (ln[1] == "off")        glob.remoteCfg = REMOTE_CFG_OFF;
+            if (ln[1] == "on")              glob.remoteCfg = glob.remoteCfgFromIni = REMOTE_CFG_ON;
+            else if (ln[1] == "auto")       glob.remoteCfg = glob.remoteCfgFromIni = REMOTE_CFG_AUTO;
+            else if (ln[1] == "off")        glob.remoteCfg = glob.remoteCfgFromIni = REMOTE_CFG_OFF;
             else {
                 LOG_MSG(logWARN, "Ignored unknown value '%s' for 'remoteSupport' in file '%s'",
                         ln[1].c_str(), cfgFileName.c_str());
@@ -193,7 +193,7 @@ void GlobVars::UpdateCfgVals ()
 
     // Ask for remote support
     i = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_SUPPORT_REMOTE, remoteCfg);
-    if (i == 0)     remoteCfg = REMOTE_CFG_AUTO;
+    if (i == 0)     remoteCfg = remoteCfgFromIni;       // if plugin says "AUTO", then use config file's value
     else if (i < 0) remoteCfg = REMOTE_CFG_OFF;
     else            remoteCfg = REMOTE_CFG_ON;
 

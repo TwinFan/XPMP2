@@ -111,6 +111,7 @@
 		2541FA45253C902200AEA532 /* XPMPRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPMPRemote.h; sourceTree = "<group>"; };
 		2541FA4B253CDD6700AEA532 /* Remote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Remote.h; sourceTree = "<group>"; };
 		2541FA4C253CDD6700AEA532 /* Remote.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Remote.cpp; sourceTree = "<group>"; };
+		2561DA2D2571AE4800E3DE3D /* readme.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = readme.html; sourceTree = "<group>"; };
 		256DC2F524F3090B00C1595C /* Obj8DataRefs.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Obj8DataRefs.txt; sourceTree = "<group>"; };
 		256DC2F624F3141500C1595C /* CSLCopy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSLCopy.cpp; sourceTree = "<group>"; };
 		256EDFFF2540D7EF0007D517 /* XPMP2-Remote.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "XPMP2-Remote.cpp"; sourceTree = "<group>"; };
@@ -223,6 +224,7 @@
 		256EDFF32540D7730007D517 /* XPMP2-Remote */ = {
 			isa = PBXGroup;
 			children = (
+				2561DA2D2571AE4800E3DE3D /* readme.html */,
 				252FD04C25421C2A00286AE6 /* Client.cpp */,
 				252FD04D25421C2B00286AE6 /* Client.h */,
 				256EE00F2540E39D0007D517 /* Utilities.cpp */,
@@ -579,6 +581,7 @@
 				DEVELOPMENT_TEAM = W5UR4ZV2BP;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				EXCLUDED_ARCHS = arm64;
 				FRAMEWORK_VERSION = 1.0;
 				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -676,6 +679,7 @@
 				DEVELOPMENT_TEAM = W5UR4ZV2BP;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				EXCLUDED_ARCHS = arm64;
 				FRAMEWORK_VERSION = 1.0;
 				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_NO_COMMON_BLOCKS = YES;

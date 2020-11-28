@@ -1,19 +1,35 @@
 Building XPMP2 and the Sample Plugin
 ==
 
+There are two separate projects provided in the XPMP2 repository:
+- One based in the XPMP2 root folder. This project builds all 3 targets:
+  - The XPMP2 static library, which is also copied into
+    `XPMP2-Sample/lib` so that is thereafter accessible by the stand-alone
+    XPMP2-Sample project;
+  - The XPMP2 Remote Client, which builds the `XPMP2-Remote.xpl` binary;
+  - The XPMP2 Sample plugin, which builds the `XPMP2-Sample.xpl` binary,
+    same as with the following stand-alone project.
+- a stand-alone project only for the XPMP2-Sample plugin. This is provided
+  separately so it can serve as basis for your own plugin implementations.
+
+Using the projects works similarly. For the main XPMP2 projects start
+in the XPMP2 root folder. For the XPMP2-Sample stand-alone project
+start in the `XPMP2-Sample` folder.
+
+Then, building differs per platform:
+
 Mac OS
 ---
 
 My development environment is Mac OS, so expect the XCode environment to be
-maintained best. Open `XPMP2.xcodeproj` in XCode: There is one for the XPMP2
-library in the root folder as well as another one for the sample plugin in `XPMP2-Sample`.
+maintained best. Open `XPMP2.xcodeproj` resp.
+`XPMP2-Sample/XPMP2-Sample.xcodeproj` in XCode.
 
-**XPMP2 Library:** The resulting XPMP2 framework is also copied into
-`XPMP2-Sample/lib` so it is accessible when building the sample plugin.
-
-**Sample Plugin:** In the sample plugin's settings you will need to change
-the value of the user-defined build macro `XPLANE11_ROOT` to point to
-_your_ X-Plane folder. Then the plugin is installed there right after build.
+In the XCode Build Settings you may want to change the definition
+of the User-Defined build macro `XPLANE11_ROOT`: Put in the path to your
+X-Plane 11 installation's root path, then the XPMP2 binaries will be
+installed right there in the appropriate `Resources/plugins` sub-folder
+structure.
 
 Windows
 ---
@@ -22,9 +38,9 @@ Windows cannot build in the Docker environment as mingw's libraries
 aren't up to C++ 17 standards.
 
 - Install [Visual Studio](https://visualstudio.microsoft.com/vs/community/)
-- Open the root folder to build the library
+- Open the root folder to build the XPMP2 library targets,
+  or the `XPMP2-Sample` folder to only build the sample plugin
   ("File > Open > Folder", [see here for VS's "Open Folder" functionality](https://docs.microsoft.com/en-us/cpp/build/open-folder-projects-cpp?view=vs-2019))
-- Open the folder `XPMP2-Sample` to build the sample plugin
 - In both cases will VS use the CMake setup to configure building the binaries.
 - Build from within Visual Studio.
 
@@ -37,15 +53,16 @@ Linux and Mac OS via Docker
 ---
 
 A docker environment based on Ubuntu 18.04 is provided,
-which can build both Linux and MacOS.
+which can build both Linux and Mac OS.
 
 - Install [Docker Desktop](https://www.docker.com/products/docker-desktop) and start it.
-- `cd` to the project's `docker` folder, and enter `make` for the library
-- `cd` to `XPMP2-Sample/docker`, and enter `make` for the plugin.
+- `cd` to the project's `docker` folder, and enter `make` for the three
+  XPMP2 library targets, or
+- `cd` to `XPMP2-Sample/docker`, and enter `make` for the sample plugin only.
 - Three `make` targets are available:
-  - `lin` builds Linux only
-  - `mac` builds Mac OS only
-  - `bash` starts a Linux bash within the docker environment
+  - `lin` builds Linux only,
+  - `mac` builds Mac OS only,
+  - `bash` starts a Linux bash within the docker environment.
 
 In the first run only, it will create the necessary Docker image based on Ubuntu 18.04,
 which includes downloading lots of base images and packages and even

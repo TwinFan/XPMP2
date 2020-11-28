@@ -132,6 +132,8 @@ public:
     std::string         cslId;
     /// name, formed by last part of path plus id
     std::string         modelName;
+    /// simple hash of package name, for easy matching in networked setup
+    std::uint16_t       pkgHash = 0;
     /// further match-relevant fields like airline and livery can be a list
     MatchCritVecTy      vecMatchCrit;
     /// list of objects representing this model
@@ -184,8 +186,9 @@ public:
     /// Minimum requirement for using this object is: id, type, path
     bool IsValid () const { return !cslId.empty() && !icaoType.empty() && !listObj.empty(); }
     
-    const std::string& GetId () const           { return cslId; }       ///< id, just an arbitrary label read from `xsb_aircraft.txt::OBJ8_AIRCRAFT`
-    const std::string& GetModelName () const    { return modelName; }
+    const std::string& GetShortId () const      { return shortId; }     ///< short id, just an arbitrary label read from `xsb_aircraft.txt::OBJ8_AIRCRAFT`
+    const std::string& GetId () const           { return cslId; }       ///< full id: package name / shortId, expected to be unique
+    const std::string& GetModelName () const    { return modelName; }   ///< name, formed by last part of path plus id (human readable, but not guaranteed to be unique)
     const std::string& GetIcaoType () const     { return icaoType; }    ///< ICAO aircraft type this model represents: `xsb_aircraft.txt::ICAO`
     const std::string& GetIcaoAirline () const  { return vecMatchCrit.at(0).icaoAirline; } ///< ICAO Airline code this model represents: `xsb_aircraft.txt::AIRLINE`
     const std::string& GetLivery () const       { return vecMatchCrit.at(0).livery; }      ///< Livery code this model represents: `xsb_aircraft.txt::LIVERY`
@@ -255,11 +258,11 @@ void CSLModelsCleanup ();
 const char* CSLModelsLoad (const std::string& _path,
                            int _maxDepth = 5);
 
-/// @brief Find a model by name
-/// @param _mdlName The model's name (aka id) to search for
+/// @brief Find a model by unique id
+/// @param _cslId The model's unique id to search for (package name/short id)
 /// @param[out] _pOutIter Optional pointer to an iterator variable, receiving the iterator position of the found model
-CSLModel* CSLModelByName (const std::string& _mdlName,
-                          mapCSLModelTy::iterator* _pOutIter = nullptr);
+CSLModel* CSLModelById (const std::string& _cslId,
+                        mapCSLModelTy::iterator* _pOutIter = nullptr);
 
 /// @brief Find a matching model
 /// @param _type ICAO aircraft type like "A319"

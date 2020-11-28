@@ -68,20 +68,34 @@ $(function() {
  <div class="center">
   <img src="classXPMP2_1_1Aircraft.png" usemap="#XPMP2::Aircraft_map" alt=""/>
   <map id="XPMP2::Aircraft_map" name="XPMP2::Aircraft_map">
-<area href="classSampleAircraft.html" title="Subclassing XPMP2::Aircraft to create our own class." alt="SampleAircraft" shape="rect" coords="0,56,146,80"/>
-<area href="classXPCAircraft.html" title="Legacy wrapper class as provided by original libxplanemp." alt="XPCAircraft" shape="rect" coords="156,56,302,80"/>
-<area href="classLegacySampleAircraft.html" title="Subclassing XPCAircraft to create our own class." alt="LegacySampleAircraft" shape="rect" coords="78,112,224,136"/>
-<area href="classXPMP2_1_1LegacyAircraft.html" title="This class helps creating aircraft via the legacy global functions. It provides standard implementati..." alt="XPMP2::LegacyAircraft" shape="rect" coords="234,112,380,136"/>
+<area href="classRemoteAC.html" title="Representation of a remote aircraft." alt="RemoteAC" shape="rect" coords="0,56,146,80"/>
+<area href="classSampleAircraft.html" title="Subclassing XPMP2::Aircraft to create our own class." alt="SampleAircraft" shape="rect" coords="156,56,302,80"/>
+<area href="classXPCAircraft.html" title="Legacy wrapper class as provided by original libxplanemp." alt="XPCAircraft" shape="rect" coords="312,56,458,80"/>
+<area href="classLegacySampleAircraft.html" title="Subclassing XPCAircraft to create our own class." alt="LegacySampleAircraft" shape="rect" coords="234,112,380,136"/>
+<area href="classXPMP2_1_1LegacyAircraft.html" title="This class helps creating aircraft via the legacy global functions. It provides standard implementati..." alt="XPMP2::LegacyAircraft" shape="rect" coords="390,112,536,136"/>
   </map>
 </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:abb2bfb5a4e8eb610346a3aebee504962"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#abb2bfb5a4e8eb610346a3aebee504962">Aircraft</a> (const std::string &amp;_icaoType, const std::string &amp;_icaoAirline, const std::string &amp;_livery, <a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> _modeS_id=0, const std::string &amp;_modelId=&quot;&quot;)</td></tr>
-<tr class="separator:abb2bfb5a4e8eb610346a3aebee504962"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af77ba40523a9e43e4c4c3ca433210817"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#af77ba40523a9e43e4c4c3ca433210817">Aircraft</a> (const std::string &amp;_icaoType, const std::string &amp;_icaoAirline, const std::string &amp;_livery, <a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> _modeS_id=0, const std::string &amp;_cslId=&quot;&quot;)</td></tr>
+<tr class="memdesc:af77ba40523a9e43e4c4c3ca433210817"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor creates a new aircraft object, which will be managed and displayed.  <a href="classXPMP2_1_1Aircraft.html#af77ba40523a9e43e4c4c3ca433210817">More...</a><br /></td></tr>
+<tr class="separator:af77ba40523a9e43e4c4c3ca433210817"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37c1336870ae988f3cb39b3e2f14df88"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a37c1336870ae988f3cb39b3e2f14df88">Aircraft</a> ()</td></tr>
+<tr class="memdesc:a37c1336870ae988f3cb39b3e2f14df88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor creates an empty, invalid(!) and invisible shell; call <a class="el" href="classXPMP2_1_1Aircraft.html#a7ece414d098de338e22e995ba4a696df" title="Creates a plane, only a valid operation if object was created using the default constructor.">XPMP2::Aircraft::Create()</a> to actually create a plane.  <a href="classXPMP2_1_1Aircraft.html#a37c1336870ae988f3cb39b3e2f14df88">More...</a><br /></td></tr>
+<tr class="separator:a37c1336870ae988f3cb39b3e2f14df88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab75acdc7aa8062edcc63fba161790ef4"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ab75acdc7aa8062edcc63fba161790ef4">~Aircraft</a> ()</td></tr>
 <tr class="memdesc:ab75acdc7aa8062edcc63fba161790ef4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor cleans up all resources acquired.  <a href="classXPMP2_1_1Aircraft.html#ab75acdc7aa8062edcc63fba161790ef4">More...</a><br /></td></tr>
 <tr class="separator:ab75acdc7aa8062edcc63fba161790ef4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae12d5db27746c63638db0b4148c6c3e0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ae12d5db27746c63638db0b4148c6c3e0">Aircraft</a> (const <a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> &amp;)=delete</td></tr>
+<tr class="memdesc:ae12d5db27746c63638db0b4148c6c3e0"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">Aircraft</a> must not be copied as they reference non-copyable resources like XP instances.  <a href="classXPMP2_1_1Aircraft.html#ae12d5db27746c63638db0b4148c6c3e0">More...</a><br /></td></tr>
+<tr class="separator:ae12d5db27746c63638db0b4148c6c3e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bb93aaf99637a8eb4bdac281e957a92"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a7bb93aaf99637a8eb4bdac281e957a92">operator=</a> (const <a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> &amp;)=delete</td></tr>
+<tr class="memdesc:a7bb93aaf99637a8eb4bdac281e957a92"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">Aircraft</a> must not be copied as they reference non-copyable resources like XP instances.  <a href="classXPMP2_1_1Aircraft.html#a7bb93aaf99637a8eb4bdac281e957a92">More...</a><br /></td></tr>
+<tr class="separator:a7bb93aaf99637a8eb4bdac281e957a92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ece414d098de338e22e995ba4a696df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a7ece414d098de338e22e995ba4a696df">Create</a> (const std::string &amp;_icaoType, const std::string &amp;_icaoAirline, const std::string &amp;_livery, <a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> _modeS_id=0, const std::string &amp;_cslId=&quot;&quot;, <a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a> *_pCSLModel=nullptr)</td></tr>
+<tr class="memdesc:a7ece414d098de338e22e995ba4a696df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a plane, only a valid operation if object was created using the default constructor.  <a href="classXPMP2_1_1Aircraft.html#a7ece414d098de338e22e995ba4a696df">More...</a><br /></td></tr>
+<tr class="separator:a7ece414d098de338e22e995ba4a696df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a596bb59f5ee02709fb4cbb5acbaf9b38"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a596bb59f5ee02709fb4cbb5acbaf9b38">GetModeS_ID</a> () const</td></tr>
 <tr class="memdesc:a596bb59f5ee02709fb4cbb5acbaf9b38"><td class="mdescLeft">&#160;</td><td class="mdescRight">return the <a class="el" href="namespaceXPMP2.html">XPMP2</a> plane id  <a href="classXPMP2_1_1Aircraft.html#a596bb59f5ee02709fb4cbb5acbaf9b38">More...</a><br /></td></tr>
 <tr class="separator:a596bb59f5ee02709fb4cbb5acbaf9b38"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -115,9 +129,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:adb51258e5d6db1652ddc889afbe384b4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#adb51258e5d6db1652ddc889afbe384b4">ReMatchModel</a> ()</td></tr>
 <tr class="memdesc:adb51258e5d6db1652ddc889afbe384b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds a match again, using the existing parameters, eg. after more models have been loaded.  <a href="classXPMP2_1_1Aircraft.html#adb51258e5d6db1652ddc889afbe384b4">More...</a><br /></td></tr>
 <tr class="separator:adb51258e5d6db1652ddc889afbe384b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6aa7bb3723c0211b5a1f27a879ea7975"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a6aa7bb3723c0211b5a1f27a879ea7975">AssignModel</a> (const std::string &amp;_modelName)</td></tr>
-<tr class="memdesc:a6aa7bb3723c0211b5a1f27a879ea7975"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns the given model per name, returns if successful.  <a href="classXPMP2_1_1Aircraft.html#a6aa7bb3723c0211b5a1f27a879ea7975">More...</a><br /></td></tr>
-<tr class="separator:a6aa7bb3723c0211b5a1f27a879ea7975"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63fd6daacc207ee8193d766d43183e94"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a63fd6daacc207ee8193d766d43183e94">AssignModel</a> (const std::string &amp;_cslId, <a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a> *_pCSLModel=nullptr)</td></tr>
+<tr class="memdesc:a63fd6daacc207ee8193d766d43183e94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns the given model.  <a href="classXPMP2_1_1Aircraft.html#a63fd6daacc207ee8193d766d43183e94">More...</a><br /></td></tr>
+<tr class="separator:a63fd6daacc207ee8193d766d43183e94"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a297c06b1ab7c31e7b10b6b6f1df7e3bd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1CSLModel.html">XPMP2::CSLModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a297c06b1ab7c31e7b10b6b6f1df7e3bd">GetModel</a> () const</td></tr>
 <tr class="memdesc:a297c06b1ab7c31e7b10b6b6f1df7e3bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">return a pointer to the CSL model in use (Note: The <a class="el" href="classXPMP2_1_1CSLModel.html" title="Represetns a CSL model as it is saved on disk.">CSLModel</a> structure is not public.)  <a href="classXPMP2_1_1Aircraft.html#a297c06b1ab7c31e7b10b6b6f1df7e3bd">More...</a><br /></td></tr>
 <tr class="separator:a297c06b1ab7c31e7b10b6b6f1df7e3bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -145,6 +159,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab79b047f2e4257fa34f0142ba3b4fe9a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ab79b047f2e4257fa34f0142ba3b4fe9a">IsVisible</a> () const</td></tr>
 <tr class="memdesc:ab79b047f2e4257fa34f0142ba3b4fe9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the plane visible?  <a href="classXPMP2_1_1Aircraft.html#ab79b047f2e4257fa34f0142ba3b4fe9a">More...</a><br /></td></tr>
 <tr class="separator:ab79b047f2e4257fa34f0142ba3b4fe9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a257866d74d7c4be521361db454e3ae6c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a257866d74d7c4be521361db454e3ae6c">SetRender</a> (bool _bRender)</td></tr>
+<tr class="memdesc:a257866d74d7c4be521361db454e3ae6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Switch rendering of the CSL model on or off.  <a href="classXPMP2_1_1Aircraft.html#a257866d74d7c4be521361db454e3ae6c">More...</a><br /></td></tr>
+<tr class="separator:a257866d74d7c4be521361db454e3ae6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d1c6fee34b057b3351f27e0e37dfb78"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a0d1c6fee34b057b3351f27e0e37dfb78">IsRendered</a> () const</td></tr>
+<tr class="memdesc:a0d1c6fee34b057b3351f27e0e37dfb78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is this plane to be rendered?  <a href="classXPMP2_1_1Aircraft.html#a0d1c6fee34b057b3351f27e0e37dfb78">More...</a><br /></td></tr>
+<tr class="separator:a0d1c6fee34b057b3351f27e0e37dfb78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc986f4195712ed50435799f660235d3"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#acc986f4195712ed50435799f660235d3">GetCameraDist</a> () const</td></tr>
 <tr class="memdesc:acc986f4195712ed50435799f660235d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Distance to camera [m].  <a href="classXPMP2_1_1Aircraft.html#acc986f4195712ed50435799f660235d3">More...</a><br /></td></tr>
 <tr class="separator:acc986f4195712ed50435799f660235d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -472,8 +492,11 @@ Protected Attributes</h2></td></tr>
 <tr class="memdesc:aa0611e562c6f6b6244f3b0157e0f0d6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">is this object valid? (Will be reset in case of exceptions)  <a href="classXPMP2_1_1Aircraft.html#aa0611e562c6f6b6244f3b0157e0f0d6e">More...</a><br /></td></tr>
 <tr class="separator:aa0611e562c6f6b6244f3b0157e0f0d6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a558246fc8b275c03a650bdaf04205c38"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a558246fc8b275c03a650bdaf04205c38">bVisible</a> = true</td></tr>
-<tr class="memdesc:a558246fc8b275c03a650bdaf04205c38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shall this plane be drawn at the moment?  <a href="classXPMP2_1_1Aircraft.html#a558246fc8b275c03a650bdaf04205c38">More...</a><br /></td></tr>
+<tr class="memdesc:a558246fc8b275c03a650bdaf04205c38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shall this plane be drawn at the moment and be visible to TCAS/interfaces?  <a href="classXPMP2_1_1Aircraft.html#a558246fc8b275c03a650bdaf04205c38">More...</a><br /></td></tr>
 <tr class="separator:a558246fc8b275c03a650bdaf04205c38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98e3f6bdbb65cc9b5279a6df79bf390f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a98e3f6bdbb65cc9b5279a6df79bf390f">bRender</a> = true</td></tr>
+<tr class="memdesc:a98e3f6bdbb65cc9b5279a6df79bf390f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shall the CSL model be drawn in 3D world? (if !bRender &amp;&amp; bVivile then still visible on TCAS/interfaces, Remote Client uses this for local senders' planes to take over TCAS but not drawing)  <a href="classXPMP2_1_1Aircraft.html#a98e3f6bdbb65cc9b5279a6df79bf390f">More...</a><br /></td></tr>
+<tr class="separator:a98e3f6bdbb65cc9b5279a6df79bf390f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf23d2e810c2ef748ed7a9e6a138993e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1CSLModel.html">XPMP2::CSLModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#acf23d2e810c2ef748ed7a9e6a138993e">pCSLMdl</a> = nullptr</td></tr>
 <tr class="memdesc:acf23d2e810c2ef748ed7a9e6a138993e"><td class="mdescLeft">&#160;</td><td class="mdescRight">the CSL model in use  <a href="classXPMP2_1_1Aircraft.html#acf23d2e810c2ef748ed7a9e6a138993e">More...</a><br /></td></tr>
 <tr class="separator:acf23d2e810c2ef748ed7a9e6a138993e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -542,8 +565,8 @@ Friends</h2></td></tr>
 <div class="textblock"><p>Actual representation of all aircraft in <a class="el" href="namespaceXPMP2.html">XPMP2</a>. </p>
 <dl class="section note"><dt>Note</dt><dd>In modern implementations, this class shall be subclassed by your plugin's code. </dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="abb2bfb5a4e8eb610346a3aebee504962"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abb2bfb5a4e8eb610346a3aebee504962">&#9670;&nbsp;</a></span>Aircraft()</h2>
+<a id="af77ba40523a9e43e4c4c3ca433210817"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af77ba40523a9e43e4c4c3ca433210817">&#9670;&nbsp;</a></span>Aircraft() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -576,7 +599,7 @@ Friends</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>_modelId</em> = <code>&quot;&quot;</code>&#160;</td>
+          <td class="paramname"><em>_cslId</em> = <code>&quot;&quot;</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -585,7 +608,9 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Constructor creates a new aircraft object, which will be managed and displayed </p><dl class="exception"><dt>Exceptions</dt><dd>
+
+<p>Constructor creates a new aircraft object, which will be managed and displayed. </p>
+<dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname"><a class="el" href="classXPMP2_1_1XPMP2Error.html" title="XPMP2 Exception class, e.g. thrown if there are no CSL models or duplicate modeS_ids when creating an...">XPMP2::XPMP2Error</a></td><td>Mode S id invalid or duplicate, no model found during model matching </td></tr>
   </table>
@@ -597,10 +622,29 @@ Friends</h2></td></tr>
     <tr><td class="paramname">_icaoAirline</td><td>ICAO airline code, like 'BAW', 'DLH', can be an empty string </td></tr>
     <tr><td class="paramname">_livery</td><td>Special livery designator, can be an empty string </td></tr>
     <tr><td class="paramname">_modeS_id</td><td>(optional) <b>Unique</b> identification of the plane [0x01..0xFFFFFF], e.g. the 24bit mode S transponder code. <a class="el" href="namespaceXPMP2.html">XPMP2</a> assigns an arbitrary unique number of not given </td></tr>
-    <tr><td class="paramname">_modelId</td><td>(optional) specific model id to be used (no folder/package name, just the id as defined in the <code>OBJ8_AIRCRAFT</code> line) </td></tr>
+    <tr><td class="paramname">_cslId</td><td>(optional) specific unique model id to be used (package name/short id, as defined in the <code>OBJ8_AIRCRAFT</code> line) </td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a37c1336870ae988f3cb39b3e2f14df88"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37c1336870ae988f3cb39b3e2f14df88">&#9670;&nbsp;</a></span>Aircraft() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">XPMP2::Aircraft::Aircraft </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Default constructor creates an empty, invalid(!) and invisible shell; call <a class="el" href="classXPMP2_1_1Aircraft.html#a7ece414d098de338e22e995ba4a696df" title="Creates a plane, only a valid operation if object was created using the default constructor.">XPMP2::Aircraft::Create()</a> to actually create a plane. </p>
 
 </div>
 </div>
@@ -631,9 +675,37 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="ae12d5db27746c63638db0b4148c6c3e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae12d5db27746c63638db0b4148c6c3e0">&#9670;&nbsp;</a></span>Aircraft() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">XPMP2::Aircraft::Aircraft </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">Aircraft</a> must not be copied as they reference non-copyable resources like XP instances. </p>
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a6aa7bb3723c0211b5a1f27a879ea7975"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6aa7bb3723c0211b5a1f27a879ea7975">&#9670;&nbsp;</a></span>AssignModel()</h2>
+<a id="a63fd6daacc207ee8193d766d43183e94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63fd6daacc207ee8193d766d43183e94">&#9670;&nbsp;</a></span>AssignModel()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -642,13 +714,31 @@ Friends</h2></td></tr>
           <td class="memname">bool XPMP2::Aircraft::AssignModel </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>_modelName</em></td><td>)</td>
+          <td class="paramname"><em>_cslId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a> *&#160;</td>
+          <td class="paramname"><em>_pCSLModel</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Assigns the given model per name, returns if successful. </p>
+<p>Assigns the given model. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_cslId</td><td>Search for this id (package/short) </td></tr>
+    <tr><td class="paramname">_pCSLModel</td><td>(optional) If given use this model and don't search </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Successfuly found and assigned a model? </dd></dl>
 
 </div>
 </div>
@@ -749,6 +839,77 @@ Friends</h2></td></tr>
 
 <p>Put together the map label. </p>
 <p>Called about once a second. Label depends on tcasTargetIdx </p>
+
+</div>
+</div>
+<a id="a7ece414d098de338e22e995ba4a696df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ece414d098de338e22e995ba4a696df">&#9670;&nbsp;</a></span>Create()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::Create </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>_icaoType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>_icaoAirline</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>_livery</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>&#160;</td>
+          <td class="paramname"><em>_modeS_id</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>_cslId</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a> *&#160;</td>
+          <td class="paramname"><em>_pCSLModel</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a plane, only a valid operation if object was created using the default constructor. </p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">Tried</td><td>on already defined object; <a class="el" href="classXPMP2_1_1XPMP2Error.html" title="XPMP2 Exception class, e.g. thrown if there are no CSL models or duplicate modeS_ids when creating an...">XPMP2::XPMP2Error</a> Mode S id invalid or duplicate, no model found during model matching </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_icaoType</td><td>ICAO aircraft type designator, like 'A320', 'B738', 'C172' </td></tr>
+    <tr><td class="paramname">_icaoAirline</td><td>ICAO airline code, like 'BAW', 'DLH', can be an empty string </td></tr>
+    <tr><td class="paramname">_livery</td><td>Special livery designator, can be an empty string </td></tr>
+    <tr><td class="paramname">_modeS_id</td><td>(optional) <b>Unique</b> identification of the plane [0x01..0xFFFFFF], e.g. the 24bit mode S transponder code. <a class="el" href="namespaceXPMP2.html">XPMP2</a> assigns an arbitrary unique number of not given </td></tr>
+    <tr><td class="paramname">_cslId</td><td>(optional) specific unique model id to be used (package name/short id, as defined in the <code>OBJ8_AIRCRAFT</code> line) </td></tr>
+    <tr><td class="paramname">_pCSLModel</td><td>(optional) The actual model to use (no matching or search by <code>_cslId</code> if model is given this way) </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -2275,6 +2436,33 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a0d1c6fee34b057b3351f27e0e37dfb78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d1c6fee34b057b3351f27e0e37dfb78">&#9670;&nbsp;</a></span>IsRendered()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::Aircraft::IsRendered </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Is this plane to be rendered? </p>
+
+</div>
+</div>
 <a id="aa73ec6b3eeb352d66f3fcb0bcf9cf2e2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa73ec6b3eeb352d66f3fcb0bcf9cf2e2">&#9670;&nbsp;</a></span>IsValid()</h2>
 
@@ -2442,6 +2630,34 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Prepare map coordinates. </p>
+
+</div>
+</div>
+<a id="a7bb93aaf99637a8eb4bdac281e957a92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bb93aaf99637a8eb4bdac281e957a92">&#9670;&nbsp;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a>&amp; XPMP2::Aircraft::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">Aircraft</a> must not be copied as they reference non-copyable resources like XP instances. </p>
 
 </div>
 </div>
@@ -3156,6 +3372,34 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a257866d74d7c4be521361db454e3ae6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a257866d74d7c4be521361db454e3ae6c">&#9670;&nbsp;</a></span>SetRender()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetRender </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>_bRender</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Switch rendering of the CSL model on or off. </p>
+
+</div>
+</div>
 <a id="aa628a1457c6588cc2bab4aadca1ffcd0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa628a1457c6588cc2bab4aadca1ffcd0">&#9670;&nbsp;</a></span>SetReversDeployRatio()</h2>
 
@@ -3757,7 +4001,7 @@ Friends</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classSampleAircraft.html#adb716173b20edb359c23fbf2ac554104">SampleAircraft</a>, and <a class="el" href="classXPCAircraft.html#a20a474086cb0c7c393578e5f9d42ef2c">XPCAircraft</a>.</p>
+<p>Implemented in <a class="el" href="classRemoteAC.html#ac482ed0731dc4561bb25c16605d2c773">RemoteAC</a>, <a class="el" href="classSampleAircraft.html#adb716173b20edb359c23fbf2ac554104">SampleAircraft</a>, and <a class="el" href="classXPCAircraft.html#a20a474086cb0c7c393578e5f9d42ef2c">XPCAircraft</a>.</p>
 
 </div>
 </div>
@@ -3987,6 +4231,30 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a98e3f6bdbb65cc9b5279a6df79bf390f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98e3f6bdbb65cc9b5279a6df79bf390f">&#9670;&nbsp;</a></span>bRender</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::Aircraft::bRender = true</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Shall the CSL model be drawn in 3D world? (if !bRender &amp;&amp; bVivile then still visible on TCAS/interfaces, Remote Client uses this for local senders' planes to take over TCAS but not drawing) </p>
+
+</div>
+</div>
 <a id="aa0611e562c6f6b6244f3b0157e0f0d6e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa0611e562c6f6b6244f3b0157e0f0d6e">&#9670;&nbsp;</a></span>bValid</h2>
 
@@ -4031,7 +4299,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Shall this plane be drawn at the moment? </p>
+<p>Shall this plane be drawn at the moment and be visible to TCAS/interfaces? </p>
 
 </div>
 </div>

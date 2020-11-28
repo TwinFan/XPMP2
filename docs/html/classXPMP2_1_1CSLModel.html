@@ -96,10 +96,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a67334f15dc4357f80d54135fce5f7ca6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a67334f15dc4357f80d54135fce5f7ca6">IsValid</a> () const</td></tr>
 <tr class="memdesc:a67334f15dc4357f80d54135fce5f7ca6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimum requirement for using this object is: id, type, path.  <a href="classXPMP2_1_1CSLModel.html#a67334f15dc4357f80d54135fce5f7ca6">More...</a><br /></td></tr>
 <tr class="separator:a67334f15dc4357f80d54135fce5f7ca6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93dc8ae9adf63d8a6f8ff40885bf516e"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a93dc8ae9adf63d8a6f8ff40885bf516e">GetShortId</a> () const</td></tr>
+<tr class="memdesc:a93dc8ae9adf63d8a6f8ff40885bf516e"><td class="mdescLeft">&#160;</td><td class="mdescRight">short id, just an arbitrary label read from <code>xsb_aircraft.txt::OBJ8_AIRCRAFT</code>  <a href="classXPMP2_1_1CSLModel.html#a93dc8ae9adf63d8a6f8ff40885bf516e">More...</a><br /></td></tr>
+<tr class="separator:a93dc8ae9adf63d8a6f8ff40885bf516e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a416598933765a5743276b0e072c6257d"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a416598933765a5743276b0e072c6257d">GetId</a> () const</td></tr>
-<tr class="memdesc:a416598933765a5743276b0e072c6257d"><td class="mdescLeft">&#160;</td><td class="mdescRight">id, just an arbitrary label read from <code>xsb_aircraft.txt::OBJ8_AIRCRAFT</code>  <a href="classXPMP2_1_1CSLModel.html#a416598933765a5743276b0e072c6257d">More...</a><br /></td></tr>
+<tr class="memdesc:a416598933765a5743276b0e072c6257d"><td class="mdescLeft">&#160;</td><td class="mdescRight">full id: package name / shortId, expected to be unique  <a href="classXPMP2_1_1CSLModel.html#a416598933765a5743276b0e072c6257d">More...</a><br /></td></tr>
 <tr class="separator:a416598933765a5743276b0e072c6257d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd35c943e22d794ba1c043b2a59f61f3"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#afd35c943e22d794ba1c043b2a59f61f3">GetModelName</a> () const</td></tr>
+<tr class="memdesc:afd35c943e22d794ba1c043b2a59f61f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">name, formed by last part of path plus id (human readable, but not guaranteed to be unique)  <a href="classXPMP2_1_1CSLModel.html#afd35c943e22d794ba1c043b2a59f61f3">More...</a><br /></td></tr>
 <tr class="separator:afd35c943e22d794ba1c043b2a59f61f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a66f500bcfe99bc27161f7e45e59d4a8e"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a66f500bcfe99bc27161f7e45e59d4a8e">GetIcaoType</a> () const</td></tr>
 <tr class="memdesc:a66f500bcfe99bc27161f7e45e59d4a8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">ICAO aircraft type this model represents: <code>xsb_aircraft.txt::ICAO</code>  <a href="classXPMP2_1_1CSLModel.html#a66f500bcfe99bc27161f7e45e59d4a8e">More...</a><br /></td></tr>
@@ -169,6 +173,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a75ae517e7dcb5ed2e3e0ee39c850855e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a75ae517e7dcb5ed2e3e0ee39c850855e">modelName</a></td></tr>
 <tr class="memdesc:a75ae517e7dcb5ed2e3e0ee39c850855e"><td class="mdescLeft">&#160;</td><td class="mdescRight">name, formed by last part of path plus id  <a href="classXPMP2_1_1CSLModel.html#a75ae517e7dcb5ed2e3e0ee39c850855e">More...</a><br /></td></tr>
 <tr class="separator:a75ae517e7dcb5ed2e3e0ee39c850855e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4385cb0d2e1467c81ac9084e33e241c7"><td class="memItemLeft" align="right" valign="top">std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a4385cb0d2e1467c81ac9084e33e241c7">pkgHash</a> = 0</td></tr>
+<tr class="memdesc:a4385cb0d2e1467c81ac9084e33e241c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">simple hash of package name, for easy matching in networked setup  <a href="classXPMP2_1_1CSLModel.html#a4385cb0d2e1467c81ac9084e33e241c7">More...</a><br /></td></tr>
+<tr class="separator:a4385cb0d2e1467c81ac9084e33e241c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a562b3ba8bf118bae8d6a3020e003e1a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1CSLModel.html#abd0df30a00c6d36dca6ae315f980cfec">MatchCritVecTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html#a562b3ba8bf118bae8d6a3020e003e1a7">vecMatchCrit</a></td></tr>
 <tr class="memdesc:a562b3ba8bf118bae8d6a3020e003e1a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">further match-relevant fields like airline and livery can be a list  <a href="classXPMP2_1_1CSLModel.html#a562b3ba8bf118bae8d6a3020e003e1a7">More...</a><br /></td></tr>
 <tr class="separator:a562b3ba8bf118bae8d6a3020e003e1a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -673,7 +680,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>id, just an arbitrary label read from <code>xsb_aircraft.txt::OBJ8_AIRCRAFT</code> </p>
+<p>full id: package name / shortId, expected to be unique </p>
 
 </div>
 </div>
@@ -745,6 +752,8 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>name, formed by last part of path plus id (human readable, but not guaranteed to be unique) </p>
 
 </div>
 </div>
@@ -818,6 +827,33 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>"related" group for this model (a group of alike plane models), or 0 </p>
+
+</div>
+</div>
+<a id="a93dc8ae9adf63d8a6f8ff40885bf516e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93dc8ae9adf63d8a6f8ff40885bf516e">&#9670;&nbsp;</a></span>GetShortId()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string&amp; XPMP2::CSLModel::GetShortId </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>short id, just an arbitrary label read from <code>xsb_aircraft.txt::OBJ8_AIRCRAFT</code> </p>
 
 </div>
 </div>
@@ -1168,6 +1204,22 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>name, formed by last part of path plus id </p>
+
+</div>
+</div>
+<a id="a4385cb0d2e1467c81ac9084e33e241c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4385cb0d2e1467c81ac9084e33e241c7">&#9670;&nbsp;</a></span>pkgHash</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint16_t XPMP2::CSLModel::pkgHash = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>simple hash of package name, for easy matching in networked setup </p>
 
 </div>
 </div>

@@ -11,11 +11,12 @@ Content and availability status:
     - [X] [Model Matching](Matching.html)
     - [X] [TCAS Target and AI/multiplayer support](TCAS.html)
     - [ ] Additional map layer
+    - [ ] [XPMP2 Remote](Remote.html) functionality
 - [ ] Coding, Building, Deployment
+    - [X] [Building](Building.html) XPMP2, the XPMP2 Remote Client, and the Sample plugin
     - [X] Brief ["HowTo" guide](HowTo.html)
     - [X] Doxgen-generated [code documentation](html/index.html)
     - [ ] Provide some general "how it works" background, can base on kuronekos wiki (but shorter) and on some of [my additions](https://github.com/TwinFan/libxplanemp/wiki#changes-to-multiplayeraitcas-handling)
-    - [X] [Model Matching](Matching.html)
     - [X] [What to ship](Deploying.html) so that it works
 - [X] CSL Packages
   - [X] [File format definition](XSBAircraftFormat.html) for `xsb_aircraft.txt`
@@ -36,6 +37,12 @@ Content and availability status:
 ## Coding, Building, Deployment ##
 
 These aspects are relevant for developers using XPMP2 in their own plugin:
+
+### Building XPMP2
+
+XCode projects, Visual Studio solutions, and a Docker environment for
+Linux and Mac OS builds are provided. The details are
+[documented here](Building.html).
 
 ### How to Use XPMP2 ###
 
@@ -65,12 +72,6 @@ in your plugins, then you will find
 [these information on backward compatibility](BackwardsCompatibility.md)
 useful, which explain how you can replace `libxplanemp` with XPMP2
 with limited effort.
-
-### Building XPMP2
-
-XCode projects, Visual Studio solutions, and a Docker environment for
-Linux and Mac OS builds are provided. The details are
-[documented here](Building.html).
 
 ### Deploying Your Plugin ###
 

@@ -73,6 +73,9 @@ std::list<std::string> GetDirContents (const std::string& path);
 /// Read a line from a text file, no matter if ending on CRLF or LF
 std::istream& safeGetline(std::istream& is, std::string& t);
 
+/// Returns XP's system directory, including a trailing slash
+const std::string& GetXPSystemPath ();
+
 /// If a path starts with X-Plane's system directory it is stripped
 std::string StripXPSysDir (const std::string& path);
 
@@ -161,6 +164,17 @@ inline float angleLocCoord (float x1, float z1, float x2, float z2)
 
 /// (Shortest) difference between 2 angles: How much to turn to go from h1 to h2?
 float headDiff (float head1, float head2);
+
+/// Normalize a heading value to [0..360), works for both float and double values
+template <class numT>
+numT headNormalize (numT _head)
+{
+    if (_head < numT(0))
+        _head += std::ceil(_head/-numT(360)) * numT(360);
+    else if (_head >= numT(360))
+        _head -= std::floor(_head/numT(360)) * numT(360);
+    return _head;
+}
 
 //
 // MARK: Misc
@@ -282,14 +296,10 @@ inline struct tm *localtime_s(struct tm * result, const time_t * time)
 #define STRCPY_S(dest,src) strncpy_s(dest,sizeof(dest),src,sizeof(dest)-1)
 #define STRCPY_ATMOST(dest,src) strncpy_s(dest,sizeof(dest),strAtMost(src,sizeof(dest)-1).c_str(),sizeof(dest)-1)
 
-#if APL == 1
+#if IBM != 1
 // XCode/Linux don't provide the _s functions, not even with __STDC_WANT_LIB_EXT1__ 1
 inline int strerror_s( char *buf, size_t bufsz, int errnum )
 { return strerror_r(errnum, buf, bufsz); }
-#endif
-#if LIN == 1
-inline int strerror_s( char *buf, size_t bufsz, int errnum )
-{ strncpy_s(buf,bufsz,strerror(errnum),bufsz-1); return 0; }
 #endif
 
 // In case of Mac we need to prepare for HFS-to-Posix path conversion

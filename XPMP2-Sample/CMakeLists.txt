@@ -93,15 +93,12 @@ if (APPLE)
     find_library(IOKIT_LIBRARY IOKit)
     find_library(CORE_FOUNDATION_LIBRARY CoreFoundation)
 
-    target_link_libraries(XPMP2-Sample ${IOKIT_LIBRARY} ${CORE_FOUNDATION_LIBRARY} ${OpenGL_LIBRARY})
+    target_link_libraries(XPMP2-Sample ${IOKIT_LIBRARY} ${CORE_FOUNDATION_LIBRARY})
 endif ()
 
 if (WIN32)
-    # Unlike OS X and Linux we build standard libraries statically since X-Plane does not provide them.
-    # target_link_libraries(XPMP2-Sample -static-libgcc -static-libstdc++ opengl32)
-    # MSYS2 for some reason always links against winpthread, so we have to work around it by statically linking the
-    # entire plugin. This allows building the plugin nativaly on Windows.
-    # target_link_libraries(XPMP2-Sample -static)
+    # Link with winsock for network and iphlpap for GetAdaptersAddresses
+    target_link_libraries(XPMP2-Sample wsock32 ws2_32 iphlpapi)
 elseif (APPLE)
     # X-Plane supports OS X 10.10+, so this should ensure FlyWithLua can run on
     # all supported versions.
@@ -111,7 +108,7 @@ elseif (APPLE)
     # Restrict set of symbols exported from the plugin. This reduces changes of
     # conflict with other plugins, in particular ones with Lua interpreter
     # embedded.
-    target_link_libraries(XPMP2-Sample "-exported_symbols_list ${CMAKE_SOURCE_DIR}/XPMP2-Sample.sym_mac")
+    target_link_libraries(XPMP2-Sample "-exported_symbols_list ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample.sym_mac")
 elseif (UNIX)
     # Threads
     set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
@@ -122,7 +119,7 @@ elseif (UNIX)
     # Restrict set of symbols exported from the plugin. This reduces chances of
     # conflict with other plugins, in particular ones with Lua interpreter
     # embedded.
-    target_link_libraries(XPMP2-Sample Threads::Threads -Wl,--version-script -Wl,${CMAKE_SOURCE_DIR}/XPMP2-Sample.sym)
+    target_link_libraries(XPMP2-Sample Threads::Threads -Wl,--version-script -Wl,${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample.sym)
 endif ()
 
 # Header include directories

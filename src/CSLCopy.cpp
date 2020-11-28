@@ -55,18 +55,14 @@ namespace XPMP2 {
 #define ERR_CPY_MDL_NOT_FOUND       "Copying %s: CSLModel '%s' not found!"
 #define ERR_CPY_THRDNOTRUN          "%s: Status OLS_COPYING but thread's not running??? Reverting to pathOrig"
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wexit-time-destructors"
 /// Future keeping the state of the separate thread (we only want to trigger one at a time)
 static std::future<bool> gFutCpy;
 /// The cslId of the CSL model object that the current thread is running for
 static std::string gThreadCSLId;
 /// The path of the CSL object that the current thread is running for
 static std::string gThreadPath;
-/// Error information in case CopyAndReplace goes wront
+/// Error information in case CopyAndReplace goes wrong
 static std::string gErrTxt;
-#pragma clang diagnostic pop
-
 
 //
 // MARK: Separate Thread functionality
@@ -171,7 +167,7 @@ bool CSLObj::CopyAndReplace ()
         fOut.close();
         fIn.close();
     }
-    catch(const std::system_error& e) {
+    catch(const std::exception& e) {
         gErrTxt = e.what();
         bRet = false;
     }
@@ -208,7 +204,7 @@ void CSLObj::SetOtherObjCopyResult (bool bResult)
 {
     // Look for the CSLObj using the stored CSLId and path
     mapCSLModelTy::iterator cslIter;
-    CSLModel* pCsl = CSLModelByName(gThreadCSLId);
+    CSLModel* pCsl = CSLModelById(gThreadCSLId);
     if (pCsl) {
         // find the object by path
         listCSLObjTy::iterator iter = std::find_if(pCsl->listObj.begin(),

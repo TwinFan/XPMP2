@@ -111,7 +111,7 @@ void GlobVars::ReadConfigFile ()
         int iVal = 0;
         try {iVal = (int) std::stol(ln[1]); }
         catch (...) { iVal = 0; }
-        if (ln[0] == "logLvl")              logLvl = (logLevelTy) std::clamp<int>(iVal, int(logDEBUG), int(logFATAL));
+        if (ln[0] == "logLvl")              logLvl = (logLevelTy) clamp<int>(iVal, int(logDEBUG), int(logFATAL));
         else if (ln[0] == "defaultICAO")    defaultICAO = ln[1];
         else if (ln[0] == "carIcaoType")    carIcaoType = ln[1];
         else if (ln[0] == "remoteSupport") {

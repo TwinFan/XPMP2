@@ -51,13 +51,14 @@ $(function() {
 <li>[X] <a href="Matching.html">Model Matching</a></li>
 <li>[X] <a href="TCAS.html">TCAS Target and AI/multiplayer support</a></li>
 <li>[ ] Additional map layer</li>
+<li>[ ] <a class="el" href="namespaceXPMP2.html">XPMP2</a> Remote functionality</li>
 </ul>
 </li>
 <li>[ ] Coding, Building, Deployment<ul>
+<li>[X] <a href="Building.html">Building</a> <a class="el" href="namespaceXPMP2.html">XPMP2</a>, the <a class="el" href="namespaceXPMP2.html">XPMP2</a> Remote Client, and the Sample plugin</li>
 <li>[X] Brief <a href="HowTo.html">"HowTo" guide</a></li>
 <li>[X] Doxgen-generated <a href="html/index.html">code documentation</a></li>
 <li>[ ] Provide some general "how it works" background, can base on kuronekos wiki (but shorter) and on some of <a href="https://github.com/TwinFan/libxplanemp/wiki#changes-to-multiplayeraitcas-handling">my additions</a></li>
-<li>[X] <a href="Matching.html">Model Matching</a></li>
 <li>[X] <a href="Deploying.html">What to ship</a> so that it works</li>
 </ul>
 </li>
@@ -83,6 +84,8 @@ Feature Details</h1>
 <h1><a class="anchor" id="autotoc_md19"></a>
 Coding, Building, Deployment</h1>
 <p>These aspects are relevant for developers using <a class="el" href="namespaceXPMP2.html">XPMP2</a> in their own plugin:</p>
+<h2>Building <a class="el" href="namespaceXPMP2.html">XPMP2</a></h2>
+<p>XCode projects, Visual Studio solutions, and a Docker environment for Linux and Mac OS builds are provided. The details are <a href="Building.html">documented here</a>.</p>
 <h2>How to Use <a class="el" href="namespaceXPMP2.html">XPMP2</a></h2>
 <p>This part will probably need more attention, but find some <a href="HowTo.html">first information here</a> and study the working sample plugin in the <code>XPMP2-Sample</code> folder.</p>
 <h2>API and Code Documentation</h2>
@@ -94,8 +97,6 @@ Coding, Building, Deployment</h1>
 </ul>
 <h2>Backward Compatibility</h2>
 <p>If you are familiar with the original <code>libxplanemp</code> and are using it already in your plugins, then you will find <a class="el" href="md_docs_BackwardsCompatibility.html">these information on backward compatibility</a> useful, which explain how you can replace <code>libxplanemp</code> with <a class="el" href="namespaceXPMP2.html">XPMP2</a> with limited effort.</p>
-<h2>Building <a class="el" href="namespaceXPMP2.html">XPMP2</a></h2>
-<p>XCode projects, Visual Studio solutions, and a Docker environment for Linux and Mac OS builds are provided. The details are <a href="Building.html">documented here</a>.</p>
 <h2>Deploying Your Plugin</h2>
 <p>Apart from the binaries that you build you will need to ship the files provided here in the 'Resources' folder. Also, users will need to install CSL models. Find <a href="Deploying.html">more details here</a>.</p>
 <h1><a class="anchor" id="autotoc_md20"></a>

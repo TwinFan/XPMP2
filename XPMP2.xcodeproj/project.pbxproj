@@ -280,8 +280,8 @@
 				2541FA4C253CDD6700AEA532 /* Remote.cpp */,
 				2541FA4B253CDD6700AEA532 /* Remote.h */,
 				25EC1C4523BF7569000940BB /* Utilities.cpp */,
-				25EC1C4623BF7569000940BB /* Utilities.h */,
 				2599B92123BF63F600F92BB5 /* XPMP2.h */,
+				25EC1C4623BF7569000940BB /* Utilities.h */,
 				25D680C423BE9DBD00C83CC5 /* XPMPMultiplayer.cpp */,
 			);
 			path = src;

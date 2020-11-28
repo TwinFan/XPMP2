@@ -355,6 +355,10 @@ Functions</h2></td></tr>
 <tr class="memitem:a75dcb0c50b67fbdc330ef140a3de8291"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a75dcb0c50b67fbdc330ef140a3de8291">CSLModelByPkgShortId</a> (std::uint16_t _pkgHash, const std::string &amp;_shortId)</td></tr>
 <tr class="memdesc:a75dcb0c50b67fbdc330ef140a3de8291"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find a model by package name hash and short id.  <a href="namespaceXPMP2.html#a75dcb0c50b67fbdc330ef140a3de8291">More...</a><br /></td></tr>
 <tr class="separator:a75dcb0c50b67fbdc330ef140a3de8291"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65692eae7fd40e7c0d52da396f4088c3"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:a65692eae7fd40e7c0d52da396f4088c3"><td class="memTemplItemLeft" align="right" valign="top">constexpr const T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a65692eae7fd40e7c0d52da396f4088c3">clamp</a> (const T &amp;v, const T &amp;lo, const T &amp;hi)</td></tr>
+<tr class="memdesc:a65692eae7fd40e7c0d52da396f4088c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clamps <code>v</code> between <code>lo</code> and <code>hi</code>: <code>lo</code> if <code>v</code> &lt; <code>lo</code>, <code>hi</code> if <code>hi</code> &lt; <code>v</code>, otherwise <code>v</code>  <a href="namespaceXPMP2.html#a65692eae7fd40e7c0d52da396f4088c3">More...</a><br /></td></tr>
+<tr class="separator:a65692eae7fd40e7c0d52da396f4088c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b834d198234c7dc1d421b34ac4a8f60"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceXPMP2.html#a79adca5f1eba1fbafa63e30a2c9af8e7">RemoteStatusTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a2b834d198234c7dc1d421b34ac4a8f60">RemoteGetStatus</a> ()</td></tr>
 <tr class="memdesc:a2b834d198234c7dc1d421b34ac4a8f60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the current Remote status.  <a href="namespaceXPMP2.html#a2b834d198234c7dc1d421b34ac4a8f60">More...</a><br /></td></tr>
 <tr class="separator:a2b834d198234c7dc1d421b34ac4a8f60"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2324,6 +2328,54 @@ atan2 returns 0° when pointing along the x axis, ie. east, when we would expect
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if more than <code>_interval</code> time has passed since <code>_lastCheck</code> </dd></dl>
+
+</div>
+</div>
+<a id="a65692eae7fd40e7c0d52da396f4088c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65692eae7fd40e7c0d52da396f4088c3">&#9670;&nbsp;</a></span>clamp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr const T&amp; XPMP2::clamp </td>
+          <td>(</td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>lo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>hi</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Clamps <code>v</code> between <code>lo</code> and <code>hi</code>: <code>lo</code> if <code>v</code> &lt; <code>lo</code>, <code>hi</code> if <code>hi</code> &lt; <code>v</code>, otherwise <code>v</code> </p>
+<dl class="section see"><dt>See also</dt><dd>C++17, <a href="https://en.cppreference.com/w/cpp/algorithm/clamp">https://en.cppreference.com/w/cpp/algorithm/clamp</a> </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Reimplemented here because Docker clang environment doesn't include it </dd></dl>
 
 </div>
 </div>

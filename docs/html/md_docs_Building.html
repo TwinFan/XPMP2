@@ -43,39 +43,48 @@ $(function() {
 <div class="title">Building <a class="el" href="namespaceXPMP2.html">XPMP2</a> and the Sample Plugin </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="autotoc_md1"></a>
+<div class="textblock"><p>There are two separate project provided in the <a class="el" href="namespaceXPMP2.html">XPMP2</a> repository:</p><ul>
+<li>One based in the <a class="el" href="namespaceXPMP2.html">XPMP2</a> root folder. This project builds all 3 targets:<ul>
+<li>The <a class="el" href="namespaceXPMP2.html">XPMP2</a> static library, which is also copied into <code>XPMP2-Sample/lib</code> so that is thereafter accessible by the stand-alone XPMP2-Sample project;</li>
+<li>The <a class="el" href="namespaceXPMP2.html">XPMP2</a> Remote Client, which builds the <code>XPMP2-Remote.xpl</code> binary;</li>
+<li>The <a class="el" href="namespaceXPMP2.html">XPMP2</a> Sample plugin, which builds the <code>XPMP2-Sample.xpl</code> binary, same as with the following stand-alone project.</li>
+</ul>
+</li>
+<li>a stand-alone project only for the XPMP2-Sample plugin. This is provided separately so it can serve as basis for your own plugin implementations.</li>
+</ul>
+<p>Using the projects works similarly. For the main <a class="el" href="namespaceXPMP2.html">XPMP2</a> projects start in the <a class="el" href="namespaceXPMP2.html">XPMP2</a> root folder. For the XPMP2-Sample stand-alone project start in the <code>XPMP2-Sample</code> folder.</p>
+<p>Then, building differs per platform:</p>
+<h1><a class="anchor" id="autotoc_md1"></a>
 Mac OS</h1>
-<p>My development environment is Mac OS, so expect the XCode environment to be maintained best. Open <code>XPMP2.xcodeproj</code> in XCode: There is one for the <a class="el" href="namespaceXPMP2.html">XPMP2</a> library in the root folder as well as another one for the sample plugin in <code>XPMP2-Sample</code>.</p>
-<p><b><a class="el" href="namespaceXPMP2.html">XPMP2</a> Library:</b> The resulting <a class="el" href="namespaceXPMP2.html">XPMP2</a> framework is also copied into <code>XPMP2-Sample/lib</code> so it is accessible when building the sample plugin.</p>
-<p><b>Sample Plugin:</b> In the sample plugin's settings you will need to change the value of the user-defined build macro <code>XPLANE11_ROOT</code> to point to <em>your</em> X-Plane folder. Then the plugin is installed there right after build.</p>
+<p>My development environment is Mac OS, so expect the XCode environment to be maintained best. Open <code>XPMP2.xcodeproj</code> resp. <code>XPMP2-Sample/XPMP2-Sample.xcodeproj</code> in XCode.</p>
+<p>In the XCode Build Settings you may want to change the definition of the User-Defined build macro <code>XPLANE11_ROOT</code>: Put in the path to your X-Plane 11 installation's root path, then the <a class="el" href="namespaceXPMP2.html">XPMP2</a> binaries will be installed right there in the appropriate <code>Resources/plugins</code> sub-folder structure.</p>
 <h1><a class="anchor" id="autotoc_md2"></a>
 Windows</h1>
 <p>Windows cannot build in the Docker environment as mingw's libraries aren't up to C++ 17 standards.</p>
 <ul>
 <li>Install <a href="https://visualstudio.microsoft.com/vs/community/">Visual Studio</a></li>
-<li>Open the root folder to build the library ("File &gt; Open &gt; Folder", <a href="https://docs.microsoft.com/en-us/cpp/build/open-folder-projects-cpp?view=vs-2019">see here for VS's "Open Folder" functionality</a>)</li>
-<li>Open the folder <code>XPMP2-Sample</code> to build the sample plugin</li>
+<li>Open the root folder to build the <a class="el" href="namespaceXPMP2.html">XPMP2</a> library targets, or the <code>XPMP2-Sample</code> folder to only build the sample plugin ("File &gt; Open &gt; Folder", <a href="https://docs.microsoft.com/en-us/cpp/build/open-folder-projects-cpp?view=vs-2019">see here for VS's "Open Folder" functionality</a>)</li>
 <li>In both cases will VS use the CMake setup to configure building the binaries.</li>
 <li>Build from within Visual Studio.</li>
 </ul>
 <p>Results are in <code>build/x64</code>.</p>
 <p>The <code>XPMP2.lib</code> library is also copied into <code>XPMP2-Sample/lib</code> to be available in a subsequent build of the sample plugin.</p>
 <h1><a class="anchor" id="autotoc_md3"></a>
-Linux and Mac OS via Docker</h1>
-<p>A docker environment based on Ubuntu 18.04 is provided, which can build both Linux and MacOS.</p>
+Linux via Docker</h1>
+<p>A docker environment based on Ubuntu 18.04 is provided, which can build Linux.</p>
 <ul>
 <li>Install <a href="https://www.docker.com/products/docker-desktop">Docker Desktop</a> and start it.</li>
-<li><code>cd</code> to the project's <code>docker</code> folder, and enter <code>make</code> for the library</li>
-<li><code>cd</code> to <code>XPMP2-Sample/docker</code>, and enter <code>make</code> for the plugin.</li>
+<li><code>cd</code> to the project's <code>docker</code> folder, and enter <code>make</code> for the three <a class="el" href="namespaceXPMP2.html">XPMP2</a> library targets, or</li>
+<li><code>cd</code> to <code>XPMP2-Sample/docker</code>, and enter <code>make</code> for the sample plugin only.</li>
 <li>Three <code>make</code> targets are available:<ul>
 <li><code>lin</code> builds Linux only</li>
-<li><code>mac</code> builds Mac OS only</li>
+<li>(<code>mac</code> used to build Mac OS only but currently doesn't work as the build setup is outdated; help to bring it back to work is welcome!)</li>
 <li><code>bash</code> starts a Linux bash within the docker environment</li>
 </ul>
 </li>
 </ul>
 <p>In the first run only, it will create the necessary Docker image based on Ubuntu 18.04, which includes downloading lots of base images and packages and even some compile activities for the Mac OS build toolchain. This takes a couple of minutes but is required once only. If that part fails your best guess is to just try again once or twice.</p>
-<p>The actual library and sample builds take only a few seconds. Results are written to <code>build-lin</code> and <code>build-mac</code>.</p>
+<p>The actual library and sample builds take only a few seconds. Results are written to <code>build-lin</code> (and <code>build-mac</code>).</p>
 <p>The resulting library/framework are also copied into <code>XPMP2-Sample/lib</code>. Then, also the sample plugin must be build using the docker environment. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

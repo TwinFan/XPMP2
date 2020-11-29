@@ -20,7 +20,7 @@ user with an option to switch Remote support on regardless of
 network configuration. However, the default, "auto-detect", works in by far
 most scenarios already. And in the few others the users would still have
 the chance to use the XPMP2.prf config file
-[as documented](https://twinfan.gitbook.io/livetraffic/setup/installation/xpmp2-remote-client#adjusting-network-configuration=.
+[as documented](https://twinfan.gitbook.io/livetraffic/setup/installation/xpmp2-remote-client#adjusting-network-configuration).
 
 ## Basic Ideas ##
 

@@ -6,6 +6,22 @@ For end user documentation refer to
 [LiveTraffic/XPMP2 Remote Client](https://twinfan.gitbook.io/livetraffic/setup/installation/xpmp2-remote-client)
 documentation.
 
+## Support in your Plugin ##
+
+You do not need to do anything specifically in your plugin to support
+the Remote functionality. Just build and link with the latest XPMP2 library.
+Don't even ship the Remote Client, but refer to the
+[download location](https://forums.x-plane.org/index.php?/files/file/67797-xpmp2-remote-client/),
+which is maintained centrally.
+
+You _could_ respond to the new `XPMP_CFG_ITM_SUPPORT_REMOTE` configuration
+item in your `XPMPIntPrefsFuncTy` configuration callback function, e.g. to provide the
+user with an option to switch Remote support on regardless of
+network configuration. However, the default, "auto-detect", works in by far
+most scenarios already. And in the few others the users would still have
+the chance to use the XPMP2.prf config file
+[as documented](https://twinfan.gitbook.io/livetraffic/setup/installation/xpmp2-remote-client#adjusting-network-configuration=.
+
 ## Basic Ideas ##
 
 - There are **senders** (the actual XPMP2-based plugins) disseminating position information via UDP multicst into the local network.

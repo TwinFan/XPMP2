@@ -14,13 +14,21 @@ Don't even ship the Remote Client, but refer to the
 [download location](https://forums.x-plane.org/index.php?/files/file/67797-xpmp2-remote-client/),
 which is maintained centrally.
 
-You _could_ respond to the new `XPMP_CFG_ITM_SUPPORT_REMOTE` configuration
+Optionally, you _could_ respond to the new `XPMP_CFG_ITM_SUPPORT_REMOTE` configuration
 item in your `XPMPIntPrefsFuncTy` configuration callback function, e.g. to provide the
 user with an option to switch Remote support on regardless of
 network configuration. However, the default, "auto-detect", works in by far
 most scenarios already. And in the few others the users would still have
 the chance to use the XPMP2.prf config file
 [as documented](https://twinfan.gitbook.io/livetraffic/setup/installation/xpmp2-remote-client#adjusting-network-configuration).
+
+Optionally, you _could_ react to an inter-plugin message `XPLM_MSG_RELEASE_PLANES` from
+the XPMP2 Remote Client and cede TCAS/AI control in that case
+because the Remote Client will take care of your TCAS in that case, too,
+but will also have the chance to pick up planes of other XPMP2-based
+plugins.
+See [LiveTraffic's XPluginReceiveMessage function](https://github.com/TwinFan/LiveTraffic/blob/bba4912ebfe3203689e029f1786607ab897fe597/Src/LiveTraffic.cpp#L578)
+for an example.
 
 ## Basic Ideas ##
 

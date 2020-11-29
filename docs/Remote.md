@@ -89,7 +89,7 @@ documentation.
     - all values are reduced from `float` to 8 bit `uint8_t` values for
       space efficiency,
     - can be processed by the Remote Client only for already known planes.
-- Plane removal `RemoteMsgAcRemoveTy` messages (red),
+- Plane removal `RemoteMsgAcRemoveTy` messages (red)
     - contain information for several planes, each plane identified by an
       internal id only,
     - inform the Remote Client to remove that plane.

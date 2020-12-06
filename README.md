@@ -103,6 +103,9 @@ For XPMP2 to use all their features (all liveries, turning rotors, props, wheels
 it needs to adapt their `.obj` files. Performing these changes is built into XPMP2,
 [details here](https://twinfan.github.io/XPMP2/CopyingObjFiles.html).
 
+XPMP2 offers a wide range of animaton dataRefs that can be used in CSL models,
+[details here](https://twinfan.github.io/XPMP2/CSLdataRefs.html).
+
 ### TCAS and AI/multiplayer Support ###
 
 XPMP2 provides TCAS blibs and AI/multiplayer data using
@@ -113,6 +116,11 @@ including a reference lists of provided dataRef values and their sources.
 
 When TCS Override is not available (like up to X-Plane 11.41),
 then TCAS is provided by writing the classic multiplayer dataRefs directly.
+
+Beyond the standard set of information by X-Plane's family of dataRefs,
+XPMP2 also supports a set of shared dataRefs for providing
+textual aircraft and flight information,
+[details here](https://twinfan.github.io/XPMP2/SharedDataRefs.html).
 
 ### Map Layer ###
 

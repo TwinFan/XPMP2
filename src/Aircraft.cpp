@@ -485,6 +485,8 @@ void Aircraft::DoMove ()
         if (!listInst.empty()) {
             // Move the instances (this is probably the single most important line of code ;-) )
             for (XPLMInstanceRef hInst : listInst) {
+                const float* data = v.data();
+#if defined(DEBUG) || defined(DEBUG_CTD_DOMOVE)
                 // See https://github.com/TwinFan/XPMP2/issues/23
                 // Temporary validation to track down why in some rare cases X-Plane crashes later in the XPLMInstanceSetPosition call
                 // 3. Compare that remembered size to the size of the Aircraft::v, which is supposed to be one less(or larger, the Aircraft constructor makes it the same size as DR_NAMES, which is certainly OK.Having more memory than needed never hurts.
@@ -497,10 +499,9 @@ void Aircraft::DoMove ()
                 }
                 // 4. Access the first and last elements of Aircraft::v to verify that those memory areas are still valid
                 //    (we even access all of them and verify them not to be NAN:)
-                const float* data = v.data();
                 for (size_t i = 0; i < numDataRefsDuringCreateInstance; ++i)
                     LOG_ASSERT(!std::isnan(data[i]));
-
+#endif
                 XPLMInstanceSetPosition(hInst, &drawInfo, data);
             }
         } else {
@@ -569,6 +570,7 @@ bool Aircraft::CreateInstances ()
     
     // OK, we got a complete list of objects, so let's instanciate them:
     for (XPLMObjectRef hObj: listObj) {
+#if defined(DEBUG) || defined(DEBUG_CTD_DOMOVE)
         // See https://github.com/TwinFan/XPMP2/issues/23
         // Temporary validation to track down why in some rare cases X-Plane crashes later in the XPLMInstanceSetPosition call
         // 1. Validate that the last element of DR_NAMES is actuall a nullptr:
@@ -577,7 +579,7 @@ bool Aircraft::CreateInstances ()
         LOG_ASSERT(numDataRefsDuringCreateInstance == 0 || numDataRefsDuringCreateInstance == DR_NAMES.size());     // we might have several objects in this for loop, but we certainly expect that DR_NAMES doesn't change size while executing the loop!
         numDataRefsDuringCreateInstance = DR_NAMES.size();
         LOG_ASSERT(DR_NAMES.data()[numDataRefsDuringCreateInstance-1] == nullptr);                 // should be the same as using .back()...but hey...we are trying to find some weird behaviour, so we double and triple-check
-
+#endif
         // Create a (new) instance of this CSL Model object,
         // registering all the dataRef names we support
         XPLMInstanceRef hInst = XPLMCreateInstance (hObj, DR_NAMES.data());

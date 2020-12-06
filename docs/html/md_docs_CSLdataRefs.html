@@ -54,7 +54,7 @@ Controls</h1>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><code>libxplanemp/controls/gear_ratio</code> </td><td class="markdownTableBodyNone"><code>Get/SetGearRatio</code> </td><td class="markdownTableBodyNone"><code>V_CONTROLS_GEAR_RATIO</code> </td><td class="markdownTableBodyNone">Gear deployment ratio, <code>0..1</code>  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>libxplanemp/controls/nws_ratio</code> </td><td class="markdownTableBodyNone"><code>Get/SetNoseWheelAngle</code> </td><td class="markdownTableBodyNone"><code>V_CONTROLS_NWS_RATIO</code> </td><td class="markdownTableBodyNone">Nose wheel angle, <code>-180..+180</code>  </td></tr>
+<td class="markdownTableBodyNone"><code>libxplanemp/controls/nws_ratio</code> </td><td class="markdownTableBodyNone"><code>Get/SetNoseWheelAngle</code> </td><td class="markdownTableBodyNone"><code>V_CONTROLS_NWS_RATIO</code> </td><td class="markdownTableBodyNone">Nose wheel angle, <code>-45..+45</code>  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><code>libxplanemp/controls/flap_ratio</code> </td><td class="markdownTableBodyNone"><code>Get/SetFlapRatio</code> </td><td class="markdownTableBodyNone"><code>V_CONTROLS_FLAP_RATIO</code> </td><td class="markdownTableBodyNone">Flaps deployment ratio, <code>0..1</code>  </td></tr>
 <tr class="markdownTableRowEven">
@@ -68,11 +68,11 @@ Controls</h1>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><code>libxplanemp/controls/thrust_ratio</code> </td><td class="markdownTableBodyNone"><code>Get/SetThrustRatio</code> </td><td class="markdownTableBodyNone"><code>V_CONTROLS_THRUST_RATIO</code> </td><td class="markdownTableBodyNone">Thrust ratio, <code>0..1</code>  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>libxplanemp/controls/yoke_pitch_ratio</code> </td><td class="markdownTableBodyNone"><code>Get/SetYokePitchRatio</code> </td><td class="markdownTableBodyNone"><code>V_CONTROLS_YOKE_PITCH_RATIO</code> </td><td class="markdownTableBodyNone">Yoke pitch ratio, <code>0..1</code>  </td></tr>
+<td class="markdownTableBodyNone"><code>libxplanemp/controls/yoke_pitch_ratio</code> </td><td class="markdownTableBodyNone"><code>Get/SetYokePitchRatio</code> </td><td class="markdownTableBodyNone"><code>V_CONTROLS_YOKE_PITCH_RATIO</code> </td><td class="markdownTableBodyNone">Yoke pitch ratio, <code>-1..0..1</code>  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>libxplanemp/controls/yoke_heading_ratio</code> </td><td class="markdownTableBodyNone"><code>Get/SetYokeHeadingRatio</code> </td><td class="markdownTableBodyNone"><code>V_CONTROLS_YOKE_HEADING_RATIO</code> </td><td class="markdownTableBodyNone">Yoke heading ratio, <code>0..1</code>  </td></tr>
+<td class="markdownTableBodyNone"><code>libxplanemp/controls/yoke_heading_ratio</code> </td><td class="markdownTableBodyNone"><code>Get/SetYokeHeadingRatio</code> </td><td class="markdownTableBodyNone"><code>V_CONTROLS_YOKE_HEADING_RATIO</code> </td><td class="markdownTableBodyNone">Yoke heading ratio, <code>-1..0..1</code>  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>libxplanemp/controls/yoke_roll_ratio</code> </td><td class="markdownTableBodyNone"><code>Get/SetYokeRollRatio</code> </td><td class="markdownTableBodyNone"><code>V_CONTROLS_YOKE_ROLL_RATIO</code> </td><td class="markdownTableBodyNone">Yoke roll ratio, <code>0..1</code>  </td></tr>
+<td class="markdownTableBodyNone"><code>libxplanemp/controls/yoke_roll_ratio</code> </td><td class="markdownTableBodyNone"><code>Get/SetYokeRollRatio</code> </td><td class="markdownTableBodyNone"><code>V_CONTROLS_YOKE_ROLL_RATIO</code> </td><td class="markdownTableBodyNone">Yoke roll ratio, <code>-1..0..1</code>  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><code>libxplanemp/controls/thrust_revers</code> </td><td class="markdownTableBodyNone"><code>Get/SetThrustReversRatio</code> </td><td class="markdownTableBodyNone"><code>V_CONTROLS_THRUST_REVERS</code> </td><td class="markdownTableBodyNone">Thrust reversers ratio, <code>0..1</code>  </td></tr>
 <tr class="markdownTableRowOdd">
@@ -102,11 +102,11 @@ Gear</h1>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><code>libxplanemp/controls/gear_ratio</code> </td><td class="markdownTableBodyNone"><code>Get/SetGearRatio</code> </td><td class="markdownTableBodyNone"><code>V_CONTROLS_GEAR_RATIO</code> </td><td class="markdownTableBodyNone">Gear deployment ratio, <code>0..1</code>  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>libxplanemp/controls/nws_ratio</code> </td><td class="markdownTableBodyNone"><code>Get/SetNoseWheelAngle</code> </td><td class="markdownTableBodyNone"><code>V_CONTROLS_NWS_RATIO</code> </td><td class="markdownTableBodyNone">Nose wheel angle, <code>-180..+180</code>  </td></tr>
+<td class="markdownTableBodyNone"><code>libxplanemp/controls/nws_ratio</code> </td><td class="markdownTableBodyNone"><code>Get/SetNoseWheelAngle</code> </td><td class="markdownTableBodyNone"><code>V_CONTROLS_NWS_RATIO</code> </td><td class="markdownTableBodyNone">Nose wheel angle, <code>-45..+45</code>  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>libxplanemp/gear/nose_gear_deflection_mtr</code> </td><td class="markdownTableBodyNone"><code>Get/SetNoseGearDeflection</code> </td><td class="markdownTableBodyNone"><code>V_GEAR_NOSE_GEAR_DEFLECTION_MTR</code> </td><td class="markdownTableBodyNone">Vertical nose gear deflection in meters  </td></tr>
+<td class="markdownTableBodyNone"><code>libxplanemp/gear/nose_gear_deflection_mtr</code> </td><td class="markdownTableBodyNone"><code>Get/SetNoseGearDeflection</code> </td><td class="markdownTableBodyNone"><code>V_GEAR_NOSE_GEAR_DEFLECTION_MTR</code> </td><td class="markdownTableBodyNone">Vertical nose gear deflection, <code>0..1</code>  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>libxplanemp/gear/tire_vertical_deflection_mtr</code> </td><td class="markdownTableBodyNone"><code>Get/SetTireDeflection</code> </td><td class="markdownTableBodyNone"><code>V_GEAR_TIRE_VERTICAL_DEFLECTION_MTR</code> </td><td class="markdownTableBodyNone">Vertical (main) gear deflection in meters  </td></tr>
+<td class="markdownTableBodyNone"><code>libxplanemp/gear/tire_vertical_deflection_mtr</code> </td><td class="markdownTableBodyNone"><code>Get/SetTireDeflection</code> </td><td class="markdownTableBodyNone"><code>V_GEAR_TIRE_VERTICAL_DEFLECTION_MTR</code> </td><td class="markdownTableBodyNone">Vertical (main) gear deflection, <code>0..1</code>  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><code>libxplanemp/gear/tire_rotation_angle_deg</code> </td><td class="markdownTableBodyNone"><code>Get/SetTireRotAngle</code> </td><td class="markdownTableBodyNone"><code>V_GEAR_TIRE_ROTATION_ANGLE_DEG</code> </td><td class="markdownTableBodyNone">Tire rotation angle, <code>0..359</code> degrees  </td></tr>
 <tr class="markdownTableRowEven">

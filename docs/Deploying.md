@@ -32,6 +32,11 @@ the plugin's folder. Your plugin provides XPMP2 with the folder location
 in the `resourceDir` parameter of the `XPMPMultiplayerInit` call
 (see [XPMPMultiplayer.h](html/XPMPMultiplayer_8h.html) for more details).
 
+You do not need to and shall not ship the XPMP2 Remote Client with your plugin.
+This plugin is maintained and provided centrally. Please refer your users to
+- the [download location](https://forums.x-plane.org/index.php?/files/file/67797-xpmp2-remote-client/) and
+- the [documentation location](https://twinfan.gitbook.io/livetraffic/setup/installation/xpmp2-remote-client).
+
 CSL Models
 --
 

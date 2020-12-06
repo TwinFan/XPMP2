@@ -70,11 +70,13 @@ Macros</h2></td></tr>
 <tr class="separator:a7fbf5c9fd19c89093e216da4887891f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a310640588557bbed0a0484a06f3ac36e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Aircraft_8cpp.html#a310640588557bbed0a0484a06f3ac36e">FATAL_MODE_S_EXISTS</a>&#160;&#160;&#160;&quot;_modeS_id (0x%06X) already exists&quot;</td></tr>
 <tr class="separator:a310640588557bbed0a0484a06f3ac36e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fbb5134314cf671558dbc1d030e78f4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Aircraft_8cpp.html#a1fbb5134314cf671558dbc1d030e78f4">FATAL_CREATE_INVALID</a>&#160;&#160;&#160;&quot;Called Aircraft::Create() on already defined plane with _modeS_id (0x%06X)&quot;</td></tr>
+<tr class="separator:a1fbb5134314cf671558dbc1d030e78f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf0c9063706ea7dc8f68957bc2aef19c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Aircraft_8cpp.html#adf0c9063706ea7dc8f68957bc2aef19c">DEBUG_REPL_MODE_S</a>&#160;&#160;&#160;&quot;Replaced duplicate _modeS_id 0x%06X with new unique value 0x%06X&quot;</td></tr>
 <tr class="separator:adf0c9063706ea7dc8f68957bc2aef19c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab48e59868c77c717ec7577afa14a1d63"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Aircraft_8cpp.html#ab48e59868c77c717ec7577afa14a1d63">ERR_CREATE_INSTANCE</a>&#160;&#160;&#160;&quot;Aircraft 0x%06X: Create Instance FAILED for CSL Model %s&quot;</td></tr>
 <tr class="separator:ab48e59868c77c717ec7577afa14a1d63"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54fbb50875d6cd361b4ec2a2c9342f6b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Aircraft_8cpp.html#a54fbb50875d6cd361b4ec2a2c9342f6b">DEBUG_INSTANCE_CREATED</a>&#160;&#160;&#160;&quot;Aircraft 0x%06X: Instance created&quot;</td></tr>
+<tr class="memitem:a54fbb50875d6cd361b4ec2a2c9342f6b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Aircraft_8cpp.html#a54fbb50875d6cd361b4ec2a2c9342f6b">DEBUG_INSTANCE_CREATED</a>&#160;&#160;&#160;&quot;Aircraft 0x%06X: Instance created of model %s for '%s'&quot;</td></tr>
 <tr class="separator:a54fbb50875d6cd361b4ec2a2c9342f6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0698004018c6a5ebabd9662762f551d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Aircraft_8cpp.html#ac0698004018c6a5ebabd9662762f551d">DEBUG_INSTANCE_DESTRYD</a>&#160;&#160;&#160;&quot;Aircraft 0x%06X: Instance destroyed&quot;</td></tr>
 <tr class="separator:ac0698004018c6a5ebabd9662762f551d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -90,6 +92,8 @@ Macros</h2></td></tr>
 <tr class="separator:afb0474f79113a3d4fbbd0697e31bb3d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09679f1251bb7762e44fa3f94d7067db"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Aircraft_8cpp.html#a09679f1251bb7762e44fa3f94d7067db">ERR_ADD_DATAREF_PLANES</a>&#160;&#160;&#160;&quot;Could add dataRef %s only if no aircraft are flying, but currently there are %lu aircraft.&quot;</td></tr>
 <tr class="separator:a09679f1251bb7762e44fa3f94d7067db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0647fb03607e5835db9eb137d8f58a7b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Aircraft_8cpp.html#a0647fb03607e5835db9eb137d8f58a7b">ERR_WORKER_THREAD</a>&#160;&#160;&#160;&quot;Can only be called from XP's main thread!&quot;</td></tr>
+<tr class="separator:a0647fb03607e5835db9eb137d8f58a7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1beb4bb77ee6443c0655600ef68c4d38"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Aircraft_8cpp.html#a1beb4bb77ee6443c0655600ef68c4d38">DEBUG_DATAREF_ADDED</a>&#160;&#160;&#160;&quot;Added dataRef %s as index %lu&quot;</td></tr>
 <tr class="separator:a1beb4bb77ee6443c0655600ef68c4d38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -113,9 +117,9 @@ Variables</h2></td></tr>
 <tr class="memitem:ad05deda16b7834483c1a6dd64e00bd0a"><td class="memItemLeft" align="right" valign="top">XPLMFlightLoopID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ad05deda16b7834483c1a6dd64e00bd0a">XPMP2::gFlightLoopID</a> = nullptr</td></tr>
 <tr class="memdesc:ad05deda16b7834483c1a6dd64e00bd0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The id of our flight loop callback.  <a href="namespaceXPMP2.html#ad05deda16b7834483c1a6dd64e00bd0a">More...</a><br /></td></tr>
 <tr class="separator:ad05deda16b7834483c1a6dd64e00bd0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abda29cad912c65cc63ff0d74197c0f79"><td class="memItemLeft" align="right" valign="top">std::vector&lt; const char * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#abda29cad912c65cc63ff0d74197c0f79">XPMP2::DR_NAMES</a></td></tr>
-<tr class="memdesc:abda29cad912c65cc63ff0d74197c0f79"><td class="mdescLeft">&#160;</td><td class="mdescRight">The list of dataRefs we support to be read by the CSL Model (for gear, flaps, lights etc.)  <a href="namespaceXPMP2.html#abda29cad912c65cc63ff0d74197c0f79">More...</a><br /></td></tr>
-<tr class="separator:abda29cad912c65cc63ff0d74197c0f79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc611f81cee3d9896a004d73e6cf184c"><td class="memItemLeft" align="right" valign="top">std::vector&lt; const char * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#acc611f81cee3d9896a004d73e6cf184c">XPMP2::DR_NAMES</a></td></tr>
+<tr class="memdesc:acc611f81cee3d9896a004d73e6cf184c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The list of dataRefs we support to be read by the CSL Model (for gear, flaps, lights etc.)  <a href="namespaceXPMP2.html#acc611f81cee3d9896a004d73e6cf184c">More...</a><br /></td></tr>
+<tr class="separator:acc611f81cee3d9896a004d73e6cf184c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade6c59f595d1b4bfe93b6172b91b5e33"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::unique_ptr&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ade6c59f595d1b4bfe93b6172b91b5e33">XPMP2::drStrings</a></td></tr>
 <tr class="separator:ade6c59f595d1b4bfe93b6172b91b5e33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3d657a6d1c1d533195c3c526f25a762e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; XPLMDataRef &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a3d657a6d1c1d533195c3c526f25a762e">XPMP2::ahDataRefs</a></td></tr>
@@ -155,7 +159,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define DEBUG_INSTANCE_CREATED&#160;&#160;&#160;&quot;Aircraft 0x%06X: Instance created&quot;</td>
+          <td class="memname">#define DEBUG_INSTANCE_CREATED&#160;&#160;&#160;&quot;Aircraft 0x%06X: Instance created of model %s for '%s'&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -246,6 +250,20 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 </div>
 </div>
+<a id="a0647fb03607e5835db9eb137d8f58a7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0647fb03607e5835db9eb137d8f58a7b">&#9670;&nbsp;</a></span>ERR_WORKER_THREAD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ERR_WORKER_THREAD&#160;&#160;&#160;&quot;Can only be called from XP's main thread!&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="af410c49520422cab8772e7240ca6223f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af410c49520422cab8772e7240ca6223f">&#9670;&nbsp;</a></span>ERR_YPROBE</h2>
 
@@ -254,6 +272,20 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
       <table class="memname">
         <tr>
           <td class="memname">#define ERR_YPROBE&#160;&#160;&#160;&quot;Aircraft 0x%06X: Could not create Y-Probe for terrain testing!&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1fbb5134314cf671558dbc1d030e78f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1fbb5134314cf671558dbc1d030e78f4">&#9670;&nbsp;</a></span>FATAL_CREATE_INVALID</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define FATAL_CREATE_INVALID&#160;&#160;&#160;&quot;Called Aircraft::Create() on already defined plane with _modeS_id (0x%06X)&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -348,10 +380,14 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 </div><div class="memdoc">
 
 <p>Add a user-defined dataRef to the list of dataRefs supported by every plane. </p>
-<p>All planes created by <a class="el" href="namespaceXPMP2.html">XPMP2</a> define the same set of dataRefs. See <a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266f" title="The dataRefs provided by XPMP2 to the CSL models.">XPMP2::DR_VALS</a> for the definitions that come pre-defined with <a class="el" href="namespaceXPMP2.html">XPMP2</a>. Here you can add more dataRefs that you want to set in your <a class="el" href="classXPMP2_1_1Aircraft.html#a021df5cf849d0bfc7468b84d2ba731e6" title="Called right before updating the aircraft&#39;s placement in the world.">XPMP2::Aircraft::UpdatePosition()</a> implementation. </p><dl class="section return"><dt>Returns</dt><dd>The functions returns the array index you need to use in the <a class="el" href="classXPMP2_1_1Aircraft.html#a8c2ccee83b592cd2a7064a380c660c5b" title="actual dataRef values to be provided to the CSL model">XPMP2::Aircraft::v</a> array to provide the actual value. Or <code>0</code> when the function was called while planes are active. </dd></dl>
+<p>All planes created by <a class="el" href="namespaceXPMP2.html">XPMP2</a> define the same set of dataRefs. See <a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6f" title="The dataRefs provided by XPMP2 to the CSL models.">XPMP2::DR_VALS</a> for the definitions that come pre-defined with <a class="el" href="namespaceXPMP2.html">XPMP2</a>. Here you can add more dataRefs that you want to set in your <a class="el" href="classXPMP2_1_1Aircraft.html#a021df5cf849d0bfc7468b84d2ba731e6" title="Called right before updating the aircraft&#39;s placement in the world.">XPMP2::Aircraft::UpdatePosition()</a> implementation. </p><dl class="section return"><dt>Returns</dt><dd>The functions returns the array index you need to use in the <a class="el" href="classXPMP2_1_1Aircraft.html#a8c2ccee83b592cd2a7064a380c660c5b" title="actual dataRef values to be provided to the CSL model">XPMP2::Aircraft::v</a> array to provide the actual value. Or <code>0</code> when an error occured. </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>There is a duplication check: Adding an already existing dataRef, no matter if XPMP2-predefined or by the plugin will return the already existing index. </dd>
 <dd>
-Can only be called while no plane exists as it influence the size of important data arrays. Returns <code>0</code> if called while planes exist. </dd></dl>
+Can only be called while no plane exists as it influence the size of important data arrays. Returns <code>0</code> if called while planes exist. </dd>
+<dd>
+Can only be called from XP's main thread as XPLM SDK functions are called. Returns <code>0</code> if called from a worker thread. </dd>
+<dd>
+User-defined dataRefs are <em>not</em> transfered to the <a class="el" href="namespaceXPMP2.html">XPMP2</a> Remote Client for display on network-connected X-Plane instances. </dd></dl>
 
 </div>
 </div>

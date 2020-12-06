@@ -34,9 +34,10 @@ using namespace XPMP2;
 #define WARN_MODEL_NOT_FOUND    "Named CSL Model '%s' not found"
 #define FATAL_MODE_S_OUT_OF_RGE "_modeS_id (0x%06X) is out of range [0x%06X..0x%06X]"
 #define FATAL_MODE_S_EXISTS     "_modeS_id (0x%06X) already exists"
+#define FATAL_CREATE_INVALID    "Called Aircraft::Create() on already defined plane with _modeS_id (0x%06X)"
 #define DEBUG_REPL_MODE_S       "Replaced duplicate _modeS_id 0x%06X with new unique value 0x%06X"
 #define ERR_CREATE_INSTANCE     "Aircraft 0x%06X: Create Instance FAILED for CSL Model %s"
-#define DEBUG_INSTANCE_CREATED  "Aircraft 0x%06X: Instance created"
+#define DEBUG_INSTANCE_CREATED  "Aircraft 0x%06X: Instance created of model %s for '%s'"
 #define DEBUG_INSTANCE_DESTRYD  "Aircraft 0x%06X: Instance destroyed"
 #define INFO_MODEL_CHANGE       "Aircraft 0x%06X: Changing model from %s to %s"
 #define ERR_YPROBE              "Aircraft 0x%06X: Could not create Y-Probe for terrain testing!"
@@ -44,6 +45,7 @@ using namespace XPMP2;
 #define WARN_PLANES_LEFT_EXIT   "Still %lu aircaft defined during shutdown! Plugin should destroy them prior to shutting down."
 #define ERR_ADD_DATAREF_INIT    "Could not add dataRef %s, XPMP2 not yet initialized?"
 #define ERR_ADD_DATAREF_PLANES  "Could add dataRef %s only if no aircraft are flying, but currently there are %lu aircraft."
+#define ERR_WORKER_THREAD       "Can only be called from XP's main thread!"
 #define DEBUG_DATAREF_ADDED     "Added dataRef %s as index %lu"
 
 namespace XPMP2 {
@@ -51,8 +53,6 @@ namespace XPMP2 {
 /// The id of our flight loop callback
 XPLMFlightLoopID gFlightLoopID = nullptr;
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wexit-time-destructors"
 /// @brief The list of dataRefs we support to be read by the CSL Model (for gear, flaps, lights etc.)
 /// @details Can be extended by the user
 std::vector<const char*> DR_NAMES = {
@@ -116,26 +116,79 @@ std::vector<std::unique_ptr<std::string> > drStrings;
 std::vector<XPLMDataRef> ahDataRefs;
 
 /// Standard name for "no model"
-static std::string noMdlName("<none>");     // exit-time destuctor accepted
-
-#pragma clang diagnostic pop
+static std::string noMdlName("<none>");
 
 
 //
 // MARK: XPMP2 New Definitions
 //
 
-// Legacy constructor creates a plane and puts it under control of XPlaneMP
+// Constructor creates a new aircraft object, which will be managed and displayed
 Aircraft::Aircraft(const std::string& _icaoType,
                    const std::string& _icaoAirline,
                    const std::string& _livery,
                    XPMPPlaneID _modeS_id,
-                   const std::string& _modelName) :
-modeS_id(_modeS_id ? _modeS_id : glob.NextPlaneId()),    // assign the next synthetic plane id
+                   const std::string& _cslId) :
 drawInfo({sizeof(drawInfo), 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}),
 // create an approrpiately sized 'v' array and initialize with zeroes
 v(DR_NAMES.size(), 0.0f)
 {
+    // Create the plane right away
+    Create(_icaoType, _icaoAirline, _livery, _modeS_id, _cslId);
+}
+
+// Default constructor creates an empty, invalid(!) and invisible shell; call XPMP2::Aircraft::Create() to actually create a plane
+Aircraft::Aircraft () :
+drawInfo({sizeof(drawInfo), 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}),
+// create an approrpiately sized 'v' array and initialize with zeroes
+v(DR_NAMES.size(), 0.0f),
+bValid(false), bVisible(false)      // Invalid and invisible for the time being!
+{}
+
+// Destructor cleans up all resources acquired
+Aircraft::~Aircraft ()
+{
+    // inform observers and the network
+    XPMPSendNotification(*this, xpmp_PlaneNotification_Destroyed);
+    RemoteAcRemove(*this);
+    
+    // Remove the instance
+    DestroyInstances();
+    
+    // Decrease the reference counter of the CSL model
+    if (pCSLMdl)
+        pCSLMdl->DecRefCnt();
+
+    // remove myself from the global map of planes
+    glob.mapAc.erase(modeS_id);
+    
+    // remove the Y Probe
+    if (hProbe) {
+        XPLMDestroyProbe(hProbe);
+        hProbe = nullptr;
+    }
+}
+
+
+// Creates a plane, only a valid operation if object was created using the default constructor
+void Aircraft::Create (const std::string& _icaoType,
+                       const std::string& _icaoAirline,
+                       const std::string& _livery,
+                       XPMPPlaneID _modeS_id,
+                       const std::string& _cslId,
+                       CSLModel* _pCSLModel)
+{
+    // Must be called from XP's main thread only as we are calling XPLM SDK functions!!
+    LOG_ASSERT(glob.IsXPThread());
+    
+    // Must not be used on already defined aircraft
+    if (modeS_id > 0) {
+        THROW_ERROR(FATAL_CREATE_INVALID, modeS_id);
+    }
+    
+    // assign the next synthetic plane id
+    modeS_id = _modeS_id ? _modeS_id : glob.NextPlaneId();
+
     // Verify uniqueness of modeS if defined by caller
     if (_modeS_id) {
         if (_modeS_id < MIN_MODE_S_ID || _modeS_id > MAX_MODE_S_ID) {
@@ -156,9 +209,18 @@ v(DR_NAMES.size(), 0.0f)
         }
     }
     
-    // if given try to find the CSL model to use by its name
-    if (!_modelName.empty())
-        AssignModel(_modelName);
+    // Now valid and to be displayed
+    bValid = bVisible = true;
+    
+    // if given try to find the CSL model to use by its name, or just use the given model
+    if (!_cslId.empty() || _pCSLModel) {
+        if (AssignModel(_cslId, _pCSLModel)) {
+            // however, remember the passed-in type details if given
+            if (!_icaoType.empty())     acIcaoType = _icaoType;
+            if (!_icaoAirline.empty())  acIcaoAirline = _icaoAirline;
+            if (!_livery.empty())       acLivery = _livery;
+        }
+    }
     
     // Let Matching happen, if we still don't have a model
     if (!pCSLMdl)
@@ -185,29 +247,6 @@ v(DR_NAMES.size(), 0.0f)
         // Schedule the flight loop callback to be called next flight loop cycle
         XPLMScheduleFlightLoop(gFlightLoopID, -1.0f, 0);
         LOG_MSG(logDEBUG, "Flight loop callback started");
-    }
-}
-
-// Destructor cleans up all resources acquired
-Aircraft::~Aircraft ()
-{
-    // inform observers
-    XPMPSendNotification(*this, xpmp_PlaneNotification_Destroyed);
-    
-    // Remove the instance
-    DestroyInstances();
-    
-    // Decrease the reference counter of the CSL model
-    if (pCSLMdl)
-        pCSLMdl->DecRefCnt();
-
-    // remove myself from the global map of planes
-    glob.mapAc.erase(modeS_id);
-    
-    // remove the Y Probe
-    if (hProbe) {
-        XPLMDestroyProbe(hProbe);
-        hProbe = nullptr;
     }
 }
 
@@ -301,12 +340,13 @@ int Aircraft::ChangeModel (const std::string& _icaoType,
 
 
 // Assigns the given model per name, returns if successful
-bool Aircraft::AssignModel (const std::string& _modelName)
+bool Aircraft::AssignModel (const std::string& _cslId,
+                            CSLModel* _pCSLModel)
 {
-    // try finding the model by name
-    CSLModel* pMdl = CSLModelByName(_modelName);
+    // set the model, or try finding the model by name
+    CSLModel* pMdl = _pCSLModel ? _pCSLModel : CSLModelById(_cslId);
     if (!pMdl) {                            // nothing changes if not found
-        LOG_MSG(logWARN, WARN_MODEL_NOT_FOUND, _modelName.c_str());
+        LOG_MSG(logWARN, WARN_MODEL_NOT_FOUND, _cslId.c_str());
         return false;
     }
 
@@ -380,6 +420,7 @@ float Aircraft::FlightLoopCB(float _elapsedSinceLastCall, float, int _flCounter,
 
         // As we need the current timestamp more often we read it here once
         const float now = GetMiscNetwTime();
+        RemoteAcEnqueueStarts(now);            // give remote model the chance for some prep work
 
         // Update positional and configurational values
         for (mapAcTy::value_type& pair : glob.mapAc) {
@@ -405,19 +446,27 @@ float Aircraft::FlightLoopCB(float _elapsedSinceLastCall, float, int _flCounter,
                     }
                     // Actually move the plane, ie. the instance that represents it
                     ac.DoMove();
+                    // Feed remote connections
+                    RemoteAcEnqueue(ac);
                 }
             }
             CATCH_AC(ac)
         }
-
+        
+        // Tell remote module that we are done updated a/c so it can send out last pending messages
+        RemoteAcEnqueueDone();
+        
         // Publish aircraft data on the AI/multiplayer dataRefs
         AIMultiUpdate();
     }
-    catch (const std::exception& e) { LOG_MSG(logFATAL, ERR_EXCEPTION, e.what()); }
-    catch (...) { LOG_MSG(logFATAL, ERR_EXCEPTION, "<unknown>"); }
+    catch (const std::exception& e) {
+        LOG_MSG(logFATAL, ERR_EXCEPTION, e.what());
+        RemoteAcEnqueueDone();          // must make sure to release a lock
+    }
 
     // Don't call me again if there are no more aircraft,
     if (glob.mapAc.empty()) {
+        RemoteAcClearAll ();            // remote module can clean up, too
         LOG_MSG(logDEBUG, "Flight loop callback ended");
         return 0.0f;
     }
@@ -430,8 +479,8 @@ float Aircraft::FlightLoopCB(float _elapsedSinceLastCall, float, int _flCounter,
 // This puts the instance into XP's sky and makes it move
 void Aircraft::DoMove ()
 {
-    // Only for visible planes
-    if (IsVisible()) {
+    // Only for planes that are to be rendered
+    if (IsRendered()) {
         // Already have instances? 
         if (!listInst.empty()) {
             // Move the instances (this is probably the single most important line of code ;-) )
@@ -547,7 +596,8 @@ bool Aircraft::CreateInstances ()
     }
     
     // Success!
-    LOG_MSG(logDEBUG, DEBUG_INSTANCE_CREATED, modeS_id);
+    LOG_MSG(logDEBUG, DEBUG_INSTANCE_CREATED, modeS_id, GetModelName().c_str(),
+            label.c_str());
     return true;
 }
 
@@ -561,18 +611,23 @@ void Aircraft::DestroyInstances ()
         return;
     }
 
-    while (!listInst.empty()) {
-        XPLMDestroyInstance(listInst.back());
-        listInst.pop_back();
+    if (!listInst.empty()) {
+        while (!listInst.empty()) {
+            XPLMDestroyInstance(listInst.back());
+            listInst.pop_back();
+        }
+        LOG_MSG(logDEBUG, DEBUG_INSTANCE_DESTRYD, modeS_id);
     }
     bDestroyInst = false;
-    LOG_MSG(logDEBUG, DEBUG_INSTANCE_DESTRYD, modeS_id);
 }
 
 
 // Converts world coordinates to local coordinates, writes to `drawInfo`
 void Aircraft::SetLocation(double lat, double lon, double alt_f)
 {
+    // Must be called from XP's main thread only as we are calling XPLM SDK functions!!
+    LOG_ASSERT(glob.IsXPThread());
+
     // Weirdly, XPLMWorldToLocal expects points to double, while XPLMDrawInfo_t later on provides floats,
     // so we need intermediate variables
     double x, y, z;
@@ -590,6 +645,9 @@ void Aircraft::SetLocation(double lat, double lon, double alt_f)
 // Converts aircraft's local coordinates to lat/lon values
 void Aircraft::GetLocation (double& lat, double& lon, double& alt_ft) const
 {
+    // Must be called from XP's main thread only as we are calling XPLM SDK functions!!
+    LOG_ASSERT(glob.IsXPThread());
+
     XPLMLocalToWorld(drawInfo.x, drawInfo.y, drawInfo.z,
                      &lat, &lon, &alt_ft);
     alt_ft /= M_per_FT;
@@ -712,6 +770,21 @@ void Aircraft::SetVisible (bool _bVisible)
         ResetTcasTargetIdx();
         DestroyInstances();
     }
+}
+
+// Switch rendering of the CSL model on or off
+void Aircraft::SetRender (bool _bRender)
+{
+    // no change?
+    if (bRender == _bRender)
+        return;
+    
+    // Set the flag
+    bRender = _bRender;
+    
+    // In case rendering is _now_ switched off: Remove the instance (but leave AI as is!)
+    if (!bRender)
+        DestroyInstances();
 }
 
 //
@@ -959,6 +1032,12 @@ size_t XPMPAddModelDataRef (const std::string& dataRef)
     
     // --- Add the new dataRaf ---
     
+    // Must be called from XP's main thread only as we are calling XPLM SDK functions!!
+    if (!glob.IsXPThread()) {
+        LOG_MSG(logERR, ERR_WORKER_THREAD);
+        return 0;
+    }
+
     // Copy the provided text: This creates a copy of std::string, pointed to by a smart pointer
     drStrings.emplace_back(std::make_unique<std::string>(dataRef));
     const char* drName = drStrings.back()->c_str();

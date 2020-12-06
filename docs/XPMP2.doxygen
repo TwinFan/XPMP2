@@ -826,6 +826,7 @@ WARN_LOGFILE           =
 INPUT                  = inc \
                          src \
                          docs \
+                         XPMP2-Remote \
                          XPMP2-Sample
 
 # This tag can be used to specify the character encoding of the source files

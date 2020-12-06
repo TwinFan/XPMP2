@@ -261,7 +261,7 @@ void CSLObj::XPObjLoadedCB (XPLMObjectRef inObject,
     
         // try finding the CSL model object in the global map
         mapCSLModelTy::iterator cslIter;
-        CSLModel* pCsl = CSLModelByName(p->first, &cslIter);
+        CSLModel* pCsl = CSLModelById(p->first, &cslIter);
         if (!pCsl) {
             // CSL model not found in global map -> release the X-Plane object right away
             LOG_MSG(logERR, ERR_OBJ_NOT_FOUND, p->first.c_str());
@@ -533,7 +533,7 @@ float CSLModel::FetchVertOfsFromObjFile () const
                 ret = o;
         }
     }
-    catch(const std::system_error& e) {
+    catch(const std::exception& e) {
         LOG_MSG(logERR, "Reading vertical offsets failed: %s", e.what());
     }
     catch (...) {
@@ -755,6 +755,8 @@ void AcTxtLine_OBJ8_AIRCRAFT (CSLModel& csl,
         if (sepPos != std::string::npos)
             csl.shortId.erase(0,sepPos+1);
         
+        // save a hash value for the package name, needed for synching with remote client
+        csl.pkgHash = PJWHash16(exportName.c_str());
         // full id is package name (EXPORT) plus the short id
         csl.cslId = exportName + '/' + csl.shortId;
         // human readable model name is last part of path plus short id
@@ -1096,15 +1098,15 @@ const char* CSLModelsLoad (const std::string& _path,
 
 
 // Find a model by name
-CSLModel* CSLModelByName (const std::string& _mdlName,
-                          mapCSLModelTy::iterator* _pOutIter)
+CSLModel* CSLModelById (const std::string& _cslId,
+                        mapCSLModelTy::iterator* _pOutIter)
 {
     // try finding the model by name
     mapCSLModelTy::iterator iter =
     std::find_if(glob.mapCSLModels.begin(),
                  glob.mapCSLModels.end(),
-                 [_mdlName](const mapCSLModelTy::value_type& csl)
-                 { return csl.second.GetId() == _mdlName; });
+                 [_cslId](const mapCSLModelTy::value_type& csl)
+                 { return csl.second.GetId() == _cslId; });
     
     // If requested, also return the iterator itself
     if (_pOutIter)
@@ -1116,6 +1118,38 @@ CSLModel* CSLModelByName (const std::string& _mdlName,
     
     // Success
     return &iter->second;
+}
+
+
+// Find a model by package name hash and short id
+/// @note This is directly used by XPMP2-Remote client with a potentially limited short id string
+CSLModel* CSLModelByPkgShortId (std::uint16_t _pkgHash,
+                                const std::string& _shortId)
+{
+    // try finding the model by shortId, also verify pckage hash
+    mapCSLModelTy::iterator iBest = glob.mapCSLModels.end();
+    for (mapCSLModelTy::iterator iter = glob.mapCSLModels.begin();
+         iter != glob.mapCSLModels.end();
+         ++iter)
+    {
+        // short id matches...as far as known
+        if (std::strncmp(iter->second.GetShortId().c_str(), _shortId.c_str(), _shortId.length()) == 0) {
+            if (iter->second.pkgHash == _pkgHash) {     // perfect match!
+                iBest = iter;
+                break;
+            }
+            else if (iBest == glob.mapCSLModels.end() &&// remember the first model for which at least the short id matches
+                     !iter->second.IsObjInvalid())
+                iBest = iter;                           // but keep on searching
+        }
+    }
+    
+    // not found, or invalid?
+    if (iBest == glob.mapCSLModels.end() || iBest->second.IsObjInvalid())
+        return nullptr;
+    
+    // Success
+    return &iBest->second;
 }
 
 //

@@ -135,10 +135,10 @@ void TwoDDrawLabels ()
     // Loop over all aircraft and draw their labels
     for (auto& p: glob.mapAc)
     {
-        // skip if a/c is invisible
         Aircraft& ac = *p.second;
         try {
-            if (!ac.IsVisible())
+            // skip if a/c is not rendered
+            if (!ac.IsRendered())
                 continue;
         
             // Exit if aircraft is father away from camera than we would draw labels for
@@ -204,7 +204,8 @@ int CPLabelDrawing (XPLMDrawingPhase     /*inPhase*/,
 void TwoDActivate ()
 {
     // Register the actual drawing func.
-    // TODO: This is a deprecated call!
+    // This actually is a deprecated call, but it is at the same time the recommended way to draw labels,
+    // see https://developer.x-plane.com/code-sample/coachmarks/
     XPLMRegisterDrawCallback(CPLabelDrawing,
                              xplm_Phase_Window,
                              1,                        // after
@@ -216,7 +217,8 @@ void TwoDActivate ()
 void TwoDDeactivate ()
 {
     // Unregister the drawing callback
-    // TODO: This is a deprecated call!
+    // This actually is a deprecated call, but it is at the same time the recommended way to draw labels,
+    // see https://developer.x-plane.com/code-sample/coachmarks/
     XPLMUnregisterDrawCallback(CPLabelDrawing, xplm_Phase_Window, 1, nullptr);
 }
 

@@ -22,16 +22,12 @@
 
 namespace XPMP2 {
 
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wexit-time-destructors"
 #if DEBUG
 GlobVars glob (logDEBUG, true);
 #else
-/// The one and only global variable structure (accepted to require an exit-time destructor)
+/// The one and only global variable structure
 GlobVars glob;
 #endif
-#pragma clang diagnostic pop
 
 //
 // MARK: Configuration
@@ -52,6 +48,112 @@ XPMPPlaneID GlobVars::NextPlaneId ()
     }
     // found something, which is not yet taken, return it:
     return planeId;
+}
+
+
+// Read from a generic `XPMP2.prf` or `XPMP2.<logAcronym>.prf` config file
+/// @details Goal is to provide some few configuration options independend
+///          of the plugin using XPMP2. This is useful e.g. when configuring
+///          non-standard network settings for remote connections.\n
+///          For even greate flexibility the function will try a plugin-specific
+///          file first, named "XPMP2.<logAcronym>.prf" (with spaces replaced
+///          with underscores) and if that is not found
+///          it tries the generic file "XPMP2.prf".\n
+///          A config file is completely optional, none is required.
+void GlobVars::ReadConfigFile ()
+{
+    // Put together the plugin-spcific file name
+    std::string cfgFileName = logAcronym;
+    trim(cfgFileName);
+    cfgFileName += ".prf";
+    std::replace(cfgFileName.begin(), cfgFileName.end(), ' ', '_');
+    cfgFileName = GetXPSystemPath() + "Output/preferences/XPMP2." + cfgFileName;
+    
+    // If that file doesn't exist try the generic version
+    if (!ExistsFile(cfgFileName)) {
+        cfgFileName = GetXPSystemPath() + "Output/preferences/XPMP2.prf";
+        if (!ExistsFile(cfgFileName))       // does also not exist, that's OK then
+            return;
+    }
+    
+    // Open that config file, which we think does exist
+    LOG_MSG(logINFO, "Reading configuration from %s", cfgFileName.c_str());
+    std::ifstream fIn (cfgFileName);
+    if (!fIn) {
+        char sErr[100];
+        strerror_s(sErr, sizeof(sErr), errno);
+        LOG_MSG(logERR, "Could not open config file '%s': %s", cfgFileName.c_str(), sErr);
+        return;
+    }
+    
+    // Read from the file
+    std::vector<std::string> ln;
+    std::string lnBuf;
+    int errCnt = 0;
+    while (fIn && errCnt <= 3) {
+        safeGetline(fIn, lnBuf);            // read line and break into tokens, delimited by spaces
+        if (lnBuf.empty() ||                // skip empty lines or comments without warning
+            lnBuf[0] == '#')
+            continue;
+
+        // otherwise should be 2 tokens
+        ln = str_tokenize(lnBuf, " ");
+        if (ln.size() != 2) {
+            // wrong number of words in that line
+            LOG_MSG(logWARN,"Expected two words (key, value) in config file '%s', line '%s' -> ignored",
+                    cfgFileName.c_str(), lnBuf.c_str());
+            errCnt++;
+            continue;
+        }
+
+        // *** Process actual configuration entries ***
+        
+        int iVal = 0;
+        try {iVal = (int) std::stol(ln[1]); }
+        catch (...) { iVal = 0; }
+        if (ln[0] == "logLvl")              logLvl = (logLevelTy) clamp<int>(iVal, int(logDEBUG), int(logFATAL));
+        else if (ln[0] == "defaultICAO")    defaultICAO = ln[1];
+        else if (ln[0] == "carIcaoType")    carIcaoType = ln[1];
+        else if (ln[0] == "remoteSupport") {
+            str_tolower(ln[1]);
+            if (ln[1] == "on")              glob.remoteCfg = glob.remoteCfgFromIni = REMOTE_CFG_ON;
+            else if (ln[1] == "auto")       glob.remoteCfg = glob.remoteCfgFromIni = REMOTE_CFG_AUTO;
+            else if (ln[1] == "off")        glob.remoteCfg = glob.remoteCfgFromIni = REMOTE_CFG_OFF;
+            else {
+                LOG_MSG(logWARN, "Ignored unknown value '%s' for 'remoteSupport' in file '%s'",
+                        ln[1].c_str(), cfgFileName.c_str());
+            }
+        }
+        else if (ln[0] == "remoteMCGroup")  remoteMCGroup = ln[1];
+        else if (ln[0] == "remotePort")     remotePort = iVal;
+        else if (ln[0] == "remoteTTL")      remoteTTL = iVal;
+        else if (ln[0] == "remoteBufSize")  remoteBufSize = (size_t)iVal;
+        else if (ln[0] == "remoteTxfFrequ") remoteTxfFrequ = iVal;
+        else {
+            LOG_MSG(logWARN, "Ignored unknown config item '%s' from file '%s'",
+                    ln[0].c_str(), cfgFileName.c_str());
+        }
+    }
+
+    // problem was not just eof?
+    if (!fIn && !fIn.eof()) {
+        char sErr[100];
+        strerror_s(sErr, sizeof(sErr), errno);
+        LOG_MSG(logERR, "Could not read from config file '%s': %s",
+                cfgFileName.c_str(), sErr);
+        return;
+    }
+    
+    // close file
+    fIn.close();
+
+    // too many warnings?
+    if (errCnt > 3) {
+        LOG_MSG(logERR, "Too many errors while trying to process config file '%s'",
+                cfgFileName.c_str());
+        return;
+    }
+    
 }
 
 
@@ -85,13 +187,64 @@ void GlobVars::UpdateCfgVals ()
     
     // Ask for clam-to-ground config
     bClampAll = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_CLAMPALL, bClampAll) != 0;
-
+    
     // Ask for handling of duplicate XPMP2::Aircraft::modeS_id
     bHandleDupId = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_HANDLE_DUP_ID, bHandleDupId) != 0;
+
+    // Ask for remote support
+    i = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_SUPPORT_REMOTE, remoteCfg);
+    if (i == 0)     remoteCfg = remoteCfgFromIni;       // if plugin says "AUTO", then use config file's value
+    else if (i < 0) remoteCfg = REMOTE_CFG_OFF;
+    else            remoteCfg = REMOTE_CFG_ON;
 
     // Ask for model matching logging
     bLogMdlMatch = prefsFuncInt(XPMP_CFG_SEC_DEBUG, XPMP_CFG_ITM_MODELMATCHING, bLogMdlMatch) != 0;
     
+    // Fetch the network / multiplayer setup from X-Plane, which theoretically can change over time
+    static XPLMDataRef drIsExternalVisual       = XPLMFindDataRef("sim/network/dataout/is_external_visual");        // int/boolean
+    static XPLMDataRef drIsMultiplayer          = XPLMFindDataRef("sim/network/dataout/is_multiplayer_session");    // int/boolean
+    static XPLMDataRef drTrackExternalVisual    = XPLMFindDataRef("sim/network/dataout/track_external_visual");     // int[20]/boolean
+    const bool bWasNetworkedSetup = bXPNetworkedSetup;
+    bXPNetworkedSetup = false;
+    if (XPLMGetDatai(drIsExternalVisual)) {
+        if (!bWasNetworkedSetup) LOG_MSG(logINFO, "This X-Plane instance is configured as an External Visual.");
+        bXPNetworkedSetup = true;
+    }
+    else if (XPLMGetDatai(drIsMultiplayer)) {
+        if (!bWasNetworkedSetup) LOG_MSG(logINFO, "This X-Plane instance is part of a multiplayer session.");
+        bXPNetworkedSetup = true;
+    }
+    else {
+        static int aNull[20] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+        int ai[20];
+        XPLMGetDatavi(drTrackExternalVisual, ai, 0, sizeof(ai)/sizeof(ai[0]));
+        if (std::memcmp(ai, aNull, sizeof(ai)) != 0) {
+            if (!bWasNetworkedSetup) LOG_MSG(logINFO, "This X-Plane instance is a Master with one or more External Visuals.");
+            bXPNetworkedSetup = true;
+        }
+        // Last thing we check: Is the XPLM2 Remote Client running?
+        // Because if it is then the user clearly intended communication with it, even locally
+        else {
+            // Note: Finding a plugin can fail during startup depending on startup sequence!
+            //       So it is never sufficient to search for a plugin once only.
+            static XPLMPluginID idRemoteClient = XPLM_NO_PLUGIN_ID;
+            static int nSearches = 5;           // we search up to 5 times for this reason
+            if (idRemoteClient == XPLM_NO_PLUGIN_ID && nSearches-- > 0)
+                idRemoteClient = XPLMFindPluginBySignature(REMOTE_SIGNATURE);
+            if (idRemoteClient != XPLM_NO_PLUGIN_ID) {
+                if (!bWasNetworkedSetup) LOG_MSG(logINFO, "The XPMP2 Remote Client is running locally.");
+                bXPNetworkedSetup = true;
+            }
+        }
+    }
+    // Previously we were in a networked setup, but now no longer?
+    if (bWasNetworkedSetup && !bXPNetworkedSetup) {
+        LOG_MSG(logINFO, "This X-Plane instance is no longer in any networked setup.");
+    }
+    // Give the Remote module a chance to handle any changes in status
+    // (which not only depends on bXPNetworkedSetup but also on number of planes)
+    RemoteSenderUpdateStatus();
+
 }
 
 // Read version numbers into verXplane/verXPLM
@@ -103,9 +256,9 @@ void GlobVars::ReadVersions ()
     // Also read if we are using Vulkan/Metal
     XPLMDataRef drUsingModernDriver = XPLMFindDataRef("sim/graphics/view/using_modern_driver");
     if (drUsingModernDriver)            // dataRef not defined before 11.50
-        bUsingModernGraphicsDriver = XPLMGetDatai(drUsingModernDriver) != 0;
+        bXPUsingModernGraphicsDriver = XPLMGetDatai(drUsingModernDriver) != 0;
     else
-        bUsingModernGraphicsDriver = false;
+        bXPUsingModernGraphicsDriver = false;
 }
 
 //
@@ -248,23 +401,25 @@ std::istream& safeGetline(std::istream& is, std::string& t)
     return is;
 }
 
-// If a path starts with X-Plane's system directory it is stripped
-std::string StripXPSysDir (const std::string& path)
+// Returns XP's system directory, including a trailing slash
+const std::string& GetXPSystemPath ()
 {
     // Fetch XP's system dir once
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wexit-time-destructors"
     static std::string sysDir;
-#pragma clang diagnostic pop
     if (sysDir.empty()) {
         char s[512];
         XPLMGetSystemPath(s);
         sysDir = s;
     }
-    
+    return sysDir;
+}
+
+// If a path starts with X-Plane's system directory it is stripped
+std::string StripXPSysDir (const std::string& path)
+{
     // does the path begin with it?
-    if (path.find(sysDir) == 0)
-        return path.substr(sysDir.length());
+    if (path.find(GetXPSystemPath()) == 0)
+        return path.substr(GetXPSystemPath().length());
     else
         return path;
 }
@@ -408,6 +563,26 @@ std::vector<std::string> str_tokenize (const std::string s,
     v.emplace_back(s.substr(b));
     
     return v;
+}
+
+
+
+
+// Produces a very simple hash, which is the same if the same string is provided, across platform and across executions (unlike std::hash)
+std::uint16_t PJWHash16(const char *pc)
+{
+    std::uint16_t h = 0, high;
+    const unsigned char* s = reinterpret_cast<const unsigned char*>(pc);
+    while (*s)
+    {
+        h <<= 2;                    // shift by 2 bits only, not 4
+        h += *s++;
+        high = h & 0xC000;          // pick the upper 2 bits only, not 4
+        if (high)
+            h ^= high >> 14;
+        h &= ~high;
+    }
+    return h;
 }
 
 //

@@ -149,9 +149,12 @@ const char *    XPMPMultiplayerInit(const char* inPluginName,
     }
 
     // Get X-Plane's version numbers
-    glob.ReadVersions();
+    glob.ReadVersions();    
     LOG_MSG(logINFO, "XPMP2 %.2f initializing under X-Plane version %d/%s and XPLM version %d",
             XPMP2_VER, glob.verXPlane, GetGraphicsDriverTxt(), glob.verXPLM);
+    
+    // Read a potential global XPMP2-specific config file
+    glob.ReadConfigFile();
 
     // And get initial config values (defines, e.g., log level, which we'll need soon)
     glob.UpdateCfgVals();
@@ -169,6 +172,7 @@ const char *    XPMPMultiplayerInit(const char* inPluginName,
     TwoDInit();
     AIMultiInit();
     MapInit();
+    RemoteInit();
     
     // Load related.txt
     ret = RelatedLoad(glob.pathRelated);
@@ -203,6 +207,7 @@ void XPMPMultiplayerCleanup()
     LOG_MSG(logINFO, "XPMP2 cleaning up...")
 
     // Cleanup all modules in revers order of initialization
+    RemoteCleanup();
     MapCleanup();
     AIMultiCleanup();
     TwoDCleanup();

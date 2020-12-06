@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>XPMP2 Remote Client Readme</title>
+</head>
+<body>
+
+    <H1>XPMP2 Remote Client Readme</H1>
+
+    <h2>Documentation</h2>
+
+    <P>
+        For full documentation please visit
+        <a href="https://twinfan.gitbook.io/livetraffic/setup/installation/xpmp2-remote-client">LiveTraffic/XPMP2 Remote Client on GitBook</a>,
+        which also includes more details on installation.
+    </P>
+
+    <h2>Installation / External Visuals</h2>
+
+    <P>The typical basic installation is very simple:</P>
+    
+    <ul>
+        <li>You run a networked setup, in which one computer is the master.
+            The master also runs the latest version of XPMP2-based plugins
+            (like LiveTraffic, xPilot) just as usual
+            (the <i>senders</i>, because they will send the traffic);</li>
+        <li>On all other computers on the network install the
+            XPMP2 Remote Client as follows:
+            <ul>
+                <li>Move the <code>XPMP2-Remote</code> folder under X-Plane's
+                    <code>Resources/plugins</code> folder as with any other plugin.</li>
+                <li>Install the same set of CSL Models, that your senders use, under the
+                    <code>XPMP2-Remote/Resources</code> folder.
+                    It is not required to rebuild the same folder structure
+                    as CSL models are identified by internal names,
+                    but all models need to be in reach if you want planes
+                    to appear the same way as at your senders.</li>
+            </ul></li>
+    </ul>
+    
+    <h2>Installation / Local TCAS Concentrator</h2>
+
+    <P>You have several XPMP2-based plugins (like LiveTraffic, xPilot,
+    referred to as the senders) running in parallel and want to see
+    all their traffic on TCAS
+    (and not only the traffic of the plugin which happens to have TCAS control):</p>
+    
+    <P>Install XPMP2-Remote on the computer running the senders:</p>
+
+    <ul>
+        <li>Move the <code>XPMP2-Remote</code> folder under X-Plane's
+            <code>Resources/plugins</code> folder as with any other plugin.</li>
+        <li>In this setup you don't even need to add all your CSL models
+            as the Remote Client doesn't actually render planes,
+            but for technical reasons at least <strong>one</strong>
+            model is still required.</li>
+    </ul>
+
+    <h3>Resulting Directory Structure</h3>
+
+    <P>...under X-Plane's <code>Resources/plugins</code> folder:</P>
+
+    <P>
+        <code>XPMP2-Remote/</code><br>
+        <code>XPMP2-Remote/lin_x64/XPMP2-Remote.xpl</code><br>
+        <code>XPMP2-Remote/mac_x64/XPMP2-Remote.xpl</code><br>
+        <code>XPMP2-Remote/win_x64/XPMP2-Remote.xpl</code><br>
+        <code>XPMP2-Remote/Resources/CSL/...</code> (here follow the CSL package folders)<br>
+        <code>XPMP2-Remote/Resources/Doc8643.txt</code><br>
+        <code>XPMP2-Remote/Resources/MapIcons.png</code><br>
+        <code>XPMP2-Remote/Resources/Obj8DataRefs.txt</code><br>
+        <code>XPMP2-Remote/Resources/related.txt</code><br>
+        <code>XPMP2-Remote/Resources/XPMP2.example.prf</code><br>        
+    </P>
+
+    <h1>Release Notes</h1>
+    
+    <h2>v1.0</h2>
+    
+    <h3>v1.00</h3>
+    
+    <P>First public version.</P>
+
+</body>
+</html>

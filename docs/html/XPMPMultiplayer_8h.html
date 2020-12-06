@@ -111,6 +111,9 @@ Macros</h2></td></tr>
 <tr class="memitem:a7506ca78ff2e29601c08e935d82a5b44"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a7506ca78ff2e29601c08e935d82a5b44">XPMP_CFG_ITM_HANDLE_DUP_ID</a>&#160;&#160;&#160;&quot;handle_dup_id&quot;</td></tr>
 <tr class="memdesc:a7506ca78ff2e29601c08e935d82a5b44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config key: Boolean: If <a class="el" href="classXPMP2_1_1Aircraft.html#a7180fb04f2307508345fd80201f0709f" title="A plane is uniquely identified by a 24bit number [0x01..0xFFFFFF].">XPMP2::Aircraft::modeS_id</a> already exists then assign a new unique one, overwrites <a class="el" href="classXPMP2_1_1Aircraft.html#a7180fb04f2307508345fd80201f0709f" title="A plane is uniquely identified by a 24bit number [0x01..0xFFFFFF].">XPMP2::Aircraft::modeS_id</a>.  <a href="XPMPMultiplayer_8h.html#a7506ca78ff2e29601c08e935d82a5b44">More...</a><br /></td></tr>
 <tr class="separator:a7506ca78ff2e29601c08e935d82a5b44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a709505c583bc11c37250a6f3516ce97c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a709505c583bc11c37250a6f3516ce97c">XPMP_CFG_ITM_SUPPORT_REMOTE</a>&#160;&#160;&#160;&quot;support_remote&quot;</td></tr>
+<tr class="memdesc:a709505c583bc11c37250a6f3516ce97c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config key: Support remote connections? <code>&lt;0</code> force off, <code>0</code> default: on if in a networked or multiplayer setup, <code>&gt;0</code> force on.  <a href="XPMPMultiplayer_8h.html#a709505c583bc11c37250a6f3516ce97c">More...</a><br /></td></tr>
+<tr class="separator:a709505c583bc11c37250a6f3516ce97c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5728e039cf8cdf415112b629e7a1667b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a5728e039cf8cdf415112b629e7a1667b">XPMP_CFG_ITM_LOGLEVEL</a>&#160;&#160;&#160;&quot;log_level&quot;</td></tr>
 <tr class="memdesc:a5728e039cf8cdf415112b629e7a1667b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config key: General level of logging into <code>Log.txt</code> (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)  <a href="XPMPMultiplayer_8h.html#a5728e039cf8cdf415112b629e7a1667b">More...</a><br /></td></tr>
 <tr class="separator:a5728e039cf8cdf415112b629e7a1667b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -873,6 +876,22 @@ time offset to avoid lights across planes blink in sync (unused in <a class="el"
 
 </div>
 </div>
+<a id="a709505c583bc11c37250a6f3516ce97c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a709505c583bc11c37250a6f3516ce97c">&#9670;&nbsp;</a></span>XPMP_CFG_ITM_SUPPORT_REMOTE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define XPMP_CFG_ITM_SUPPORT_REMOTE&#160;&#160;&#160;&quot;support_remote&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Config key: Support remote connections? <code>&lt;0</code> force off, <code>0</code> default: on if in a networked or multiplayer setup, <code>&gt;0</code> force on. </p>
+
+</div>
+</div>
 <a id="a8ae993bb59596448007540ef3e43808b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8ae993bb59596448007540ef3e43808b">&#9670;&nbsp;</a></span>XPMP_CFG_SEC_DEBUG</h2>
 
@@ -943,6 +962,7 @@ time offset to avoid lights across planes blink in sync (unused in <a class="el"
 <code>models&#160; | replace_texture&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;1&#160;&#160;&#160; | Replace textures in OBJ8 files upon load if needed (specified on the OBJ8 line in xsb_aircraft.txt), creating new OBJ8 files</code><br  />
 <code>planes&#160; | clamp_all_to_ground | int&#160; | &#160;&#160;&#160;1&#160;&#160;&#160; | Ensure no plane sinks below ground, no matter of <a class="el" href="classXPMP2_1_1Aircraft.html#a963880325120e921f0564a97e32e440c" title="Shall this plane be clamped to ground (ie. never sink below ground)?">XPMP2::Aircraft::bClampToGround</a></code><br  />
 <code>planes&#160; | handle_dup_id&#160;&#160;&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;0&#160;&#160;&#160; | Boolean: If <a class="el" href="classXPMP2_1_1Aircraft.html#a7180fb04f2307508345fd80201f0709f" title="A plane is uniquely identified by a 24bit number [0x01..0xFFFFFF].">XPMP2::Aircraft::modeS_id</a> already exists then assign a new unique one, overwrites <a class="el" href="classXPMP2_1_1Aircraft.html#a7180fb04f2307508345fd80201f0709f" title="A plane is uniquely identified by a 24bit number [0x01..0xFFFFFF].">XPMP2::Aircraft::modeS_id</a></code><br  />
+<code>planes&#160; | support_remote&#160;&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;0&#160;&#160;&#160; | 3-state integer: Support remote connections? &lt;0 force off, 0 default: on if in a networked or multiplayer setup, &gt;0 force on</code><br  />
 <code>debug&#160;&#160; | log_level&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;2&#160;&#160;&#160; | General level of logging into Log.txt (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)</code><br  />
 <code>debug&#160;&#160; | model_matching&#160;&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;0&#160;&#160;&#160; | Write information on model matching into Log.txt</code><br  />
 </p><dl class="section note"><dt>Note</dt><dd>There is no immediate requirement to check the value of <code>_section</code> in your implementation. <code>_key</code> by itself is unique. Compare it with any of the <code>XPMP_CFG_ITM_*</code> values and return your value. </dd></dl>
@@ -1209,10 +1229,14 @@ This enum is only used with deprecated concepts (class <a class="el" href="class
 </div><div class="memdoc">
 
 <p>Add a user-defined dataRef to the list of dataRefs supported by every plane. </p>
-<p>All planes created by <a class="el" href="namespaceXPMP2.html">XPMP2</a> define the same set of dataRefs. See <a class="el" href="namespaceXPMP2.html#a02cd1e5f394cbfb5be34e743013a266f" title="The dataRefs provided by XPMP2 to the CSL models.">XPMP2::DR_VALS</a> for the definitions that come pre-defined with <a class="el" href="namespaceXPMP2.html">XPMP2</a>. Here you can add more dataRefs that you want to set in your <a class="el" href="classXPMP2_1_1Aircraft.html#a021df5cf849d0bfc7468b84d2ba731e6" title="Called right before updating the aircraft&#39;s placement in the world.">XPMP2::Aircraft::UpdatePosition()</a> implementation. </p><dl class="section return"><dt>Returns</dt><dd>The functions returns the array index you need to use in the <a class="el" href="classXPMP2_1_1Aircraft.html#a8c2ccee83b592cd2a7064a380c660c5b" title="actual dataRef values to be provided to the CSL model">XPMP2::Aircraft::v</a> array to provide the actual value. Or <code>0</code> when the function was called while planes are active. </dd></dl>
+<p>All planes created by <a class="el" href="namespaceXPMP2.html">XPMP2</a> define the same set of dataRefs. See <a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6f" title="The dataRefs provided by XPMP2 to the CSL models.">XPMP2::DR_VALS</a> for the definitions that come pre-defined with <a class="el" href="namespaceXPMP2.html">XPMP2</a>. Here you can add more dataRefs that you want to set in your <a class="el" href="classXPMP2_1_1Aircraft.html#a021df5cf849d0bfc7468b84d2ba731e6" title="Called right before updating the aircraft&#39;s placement in the world.">XPMP2::Aircraft::UpdatePosition()</a> implementation. </p><dl class="section return"><dt>Returns</dt><dd>The functions returns the array index you need to use in the <a class="el" href="classXPMP2_1_1Aircraft.html#a8c2ccee83b592cd2a7064a380c660c5b" title="actual dataRef values to be provided to the CSL model">XPMP2::Aircraft::v</a> array to provide the actual value. Or <code>0</code> when an error occured. </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>There is a duplication check: Adding an already existing dataRef, no matter if XPMP2-predefined or by the plugin will return the already existing index. </dd>
 <dd>
-Can only be called while no plane exists as it influence the size of important data arrays. Returns <code>0</code> if called while planes exist. </dd></dl>
+Can only be called while no plane exists as it influence the size of important data arrays. Returns <code>0</code> if called while planes exist. </dd>
+<dd>
+Can only be called from XP's main thread as XPLM SDK functions are called. Returns <code>0</code> if called from a worker thread. </dd>
+<dd>
+User-defined dataRefs are <em>not</em> transfered to the <a class="el" href="namespaceXPMP2.html">XPMP2</a> Remote Client for display on network-connected X-Plane instances. </dd></dl>
 
 </div>
 </div>
@@ -2438,7 +2462,7 @@ Can only be called while no plane exists as it influence the size of important d
 </div><div class="memdoc">
 
 <p>Overrides the plugin's name to be used in Log output. </p>
-<p>The same as providing a plugin name with <a class="el" href="XPMPMultiplayer_8h.html#a2dc9cac25ba883b352fd77c6cbd10460" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a>. If no name is provided, it defaults to the plugin's name as set in <a class="el" href="XPMP2-Sample_8cpp.html#a3d7458933ac3c2c1c404fe5bfa8a83f1">XPluginStart()</a>. </p><dl class="section note"><dt>Note</dt><dd>Replaces the compile-time macro <code>XPMP_CLIENT_LONGNAME</code> needed in <code>libxplanemp</code>. </dd></dl>
+<p>The same as providing a plugin name with <a class="el" href="XPMPMultiplayer_8h.html#a2dc9cac25ba883b352fd77c6cbd10460" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a>. If no name is provided, it defaults to the plugin's name as set in <a class="el" href="XPMP2-Remote_8cpp.html#a3d7458933ac3c2c1c404fe5bfa8a83f1">XPluginStart()</a>. </p><dl class="section note"><dt>Note</dt><dd>Replaces the compile-time macro <code>XPMP_CLIENT_LONGNAME</code> needed in <code>libxplanemp</code>. </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">inPluginName</td><td>Your plugin's name, used as map layer name, and as folder name under <code>Aircraft</code> </td></tr>

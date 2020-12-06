@@ -34,7 +34,8 @@
 
 #define INFO_AI_CONTROL         "Have control now over AI/Multiplayer planes"
 #define INFO_AI_CONTROL_ENDS    "Released control of AI/Multiplayer planes"
-#define WARN_NO_AI_CONTROL      "%s controls TCAS / AI. %s could NOT acquire control, our planes will NOT appear on TCAS or maps."
+#define INFO_REMOTE_CLIENT_AI   "XPMP2 Remote Client controls TCAS. We don't need control as our planes will show up there."
+#define WARN_NO_AI_CONTROL      "%s controls TCAS / AI. %s could NOT acquire control, our planes might NOT appear on TCAS or 3rd party apps."
 #define DEBUG_AI_SLOT_ASSIGN    "Aircraft %llu: ASSIGNING AI Slot %d (%s, %s, %s)"
 #define DEBUG_AI_SLOT_RELEASE   "Aircraft %llu: RELEASING AI Slot %d (%s, %s, %s)"
 
@@ -167,11 +168,9 @@ union TcasLightsTy {
     } b;
 };
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wexit-time-destructors"
-/// Keeps the dataRef handles for one of the up to 19 legacy AI/Multiplayer slots ("sim/multiplayer/position") (accepted as a global variable requiring an exit-time destructor)
+/// Keeps the dataRef handles for one of the up to 19 legacy AI/Multiplayer slots ("sim/multiplayer/position")
 static std::vector<multiDataRefsTy> gMultiRef;
-/// Keeps the dataRef handles for one of the up to 63 shared data slots ("sim/multiplayer/position/plane#...") (accepted as a global variable requiring an exit-time destructor)
+/// Keeps the dataRef handles for one of the up to 63 shared data slots ("sim/multiplayer/position/plane#...")
 static std::vector<infoDataRefsTy>  gInfoRef;
 
 /// Map of Aircrafts, sorted by (priority-biased) distance
@@ -183,8 +182,6 @@ static std::vector<Aircraft*> vAcByDist;
 
 /// Vector organized by slots (either multiplayer or TCAS target slots)
 static std::vector<Aircraft*> gSlots;
-
-#pragma clang diagnostic pop
 
 /// When did we re-calculate slots last time?
 static float tLastSlotSwitching = 0.0f;
@@ -313,8 +310,6 @@ size_t AIUpdateMultiplayerDataRefs()
 size_t AIUpdateTCASTargets ()
 {
     // Arrays we need every frame over and over again, so we keep them static for performance
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wexit-time-destructors"
     // data arrays for providing TCAS target values
     static std::vector<int>   vModeS;      
     static std::vector<int>   vModeC;      
@@ -335,7 +330,6 @@ size_t AIUpdateTCASTargets ()
     static std::vector<float> vYokeRoll;   
     static std::vector<float> vYokeYaw;    
     static std::vector<int>   vLights;     
-    #pragma clang diagnostic pop
 
     // Start filling up TCAS targets, ordered by distance,
     // so that the closest planes are in the lower slots,
@@ -998,14 +992,21 @@ const char *    XPMPMultiplayerEnable(void (*_callback)(void*),
             int total=0, active=0;
             XPLMPluginID who=0;
             char whoName[256];
+            char signature[256] = "";
             XPLMCountAircraft(&total, &active, &who);
             
             // Maybe the controlling plugin released control immediately,
             // in that case "who" is now -1
             if (who >= 0)
             {
-                XPLMGetPluginInfo(who, whoName, nullptr, nullptr, nullptr);
+                XPLMGetPluginInfo(who, whoName, nullptr, signature, nullptr);
             
+                // If it is the Remote Client we don't need to warn...the Remote Client will show our planes
+                if (strncmp(signature, REMOTE_SIGNATURE, sizeof(signature)) == 0) {
+                    LOG_MSG(logINFO, INFO_REMOTE_CLIENT_AI);
+                    return INFO_REMOTE_CLIENT_AI;
+                }
+
                 // Write a proper message and return it also to caller
                 snprintf(szWarn, sizeof(szWarn), WARN_NO_AI_CONTROL,
                          whoName, glob.pluginName.c_str());

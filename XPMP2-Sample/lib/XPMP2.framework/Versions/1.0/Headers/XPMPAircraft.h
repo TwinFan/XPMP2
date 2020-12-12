@@ -356,6 +356,9 @@ public:
     /// Is this plane to be rendered?
     bool IsRendered () const { return bRender && IsVisible(); }
     
+    /// Are instances created for this aircraft?
+    bool IsInstanciated () const { return !listInst.empty(); }
+    
     /// Distance to camera [m]
     float GetCameraDist () const { return camDist; }
     /// Bearing from camera [°]

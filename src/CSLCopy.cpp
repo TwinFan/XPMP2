@@ -57,8 +57,8 @@ namespace XPMP2 {
 
 /// Future keeping the state of the separate thread (we only want to trigger one at a time)
 static std::future<bool> gFutCpy;
-/// The cslId of the CSL model object that the current thread is running for
-static std::string gThreadCSLId;
+/// The key of the CSL model object that the current thread is running for
+static std::string gThreadCSLkey;
 /// The path of the CSL object that the current thread is running for
 static std::string gThreadPath;
 /// Error information in case CopyAndReplace goes wrong
@@ -204,7 +204,7 @@ void CSLObj::SetOtherObjCopyResult (bool bResult)
 {
     // Look for the CSLObj using the stored CSLId and path
     mapCSLModelTy::iterator cslIter;
-    CSLModel* pCsl = CSLModelById(gThreadCSLId);
+    CSLModel* pCsl = CSLModelByKey(gThreadCSLkey);
     if (pCsl) {
         // find the object by path
         listCSLObjTy::iterator iter = std::find_if(pCsl->listObj.begin(),
@@ -217,12 +217,12 @@ void CSLObj::SetOtherObjCopyResult (bool bResult)
         else {
             LOG_MSG(logERR, ERR_CPY_OBJ_NOT_FOUND,
                     StripXPSysDir(gThreadPath).c_str(),
-                    gThreadCSLId.c_str());
+                    gThreadCSLkey.c_str());
         }
     } else {
         LOG_MSG(logERR, ERR_CPY_MDL_NOT_FOUND,
                 StripXPSysDir(gThreadPath).c_str(),
-                gThreadCSLId.c_str());
+                gThreadCSLkey.c_str());
     }
 }
 
@@ -238,7 +238,7 @@ bool CSLObj::TriggerCopyAndReplace ()
     {
         // we collect the result here and update the affected CSLObj
         SetOtherObjCopyResult(gFutCpy.get());   // by this call gFutCpy becomes invalid
-        gThreadCSLId.clear();
+        gThreadCSLkey.clear();
         gThreadPath.clear();
     }
     
@@ -260,7 +260,7 @@ bool CSLObj::TriggerCopyAndReplace ()
             if (bFutValid) return false;
 
             // Start a new thread to copy my .obj file
-            gThreadCSLId = cslId;
+            gThreadCSLkey = cslKey;
             gThreadPath  = path;
             LOG_MSG(logDEBUG, DEBUG_CPY_STARTING,
                     StripXPSysDir(path).c_str(),

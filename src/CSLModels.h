@@ -39,7 +39,7 @@ enum ObjLoadStateTy {
 class CSLObj
 {
 public:
-    std::string cslId;      ///< id of the CSL model this belongs to
+    std::string cslKey;     ///< key of the CSL model this belongs to
     std::string path;       ///< full path to the (potentially copied) `.obj` file
     std::string pathOrig;   ///< full path to the original `.obj` file IF there is the need to create a copy upon load
     std::string texture;    ///< texture file if defined, to be used in the TEXTURE line of the .obj file
@@ -50,11 +50,11 @@ protected:
     XPLMObjectRef       xpObj = NULL;
     /// State of the X-Plane object: Is it being loaded or available?
     ObjLoadStateTy xpObjState = OLS_UNAVAIL;
-
+    
 public:
     /// Constructor doesn't do much
-    CSLObj (const std::string& _id,
-            const std::string& _path) : cslId(_id), path(_path) {}
+    CSLObj (const std::string& _cslKey,
+            const std::string& _path) : cslKey(_cslKey), path(_path) {}
     /// Generate standard move constructor
     CSLObj (CSLObj&& o) = default;
     CSLObj& operator = (CSLObj&& o) = default;
@@ -262,6 +262,12 @@ const char* CSLModelsLoad (const std::string& _path,
 /// @param _cslId The model's unique id to search for (package name/short id)
 /// @param[out] _pOutIter Optional pointer to an iterator variable, receiving the iterator position of the found model
 CSLModel* CSLModelById (const std::string& _cslId,
+                        mapCSLModelTy::iterator* _pOutIter = nullptr);
+
+/// @brief Find a model by (even more) unique key
+/// @param _cslKey The model's unique key into the map
+/// @param[out] _pOutIter Optional pointer to an iterator variable, receiving the iterator position of the found model
+CSLModel* CSLModelByKey(const std::string& _cslKey,
                         mapCSLModelTy::iterator* _pOutIter = nullptr);
 
 /// @brief Find a matching model

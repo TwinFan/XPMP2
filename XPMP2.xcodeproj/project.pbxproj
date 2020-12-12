@@ -776,11 +776,13 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				DEFINES_MODULE = NO;
 				DEPLOYMENT_LOCATION = YES;
 				DSTROOT = "$(XPLANE11_ROOT)/Resources/plugins/$(TARGET_NAME)";
 				DYLIB_COMPATIBILITY_VERSION = "";
 				DYLIB_CURRENT_VERSION = "";
+				ENABLE_HARDENED_RUNTIME = YES;
 				EXECUTABLE_EXTENSION = xpl;
 				EXECUTABLE_PREFIX = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -794,6 +796,7 @@
 				INFOPLIST_FILE = "";
 				INSTALL_PATH = mac_x64;
 				MACH_O_TYPE = mh_bundle;
+				OTHER_CODE_SIGN_FLAGS = "--timestamp";
 				OTHER_LDFLAGS = (
 					"$(OTHER_LDFLAGS)",
 					"-Wl,-exported_symbol",
@@ -817,11 +820,13 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				DEFINES_MODULE = NO;
 				DEPLOYMENT_LOCATION = YES;
 				DSTROOT = "$(XPLANE11_ROOT)/Resources/plugins/$(TARGET_NAME)";
 				DYLIB_COMPATIBILITY_VERSION = "";
 				DYLIB_CURRENT_VERSION = "";
+				ENABLE_HARDENED_RUNTIME = YES;
 				EXECUTABLE_EXTENSION = xpl;
 				EXECUTABLE_PREFIX = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -835,6 +840,7 @@
 				INFOPLIST_FILE = "";
 				INSTALL_PATH = mac_x64;
 				MACH_O_TYPE = mh_bundle;
+				OTHER_CODE_SIGN_FLAGS = "--timestamp";
 				OTHER_LDFLAGS = (
 					"$(OTHER_LDFLAGS)",
 					"-Wl,-exported_symbol",

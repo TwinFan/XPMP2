@@ -57,6 +57,13 @@ float F_NULL[10] = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}
 /// The drawing phase "xplm_Phase_Airplanes" is deprecated in XP11.50 upwards, but we need it in earlier versions to fake TCAS
 constexpr int XPLM_PHASE_AIRPLANES = 25;
 
+// DataRef editors, which we inform about our dataRefs
+#define MSG_ADD_DATAREF 0x01000000          ///< Message to DRE/DRT to inform about dataRefs
+const char* DATA_REF_EDITORS[] = {          ///< the dataRef editors that we search for and inform
+    "xplanesdk.examples.DataRefEditor",
+    "com.leecbaker.datareftool"
+};
+std::vector<std::string> vecDREdataRefStr;  ///< list of dataRef strings to be send to the editors
 
 //
 // MARK: Legacy multiplayer dataRefs
@@ -537,6 +544,10 @@ void AIAssignSlots (size_t fromSlot, size_t toSlot)
 // as well as additional shared dataRefs for text publishing
 void AIMultiUpdate ()
 {
+    // Some one time stuff
+    if (!vecDREdataRefStr.empty())
+        AIMultiInformDREs();
+    
     // If we don't control AI aircraft we bail out
     if (!XPMPHasControlOfAIAircraft())
         return;
@@ -749,6 +760,27 @@ void AIMultiInitAllDataRefs(bool bDeactivateToZero)
     }
 }
 
+// Inform DRE and DRT of our shared dataRefs
+void AIMultiInformDREs ()
+{
+    if (!vecDREdataRefStr.empty()) {
+        // loop over all available data ref editor signatures
+        for (const char* szDREditor: DATA_REF_EDITORS) {
+            // find the plugin by signature
+            XPLMPluginID PluginID = XPLMFindPluginBySignature(szDREditor);
+            if (PluginID != XPLM_NO_PLUGIN_ID) {
+                // loop over all dataRef strings that are to be infomred and send a msg for them
+                for (const std::string& sDataRef: vecDREdataRefStr)
+                XPLMSendMessageToPlugin(PluginID,
+                                        MSG_ADD_DATAREF,
+                                        (void*)sDataRef.c_str());
+            }
+        }
+        // Don't register these again
+        vecDREdataRefStr.clear();
+    }
+}
+
 
 // Initialize the module
 /// @details Fetches all dataRef handles for all dataRefs of all up to 19 AI/multiplayer slots
@@ -876,10 +908,12 @@ void AIMultiInit ()
     gInfoRef.push_back(drI);        // add an empty record at position 0 (user's plane)
 
     // Code for finding a non-standard shared dataRef for text information sharing
-#define SHARE_PLANE_DR(membVar, dataRefTxt, PlaneNr)                        \
-    snprintf(buf,sizeof(buf),"sim/multiplayer/position/plane%u_" dataRefTxt,PlaneNr);    \
-    if (XPLMShareData(buf, xplmType_Data, NULL, NULL))                      \
-        drI.membVar = XPLMFindDataRef(buf);                                   \
+#define SHARE_PLANE_DR(membVar, dataRefTxt, PlaneNr)                                    \
+    snprintf(buf,sizeof(buf),"sim/multiplayer/position/plane%u_" dataRefTxt,PlaneNr);   \
+    if (XPLMShareData(buf, xplmType_Data, NULL, NULL)) {                                \
+        drI.membVar = XPLMFindDataRef(buf);                                             \
+        vecDREdataRefStr.push_back(buf);                                                \
+    }                                                                                   \
     else drI.membVar = NULL;
     
     // We add as many shared info dataRefs as there are TCAS targets (probably 63)

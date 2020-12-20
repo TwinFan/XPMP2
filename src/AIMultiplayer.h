@@ -32,6 +32,9 @@ void AIMultiCleanup ();
 /// Updates all TCAS target dataRefs, both standard X-Plane, as well as additional shared dataRefs for text publishing
 void AIMultiUpdate ();
 
+/// Inform DRE and DRT of our shared dataRefs
+void AIMultiInformDREs ();
+
 }       // namespace XPMP2
 
 #endif

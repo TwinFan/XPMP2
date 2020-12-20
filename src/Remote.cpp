@@ -214,6 +214,16 @@ void RemoteAcDetailTy::CopyFrom (const Aircraft& _ac,
     bValid   = _ac.IsValid();
     bVisible = _ac.IsVisible();
     bRender  = _ac.IsRendered();
+    
+    // Info texts
+#define memcpy_min(to,from) std::memcpy(to,from,std::min(sizeof(from),sizeof(to)))
+    memcpy_min(tailNum,         _ac.acInfoTexts.tailNum);
+    memcpy_min(manufacturer,    _ac.acInfoTexts.manufacturer);
+    memcpy_min(model,           _ac.acInfoTexts.model);
+    memcpy_min(airline,         _ac.acInfoTexts.airline);
+    memcpy_min(flightNum,       _ac.acInfoTexts.flightNum);
+    memcpy_min(aptFrom,         _ac.acInfoTexts.aptFrom);
+    memcpy_min(aptTo,           _ac.acInfoTexts.aptTo);
 
     // dataRef Animation values converted to uint8
     for (size_t i = 0; i < XPMP2::V_COUNT; ++i)
@@ -243,8 +253,100 @@ void RemoteAcDetailTy::SetHeading (float _h)
     heading = std::uint16_t(headNormalize(_h) * 100.0f);
 }
 
+// --- V0 of RemoteAcDetailTy ---
 
-// --- RemoteAcDetailTy ---
+#ifdef _MSC_VER                                 // Visual C++
+#pragma pack(push,1)                            // set packing once (ie. not per struct)
+#endif
+
+/// Version 0 A/C details, packed into an array message
+struct RemoteAcDetailTy_v0 {
+    std::uint32_t   modeS_id;           ///< plane's unique id at the sender side (might differ remotely in case of duplicates)
+    char            icaoType[4];        ///< icao a/c type
+    char            icaoOp[4];          ///< icao airline code
+    char            sShortId[20];       ///< CSL model's short id
+    std::uint16_t   pkgHash;            ///< hash value of package name
+    char            label[23];          ///< label
+    std::uint8_t    labelCol[3];        ///< label color (RGB)
+    float           alt_ft;             ///< [ft] current altitude
+    // ^ the above has 64 bytes, so that these doubles start on an 8-byte bounday:
+    double          lat;                ///< latitude
+    double          lon;                ///< longitude
+    std::int16_t    pitch;              ///< [0.01°] pitch/100
+    std::uint16_t   heading;            ///< [0.01°] heading/100
+    std::int16_t    roll;               ///< [0.01°] roll/100
+    
+    std::int16_t    aiPrio;             ///< priority for display in limited TCAS target slots, `-1` indicates "no TCAS display"
+    std::uint16_t   dTime;              ///< [0.0001s] time difference to previous position in 1/10000s
+    bool            bValid : 1;         ///< is this object valid? (Will be reset in case of exceptions)
+    bool            bVisible : 1;       ///< Shall this plane be drawn at the moment?
+    bool            bRender : 1;        ///< Shall the CSL model be drawn in 3D world?
+
+    std::uint8_t    filler[3];          ///< yet unused
+    
+    ///< Array of _packed_ dataRef values for CSL model animation
+    std::uint8_t    v[XPMP2::V_COUNT];    // 42
+
+    static constexpr size_t msgSize () { return sizeof(RemoteAcDetailTy_v0); }   ///< message size
+} PACKED;
+
+/// Version 0 A/C detail message, has an inherited header plus an array of XPMP2::RemoteAcDetailTy elements
+struct RemoteMsgAcDetailTy_v0 : public RemoteMsgBaseTy {
+    RemoteAcDetailTy_v0 arr[1];         ///< basis for the array of actual details
+    
+    /// Convert msg len to number of arr elements
+    static constexpr size_t NumElem (size_t _msgLen) { return (_msgLen - sizeof(RemoteMsgBaseTy)) / sizeof(RemoteAcDetailTy_v0); }
+    
+    /// @brief Convert v0 to v1 message, must be freed after use!
+    /// @param _msgLenV0 Message length of _this_ message, ie. the v0 version
+    /// @param[out] _msgLen receives the message length of the _converted_ message
+    /// @returns pointer to the converted message
+    RemoteMsgAcDetailTy* convert (size_t _msgLenV0, size_t& _msgLen) const;
+} PACKED;
+
+#ifdef _MSC_VER                                 // Visual C++
+#pragma pack(pop)                               // reseting packing
+#endif
+
+static_assert(sizeof(RemoteAcDetailTy_v0)   ==  94+42,  "RemoteAcDetailTy_v0 doesn't have expected size");
+static_assert(sizeof(RemoteMsgAcDetailTy_v0)== 102+42,  "RemoteMsgAcDetailTy_v0 doesn't have expected size");
+
+// Convert v0 to v1 message, must be freed after use!
+/// @details Mallocates a memory chunk large enough for the v1 message
+///          (which could be larger than a real-life v1 message!)
+///          and converts each detail array element into it.
+RemoteMsgAcDetailTy* RemoteMsgAcDetailTy_v0::convert(size_t _msgLenV0,
+                                                     size_t& _msgLen) const
+{
+    // Allocate a memory chunk for the converted message
+    const size_t numElems = NumElem(_msgLenV0);
+    _msgLen = sizeof(RemoteMsgBaseTy) + numElems * sizeof(RemoteAcDetailTy);
+    RemoteMsgAcDetailTy* pMsg = (RemoteMsgAcDetailTy*)std::malloc(_msgLen);
+    LOG_ASSERT(pMsg);
+    assert(pMsg->NumElem(_msgLen) == numElems);
+    std::memset(pMsg, 0, _msgLen);
+    
+    // Copy the header, which is identical, except for the version number
+    std::memcpy(pMsg, this, sizeof(RemoteMsgBaseTy));
+    pMsg->msgVer = RMT_VER_AC_DETAIL;
+    
+    // Convert each array element
+    const RemoteAcDetailTy_v0* pElemV0 = arr;
+    RemoteAcDetailTy* pElem = pMsg->arr;
+    for (size_t i = 0;
+         i < numElems;
+         ++pElemV0, ++pElem, ++i)
+    {
+        // the first 91 bytes are identical
+        std::memcpy(pElem, pElemV0, 91);
+        // then copy the dataRef array
+        std::memcpy(pElem->v, pElemV0->v, sizeof(pElem->v));
+    }
+    
+    return pMsg;
+}
+
+// --- RemoteAcPosUpdateTy ---
 
 RemoteAcPosUpdateTy::RemoteAcPosUpdateTy (XPMPPlaneID _modeS_id,
                                           std::int16_t _dLat,
@@ -733,6 +835,7 @@ void RmtRecvMain()
                 const size_t recvSize = gpMc->RecvMC(nullptr, &saFrom);
                 if (recvSize >= sizeof(RemoteMsgBaseTy))
                 {
+                    static float lastVerErrMsg = 0.0f;          // last time we issued a msg version warning
                     const InetAddrTy from(&saFrom);           // extract the numerical address
                     RemoteMsgBaseTy& hdr = *(RemoteMsgBaseTy*)gpMc->getBuf();
                     hdr.bLocalSender = NetwIsLocalAddr(from);
@@ -771,9 +874,21 @@ void RmtRecvMain()
                                     const RemoteMsgAcDetailTy& s = *(RemoteMsgAcDetailTy*)gpMc->getBuf();
                                     gRmtCBFcts.pfMsgACDetails(from.addr, recvSize, s);
                                 }
+                            }
+                            // Convert a v0 msg, then process
+                            else if (hdr.msgVer == 0 && recvSize >= sizeof(RemoteMsgAcDetailTy_v0))
+                            {
+                                if (gRmtCBFcts.pfMsgACDetails) {
+                                    const RemoteMsgAcDetailTy_v0& s = *(RemoteMsgAcDetailTy_v0*)gpMc->getBuf();
+                                    size_t msgLen = 0;
+                                    RemoteMsgAcDetailTy* pMsg = s.convert(recvSize, msgLen);
+                                    gRmtCBFcts.pfMsgACDetails(from.addr, msgLen, *pMsg);
+                                    std::free(pMsg);
+                                }
                             } else {
-                                LOG_MSG(logWARN, "Cannot process A/C Details message: %lu bytes, version %u, from %s",
-                                        recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
+                                if (CheckEverySoOften(lastVerErrMsg, 600.0f))
+                                    LOG_MSG(logWARN, "Cannot process A/C Details message: %lu bytes, version %u, from %s",
+                                            recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
                             }
                             break;
 
@@ -786,8 +901,9 @@ void RmtRecvMain()
                                     gRmtCBFcts.pfMsgACPosUpdate(from.addr, recvSize, s);
                                 }
                             } else {
-                                LOG_MSG(logWARN, "Cannot process A/C Pos Update message: %lu bytes, version %u, from %s",
-                                        recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
+                                if (CheckEverySoOften(lastVerErrMsg, 600.0f))
+                                    LOG_MSG(logWARN, "Cannot process A/C Pos Update message: %lu bytes, version %u, from %s",
+                                            recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
                             }
                             break;
 
@@ -800,8 +916,9 @@ void RmtRecvMain()
                                     gRmtCBFcts.pfMsgACAnim(from.addr, recvSize, s);
                                 }
                             } else {
-                                LOG_MSG(logWARN, "Cannot process A/C Animations message: %lu bytes, version %u, from %s",
-                                        recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
+                                if (CheckEverySoOften(lastVerErrMsg, 600.0f))
+                                    LOG_MSG(logWARN, "Cannot process A/C Animations message: %lu bytes, version %u, from %s",
+                                            recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
                             }
                             break;
 
@@ -814,8 +931,9 @@ void RmtRecvMain()
                                     gRmtCBFcts.pfMsgACRemove(from.addr, recvSize, s);
                                 }
                             } else {
-                                LOG_MSG(logWARN, "Cannot process A/C Remove message: %lu bytes, version %u, from %s",
-                                        recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
+                                if (CheckEverySoOften(lastVerErrMsg, 600.0f))
+                                    LOG_MSG(logWARN, "Cannot process A/C Remove message: %lu bytes, version %u, from %s",
+                                            recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
                             }
                             break;
 

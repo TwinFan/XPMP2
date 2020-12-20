@@ -6,6 +6,11 @@ of type `xplmType_Data` as suggested by FSTramp.
 This information is offered to 3rd party plugins,
 which want to show (information of) AI planes like camera or map plugins.
 
+[DRE](https://developer.x-plane.com/tools/datarefeditor/) and
+[DRT](https://forums.x-plane.org/index.php?/forums/topic/82960-datareftool-is-an-improved-datarefeditor-open-source-better-search-change-detection/)
+are informed about these dataRef names as soon as the first aircraft
+is created. So you can use either to have a peek.
+
 ## Information offered by XPMP2-based Plugin
 
 The names of the shared dataRefs follow the naming conventions known
@@ -32,6 +37,12 @@ then fill the appropriate field in the `XPMP2::Aircraft::acInfoTexts` structure.
 `plane#_flightnum`                 | `flightNum`    | Flight number
 `plane#_apt_from`                  | `aptFrom`      | Origin airport
 `plane#_apt_to`                    | `aptTo`        | Destination airport
+`plane#_cslModel`                  | n/a            | CSL Model name *)
+
+*) `_cslModel` differs from the others in that it is _not_ related to live flight
+information but to the way the plane is rendered by the XPMP2-based plugin.
+It returns the CSL model used as returned by `XPMP2::Aircraft::GetModelName()`,
+that is: last folder name plus model id.
 
 ## Usage by 3rd-Party Plugins
 

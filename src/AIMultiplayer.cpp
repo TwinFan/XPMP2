@@ -119,10 +119,15 @@ struct infoDataRefsTy {
     XPLMDataRef infoFlightNum       = nullptr;  // flightnum
     XPLMDataRef infoAptFrom         = nullptr;  // apt_from
     XPLMDataRef infoAptTo           = nullptr;  // apt_to
+    // Additional fields beyond content of XPMPInfoTexts_t:
+    XPLMDataRef cslModel            = nullptr;  ///< CSL model as XPMP2::Aircraft::GetModelName() returns it
 
     /// Looks OK, the dataRefs are available?
     inline operator bool () const { return infoTailNum && infoIcaoAirline && infoAptTo; }
 };
+
+/// Number of characters to be allowed for CSL model text
+constexpr size_t SDR_CSLMODEL_TXT_SIZE = 40;
 
 //
 // MARK: TCAS Target dataRefs
@@ -303,6 +308,11 @@ size_t AIUpdateMultiplayerDataRefs()
                 XPLMSetDatab(drI.infoFlightNum,     ac.acInfoTexts.flightNum,     0, sizeof(XPMPInfoTexts_t::flightNum));
                 XPLMSetDatab(drI.infoAptFrom,       ac.acInfoTexts.aptFrom,       0, sizeof(XPMPInfoTexts_t::aptFrom));
                 XPLMSetDatab(drI.infoAptTo,         ac.acInfoTexts.aptTo,         0, sizeof(XPMPInfoTexts_t::aptTo));
+                
+                char buf[SDR_CSLMODEL_TXT_SIZE];
+                memset(buf, 0, sizeof(buf));
+                strncpy_s(buf, sizeof(buf), ac.GetModelName().c_str(), ac.GetModelName().length());
+                XPLMSetDatab(drI.cslModel,          buf,                          0, sizeof(buf));
             }
         }
         CATCH_AC(ac)
@@ -462,6 +472,11 @@ size_t AIUpdateTCASTargets ()
                 XPLMSetDatab(drI.infoFlightNum,     ac.acInfoTexts.flightNum,     0, sizeof(XPMPInfoTexts_t::flightNum));
                 XPLMSetDatab(drI.infoAptFrom,       ac.acInfoTexts.aptFrom,       0, sizeof(XPMPInfoTexts_t::aptFrom));
                 XPLMSetDatab(drI.infoAptTo,         ac.acInfoTexts.aptTo,         0, sizeof(XPMPInfoTexts_t::aptTo));
+                
+                char buf[SDR_CSLMODEL_TXT_SIZE];
+                memset(buf, 0, sizeof(buf));
+                strncpy_s(buf, sizeof(buf), ac.GetModelName().c_str(), ac.GetModelName().length());
+                XPLMSetDatab(drI.cslModel,          buf,                          0, sizeof(buf));
             }
         }
         CATCH_AC(ac)
@@ -732,6 +747,7 @@ void AIMultiClearInfoDataRefs (infoDataRefsTy& drI)
     XPLMSetDatab(drI.infoFlightNum,     allNulls, 0, sizeof(XPMPInfoTexts_t::flightNum));
     XPLMSetDatab(drI.infoAptFrom,       allNulls, 0, sizeof(XPMPInfoTexts_t::aptFrom));
     XPLMSetDatab(drI.infoAptTo,         allNulls, 0, sizeof(XPMPInfoTexts_t::aptTo));
+    XPLMSetDatab(drI.cslModel,          allNulls, 0, SDR_CSLMODEL_TXT_SIZE);
 }
 
 /// Clears the key (mode_s) of the TCAS target dataRefs
@@ -930,6 +946,7 @@ void AIMultiInit ()
         SHARE_PLANE_DR(infoFlightNum,       "flightnum",            n);
         SHARE_PLANE_DR(infoAptFrom,         "apt_from",             n);
         SHARE_PLANE_DR(infoAptTo,           "apt_to",               n);
+        SHARE_PLANE_DR(cslModel,            "cslModel",             n);
         gInfoRef.push_back(drI);
     }
 }
@@ -960,6 +977,7 @@ void AIMultiCleanup ()
         UNSHARE_PLANE_DR(infoFlightNum,       "flightnum",      n);
         UNSHARE_PLANE_DR(infoAptFrom,         "apt_from",       n);
         UNSHARE_PLANE_DR(infoAptTo,           "apt_to",         n);
+        UNSHARE_PLANE_DR(cslModel,            "cslModel",       n);
     }
     gInfoRef.clear();
     

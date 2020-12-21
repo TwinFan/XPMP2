@@ -298,8 +298,8 @@ struct RemoteMsgAcDetailTy_v0 : public RemoteMsgBaseTy {
     static constexpr size_t NumElem (size_t _msgLen) { return (_msgLen - sizeof(RemoteMsgBaseTy)) / sizeof(RemoteAcDetailTy_v0); }
     
     /// @brief Convert v0 to v1 message, must be freed after use!
-    /// @param _msgLenV0 Message length of _this_ message, ie. the v0 version
-    /// @param[out] _msgLen receives the message length of the _converted_ message
+    /// @param _msgLenV0 Message length of this message, ie. the v0 version
+    /// @param[out] _msgLen receives the message length of the converted message
     /// @returns pointer to the converted message
     RemoteMsgAcDetailTy* convert (size_t _msgLenV0, size_t& _msgLen) const;
 } PACKED;

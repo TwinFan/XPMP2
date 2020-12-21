@@ -43,7 +43,7 @@ $(function() {
 <div class="title">Building <a class="el" href="namespaceXPMP2.html">XPMP2</a> and the Sample Plugin </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>There are two separate project provided in the <a class="el" href="namespaceXPMP2.html">XPMP2</a> repository:</p><ul>
+<div class="textblock"><p>There are two separate projects provided in the <a class="el" href="namespaceXPMP2.html">XPMP2</a> repository:</p><ul>
 <li>One based in the <a class="el" href="namespaceXPMP2.html">XPMP2</a> root folder. This project builds all 3 targets:<ul>
 <li>The <a class="el" href="namespaceXPMP2.html">XPMP2</a> static library, which is also copied into <code>XPMP2-Sample/lib</code> so that is thereafter accessible by the stand-alone XPMP2-Sample project;</li>
 <li>The <a class="el" href="namespaceXPMP2.html">XPMP2</a> Remote Client, which builds the <code>XPMP2-Remote.xpl</code> binary;</li>
@@ -70,21 +70,21 @@ Windows</h1>
 <p>Results are in <code>build/x64</code>.</p>
 <p>The <code>XPMP2.lib</code> library is also copied into <code>XPMP2-Sample/lib</code> to be available in a subsequent build of the sample plugin.</p>
 <h1><a class="anchor" id="autotoc_md3"></a>
-Linux via Docker</h1>
-<p>A docker environment based on Ubuntu 18.04 is provided, which can build Linux.</p>
+Linux and Mac OS via Docker</h1>
+<p>A docker environment based on Ubuntu 18.04 is provided, which can build both Linux and Mac OS.</p>
 <ul>
 <li>Install <a href="https://www.docker.com/products/docker-desktop">Docker Desktop</a> and start it.</li>
 <li><code>cd</code> to the project's <code>docker</code> folder, and enter <code>make</code> for the three <a class="el" href="namespaceXPMP2.html">XPMP2</a> library targets, or</li>
 <li><code>cd</code> to <code>XPMP2-Sample/docker</code>, and enter <code>make</code> for the sample plugin only.</li>
 <li>Three <code>make</code> targets are available:<ul>
-<li><code>lin</code> builds Linux only</li>
-<li>(<code>mac</code> used to build Mac OS only but currently doesn't work as the build setup is outdated; help to bring it back to work is welcome!)</li>
-<li><code>bash</code> starts a Linux bash within the docker environment</li>
+<li><code>lin</code> builds Linux only,</li>
+<li><code>mac</code> builds Mac OS only,</li>
+<li><code>bash</code> starts a Linux bash within the docker environment.</li>
 </ul>
 </li>
 </ul>
 <p>In the first run only, it will create the necessary Docker image based on Ubuntu 18.04, which includes downloading lots of base images and packages and even some compile activities for the Mac OS build toolchain. This takes a couple of minutes but is required once only. If that part fails your best guess is to just try again once or twice.</p>
-<p>The actual library and sample builds take only a few seconds. Results are written to <code>build-lin</code> (and <code>build-mac</code>).</p>
+<p>The actual library and sample builds take only a few seconds. Results are written to <code>build-lin</code> and <code>build-mac</code>.</p>
 <p>The resulting library/framework are also copied into <code>XPMP2-Sample/lib</code>. Then, also the sample plugin must be build using the docker environment. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

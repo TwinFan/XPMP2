@@ -100,7 +100,7 @@
 constexpr const char* REMOTE_CLIENT_NAME    =  "XPMP2 Remote Client";   ///< Plugin name
 constexpr const char* REMOTE_CLIENT_LOG     =  "XPMP2_RC";              ///< ID used in own log entries
 constexpr const char* REMOTE_CLIENT_LOG2    =  "RC";                    ///< Short ID used in XPMP2 log entries
-constexpr float REMOTE_CLIENT_VER           = 1.00f;
+constexpr float REMOTE_CLIENT_VER           = 1.10f;
 
 //
 // MARK: Globals

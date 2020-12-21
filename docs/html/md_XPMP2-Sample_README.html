@@ -45,11 +45,11 @@ $(function() {
 <div class="contents">
 <div class="textblock"><p>This is a fully functional sample implementation that you can use to play with <a class="el" href="namespaceXPMP2.html">XPMP2</a> features and as a starting point for your own implementations.</p>
 <p>I am also using it as a testbed for new features, so the implementation is regularly built, tested, and sometimes even enhanced to make use of latest features.</p>
-<h1><a class="anchor" id="autotoc_md33"></a>
+<h1><a class="anchor" id="autotoc_md42"></a>
 Build</h1>
 <p>There are separate projects available to only build the XPMP2-Sample plugin, serving as a starting point for your projects.</p>
 <p>Please refer to the <a href="https://twinfan.github.io/XPMP2/Building.html">GitHub Build documentation</a> for details.</p>
-<h1><a class="anchor" id="autotoc_md34"></a>
+<h1><a class="anchor" id="autotoc_md43"></a>
 Features</h1>
 <p>This plugin creates 3 planes, one with each of the available ways of using the <a class="el" href="namespaceXPMP2.html">XPMP2</a> library. All planes move in a circle around a position 200m in front of the user's plane (even if the user plane moves).</p><ol type="1">
 <li>Subclassing <code><a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a></code> in <code>class <a class="el" href="classSampleAircraft.html" title="Subclassing XPMP2::Aircraft to create our own class.">SampleAircraft</a></code>, which is the recommended way for any new plugin. This plane flies highest, 100m above the user plane.</li>
@@ -62,7 +62,7 @@ Features</h1>
 <li>"Toggle Visibility" shows/temporary hides the planes without destroying them.</li>
 <li>"Cycle Models" changes the CSL model used per plane. Also, it flips the visibility of labels in the map view...just for a change.</li>
 </ol>
-<h1><a class="anchor" id="autotoc_md35"></a>
+<h1><a class="anchor" id="autotoc_md44"></a>
 Installation</h1>
 <p>For the plugin to work properly some CSL models are necessary in some folders under <code>Resources</code> (all folders under <code>Resources</code> are scanned for <code>xsb_aircraft.txt</code> file, so the actual structure underneath <code>Resources</code> does not matter).</p>
 <p>The directory structure would look as follows: ``` XPMP2-Sample/ &#160;&#160;lin_x64/ &#160;&#160;&#160;&#160;XPMP2-Sample.xpl &#160;&#160;mac_x64/ &#160;&#160;&#160;&#160;XPMP2-Sample.xpl &#160;&#160;win_x64/ &#160;&#160;&#160;&#160;XPMP2-Sample.xpl &#160;&#160;Resources/ CSL/ &lt;&ndash; install CSL models here &#160;&#160;&#160;&#160;Doc8643.txt MapIcons.png Obj8DataRefs.txt &#160;&#160;&#160;&#160;related.txt </p>

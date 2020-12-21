@@ -76,6 +76,7 @@
 #include <memory>
 #include <atomic>
 #include <mutex>
+#include <algorithm>
 
 // X-Plane SDK
 #include "XPLMDataAccess.h"
@@ -92,6 +93,14 @@
 // Include XPMP2-Remote headers
 #include "Utilities.h"
 #include "Client.h"
+
+// Windows: I prefer the proper SDK variants of min and max
+#ifdef min
+#undef min
+#endif
+#ifdef max
+#undef max
+#endif
 
 //
 // MARK: Constants

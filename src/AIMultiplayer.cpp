@@ -311,7 +311,7 @@ size_t AIUpdateMultiplayerDataRefs()
                 
                 char buf[SDR_CSLMODEL_TXT_SIZE];
                 memset(buf, 0, sizeof(buf));
-                strncpy_s(buf, sizeof(buf), ac.GetModelName().c_str(), ac.GetModelName().length());
+                STRCPY_S(buf, ac.GetModelName().c_str());
                 XPLMSetDatab(drI.cslModel,          buf,                          0, sizeof(buf));
             }
         }
@@ -475,7 +475,7 @@ size_t AIUpdateTCASTargets ()
                 
                 char buf[SDR_CSLMODEL_TXT_SIZE];
                 memset(buf, 0, sizeof(buf));
-                strncpy_s(buf, sizeof(buf), ac.GetModelName().c_str(), ac.GetModelName().length());
+                STRCPY_S(buf, ac.GetModelName().c_str());
                 XPLMSetDatab(drI.cslModel,          buf,                          0, sizeof(buf));
             }
         }

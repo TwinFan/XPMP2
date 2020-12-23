@@ -57,6 +57,13 @@ float F_NULL[10] = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}
 /// The drawing phase "xplm_Phase_Airplanes" is deprecated in XP11.50 upwards, but we need it in earlier versions to fake TCAS
 constexpr int XPLM_PHASE_AIRPLANES = 25;
 
+// DataRef editors, which we inform about our dataRefs
+#define MSG_ADD_DATAREF 0x01000000          ///< Message to DRE/DRT to inform about dataRefs
+const char* DATA_REF_EDITORS[] = {          ///< the dataRef editors that we search for and inform
+    "xplanesdk.examples.DataRefEditor",
+    "com.leecbaker.datareftool"
+};
+std::vector<std::string> vecDREdataRefStr;  ///< list of dataRef strings to be send to the editors
 
 //
 // MARK: Legacy multiplayer dataRefs
@@ -112,10 +119,15 @@ struct infoDataRefsTy {
     XPLMDataRef infoFlightNum       = nullptr;  // flightnum
     XPLMDataRef infoAptFrom         = nullptr;  // apt_from
     XPLMDataRef infoAptTo           = nullptr;  // apt_to
+    // Additional fields beyond content of XPMPInfoTexts_t:
+    XPLMDataRef cslModel            = nullptr;  ///< CSL model as XPMP2::Aircraft::GetModelName() returns it
 
     /// Looks OK, the dataRefs are available?
     inline operator bool () const { return infoTailNum && infoIcaoAirline && infoAptTo; }
 };
+
+/// Number of characters to be allowed for CSL model text
+constexpr size_t SDR_CSLMODEL_TXT_SIZE = 40;
 
 //
 // MARK: TCAS Target dataRefs
@@ -296,6 +308,11 @@ size_t AIUpdateMultiplayerDataRefs()
                 XPLMSetDatab(drI.infoFlightNum,     ac.acInfoTexts.flightNum,     0, sizeof(XPMPInfoTexts_t::flightNum));
                 XPLMSetDatab(drI.infoAptFrom,       ac.acInfoTexts.aptFrom,       0, sizeof(XPMPInfoTexts_t::aptFrom));
                 XPLMSetDatab(drI.infoAptTo,         ac.acInfoTexts.aptTo,         0, sizeof(XPMPInfoTexts_t::aptTo));
+                
+                char buf[SDR_CSLMODEL_TXT_SIZE];
+                memset(buf, 0, sizeof(buf));
+                STRCPY_S(buf, ac.GetModelName().c_str());
+                XPLMSetDatab(drI.cslModel,          buf,                          0, sizeof(buf));
             }
         }
         CATCH_AC(ac)
@@ -455,6 +472,11 @@ size_t AIUpdateTCASTargets ()
                 XPLMSetDatab(drI.infoFlightNum,     ac.acInfoTexts.flightNum,     0, sizeof(XPMPInfoTexts_t::flightNum));
                 XPLMSetDatab(drI.infoAptFrom,       ac.acInfoTexts.aptFrom,       0, sizeof(XPMPInfoTexts_t::aptFrom));
                 XPLMSetDatab(drI.infoAptTo,         ac.acInfoTexts.aptTo,         0, sizeof(XPMPInfoTexts_t::aptTo));
+                
+                char buf[SDR_CSLMODEL_TXT_SIZE];
+                memset(buf, 0, sizeof(buf));
+                STRCPY_S(buf, ac.GetModelName().c_str());
+                XPLMSetDatab(drI.cslModel,          buf,                          0, sizeof(buf));
             }
         }
         CATCH_AC(ac)
@@ -537,6 +559,10 @@ void AIAssignSlots (size_t fromSlot, size_t toSlot)
 // as well as additional shared dataRefs for text publishing
 void AIMultiUpdate ()
 {
+    // Some one time stuff
+    if (!vecDREdataRefStr.empty())
+        AIMultiInformDREs();
+    
     // If we don't control AI aircraft we bail out
     if (!XPMPHasControlOfAIAircraft())
         return;
@@ -721,6 +747,7 @@ void AIMultiClearInfoDataRefs (infoDataRefsTy& drI)
     XPLMSetDatab(drI.infoFlightNum,     allNulls, 0, sizeof(XPMPInfoTexts_t::flightNum));
     XPLMSetDatab(drI.infoAptFrom,       allNulls, 0, sizeof(XPMPInfoTexts_t::aptFrom));
     XPLMSetDatab(drI.infoAptTo,         allNulls, 0, sizeof(XPMPInfoTexts_t::aptTo));
+    XPLMSetDatab(drI.cslModel,          allNulls, 0, SDR_CSLMODEL_TXT_SIZE);
 }
 
 /// Clears the key (mode_s) of the TCAS target dataRefs
@@ -746,6 +773,27 @@ void AIMultiInitAllDataRefs(bool bDeactivateToZero)
         // Shared info dataRefs
         for (infoDataRefsTy& drI: gInfoRef)
             AIMultiClearInfoDataRefs(drI);
+    }
+}
+
+// Inform DRE and DRT of our shared dataRefs
+void AIMultiInformDREs ()
+{
+    if (!vecDREdataRefStr.empty()) {
+        // loop over all available data ref editor signatures
+        for (const char* szDREditor: DATA_REF_EDITORS) {
+            // find the plugin by signature
+            XPLMPluginID PluginID = XPLMFindPluginBySignature(szDREditor);
+            if (PluginID != XPLM_NO_PLUGIN_ID) {
+                // loop over all dataRef strings that are to be infomred and send a msg for them
+                for (const std::string& sDataRef: vecDREdataRefStr)
+                XPLMSendMessageToPlugin(PluginID,
+                                        MSG_ADD_DATAREF,
+                                        (void*)sDataRef.c_str());
+            }
+        }
+        // Don't register these again
+        vecDREdataRefStr.clear();
     }
 }
 
@@ -876,10 +924,12 @@ void AIMultiInit ()
     gInfoRef.push_back(drI);        // add an empty record at position 0 (user's plane)
 
     // Code for finding a non-standard shared dataRef for text information sharing
-#define SHARE_PLANE_DR(membVar, dataRefTxt, PlaneNr)                        \
-    snprintf(buf,sizeof(buf),"sim/multiplayer/position/plane%u_" dataRefTxt,PlaneNr);    \
-    if (XPLMShareData(buf, xplmType_Data, NULL, NULL))                      \
-        drI.membVar = XPLMFindDataRef(buf);                                   \
+#define SHARE_PLANE_DR(membVar, dataRefTxt, PlaneNr)                                    \
+    snprintf(buf,sizeof(buf),"sim/multiplayer/position/plane%u_" dataRefTxt,PlaneNr);   \
+    if (XPLMShareData(buf, xplmType_Data, NULL, NULL)) {                                \
+        drI.membVar = XPLMFindDataRef(buf);                                             \
+        vecDREdataRefStr.push_back(buf);                                                \
+    }                                                                                   \
     else drI.membVar = NULL;
     
     // We add as many shared info dataRefs as there are TCAS targets (probably 63)
@@ -896,6 +946,7 @@ void AIMultiInit ()
         SHARE_PLANE_DR(infoFlightNum,       "flightnum",            n);
         SHARE_PLANE_DR(infoAptFrom,         "apt_from",             n);
         SHARE_PLANE_DR(infoAptTo,           "apt_to",               n);
+        SHARE_PLANE_DR(cslModel,            "cslModel",             n);
         gInfoRef.push_back(drI);
     }
 }
@@ -926,6 +977,7 @@ void AIMultiCleanup ()
         UNSHARE_PLANE_DR(infoFlightNum,       "flightnum",      n);
         UNSHARE_PLANE_DR(infoAptFrom,         "apt_from",       n);
         UNSHARE_PLANE_DR(infoAptTo,           "apt_to",         n);
+        UNSHARE_PLANE_DR(cslModel,            "cslModel",       n);
     }
     gInfoRef.clear();
     

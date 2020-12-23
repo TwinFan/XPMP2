@@ -44,6 +44,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
@@ -55,6 +56,12 @@ $(function() {
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="XPMP2-Remote_8h_source.html">XPMP2-Remote.h</a>&quot;</code><br />
 </div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:structCmdMenuDefTy"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#structCmdMenuDefTy">CmdMenuDefTy</a></td></tr>
+<tr class="memdesc:structCmdMenuDefTy"><td class="mdescLeft">&#160;</td><td class="mdescRight">Command definition per menu item.  <a href="XPMP2-Remote_8cpp.html#structCmdMenuDefTy">More...</a><br /></td></tr>
+<tr class="separator:structCmdMenuDefTy"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:accfea755be3f58d51c57997005b7a114"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#accfea755be3f58d51c57997005b7a114">CBIntPrefsFunc</a> (const char *, [[maybe_unused]] const char *item, int defaultVal)</td></tr>
@@ -65,9 +72,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a050cafa0489634122127d1e8285af39b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#a050cafa0489634122127d1e8285af39b">MenuUpdateSenders</a> ()</td></tr>
 <tr class="memdesc:a050cafa0489634122127d1e8285af39b"><td class="mdescLeft">&#160;</td><td class="mdescRight">(Re)Create the submenu listing information about connected senders  <a href="XPMP2-Remote_8cpp.html#a050cafa0489634122127d1e8285af39b">More...</a><br /></td></tr>
 <tr class="separator:a050cafa0489634122127d1e8285af39b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13c2f2832ba3e093e3fdbe2af67b307f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#a13c2f2832ba3e093e3fdbe2af67b307f">MenuCallback</a> (void *, void *inItemRef)</td></tr>
-<tr class="memdesc:a13c2f2832ba3e093e3fdbe2af67b307f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback function for menu.  <a href="XPMP2-Remote_8cpp.html#a13c2f2832ba3e093e3fdbe2af67b307f">More...</a><br /></td></tr>
-<tr class="separator:a13c2f2832ba3e093e3fdbe2af67b307f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a334c365d22bc62c00ecb83dfb00db93c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#a334c365d22bc62c00ecb83dfb00db93c">CmdCallback</a> (XPLMCommandRef cmdRef, XPLMCommandPhase inPhase, void *)</td></tr>
+<tr class="memdesc:a334c365d22bc62c00ecb83dfb00db93c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback function for menu.  <a href="XPMP2-Remote_8cpp.html#a334c365d22bc62c00ecb83dfb00db93c">More...</a><br /></td></tr>
+<tr class="separator:a334c365d22bc62c00ecb83dfb00db93c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a72cc48b2accb0555598fd338a71a0a1f"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#a72cc48b2accb0555598fd338a71a0a1f">FlightLoopCallback</a> (float, float, int, void *)</td></tr>
 <tr class="memdesc:a72cc48b2accb0555598fd338a71a0a1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Regular tasks, called by flight loop.  <a href="XPMP2-Remote_8cpp.html#a72cc48b2accb0555598fd338a71a0a1f">More...</a><br /></td></tr>
 <tr class="separator:a72cc48b2accb0555598fd338a71a0a1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -99,6 +106,8 @@ Variables</h2></td></tr>
 <tr class="separator:ae8bf1418c4c15243d1671d388c3923cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d50a6e7c99b273c658df48f69bb52fd"><td class="memItemLeft" align="right" valign="top">constexpr std::uintptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#a0d50a6e7c99b273c658df48f69bb52fd">MENU_SENDER</a> = 2</td></tr>
 <tr class="separator:a0d50a6e7c99b273c658df48f69bb52fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05ced0622b3600ad32e0b1cd4e37583f"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="XPMP2-Remote_8cpp.html#structCmdMenuDefTy">CmdMenuDefTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#a05ced0622b3600ad32e0b1cd4e37583f">CMD_MENU_DEF</a> [2]</td></tr>
+<tr class="separator:a05ced0622b3600ad32e0b1cd4e37583f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd3a6022f744800f5d68a320f05f1ee8"><td class="memItemLeft" align="right" valign="top">XPLMFlightLoopID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#afd3a6022f744800f5d68a320f05f1ee8">flId</a> = nullptr</td></tr>
 <tr class="memdesc:afd3a6022f744800f5d68a320f05f1ee8"><td class="mdescLeft">&#160;</td><td class="mdescRight">ID of our flight loop callback for regular tasks.  <a href="XPMP2-Remote_8cpp.html#afd3a6022f744800f5d68a320f05f1ee8">More...</a><br /></td></tr>
 <tr class="separator:afd3a6022f744800f5d68a320f05f1ee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -132,7 +141,50 @@ For Networked Multiplayer: <a href="https://x-plane.com/manuals/desktop/#network
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br  />
  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.<br  />
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </dd></dl>
-</div><h2 class="groupheader">Function Documentation</h2>
+</div><hr/><h2 class="groupheader">Class Documentation</h2>
+<a name="structCmdMenuDefTy" id="structCmdMenuDefTy"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structCmdMenuDefTy">&#9670;&nbsp;</a></span>CmdMenuDefTy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct CmdMenuDefTy</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><p>Command definition per menu item. </p>
+</div><table class="fieldtable">
+<tr><th colspan="3">Class Members</th></tr>
+<tr><td class="fieldtype">
+<a id="a847d7044d0be321e48ba0e1cda2abc3e"></a>const char *</td>
+<td class="fieldname">
+cmdName</td>
+<td class="fielddoc">
+command's name </td></tr>
+<tr><td class="fieldtype">
+<a id="a089d41fc300e2c472456acf29811bcbb"></a>const char *</td>
+<td class="fieldname">
+description</td>
+<td class="fielddoc">
+human-readable command description </td></tr>
+<tr><td class="fieldtype">
+<a id="afc80735871ba262e1741935ed72f5be1"></a>XPLMCommandRef</td>
+<td class="fieldname">
+hCmd</td>
+<td class="fielddoc">
+command reference assigned by X-Plane </td></tr>
+<tr><td class="fieldtype">
+<a id="a740a9ff9d5b1d8edfafe8a5ef9534482"></a>const char *</td>
+<td class="fieldname">
+menuName</td>
+<td class="fielddoc">
+(initial) menu item's name </td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
 <a id="accfea755be3f58d51c57997005b7a114"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#accfea755be3f58d51c57997005b7a114">&#9670;&nbsp;</a></span>CBIntPrefsFunc()</h2>
 
@@ -165,6 +217,42 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
       </table>
 </div><div class="memdoc">
 <p>This is a callback the <a class="el" href="namespaceXPMP2.html">XPMP2</a> calls regularly to learn about configuration settings. Only 3 are left, all of them integers. </p>
+
+</div>
+</div>
+<a id="a334c365d22bc62c00ecb83dfb00db93c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a334c365d22bc62c00ecb83dfb00db93c">&#9670;&nbsp;</a></span>CmdCallback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int CmdCallback </td>
+          <td>(</td>
+          <td class="paramtype">XPLMCommandRef&#160;</td>
+          <td class="paramname"><em>cmdRef</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">XPLMCommandPhase&#160;</td>
+          <td class="paramname"><em>inPhase</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Callback function for menu. </p>
 
 </div>
 </div>
@@ -207,36 +295,6 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 </div><div class="memdoc">
 
 <p>Regular tasks, called by flight loop. </p>
-
-</div>
-</div>
-<a id="a13c2f2832ba3e093e3fdbe2af67b307f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a13c2f2832ba3e093e3fdbe2af67b307f">&#9670;&nbsp;</a></span>MenuCallback()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void MenuCallback </td>
-          <td>(</td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>inItemRef</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Callback function for menu. </p>
 
 </div>
 </div>
@@ -401,6 +459,24 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
+<a id="a05ced0622b3600ad32e0b1cd4e37583f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05ced0622b3600ad32e0b1cd4e37583f">&#9670;&nbsp;</a></span>CMD_MENU_DEF</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="XPMP2-Remote_8cpp.html#structCmdMenuDefTy">CmdMenuDefTy</a> CMD_MENU_DEF[2]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">    { <span class="stringliteral">&quot;XPMP2-Remote/Activate&quot;</span>,  <span class="stringliteral">&quot;Active&quot;</span>,       <span class="stringliteral">&quot;Toggle if Remote Client is active&quot;</span> },</div>
+<div class="line">    { <span class="stringliteral">&quot;XPMP2-Remote/TCAS&quot;</span>,      <span class="stringliteral">&quot;TCAS Control&quot;</span>, <span class="stringliteral">&quot;Toggle if Remote Client shall have TCAS control&quot;</span> },</div>
+<div class="line">}</div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="afd3a6022f744800f5d68a320f05f1ee8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afd3a6022f744800f5d68a320f05f1ee8">&#9670;&nbsp;</a></span>flId</h2>
 

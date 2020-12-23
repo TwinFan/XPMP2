@@ -90,6 +90,19 @@ void RemoteAC::Update (const XPMP2::RemoteAcDetailTy& _acDetails)
     drawInfo.heading    = _acDetails.GetHeading();
     drawInfo.roll       = _acDetails.GetRoll();
     aiPrio              = _acDetails.aiPrio;
+    
+    // Info texts
+    std::memset(&acInfoTexts, 0, sizeof(acInfoTexts));
+#define memcpy_min(to,from) std::memcpy(to,from,std::min(sizeof(from),sizeof(to)))
+    memcpy_min(acInfoTexts.tailNum,         _acDetails.tailNum);
+    memcpy_min(acInfoTexts.icaoAcType,      _acDetails.icaoType);
+    memcpy_min(acInfoTexts.manufacturer,    _acDetails.manufacturer);
+    memcpy_min(acInfoTexts.model,           _acDetails.model);
+    memcpy_min(acInfoTexts.icaoAirline,     _acDetails.icaoOp);
+    memcpy_min(acInfoTexts.airline,         _acDetails.airline);
+    memcpy_min(acInfoTexts.flightNum,       _acDetails.flightNum);
+    memcpy_min(acInfoTexts.aptFrom,         _acDetails.aptFrom);
+    memcpy_min(acInfoTexts.aptTo,           _acDetails.aptTo);
 
     // Don't render local planes (the local plugin does already),
     // or if explicitely instructed so by the sender

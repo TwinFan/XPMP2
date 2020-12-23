@@ -44,6 +44,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a> &#124;
@@ -57,6 +58,15 @@ $(function() {
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="XPMP2_8h_source.html">XPMP2.h</a>&quot;</code><br />
 </div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteAcDetailTy__v0.html">XPMP2::RemoteAcDetailTy_v0</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Version 0 A/C details, packed into an array message.  <a href="structXPMP2_1_1RemoteAcDetailTy__v0.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteMsgAcDetailTy__v0.html">XPMP2::RemoteMsgAcDetailTy_v0</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Version 0 A/C detail message, has an inherited header plus an array of <a class="el" href="structXPMP2_1_1RemoteAcDetailTy.html" title="A/C details, packed into an array message.">XPMP2::RemoteAcDetailTy</a> elements.  <a href="structXPMP2_1_1RemoteMsgAcDetailTy__v0.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespaceXPMP2"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html">XPMP2</a></td></tr>
@@ -64,6 +74,8 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:a40e8460a0a12a773f049f76b56caba83"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Remote_8cpp.html#a40e8460a0a12a773f049f76b56caba83">memcpy_min</a>(to,  from)&#160;&#160;&#160;std::memcpy(to,from,std::min(sizeof(from),sizeof(to)))</td></tr>
+<tr class="separator:a40e8460a0a12a773f049f76b56caba83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a33efbf28579c18b8c9292d323f8688f4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Remote_8cpp.html#a33efbf28579c18b8c9292d323f8688f4">DEBUG_MC_SEND_WAIT</a>&#160;&#160;&#160;&quot;Listening to %s:%d, waiting for someone interested in our data...&quot;</td></tr>
 <tr class="separator:a33efbf28579c18b8c9292d323f8688f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11582dc02ea125984f359e528add98b0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Remote_8cpp.html#a11582dc02ea125984f359e528add98b0">INFO_MC_SEND_WAIT</a>&#160;&#160;&#160;&quot;Listening on the network, waiting for someone interested in our data...&quot;</td></tr>
@@ -332,6 +344,34 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
       <table class="memname">
         <tr>
           <td class="memname">#define INFO_MC_SEND_WAIT&#160;&#160;&#160;&quot;Listening on the network, waiting for someone interested in our data...&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a40e8460a0a12a773f049f76b56caba83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40e8460a0a12a773f049f76b56caba83">&#9670;&nbsp;</a></span>memcpy_min</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define memcpy_min</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">to, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">from&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;std::memcpy(to,from,std::min(sizeof(from),sizeof(to)))</td>
         </tr>
       </table>
 </div><div class="memdoc">

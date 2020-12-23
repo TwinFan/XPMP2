@@ -484,8 +484,26 @@ void Aircraft::DoMove ()
         // Already have instances? 
         if (!listInst.empty()) {
             // Move the instances (this is probably the single most important line of code ;-) )
-            for (XPLMInstanceRef hInst: listInst)
-                XPLMInstanceSetPosition(hInst, &drawInfo, v.data());
+            for (XPLMInstanceRef hInst : listInst) {
+                const float* data = v.data();
+#if defined(DEBUG) || defined(DEBUG_CTD_DOMOVE)
+                // See https://github.com/TwinFan/XPMP2/issues/23
+                // Temporary validation to track down why in some rare cases X-Plane crashes later in the XPLMInstanceSetPosition call
+                // 3. Compare that remembered size to the size of the Aircraft::v, which is supposed to be one less(or larger, the Aircraft constructor makes it the same size as DR_NAMES, which is certainly OK.Having more memory than needed never hurts.
+                if (v.size() != DR_NAMES.size() || DR_NAMES.size() != numDataRefsDuringCreateInstance) {
+                    LOG_MSG(logFATAL, "XPMP2 Issue 23: Array sizes mismatch! v: %lu, DR_NAMES: %lu, numDataRefsDuringCreateInstance: %lu",
+                            v.size(), DR_NAMES.size(), numDataRefsDuringCreateInstance);
+                    LOG_MSG(logFATAL, "while processing A/C 0x%06X, object instance %p", modeS_id, hInst);
+                    // with the above `if` the following assert will certainly fail:
+                    LOG_ASSERT((v.size() == DR_NAMES.size()) && (DR_NAMES.size() == numDataRefsDuringCreateInstance));
+                }
+                // 4. Access the first and last elements of Aircraft::v to verify that those memory areas are still valid
+                //    (we even access all of them and verify them not to be NAN:)
+                for (size_t i = 0; i < numDataRefsDuringCreateInstance; ++i)
+                    LOG_ASSERT(!std::isnan(data[i]));
+#endif
+                XPLMInstanceSetPosition(hInst, &drawInfo, data);
+            }
         } else {
             // Try creating instances
             // In an attempt to work around a crash documented in TwinFan/LiveTraffic#191 https://github.com/TwinFan/LiveTraffic/issues/191
@@ -552,6 +570,16 @@ bool Aircraft::CreateInstances ()
     
     // OK, we got a complete list of objects, so let's instanciate them:
     for (XPLMObjectRef hObj: listObj) {
+#if defined(DEBUG) || defined(DEBUG_CTD_DOMOVE)
+        // See https://github.com/TwinFan/XPMP2/issues/23
+        // Temporary validation to track down why in some rare cases X-Plane crashes later in the XPLMInstanceSetPosition call
+        // 1. Validate that the last element of DR_NAMES is actuall a nullptr:
+        LOG_ASSERT(DR_NAMES.back() == nullptr);
+        // 2. Remember the size of DR_NAMES when calling XPLMCreateInstance(), because it is DR_NAMES.data() which is passed on to XPLMCreateInstance in the datarefs parameter.
+        LOG_ASSERT(numDataRefsDuringCreateInstance == 0 || numDataRefsDuringCreateInstance == DR_NAMES.size());     // we might have several objects in this for loop, but we certainly expect that DR_NAMES doesn't change size while executing the loop!
+        numDataRefsDuringCreateInstance = DR_NAMES.size();
+        LOG_ASSERT(DR_NAMES.data()[numDataRefsDuringCreateInstance-1] == nullptr);                 // should be the same as using .back()...but hey...we are trying to find some weird behaviour, so we double and triple-check
+#endif
         // Create a (new) instance of this CSL Model object,
         // registering all the dataRef names we support
         XPLMInstanceRef hInst = XPLMCreateInstance (hObj, DR_NAMES.data());

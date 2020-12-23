@@ -68,6 +68,8 @@ Macros</h2></td></tr>
 <tr class="separator:a6f44e3dcd049ae0bc31e28b80b282cf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8aeb7ba784e7c1be612a523bf045191a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Client_8cpp.html#a8aeb7ba784e7c1be612a523bf045191a">INFO_DEACTIVATED</a>&#160;&#160;&#160;&quot;Deactivated, stopped listening to network&quot;</td></tr>
 <tr class="separator:a8aeb7ba784e7c1be612a523bf045191a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40e8460a0a12a773f049f76b56caba83"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Client_8cpp.html#a40e8460a0a12a773f049f76b56caba83">memcpy_min</a>(to,  from)&#160;&#160;&#160;std::memcpy(to,from,std::min(sizeof(from),sizeof(to)))</td></tr>
+<tr class="separator:a40e8460a0a12a773f049f76b56caba83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -190,6 +192,34 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
       <table class="memname">
         <tr>
           <td class="memname">#define INFO_SENDER_PLUGIN_LOST&#160;&#160;&#160;&quot;Sender %.*s (%u) @ %s fell silent, removed&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a40e8460a0a12a773f049f76b56caba83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40e8460a0a12a773f049f76b56caba83">&#9670;&nbsp;</a></span>memcpy_min</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define memcpy_min</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">to, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">from&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;std::memcpy(to,from,std::min(sizeof(from),sizeof(to)))</td>
         </tr>
       </table>
 </div><div class="memdoc">

@@ -76,6 +76,7 @@
 #include <memory>
 #include <atomic>
 #include <mutex>
+#include <algorithm>
 
 // X-Plane SDK
 #include "XPLMDataAccess.h"
@@ -93,6 +94,14 @@
 #include "Utilities.h"
 #include "Client.h"
 
+// Windows: I prefer the proper SDK variants of min and max
+#ifdef min
+#undef min
+#endif
+#ifdef max
+#undef max
+#endif
+
 //
 // MARK: Constants
 //
@@ -100,7 +109,7 @@
 constexpr const char* REMOTE_CLIENT_NAME    =  "XPMP2 Remote Client";   ///< Plugin name
 constexpr const char* REMOTE_CLIENT_LOG     =  "XPMP2_RC";              ///< ID used in own log entries
 constexpr const char* REMOTE_CLIENT_LOG2    =  "RC";                    ///< Short ID used in XPMP2 log entries
-constexpr float REMOTE_CLIENT_VER           = 1.00f;
+constexpr float REMOTE_CLIENT_VER           = 1.10f;
 
 //
 // MARK: Globals

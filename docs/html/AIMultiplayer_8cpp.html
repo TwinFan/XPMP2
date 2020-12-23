@@ -92,6 +92,9 @@ Macros</h2></td></tr>
 <tr class="separator:acdbda2fc6187212f7a66cedf86d4e361"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a153ea8d6048d0e7ade7d64cde86e8b1b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AIMultiplayer_8cpp.html#a153ea8d6048d0e7ade7d64cde86e8b1b">DEBUG_AI_SLOT_RELEASE</a>&#160;&#160;&#160;&quot;Aircraft %llu: RELEASING AI Slot %d (%s, %s, %s)&quot;</td></tr>
 <tr class="separator:a153ea8d6048d0e7ade7d64cde86e8b1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11c86e4d5791c99e967f5ef730aac0f9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AIMultiplayer_8cpp.html#a11c86e4d5791c99e967f5ef730aac0f9">MSG_ADD_DATAREF</a>&#160;&#160;&#160;0x01000000</td></tr>
+<tr class="memdesc:a11c86e4d5791c99e967f5ef730aac0f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Message to DRE/DRT to inform about dataRefs.  <a href="AIMultiplayer_8cpp.html#a11c86e4d5791c99e967f5ef730aac0f9">More...</a><br /></td></tr>
+<tr class="separator:a11c86e4d5791c99e967f5ef730aac0f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad46d3c941557fa20fd1113f7247f5a97"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AIMultiplayer_8cpp.html#ad46d3c941557fa20fd1113f7247f5a97">SET_DR</a>(ty,  dr)&#160;&#160;&#160;XPLMSetData##ty(drTcas##dr, v##dr.data(), 1, (int)v##dr.size())</td></tr>
 <tr class="separator:ad46d3c941557fa20fd1113f7247f5a97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0a0ee111d8f8201b9a508b0cde8aa1c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AIMultiplayer_8cpp.html#ad0a0ee111d8f8201b9a508b0cde8aa1c">FIND_PLANE_DR</a>(membVar,  dataRefTxt,  PlaneNr)</td></tr>
@@ -139,6 +142,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a789da9977713bb6e4d78b4d0ac957d13"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a789da9977713bb6e4d78b4d0ac957d13">XPMP2::AIMultiInitAllDataRefs</a> (bool bDeactivateToZero)</td></tr>
 <tr class="memdesc:a789da9977713bb6e4d78b4d0ac957d13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset all (controlled) multiplayer dataRef values of all planes.  <a href="namespaceXPMP2.html#a789da9977713bb6e4d78b4d0ac957d13">More...</a><br /></td></tr>
 <tr class="separator:a789da9977713bb6e4d78b4d0ac957d13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3fdfb9f6648caa01fdfbb1863eb243aa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a3fdfb9f6648caa01fdfbb1863eb243aa">XPMP2::AIMultiInformDREs</a> ()</td></tr>
+<tr class="memdesc:a3fdfb9f6648caa01fdfbb1863eb243aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inform DRE and DRT of our shared dataRefs.  <a href="namespaceXPMP2.html#a3fdfb9f6648caa01fdfbb1863eb243aa">More...</a><br /></td></tr>
+<tr class="separator:a3fdfb9f6648caa01fdfbb1863eb243aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa40564b0a8d925de523f2f7a035977b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aa40564b0a8d925de523f2f7a035977b4">XPMP2::AIMultiInit</a> ()</td></tr>
 <tr class="memdesc:aa40564b0a8d925de523f2f7a035977b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the module.  <a href="namespaceXPMP2.html#aa40564b0a8d925de523f2f7a035977b4">More...</a><br /></td></tr>
 <tr class="separator:aa40564b0a8d925de523f2f7a035977b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -172,6 +178,14 @@ Variables</h2></td></tr>
 <tr class="memitem:ad2860526a370d1c9e1467a4d4a8c1822"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ad2860526a370d1c9e1467a4d4a8c1822">XPMP2::XPLM_PHASE_AIRPLANES</a> = 25</td></tr>
 <tr class="memdesc:ad2860526a370d1c9e1467a4d4a8c1822"><td class="mdescLeft">&#160;</td><td class="mdescRight">The drawing phase "xplm_Phase_Airplanes" is deprecated in XP11.50 upwards, but we need it in earlier versions to fake TCAS.  <a href="namespaceXPMP2.html#ad2860526a370d1c9e1467a4d4a8c1822">More...</a><br /></td></tr>
 <tr class="separator:ad2860526a370d1c9e1467a4d4a8c1822"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d74cb7895b1bacaf692b43480afb2a6"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a2d74cb7895b1bacaf692b43480afb2a6">XPMP2::DATA_REF_EDITORS</a> []</td></tr>
+<tr class="separator:a2d74cb7895b1bacaf692b43480afb2a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e43512fbdb816d1bef5311d8d128e35"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a4e43512fbdb816d1bef5311d8d128e35">XPMP2::vecDREdataRefStr</a></td></tr>
+<tr class="memdesc:a4e43512fbdb816d1bef5311d8d128e35"><td class="mdescLeft">&#160;</td><td class="mdescRight">list of dataRef strings to be send to the editors  <a href="namespaceXPMP2.html#a4e43512fbdb816d1bef5311d8d128e35">More...</a><br /></td></tr>
+<tr class="separator:a4e43512fbdb816d1bef5311d8d128e35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8a0a64c2872b46cf94a95809eac6124"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ab8a0a64c2872b46cf94a95809eac6124">XPMP2::SDR_CSLMODEL_TXT_SIZE</a> = 40</td></tr>
+<tr class="memdesc:ab8a0a64c2872b46cf94a95809eac6124"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of characters to be allowed for CSL model text.  <a href="namespaceXPMP2.html#ab8a0a64c2872b46cf94a95809eac6124">More...</a><br /></td></tr>
+<tr class="separator:ab8a0a64c2872b46cf94a95809eac6124"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Implementation of serving TCAS target dataRef updates. </p>
@@ -368,6 +382,22 @@ Taxi lights. </td></tr>
 
 </div>
 </div>
+<a id="a11c86e4d5791c99e967f5ef730aac0f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11c86e4d5791c99e967f5ef730aac0f9">&#9670;&nbsp;</a></span>MSG_ADD_DATAREF</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MSG_ADD_DATAREF&#160;&#160;&#160;0x01000000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Message to DRE/DRT to inform about dataRefs. </p>
+
+</div>
+</div>
 <a id="ad46d3c941557fa20fd1113f7247f5a97"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad46d3c941557fa20fd1113f7247f5a97">&#9670;&nbsp;</a></span>SET_DR</h2>
 
@@ -427,9 +457,11 @@ Taxi lights. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    snprintf(buf,<span class="keyword">sizeof</span>(buf),<span class="stringliteral">&quot;sim/multiplayer/position/plane%u_&quot;</span> dataRefTxt,PlaneNr);    \</div>
-<div class="line">    if (XPLMShareData(buf, xplmType_Data, NULL, NULL))                      \</div>
-<div class="line">        drI.membVar = XPLMFindDataRef(buf);                                   \</div>
+<b>Value:</b><div class="fragment"><div class="line">    snprintf(buf,<span class="keyword">sizeof</span>(buf),<span class="stringliteral">&quot;sim/multiplayer/position/plane%u_&quot;</span> dataRefTxt,PlaneNr);   \</div>
+<div class="line">    if (XPLMShareData(buf, xplmType_Data, NULL, NULL)) {                                \</div>
+<div class="line">        drI.membVar = XPLMFindDataRef(buf);                                             \</div>
+<div class="line">        vecDREdataRefStr.push_back(buf);                                                \</div>
+<div class="line">    }                                                                                   \</div>
 <div class="line">    else drI.membVar = NULL;</div>
 </div><!-- fragment -->
 </div>

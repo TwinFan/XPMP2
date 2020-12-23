@@ -226,7 +226,7 @@ void CSLObj::Load ()
     
     // Prepare to load the CSL model from the .obj file
     LOG_MSG(logDEBUG, DEBUG_OBJ_LOADING,
-            cslId.c_str(), StripXPSysDir(path).c_str());
+            cslKey.c_str(), StripXPSysDir(path).c_str());
     
     // Based on experience it seems XPLMLoadObjectAsync() does not
     // properly support HFS file paths. It just replaces all ':' with '/',
@@ -234,7 +234,7 @@ void CSLObj::Load ()
     // That's why we store paths to .obj already in POSIX format:
     XPLMLoadObjectAsync(path.c_str(),                   // path to .obj
                         &XPObjLoadedCB,                 // static callback function
-                        new pairOfStrTy(cslId.c_str(),  // _copy_ of the id string
+                        new pairOfStrTy(cslKey.c_str(), // _copy_ of the key string
                                         path.c_str()));
     xpObjState = OLS_LOADING;
 }
@@ -246,7 +246,7 @@ void CSLObj::Unload ()
         XPLMUnloadObject(xpObj);
         xpObj = NULL;
         xpObjState = OLS_UNAVAIL;
-        LOG_MSG(logDEBUG, DEBUG_OBJ_UNLOADED, cslId.c_str(), StripXPSysDir(path).c_str());
+        LOG_MSG(logDEBUG, DEBUG_OBJ_UNLOADED, cslKey.c_str(), StripXPSysDir(path).c_str());
     }
 }
 
@@ -261,7 +261,7 @@ void CSLObj::XPObjLoadedCB (XPLMObjectRef inObject,
     
         // try finding the CSL model object in the global map
         mapCSLModelTy::iterator cslIter;
-        CSLModel* pCsl = CSLModelById(p->first, &cslIter);
+        CSLModel* pCsl = CSLModelByKey(p->first, &cslIter);
         if (!pCsl) {
             // CSL model not found in global map -> release the X-Plane object right away
             LOG_MSG(logERR, ERR_OBJ_NOT_FOUND, p->first.c_str());
@@ -279,11 +279,12 @@ void CSLObj::XPObjLoadedCB (XPLMObjectRef inObject,
             // found?
             if (iter != pCsl->listObj.end()) {
                 // Loading succeeded -> save the object and state
+                LOG_ASSERT(iter->GetObjState() == OLS_LOADING);
                 if (inObject) {
                     iter->xpObj      = inObject;
                     iter->xpObjState = OLS_AVAILABLE;
                     LOG_MSG(logDEBUG, DEBUG_OBJ_LOADED,
-                            iter->cslId.c_str(), StripXPSysDir(iter->path).c_str());
+                            iter->cslKey.c_str(), StripXPSysDir(iter->path).c_str());
                 }
                 // Loading of CSL object failed! -> remove the entire CSL model
                 // so we don't try again and don't use it in matching
@@ -309,7 +310,7 @@ void CSLObj::Invalidate ()
 {
     xpObj       = NULL;
     xpObjState  = OLS_INVALID;
-    LOG_MSG(logERR, ERR_OBJ_NOT_LOADED, cslId.c_str(), StripXPSysDir(path).c_str());
+    LOG_MSG(logERR, ERR_OBJ_NOT_LOADED, cslKey.c_str(), StripXPSysDir(path).c_str());
 }
 
 //
@@ -610,11 +611,16 @@ std::string CSLModelsConvPackagePath (const std::string& pkgPath,
 void CSLModelsAdd (CSLModel& _csl)
 {
     // the main map, which actually "owns" the object, indexed by key
-    auto p = glob.mapCSLModels.emplace(_csl.GetKeyString(), std::move(_csl));
+    const std::string cslKey = _csl.GetKeyString();
+    auto p = glob.mapCSLModels.emplace(cslKey, std::move(_csl));
     if (!p.second) {                    // not inserted, ie. not a new entry!
         LOG_MSG(logWARN, WARN_DUP_MODEL, p.first->second.GetModelName().c_str(),
                 p.first->second.xsbAircraftLn,
                 StripXPSysDir(p.first->second.xsbAircraftPath).c_str());
+    } else {
+        // Need to update the cslKey that is stored in the CSL objects as only now we have the final value
+        for (CSLObj& obj : p.first->second.listObj)
+            obj.cslKey = cslKey;
     }
 
     // in all cases properly reset the passed-in reference
@@ -790,7 +796,7 @@ void AcTxtLine_OBJ8 (CSLModel& csl,
         if (!path.empty()) {
             // save the path as an additional object to the model
             // (Paths  to .obj are always stored in POSIX format)
-            csl.listObj.emplace_back(csl.GetId(), TOPOSIX(path));
+            csl.listObj.emplace_back(csl.GetKeyString(), TOPOSIX(path));
             CSLObj& obj = csl.listObj.back();
 
             // we can already read the TEXTURE and TEXTURE_LIT paths
@@ -1118,6 +1124,25 @@ CSLModel* CSLModelById (const std::string& _cslId,
     
     // Success
     return &iter->second;
+}
+
+
+// Find a model by key
+CSLModel* CSLModelByKey(const std::string& _cslKey,
+                        mapCSLModelTy::iterator* _pOutIter)
+{
+    // find the CSL model by it's map key
+    mapCSLModelTy::iterator iter = glob.mapCSLModels.find(_cslKey);
+
+    // If requested, also return the iterator itself
+    if (_pOutIter)
+        *_pOutIter = iter;
+
+    // Return a pointer to the object
+    if (iter == glob.mapCSLModels.end())
+        return nullptr;
+    else
+        return &(iter->second);
 }
 
 

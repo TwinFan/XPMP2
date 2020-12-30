@@ -14,9 +14,9 @@ function build() {
   case "$platform" in
     lin)
       ;;
-    win)
-      flags+=('-DCMAKE_TOOLCHAIN_FILE=../Toolchain-mingw-w64-x86-64.cmake')
-      ;;
+#    win)
+#      flags+=('-DCMAKE_TOOLCHAIN_FILE=../Toolchain-mingw-w64-x86-64.cmake')
+#      ;;
     mac)
       flags+=('-DCMAKE_TOOLCHAIN_FILE=../docker/Toolchain-ubuntu-osxcross-10.11.cmake')
       flags+=('-DCMAKE_FIND_ROOT_PATH=/usr/osxcross/SDK/MacOSX10.11.sdk/')
@@ -26,6 +26,7 @@ function build() {
       return
   esac
 
+#  flags+=("-DXPSDK_DIR=../XPSDK301")
 #  flags+=("-DCREATECOMPLETEEDITION=$complete_edition")
 
   (

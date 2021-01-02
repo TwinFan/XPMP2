@@ -1,0 +1,83 @@
+# Travis CI configuration for XPMP2 library, Remote and Sample plugins
+language: cpp
+# The matrix specifies full os/dist settings, this root definition is only to avoid Travis informational output
+os: linux
+dist: bionic
+
+jobs:
+  include:
+    # --- Linux ---
+    - name: Linux build
+      os: linux
+      dist: bionic                  # Ubuntu 18.04
+      addons:
+        apt:
+          packages:
+          - freeglut3-dev           # OpenGL needed for the plugins to compile and link
+      script:
+      - mkdir build-lin && cd build-lin
+      - cmake -G "Unix Makefiles" ..
+      - make
+      before_deploy:                # Determine tag for deployment and make an archive of wht's interesting
+        - if [[ "$TRAVIS_TAG" = "" ]]; then export TRAVIS_TAG="travis_build"; fi
+        - zip XPMP2-lin.zip build-lin/libXPMP2.a build-lin/lin_x64/*
+      deploy:
+        provider: releases          # GitHub OAuth token provided in GITHUB_TOKEN environment variable in Travis' branch settings
+        edge: true                  # opting in to dpl v2
+        name: XPMP2 Lib and Plugins
+        tag_name: "$TRAVIS_TAG"
+        on:
+          all_branches: true
+        cleanup: false
+        draft: true
+        prerelease: true
+        overwrite: true
+        file: "XPMP2-lin.zip"
+#    # --- Windows ---
+#    - name: Windows build
+#      os: windows
+#      env:
+#        - MSBUILD_PATH="c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin"
+#      script:
+#        - export PATH=$MSBUILD_PATH:$PATH
+#        - ls "C:\Program Files (x86)\Windows Kits\10\Include"       # list available Windows SDKs versions for information
+#        - MSBuild.exe -p:Configuration=Release
+#      before_deploy:                # Determine tag for deployment and prepare zip archive for upload
+#        - if [[ "$TRAVIS_TAG" = "" ]]; then export TRAVIS_TAG="travis_build"; fi
+#        - cd build/x64/Release      # Seems like shell just continues, so we are in 'Example' already and move from there
+#        - 7z.exe a -tzip XPMP2-win.zip *.pdb *.xpl
+#          # ...and add the .lib!
+#      deploy:
+#        provider: releases          # GitHub OAuth token provided in GITHUB_TOKEN environment variable in Travis' branch settings
+#        edge: true                  # opting in to dpl v2
+#        name: XPMP2 Lib and Plugins
+#        tag_name: "$TRAVIS_TAG"
+#        on:
+#          all_branches: true
+#        cleanup: false
+#        draft: true
+#        prerelease: true
+#        overwrite: true
+#        file: "XPMP2-win.zip.zip"
+    # --- Mac OS ---
+    - name: MacOS build
+      os: osx
+      osx_image: xcode12.3
+      script:
+        # collate all output in "XPMP2-mac"
+        - xcodebuild -alltargets -configuration Release DSTROOT=XPMP2-mac BUILD_DIR=XPMP2-mac
+      before_deploy:                # Determine tag for deployment and compress all output into a .zip file
+        - if [[ "$TRAVIS_TAG" = "" ]]; then export TRAVIS_TAG="travis_build"; fi
+        - zip -9yrv XPMP2-mac.zip XPMP2-mac
+      deploy:
+        provider: releases          # GitHub OAuth token provided in GITHUB_TOKEN environment variable in Travis' branch settings
+        edge: true                  # opting in to dpl v2
+        name: XPMP2 Lib and Plugins
+        tag_name: "$TRAVIS_TAG"
+        on:
+          all_branches: true
+        cleanup: false
+        draft: true
+        prerelease: true
+        overwrite: true
+        file: "build-mac/mac_x64/LTAPIExample.xpl"

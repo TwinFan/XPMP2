@@ -119,6 +119,7 @@
 		256EE00E2540E39D0007D517 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		256EE00F2540E39D0007D517 /* Utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utilities.cpp; sourceTree = "<group>"; };
 		256F4687255C9A6A00FBE18A /* XPMP2.example.prf */ = {isa = PBXFileReference; lastKnownFileType = text; path = XPMP2.example.prf; sourceTree = "<group>"; };
+		2574459325A115FE005F5F50 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .travis.yml; sourceTree = "<group>"; };
 		2574E00424578419000E8156 /* index.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = index.md; sourceTree = "<group>"; };
 		2574E0052457842A000E8156 /* html */ = {isa = PBXFileReference; lastKnownFileType = folder; path = html; sourceTree = "<group>"; };
 		2575F44723ECB02400747524 /* Toolchain-ubuntu-osxcross-10.11.cmake */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Toolchain-ubuntu-osxcross-10.11.cmake"; sourceTree = "<group>"; };
@@ -183,6 +184,7 @@
 		2502C15F23BE3CFC00578919 = {
 			isa = PBXGroup;
 			children = (
+				2574459325A115FE005F5F50 /* .travis.yml */,
 				25D680C023BE9D3200C83CC5 /* .gitignore */,
 				25D680B123BE936B00C83CC5 /* Info.plist */,
 				252C01F623E6D63D007C231F /* CMakeLists.txt */,
@@ -777,6 +779,7 @@
 				CLANG_ENABLE_MODULES = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = NO;
 				DEPLOYMENT_LOCATION = YES;
 				DSTROOT = "$(XPLANE11_ROOT)/Resources/plugins/$(TARGET_NAME)";
@@ -821,6 +824,7 @@
 				CLANG_ENABLE_MODULES = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = NO;
 				DEPLOYMENT_LOCATION = YES;
 				DSTROOT = "$(XPLANE11_ROOT)/Resources/plugins/$(TARGET_NAME)";

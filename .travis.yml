@@ -41,6 +41,7 @@ jobs:
       script:
         - make
       before_deploy:                # Make an archive of what's interesting
+        - cd ${TRAVIS_BUILD_DIR}
         - zip XPMP2-lin.zip build-lin/libXPMP2.a build-lin/lin_x64/*
       env: XPMP2_FILE=XPMP2-lin.zip # file to be deployed, see "deploy:" section
 #    ######################################################################

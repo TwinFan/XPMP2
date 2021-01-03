@@ -451,7 +451,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"Searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}/XPMP2-Remote\" \\( -name \"*.cpp\" -or -name \"*.h\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
+			shellScript = "# Skip this in a Travis CI build\n[[ ! -z \"${TRAVIS_BUILD_DIR}\" ]] && exit 0\nTAGS=\"TODO:|FIXME:\"\necho \"Searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}/XPMP2-Remote\" \\( -name \"*.cpp\" -or -name \"*.h\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
+			showEnvVarsInLog = 0;
 		};
 		255C338A2544E1FF002C166F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -469,7 +470,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"Searching ${SRCROOT} for ${TAGS}\"\nfind {\"${SRCROOT}/inc\",\"${SRCROOT}/src\"} \\( -name \"*.cpp\" -or -name \"*.h\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
+			shellScript = "# Skip this in a Travis CI build\n[[ ! -z \"${TRAVIS_BUILD_DIR}\" ]] && exit 0\nTAGS=\"TODO:|FIXME:\"\necho \"Searching ${SRCROOT} for ${TAGS}\"\nfind {\"${SRCROOT}/inc\",\"${SRCROOT}/src\"} \\( -name \"*.cpp\" -or -name \"*.h\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"\n";
+			showEnvVarsInLog = 0;
 		};
 		259FFDFC25A132EC00B6D553 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -488,7 +490,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Copy to LiveTraffic build dir if that exists\nLT_LIB_DIR=\"${PROJECT_DIR}/../LiveTraffic/Lib/XPMP2\"\n[[ -d \"${LT_LIB_DIR}\" ]] && cp -af ${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME} ${LT_LIB_DIR}\n";
+			shellScript = "# Copy to LiveTraffic build dir if that exists\nLT_LIB_DIR=\"${PROJECT_DIR}/../LiveTraffic/Lib/XPMP2\"\n[[ -d \"${LT_LIB_DIR}\" ]] && rm -Rf ${LT_LIB_DIR}/${WRAPPER_NAME} && cp -af ${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME} ${LT_LIB_DIR}\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 

@@ -40,9 +40,9 @@ jobs:
         - cmake -G "Unix Makefiles" ..
       script:
         - make
-      before_deploy:                # Make an archive of what's interesting
+      after_success:                # Make an archive of what's interesting
         - cd ${TRAVIS_BUILD_DIR}
-        - zip XPMP2-lin.zip build-lin/libXPMP2.a build-lin/lin_x64/*
+        - zip -9 XPMP2-lin.zip build-lin/libXPMP2.a build-lin/lin_x64/*
       env: XPMP2_FILE=XPMP2-lin.zip # file to be deployed, see "deploy:" section
 #    ######################################################################
 #    - name: Windows build
@@ -53,7 +53,7 @@ jobs:
 #        - export PATH=$MSBUILD_PATH:$PATH
 #        - ls "C:\Program Files (x86)\Windows Kits\10\Include"       # list available Windows SDKs versions for information
 #        - MSBuild.exe -p:Configuration=Release
-#      before_deploy:                # Prepare zip archive for upload
+#      after_success:                # Prepare zip archive for upload
 #        - cd build/x64/Release      # Seems like shell just continues, so we are in 'Example' already and move from there
 #        - 7z.exe a -tzip XPMP2-win.zip *.pdb *.xpl
 #          # ...and add the .lib!
@@ -65,8 +65,9 @@ jobs:
       script:
         # collate all output in "XPMP2-mac", and don't sign the executables
         - xcodebuild -alltargets -configuration Release DSTROOT=XPMP2-mac BUILD_DIR=XPMP2-mac CODE_SIGN_IDENTITY=-
-      before_deploy:                # Compress all output into a .zip file
+      after_success:                # Compress all output into a .zip file
         - zip -9yrv XPMP2-mac.zip XPMP2-mac
+      env: XPMP2_FILE=XPMP2-mac.zip # file to be deployed, see "deploy:" section
 
 ##########################################################################
 # Deployment is always to GitHub Release into the same document
@@ -85,4 +86,4 @@ deploy:
   draft: true
   prerelease: true
   overwrite: true
-  file: "build-mac/mac_x64/LTAPIExample.xpl"
+  file: "$XPMP2_FILE"

@@ -490,7 +490,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Copy to LiveTraffic build dir if that exists\nLT_LIB_DIR=\"${PROJECT_DIR}/../LiveTraffic/Lib/XPMP2\"\n[[ -d \"${LT_LIB_DIR}\" ]] && rm -Rf ${LT_LIB_DIR}/${WRAPPER_NAME} && cp -af ${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME} ${LT_LIB_DIR}\n";
+			shellScript = "# Copy to LiveTraffic build dir if that exists (but don't fail)\nLT_LIB_DIR=\"${PROJECT_DIR}/../LiveTraffic/Lib/XPMP2\"\n[[ ! -d \"${LT_LIB_DIR}\" ]] && exit 0\nrm -Rf ${LT_LIB_DIR}/${WRAPPER_NAME}\ncp -af ${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME} ${LT_LIB_DIR}\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

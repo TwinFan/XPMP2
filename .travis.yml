@@ -49,19 +49,18 @@ jobs:
       os: windows
       env:
         - MSBUILD_PATH="c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin"
+        - XPMP2_FILE=XPMP2-win.zip # file to be deployed, see "deploy:" section
       script:
         - export PATH=$MSBUILD_PATH:$PATH
         - ls "C:\Program Files (x86)\Windows Kits\10\Include"       # list available Windows SDKs versions for information
         - echo %PATH%
-        - echo %VSINSTALLDIR%
-        - ls "c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build"
-        - tree.com //a "c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools"
-        - ls %VSINSTALLDIR%
+        - cmd.exe //C 'C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvarsall.bat' amd64 '&&' set
+        - echo "--------------------------------------"
+        - cmd.exe //c set
       after_success:                # Prepare zip archive for upload
         - cd build/x64/Release      # Seems like shell just continues, so we are in 'Example' already and move from there
         - 7z.exe a -tzip XPMP2-win.zip *.pdb *.xpl
           # ...and add the .lib!
-      env: XPMP2_FILE=XPMP2-win.zip # file to be deployed, see "deploy:" section
 #    ######################################################################
 #    - name: MacOS build
 #      os: osx

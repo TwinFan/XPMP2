@@ -11,63 +11,67 @@ dist: bionic
 jobs:
   include:
     ######################################################################
-    - name: Linux build
-      os: linux
-      dist: bionic                  # Ubuntu 18.04
-      addons:
-        apt:
-          packages:
-          - freeglut3-dev           # OpenGL needed for the plugins to compile and link
-      # the install step will take care of deploying a newer cmake version
-      # from https://riptutorial.com/cmake/example/4723/configure-travis-ci-with-newest-cmake
-      install:
-        # first we create a directory for the CMake binaries
-        - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
-        - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
-        # we use wget to fetch the cmake binaries
-        - travis_retry wget -q --no-check-certificate https://github.com/Kitware/CMake/releases/download/v3.19.2/cmake-3.19.2-Linux-x86_64.tar.gz
-        # extract the binaries; the output here is quite lengthy, so we swallow it to not clutter up the travis console
-        - tar -xvf cmake-3.19.2-Linux-x86_64.tar.gz > /dev/null
-        - mv cmake-3.19.2-Linux-x86_64 cmake-install
-        # add both the top-level directory and the bin directory from the archive
-        # to the system PATH. By adding it to the front of the path we hide the
-        # preinstalled CMake with our own.
-        - PATH=${DEPS_DIR}/cmake-install:${DEPS_DIR}/cmake-install/bin:$PATH
-        # don't forget to switch back to the main build directory once you are done
-        - cd ${TRAVIS_BUILD_DIR}
-      before_script:
-        - mkdir build-lin && cd build-lin
-        - cmake -G "Unix Makefiles" ..
-      script:
-        - make
-      after_success:                # Make an archive of what's interesting
-        - cd ${TRAVIS_BUILD_DIR}
-        - zip -9 XPMP2-lin.zip build-lin/libXPMP2.a build-lin/lin_x64/*
-      env: XPMP2_FILE=XPMP2-lin.zip # file to be deployed, see "deploy:" section
-#    ######################################################################
-#    - name: Windows build
-#      os: windows
-#      env:
-#        - MSBUILD_PATH="c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin"
+#    - name: Linux build
+#      os: linux
+#      dist: bionic                  # Ubuntu 18.04
+#      addons:
+#        apt:
+#          packages:
+#          - freeglut3-dev           # OpenGL needed for the plugins to compile and link
+#      # the install step will take care of deploying a newer cmake version
+#      # from https://riptutorial.com/cmake/example/4723/configure-travis-ci-with-newest-cmake
+#      install:
+#        # first we create a directory for the CMake binaries
+#        - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
+#        - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
+#        # we use wget to fetch the cmake binaries
+#        - travis_retry wget -q --no-check-certificate https://github.com/Kitware/CMake/releases/download/v3.19.2/cmake-3.19.2-Linux-x86_64.tar.gz
+#        # extract the binaries; the output here is quite lengthy, so we swallow it to not clutter up the travis console
+#        - tar -xvf cmake-3.19.2-Linux-x86_64.tar.gz > /dev/null
+#        - mv cmake-3.19.2-Linux-x86_64 cmake-install
+#        # add both the top-level directory and the bin directory from the archive
+#        # to the system PATH. By adding it to the front of the path we hide the
+#        # preinstalled CMake with our own.
+#        - PATH=${DEPS_DIR}/cmake-install:${DEPS_DIR}/cmake-install/bin:$PATH
+#        # don't forget to switch back to the main build directory once you are done
+#        - cd ${TRAVIS_BUILD_DIR}
+#      before_script:
+#        - mkdir build-lin && cd build-lin
+#        - cmake -G "Unix Makefiles" ..
 #      script:
-#        - export PATH=$MSBUILD_PATH:$PATH
-#        - ls "C:\Program Files (x86)\Windows Kits\10\Include"       # list available Windows SDKs versions for information
-#        - MSBuild.exe -p:Configuration=Release
-#      after_success:                # Prepare zip archive for upload
-#        - cd build/x64/Release      # Seems like shell just continues, so we are in 'Example' already and move from there
-#        - 7z.exe a -tzip XPMP2-win.zip *.pdb *.xpl
-#          # ...and add the .lib!
-#      env: XPMP2_FILE=XPMP2-win.zip # file to be deployed, see "deploy:" section
+#        - make
+#      after_success:                # Make an archive of what's interesting
+#        - cd ${TRAVIS_BUILD_DIR}
+#        - zip -9 XPMP2-lin.zip build-lin/libXPMP2.a build-lin/lin_x64/*
+#      env: XPMP2_FILE=XPMP2-lin.zip # file to be deployed, see "deploy:" section
     ######################################################################
-    - name: MacOS build
-      os: osx
-      osx_image: xcode12.3
+    - name: Windows build
+      os: windows
+      env:
+        - MSBUILD_PATH="c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin"
       script:
-        # collate all output in "XPMP2-mac", and don't sign the executables
-        - xcodebuild -alltargets -configuration Release DSTROOT=XPMP2-mac BUILD_DIR=XPMP2-mac CODE_SIGN_IDENTITY=-
-      after_success:                # Compress all output into a .zip file
-        - zip -9yrv XPMP2-mac.zip XPMP2-mac
-      env: XPMP2_FILE=XPMP2-mac.zip # file to be deployed, see "deploy:" section
+        - export PATH=$MSBUILD_PATH:$PATH
+        - ls "C:\Program Files (x86)\Windows Kits\10\Include"       # list available Windows SDKs versions for information
+        - echo %PATH%
+        - echo %VSINSTALLDIR%
+        - ls "c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build"
+        - tree.com //a "c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools"
+        - ls %VSINSTALLDIR%
+      after_success:                # Prepare zip archive for upload
+        - cd build/x64/Release      # Seems like shell just continues, so we are in 'Example' already and move from there
+        - 7z.exe a -tzip XPMP2-win.zip *.pdb *.xpl
+          # ...and add the .lib!
+      env: XPMP2_FILE=XPMP2-win.zip # file to be deployed, see "deploy:" section
+#    ######################################################################
+#    - name: MacOS build
+#      os: osx
+#      osx_image: xcode12.3
+#      script:
+#        # collate all output in "XPMP2-mac", and don't sign the executables
+#        - xcodebuild -alltargets -configuration Release DSTROOT=XPMP2-mac BUILD_DIR=XPMP2-mac CODE_SIGN_IDENTITY=-
+#      after_success:                # Compress all output into a .zip file
+#        - zip -9yrv XPMP2-mac.zip XPMP2-mac
+#      env: XPMP2_FILE=XPMP2-mac.zip # file to be deployed, see "deploy:" section
 
 ##########################################################################
 # Deployment is always to GitHub Release into the same document

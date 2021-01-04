@@ -75,3 +75,23 @@ Results are written to `build-lin` and `build-mac`.
 
 The resulting library/framework are also copied into `XPMP2-Sample/lib`.
 Then, also the sample plugin must be build using the docker environment.
+
+Building with Travis CI
+==
+
+[![Build Status](https://travis-ci.com/TwinFan/XPMP2.svg?branch=master)](https://travis-ci.com/TwinFan/XPMP2)
+
+A [Travis CI](https://travis-ci.com/) configuration file `.travis.yml` is included,
+which allows to build the library and both plugins for all three platforms
+natively on Travis servers.
+If you are interested in using Travis CI please see
+[their tutorial](https://docs.travis-ci.com/user/tutorial/).
+
+If using the provided `.travis.yml` configuration, then the resulting
+binaries are "deployed" to GitHub Releases of the same repository
+as a non-public draft release. For this deployment to work you need to
+
+- create a [GitHub Personal access token](https://github.com/settings/tokens),
+- define the environment variable `GITHUB_TOKEN` in the
+  [Travis repository settings](https://docs.travis-ci.com/user/environment-variables/#defining-variables-in-repository-settings), and
+- assign it the GitHub personal access token as its value.

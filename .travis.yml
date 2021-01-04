@@ -51,7 +51,7 @@ jobs:
         - XPMP2_FILE=XPMP2-win.zip # file to be deployed, see "deploy:" section
       script:
         - ls "C:\Program Files (x86)\Windows Kits\10\Include"       # list available Windows SDKs versions for information
-        - CMD.EXE //C 'travis_build.cmd' 'C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools' 'build-win''
+        - CMD.EXE //C 'travis_build.cmd' 'C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools' 'build-win'
       after_success:                # Prepare zip archive for upload
         - 7z.exe a -bb1 -tzip ${XPMP2_FILE} build-win/XPMP2.lib build-win/win_x64/*.pdb build-win/win_x64/*.xpl
 #    ######################################################################

@@ -54,9 +54,7 @@ jobs:
         - export PATH=$MSBUILD_PATH:$PATH
         - ls "C:\Program Files (x86)\Windows Kits\10\Include"       # list available Windows SDKs versions for information
         - echo %PATH%
-        - cmd.exe //C 'C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvarsall.bat' amd64 '&&' set
-        - echo "--------------------------------------"
-        - cmd.exe //c set
+        - cmd.exe //C 'C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Auxiliary\Build\vcvarsall.bat' amd64 '&&' cmake -G "NMake Makefiles" '&&' nmake all
       after_success:                # Prepare zip archive for upload
         - cd build/x64/Release      # Seems like shell just continues, so we are in 'Example' already and move from there
         - 7z.exe a -tzip XPMP2-win.zip *.pdb *.xpl

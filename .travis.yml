@@ -84,8 +84,6 @@ deploy:
     edge: true                  # opting in to dpl v2
     release_notes: Latest automatic pre-release build from the $TRAVIS_BRANCH branch, based on commit ${TRAVIS_COMMIT} "${TRAVIS_COMMIT_MESSAGE}"
     tag_name: "$TRAVIS_TAG"
-    on:
-      condition: $TRAVIS_BRANCH = master
     cleanup: false
     draft: false                # published immediately
     prerelease: true
@@ -98,6 +96,7 @@ deploy:
     release_notes: Latest automatic pre-release build from the $TRAVIS_BRANCH branch, based on commit ${TRAVIS_COMMIT} "${TRAVIS_COMMIT_MESSAGE}"
     tag_name: "$TRAVIS_TAG"
     on:
+      all_branches: true        # otherwise non-master branches wouldn't be considered at all
       condition: $TRAVIS_BRANCH != master
     cleanup: false
     draft: true                 # not automatically published

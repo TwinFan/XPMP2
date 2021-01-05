@@ -3,6 +3,8 @@ language: cpp
 # The matrix specifies full os/dist settings, this root definition is only to avoid Travis informational output
 os: linux
 dist: bionic
+# Skip entire build if it is triggered by one of the tags we create through this script to avoid double-execution
+if: branch !~ /^travis_/
 
 ##########################################################################
 # Job Matrix
@@ -70,20 +72,34 @@ jobs:
         - zip -9yrv ${XPMP2_FILE} XPMP2-mac
 
 ##########################################################################
-# Deployment is always to GitHub Release into the same document
-# identified by the tag_name
+# Deployment is always to GitHub Release into one document per branch,
+# identified by tag_name = $TRAVIS_TAG
 ##########################################################################
 before_deploy:                # Determine tag for deployment
-  - if [[ "$TRAVIS_TAG" = "" ]]; then export TRAVIS_TAG="travis_build"; fi
+  - if [[ "${TRAVIS_TAG}" = "" ]]; then export TRAVIS_TAG="travis_${TRAVIS_BRANCH}"; fi
 deploy:
-  provider: releases          # GitHub OAuth token provided in GITHUB_TOKEN environment variable in Travis' branch settings
-  edge: true                  # opting in to dpl v2
-  name: XPMP2 Lib and Plugins
-  tag_name: "$TRAVIS_TAG"
-  on:
-    all_branches: true
-  cleanup: false
-  draft: true
-  prerelease: true
-  overwrite: true
-  file: "$XPMP2_FILE"
+  # master ###############################################################
+  - name: XPMP2 Lib and Plugins
+    provider: releases          # GitHub OAuth token provided in GITHUB_TOKEN environment variable in Travis' branch settings
+    edge: true                  # opting in to dpl v2
+    release_notes: Latest automatic pre-release build from the _${TRAVIS_BRANCH}_ branch, based on commit ${TRAVIS_COMMIT} "${TRAVIS_COMMIT_MESSAGE}"
+    tag_name: ${TRAVIS_TAG}
+    cleanup: false
+    draft: false                # published immediately
+    prerelease: true
+    overwrite: true
+    file: "$XPMP2_FILE"
+  # other branches #######################################################
+  - name: XPMP2 Lib and Plugins - ${TRAVIS_BRANCH}
+    provider: releases          # GitHub OAuth token provided in GITHUB_TOKEN environment variable in Travis' branch settings
+    edge: true                  # opting in to dpl v2
+    release_notes: Latest automatic pre-release build from the _${TRAVIS_BRANCH}_ branch, based on commit ${TRAVIS_COMMIT} "${TRAVIS_COMMIT_MESSAGE}"
+    tag_name: ${TRAVIS_TAG}
+    on:
+      all_branches: true        # otherwise non-master branches wouldn't be considered at all
+      condition: ${TRAVIS_BRANCH} != master
+    cleanup: false
+    draft: true                 # not automatically published
+    prerelease: true
+    overwrite: true
+    file: "$XPMP2_FILE"

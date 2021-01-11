@@ -615,8 +615,9 @@ void Aircraft::DestroyInstances ()
 
     if (!listInst.empty()) {
         while (!listInst.empty()) {
-            XPLMDestroyInstance(listInst.back());
+            XPLMInstanceRef tem = listInst.back();
             listInst.pop_back();
+            XPLMDestroyInstance(tem);
         }
         LOG_MSG(logDEBUG, DEBUG_INSTANCE_DESTRYD, modeS_id);
     }

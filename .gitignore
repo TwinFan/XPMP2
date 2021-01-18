@@ -1,6 +1,6 @@
 .DS_Store
 .localized
-.image
+.image*
 .vs/
 .vscode/
 

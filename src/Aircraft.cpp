@@ -971,7 +971,7 @@ void AcCleanup ()
     // We don't own the aircraft! So whatever is left now was not properly
     // destroyed prior to shutdown
     if (!glob.mapAc.empty()) {
-        LOG_MSG(logWARN, WARN_PLANES_LEFT_EXIT, glob.mapAc.size());
+        LOG_MSG(logWARN, WARN_PLANES_LEFT_EXIT, (unsigned long)glob.mapAc.size());
         glob.mapAc.clear();
     }
     
@@ -1029,7 +1029,7 @@ size_t XPMPAddModelDataRef (const std::string& dataRef)
     
     // Cannot add a new one while planes are active
     if (!glob.mapAc.empty()) {
-        LOG_MSG(logERR, ERR_ADD_DATAREF_PLANES, dataRef.c_str(), glob.mapAc.size());
+        LOG_MSG(logERR, ERR_ADD_DATAREF_PLANES, dataRef.c_str(), (unsigned long)glob.mapAc.size());
         return 0;
     }
     
@@ -1067,6 +1067,6 @@ size_t XPMPAddModelDataRef (const std::string& dataRef)
 
     // the index of the new dataRef
     const size_t idx = DR_NAMES.size() - 2;
-    LOG_MSG(logDEBUG, DEBUG_DATAREF_ADDED, drName, idx);
+    LOG_MSG(logDEBUG, DEBUG_DATAREF_ADDED, drName, (unsigned long)idx);
     return idx;
 }

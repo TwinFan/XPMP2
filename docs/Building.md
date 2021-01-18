@@ -1,7 +1,9 @@
-Building XPMP2 and the Sample Plugin
-==
+# Building XPMP2 and the Sample Plugin
+
+## Two Projects: XPMP2 Full Build and Sample Plugin only
 
 There are two separate projects provided in the XPMP2 repository:
+
 - One based in the XPMP2 root folder. This project builds all 3 targets:
   - The XPMP2 static library, which is also copied into
     `XPMP2-Sample/lib` so that is thereafter accessible by the stand-alone
@@ -12,30 +14,21 @@ There are two separate projects provided in the XPMP2 repository:
 - a stand-alone project only for the XPMP2-Sample plugin. This is provided
   separately so it can serve as basis for your own plugin implementations.
 
-Using the projects works similarly. For the main XPMP2 projects start
-in the XPMP2 root folder. For the XPMP2-Sample stand-alone project
-start in the `XPMP2-Sample` folder.
+Using either project works similarly when it comes to building.
+For the main XPMP2 projects start in the XPMP2 root folder.
+For the XPMP2-Sample stand-alone project start in the `XPMP2-Sample` folder.
 
-Then, building differs per platform:
+Then, there are up to three options to build from sources:
 
-Mac OS
----
+Options       | Windows            | MacOS            | Linux
+--------------|--------------------|------------------|---------------------
+**IDE**       | Visual Studio 2019 | XCode 12         | -
+**Docker**    | Mingw64            | clang, SDK 11.1  | Focal and Bionic
+**Travis CI** | Visual Studio 2017 | XCode 12         | Bionic
 
-My development environment is Mac OS, so expect the XCode environment to be
-maintained best. Open `XPMP2.xcodeproj` resp.
-`XPMP2-Sample/XPMP2-Sample.xcodeproj` in XCode.
+## Using an IDE
 
-In the XCode Build Settings you may want to change the definition
-of the User-Defined build macro `XPLANE11_ROOT`: Put in the path to your
-X-Plane 11 installation's root path, then the XPMP2 binaries will be
-installed right there in the appropriate `Resources/plugins` sub-folder
-structure.
-
-Windows
----
-
-Windows cannot build in the Docker environment as mingw's libraries
-aren't up to C++ 17 standards.
+### Windows
 
 - Install [Visual Studio](https://visualstudio.microsoft.com/vs/community/)
 - Open the root folder to build the XPMP2 library targets,
@@ -49,35 +42,47 @@ Results are in `build/x64`.
 The `XPMP2.lib` library is also copied into `XPMP2-Sample/lib` to be available in a subsequent build
 of the sample plugin.
 
-Linux and Mac OS via Docker
----
+### MacOS
 
-A docker environment based on Ubuntu 18.04 is provided,
-which can build both Linux and Mac OS.
+My development environment is Mac OS, so expect the XCode environment to be
+maintained best. Open `XPMP2.xcodeproj` resp.
+`XPMP2-Sample/XPMP2-Sample.xcodeproj` in XCode.
+
+In the XCode Build Settings you may want to change the definition
+of the User-Defined build macro `XPLANE11_ROOT`: Put in the path to your
+X-Plane 11 installation's root path, then the XPMP2 binaries will be
+installed right there in the appropriate `Resources/plugins` sub-folder
+structure.
+
+## Using Docker
+
+A docker environment based on Ubuntu 20.04 and 18.04 is provided,
+which can build all 3 platforms, Linux even in two flavors.
 
 - Install [Docker Desktop](https://www.docker.com/products/docker-desktop) and start it.
-- `cd` to the project's `docker` folder, and enter `make` for the three
-  XPMP2 library targets, or
-- `cd` to `XPMP2-Sample/docker`, and enter `make` for the sample plugin only.
-- Three `make` targets are available:
-  - `lin` builds Linux only,
-  - `mac` builds Mac OS only,
-  - `bash` starts a Linux bash within the docker environment.
+- `cd` to the project's `docker` folder, and enter `make` for all
+  XPMP2 library targets on all platforms, or
+- `cd` to `XPMP2-Sample/docker`, and enter `make` for the sample plugin only
+  on all platforms.
 
-In the first run only, it will create the necessary Docker image based on Ubuntu 18.04,
-which includes downloading lots of base images and packages and even
-some compile activities for the Mac OS build toolchain. This takes a couple
-of minutes but is required once only. If that part fails your best guess
-is to just try again once or twice.
+6 individual `make` targets are available:
 
-The actual library and sample builds take only a few seconds.
-Results are written to `build-lin` and `build-mac`.
+- `lin` builds Linux on Ubuntu 20.04
+- `lin-bionic` builds Linux on Ubuntu 18.04
+- `mac` builds MacOS using `clang` as cross compiler
+- `win` builds Windows using a Mingw64 cross compiler setup
+- `bash_focal` starts a bash prompt in the Ubuntu 20.04 docker container
+- `bash_bionic` starts a bash prompt in the Ubuntu 18.04 docker container
 
-The resulting library/framework are also copied into `XPMP2-Sample/lib`.
-Then, also the sample plugin must be build using the docker environment.
+Find results in the respective `build-<platform>` folder, the `XPMP2` library right there,
+the Sample and Remote plugins in their proper `<platform>_x64` subfolder.
 
-Building with Travis CI
-==
+The resulting library/framework are also copied into `XPMP2-Sample/lib/<platform>` so it is accessible if building the Sample plugin from the Sample project only.
+
+For more details and background information on the provided Docker environments
+see the `docker/README.md`.
+
+## Building with Travis CI
 
 [![Build Status](https://travis-ci.com/TwinFan/XPMP2.svg?branch=master)](https://travis-ci.com/TwinFan/XPMP2)
 

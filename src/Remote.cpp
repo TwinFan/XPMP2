@@ -311,6 +311,11 @@ struct RemoteMsgAcDetailTy_v0 : public RemoteMsgBaseTy {
 static_assert(sizeof(RemoteAcDetailTy_v0)   ==  94+42,  "RemoteAcDetailTy_v0 doesn't have expected size");
 static_assert(sizeof(RemoteMsgAcDetailTy_v0)== 102+42,  "RemoteMsgAcDetailTy_v0 doesn't have expected size");
 
+#if defined(__GNUC__) && (__GNUC__ >= 9)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wclass-memaccess"
+#endif
+
 // Convert v0 to v1 message, must be freed after use!
 /// @details Mallocates a memory chunk large enough for the v1 message
 ///          (which could be larger than a real-life v1 message!)
@@ -345,6 +350,10 @@ RemoteMsgAcDetailTy* RemoteMsgAcDetailTy_v0::convert(size_t _msgLenV0,
     
     return pMsg;
 }
+
+#if defined(__GNUC__) && (__GNUC__ >= 9)
+#pragma GCC diagnostic pop
+#endif
 
 // --- RemoteAcPosUpdateTy ---
 
@@ -862,7 +871,7 @@ void RmtRecvMain()
                                     gRmtCBFcts.pfMsgSettings(from.addr, sFrom, s);
                             } else {
                                 LOG_MSG(logWARN, "Cannot process Settings message: %lu bytes, version %u, from %s",
-                                        recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
+                                        (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
                             }
                             break;
                             
@@ -888,7 +897,7 @@ void RmtRecvMain()
                             } else {
                                 if (CheckEverySoOften(lastVerErrMsg, 600.0f))
                                     LOG_MSG(logWARN, "Cannot process A/C Details message: %lu bytes, version %u, from %s",
-                                            recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
+                                            (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
                             }
                             break;
 
@@ -903,7 +912,7 @@ void RmtRecvMain()
                             } else {
                                 if (CheckEverySoOften(lastVerErrMsg, 600.0f))
                                     LOG_MSG(logWARN, "Cannot process A/C Pos Update message: %lu bytes, version %u, from %s",
-                                            recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
+                                            (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
                             }
                             break;
 
@@ -918,7 +927,7 @@ void RmtRecvMain()
                             } else {
                                 if (CheckEverySoOften(lastVerErrMsg, 600.0f))
                                     LOG_MSG(logWARN, "Cannot process A/C Animations message: %lu bytes, version %u, from %s",
-                                            recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
+                                            (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
                             }
                             break;
 
@@ -933,7 +942,7 @@ void RmtRecvMain()
                             } else {
                                 if (CheckEverySoOften(lastVerErrMsg, 600.0f))
                                     LOG_MSG(logWARN, "Cannot process A/C Remove message: %lu bytes, version %u, from %s",
-                                            recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
+                                            (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
                             }
                             break;
 
@@ -944,7 +953,7 @@ void RmtRecvMain()
                     }
                     
                 } else {
-                    LOG_MSG(logWARN, "Received too small message with just %lu bytes", recvSize);
+                    LOG_MSG(logWARN, "Received too small message with just %lu bytes", (unsigned long)recvSize);
                 }
             }
         }

@@ -845,7 +845,7 @@ const std::vector<InetAddrTy>& NetwGetLocalAddresses ()
             case NO_ERROR:                      // success
                 break;
             default:
-                LOG_MSG(logERR, "GetAdaptersAddresses failed with error: %d", ret);
+                LOG_MSG(logERR, "GetAdaptersAddresses failed with error: %ld", ret);
                 return gaddrLocal;
             }
         } while (ret == ERROR_BUFFER_OVERFLOW);

@@ -1,16 +1,27 @@
-platforms=lin mac
-container=xplane-lin-mac-compile-env
+platforms=win mac lin lin-bionic
+container_focal=focal-win-mac-lin-compile-env
+container_bionic=bionic-lin-compile-env
 
 all: $(platforms)
 
-.image: Dockerfile build.sh
-	docker build . -t $(container)
-	docker inspect -f "{{ .ID}}" $(container):latest > .image
+.image_bionic: Dockerfile_Bionic build.sh
+	docker build . -t $(container_bionic) -f Dockerfile_Bionic
+	docker inspect -f "{{ .ID}}" $(container_bionic):latest > .image_bionic
 
-bash: .image
-	docker run -it --rm -v "$(realpath ..):/Src" --entrypoint bash $(container):latest
+.image_focal: Dockerfile_Focal build.sh
+	docker build . -t $(container_focal) -f Dockerfile_Focal
+	docker inspect -f "{{ .ID}}" $(container_focal):latest > .image_focal
 
-$(platforms): .image
-	docker run -i --rm -v "$(realpath ..):/Src" $(container):latest $@
+bash_bionic: .image_bionic
+	docker run -it --rm -v "$(realpath ..):/build" --entrypoint bash $(container_bionic):latest
 
-.PHONY: $(platforms) bash
+bash_focal: .image_focal
+	docker run -it --rm -v "$(realpath ..):/build" --entrypoint bash $(container_focal):latest
+
+lin-bionic: .image_bionic
+	docker run -i --rm -v "$(realpath ..):/build" $(container_bionic):latest $@
+
+lin win mac: .image_focal
+	docker run -i --rm -v "$(realpath ..):/build" $(container_focal):latest $@
+
+.PHONY: $(platforms) bash_bionic bash_focal

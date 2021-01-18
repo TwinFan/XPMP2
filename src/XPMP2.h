@@ -21,24 +21,20 @@
 #ifndef _XPMP2_h_
 #define _XPMP2_h_
 
+#ifdef __MINGW32__                  // When cross-compiling with MingW we need to use other thread-related headers
+// In MINGW winsock2 must be included before windows.h, which is included by the mingw.*.h headers
+#include <winsock2.h>
+#include <ws2ipdef.h>           // required for sockaddr_in6 (?)
+#include <iphlpapi.h>           // for GetAdaptersAddresses
+#include <ws2tcpip.h>
+#endif
+
 // XPlaneMP 2 - Public Header Files
 #include "XPMPMultiplayer.h"
 #include "XPMPAircraft.h"
 #include "XPCAircraft.h"
 #include "XPMPPlaneRenderer.h"
 #include "XPMPRemote.h"
-
-// X-Plane SDK
-#include "XPLMUtilities.h"
-#include "XPLMScenery.h"
-#include "XPLMProcessing.h"
-#include "XPLMGraphics.h"
-#include "XPLMDataAccess.h"
-#include "XPLMPlugin.h"
-#include "XPLMDisplay.h"
-#include "XPLMCamera.h"
-#include "XPLMPlanes.h"
-#include "XPLMMap.h"
 
 // Standard C
 #include <sys/stat.h>
@@ -59,7 +55,23 @@
 #include <fstream>
 #include <regex>
 #include <bitset>
+#ifdef __MINGW32__                  // When cross-compiling with MingW we need to use other thread-related headers
+#include "mingw-std-threads/mingw.future.h"
+#else
 #include <future>
+#endif
+
+// X-Plane SDK
+#include "XPLMUtilities.h"
+#include "XPLMScenery.h"
+#include "XPLMProcessing.h"
+#include "XPLMGraphics.h"
+#include "XPLMDataAccess.h"
+#include "XPLMPlugin.h"
+#include "XPLMDisplay.h"
+#include "XPLMCamera.h"
+#include "XPLMPlanes.h"
+#include "XPLMMap.h"
 
 // XPlaneMP 2 - Internal Header Files
 #include "Utilities.h"

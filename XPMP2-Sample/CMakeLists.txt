@@ -14,6 +14,9 @@ project(XPMP2-Sample
 # Windows: Target Windows 7.0 and later
 if (WIN32)
     add_compile_definitions(_WIN32_WINNT=0x0601)
+    if (NOT DEFINED ENV{platform})
+        set(ENV{platform} "win")
+    endif()
 elseif(APPLE)
     add_compile_options(-mmacosx-version-min=10.11)
     add_link_options(-mmacosx-version-min=10.11)

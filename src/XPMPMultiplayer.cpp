@@ -263,13 +263,13 @@ void XPMPGetModelInfo(int inIndex, const char **outModelName, const char **outIc
     // get the inIndex-th model
     mapCSLModelTy::const_iterator iterMdl = glob.mapCSLModels.cbegin();
     std::advance(iterMdl, inIndex);
-#if IBM
+#if _MSC_VER
 #pragma warning(push)
     // I don't know why, but in this function, and only in this, MS warns about throwing an exception
 #pragma warning(disable: 4297)
 #endif
     LOG_ASSERT(iterMdl != glob.mapCSLModels.cend());
-#if IBM
+#if _MSC_VER
 #pragma warning(pop)
 #endif
 
@@ -295,13 +295,13 @@ void XPMPGetModelInfo2(int inIndex, std::string& outModelName,  std::string& out
     // get the inIndex-th model
     mapCSLModelTy::const_iterator iterMdl = glob.mapCSLModels.cbegin();
     std::advance(iterMdl, inIndex);
-#if IBM
+#if _MSC_VER
 #pragma warning(push)
     // I don't know why, but in this function, and only in this, MS warns about throwing an exception
 #pragma warning(disable: 4297)
 #endif
     LOG_ASSERT(iterMdl != glob.mapCSLModels.cend());
-#if IBM
+#if _MSC_VER
 #pragma warning(pop)
 #endif
 

@@ -46,7 +46,7 @@ if (MSVC)
     add_compile_options(/wd4996 /wd4068)
     add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
 else()
-    add_compile_options(-Wall -Wshadow -Wno-float-equal -Wextra -Wno-deprecated-declarations -Wno-unknown-pragmas)
+    add_compile_options(-Wall -Wshadow -Wfloat-equal -Wextra -Wno-deprecated-declarations)
     if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 9.0 AND NOT APPLE)
         add_compile_options(-Wno-stringop-truncation)
     endif()
@@ -54,7 +54,7 @@ else()
     # Force-enable exception support. This is most likely redundant, although for C
     # code the default is the opposite. Since we are mixing C++ and C libraries,
     # safer to set it on?
-    add_compile_options(-fexceptions -fpermissive)
+    add_compile_options(-fexceptions)
 
     # Makes symbols non-exported by default.
     add_compile_options(-fvisibility=hidden)

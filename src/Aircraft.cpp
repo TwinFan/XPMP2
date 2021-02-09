@@ -55,7 +55,7 @@ XPLMFlightLoopID gFlightLoopID = nullptr;
 
 /// @brief The list of dataRefs we support to be read by the CSL Model (for gear, flaps, lights etc.)
 /// @details Can be extended by the user
-std::vector<const char*> DR_NAMES = {
+static std::vector<const char*> DR_NAMES = {
     "libxplanemp/controls/gear_ratio",
     "libxplanemp/controls/nws_ratio",
     "libxplanemp/controls/flap_ratio",

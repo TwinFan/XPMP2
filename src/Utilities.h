@@ -183,6 +183,10 @@ numT headNormalize (numT _head)
 /// Get synched network time from X-Plane (sim/network/misc/network_time_sec) as used in Log.txt
 float GetMiscNetwTime ();
 
+/// @brief Return the network time as a string like used in the XP's Log.txt
+/// @param _time If given convert that time, otherwise convert XPMP2::GetMiscNetwTime()
+std::string GetMiscNetwTimeStr (float _time = NAN);
+
 /// Text string for current graphics driver in use
 const char* GetGraphicsDriverTxt ();
 

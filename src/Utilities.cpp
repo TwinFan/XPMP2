@@ -621,6 +621,23 @@ float GetMiscNetwTime()
     return XPLMGetDataf(drMiscNetwTime);
 }
 
+// Return the network time as a string like used in the XP's Log.txt
+std::string GetMiscNetwTimeStr (float _time)
+{
+    char aszTimeStr[20];
+    if (std::isnan(_time))
+        _time = GetMiscNetwTime();
+    
+    const unsigned runH = unsigned(_time / 3600.0f);
+    _time -= runH * 3600.0f;
+    const unsigned runM = unsigned(_time / 60.0f);
+    _time -= runM * 60.0f;
+    
+    snprintf(aszTimeStr, sizeof(aszTimeStr), "%u:%02u:%06.3f",
+             runH, runM, _time);
+    return aszTimeStr;
+}
+
 // Text string for current graphics driver in use
 const char* GetGraphicsDriverTxt ()
 {
@@ -684,25 +701,20 @@ const char* LogGetString (const char* szPath, int ln, const char* szFunc,
                           logLevelTy lvl, const char* szMsg, va_list args )
 {
      static char aszMsg[2048];
-     float runS = GetMiscNetwTime();
-     const unsigned runH = unsigned(runS / 3600.0f);
-     runS -= runH * 3600.0f;
-     const unsigned runM = unsigned(runS / 60.0f);
-     runS -= runM * 60.0f;
 
     // prepare timestamp
     if ( lvl < logMSG )                             // normal messages without, all other with location info
     {
         const char* szFile = strrchr(szPath, PATH_DELIM_STD);  // extract file from path
         if ( !szFile ) szFile = szPath; else szFile++;
-        snprintf(aszMsg, sizeof(aszMsg), "%u:%02u:%06.3f %s/XPMP2 %s %s:%d/%s: ",
-                 runH, runM, runS,                  // Running time stamp
+        snprintf(aszMsg, sizeof(aszMsg), "%s %s/XPMP2 %s %s:%d/%s: ",
+                 GetMiscNetwTimeStr().c_str(),      // Running time stamp
                  glob.logAcronym.c_str(), LOG_LEVEL[lvl],
                  szFile, ln, szFunc);
     }
     else
-        snprintf(aszMsg, sizeof(aszMsg), "%u:%02u:%06.3f %s/XPMP2: ",
-                 runH, runM, runS,                  // Running time stamp
+        snprintf(aszMsg, sizeof(aszMsg), "%s %s/XPMP2: ",
+                 GetMiscNetwTimeStr().c_str(),          // Running time stamp
                  glob.logAcronym.c_str());
     
     // append given message

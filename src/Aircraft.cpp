@@ -118,6 +118,68 @@ std::vector<XPLMDataRef> ahDataRefs;
 /// Standard name for "no model"
 static std::string noMdlName("<none>");
 
+//
+// MARK: Issue 23 Analysis Helpers
+//
+
+/// Static float array to be passed to X-Plane's XPLMInstanceSetPosition
+/// We allow for 50 additional calls to XPMP2::XPMPAddModelDataRef()
+constexpr size_t gafDR_Size = V_COUNT+50;
+static float gafDR[gafDR_Size];
+
+/// Keeping track of the instances we created
+struct InstanceRecordTy {
+    XPLMInstanceRef hRef = NULL;        ///< X-Plane's instance handle
+    float           timeCreate = NAN;   ///< Creation time in X-Plane's network time
+    XPMPPlaneID     modeS_id = 0;       ///< ID of the aircraft
+};
+
+/// map of all instance records, keyed by instance handle (so that one's there twice...)
+typedef std::map<XPLMInstanceRef,InstanceRecordTy> InstanceRecordMapTy;
+
+/// map of all instance records
+InstanceRecordMapTy mapInstances;
+
+/// @brief verify if a record is (not) there
+/// @return If the check passed
+bool InstRecExists (XPLMInstanceRef _hRef, XPMPPlaneID _id, bool bExpectExists)
+{
+    const InstanceRecordMapTy::const_iterator iter = mapInstances.find(_hRef);
+    const bool bExists = (iter != mapInstances.end());
+    if (bExpectExists && !bExists) {
+        LOG_MSG(logERR, "Instance %p for 0x%06X does unexpectedly not exist",
+                _hRef, _id);
+        return false;
+    }
+    else if (!bExpectExists && bExists) {
+        LOG_MSG(logERR, "Instance %p for 0x%06X unexpectedly exists already: id = 0x%06X time = %s",
+                _hRef, _id,
+                iter->second.modeS_id, GetMiscNetwTimeStr(iter->second.timeCreate).c_str());
+        return false;
+    }
+    else if (bExists && iter->second.modeS_id != _id) {
+        LOG_MSG(logERR, "Instance %p exists but id differs, expected: 0x%06X, actual: id = 0x%06X time = %s",
+                _hRef, _id,
+                iter->second.modeS_id, GetMiscNetwTimeStr(iter->second.timeCreate).c_str());
+        return false;
+    }
+    return true;
+}
+
+/// add a record
+void InstRecAdd (XPLMInstanceRef _hRef, XPMPPlaneID _id)
+{
+    LOG_ASSERT(InstRecExists(_hRef, _id, false));
+    mapInstances.emplace(_hRef, InstanceRecordTy{_hRef, GetMiscNetwTime(), _id});
+}
+
+/// remove a record
+void InstRecRemove (XPLMInstanceRef _hRef, XPMPPlaneID _id)
+{
+    LOG_ASSERT(InstRecExists(_hRef, _id, true));
+    mapInstances.erase(_hRef);
+}
+
 
 //
 // MARK: XPMP2 New Definitions
@@ -485,7 +547,6 @@ void Aircraft::DoMove ()
         if (!listInst.empty()) {
             // Move the instances (this is probably the single most important line of code ;-) )
             for (XPLMInstanceRef hInst : listInst) {
-                const float* data = v.data();
 #if defined(DEBUG) || defined(DEBUG_CTD_DOMOVE)
                 // See https://github.com/TwinFan/XPMP2/issues/23
                 // Temporary validation to track down why in some rare cases X-Plane crashes later in the XPLMInstanceSetPosition call
@@ -497,12 +558,12 @@ void Aircraft::DoMove ()
                     // with the above `if` the following assert will certainly fail:
                     LOG_ASSERT((v.size() == DR_NAMES.size()) && (DR_NAMES.size() == numDataRefsDuringCreateInstance));
                 }
-                // 4. Access the first and last elements of Aircraft::v to verify that those memory areas are still valid
-                //    (we even access all of them and verify them not to be NAN:)
-                for (size_t i = 0; i < numDataRefsDuringCreateInstance; ++i)
-                    LOG_ASSERT(!std::isnan(data[i]));
 #endif
-                XPLMInstanceSetPosition(hInst, &drawInfo, data);
+                // For issue 23 analysis / workaround we copy dataRefs to a static array
+                // to provide bullet-proof memory and at the same time proof the source memory is valid:
+                std::memcpy(gafDR, v.data(), v.size() * sizeof(float));
+                LOG_ASSERT(InstRecExists(hInst, modeS_id, true));
+                XPLMInstanceSetPosition(hInst, &drawInfo, gafDR);
             }
         } else {
             // Try creating instances
@@ -595,6 +656,7 @@ bool Aircraft::CreateInstances ()
 
         // Save the instance
         listInst.push_back(hInst);
+        InstRecAdd(hInst, modeS_id);        // issue 23 tracking, will bail with exception if already exists
     }
     
     // Success!
@@ -615,9 +677,10 @@ void Aircraft::DestroyInstances ()
 
     if (!listInst.empty()) {
         while (!listInst.empty()) {
-            XPLMInstanceRef tem = listInst.back();
+            XPLMInstanceRef hRef = listInst.back();
             listInst.pop_back();
-            XPLMDestroyInstance(tem);
+            InstRecRemove(hRef, modeS_id);      // issue 23 tracking, will bail with exception if not exists
+            XPLMDestroyInstance(hRef);
         }
         LOG_MSG(logDEBUG, DEBUG_INSTANCE_DESTRYD, modeS_id);
     }
@@ -1030,6 +1093,12 @@ size_t XPMPAddModelDataRef (const std::string& dataRef)
     // Cannot add a new one while planes are active
     if (!glob.mapAc.empty()) {
         LOG_MSG(logERR, ERR_ADD_DATAREF_PLANES, dataRef.c_str(), (unsigned long)glob.mapAc.size());
+        return 0;
+    }
+    
+    // Cannot add more than 50 new ones, see issue 23 analysis section and gafDR_Size
+    if (DR_NAMES.size() >= gafDR_Size) {
+        LOG_MSG(logERR, "Cannot currently add more than 50 additional user dataRefs due to issue 23 analysis");
         return 0;
     }
     

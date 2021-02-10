@@ -127,60 +127,6 @@ static std::string noMdlName("<none>");
 constexpr size_t gafDR_Size = V_COUNT+50;
 static float gafDR[gafDR_Size];
 
-/// Keeping track of the instances we created
-struct InstanceRecordTy {
-    XPLMInstanceRef hRef = NULL;        ///< X-Plane's instance handle
-    float           timeCreate = NAN;   ///< Creation time in X-Plane's network time
-    XPMPPlaneID     modeS_id = 0;       ///< ID of the aircraft
-};
-
-/// map of all instance records, keyed by instance handle (so that one's there twice...)
-typedef std::map<XPLMInstanceRef,InstanceRecordTy> InstanceRecordMapTy;
-
-/// map of all instance records
-InstanceRecordMapTy mapInstances;
-
-/// @brief verify if a record is (not) there
-/// @return If the check passed
-bool InstRecExists (XPLMInstanceRef _hRef, XPMPPlaneID _id, bool bExpectExists)
-{
-    const InstanceRecordMapTy::const_iterator iter = mapInstances.find(_hRef);
-    const bool bExists = (iter != mapInstances.end());
-    if (bExpectExists && !bExists) {
-        LOG_MSG(logERR, "Instance %p for 0x%06X does unexpectedly not exist",
-                _hRef, _id);
-        return false;
-    }
-    else if (!bExpectExists && bExists) {
-        LOG_MSG(logERR, "Instance %p for 0x%06X unexpectedly exists already: id = 0x%06X time = %s",
-                _hRef, _id,
-                iter->second.modeS_id, GetMiscNetwTimeStr(iter->second.timeCreate).c_str());
-        return false;
-    }
-    else if (bExists && iter->second.modeS_id != _id) {
-        LOG_MSG(logERR, "Instance %p exists but id differs, expected: 0x%06X, actual: id = 0x%06X time = %s",
-                _hRef, _id,
-                iter->second.modeS_id, GetMiscNetwTimeStr(iter->second.timeCreate).c_str());
-        return false;
-    }
-    return true;
-}
-
-/// add a record
-void InstRecAdd (XPLMInstanceRef _hRef, XPMPPlaneID _id)
-{
-    LOG_ASSERT(InstRecExists(_hRef, _id, false));
-    mapInstances.emplace(_hRef, InstanceRecordTy{_hRef, GetMiscNetwTime(), _id});
-}
-
-/// remove a record
-void InstRecRemove (XPLMInstanceRef _hRef, XPMPPlaneID _id)
-{
-    LOG_ASSERT(InstRecExists(_hRef, _id, true));
-    mapInstances.erase(_hRef);
-}
-
-
 //
 // MARK: XPMP2 New Definitions
 //
@@ -562,7 +508,6 @@ void Aircraft::DoMove ()
                 // For issue 23 analysis / workaround we copy dataRefs to a static array
                 // to provide bullet-proof memory and at the same time proof the source memory is valid:
                 std::memcpy(gafDR, v.data(), v.size() * sizeof(float));
-                LOG_ASSERT(InstRecExists(hInst, modeS_id, true));
                 XPLMInstanceSetPosition(hInst, &drawInfo, gafDR);
             }
         } else {
@@ -656,7 +601,6 @@ bool Aircraft::CreateInstances ()
 
         // Save the instance
         listInst.push_back(hInst);
-        InstRecAdd(hInst, modeS_id);        // issue 23 tracking, will bail with exception if already exists
     }
     
     // Success!
@@ -679,7 +623,6 @@ void Aircraft::DestroyInstances ()
         while (!listInst.empty()) {
             XPLMInstanceRef hRef = listInst.back();
             listInst.pop_back();
-            InstRecRemove(hRef, modeS_id);      // issue 23 tracking, will bail with exception if not exists
             XPLMDestroyInstance(hRef);
         }
         LOG_MSG(logDEBUG, DEBUG_INSTANCE_DESTRYD, modeS_id);

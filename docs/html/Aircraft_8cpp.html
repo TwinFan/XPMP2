@@ -44,10 +44,8 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#define-members">Macros</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
@@ -59,12 +57,6 @@ $(function() {
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="XPMP2_8h_source.html">XPMP2.h</a>&quot;</code><br />
 </div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:structXPMP2_1_1InstanceRecordTy"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#structXPMP2_1_1InstanceRecordTy">XPMP2::InstanceRecordTy</a></td></tr>
-<tr class="memdesc:structXPMP2_1_1InstanceRecordTy"><td class="mdescLeft">&#160;</td><td class="mdescRight">Keeping track of the instances we created.  <a href="namespaceXPMP2.html#structXPMP2_1_1InstanceRecordTy">More...</a><br /></td></tr>
-<tr class="separator:structXPMP2_1_1InstanceRecordTy"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespaceXPMP2"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html">XPMP2</a></td></tr>
@@ -105,23 +97,8 @@ Macros</h2></td></tr>
 <tr class="memitem:a1beb4bb77ee6443c0655600ef68c4d38"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Aircraft_8cpp.html#a1beb4bb77ee6443c0655600ef68c4d38">DEBUG_DATAREF_ADDED</a>&#160;&#160;&#160;&quot;Added dataRef %s as index %lu&quot;</td></tr>
 <tr class="separator:a1beb4bb77ee6443c0655600ef68c4d38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:a15f1ed26a625194b0d716aba69d803cf"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; XPLMInstanceRef, <a class="el" href="namespaceXPMP2.html#structXPMP2_1_1InstanceRecordTy">InstanceRecordTy</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a15f1ed26a625194b0d716aba69d803cf">XPMP2::InstanceRecordMapTy</a></td></tr>
-<tr class="memdesc:a15f1ed26a625194b0d716aba69d803cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">map of all instance records, keyed by instance handle (so that one's there twice...)  <a href="namespaceXPMP2.html#a15f1ed26a625194b0d716aba69d803cf">More...</a><br /></td></tr>
-<tr class="separator:a15f1ed26a625194b0d716aba69d803cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aaec2e5cdd6f6dd495aa62e12cb1313b9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aaec2e5cdd6f6dd495aa62e12cb1313b9">XPMP2::InstRecExists</a> (XPLMInstanceRef _hRef, <a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> _id, bool bExpectExists)</td></tr>
-<tr class="memdesc:aaec2e5cdd6f6dd495aa62e12cb1313b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">verify if a record is (not) there  <a href="namespaceXPMP2.html#aaec2e5cdd6f6dd495aa62e12cb1313b9">More...</a><br /></td></tr>
-<tr class="separator:aaec2e5cdd6f6dd495aa62e12cb1313b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a962721e90b36bf60bf10e664189fb198"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a962721e90b36bf60bf10e664189fb198">XPMP2::InstRecAdd</a> (XPLMInstanceRef _hRef, <a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> _id)</td></tr>
-<tr class="memdesc:a962721e90b36bf60bf10e664189fb198"><td class="mdescLeft">&#160;</td><td class="mdescRight">add a record  <a href="namespaceXPMP2.html#a962721e90b36bf60bf10e664189fb198">More...</a><br /></td></tr>
-<tr class="separator:a962721e90b36bf60bf10e664189fb198"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a38628efecf01817955890910cf12aaf4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a38628efecf01817955890910cf12aaf4">XPMP2::InstRecRemove</a> (XPLMInstanceRef _hRef, <a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> _id)</td></tr>
-<tr class="memdesc:a38628efecf01817955890910cf12aaf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">remove a record  <a href="namespaceXPMP2.html#a38628efecf01817955890910cf12aaf4">More...</a><br /></td></tr>
-<tr class="separator:a38628efecf01817955890910cf12aaf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa9cd4fc89d9ee438df7b86634df7b49b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aa9cd4fc89d9ee438df7b86634df7b49b">XPMP2::AcInit</a> ()</td></tr>
 <tr class="memdesc:aa9cd4fc89d9ee438df7b86634df7b49b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the module.  <a href="namespaceXPMP2.html#aa9cd4fc89d9ee438df7b86634df7b49b">More...</a><br /></td></tr>
 <tr class="separator:aa9cd4fc89d9ee438df7b86634df7b49b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -140,9 +117,6 @@ Variables</h2></td></tr>
 <tr class="memitem:ad05deda16b7834483c1a6dd64e00bd0a"><td class="memItemLeft" align="right" valign="top">XPLMFlightLoopID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ad05deda16b7834483c1a6dd64e00bd0a">XPMP2::gFlightLoopID</a> = nullptr</td></tr>
 <tr class="memdesc:ad05deda16b7834483c1a6dd64e00bd0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The id of our flight loop callback.  <a href="namespaceXPMP2.html#ad05deda16b7834483c1a6dd64e00bd0a">More...</a><br /></td></tr>
 <tr class="separator:ad05deda16b7834483c1a6dd64e00bd0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc611f81cee3d9896a004d73e6cf184c"><td class="memItemLeft" align="right" valign="top">std::vector&lt; const char * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#acc611f81cee3d9896a004d73e6cf184c">XPMP2::DR_NAMES</a></td></tr>
-<tr class="memdesc:acc611f81cee3d9896a004d73e6cf184c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The list of dataRefs we support to be read by the CSL Model (for gear, flaps, lights etc.)  <a href="namespaceXPMP2.html#acc611f81cee3d9896a004d73e6cf184c">More...</a><br /></td></tr>
-<tr class="separator:acc611f81cee3d9896a004d73e6cf184c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade6c59f595d1b4bfe93b6172b91b5e33"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::unique_ptr&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ade6c59f595d1b4bfe93b6172b91b5e33">XPMP2::drStrings</a></td></tr>
 <tr class="separator:ade6c59f595d1b4bfe93b6172b91b5e33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3d657a6d1c1d533195c3c526f25a762e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; XPLMDataRef &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a3d657a6d1c1d533195c3c526f25a762e">XPMP2::ahDataRefs</a></td></tr>
@@ -150,9 +124,6 @@ Variables</h2></td></tr>
 <tr class="separator:a3d657a6d1c1d533195c3c526f25a762e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c18eaf2a87fd686991f71d1a813501e"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a5c18eaf2a87fd686991f71d1a813501e">XPMP2::gafDR_Size</a> = V_COUNT+50</td></tr>
 <tr class="separator:a5c18eaf2a87fd686991f71d1a813501e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a15c4cca4c07690bb8f0bfaa24102752d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceXPMP2.html#a15f1ed26a625194b0d716aba69d803cf">InstanceRecordMapTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a15c4cca4c07690bb8f0bfaa24102752d">XPMP2::mapInstances</a></td></tr>
-<tr class="memdesc:a15c4cca4c07690bb8f0bfaa24102752d"><td class="mdescLeft">&#160;</td><td class="mdescRight">map of all instance records  <a href="namespaceXPMP2.html#a15c4cca4c07690bb8f0bfaa24102752d">More...</a><br /></td></tr>
-<tr class="separator:a15c4cca4c07690bb8f0bfaa24102752d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="classXPCAircraft.html" title="Legacy wrapper class as provided by original libxplanemp.">XPCAircraft</a> represents an aircraft as managed by <a class="el" href="namespaceXPMP2.html">XPMP2</a>. </p>
@@ -165,44 +136,7 @@ Variables</h2></td></tr>
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br  />
  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.<br  />
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </dd></dl>
-</div><hr/><h2 class="groupheader">Class Documentation</h2>
-<a name="structXPMP2_1_1InstanceRecordTy" id="structXPMP2_1_1InstanceRecordTy"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#structXPMP2_1_1InstanceRecordTy">&#9670;&nbsp;</a></span>XPMP2::InstanceRecordTy</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct XPMP2::InstanceRecordTy</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="textblock"><p>Keeping track of the instances we created. </p>
-</div><table class="fieldtable">
-<tr><th colspan="3">Class Members</th></tr>
-<tr><td class="fieldtype">
-<a id="a033e6eca717f6f4edcfb343ad0736acd"></a>XPLMInstanceRef</td>
-<td class="fieldname">
-hRef</td>
-<td class="fielddoc">
-X-Plane's instance handle. </td></tr>
-<tr><td class="fieldtype">
-<a id="a22dc9fe185dbdfca78a65a586e4de149"></a><a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a></td>
-<td class="fieldname">
-modeS_id</td>
-<td class="fielddoc">
-ID of the aircraft. </td></tr>
-<tr><td class="fieldtype">
-<a id="af570ba4c93b7b545d6fa9e2a025286e7"></a>float</td>
-<td class="fieldname">
-timeCreate</td>
-<td class="fielddoc">
-Creation time in X-Plane's network time. </td></tr>
-</table>
-
-</div>
-</div>
-<h2 class="groupheader">Macro Definition Documentation</h2>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a1beb4bb77ee6443c0655600ef68c4d38"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1beb4bb77ee6443c0655600ef68c4d38">&#9670;&nbsp;</a></span>DEBUG_DATAREF_ADDED</h2>
 

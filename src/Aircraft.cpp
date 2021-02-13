@@ -122,10 +122,54 @@ static std::string noMdlName("<none>");
 // MARK: Issue 23 Analysis Helpers
 //
 
+// Issue 23 describes a crash due to memory access violations.
+// Analysis, also together with Laminar, says, that it happens
+// while XPLMInstanceSetPosition copies the dataRef values into local storage,
+// apparently reading more memory than provided.
+// Lot's of validtion code had been introduced to verify that XPMP2 provides
+// the expected amount of dataRef names to XPLMCreateInstance and subsequently
+// the same amount of data to XPLMInstanceSetPosition, still crashes happen
+// very very rarely. All crashes happen when other plugins are involved, too,
+// that create instances, like GroundTraffic or BetterPushback. So the
+// theory is that somehow there is a cross-plugin interference, most likely
+// in the area of XPLMCreateInstance. This is underpinned by the fact that
+// all crashes happen shortly after a new instance had been created
+// (as shown by DEBUG-level Log.txt entries), though it could not yet be
+// confirmed that the crash happened right with this newly create instance;
+// it's just only very likely at the current state of analysis.
+//
+// The number of dataRef values is defined in the call to XPLMCreateInstance
+// by way of the number of dataRef strings passed in. In the subsequent
+// call to XPLMInstanceSetPosition the plugin can no longer control the
+// amount of data read by XPLMInstnceSetPosition directly: It will read as
+// many floats as it thinks it got defined during the XPLMCreateInstance call.
+// Somewhere between the plugin's call to XPLMCreateInstance and the
+// call to XPLMInstanceSetPosition the problem occurs and these counts differ.
+//
+// The following code aims at reducing the impact of the copy operation
+// in XPLMInstanceSetPosition going too far:
+// Instead of passing dynamically allocated heap memory (as it was before,
+// when passing XPMP2::Aircraft::v.data() to XPLMInstanceSetposition),
+// XPMP2 now copies the content of said v.data() to a statically(!) provided
+// buffer in DATA segment of the plugin. Even if XPLMInstanceSetMemory
+// reads too much chances are way better that it will not tap into prohibited
+// regions of memory and crash.
+//
+// This shall make the crash less likely to happen.
+// THIS IS NOT A FIX!
+//
+
+// The downside is that we need to allocate a fixed amount of static memory
+// at compile time. This is no problem if the plugin only uses the standard
+// dataRefs provided by XPMP2 directly.
+// But XPMP2 allows to add more dataRefs to control by calls to XPMP2::XPMPAddModelDataRef().
+// Unfortunately, we now have to restrict how many such calls can be made.
+/// Max number of additional dataRefs that can be defined using XPMP2::XPMPAddModelDataRef()
+constexpr size_t MAX_ADDITIONAL_DATAREFS = 50;
+/// Size of the static float array to be passed to X-Plane's XPLMInstanceSetPosition
+constexpr size_t DR_ARR_SIZE = V_COUNT + MAX_ADDITIONAL_DATAREFS;
 /// Static float array to be passed to X-Plane's XPLMInstanceSetPosition
-/// We allow for 50 additional calls to XPMP2::XPMPAddModelDataRef()
-constexpr size_t gafDR_Size = V_COUNT+50;
-static float gafDR[gafDR_Size];
+static float gafDR[DR_ARR_SIZE];
 
 //
 // MARK: XPMP2 New Definitions
@@ -1040,8 +1084,9 @@ size_t XPMPAddModelDataRef (const std::string& dataRef)
     }
     
     // Cannot add more than 50 new ones, see issue 23 analysis section and gafDR_Size
-    if (DR_NAMES.size() >= gafDR_Size) {
-        LOG_MSG(logERR, "Cannot currently add more than 50 additional user dataRefs due to issue 23 analysis");
+    if (DR_NAMES.size() >= DR_ARR_SIZE) {
+        LOG_MSG(logERR, "Cannot currently add more than %lu additional user dataRefs due to issue 23 analysis",
+                (unsigned long)MAX_ADDITIONAL_DATAREFS);
         return 0;
     }
     

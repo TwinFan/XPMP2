@@ -71,12 +71,17 @@
 // Standard C++ headers
 #include <string>
 #include <map>
-#include <thread>
 #include <chrono>
 #include <memory>
 #include <atomic>
-#include <mutex>
 #include <algorithm>
+#ifdef __MINGW32__                  // When cross-compiling with MingW we need to use other thread-related headers
+#include "../src/mingw-std-threads/mingw.thread.h"
+#include "../src/mingw-std-threads/mingw.mutex.h"
+#else
+#include <thread>
+#include <mutex>
+#endif
 
 // X-Plane SDK
 #include "XPLMDataAccess.h"

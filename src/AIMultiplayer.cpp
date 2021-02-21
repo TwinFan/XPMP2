@@ -997,7 +997,7 @@ using namespace XPMP2;
 const char *    XPMPMultiplayerEnable(void (*_callback)(void*),
                                       void*  _refCon )
 {
-    static char szWarn[256];
+    static char szWarn[400];
 
     // short-cut if we are already in control
     if (XPMPHasControlOfAIAircraft())

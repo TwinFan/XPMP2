@@ -1,0 +1,16 @@
+# Linux compile environment, based on Ubuntu Bionic Beaver
+
+### Download pre-built docker environment ################################
+#   (see Dockerfile_Bionic_Original to learn how twinfan/bionic-lin-compile-env was built)
+
+FROM twinfan/bionic-lin-compile-env:latest
+
+### Update with our build script #########################################
+
+VOLUME /build
+USER xpbuild
+ADD build.sh /usr/bin/build.sh
+
+# Entrypoint is the build.sh script, which takes care of actual building
+WORKDIR /build
+ENTRYPOINT ["build.sh"]

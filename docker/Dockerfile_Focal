@@ -1,0 +1,16 @@
+# Linux, Windows, MacOS cross compile environment, based on Ubuntu Focal Fossa
+
+### Download pre-built docker environment ################################
+#   (see Dockerfile_Focal_Original to learn how twinfan/focal-win-mac-lin-compile-env was built)
+
+FROM twinfan/focal-win-mac-lin-compile-env:latest
+
+### Update with our build script #########################################
+
+VOLUME /build
+USER xpbuild
+ADD build.sh /usr/bin/build.sh
+
+# Entrypoint is the build.sh script, which takes care of actual building
+WORKDIR /build
+ENTRYPOINT ["build.sh"]

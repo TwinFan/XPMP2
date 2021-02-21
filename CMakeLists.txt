@@ -3,44 +3,84 @@
 
 cmake_minimum_required(VERSION 3.16)
 
-project(XPMP2 LANGUAGES C CXX)
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules" ${CMAKE_MODULE_PATH})
+project(XPMP2
+        VERSION 2.1
+        DESCRIPTION "Multiplayer library for X-Plane 11")
+
+################################################################################
+# Target Systems
+################################################################################
+
+# Windows: Target Windows 7.0 and later
+if (WIN32)
+    add_compile_definitions(_WIN32_WINNT=0x0601)
+    if (NOT DEFINED ENV{platform})
+        set(ENV{platform} "win")
+    endif()
+elseif(APPLE)
+    add_compile_options(-mmacosx-version-min=10.11)
+    add_link_options(-mmacosx-version-min=10.11)
+endif()
+
+################################################################################
+# C++ Standard required
+################################################################################
+
+set(CMAKE_CXX_STANDARD 17)
+set_property(GLOBAL PROPERTY CXX_STANDARD_REQUIRED 17)
+set_property(GLOBAL PROPERTY CXX_STANDARD 17)
+
+################################################################################
+# Compile Options
+################################################################################
 
 # Enable all X-Plane SDK APIs up to the newest version.
-add_definitions(-DXPLM200=1 -DXPLM210=1 -DXPLM300=1 -DXPLM301=1 -DXPLM303=1)
+add_compile_definitions(XPLM200=1 XPLM210=1 XPLM300=1 XPLM301=1 XPLM303=1)
 
 # Define platform macros.
-add_definitions(-DAPL=$<BOOL:${APPLE}> -DIBM=$<BOOL:${WIN32}> -DLIN=$<AND:$<BOOL:${UNIX}>,$<NOT:$<BOOL:${APPLE}>>>)
+add_compile_definitions(APL=$<BOOL:${APPLE}> IBM=$<BOOL:${WIN32}> LIN=$<AND:$<BOOL:${UNIX}>,$<NOT:$<BOOL:${APPLE}>>>)
 
 # Enable stricter warnings and then disable some we are not interested in.
 # For XPMP2 compile, we don't need to be warned about our self-defined depreciations
-if (WIN32)
+if (MSVC)
     add_compile_options(/wd4996 /wd4068)
+    add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
 else()
-    add_compile_options(-Wall -Wshadow -Wno-float-equal -Wextra -Wno-deprecated-declarations -Wno-unknown-pragmas)
+    add_compile_options(-Wall -Wshadow -Wfloat-equal -Wextra -Wno-deprecated-declarations)
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 9.0 AND NOT APPLE)
+        add_compile_options(-Wno-stringop-truncation)
+    endif()
 
     # Force-enable exception support. This is most likely redundant, although for C
     # code the default is the opposite. Since we are mixing C++ and C libraries,
     # safer to set it on?
-    add_compile_options(-fexceptions -fpermissive)
+    add_compile_options(-fexceptions)
 
-    # On UNIX systems this makes symbols non-exported by default. On Windows this
-    # option is simply ignored, since symbol visibility works differently there.
+    # Makes symbols non-exported by default.
     add_compile_options(-fvisibility=hidden)
 endif()
 
 
-# Debug build?
+# Debug vs Release build
 if(CMAKE_BUILD_TYPE MATCHES "Debug")
-    add_compile_options(-DDEBUG=1)
-	set(XPMP2_DEBUG ON)
+    add_compile_definitions(DEBUG=1)
+    if (MSVC)
+        add_compile_options(/Zi)
+    else()
+        add_compile_options(-O0 -g)
+    endif()
 else()
-    add_compile_options(-DNDEBUG=1)
-	set(XPMP2_DEBUG OFF)
-
-    if (UNIX)
+    add_compile_definitions(NDEBUG=1)
+    if(MSVC)
+        # Use highest optimization level in Release builds
+        add_compile_options(/GL)
+    elseif(APPLE)
+        add_compile_options(-O3 -fPIC)
+    elseif (UNIX OR MINGW)
         # Use position-independent code and highest optimization level (FPS!).
         add_compile_options(-O3 -fPIC)
+        # Strip symbols during linking
+        add_link_options(-s)
     endif()
 endif()
 
@@ -84,16 +124,14 @@ target_precompile_headers(XPMP2 PUBLIC src/XPMP2.h)
 # Header include directories
 target_include_directories(XPMP2
 	PUBLIC
-		${ADDITIONAL_INCLUDES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc
+    PRIVATE
+        ${ADDITIONAL_INCLUDES}
 		${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/SDK/CHeaders/XPLM
-		${CMAKE_CURRENT_SOURCE_DIR}/inc
 		${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
 if(APPLE)
-    target_compile_options(XPMP2 PUBLIC -mmacosx-version-min=10.10)
-    target_link_libraries(XPMP2 -mmacosx-version-min=10.10)
-
     # make it a framework
     list(APPEND XPMP2_PUB_HEADERS
         ../inc/XPCAircraft.h
@@ -103,38 +141,27 @@ if(APPLE)
     )
 
     set_target_properties(XPMP2 PROPERTIES
-      FRAMEWORK TRUE
-      FRAMEWORK_VERSION 1.0
-      MACOSX_FRAMEWORK_IDENTIFIER com.twinfan.XPMP2
-      MACOSX_FRAMEWORK_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
-      VERSION 0.1.0
-      SOVERSION 0.1.0
-      PUBLIC_HEADER "${XPMP2_PUB_HEADERS}"
+        FRAMEWORK TRUE
+        FRAMEWORK_VERSION ${PROJECT_VERSION}
+        MACOSX_FRAMEWORK_IDENTIFIER com.twinfan.XPMP2
+        MACOSX_FRAMEWORK_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
+        VERSION ${PROJECT_VERSION}.0
+        SOVERSION ${PROJECT_VERSION}.0
+        PUBLIC_HEADER "${XPMP2_PUB_HEADERS}"
     )
-
-elseif(WIN32)
-    if(NOT CMAKE_BUILD_TYPE MATCHES "Debug")
-        # Use highest optimization level in Release builds
-        add_compile_options(/GL)
-    endif()
-    add_definitions(-D_CRT_SECURE_NO_WARNINGS)
-
 endif()
-
-set_property(TARGET XPMP2 PROPERTY CXX_STANDARD_REQUIRED 17)
-set_property(TARGET XPMP2 PROPERTY CXX_STANDARD 17)
 
 # Copy the resulting framework/library also into the 'lib' directory of the sample plugin
 if(APPLE)
     add_custom_command(TARGET XPMP2 POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2.framework
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2.framework
-        # While the following does copy the framework it does not retain the symbolic links, but produces copies. Still...it works for the purpose
-        COMMAND ${CMAKE_COMMAND} -E copy_directory $<TARGET_FILE_DIR:XPMP2>/../.. ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2.framework
+        COMMAND ${CMAKE_COMMAND} -E make_directory   ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2.framework
+        COMMAND cp -a $<TARGET_FILE_DIR:XPMP2>/../.. ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2.framework
     )
 elseif(UNIX OR WIN32)
     add_custom_command(TARGET XPMP2 POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:XPMP2> ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib
+        COMMAND ${CMAKE_COMMAND} -E make_directory            ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/$ENV{platform}
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:XPMP2> ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/$ENV{platform}
     )
 endif()
 
@@ -167,12 +194,11 @@ add_library(XPMP2-Remote MODULE
 )
 
 # Header include directories
-target_include_directories(XPMP2-Remote
-    PUBLIC
-        ${ADDITIONAL_INCLUDES}
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc
-        ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Remote
-        ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/SDK/CHeaders/XPLM
+target_include_directories(XPMP2-Remote PRIVATE
+    ${ADDITIONAL_INCLUDES}
+    ${CMAKE_CURRENT_SOURCE_DIR}/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/SDK/CHeaders/XPLM
+    ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Remote
 )
 
 # Which depends on XPMP2
@@ -189,47 +215,37 @@ if (WIN32 OR APPLE)
     else ()
         list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/SDK/Libraries/Win")
     endif ()
-    find_library(XPLM_LIBRARY NAMES XPLM XPLM_64.lib)
+    find_library(XPLM_LIBRARY XPLM REQUIRED NAMES XPLM XPLM_64.lib)
     target_link_libraries(XPMP2-Remote ${XPLM_LIBRARY})
 endif ()
 
 if (WIN32)
     # Link with winsock for network and iphlpap for GetAdaptersAddresses
     target_link_libraries(XPMP2-Remote wsock32 ws2_32 iphlpapi)
+    if (MINGW)
+        # When cross-compiling we link the standard libraries statically
+        target_link_options(XPMP2-Remote PRIVATE -static-libgcc -static-libstdc++)
+    endif()
 elseif (APPLE)
     # Link OS X core system libraries.
-    find_library(IOKIT_LIBRARY IOKit)
-    find_library(CORE_FOUNDATION_LIBRARY CoreFoundation)
+    find_library(IOKIT_LIBRARY IOKit REQUIRED)
+    find_library(CORE_FOUNDATION_LIBRARY CoreFoundation REQUIRED)
     target_link_libraries(XPMP2-Remote ${IOKIT_LIBRARY} ${CORE_FOUNDATION_LIBRARY})
-    # X-Plane supports OS X 10.10+
-    target_compile_options(XPMP2-Remote PUBLIC -mmacosx-version-min=10.11)
-    target_link_libraries(XPMP2-Remote -mmacosx-version-min=10.11)
-
-    # Restrict set of symbols exported from the plugin. This reduces changes of
-    # conflict with other plugins, in particular ones with Lua interpreter
-    # embedded.
-    target_link_libraries(XPMP2-Remote "-exported_symbols_list ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/XPMP2-Sample.sym_mac")
+    # Restrict set of symbols exported from the plugin to the ones required by XPLM:
+    target_link_options(XPMP2-Remote PRIVATE "-exported_symbols_list ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/XPMP2-Sample.sym_mac")
 elseif (UNIX)
     # Link library for dynamic loading of shared objects on UNIX systems.
-    find_library(DL_LIBRARY dl)
-    target_link_libraries(XPMP2-Remote ${DL_LIBRARY})
+    find_library(DL_LIBRARY dl REQUIRED)
     # Threads
     set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
     set(THREADS_PREFER_PTHREAD_FLAG TRUE)
     find_package(Threads REQUIRED)
-
+    target_link_libraries(XPMP2-Remote ${DL_LIBRARY} Threads::Threads)
     # Specify additional runtime search paths for dynamically-linked libraries.
-    # Restrict set of symbols exported from the plugin. This reduces chances of
-    # conflict with other plugins, in particular ones with Lua interpreter
-    # embedded.
-    target_link_libraries(XPMP2-Remote Threads::Threads -Wl,--version-script -Wl,${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/XPMP2-Sample.sym)
+    # Restrict set of symbols exported from the plugin to the ones required by XPLM:
+    target_link_options(XPMP2-Remote PRIVATE -Wl,--version-script -Wl,${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/XPMP2-Sample.sym)
 endif ()
 
-# We need C++ 17
-set(CMAKE_CXX_STANDARD 17)
-target_compile_features(XPMP2-Remote PUBLIC cxx_std_17)
-set_property(TARGET XPMP2-Remote PROPERTY CXX_STANDARD_REQUIRED 17)
-set_property(TARGET XPMP2-Remote PROPERTY CXX_STANDARD 17)
 
 # Target directory and file name
 if (WIN32)
@@ -240,8 +256,7 @@ elseif (UNIX)
    set_target_properties(XPMP2-Remote PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lin_x64")
 endif ()
 
-set_target_properties(XPMP2-Remote
-    PROPERTIES
+set_target_properties(XPMP2-Remote PROPERTIES
     PREFIX ""
     OUTPUT_NAME "XPMP2-Remote"
     SUFFIX ".xpl"
@@ -271,12 +286,11 @@ add_library(XPMP2-Sample MODULE
 )
 
 # Header include directories
-target_include_directories(XPMP2-Sample
-    PUBLIC
-        ${ADDITIONAL_INCLUDES}
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc
-        ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Remote
-        ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/SDK/CHeaders/XPLM
+target_include_directories(XPMP2-Sample PRIVATE
+    ${ADDITIONAL_INCLUDES}
+    ${CMAKE_CURRENT_SOURCE_DIR}/inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/SDK/CHeaders/XPLM
+    ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Remote
 )
 
 # Which depends on XPMP2
@@ -291,32 +305,21 @@ if (WIN32 OR APPLE)
 endif ()
 
 if (WIN32)
-    # Link with winsock for network and iphlpap for GetAdaptersAddresses
+    # Link with winsock for network and iphlpapi for GetAdaptersAddresses
     target_link_libraries(XPMP2-Sample wsock32 ws2_32 iphlpapi)
+    if (MINGW)
+        # When cross-compiling we link the standard libraries statically
+        target_link_options(XPMP2-Sample PRIVATE -static-libgcc -static-libstdc++)
+    endif()
 elseif (APPLE)
     target_link_libraries(XPMP2-Sample ${IOKIT_LIBRARY} ${CORE_FOUNDATION_LIBRARY})
-    # X-Plane supports OS X 10.10+
-    target_compile_options(XPMP2-Sample PUBLIC -mmacosx-version-min=10.11)
-    target_link_libraries(XPMP2-Sample -mmacosx-version-min=10.11)
-
-    # Restrict set of symbols exported from the plugin. This reduces changes of
-    # conflict with other plugins, in particular ones with Lua interpreter
-    # embedded.
-    target_link_libraries(XPMP2-Sample "-exported_symbols_list ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/XPMP2-Sample.sym_mac")
+    # Restrict set of symbols exported from the plugin to the ones required by XPLM:
+    target_link_options(XPMP2-Sample PRIVATE "-exported_symbols_list ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/XPMP2-Sample.sym_mac")
 elseif (UNIX)
-    target_link_libraries(XPMP2-Sample ${DL_LIBRARY})
-    # Specify additional runtime search paths for dynamically-linked libraries.
-    # Restrict set of symbols exported from the plugin. This reduces chances of
-    # conflict with other plugins, in particular ones with Lua interpreter
-    # embedded.
-    target_link_libraries(XPMP2-Sample Threads::Threads -Wl,--version-script -Wl,${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/XPMP2-Sample.sym)
+    target_link_libraries(XPMP2-Sample ${DL_LIBRARY} Threads::Threads)
+    # Restrict set of symbols exported from the plugin to the ones required by XPLM:
+    target_link_options(XPMP2-Sample PRIVATE -Wl,--version-script -Wl,${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/XPMP2-Sample.sym)
 endif ()
-
-# We need C++ 17
-set(CMAKE_CXX_STANDARD 17)
-target_compile_features(XPMP2-Sample PUBLIC cxx_std_17)
-set_property(TARGET XPMP2-Sample PROPERTY CXX_STANDARD_REQUIRED 17)
-set_property(TARGET XPMP2-Sample PROPERTY CXX_STANDARD 17)
 
 # Target directory and file name
 if (WIN32)

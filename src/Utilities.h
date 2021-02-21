@@ -183,6 +183,10 @@ numT headNormalize (numT _head)
 /// Get synched network time from X-Plane (sim/network/misc/network_time_sec) as used in Log.txt
 float GetMiscNetwTime ();
 
+/// @brief Return the network time as a string like used in the XP's Log.txt
+/// @param _time If given convert that time, otherwise convert XPMP2::GetMiscNetwTime()
+std::string GetMiscNetwTimeStr (float _time = NAN);
+
 /// Text string for current graphics driver in use
 const char* GetGraphicsDriverTxt ();
 
@@ -296,10 +300,13 @@ inline struct tm *localtime_s(struct tm * result, const time_t * time)
 #define STRCPY_S(dest,src) strncpy_s(dest,sizeof(dest),src,sizeof(dest)-1)
 #define STRCPY_ATMOST(dest,src) strncpy_s(dest,sizeof(dest),strAtMost(src,sizeof(dest)-1).c_str(),sizeof(dest)-1)
 
-#if IBM != 1
 // XCode/Linux don't provide the _s functions, not even with __STDC_WANT_LIB_EXT1__ 1
+#if APL
 inline int strerror_s( char *buf, size_t bufsz, int errnum )
 { return strerror_r(errnum, buf, bufsz); }
+#elif LIN
+inline int strerror_s( char *buf, size_t bufsz, int errnum )
+{ strerror_r(errnum, buf, bufsz); return 0; }
 #endif
 
 // In case of Mac we need to prepare for HFS-to-Posix path conversion

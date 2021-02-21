@@ -92,7 +92,14 @@ void RemoteAC::Update (const XPMP2::RemoteAcDetailTy& _acDetails)
     aiPrio              = _acDetails.aiPrio;
     
     // Info texts
+#if defined(__GNUC__) && (__GNUC__ >= 9)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wclass-memaccess"
+#endif
     std::memset(&acInfoTexts, 0, sizeof(acInfoTexts));
+#if defined(__GNUC__) && (__GNUC__ >= 9)
+#pragma GCC diagnostic pop
+#endif
 #define memcpy_min(to,from) std::memcpy(to,from,std::min(sizeof(from),sizeof(to)))
     memcpy_min(acInfoTexts.tailNum,         _acDetails.tailNum);
     memcpy_min(acInfoTexts.icaoAcType,      _acDetails.icaoType);

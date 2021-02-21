@@ -147,7 +147,7 @@ const char* Doc8643Load (const std::string& _path)
                         "([^\\t]+)\\t"                    // model
                         "([[:alnum:]]{2,4})\\t"           // type designator
                         "(-|[AGHLST][C1-8][EJPRT])\\t"    // classification
-                        "(-|[HLM]|L/M)");                 // wtc
+                        "(-|[HLMJ]|L/M)");                // wtc
 
     // loop over lines of the file
     std::string text;

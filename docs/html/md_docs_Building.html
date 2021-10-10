@@ -56,16 +56,14 @@ Two Projects: XPMP2 Full Build and Sample Plugin only</h1>
 <li>a stand-alone project only for the XPMP2-Sample plugin. This is provided separately so it can serve as basis for your own plugin implementations.</li>
 </ul>
 <p>Using either project works similarly when it comes to building. For the main <a class="el" href="namespaceXPMP2.html">XPMP2</a> projects start in the <a class="el" href="namespaceXPMP2.html">XPMP2</a> root folder. For the XPMP2-Sample stand-alone project start in the <code>XPMP2-Sample</code> folder.</p>
-<p>Then, there are up to three options to build from sources:</p>
+<p>Then, there are two options to build from sources:</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Options   </th><th class="markdownTableHeadNone">Windows   </th><th class="markdownTableHeadNone">MacOS   </th><th class="markdownTableHeadNone">Linux    </th></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>IDE</b>   </td><td class="markdownTableBodyNone">Visual Studio 2019   </td><td class="markdownTableBodyNone">XCode 12   </td><td class="markdownTableBodyNone">-    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>Docker</b>   </td><td class="markdownTableBodyNone">Mingw64   </td><td class="markdownTableBodyNone">clang, SDK 11.1   </td><td class="markdownTableBodyNone">Focal and Bionic    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>Travis CI</b>   </td><td class="markdownTableBodyNone">Visual Studio 2017   </td><td class="markdownTableBodyNone">XCode 12   </td><td class="markdownTableBodyNone">Bionic   </td></tr>
+<td class="markdownTableBodyNone"><b>Docker</b>   </td><td class="markdownTableBodyNone">Mingw64   </td><td class="markdownTableBodyNone">clang, SDK 11.1   </td><td class="markdownTableBodyNone">Focal and Bionic   </td></tr>
 </table>
 <h1><a class="anchor" id="autotoc_md3"></a>
 Using an IDE</h1>
@@ -100,17 +98,7 @@ Using Docker</h1>
 </ul>
 <p>Find results in the respective <code>build-&lt;platform&gt;</code> folder, the <code><a class="el" href="namespaceXPMP2.html">XPMP2</a></code> library right there, the Sample and Remote plugins in their proper <code>&lt;platform&gt;_x64</code> subfolder.</p>
 <p>The resulting library/framework are also copied into <code>XPMP2-Sample/lib/&lt;platform&gt;</code> so it is accessible if building the Sample plugin from the Sample project only.</p>
-<p>For more details and background information on the provided Docker environments see the <code>docker/README.md</code>.</p>
-<h1><a class="anchor" id="autotoc_md5"></a>
-Building with Travis CI</h1>
-<p><a href="https://travis-ci.com/TwinFan/XPMP2"><img src="https://travis-ci.com/TwinFan/XPMP2.svg?branch=master" alt="Build Status" style="pointer-events: none;" class="inline"/></a></p>
-<p>A <a href="https://travis-ci.com/">Travis CI</a> configuration file <code>.travis.yml</code> is included, which allows to build the library and both plugins for all three platforms natively on Travis servers. If you are interested in using Travis CI please see <a href="https://docs.travis-ci.com/user/tutorial/">their tutorial</a>.</p>
-<p>If using the provided <code>.travis.yml</code> configuration, then the resulting binaries are "deployed" to GitHub Releases of the same repository as a non-public draft release. For this deployment to work you need to</p>
-<ul>
-<li>create a <a href="https://github.com/settings/tokens">GitHub Personal access token</a>,</li>
-<li>define the environment variable <code>GITHUB_TOKEN</code> in the <a href="https://docs.travis-ci.com/user/environment-variables/#defining-variables-in-repository-settings">Travis repository settings</a>, and</li>
-<li>assign it the GitHub personal access token as its value. </li>
-</ul>
+<p>For more details and background information on the provided Docker environments see the <code>docker/README.md</code>. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->

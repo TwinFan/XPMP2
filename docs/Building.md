@@ -18,13 +18,12 @@ Using either project works similarly when it comes to building.
 For the main XPMP2 projects start in the XPMP2 root folder.
 For the XPMP2-Sample stand-alone project start in the `XPMP2-Sample` folder.
 
-Then, there are up to three options to build from sources:
+Then, there are two options to build from sources:
 
 Options       | Windows            | MacOS            | Linux
 --------------|--------------------|------------------|---------------------
 **IDE**       | Visual Studio 2019 | XCode 12         | -
 **Docker**    | Mingw64            | clang, SDK 11.1  | Focal and Bionic
-**Travis CI** | Visual Studio 2017 | XCode 12         | Bionic
 
 ## Using an IDE
 
@@ -81,22 +80,3 @@ The resulting library/framework are also copied into `XPMP2-Sample/lib/<platform
 
 For more details and background information on the provided Docker environments
 see the `docker/README.md`.
-
-## Building with Travis CI
-
-[![Build Status](https://travis-ci.com/TwinFan/XPMP2.svg?branch=master)](https://travis-ci.com/TwinFan/XPMP2)
-
-A [Travis CI](https://travis-ci.com/) configuration file `.travis.yml` is included,
-which allows to build the library and both plugins for all three platforms
-natively on Travis servers.
-If you are interested in using Travis CI please see
-[their tutorial](https://docs.travis-ci.com/user/tutorial/).
-
-If using the provided `.travis.yml` configuration, then the resulting
-binaries are "deployed" to GitHub Releases of the same repository
-as a non-public draft release. For this deployment to work you need to
-
-- create a [GitHub Personal access token](https://github.com/settings/tokens),
-- define the environment variable `GITHUB_TOKEN` in the
-  [Travis repository settings](https://docs.travis-ci.com/user/environment-variables/#defining-variables-in-repository-settings), and
-- assign it the GitHub personal access token as its value.

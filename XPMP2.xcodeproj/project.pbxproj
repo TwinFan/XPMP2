@@ -111,7 +111,6 @@
 		2571D63525B2591B0055AA1E /* Toolchain-mingw-w64-x86-64.cmake */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Toolchain-mingw-w64-x86-64.cmake"; sourceTree = "<group>"; };
 		2571D63825B3196D0055AA1E /* Dockerfile_Bionic */ = {isa = PBXFileReference; lastKnownFileType = text; path = Dockerfile_Bionic; sourceTree = "<group>"; };
 		2571D63925B31D7A0055AA1E /* Dockerfile_Focal */ = {isa = PBXFileReference; lastKnownFileType = text; path = Dockerfile_Focal; sourceTree = "<group>"; };
-		2574459325A115FE005F5F50 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .travis.yml; sourceTree = "<group>"; };
 		2574E00424578419000E8156 /* index.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = index.md; sourceTree = "<group>"; };
 		2574E0052457842A000E8156 /* html */ = {isa = PBXFileReference; lastKnownFileType = folder; path = html; sourceTree = "<group>"; };
 		2575F45223EDFC5E00747524 /* Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
@@ -175,7 +174,6 @@
 		2502C15F23BE3CFC00578919 = {
 			isa = PBXGroup;
 			children = (
-				2574459325A115FE005F5F50 /* .travis.yml */,
 				25D680C023BE9D3200C83CC5 /* .gitignore */,
 				25D680B123BE936B00C83CC5 /* Info.plist */,
 				252C01F623E6D63D007C231F /* CMakeLists.txt */,
@@ -407,7 +405,7 @@
 		2502C16023BE3CFC00578919 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1300;
 				ORGANIZATIONNAME = TwinFan;
 				TargetAttributes = {
 					2502C17923BE8A1600578919 = {
@@ -594,7 +592,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2.1;
+				CURRENT_PROJECT_VERSION = 2.3;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = W5UR4ZV2BP;
@@ -693,7 +691,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2.1;
+				CURRENT_PROJECT_VERSION = 2.3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = W5UR4ZV2BP;

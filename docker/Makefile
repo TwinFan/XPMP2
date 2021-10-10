@@ -2,7 +2,7 @@ platforms=win mac lin lin-bionic
 container_focal=focal-win-mac-lin-compile-env
 container_bionic=bionic-lin-compile-env
 
-all: $(platforms)
+all: doc $(platforms)
 
 .image_bionic: Dockerfile_Bionic build.sh
 	docker build . -t $(container_bionic) -f Dockerfile_Bionic
@@ -24,4 +24,7 @@ lin-bionic: .image_bionic
 lin win mac: .image_focal
 	docker run -i --rm -v "$(realpath ..):/build" $(container_focal):latest $@
 
-.PHONY: $(platforms) bash_bionic bash_focal
+doc:
+	cd .. && /Applications/Doxygen.app/Contents/Resources/doxygen docs/XPMP2.doxygen
+
+.PHONY: doc $(platforms) bash_bionic bash_focal

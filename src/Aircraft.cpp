@@ -118,58 +118,6 @@ std::vector<XPLMDataRef> ahDataRefs;
 /// Standard name for "no model"
 static std::string noMdlName("<none>");
 
-//
-// MARK: Issue 23 Analysis Helpers
-//
-
-// Issue 23 describes a crash due to memory access violations.
-// Analysis, also together with Laminar, says, that it happens
-// while XPLMInstanceSetPosition copies the dataRef values into local storage,
-// apparently reading more memory than provided.
-// Lot's of validtion code had been introduced to verify that XPMP2 provides
-// the expected amount of dataRef names to XPLMCreateInstance and subsequently
-// the same amount of data to XPLMInstanceSetPosition, still crashes happen
-// very very rarely. All crashes happen when other plugins are involved, too,
-// that create instances, like GroundTraffic or BetterPushback. So the
-// theory is that somehow there is a cross-plugin interference, most likely
-// in the area of XPLMCreateInstance. This is underpinned by the fact that
-// all crashes happen shortly after a new instance had been created
-// (as shown by DEBUG-level Log.txt entries), though it could not yet be
-// confirmed that the crash happened right with this newly create instance;
-// it's just only very likely at the current state of analysis.
-//
-// The number of dataRef values is defined in the call to XPLMCreateInstance
-// by way of the number of dataRef strings passed in. In the subsequent
-// call to XPLMInstanceSetPosition the plugin can no longer control the
-// amount of data read by XPLMInstnceSetPosition directly: It will read as
-// many floats as it thinks it got defined during the XPLMCreateInstance call.
-// Somewhere between the plugin's call to XPLMCreateInstance and the
-// call to XPLMInstanceSetPosition the problem occurs and these counts differ.
-//
-// The following code aims at reducing the impact of the copy operation
-// in XPLMInstanceSetPosition going too far:
-// Instead of passing dynamically allocated heap memory (as it was before,
-// when passing XPMP2::Aircraft::v.data() to XPLMInstanceSetposition),
-// XPMP2 now copies the content of said v.data() to a statically(!) provided
-// buffer in DATA segment of the plugin. Even if XPLMInstanceSetMemory
-// reads too much chances are way better that it will not tap into prohibited
-// regions of memory and crash.
-//
-// This shall make the crash less likely to happen.
-// THIS IS NOT A FIX!
-//
-
-// The downside is that we need to allocate a fixed amount of static memory
-// at compile time. This is no problem if the plugin only uses the standard
-// dataRefs provided by XPMP2 directly.
-// But XPMP2 allows to add more dataRefs to control by calls to XPMP2::XPMPAddModelDataRef().
-// Unfortunately, we now have to restrict how many such calls can be made.
-/// Max number of additional dataRefs that can be defined using XPMP2::XPMPAddModelDataRef()
-constexpr size_t MAX_ADDITIONAL_DATAREFS = 50;
-/// Size of the static float array to be passed to X-Plane's XPLMInstanceSetPosition
-constexpr size_t DR_ARR_SIZE = V_COUNT + MAX_ADDITIONAL_DATAREFS;
-/// Static float array to be passed to X-Plane's XPLMInstanceSetPosition
-static float gafDR[DR_ARR_SIZE];
 
 //
 // MARK: XPMP2 New Definitions
@@ -534,31 +482,10 @@ void Aircraft::DoMove ()
     // Only for planes that are to be rendered
     if (IsRendered()) {
         // Already have instances? 
-        if (!listInst.empty()) {
+        if (!listInst.empty() || CreateInstances()) {
             // Move the instances (this is probably the single most important line of code ;-) )
-            for (XPLMInstanceRef hInst : listInst) {
-#if defined(DEBUG) || defined(DEBUG_CTD_DOMOVE)
-                // See https://github.com/TwinFan/XPMP2/issues/23
-                // Temporary validation to track down why in some rare cases X-Plane crashes later in the XPLMInstanceSetPosition call
-                // 3. Compare that remembered size to the size of the Aircraft::v, which is supposed to be one less(or larger, the Aircraft constructor makes it the same size as DR_NAMES, which is certainly OK.Having more memory than needed never hurts.
-                if (v.size() != DR_NAMES.size() || DR_NAMES.size() != numDataRefsDuringCreateInstance) {
-                    LOG_MSG(logFATAL, "XPMP2 Issue 23: Array sizes mismatch! v: %lu, DR_NAMES: %lu, numDataRefsDuringCreateInstance: %lu",
-                            v.size(), DR_NAMES.size(), numDataRefsDuringCreateInstance);
-                    LOG_MSG(logFATAL, "while processing A/C 0x%06X, object instance %p", modeS_id, hInst);
-                    // with the above `if` the following assert will certainly fail:
-                    LOG_ASSERT((v.size() == DR_NAMES.size()) && (DR_NAMES.size() == numDataRefsDuringCreateInstance));
-                }
-#endif
-                // For issue 23 analysis / workaround we copy dataRefs to a static array
-                // to provide bullet-proof memory and at the same time proof the source memory is valid:
-                std::memcpy(gafDR, v.data(), v.size() * sizeof(float));
-                XPLMInstanceSetPosition(hInst, &drawInfo, gafDR);
-            }
-        } else {
-            // Try creating instances
-            // In an attempt to work around a crash documented in TwinFan/LiveTraffic#191 https://github.com/TwinFan/LiveTraffic/issues/191
-            // we create instance only in this flight loop callback but don't set their positions
-            CreateInstances();
+            for (XPLMInstanceRef hInst: listInst)
+                 XPLMInstanceSetPosition(hInst, &drawInfo, v.data());
         }
     }
 }
@@ -620,16 +547,6 @@ bool Aircraft::CreateInstances ()
     
     // OK, we got a complete list of objects, so let's instanciate them:
     for (XPLMObjectRef hObj: listObj) {
-#if defined(DEBUG) || defined(DEBUG_CTD_DOMOVE)
-        // See https://github.com/TwinFan/XPMP2/issues/23
-        // Temporary validation to track down why in some rare cases X-Plane crashes later in the XPLMInstanceSetPosition call
-        // 1. Validate that the last element of DR_NAMES is actuall a nullptr:
-        LOG_ASSERT(DR_NAMES.back() == nullptr);
-        // 2. Remember the size of DR_NAMES when calling XPLMCreateInstance(), because it is DR_NAMES.data() which is passed on to XPLMCreateInstance in the datarefs parameter.
-        LOG_ASSERT(numDataRefsDuringCreateInstance == 0 || numDataRefsDuringCreateInstance == DR_NAMES.size());     // we might have several objects in this for loop, but we certainly expect that DR_NAMES doesn't change size while executing the loop!
-        numDataRefsDuringCreateInstance = DR_NAMES.size();
-        LOG_ASSERT(DR_NAMES.data()[numDataRefsDuringCreateInstance-1] == nullptr);                 // should be the same as using .back()...but hey...we are trying to find some weird behaviour, so we double and triple-check
-#endif
         // Create a (new) instance of this CSL Model object,
         // registering all the dataRef names we support
         XPLMInstanceRef hInst = XPLMCreateInstance (hObj, DR_NAMES.data());
@@ -1080,13 +997,6 @@ size_t XPMPAddModelDataRef (const std::string& dataRef)
     // Cannot add a new one while planes are active
     if (!glob.mapAc.empty()) {
         LOG_MSG(logERR, ERR_ADD_DATAREF_PLANES, dataRef.c_str(), (unsigned long)glob.mapAc.size());
-        return 0;
-    }
-    
-    // Cannot add more than 50 new ones, see issue 23 analysis section and gafDR_Size
-    if (DR_NAMES.size() >= DR_ARR_SIZE) {
-        LOG_MSG(logERR, "Cannot currently add more than %lu additional user dataRefs due to issue 23 analysis",
-                (unsigned long)MAX_ADDITIONAL_DATAREFS);
         return 0;
     }
     

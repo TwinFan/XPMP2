@@ -816,12 +816,6 @@ Variables</h2></td></tr>
 <tr class="memitem:a3d657a6d1c1d533195c3c526f25a762e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; XPLMDataRef &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a3d657a6d1c1d533195c3c526f25a762e">ahDataRefs</a></td></tr>
 <tr class="memdesc:a3d657a6d1c1d533195c3c526f25a762e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registered dataRefs.  <a href="namespaceXPMP2.html#a3d657a6d1c1d533195c3c526f25a762e">More...</a><br /></td></tr>
 <tr class="separator:a3d657a6d1c1d533195c3c526f25a762e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af53cb919761b94ddbd2376a42ec04a4b"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#af53cb919761b94ddbd2376a42ec04a4b">MAX_ADDITIONAL_DATAREFS</a> = 50</td></tr>
-<tr class="memdesc:af53cb919761b94ddbd2376a42ec04a4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Max number of additional dataRefs that can be defined using XPMP2::XPMPAddModelDataRef()  <a href="namespaceXPMP2.html#af53cb919761b94ddbd2376a42ec04a4b">More...</a><br /></td></tr>
-<tr class="separator:af53cb919761b94ddbd2376a42ec04a4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24c86b97e301a93d0fa2087b0954c5a4"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a24c86b97e301a93d0fa2087b0954c5a4">DR_ARR_SIZE</a> = <a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa3efd8e40f4308bc421015776084f580b">V_COUNT</a> + <a class="el" href="namespaceXPMP2.html#af53cb919761b94ddbd2376a42ec04a4b">MAX_ADDITIONAL_DATAREFS</a></td></tr>
-<tr class="memdesc:a24c86b97e301a93d0fa2087b0954c5a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of the static float array to be passed to X-Plane's XPLMInstanceSetPosition.  <a href="namespaceXPMP2.html#a24c86b97e301a93d0fa2087b0954c5a4">More...</a><br /></td></tr>
-<tr class="separator:a24c86b97e301a93d0fa2087b0954c5a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0da9348ac8cf4e1da8c2ec2c031c6228"><td class="memItemLeft" align="right" valign="top">XPLMFlightLoopID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a0da9348ac8cf4e1da8c2ec2c031c6228">gGarbageCollectionID</a> = nullptr</td></tr>
 <tr class="memdesc:a0da9348ac8cf4e1da8c2ec2c031c6228"><td class="mdescLeft">&#160;</td><td class="mdescRight">The ids of our garbage collection flight loop callback.  <a href="namespaceXPMP2.html#a0da9348ac8cf4e1da8c2ec2c031c6228">More...</a><br /></td></tr>
 <tr class="separator:a0da9348ac8cf4e1da8c2ec2c031c6228"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -943,7 +937,7 @@ Variables</h2></td></tr>
 <tr class="memitem:a1bce12947cfb542afb194319fd47d5e3"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a1bce12947cfb542afb194319fd47d5e3">PI</a> = 3.1415926535897932384626433832795028841971693993751</td></tr>
 <tr class="memdesc:a1bce12947cfb542afb194319fd47d5e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pi.  <a href="namespaceXPMP2.html#a1bce12947cfb542afb194319fd47d5e3">More...</a><br /></td></tr>
 <tr class="separator:a1bce12947cfb542afb194319fd47d5e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb7825a2923e0cb619b5669e76a5991d"><td class="memItemLeft" align="right" valign="top">constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#abb7825a2923e0cb619b5669e76a5991d">XPMP2_VER</a> = 2.20f</td></tr>
+<tr class="memitem:abb7825a2923e0cb619b5669e76a5991d"><td class="memItemLeft" align="right" valign="top">constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#abb7825a2923e0cb619b5669e76a5991d">XPMP2_VER</a> = 2.30f</td></tr>
 <tr class="memdesc:abb7825a2923e0cb619b5669e76a5991d"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="namespaceXPMP2.html">XPMP2</a> version number.  <a href="namespaceXPMP2.html#abb7825a2923e0cb619b5669e76a5991d">More...</a><br /></td></tr>
 <tr class="separator:abb7825a2923e0cb619b5669e76a5991d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -5164,30 +5158,6 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a id="a24c86b97e301a93d0fa2087b0954c5a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a24c86b97e301a93d0fa2087b0954c5a4">&#9670;&nbsp;</a></span>DR_ARR_SIZE</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr size_t XPMP2::DR_ARR_SIZE = <a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa3efd8e40f4308bc421015776084f580b">V_COUNT</a> + <a class="el" href="namespaceXPMP2.html#af53cb919761b94ddbd2376a42ec04a4b">MAX_ADDITIONAL_DATAREFS</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Size of the static float array to be passed to X-Plane's XPLMInstanceSetPosition. </p>
-
-</div>
-</div>
 <a id="ade6c59f595d1b4bfe93b6172b91b5e33"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ade6c59f595d1b4bfe93b6172b91b5e33">&#9670;&nbsp;</a></span>drStrings</h2>
 
@@ -5862,30 +5832,6 @@ template&lt;class T &gt; </div>
 </div><div class="memdoc">
 
 <p>Minimum icon size in map in UI units. </p>
-
-</div>
-</div>
-<a id="af53cb919761b94ddbd2376a42ec04a4b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af53cb919761b94ddbd2376a42ec04a4b">&#9670;&nbsp;</a></span>MAX_ADDITIONAL_DATAREFS</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr size_t XPMP2::MAX_ADDITIONAL_DATAREFS = 50</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Max number of additional dataRefs that can be defined using XPMP2::XPMPAddModelDataRef() </p>
 
 </div>
 </div>
@@ -6579,7 +6525,7 @@ template&lt;class T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr float XPMP2::XPMP2_VER = 2.20f</td>
+          <td class="memname">constexpr float XPMP2::XPMP2_VER = 2.30f</td>
         </tr>
       </table>
   </td>

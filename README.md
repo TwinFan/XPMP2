@@ -66,9 +66,6 @@ client seems to be built upon XPMP2.
 - XPMP2 implements [instancing](https://developer.x-plane.com/sdk/XPLMInstance/),
   so it **requires X-Plane 11.10** or later
 - CSL models in **OBJ8 format** (ie. older OBJ7 models are no longer supported)
-- Coversion of CSL model packages with
-  [CSL2XSB.py](https://github.com/TwinFan/CSL2XSB/releases) is strongly recommended
-  to unlock more model features, though not stricly required.
 
 ## Documentation: See [GitHub pages](https://twinfan.github.io/XPMP2/) ##
 

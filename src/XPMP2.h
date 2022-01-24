@@ -53,13 +53,11 @@
 #include <algorithm>
 #include <numeric>
 #include <fstream>
+#include <future>
+#include <thread>
+#include <shared_mutex>
 #include <regex>
 #include <bitset>
-#ifdef __MINGW32__                  // When cross-compiling with MingW we need to use other thread-related headers
-#include "mingw-std-threads/mingw.future.h"
-#else
-#include <future>
-#endif
 
 // X-Plane SDK
 #include "XPLMUtilities.h"

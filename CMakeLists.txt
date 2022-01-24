@@ -7,6 +7,16 @@ project(XPMP2
         VERSION 2.3
         DESCRIPTION "Multiplayer library for X-Plane 11")
 
+message ("Compiler Info:")
+message ("CMAKE_CXX_COMPILER_ID         = ${CMAKE_CXX_COMPILER_ID}")
+message ("CMAKE_CXX_COMPILER_VERSION    = ${CMAKE_CXX_COMPILER_VERSION}")
+message ("CMAKE_CXX_COMPILER            = ${CMAKE_CXX_COMPILER}")
+message ("WIN32 / MSVC / MINGW          = ${WIN32} / ${MSVC} / ${MINGW}")
+message ("UNIX / APPLE                  = ${UNIX} / ${APPLE}")
+if (APPLE)
+    message ("OSX_SDK_PATH                  = $ENV{OSX_SDK_PATH}")
+endif()
+
 ################################################################################
 # Target Systems
 ################################################################################
@@ -84,6 +94,12 @@ else()
     endif()
 endif()
 
+# Mingw Threads
+if (MINGW)
+    option(MINGW_STDTHREADS_GENERATE_STDHEADERS "" ON)
+    add_subdirectory(XPMP2-Sample/mingw-std-threads)
+endif()
+
 ################################################################################
 # XPMP2 Library
 ################################################################################
@@ -119,17 +135,21 @@ add_library(XPMP2 STATIC
 )
 
 # Define pre-compiled header
-target_precompile_headers(XPMP2 PUBLIC src/XPMP2.h)
+target_precompile_headers(XPMP2 PRIVATE src/XPMP2.h)
 
 # Header include directories
 target_include_directories(XPMP2
 	PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/inc
     PRIVATE
-        ${ADDITIONAL_INCLUDES}
 		${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/SDK/CHeaders/XPLM
 		${CMAKE_CURRENT_SOURCE_DIR}/src
 )
+
+# Include MingW threads
+if (MINGW)
+    target_link_libraries(XPMP2 mingw_stdthreads)
+endif()
 
 if(APPLE)
     # make it a framework
@@ -138,6 +158,7 @@ if(APPLE)
         ../inc/XPMPAircraft.h
         ../inc/XPMPMultiplayer.h
         ../inc/XPMPPlaneRenderer.h
+        ../inc/XPMPRemote.h
     )
 
     set_target_properties(XPMP2 PROPERTIES
@@ -195,7 +216,6 @@ add_library(XPMP2-Remote MODULE
 
 # Header include directories
 target_include_directories(XPMP2-Remote PRIVATE
-    ${ADDITIONAL_INCLUDES}
     ${CMAKE_CURRENT_SOURCE_DIR}/inc
     ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/SDK/CHeaders/XPLM
     ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Remote
@@ -205,7 +225,7 @@ target_include_directories(XPMP2-Remote PRIVATE
 add_dependencies(XPMP2-Remote XPMP2)
 
 # Link to the just built XPMP2 library
-target_link_libraries(XPMP2-Remote $<TARGET_FILE:XPMP2>)
+target_link_libraries(XPMP2-Remote XPMP2)
 
 # Link X-Plane plugin system libraries. They are only provided for OS X and Windows.
 if (WIN32 OR APPLE)
@@ -223,6 +243,8 @@ if (WIN32)
     # Link with winsock for network and iphlpap for GetAdaptersAddresses
     target_link_libraries(XPMP2-Remote wsock32 ws2_32 iphlpapi)
     if (MINGW)
+        # Include MingW threads
+        target_link_libraries(XPMP2-Remote mingw_stdthreads)
         # When cross-compiling we link the standard libraries statically
         target_link_options(XPMP2-Remote PRIVATE -static-libgcc -static-libstdc++)
     endif()
@@ -287,7 +309,6 @@ add_library(XPMP2-Sample MODULE
 
 # Header include directories
 target_include_directories(XPMP2-Sample PRIVATE
-    ${ADDITIONAL_INCLUDES}
     ${CMAKE_CURRENT_SOURCE_DIR}/inc
     ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/SDK/CHeaders/XPLM
     ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Remote
@@ -297,7 +318,7 @@ target_include_directories(XPMP2-Sample PRIVATE
 add_dependencies(XPMP2-Sample XPMP2)
 
 # Link to the just built XPMP2 library
-target_link_libraries(XPMP2-Sample $<TARGET_FILE:XPMP2>)
+target_link_libraries(XPMP2-Sample XPMP2)
 
 # Link X-Plane plugin system libraries. They are only provided for OS X and Windows.
 if (WIN32 OR APPLE)
@@ -308,6 +329,8 @@ if (WIN32)
     # Link with winsock for network and iphlpapi for GetAdaptersAddresses
     target_link_libraries(XPMP2-Sample wsock32 ws2_32 iphlpapi)
     if (MINGW)
+        # Include MingW threads
+        target_link_libraries(XPMP2-Sample mingw_stdthreads)
         # When cross-compiling we link the standard libraries statically
         target_link_options(XPMP2-Sample PRIVATE -static-libgcc -static-libstdc++)
     endif()

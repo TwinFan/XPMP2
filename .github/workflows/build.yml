@@ -61,10 +61,19 @@ jobs:
       id: build
       with:
         pluginName: ${{ env.PRJ_NAME }}
-    - name: Codesign and Notarization
+    - name: Check if Secrets available
+      id: checksecrets
       env:
         MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
-      if: "${{ env.MACOS_CERTIFICATE }}" != ""     # Only codesign if certificate defined
+      shell: bash
+      run: |
+        if [ "$MACOS_CERTIFICATE" == "" ]; then
+          echo ::set-output name=secretspresent::false
+        else
+          echo ::set-output name=secretspresent::true
+        fi
+    - name: Codesign and Notarization
+      if: ${{ steps.checksecrets.outputs.secretspresent }}
       uses: ./.github/actions/sign-notarize
       with:
         bundleId:       ${{ env.PRJ_BUNDLEID }}

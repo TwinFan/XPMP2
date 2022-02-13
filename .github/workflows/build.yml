@@ -1,0 +1,135 @@
+name: Build all Platforms
+
+on:
+  push:
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:        # Can also be called manually for whatever reason
+
+# Let's set all project specific definitions globally
+env:
+  PRJ_NAME:     XPMP2-Remote      # The plugin's name, expected to be the .xpl file's name and used as the plugin folder name
+  PRJ_BUNDLEID: TwinFan.plugin.XPMP2Remote
+
+jobs:
+  #####################################
+  # Linux with GCC
+  build-lin:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2       # must checkout before we can use our own actions
+    - name: Build
+      uses: ./.github/actions/build-lin
+      id: build
+      with:
+        pluginName: ${{ env.PRJ_NAME }}
+    - name: Upload XPMP2-Remote
+      uses: ./.github/actions/upload-plugin
+      with:
+        pluginName:   ${{ env.PRJ_NAME }}
+        archFolder:   lin_x64
+        xplFileName:  "${{ steps.build.outputs.xpl-file-name }}"
+    - name: Upload XPMP2-Sample
+      uses: ./.github/actions/upload-plugin
+      with:
+        pluginName:   XPMP2-Sample
+        archFolder:   lin_x64
+        xplFileName:  "./build-lin/lin_x64/XPMP2-Sample.xpl"
+    - name: Prepare XPMP2 lib
+      shell: bash
+      run: |
+        mkdir -p lib_deploy/lib/lin
+        cp ./inc lib_deploy
+        cp ./build-lin/libXPMP2.a lib_deploy/lib/lin
+    - name: Upload XPMP2 lib
+      uses: actions/upload-artifact@v2
+      with:
+        name: XPMP2-lib
+        path: lib_deploy/*        # this way we keep the folder structure in the artifact
+        if-no-files-found: error
+
+  #####################################
+  # MacOS with CMake/clang and sign/notarize in self-written script
+  build-mac:
+    runs-on: macos-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2       # must checkout before we can use our own actions
+    - name: Build
+      uses: ./.github/actions/build-mac
+      id: build
+      with:
+        pluginName: ${{ env.PRJ_NAME }}
+    - name: Codesign and Notarization
+      env:
+        MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
+      if: ${{ env.MACOS_CERTIFICATE }} != null     # Only codesign if certificate defined
+      uses: ./.github/actions/sign-notarize
+      with:
+        bundleId:       ${{ env.PRJ_BUNDLEID }}
+        xplFileName:    ${{ steps.build.outputs.xpl-file-name }}
+        certificate:    ${{ secrets.MACOS_CERTIFICATE }}
+        certPwd:        ${{ secrets.MACOS_CERT_PWD }}
+        notarizeUser:   ${{ secrets.NOTARIZATION_USERNAME }}
+        notarizeAppPwd: ${{ secrets.NOTARIZATION_PASSWORD }}
+    - name: Upload XPMP2-Remote
+      uses: ./.github/actions/upload-plugin
+      with:
+        pluginName:   ${{ env.PRJ_NAME }}
+        archFolder:   mac_x64
+        xplFileName:  ${{ steps.build.outputs.xpl-file-name }}
+    - name: Upload XPMP2-Sample
+      uses: ./.github/actions/upload-plugin
+      with:
+        pluginName:   XPMP2-Sample
+        archFolder:   mac_x64
+        xplFileName:  "./build-mac/mac_x64/XPMP2-Sample.xpl"
+    - name: Prepare XPMP2 Framework
+      shell: bash
+      run: |
+        mkdir -p lib_deploy/lib
+        mv ./build-lin/XPMP2.framework lib_deploy/lib
+    - name: Upload XPMP2 Framework
+      uses: actions/upload-artifact@v2
+      with:
+        name: XPMP2-lib
+        path: lib_deploy/*        # this way we keep the folder structure in the artifact
+        if-no-files-found: error
+
+  #####################################
+  # Windows with MS Visual Studio
+  build-win:
+    runs-on: windows-2022
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2       # must checkout before we can use our own actions
+    - name: Build
+      uses: ./.github/actions/build-win
+      id: build
+      with:
+        pluginName: ${{ env.PRJ_NAME }}
+    - name: Upload Artifact
+      uses: ./.github/actions/upload-plugin
+      with:
+        pluginName:   ${{ env.PRJ_NAME }}
+        archFolder:   win_x64
+        xplFileName:  "${{ steps.build.outputs.xpl-file-name }}"
+    - name: Upload XPMP2-Sample
+      uses: ./.github/actions/upload-plugin
+      with:
+        pluginName:   XPMP2-Sample
+        archFolder:   win_x64
+        xplFileName:  "./build-win/win_x64/XPMP2-Sample.xpl"
+    - name: Prepare XPMP2 lib
+      shell: bash
+      run: |
+        mkdir -p lib_deploy/lib/win
+        cp ./inc lib_deploy
+        cp ./build-win/XPMP2.lib lib_deploy/lib/win
+    - name: Upload XPMP2 lib
+      uses: actions/upload-artifact@v2
+      with:
+        name: XPMP2-lib
+        path: lib_deploy/*        # this way we keep the folder structure in the artifact
+        if-no-files-found: error

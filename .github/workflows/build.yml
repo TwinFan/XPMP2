@@ -39,14 +39,14 @@ jobs:
     - name: Prepare XPMP2 lib
       shell: bash
       run: |
-        mkdir -p lib_deploy/lib/lin
-        cp -a ./inc lib_deploy
-        mv ./build-lin/libXPMP2.a lib_deploy/lib/lin
+        mkdir -p deploy-lib/lib/lin
+        cp -a ./inc deploy-lib
+        mv ./build-lin/libXPMP2.a deploy-lib/lib/lin
     - name: Upload XPMP2 lib
       uses: actions/upload-artifact@v2
       with:
         name: XPMP2-lib
-        path: lib_deploy/*        # this way we keep the folder structure in the artifact
+        path: deploy-lib/*        # this way we keep the folder structure in the artifact
         if-no-files-found: error
 
   #####################################
@@ -97,13 +97,13 @@ jobs:
     - name: Prepare XPMP2 Framework
       shell: bash
       run: |
-        mkdir -p lib_deploy/lib
-        mv ./build-lin/XPMP2.framework lib_deploy/lib
+        mkdir -p deploy-lib/lib
+        mv ./build-mac/XPMP2.framework deploy-lib/lib
     - name: Upload XPMP2 Framework
       uses: actions/upload-artifact@v2
       with:
         name: XPMP2-lib
-        path: lib_deploy/*        # this way we keep the folder structure in the artifact
+        path: deploy-lib/*        # this way we keep the folder structure in the artifact
         if-no-files-found: error
 
   #####################################
@@ -133,12 +133,11 @@ jobs:
     - name: Prepare XPMP2 lib
       shell: bash
       run: |
-        mkdir -p lib_deploy/lib/win
-        cp ./inc lib_deploy
-        cp ./build-win/XPMP2.lib lib_deploy/lib/win
+        mkdir -p deploy-lib/lib/win
+        cp ./build-win/XPMP2.lib deploy-lib/lib/win
     - name: Upload XPMP2 lib
       uses: actions/upload-artifact@v2
       with:
         name: XPMP2-lib
-        path: lib_deploy/*        # this way we keep the folder structure in the artifact
+        path: deploy-lib/*        # this way we keep the folder structure in the artifact
         if-no-files-found: error

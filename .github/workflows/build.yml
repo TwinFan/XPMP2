@@ -40,8 +40,8 @@ jobs:
       shell: bash
       run: |
         mkdir -p lib_deploy/lib/lin
-        cp ./inc lib_deploy
-        cp ./build-lin/libXPMP2.a lib_deploy/lib/lin
+        cp -a ./inc lib_deploy
+        mv ./build-lin/libXPMP2.a lib_deploy/lib/lin
     - name: Upload XPMP2 lib
       uses: actions/upload-artifact@v2
       with:

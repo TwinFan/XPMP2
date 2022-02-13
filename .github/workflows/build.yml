@@ -68,7 +68,7 @@ jobs:
       shell: bash
       run: |
         if [ "$MACOS_CERTIFICATE" == "" ]; then
-          echo ::set-output name=secretspresent::false
+          echo ::set-output name=secretspresent::
         else
           echo ::set-output name=secretspresent::true
         fi

@@ -21,7 +21,7 @@
 #ifndef _XPMP2_h_
 #define _XPMP2_h_
 
-#ifdef IBM
+#if IBM
 // In MINGW winsock2 must be included before windows.h, which is included by the mingw.*.h headers
 #include <winsock2.h>
 #include <ws2ipdef.h>           // required for sockaddr_in6 (?)

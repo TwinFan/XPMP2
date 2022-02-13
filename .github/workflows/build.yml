@@ -64,7 +64,7 @@ jobs:
     - name: Codesign and Notarization
       env:
         MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
-      if: ${{ env.MACOS_CERTIFICATE }} != null     # Only codesign if certificate defined
+      if: "${{ env.MACOS_CERTIFICATE }}" != ""     # Only codesign if certificate defined
       uses: ./.github/actions/sign-notarize
       with:
         bundleId:       ${{ env.PRJ_BUNDLEID }}

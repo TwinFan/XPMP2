@@ -20,18 +20,18 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v2       # must checkout before we can use our own actions
     - name: Build
-      uses: ./.github/actions/build-lin
+      uses: TwinFan/HelloWorld-XP/build-lin
       id: build
       with:
         pluginName: ${{ env.PRJ_NAME }}
     - name: Upload XPMP2-Remote
-      uses: ./.github/actions/upload-plugin
+      uses: TwinFan/HelloWorld-XP/upload-plugin
       with:
         pluginName:   ${{ env.PRJ_NAME }}
         archFolder:   lin_x64
         xplFileName:  "${{ steps.build.outputs.xpl-file-name }}"
     - name: Upload XPMP2-Sample
-      uses: ./.github/actions/upload-plugin
+      uses: TwinFan/HelloWorld-XP/upload-plugin
       with:
         pluginName:   XPMP2-Sample
         archFolder:   lin_x64
@@ -57,7 +57,7 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v2       # must checkout before we can use our own actions
     - name: Build
-      uses: ./.github/actions/build-mac
+      uses: TwinFan/HelloWorld-XP/build-mac
       id: build
       with:
         pluginName: ${{ env.PRJ_NAME }}
@@ -74,7 +74,7 @@ jobs:
         fi
     - name: Codesign and Notarization
       if: ${{ steps.checksecrets.outputs.secretspresent }}
-      uses: ./.github/actions/sign-notarize
+      uses: TwinFan/HelloWorld-XP/sign-notarize
       with:
         bundleId:       ${{ env.PRJ_BUNDLEID }}
         xplFileName:    ${{ steps.build.outputs.xpl-file-name }}
@@ -83,13 +83,13 @@ jobs:
         notarizeUser:   ${{ secrets.NOTARIZATION_USERNAME }}
         notarizeAppPwd: ${{ secrets.NOTARIZATION_PASSWORD }}
     - name: Upload XPMP2-Remote
-      uses: ./.github/actions/upload-plugin
+      uses: TwinFan/HelloWorld-XP/upload-plugin
       with:
         pluginName:   ${{ env.PRJ_NAME }}
         archFolder:   mac_x64
         xplFileName:  ${{ steps.build.outputs.xpl-file-name }}
     - name: Upload XPMP2-Sample
-      uses: ./.github/actions/upload-plugin
+      uses: TwinFan/HelloWorld-XP/upload-plugin
       with:
         pluginName:   XPMP2-Sample
         archFolder:   mac_x64
@@ -114,18 +114,18 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v2       # must checkout before we can use our own actions
     - name: Build
-      uses: ./.github/actions/build-win
+      uses: TwinFan/HelloWorld-XP/build-win
       id: build
       with:
         pluginName: ${{ env.PRJ_NAME }}
     - name: Upload Artifact
-      uses: ./.github/actions/upload-plugin
+      uses: TwinFan/HelloWorld-XP/upload-plugin
       with:
         pluginName:   ${{ env.PRJ_NAME }}
         archFolder:   win_x64
         xplFileName:  "${{ steps.build.outputs.xpl-file-name }}"
     - name: Upload XPMP2-Sample
-      uses: ./.github/actions/upload-plugin
+      uses: TwinFan/HelloWorld-XP/upload-plugin
       with:
         pluginName:   XPMP2-Sample
         archFolder:   win_x64

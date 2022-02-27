@@ -16,14 +16,14 @@ inputs:
 runs:
   using: "composite"
   steps:
-  - name: Prepare Deployment Structure      # moves the plugin, like "build-lin/lin_x64/MyPlugin.xpl", to a deployment structure like "deploy/MyPlugin/lin_x64/MyPlugin.xpl"
+  - name: Prepare Deployment Structure        # moves the plugin, like "build-lin/lin_x64/MyPlugin.xpl", to a deployment structure like "deploy-MyPlugin/MyPlugin/lin_x64/MyPlugin.xpl"
     shell: bash
     run: |
-      mkdir -p "deploy/${{ inputs.pluginName }}/${{ inputs.archFolder }}"
-      mv "${{ inputs.xplFileName }}" "deploy/${{ inputs.pluginName }}/${{ inputs.archFolder }}"
+      mkdir -p "deploy-${{ inputs.pluginName }}/${{ inputs.pluginName }}/${{ inputs.archFolder }}"
+      mv "${{ inputs.xplFileName }}" "deploy-${{ inputs.pluginName }}/${{ inputs.pluginName }}/${{ inputs.archFolder }}"
   - name: Upload plugin
     uses: actions/upload-artifact@v2
     with:
       name: ${{ inputs.pluginName }}
-      path: deploy/*                        # this way the top folder in the artifacts is "MyPlugin"
+      path: deploy-${{ inputs.pluginName }}/*   # this way the top folder in the artifacts is "MyPlugin"
       if-no-files-found: error

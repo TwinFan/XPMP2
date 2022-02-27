@@ -1,6 +1,8 @@
 XPMP 2 and XPMP2 Remote Client
 =========
 
+[![Build all Platforms](https://github.com/TwinFan/XPMP2/actions/workflows/build.yml/badge.svg)](https://github.com/TwinFan/XPMP2/actions/workflows/build.yml)
+
 The original X-Plane Multiplay Library is the work of many fantastic people,
 with Ben Supnik, Chris Serio, and Chris Collins appearing in recent files and documentation.
 But the origins date back to 2004, and very likely many more were involved. Thanks to all of them!

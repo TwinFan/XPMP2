@@ -118,9 +118,72 @@ std::vector<XPLMDataRef> ahDataRefs;
 /// Standard name for "no model"
 static std::string noMdlName("<none>");
 
+//
+// MARK: Wake Support
+//
+
+typedef std::map<std::string, Aircraft::wakeTy> mapWakeTy;
+
+/// @brief Mapping table from Wake Turbulence Category (WTC) to default values for XPMP2::Aircraft::wake
+/// @detail Filled with popular example aircraft of the category.
+///         Mass is filled with `(Empty Weight + 80% * (MTOW - Empty Weight))`
+static mapWakeTy mapWake = {
+    // C172: http://www.flugzeuginfo.net/acdata_php/acdata_cessna172_en.php
+    { "L",      { 11.00f,  16.2f,   1037.6f }},
+    // B350: http://www.flugzeuginfo.net/acdata_php/acdata_beech350_en.php
+    { "L/M",    { 17.65f,  28.8f,   6301.0f }},
+    // A320: http://www.flugzeuginfo.net/acdata_php/acdata_a320_en.php
+    { "M",      { 34.09f, 122.6f,  74500.0f }},
+    // B744: http://www.flugzeuginfo.net/acdata_php/acdata_7474_en.php
+    { "H",      { 64.40f, 541.2f, 367129.4f }},
+    // A388: http://www.flugzeuginfo.net/acdata_php/acdata_a380_en.php
+    { "J",      { 79.80f, 845.0f, 510560.0f }},
+};
+
+// any value left at `NAN`, ie. requires setting from Doc8643 WTC defaults?
+bool Aircraft::wakeTy::needsDefaults() const
+{
+    return
+        std::isnan(wingSpan_m) ||
+        std::isnan(wingArea_m2) ||
+        std::isnan(mass_kg);
+}
+
+// based on Doc8643 WTC fill with defaults
+void Aircraft::wakeTy::applyDefaults(const std::string& _wtc, bool _bOverwriteAllFields)
+{
+    // Force complete refresh?
+    if (_bOverwriteAllFields)
+        clear();
+    // or in the contrary: don't need to set anything?
+    else if (!needsDefaults())
+        return;
+
+    // Try to find given WTC in our mapping table
+    LOG_ASSERT(!mapWake.empty());                       // there's no code to remove from mapWake, so this _should_ always be true
+    mapWakeTy::const_iterator i = mapWake.find(_wtc);
+    // If not found, look for "M"
+    if (i == mapWake.cend())
+        i = mapWake.find("M");
+    // If not found (???) just take the first one (we verified mapWake is not empty, so there's something in there)
+    if (i == mapWake.cend())
+        i = mapWake.cbegin();
+    LOG_ASSERT(i != mapWake.cend());
+
+    // Copy over missing values
+    fillUpFrom(i->second);
+}
+
+// Copies values only for non-NAN fields
+void Aircraft::wakeTy::fillUpFrom(const wakeTy& o)
+{
+    if (std::isnan(wingSpan_m))     wingSpan_m  = o.wingSpan_m;
+    if (std::isnan(wingArea_m2))    wingArea_m2 = o.wingArea_m2;
+    if (std::isnan(mass_kg))        mass_kg     = o.mass_kg;
+}
 
 //
-// MARK: XPMP2 New Definitions
+// MARK: Aircraft
 //
 
 // Constructor creates a new aircraft object, which will be managed and displayed
@@ -330,6 +393,9 @@ int Aircraft::ChangeModel (const std::string& _icaoType,
 
     // Determin map icon based on icao type
     MapFindIcon();
+
+    // (Re)set wake support data
+    WakeApplyDefaults(bChangeExisting);
     
     // inform observers in case this was an actual replacement change
     if (bChangeExisting)
@@ -377,11 +443,22 @@ bool Aircraft::AssignModel (const std::string& _cslId,
     // Determin map icon based on icao type
     MapFindIcon();
     
+    // (Re)set wake support data
+    WakeApplyDefaults(bChangeExisting);
+
     // inform observers
     if (bChangeExisting)
         XPMPSendNotification(*this, xpmp_PlaneNotification_ModelChanged);
 
     return true;
+}
+
+
+// Fill in default wake turbulence support data based on Doc8643 wake turbulence category
+void Aircraft::WakeApplyDefaults(bool _bOverwriteAllFields)
+{
+    // Determine the aircraft's WTC
+    wake.applyDefaults(pCSLMdl ? pCSLMdl->GetWTC() : "", _bOverwriteAllFields);
 }
 
 
@@ -402,6 +479,13 @@ float Aircraft::GetVertOfs () const
         return pCSLMdl->GetVertOfs() * vertOfsRatio - GetTireDeflection() * gearDeflectRatio;
     else
         return 0.0f;
+}
+
+
+// Category between 0=light and 3=Super, derived from WTC
+int Aircraft::GetWakeCat() const
+{
+    return pCSLMdl ? pCSLMdl->GetDoc8643().GetWakeCat() : 1;
 }
 
 // Static: Flight loop callback function
@@ -967,6 +1051,21 @@ Aircraft* AcFindByID (XPMPPlaneID _id)
         return nullptr;
     }
 }
+
+// (Re)Define default wake turbulence values per WTC
+bool AcSetDefaultWakeData(const std::string& _wtc, const Aircraft::wakeTy& _wake)
+{
+    // _wake values must be properly filled, only `lift_N` can be left out
+    if (_wake.needsDefaults()) {
+        LOG_MSG(logERR, "Parameter '_wake' does not define all required data for wtc '%s'", _wtc.c_str());
+        return false;
+    }
+
+    // Add or reapply it to our map
+    mapWake[_wtc] = _wake;
+    return true;
+}
+
 
 }   // namespace XPMP2
 

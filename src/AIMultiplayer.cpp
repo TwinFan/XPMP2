@@ -160,6 +160,13 @@ static XPLMDataRef drTcasYokePitch  = nullptr;      ///< sim/cockpit2/tcas/targe
 static XPLMDataRef drTcasYokeRoll   = nullptr;      ///< sim/cockpit2/tcas/targets/position/yolk_roll [sic!]    float[64]
 static XPLMDataRef drTcasYokeYaw    = nullptr;      ///< sim/cockpit2/tcas/targets/position/yolk_yaw [sic!]     float[64]
 static XPLMDataRef drTcasLights     = nullptr;      ///< sim/cockpit2/tcas/targets/position/lights          int[64] (bitfield: beacon=1, land=2, nav=4, strobe=8, taxi=16)
+// Wake support as of X-Plane 12, see https://developer.x-plane.com/article/plugin-traffic-wake-turbulence/
+static XPLMDataRef drTcasWakeWingSpan   = nullptr;  ///< sim/cockpit2/tcas/targets/wake/wing_span_m	float[64]	y	meter	wing span of the aircraft creating wake turbulence
+static XPLMDataRef drTcasWakeWingArea   = nullptr;  ///< sim/cockpit2/tcas/targets/wake/wing_area_m2	float[64]	y	meter	wing area(total area of both wings combined) of the aircraft creating wake turbulence
+static XPLMDataRef drTcasWakeCat        = nullptr;  ///< sim/cockpit2/tcas/targets/wake/wake_cat	int[64]	y	enum	wake category of the aircraft.This is for information purposes onlyand is not used to calculate the actual strength of the turbulence. 0 = Light, 1 = Medium, 2 = Heavy, 3 = Super
+static XPLMDataRef drTcasWakeMass       = nullptr;  ///< sim/cockpit2/tcas/targets/wake/mass_kg	float[64]	y	kg	actual mass of the aircraft creating the wake
+static XPLMDataRef drTcasWakeAoA        = nullptr;  ///< sim/cockpit2/tcas/targets/wake/aoa	float[64]	y	degrees	angle of attack of the wing creating the wake
+static XPLMDataRef drTcasWakeLift       = nullptr;  ///< sim/cockpit2/tcas/targets/wake/lift_N	float[64]	y	Newton	instantaneous lift force of the whole wing generated right now, in Newtons
 
 //
 // MARK: Global variables for TCAS handling
@@ -223,6 +230,12 @@ void AIMultiClearInfoDataRefs (infoDataRefsTy& drI);
 inline bool GoTCASOverride ()
 {
     return drTcasModeS != nullptr;
+}
+
+/// @brief Can we use the XP12 wake support system?
+inline bool GoTCASWake()
+{
+    return drTcasWakeWingSpan != nullptr && drTcasWakeLift != nullptr;
 }
 
 /// @brief The old way: Update Multiplayer dataRefs directly
@@ -347,6 +360,12 @@ size_t AIUpdateTCASTargets ()
     static std::vector<float> vYokeRoll;   
     static std::vector<float> vYokeYaw;    
     static std::vector<int>   vLights;     
+    static std::vector<float> vWakeWingSpan;
+    static std::vector<float> vWakeWingArea;
+    static std::vector<int>   vWakeCat;
+    static std::vector<float> vWakeMass;
+    static std::vector<float> vWakeAoA;
+    static std::vector<float> vWakeLift;
 
     // Start filling up TCAS targets, ordered by distance,
     // so that the closest planes are in the lower slots,
@@ -370,7 +389,13 @@ size_t AIUpdateTCASTargets ()
     vYokeRoll.clear();      vYokeRoll.reserve(numSlots);
     vYokeYaw.clear();       vYokeYaw.reserve(numSlots);
     vLights.clear();        vLights.reserve(numSlots);
-    
+    vWakeWingSpan.clear();  vWakeWingSpan.reserve(numSlots);
+    vWakeWingArea.clear();  vWakeWingArea.reserve(numSlots);
+    vWakeCat.clear();       vWakeCat.reserve(numSlots);
+    vWakeMass.clear();      vWakeMass.reserve(numSlots);
+    vWakeAoA.clear();       vWakeAoA.reserve(numSlots);
+    vWakeLift.clear();      vWakeLift.reserve(numSlots);
+
     // Loop over all filled slots
     size_t slot = 1;
     for (; slot < gSlots.size() && gSlots[slot] != nullptr; ++slot)
@@ -418,7 +443,15 @@ size_t AIUpdateTCASTargets ()
             l.b.strobe  = ac.v[V_CONTROLS_STROBE_LITES_ON] > 0.5f;
             l.b.taxi    = ac.v[V_CONTROLS_TAXI_LITES_ON] > 0.5f;
             vLights.push_back(l.i);
-            
+
+            // Wake data
+            vWakeWingSpan.push_back(ac.GetWingSpan());
+            vWakeWingArea.push_back(ac.GetWingArea());
+            vWakeCat.push_back(ac.GetWakeCat());
+            vWakeMass.push_back(ac.GetMass());
+            vWakeAoA.push_back(ac.GetAoA());
+            vWakeLift.push_back(ac.GetLift());
+
             // For performance reasons and because differences (cartesian velocity)
             // are smoother if calculated over "longer" time frames,
             // the following updates are done about every second only,
@@ -504,7 +537,13 @@ size_t AIUpdateTCASTargets ()
     SET_DR(vf, YokeRoll);
     SET_DR(vf, YokeYaw);
     SET_DR(vi, Lights);
-    
+    SET_DR(vf, WakeWingSpan);
+    SET_DR(vf, WakeWingArea);
+    SET_DR(vi, WakeCat);
+    SET_DR(vf, WakeMass);
+    SET_DR(vf, WakeAoA);
+    SET_DR(vf, WakeLift);
+
     // return the number of targets
     return slot;
 }
@@ -846,6 +885,13 @@ void AIMultiInit ()
             drTcasYokeRoll      = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yolk_roll");
             drTcasYokeYaw       = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yolk_yaw");
             drTcasLights        = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/lights");
+            // Wake support as of XP12, so these can fail in earlier versions:
+            drTcasWakeWingSpan  = XPLMFindDataRef("sim/cockpit2/tcas/targets/wake/wing_span_m");
+            drTcasWakeWingArea  = XPLMFindDataRef("sim/cockpit2/tcas/targets/wake/wing_area_m2");
+            drTcasWakeCat       = XPLMFindDataRef("sim/cockpit2/tcas/targets/wake/wake_cat");
+            drTcasWakeMass      = XPLMFindDataRef("sim/cockpit2/tcas/targets/wake/mass_kg");
+            drTcasWakeAoA       = XPLMFindDataRef("sim/cockpit2/tcas/targets/wake/aoa");
+            drTcasWakeLift      = XPLMFindDataRef("sim/cockpit2/tcas/targets/wake/lift_N");
         } else {
             // not expected to happen, but safety measure: fallback to classic TCAS
             drTcasModeS = nullptr;

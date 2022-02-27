@@ -76,6 +76,10 @@ public:
     char GetClassEngType () const   { return classification[2]; }
     bool HasRotor () const          { return (classification[0] == 'H' ||
                                               classification[0] == 'G'); }
+
+    /// @brief Returns the wake category as per XP12's wake system
+    /// @see https://developer.x-plane.com/article/plugin-traffic-wake-turbulence/
+    int GetWakeCat() const;
 };
 
 /// Map of Doc8643 information, key is the (icao) type code

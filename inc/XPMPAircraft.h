@@ -28,6 +28,7 @@
 #include "XPLMMap.h"
 
 #include <cstdint>
+#include <cmath>
 #include <stdexcept>
 #include <string>
 #include <vector>

@@ -177,6 +177,8 @@ Typedefs</h2></td></tr>
 <tr class="memitem:ab82edbc0e4277fd25fe71575b3e5133f"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; float, <a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ab82edbc0e4277fd25fe71575b3e5133f">mapAcByDistTy</a></td></tr>
 <tr class="memdesc:ab82edbc0e4277fd25fe71575b3e5133f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map of Aircrafts, sorted by (priority-biased) distance.  <a href="namespaceXPMP2.html#ab82edbc0e4277fd25fe71575b3e5133f">More...</a><br /></td></tr>
 <tr class="separator:ab82edbc0e4277fd25fe71575b3e5133f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4b2fbd4b38dcb0cb4d73920117f0630"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; std::string, <a class="el" href="structXPMP2_1_1Aircraft_1_1wakeTy.html">Aircraft::wakeTy</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ab4b2fbd4b38dcb0cb4d73920117f0630">mapWakeTy</a></td></tr>
+<tr class="separator:ab4b2fbd4b38dcb0cb4d73920117f0630"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16e5128e928aec332a0bf46516c9fa28"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; <a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>, <a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a16e5128e928aec332a0bf46516c9fa28">mapAcTy</a></td></tr>
 <tr class="memdesc:a16e5128e928aec332a0bf46516c9fa28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map of all aircraft, key is tthe plane id.  <a href="namespaceXPMP2.html#a16e5128e928aec332a0bf46516c9fa28">More...</a><br /></td></tr>
 <tr class="separator:a16e5128e928aec332a0bf46516c9fa28"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -355,6 +357,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a99c2922b0eb1d20121a15724e899d640"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a99c2922b0eb1d20121a15724e899d640">AcFindByID</a> (<a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> _id)</td></tr>
 <tr class="memdesc:a99c2922b0eb1d20121a15724e899d640"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find aircraft by its plane ID, can return nullptr.  <a href="namespaceXPMP2.html#a99c2922b0eb1d20121a15724e899d640">More...</a><br /></td></tr>
 <tr class="separator:a99c2922b0eb1d20121a15724e899d640"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab797d58a094d9a7fcc68525c59a18686"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ab797d58a094d9a7fcc68525c59a18686">AcSetDefaultWakeData</a> (const std::string &amp;_wtc, const <a class="el" href="structXPMP2_1_1Aircraft_1_1wakeTy.html">Aircraft::wakeTy</a> &amp;_wake)</td></tr>
+<tr class="memdesc:ab797d58a094d9a7fcc68525c59a18686"><td class="mdescLeft">&#160;</td><td class="mdescRight">(Re)Define default wake turbulence values per WTC  <a href="namespaceXPMP2.html#ab797d58a094d9a7fcc68525c59a18686">More...</a><br /></td></tr>
+<tr class="separator:ab797d58a094d9a7fcc68525c59a18686"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93dd489d301924f0d1ff5cdf98bc03ae"><td class="memItemLeft" align="right" valign="top">std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a93dd489d301924f0d1ff5cdf98bc03ae">PJWHash16</a> (const char *s)</td></tr>
 <tr class="memdesc:a93dd489d301924f0d1ff5cdf98bc03ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Produces a reproducible(!) hash value for strings.  <a href="namespaceXPMP2.html#a93dd489d301924f0d1ff5cdf98bc03ae">More...</a><br /></td></tr>
 <tr class="separator:a93dd489d301924f0d1ff5cdf98bc03ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -401,6 +406,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a1d3be0134c1ea7b658815b88387674c5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a1d3be0134c1ea7b658815b88387674c5">GoTCASOverride</a> ()</td></tr>
 <tr class="memdesc:a1d3be0134c1ea7b658815b88387674c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Are we going to new (TCAS override) or the old way?  <a href="namespaceXPMP2.html#a1d3be0134c1ea7b658815b88387674c5">More...</a><br /></td></tr>
 <tr class="separator:a1d3be0134c1ea7b658815b88387674c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa934337e78acbe2619feae47620558a8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aa934337e78acbe2619feae47620558a8">GoTCASWake</a> ()</td></tr>
+<tr class="memdesc:aa934337e78acbe2619feae47620558a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Can we use the XP12 wake support system?  <a href="namespaceXPMP2.html#aa934337e78acbe2619feae47620558a8">More...</a><br /></td></tr>
+<tr class="separator:aa934337e78acbe2619feae47620558a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acbc67834e00765d972b9602c2d6ad84a"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#acbc67834e00765d972b9602c2d6ad84a">AIUpdateMultiplayerDataRefs</a> ()</td></tr>
 <tr class="memdesc:acbc67834e00765d972b9602c2d6ad84a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The old way: Update Multiplayer dataRefs directly.  <a href="namespaceXPMP2.html#acbc67834e00765d972b9602c2d6ad84a">More...</a><br /></td></tr>
 <tr class="separator:acbc67834e00765d972b9602c2d6ad84a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -738,6 +746,9 @@ Variables</h2></td></tr>
 <tr class="memitem:adb7631159f1c3263d5cefad76434e91d"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#adb7631159f1c3263d5cefad76434e91d">M_per_NM</a> = 1852</td></tr>
 <tr class="memdesc:adb7631159f1c3263d5cefad76434e91d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert nautical miles to meters.  <a href="namespaceXPMP2.html#adb7631159f1c3263d5cefad76434e91d">More...</a><br /></td></tr>
 <tr class="separator:adb7631159f1c3263d5cefad76434e91d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a600ba5aedffb268cdce0f3b5f59d7dc3"><td class="memItemLeft" align="right" valign="top">constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a600ba5aedffb268cdce0f3b5f59d7dc3">G_EARTH</a> = 9.80665f</td></tr>
+<tr class="memdesc:a600ba5aedffb268cdce0f3b5f59d7dc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">standard gravitational acceleration [m/s²]  <a href="namespaceXPMP2.html#a600ba5aedffb268cdce0f3b5f59d7dc3">More...</a><br /></td></tr>
+<tr class="separator:a600ba5aedffb268cdce0f3b5f59d7dc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeedd42c11f8745fd5f74f6264ab5b31f"><td class="memItemLeft" align="right" valign="top">constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aeedd42c11f8745fd5f74f6264ab5b31f">REMOTE_SIGNATURE</a> = &quot;TwinFan.plugin.XPMP2.Remote&quot;</td></tr>
 <tr class="memdesc:aeedd42c11f8745fd5f74f6264ab5b31f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The signature of the <a class="el" href="namespaceXPMP2.html">XPMP2</a> Remote Client.  <a href="namespaceXPMP2.html#aeedd42c11f8745fd5f74f6264ab5b31f">More...</a><br /></td></tr>
 <tr class="separator:aeedd42c11f8745fd5f74f6264ab5b31f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -937,7 +948,7 @@ Variables</h2></td></tr>
 <tr class="memitem:a1bce12947cfb542afb194319fd47d5e3"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a1bce12947cfb542afb194319fd47d5e3">PI</a> = 3.1415926535897932384626433832795028841971693993751</td></tr>
 <tr class="memdesc:a1bce12947cfb542afb194319fd47d5e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pi.  <a href="namespaceXPMP2.html#a1bce12947cfb542afb194319fd47d5e3">More...</a><br /></td></tr>
 <tr class="separator:a1bce12947cfb542afb194319fd47d5e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb7825a2923e0cb619b5669e76a5991d"><td class="memItemLeft" align="right" valign="top">constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#abb7825a2923e0cb619b5669e76a5991d">XPMP2_VER</a> = 2.30f</td></tr>
+<tr class="memitem:abb7825a2923e0cb619b5669e76a5991d"><td class="memItemLeft" align="right" valign="top">constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#abb7825a2923e0cb619b5669e76a5991d">XPMP2_VER</a> = 2.40f</td></tr>
 <tr class="memdesc:abb7825a2923e0cb619b5669e76a5991d"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="namespaceXPMP2.html">XPMP2</a> version number.  <a href="namespaceXPMP2.html#abb7825a2923e0cb619b5669e76a5991d">More...</a><br /></td></tr>
 <tr class="separator:abb7825a2923e0cb619b5669e76a5991d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -1190,6 +1201,20 @@ The animation dataRef values element. </td></tr>
 </div><div class="memdoc">
 
 <p>a map of a text and a counter </p>
+
+</div>
+</div>
+<a id="ab4b2fbd4b38dcb0cb4d73920117f0630"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4b2fbd4b38dcb0cb4d73920117f0630">&#9670;&nbsp;</a></span>mapWakeTy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef std::map&lt;std::string, <a class="el" href="structXPMP2_1_1Aircraft_1_1wakeTy.html">Aircraft::wakeTy</a>&gt; <a class="el" href="namespaceXPMP2.html#ab4b2fbd4b38dcb0cb4d73920117f0630">XPMP2::mapWakeTy</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -1652,6 +1677,36 @@ The animation dataRef values element. </td></tr>
 </div><div class="memdoc">
 
 <p>Initialize the module. </p>
+
+</div>
+</div>
+<a id="ab797d58a094d9a7fcc68525c59a18686"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab797d58a094d9a7fcc68525c59a18686">&#9670;&nbsp;</a></span>AcSetDefaultWakeData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::AcSetDefaultWakeData </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>_wtc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structXPMP2_1_1Aircraft_1_1wakeTy.html">Aircraft::wakeTy</a> &amp;&#160;</td>
+          <td class="paramname"><em>_wake</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>(Re)Define default wake turbulence values per WTC </p>
 
 </div>
 </div>
@@ -3321,6 +3376,33 @@ template&lt;class T &gt; </div>
 </div><div class="memdoc">
 
 <p>Are we going to new (TCAS override) or the old way? </p>
+
+</div>
+</div>
+<a id="aa934337e78acbe2619feae47620558a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa934337e78acbe2619feae47620558a8">&#9670;&nbsp;</a></span>GoTCASWake()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::GoTCASWake </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Can we use the XP12 wake support system? </p>
 
 </div>
 </div>
@@ -5237,6 +5319,31 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
+<a id="a600ba5aedffb268cdce0f3b5f59d7dc3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a600ba5aedffb268cdce0f3b5f59d7dc3">&#9670;&nbsp;</a></span>G_EARTH</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr float XPMP2::G_EARTH = 9.80665f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>standard gravitational acceleration [m/s²] </p>
+<dl class="section see"><dt>See also</dt><dd><a href="https://en.wikipedia.org/wiki/Gravity_of_Earth">https://en.wikipedia.org/wiki/Gravity_of_Earth</a> </dd></dl>
+
+</div>
+</div>
 <a id="a25c2a04db933766f2bbe5d6fa992329e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a25c2a04db933766f2bbe5d6fa992329e">&#9670;&nbsp;</a></span>gaddrLocal</h2>
 
@@ -6525,7 +6632,7 @@ template&lt;class T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr float XPMP2::XPMP2_VER = 2.30f</td>
+          <td class="memname">constexpr float XPMP2::XPMP2_VER = 2.40f</td>
         </tr>
       </table>
   </td>

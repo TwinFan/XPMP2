@@ -44,6 +44,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
@@ -76,6 +77,12 @@ $(function() {
   </map>
 </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1Aircraft_1_1wakeTy.html">wakeTy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wake dataRef support.  <a href="structXPMP2_1_1Aircraft_1_1wakeTy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:af77ba40523a9e43e4c4c3ca433210817"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#af77ba40523a9e43e4c4c3ca433210817">Aircraft</a> (const std::string &amp;_icaoType, const std::string &amp;_icaoAirline, const std::string &amp;_livery, <a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> _modeS_id=0, const std::string &amp;_cslId=&quot;&quot;)</td></tr>
@@ -401,6 +408,36 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa12f2f34fdd5252b7cb3ba209dd0076a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#aa12f2f34fdd5252b7cb3ba209dd0076a">SetTouchDown</a> (bool _b)</td></tr>
 <tr class="memdesc:aa12f2f34fdd5252b7cb3ba209dd0076a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moment of touch down.  <a href="classXPMP2_1_1Aircraft.html#aa12f2f34fdd5252b7cb3ba209dd0076a">More...</a><br /></td></tr>
 <tr class="separator:aa12f2f34fdd5252b7cb3ba209dd0076a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1e07742ff07168c4103baf14d53b4de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ad1e07742ff07168c4103baf14d53b4de">WakeApplyDefaults</a> (bool _bOverwriteAllFields=true)</td></tr>
+<tr class="memdesc:ad1e07742ff07168c4103baf14d53b4de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill in default wake turbulence support data based on <a class="el" href="structXPMP2_1_1Doc8643.html" title="Represents a line in the Doc8643.txt file, of which we use only classification and WTC.">Doc8643</a> wake turbulence category.  <a href="classXPMP2_1_1Aircraft.html#ad1e07742ff07168c4103baf14d53b4de">More...</a><br /></td></tr>
+<tr class="separator:ad1e07742ff07168c4103baf14d53b4de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaae9f6aab10183dc82e6e89b6391748e"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#aaae9f6aab10183dc82e6e89b6391748e">GetWingSpan</a> () const</td></tr>
+<tr class="memdesc:aaae9f6aab10183dc82e6e89b6391748e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wing span [m].  <a href="classXPMP2_1_1Aircraft.html#aaae9f6aab10183dc82e6e89b6391748e">More...</a><br /></td></tr>
+<tr class="separator:aaae9f6aab10183dc82e6e89b6391748e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa37b3e1366e426ed6c7e5541e5453848"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#aa37b3e1366e426ed6c7e5541e5453848">SetWingSpan</a> (float _m)</td></tr>
+<tr class="memdesc:aa37b3e1366e426ed6c7e5541e5453848"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wing span [m].  <a href="classXPMP2_1_1Aircraft.html#aa37b3e1366e426ed6c7e5541e5453848">More...</a><br /></td></tr>
+<tr class="separator:aa37b3e1366e426ed6c7e5541e5453848"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75a314ab8e9a89bcb10e88953836809b"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a75a314ab8e9a89bcb10e88953836809b">GetWingArea</a> () const</td></tr>
+<tr class="memdesc:a75a314ab8e9a89bcb10e88953836809b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wing area [m²].  <a href="classXPMP2_1_1Aircraft.html#a75a314ab8e9a89bcb10e88953836809b">More...</a><br /></td></tr>
+<tr class="separator:a75a314ab8e9a89bcb10e88953836809b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f03da6910b6bfcfea20500d61362e84"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a9f03da6910b6bfcfea20500d61362e84">SetWingArea</a> (float _m2)</td></tr>
+<tr class="memdesc:a9f03da6910b6bfcfea20500d61362e84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wing area [m²].  <a href="classXPMP2_1_1Aircraft.html#a9f03da6910b6bfcfea20500d61362e84">More...</a><br /></td></tr>
+<tr class="separator:a9f03da6910b6bfcfea20500d61362e84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e851b5968ed5f0df7d07a38c7aac67d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a1e851b5968ed5f0df7d07a38c7aac67d">GetWakeCat</a> () const</td></tr>
+<tr class="memdesc:a1e851b5968ed5f0df7d07a38c7aac67d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Category between 0=light and 3=Super, derived from WTC.  <a href="classXPMP2_1_1Aircraft.html#a1e851b5968ed5f0df7d07a38c7aac67d">More...</a><br /></td></tr>
+<tr class="separator:a1e851b5968ed5f0df7d07a38c7aac67d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fb80331fea547c3f8294bee4af6ba69"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a8fb80331fea547c3f8294bee4af6ba69">GetMass</a> () const</td></tr>
+<tr class="memdesc:a8fb80331fea547c3f8294bee4af6ba69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mass [kg].  <a href="classXPMP2_1_1Aircraft.html#a8fb80331fea547c3f8294bee4af6ba69">More...</a><br /></td></tr>
+<tr class="separator:a8fb80331fea547c3f8294bee4af6ba69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a107011738826e72ae51b1761add4852b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a107011738826e72ae51b1761add4852b">SetMass</a> (float _kg)</td></tr>
+<tr class="memdesc:a107011738826e72ae51b1761add4852b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mass [kg].  <a href="classXPMP2_1_1Aircraft.html#a107011738826e72ae51b1761add4852b">More...</a><br /></td></tr>
+<tr class="separator:a107011738826e72ae51b1761add4852b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3eafb6479522bf89ba8af210d44e9eb"><td class="memItemLeft" align="right" valign="top">virtual float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ae3eafb6479522bf89ba8af210d44e9eb">GetAoA</a> () const</td></tr>
+<tr class="memdesc:ae3eafb6479522bf89ba8af210d44e9eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Angle of Attach, returns pitch (but you can override in your class)  <a href="classXPMP2_1_1Aircraft.html#ae3eafb6479522bf89ba8af210d44e9eb">More...</a><br /></td></tr>
+<tr class="separator:ae3eafb6479522bf89ba8af210d44e9eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a2e31fda6d4283ae1c5620c71642ee1"><td class="memItemLeft" align="right" valign="top">virtual float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a7a2e31fda6d4283ae1c5620c71642ee1">GetLift</a> () const</td></tr>
+<tr class="memdesc:a7a2e31fda6d4283ae1c5620c71642ee1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lift produced. You <em>should</em> override to blend in/out for take-off/landing, but <a class="el" href="namespaceXPMP2.html">XPMP2</a> has no dynamic info of your plane, not even an on-the-ground flag.  <a href="classXPMP2_1_1Aircraft.html#a7a2e31fda6d4283ae1c5620c71642ee1">More...</a><br /></td></tr>
+<tr class="separator:a7a2e31fda6d4283ae1c5620c71642ee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4c726e64a78c56b8507699bb8a5af67"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#aa4c726e64a78c56b8507699bb8a5af67">MapFindIcon</a> ()</td></tr>
 <tr class="memdesc:aa4c726e64a78c56b8507699bb8a5af67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine which map icon to use for this aircraft.  <a href="classXPMP2_1_1Aircraft.html#aa4c726e64a78c56b8507699bb8a5af67">More...</a><br /></td></tr>
 <tr class="separator:aa4c726e64a78c56b8507699bb8a5af67"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -452,6 +489,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:aa9f165482f1c950543072637685ef3a4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPMultiplayer_8h.html#structXPMPPlaneRadar__t">XPMPPlaneRadar_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#aa9f165482f1c950543072637685ef3a4">acRadar</a></td></tr>
 <tr class="memdesc:aa9f165482f1c950543072637685ef3a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current radar status.  <a href="classXPMP2_1_1Aircraft.html#aa9f165482f1c950543072637685ef3a4">More...</a><br /></td></tr>
 <tr class="separator:aa9f165482f1c950543072637685ef3a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3614c6b0e3b883e18f0ca83f98759f78"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structXPMP2_1_1Aircraft_1_1wakeTy.html">XPMP2::Aircraft::wakeTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a3614c6b0e3b883e18f0ca83f98759f78">wake</a></td></tr>
+<tr class="memdesc:a3614c6b0e3b883e18f0ca83f98759f78"><td class="mdescLeft">&#160;</td><td class="mdescRight">wake-support data  <a href="classXPMP2_1_1Aircraft.html#a3614c6b0e3b883e18f0ca83f98759f78">More...</a><br /></td></tr>
+<tr class="separator:a3614c6b0e3b883e18f0ca83f98759f78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f5bfa2ee408382168b2ccef6aafb20c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPMultiplayer_8h.html#structXPMPInfoTexts__t">XPMPInfoTexts_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a8f5bfa2ee408382168b2ccef6aafb20c">acInfoTexts</a></td></tr>
 <tr class="memdesc:a8f5bfa2ee408382168b2ccef6aafb20c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Informational texts passed on via multiplayer shared dataRefs.  <a href="classXPMP2_1_1Aircraft.html#a8f5bfa2ee408382168b2ccef6aafb20c">More...</a><br /></td></tr>
 <tr class="separator:a8f5bfa2ee408382168b2ccef6aafb20c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1047,6 +1087,33 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="ae3eafb6479522bf89ba8af210d44e9eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3eafb6479522bf89ba8af210d44e9eb">&#9670;&nbsp;</a></span>GetAoA()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual float XPMP2::Aircraft::GetAoA </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Angle of Attach, returns pitch (but you can override in your class) </p>
+
+</div>
+</div>
 <a id="a4b490b3171816c3932e77a95408c1b1a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4b490b3171816c3932e77a95408c1b1a">&#9670;&nbsp;</a></span>GetCameraBearing()</h2>
 
@@ -1375,6 +1442,33 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a7a2e31fda6d4283ae1c5620c71642ee1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a2e31fda6d4283ae1c5620c71642ee1">&#9670;&nbsp;</a></span>GetLift()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual float XPMP2::Aircraft::GetLift </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Lift produced. You <em>should</em> override to blend in/out for take-off/landing, but <a class="el" href="namespaceXPMP2.html">XPMP2</a> has no dynamic info of your plane, not even an on-the-ground flag. </p>
+
+</div>
+</div>
 <a id="a00ca4a1771d7e037df0ce4e46ea0ad13"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a00ca4a1771d7e037df0ce4e46ea0ad13">&#9670;&nbsp;</a></span>GetLightsBeacon()</h2>
 
@@ -1571,6 +1665,33 @@ Friends</h2></td></tr>
 
 <p>Converts aircraft's local coordinates to lat/lon values. </p>
 <dl class="section warning"><dt>Warning</dt><dd>This isn't exactly precice. If you need precise location keep it in your derived class yourself. </dd></dl>
+
+</div>
+</div>
+<a id="a8fb80331fea547c3f8294bee4af6ba69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fb80331fea547c3f8294bee4af6ba69">&#9670;&nbsp;</a></span>GetMass()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetMass </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Mass [kg]. </p>
 
 </div>
 </div>
@@ -2236,6 +2357,79 @@ Friends</h2></td></tr>
 </ol>
 </li>
 </ol>
+
+</div>
+</div>
+<a id="a1e851b5968ed5f0df7d07a38c7aac67d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e851b5968ed5f0df7d07a38c7aac67d">&#9670;&nbsp;</a></span>GetWakeCat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int XPMP2::Aircraft::GetWakeCat </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Category between 0=light and 3=Super, derived from WTC. </p>
+
+</div>
+</div>
+<a id="a75a314ab8e9a89bcb10e88953836809b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75a314ab8e9a89bcb10e88953836809b">&#9670;&nbsp;</a></span>GetWingArea()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetWingArea </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Wing area [m²]. </p>
+
+</div>
+</div>
+<a id="aaae9f6aab10183dc82e6e89b6391748e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaae9f6aab10183dc82e6e89b6391748e">&#9670;&nbsp;</a></span>GetWingSpan()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetWingSpan </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Wing span [m]. </p>
 
 </div>
 </div>
@@ -3236,6 +3430,34 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a107011738826e72ae51b1761add4852b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a107011738826e72ae51b1761add4852b">&#9670;&nbsp;</a></span>SetMass()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetMass </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_kg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Mass [kg]. </p>
+
+</div>
+</div>
 <a id="aa3f0ed780f0b489586ec264bbdf5b0c0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa3f0ed780f0b489586ec264bbdf5b0c0">&#9670;&nbsp;</a></span>SetNoseGearDeflection()</h2>
 
@@ -3820,6 +4042,62 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a9f03da6910b6bfcfea20500d61362e84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f03da6910b6bfcfea20500d61362e84">&#9670;&nbsp;</a></span>SetWingArea()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetWingArea </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_m2</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Wing area [m²]. </p>
+
+</div>
+</div>
+<a id="aa37b3e1366e426ed6c7e5541e5453848"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa37b3e1366e426ed6c7e5541e5453848">&#9670;&nbsp;</a></span>SetWingSpan()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetWingSpan </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>_m</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Wing span [m]. </p>
+
+</div>
+</div>
 <a id="ac705639408da72cc4952f92c555bfb5c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac705639408da72cc4952f92c555bfb5c">&#9670;&nbsp;</a></span>SetWingSweepRatio()</h2>
 
@@ -4032,6 +4310,32 @@ Friends</h2></td></tr>
 </dl>
 
 <p>Implemented in <a class="el" href="classRemoteAC.html#ac482ed0731dc4561bb25c16605d2c773">RemoteAC</a>, <a class="el" href="classSampleAircraft.html#adb716173b20edb359c23fbf2ac554104">SampleAircraft</a>, and <a class="el" href="classXPCAircraft.html#a20a474086cb0c7c393578e5f9d42ef2c">XPCAircraft</a>.</p>
+
+</div>
+</div>
+<a id="ad1e07742ff07168c4103baf14d53b4de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1e07742ff07168c4103baf14d53b4de">&#9670;&nbsp;</a></span>WakeApplyDefaults()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::WakeApplyDefaults </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>_bOverwriteAllFields</em> = <code>true</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fill in default wake turbulence support data based on <a class="el" href="structXPMP2_1_1Doc8643.html" title="Represents a line in the Doc8643.txt file, of which we use only classification and WTC.">Doc8643</a> wake turbulence category. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">_bOverwriteAllFields</td><td>If <code>false</code> only overwrites <code>NAN</code> values in <code><a class="el" href="structXPMP2_1_1Aircraft_1_1wakeTy.html" title="Wake dataRef support.">wakeTy</a></code> </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -4860,6 +5164,22 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>How much of the vertical offset shall be applied? (This allows phasing out the vertical offset in higher altitudes.) [0..1]. </p>
+
+</div>
+</div>
+<a id="a3614c6b0e3b883e18f0ca83f98759f78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3614c6b0e3b883e18f0ca83f98759f78">&#9670;&nbsp;</a></span>wake</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structXPMP2_1_1Aircraft_1_1wakeTy.html">XPMP2::Aircraft::wakeTy</a> XPMP2::Aircraft::wake</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>wake-support data </p>
 
 </div>
 </div>

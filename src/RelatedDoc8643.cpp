@@ -127,6 +127,19 @@ Doc8643::Doc8643 (const std::string& _classification,
     wtc[sizeof(wtc)-1] = 0;
 }
 
+// Returns the wake category as per XP12's wake system
+int Doc8643::GetWakeCat() const
+{
+    switch (wtc[0])
+    {
+    case 'L': return 0;                 // Light, also catches the "L/M" type, but XP only offers 4 values anyway
+    case 'H': return 2;                 // Heavy, like B744
+    case 'J': return 3;                 // Super, like A388
+    default:
+        return 1;                       // default: Medium
+    }
+}
+
 // reads the Doc8643 file into mapDoc8643
 const char* Doc8643Load (const std::string& _path)
 {

@@ -46,6 +46,7 @@ $(function() {
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
@@ -97,6 +98,11 @@ Macros</h2></td></tr>
 <tr class="memitem:a1beb4bb77ee6443c0655600ef68c4d38"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Aircraft_8cpp.html#a1beb4bb77ee6443c0655600ef68c4d38">DEBUG_DATAREF_ADDED</a>&#160;&#160;&#160;&quot;Added dataRef %s as index %lu&quot;</td></tr>
 <tr class="separator:a1beb4bb77ee6443c0655600ef68c4d38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ab4b2fbd4b38dcb0cb4d73920117f0630"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; std::string, <a class="el" href="structXPMP2_1_1Aircraft_1_1wakeTy.html">Aircraft::wakeTy</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ab4b2fbd4b38dcb0cb4d73920117f0630">XPMP2::mapWakeTy</a></td></tr>
+<tr class="separator:ab4b2fbd4b38dcb0cb4d73920117f0630"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:aa9cd4fc89d9ee438df7b86634df7b49b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aa9cd4fc89d9ee438df7b86634df7b49b">XPMP2::AcInit</a> ()</td></tr>
@@ -108,6 +114,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a99c2922b0eb1d20121a15724e899d640"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a99c2922b0eb1d20121a15724e899d640">XPMP2::AcFindByID</a> (<a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> _id)</td></tr>
 <tr class="memdesc:a99c2922b0eb1d20121a15724e899d640"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find aircraft by its plane ID, can return nullptr.  <a href="namespaceXPMP2.html#a99c2922b0eb1d20121a15724e899d640">More...</a><br /></td></tr>
 <tr class="separator:a99c2922b0eb1d20121a15724e899d640"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab797d58a094d9a7fcc68525c59a18686"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ab797d58a094d9a7fcc68525c59a18686">XPMP2::AcSetDefaultWakeData</a> (const std::string &amp;_wtc, const <a class="el" href="structXPMP2_1_1Aircraft_1_1wakeTy.html">Aircraft::wakeTy</a> &amp;_wake)</td></tr>
+<tr class="memdesc:ab797d58a094d9a7fcc68525c59a18686"><td class="mdescLeft">&#160;</td><td class="mdescRight">(Re)Define default wake turbulence values per WTC  <a href="namespaceXPMP2.html#ab797d58a094d9a7fcc68525c59a18686">More...</a><br /></td></tr>
+<tr class="separator:ab797d58a094d9a7fcc68525c59a18686"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae6d6422ff2e20c4c55c63ec1adb5429c"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Aircraft_8cpp.html#ae6d6422ff2e20c4c55c63ec1adb5429c">XPMPAddModelDataRef</a> (const std::string &amp;dataRef)</td></tr>
 <tr class="memdesc:ae6d6422ff2e20c4c55c63ec1adb5429c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a user-defined dataRef to the list of dataRefs supported by every plane.  <a href="Aircraft_8cpp.html#ae6d6422ff2e20c4c55c63ec1adb5429c">More...</a><br /></td></tr>
 <tr class="separator:ae6d6422ff2e20c4c55c63ec1adb5429c"><td class="memSeparator" colspan="2">&#160;</td></tr>

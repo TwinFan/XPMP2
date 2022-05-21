@@ -3,9 +3,19 @@
 
 cmake_minimum_required(VERSION 3.16)
 
+# Need to tell early on that we want a cross platform build
+set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64" CACHE STRING "Archs to build")
+
 project(XPMP2
-        VERSION 2.3
+        VERSION 2.40
         DESCRIPTION "Multiplayer library for X-Plane 11")
+
+# Provide compile macros from the above project version definition
+add_compile_definitions(
+    XPMP2_VERSION="${PROJECT_VERSION}"
+    XPMP2_VER_MAJOR=${PROJECT_VERSION_MAJOR}
+    XPMP2_VER_MINOR=${PROJECT_VERSION_MINOR}
+)
 
 message ("Compiler Info:")
 message ("CMAKE_CXX_COMPILER_ID         = ${CMAKE_CXX_COMPILER_ID}")
@@ -28,8 +38,7 @@ if (WIN32)
         set(ENV{platform} "win")
     endif()
 elseif(APPLE)
-    add_compile_options(-mmacosx-version-min=10.11)
-    add_link_options(-mmacosx-version-min=10.11)
+    set(CMAKE_OSX_DEPLOYMENT_TARGET 11.0)
 endif()
 
 ################################################################################

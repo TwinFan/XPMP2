@@ -5,9 +5,15 @@
 # OSX_SDK_PATH = "/usr/osxcross/SDK/MacOSX11.1.sdk"
 
 set(CMAKE_SYSTEM_NAME Darwin)
-set(TOOLCHAIN_PREFIX $ENV{OSX_TOOLCHAIN_PREFIX})
+set(CMAKE_OSX_SYSROOT "macosx" CACHE STRING "SysRoot")
+
+# For the moment we enforce one architecture only
+# Either one works fine, but both together don't yet form a universal binary on osx-cross
+set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "Archs to build" FORCE)
+# set(CMAKE_OSX_ARCHITECTURES "arm64" CACHE STRING "Archs to build" FORCE)
 
 # cross compilers to use for C and C++
+set(TOOLCHAIN_PREFIX $ENV{OSX_TOOLCHAIN_PREFIX})
 set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}-clang)
 set(CMAKE_CXX_COMPILER ${TOOLCHAIN_PREFIX}-clang++-libc++)
 

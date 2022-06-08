@@ -272,9 +272,11 @@ size_t AIUpdateMultiplayerDataRefs()
             XPLMSetDataf(mdr.flap,  ac.v[V_CONTROLS_FLAP_RATIO]);
             XPLMSetDataf(mdr.flap2, ac.v[V_CONTROLS_FLAP_RATIO]);
             // [...]
-            XPLMSetDataf(mdr.yoke_pitch, ac.v[V_CONTROLS_YOKE_PITCH_RATIO]);
-            XPLMSetDataf(mdr.yoke_roll,  ac.v[V_CONTROLS_YOKE_ROLL_RATIO]);
-            XPLMSetDataf(mdr.yoke_yaw,   ac.v[V_CONTROLS_YOKE_HEADING_RATIO]);
+            if (mdr.yoke_pitch) {
+                XPLMSetDataf(mdr.yoke_pitch, ac.v[V_CONTROLS_YOKE_PITCH_RATIO]);
+                XPLMSetDataf(mdr.yoke_roll,  ac.v[V_CONTROLS_YOKE_ROLL_RATIO]);
+                XPLMSetDataf(mdr.yoke_yaw,   ac.v[V_CONTROLS_YOKE_HEADING_RATIO]);
+            }
 
             // For performance reasons and because differences (cartesian velocity)
             // are smoother if calculated over "longer" time frames,
@@ -757,9 +759,11 @@ void AIMultiClearAIDataRefs (multiDataRefsTy& drM,
     XPLMSetDataf(drM.slat, 0.0f);
     XPLMSetDataf(drM.wingSweep, 0.0f);
     XPLMSetDatavf(drM.throttle, F_NULL, 0, 8);
-    XPLMSetDataf(drM.yoke_pitch, 0.0f);
-    XPLMSetDataf(drM.yoke_roll, 0.0f);
-    XPLMSetDataf(drM.yoke_yaw, 0.0f);
+    if (drM.yoke_pitch) {
+        XPLMSetDataf(drM.yoke_pitch, 0.0f);
+        XPLMSetDataf(drM.yoke_roll, 0.0f);
+        XPLMSetDataf(drM.yoke_yaw, 0.0f);
+    }
 
     XPLMSetDatai(drM.bcnLights, 0);             // all lights off
     XPLMSetDatai(drM.landLights, 0);
@@ -881,9 +885,15 @@ void AIMultiInit ()
             drTcasSlat          = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/slat_ratio");
             drTcasWingSweep     = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/wing_sweep");
             drTcasThrottle      = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/throttle");
-            drTcasYokePitch     = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yolk_pitch");
-            drTcasYokeRoll      = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yolk_roll");
-            drTcasYokeYaw       = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yolk_yaw");
+            drTcasYokePitch     = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yoke_pitch");     // XP12 silently corrected the spelling
+            if (!drTcasYokePitch)
+                drTcasYokePitch = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yolk_pitch");     // XP11 had copied the original spelling mistake
+            drTcasYokeRoll      = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yoke_roll");
+            if (!drTcasYokeRoll)
+                drTcasYokeRoll  = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yolk_roll");
+            drTcasYokeYaw       = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yoke_yaw");
+            if (!drTcasYokeYaw)
+                drTcasYokeYaw   = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yolk_yaw");
             drTcasLights        = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/lights");
             // Wake support as of XP12, so these can fail in earlier versions:
             drTcasWakeWingSpan  = XPLMFindDataRef("sim/cockpit2/tcas/targets/wake/wing_span_m");
@@ -943,9 +953,17 @@ void AIMultiInit ()
         }
         FIND_PLANE_DR(wingSweep,            "wing_sweep",           nDrM);
         FIND_PLANE_DR(throttle,             "throttle",             nDrM);
-        FIND_PLANE_DR(yoke_pitch,           "yolk_pitch",           nDrM);
-        FIND_PLANE_DR(yoke_roll,            "yolk_roll",            nDrM);
-        FIND_PLANE_DR(yoke_yaw,             "yolk_yaw",             nDrM);
+        
+        // In XP12 the following classic dataRefs are considered legacy and throw user-visible warnings if used
+        // I'm too lazy to use the (proper) array sim/multiplayer/controls/yoke_pitch_ratio[20] instead
+        // due to that being an array dataRefs as opposed to these here using plane%u semantics.
+        // But in XP12 we don't need the legacy dataRefs anyway, so we can live without these 3 if we have TCAS override:
+        if (!numSlots) {
+            FIND_PLANE_DR(yoke_pitch,       "yolk_pitch",           nDrM);
+            FIND_PLANE_DR(yoke_roll,        "yolk_roll",            nDrM);
+            FIND_PLANE_DR(yoke_yaw,         "yolk_yaw",             nDrM);
+        }
+        
         // lights
         FIND_PLANE_DR(bcnLights,            "beacon_lights_on",     nDrM);
         FIND_PLANE_DR(landLights,           "landing_lights_on",    nDrM);

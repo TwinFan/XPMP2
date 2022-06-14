@@ -83,28 +83,28 @@ struct multiDataRefsTy {
     XPLMDataRef roll    = nullptr;      ///< phi
     XPLMDataRef heading = nullptr;      ///< psi
 
-    XPLMDataRef gear;                   ///< gear_deploy[10]
-    XPLMDataRef flap;                   ///< flap_ratio
-    XPLMDataRef flap2;                  ///< flap_ratio2
-    XPLMDataRef spoiler;                ///< spoiler_ratio
-    XPLMDataRef speedbrake;             ///< speedbrake
-    XPLMDataRef slat;                   ///< slat_ratio
-    XPLMDataRef wingSweep;              ///< wing_sweep
-    XPLMDataRef throttle;               ///< throttle[8]
-    XPLMDataRef yoke_pitch;             ///< yolk_pitch
-    XPLMDataRef yoke_roll;              ///< yolk_roll
-    XPLMDataRef yoke_yaw;               ///< yolk_yaw
+    XPLMDataRef gear        = nullptr;  ///< gear_deploy[10]
+    XPLMDataRef flap        = nullptr;  ///< flap_ratio
+    XPLMDataRef flap2       = nullptr;  ///< flap_ratio2
+    XPLMDataRef spoiler     = nullptr;  ///< spoiler_ratio
+    XPLMDataRef speedbrake  = nullptr;  ///< speedbrake
+    XPLMDataRef slat        = nullptr;  ///< slat_ratio
+    XPLMDataRef wingSweep   = nullptr;  ///< wing_sweep
+    XPLMDataRef throttle    = nullptr;  ///< throttle[8]
+    XPLMDataRef yoke_pitch  = nullptr;  ///< yolk_pitch
+    XPLMDataRef yoke_roll   = nullptr;  ///< yolk_roll
+    XPLMDataRef yoke_yaw    = nullptr;  ///< yolk_yaw
 
-    XPLMDataRef bcnLights;              ///< beacon_lights_on
-    XPLMDataRef landLights;             ///< landing_lights_on
-    XPLMDataRef navLights;              ///< nav_lights_on
-    XPLMDataRef strbLights;             ///< strobe_lights_on
-    XPLMDataRef taxiLights = nullptr;   ///< taxi_light_on
+    XPLMDataRef bcnLights   = nullptr;  ///< beacon_lights_on
+    XPLMDataRef landLights  = nullptr;  ///< landing_lights_on
+    XPLMDataRef navLights   = nullptr;  ///< nav_lights_on
+    XPLMDataRef strbLights  = nullptr;  ///< strobe_lights_on
+    XPLMDataRef taxiLights  = nullptr;  ///< taxi_light_on
 
     /// Looks OK, the dataRefs are available?
     inline operator bool () const { return X && Y && Z && pitch && roll && heading && taxiLights; }
     /// Clear the tested dataRefs
-    void clear () { X = Y = Z = pitch = roll = heading = taxiLights = nullptr; }
+    void clear () { X = Y = Z = pitch = roll = heading = yoke_pitch = taxiLights = nullptr; }
 };
 
 /// Keeps the dataRef handles for one of the up to 63 shared data slots ("sim/multiplayer/position/plane#...")

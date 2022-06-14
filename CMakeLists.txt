@@ -4,7 +4,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 project(XPMP2
-        VERSION 2.3
+        VERSION 2.4
         DESCRIPTION "Multiplayer library for X-Plane 11")
 
 message ("Compiler Info:")

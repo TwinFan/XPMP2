@@ -83,28 +83,28 @@ struct multiDataRefsTy {
     XPLMDataRef roll    = nullptr;      ///< phi
     XPLMDataRef heading = nullptr;      ///< psi
 
-    XPLMDataRef gear;                   ///< gear_deploy[10]
-    XPLMDataRef flap;                   ///< flap_ratio
-    XPLMDataRef flap2;                  ///< flap_ratio2
-    XPLMDataRef spoiler;                ///< spoiler_ratio
-    XPLMDataRef speedbrake;             ///< speedbrake
-    XPLMDataRef slat;                   ///< slat_ratio
-    XPLMDataRef wingSweep;              ///< wing_sweep
-    XPLMDataRef throttle;               ///< throttle[8]
-    XPLMDataRef yoke_pitch;             ///< yolk_pitch
-    XPLMDataRef yoke_roll;              ///< yolk_roll
-    XPLMDataRef yoke_yaw;               ///< yolk_yaw
+    XPLMDataRef gear        = nullptr;  ///< gear_deploy[10]
+    XPLMDataRef flap        = nullptr;  ///< flap_ratio
+    XPLMDataRef flap2       = nullptr;  ///< flap_ratio2
+    XPLMDataRef spoiler     = nullptr;  ///< spoiler_ratio
+    XPLMDataRef speedbrake  = nullptr;  ///< speedbrake
+    XPLMDataRef slat        = nullptr;  ///< slat_ratio
+    XPLMDataRef wingSweep   = nullptr;  ///< wing_sweep
+    XPLMDataRef throttle    = nullptr;  ///< throttle[8]
+    XPLMDataRef yoke_pitch  = nullptr;  ///< yolk_pitch
+    XPLMDataRef yoke_roll   = nullptr;  ///< yolk_roll
+    XPLMDataRef yoke_yaw    = nullptr;  ///< yolk_yaw
 
-    XPLMDataRef bcnLights;              ///< beacon_lights_on
-    XPLMDataRef landLights;             ///< landing_lights_on
-    XPLMDataRef navLights;              ///< nav_lights_on
-    XPLMDataRef strbLights;             ///< strobe_lights_on
-    XPLMDataRef taxiLights = nullptr;   ///< taxi_light_on
+    XPLMDataRef bcnLights   = nullptr;  ///< beacon_lights_on
+    XPLMDataRef landLights  = nullptr;  ///< landing_lights_on
+    XPLMDataRef navLights   = nullptr;  ///< nav_lights_on
+    XPLMDataRef strbLights  = nullptr;  ///< strobe_lights_on
+    XPLMDataRef taxiLights  = nullptr;  ///< taxi_light_on
 
     /// Looks OK, the dataRefs are available?
     inline operator bool () const { return X && Y && Z && pitch && roll && heading && taxiLights; }
     /// Clear the tested dataRefs
-    void clear () { X = Y = Z = pitch = roll = heading = taxiLights = nullptr; }
+    void clear () { X = Y = Z = pitch = roll = heading = yoke_pitch = taxiLights = nullptr; }
 };
 
 /// Keeps the dataRef handles for one of the up to 63 shared data slots ("sim/multiplayer/position/plane#...")
@@ -272,9 +272,11 @@ size_t AIUpdateMultiplayerDataRefs()
             XPLMSetDataf(mdr.flap,  ac.v[V_CONTROLS_FLAP_RATIO]);
             XPLMSetDataf(mdr.flap2, ac.v[V_CONTROLS_FLAP_RATIO]);
             // [...]
-            XPLMSetDataf(mdr.yoke_pitch, ac.v[V_CONTROLS_YOKE_PITCH_RATIO]);
-            XPLMSetDataf(mdr.yoke_roll,  ac.v[V_CONTROLS_YOKE_ROLL_RATIO]);
-            XPLMSetDataf(mdr.yoke_yaw,   ac.v[V_CONTROLS_YOKE_HEADING_RATIO]);
+            if (mdr.yoke_pitch) {
+                XPLMSetDataf(mdr.yoke_pitch, ac.v[V_CONTROLS_YOKE_PITCH_RATIO]);
+                XPLMSetDataf(mdr.yoke_roll,  ac.v[V_CONTROLS_YOKE_ROLL_RATIO]);
+                XPLMSetDataf(mdr.yoke_yaw,   ac.v[V_CONTROLS_YOKE_HEADING_RATIO]);
+            }
 
             // For performance reasons and because differences (cartesian velocity)
             // are smoother if calculated over "longer" time frames,
@@ -757,9 +759,11 @@ void AIMultiClearAIDataRefs (multiDataRefsTy& drM,
     XPLMSetDataf(drM.slat, 0.0f);
     XPLMSetDataf(drM.wingSweep, 0.0f);
     XPLMSetDatavf(drM.throttle, F_NULL, 0, 8);
-    XPLMSetDataf(drM.yoke_pitch, 0.0f);
-    XPLMSetDataf(drM.yoke_roll, 0.0f);
-    XPLMSetDataf(drM.yoke_yaw, 0.0f);
+    if (drM.yoke_pitch) {
+        XPLMSetDataf(drM.yoke_pitch, 0.0f);
+        XPLMSetDataf(drM.yoke_roll, 0.0f);
+        XPLMSetDataf(drM.yoke_yaw, 0.0f);
+    }
 
     XPLMSetDatai(drM.bcnLights, 0);             // all lights off
     XPLMSetDatai(drM.landLights, 0);
@@ -881,9 +885,15 @@ void AIMultiInit ()
             drTcasSlat          = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/slat_ratio");
             drTcasWingSweep     = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/wing_sweep");
             drTcasThrottle      = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/throttle");
-            drTcasYokePitch     = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yolk_pitch");
-            drTcasYokeRoll      = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yolk_roll");
-            drTcasYokeYaw       = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yolk_yaw");
+            drTcasYokePitch     = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yoke_pitch");     // XP12 silently corrected the spelling
+            if (!drTcasYokePitch)
+                drTcasYokePitch = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yolk_pitch");     // XP11 had copied the original spelling mistake
+            drTcasYokeRoll      = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yoke_roll");
+            if (!drTcasYokeRoll)
+                drTcasYokeRoll  = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yolk_roll");
+            drTcasYokeYaw       = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yoke_yaw");
+            if (!drTcasYokeYaw)
+                drTcasYokeYaw   = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/yolk_yaw");
             drTcasLights        = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/lights");
             // Wake support as of XP12, so these can fail in earlier versions:
             drTcasWakeWingSpan  = XPLMFindDataRef("sim/cockpit2/tcas/targets/wake/wing_span_m");
@@ -943,9 +953,17 @@ void AIMultiInit ()
         }
         FIND_PLANE_DR(wingSweep,            "wing_sweep",           nDrM);
         FIND_PLANE_DR(throttle,             "throttle",             nDrM);
-        FIND_PLANE_DR(yoke_pitch,           "yolk_pitch",           nDrM);
-        FIND_PLANE_DR(yoke_roll,            "yolk_roll",            nDrM);
-        FIND_PLANE_DR(yoke_yaw,             "yolk_yaw",             nDrM);
+        
+        // In XP12 the following classic dataRefs are considered legacy and throw user-visible warnings if used
+        // I'm too lazy to use the (proper) array sim/multiplayer/controls/yoke_pitch_ratio[20] instead
+        // due to that being an array dataRefs as opposed to these here using plane%u semantics.
+        // But in XP12 we don't need the legacy dataRefs anyway, so we can live without these 3 if we have TCAS override:
+        if (!numSlots) {
+            FIND_PLANE_DR(yoke_pitch,       "yolk_pitch",           nDrM);
+            FIND_PLANE_DR(yoke_roll,        "yolk_roll",            nDrM);
+            FIND_PLANE_DR(yoke_yaw,         "yolk_yaw",             nDrM);
+        }
+        
         // lights
         FIND_PLANE_DR(bcnLights,            "beacon_lights_on",     nDrM);
         FIND_PLANE_DR(landLights,           "landing_lights_on",    nDrM);

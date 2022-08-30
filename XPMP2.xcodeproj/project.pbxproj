@@ -405,7 +405,7 @@
 		2502C16023BE3CFC00578919 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1310;
+				LastUpgradeCheck = 1340;
 				ORGANIZATIONNAME = TwinFan;
 				TargetAttributes = {
 					2502C17923BE8A1600578919 = {

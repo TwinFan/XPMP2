@@ -7,8 +7,8 @@ cmake_minimum_required(VERSION 3.16)
 set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64" CACHE STRING "Archs to build")
 
 project(XPMP2
-        VERSION 2.40
-        DESCRIPTION "Multiplayer library for X-Plane 11")
+        VERSION 2.50
+        DESCRIPTION "Multiplayer library for X-Plane 11 and 12")
 
 # Provide compile macros from the above project version definition
 add_compile_definitions(

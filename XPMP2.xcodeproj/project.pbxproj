@@ -648,7 +648,7 @@
 				USER_HEADER_SEARCH_PATHS = "$(XPSDK_ROOT)/CHeaders/XPLM";
 				XPLANE11_ROOT = "$(USER_APPS_DIR)/X-Plane/Release";
 				XPMP2_VER_MAJOR = 2;
-				XPMP2_VER_MINOR = 40;
+				XPMP2_VER_MINOR = 50;
 				XPSDK_ROOT = "XPMP2-Sample/SDK";
 			};
 			name = Debug;
@@ -747,7 +747,7 @@
 				USER_HEADER_SEARCH_PATHS = "$(XPSDK_ROOT)/CHeaders/XPLM";
 				XPLANE11_ROOT = "$(USER_APPS_DIR)/X-Plane/Release";
 				XPMP2_VER_MAJOR = 2;
-				XPMP2_VER_MINOR = 40;
+				XPMP2_VER_MINOR = 50;
 				XPSDK_ROOT = "XPMP2-Sample/SDK";
 			};
 			name = Release;

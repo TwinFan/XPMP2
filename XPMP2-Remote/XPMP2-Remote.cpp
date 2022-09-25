@@ -87,13 +87,15 @@ int CBIntPrefsFunc (const char *, [[maybe_unused]] const char * item, int defaul
 //
 
 XPLMMenuID hMenu = nullptr;         ///< menu id of our plugin's menu
+XPLMMenuID hLabels = nullptr;       ///< menu id of the Labels submenu
 XPLMMenuID hSenders = nullptr;      ///< menu id of the Senders submenu
 int numSendersInMenu = 0;           ///< how many lines to we currently server in the menu?
 
 // menu indexes
 constexpr std::uintptr_t MENU_ACTIVE = 0;
 constexpr std::uintptr_t MENU_TCAS   = 1;
-constexpr std::uintptr_t MENU_SENDER = 2;
+constexpr std::uintptr_t MENU_LABELS = 2;
+constexpr std::uintptr_t MENU_SENDER = 3;
 
 /// Command definition per menu item
 struct CmdMenuDefTy {
@@ -132,6 +134,11 @@ void MenuUpdateCheckmarks ()
     
     // Menu item "TCAS Control" (status display)
     XPLMCheckMenuItem(hMenu, MENU_TCAS, XPMPHasControlOfAIAircraft() ? xplm_Menu_Checked : xplm_Menu_Unchecked);
+
+    // Sub menu "Labels"
+    for (XPMP2RCGlobals::DrawLabelsTy e = XPMP2RCGlobals::LABELS_SYNCH;
+         e <= XPMP2RCGlobals::LABELS_OFF; e = XPMP2RCGlobals::DrawLabelsTy(e + 1))
+        XPLMCheckMenuItem(hLabels, e, rcGlob.eDrawLabels == e ? xplm_Menu_Checked : xplm_Menu_Unchecked);
 }
 
 /// (Re)Create the submenu listing information about connected senders
@@ -210,6 +217,36 @@ int CmdCallback (XPLMCommandRef cmdRef, XPLMCommandPhase inPhase, void*)
         LOG_MSG(logFATAL, ERR_EXCEPTION, e.what());
     }
     return 1;
+}
+
+
+/// Callback function for the Labels submenu
+void MenuLabelsCB (void* /*inMenuRef*/, void* inItemRef)
+{
+    // entry point into plugin...catch exceptions latest here
+    try {
+        XPMP2RCGlobals::DrawLabelsTy eDrawLabels =
+        XPMP2RCGlobals::DrawLabelsTy(reinterpret_cast<long long>(inItemRef));
+        switch (eDrawLabels) {
+                // Enable label-drawing in principal
+            case XPMP2RCGlobals::LABELS_SYNCH:
+            case XPMP2RCGlobals::LABELS_ON:
+                rcGlob.eDrawLabels = eDrawLabels;
+                XPMPEnableAircraftLabels();
+                break;
+                
+                // Disable label drawing completely
+            case XPMP2RCGlobals::LABELS_OFF:
+                rcGlob.eDrawLabels = XPMP2RCGlobals::LABELS_OFF;
+                XPMPDisableAircraftLabels();
+                break;
+        }
+        // Update check marks...things might have changed
+        MenuUpdateCheckmarks();
+    }
+    catch (const std::exception& e) {
+        LOG_MSG(logFATAL, ERR_EXCEPTION, e.what());
+    }
 }
 
 //
@@ -318,6 +355,13 @@ PLUGIN_API int XPluginStart(char* outName, char* outSig, char* outDesc)
         XPLMRegisterCommandHandler(cmdDef.hCmd, CmdCallback, 1, NULL);
         XPLMAppendMenuItemWithCommand(hMenu, cmdDef.menuName, cmdDef.hCmd);
     }
+
+    // The Labels submenu has 3 options
+    XPLMAppendMenuItem(hMenu, "Labels", (void*)MENU_LABELS, 0);
+    hLabels = XPLMCreateMenu("Labels", hMenu, MENU_LABELS, MenuLabelsCB, NULL);
+    XPLMAppendMenuItem(hLabels, "Synchronize", (void*)XPMP2RCGlobals::LABELS_SYNCH, 0);
+    XPLMAppendMenuItem(hLabels, "On", (void*)XPMP2RCGlobals::LABELS_ON, 0);
+    XPLMAppendMenuItem(hLabels, "Off", (void*)XPMP2RCGlobals::LABELS_OFF, 0);
 
     // The Senders submenu lists connected plugins with IP address and number of aircraft
     XPLMAppendMenuItem(hMenu, "Senders", (void*)MENU_SENDER, 0);

@@ -175,6 +175,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a70e2a9d0596790c6bbf6cf00c7008d39"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a70e2a9d0596790c6bbf6cf00c7008d39">IsInstanciated</a> () const</td></tr>
 <tr class="memdesc:a70e2a9d0596790c6bbf6cf00c7008d39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Are instances created for this aircraft?  <a href="classXPMP2_1_1Aircraft.html#a70e2a9d0596790c6bbf6cf00c7008d39">More...</a><br /></td></tr>
 <tr class="separator:a70e2a9d0596790c6bbf6cf00c7008d39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8afab3dce05fc46c5605ca9faf9ebb46"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a8afab3dce05fc46c5605ca9faf9ebb46">SetDrawLabel</a> (bool _b)</td></tr>
+<tr class="memdesc:a8afab3dce05fc46c5605ca9faf9ebb46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define if this aircraft's label is to be drawn (provided label drawing is enabled globally)  <a href="classXPMP2_1_1Aircraft.html#a8afab3dce05fc46c5605ca9faf9ebb46">More...</a><br /></td></tr>
+<tr class="separator:a8afab3dce05fc46c5605ca9faf9ebb46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3bd3e94aed89f04de0e247f612f930e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#aa3bd3e94aed89f04de0e247f612f930e">ShallDrawLabel</a> () const</td></tr>
+<tr class="memdesc:aa3bd3e94aed89f04de0e247f612f930e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shall this aircraft's label be drawn?  <a href="classXPMP2_1_1Aircraft.html#aa3bd3e94aed89f04de0e247f612f930e">More...</a><br /></td></tr>
+<tr class="separator:aa3bd3e94aed89f04de0e247f612f930e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc986f4195712ed50435799f660235d3"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#acc986f4195712ed50435799f660235d3">GetCameraDist</a> () const</td></tr>
 <tr class="memdesc:acc986f4195712ed50435799f660235d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Distance to camera [m].  <a href="classXPMP2_1_1Aircraft.html#acc986f4195712ed50435799f660235d3">More...</a><br /></td></tr>
 <tr class="separator:acc986f4195712ed50435799f660235d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -474,6 +480,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:ad4e2066e364692d80cf83df08d522072"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ad4e2066e364692d80cf83df08d522072">colLabel</a> [4] = {1.0f,1.0f,0.0f,1.0f}</td></tr>
 <tr class="memdesc:ad4e2066e364692d80cf83df08d522072"><td class="mdescLeft">&#160;</td><td class="mdescRight">label base color (RGB)  <a href="classXPMP2_1_1Aircraft.html#ad4e2066e364692d80cf83df08d522072">More...</a><br /></td></tr>
 <tr class="separator:ad4e2066e364692d80cf83df08d522072"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93c82c39e22090da833bb48c2275e627"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a93c82c39e22090da833bb48c2275e627">bDrawLabel</a> = true</td></tr>
+<tr class="memdesc:a93c82c39e22090da833bb48c2275e627"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shall this aircraft's label be drawn?  <a href="classXPMP2_1_1Aircraft.html#a93c82c39e22090da833bb48c2275e627">More...</a><br /></td></tr>
+<tr class="separator:a93c82c39e22090da833bb48c2275e627"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2613e25662d721d98f9cee5ac114aab8"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a2613e25662d721d98f9cee5ac114aab8">vertOfsRatio</a> = 1.0f</td></tr>
 <tr class="memdesc:a2613e25662d721d98f9cee5ac114aab8"><td class="mdescLeft">&#160;</td><td class="mdescRight">How much of the vertical offset shall be applied? (This allows phasing out the vertical offset in higher altitudes.) [0..1].  <a href="classXPMP2_1_1Aircraft.html#a2613e25662d721d98f9cee5ac114aab8">More...</a><br /></td></tr>
 <tr class="separator:a2613e25662d721d98f9cee5ac114aab8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2940,6 +2949,34 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a8afab3dce05fc46c5605ca9faf9ebb46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8afab3dce05fc46c5605ca9faf9ebb46">&#9670;&nbsp;</a></span>SetDrawLabel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetDrawLabel </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>_b</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Define if this aircraft's label is to be drawn (provided label drawing is enabled globally) </p>
+
+</div>
+</div>
 <a id="af7664c2a688c40bc04bcef09347225ce"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af7664c2a688c40bc04bcef09347225ce">&#9670;&nbsp;</a></span>SetEngineRotAngle() <span class="overload">[1/2]</span></h2>
 
@@ -4210,6 +4247,33 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="aa3bd3e94aed89f04de0e247f612f930e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3bd3e94aed89f04de0e247f612f930e">&#9670;&nbsp;</a></span>ShallDrawLabel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::Aircraft::ShallDrawLabel </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Shall this aircraft's label be drawn? </p>
+
+</div>
+</div>
 <a id="a74551765b5215ab60d34bf23f47a1728"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a74551765b5215ab60d34bf23f47a1728">&#9670;&nbsp;</a></span>ShowAsAIPlane()</h2>
 
@@ -4562,6 +4626,22 @@ Friends</h2></td></tr>
 <p>Shall this plane be clamped to ground (ie. never sink below ground)? </p>
 <dl class="section note"><dt>Note</dt><dd>This involves Y-Testing, which is a bit expensive, see <a href="https://developer.x-plane.com/sdk/XPLMScenery">SDK</a>. If you know your plane is not close to the ground, you may want to avoid clamping by setting this to <code>false</code>. </dd></dl>
 <dl class="section see"><dt>See also</dt><dd>configuration item <code>XPMP2_CFG_ITM_CLAMPALL</code> </dd></dl>
+
+</div>
+</div>
+<a id="a93c82c39e22090da833bb48c2275e627"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93c82c39e22090da833bb48c2275e627">&#9670;&nbsp;</a></span>bDrawLabel</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::Aircraft::bDrawLabel = true</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Shall this aircraft's label be drawn? </p>
 
 </div>
 </div>

@@ -137,8 +137,8 @@ void TwoDDrawLabels ()
     {
         Aircraft& ac = *p.second;
         try {
-            // skip if a/c is not rendered
-            if (!ac.IsRendered())
+            // skip if a/c is not rendered or label not to be drawn
+            if (!ac.IsRendered() || !ac.ShallDrawLabel())
                 continue;
         
             // Exit if aircraft is father away from camera than we would draw labels for

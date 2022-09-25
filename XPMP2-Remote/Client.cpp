@@ -78,6 +78,7 @@ void RemoteAC::Update (const XPMP2::RemoteAcDetailTy& _acDetails)
     
     label = STR_N(_acDetails.label);
     _acDetails.GetLabelCol(colLabel);
+    bDrawLabel = _acDetails.bDrawLabel;
 
     // We might be in a worker thread...only temporarily store the position
     lat = _acDetails.lat;

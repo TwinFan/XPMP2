@@ -56,14 +56,18 @@ Two Projects: XPMP2 Full Build and Sample Plugin only</h1>
 <li>a stand-alone project only for the XPMP2-Sample plugin. This is provided separately so it can serve as basis for your own plugin implementations.</li>
 </ul>
 <p>Using either project works similarly when it comes to building. For the main <a class="el" href="namespaceXPMP2.html">XPMP2</a> projects start in the <a class="el" href="namespaceXPMP2.html">XPMP2</a> root folder. For the XPMP2-Sample stand-alone project start in the <code>XPMP2-Sample</code> folder.</p>
-<p>Then, there are two options to build from sources:</p>
+<p>Then, there are four options to build from sources:</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Options   </th><th class="markdownTableHeadNone">Windows   </th><th class="markdownTableHeadNone">MacOS   </th><th class="markdownTableHeadNone">Linux    </th></tr>
+<th class="markdownTableHeadNone">Options   </th><th class="markdownTableHeadNone">Windows   </th><th class="markdownTableHeadNone">MacOS (universal)   </th><th class="markdownTableHeadNone">Linux    </th></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>IDE</b>   </td><td class="markdownTableBodyNone">Visual Studio 2019   </td><td class="markdownTableBodyNone">XCode 12   </td><td class="markdownTableBodyNone">-    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>Docker</b>   </td><td class="markdownTableBodyNone">Mingw64   </td><td class="markdownTableBodyNone">clang, SDK 11.1   </td><td class="markdownTableBodyNone">Focal and Bionic   </td></tr>
+<td class="markdownTableBodyNone"><b>Docker</b>   </td><td class="markdownTableBodyNone">Mingw64   </td><td class="markdownTableBodyNone">clang, SDK 12   </td><td class="markdownTableBodyNone">Focal and Bionic    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CMake</b>   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyNone">XCode 12   </td><td class="markdownTableBodyNone">Focal and Bionic    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>Github Actions</b>   </td><td class="markdownTableBodyNone">Visual Studio 2022   </td><td class="markdownTableBodyNone">XCode 12   </td><td class="markdownTableBodyNone">Focal   </td></tr>
 </table>
 <h1><a class="anchor" id="autotoc_md3"></a>
 Using an IDE</h1>
@@ -81,24 +85,46 @@ Using an IDE</h1>
 <p>In the XCode Build Settings you may want to change the definition of the User-Defined build macro <code>XPLANE11_ROOT</code>: Put in the path to your X-Plane 11 installation's root path, then the <a class="el" href="namespaceXPMP2.html">XPMP2</a> binaries will be installed right there in the appropriate <code>Resources/plugins</code> sub-folder structure.</p>
 <h1><a class="anchor" id="autotoc_md4"></a>
 Using Docker</h1>
-<p>A docker environment based on Ubuntu 20.04 and 18.04 is provided, which can build all 3 platforms, Linux even in two flavors.</p>
+<p>Docker environments based on Ubuntu 20.04 and 18.04 are used, which can build all 3 platforms, Linux even in two flavors.</p>
 <ul>
 <li>Install <a href="https://www.docker.com/products/docker-desktop">Docker Desktop</a> and start it.</li>
 <li><code>cd</code> to the project's <code>docker</code> folder, and enter <code>make</code> for all <a class="el" href="namespaceXPMP2.html">XPMP2</a> library targets on all platforms, or</li>
 <li><code>cd</code> to <code>XPMP2-Sample/docker</code>, and enter <code>make</code> for the sample plugin only on all platforms.</li>
 </ul>
-<p>6 individual <code>make</code> targets are available:</p>
+<p>9 individual <code>make</code> targets are available:</p>
 <ul>
 <li><code>lin</code> builds Linux on Ubuntu 20.04</li>
 <li><code>lin-bionic</code> builds Linux on Ubuntu 18.04</li>
-<li><code>mac</code> builds MacOS using <code>clang</code> as cross compiler</li>
+<li><code>mac-arm</code> builds MacOS for Apple Silicon using <code>clang</code> as cross compiler</li>
+<li><code>mac-x86</code> builds MacOS for x86 using <code>clang</code> as cross compiler</li>
+<li><code>mac</code> builds <code>mac-arm</code> and <code>mac-x86</code> and then combines the results into a univeral binary</li>
 <li><code>win</code> builds Windows using a Mingw64 cross compiler setup</li>
 <li><code>bash_focal</code> starts a bash prompt in the Ubuntu 20.04 docker container</li>
 <li><code>bash_bionic</code> starts a bash prompt in the Ubuntu 18.04 docker container</li>
+<li><code>doc</code> builds the documentation based on Doxygen, will probably only work on a Mac with Doxygen provided in <code>Applications/Doxygen.app</code>.</li>
 </ul>
 <p>Find results in the respective <code>build-&lt;platform&gt;</code> folder, the <code><a class="el" href="namespaceXPMP2.html">XPMP2</a></code> library right there, the Sample and Remote plugins in their proper <code>&lt;platform&gt;_x64</code> subfolder.</p>
 <p>The resulting library/framework are also copied into <code>XPMP2-Sample/lib/&lt;platform&gt;</code> so it is accessible if building the Sample plugin from the Sample project only.</p>
-<p>For more details and background information on the provided Docker environments see the <code>docker/README.md</code>. </p>
+<p>For more details and background information on the provided Docker environments see the <code>docker/README.md</code>.</p>
+<h1><a class="anchor" id="autotoc_md5"></a>
+Using CMake</h1>
+<p>Given a proper local setup with a suitable compile, CMake, and Ninja installed, you can just locally build the sources from the <code>CMakeList.txt</code> file, e.g. like this:</p>
+<div class="fragment"><div class="line">mkdir build</div>
+<div class="line">cd build</div>
+<div class="line">cmake -G Ninja ..</div>
+<div class="line">ninja</div>
+</div><!-- fragment --><p>This is precicely how the Mac and Linux builds are done in Github Actions.</p>
+<h1><a class="anchor" id="autotoc_md6"></a>
+Using Gitub Actions</h1>
+<p>The GitHub workflow <code>.github/workflows/build.yml</code> builds the plugin in GitHubs CD/CI environment. <code>build.yml</code> calls a number of custom composite actions available in <code>.github/actions</code>, each coming with its own <code>README.md</code>.</p>
+<p>The workflow builds Linux, MacOS, and Windows plugin binaries and provides them as artifacts, so you can download the result from the <em>Actions</em> tab on GitHub.</p>
+<p>For <b>MacOS</b>, the plugin can be <b>signed and notarized</b>, provided that the required <em>Repository Secrets</em> are defined in the repository's settings (Settings &gt; Secrets &gt; Actions):</p><ul>
+<li><code>MACOS_CERTIFICATE</code>: Base64-encoded .p12 certificate as <a href="https://localazy.com/blog/how-to-automatically-sign-macos-apps-using-github-actions#lets-get-started">explained here</a></li>
+<li><code>MACOS_CERT_PWD</code>: The password for the above .p12 certificate file export</li>
+<li><code>NOTARIZATION_USERNAME</code>: Apple ID for notarization service (parameter <code>--apple-id</code> to <code>notarytool</code>)</li>
+<li><code>NOTARIZATION_TEAM</code>: Team ID for notarization service (parameter <code>--team-id</code> to <code>notarytool</code>)</li>
+<li><code>NOTARIZATION_PASSWORD</code>: <a href="https://support.apple.com/en-gb/HT204397">App-specific password</a> for notarization service (parameter <code>--password</code> to <code>notarytool</code>) </li>
+</ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->

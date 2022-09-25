@@ -3,9 +3,31 @@
 
 cmake_minimum_required(VERSION 3.16)
 
+# Mac: Need to tell early on that we want a cross platform build
+if(DEFINED ENV{platform})
+    message ("-- Platform is $ENV{platform}")
+    if($ENV{platform} STREQUAL "mac-x86")
+        message ("   Building cross-platform for mac/x86_64")
+        set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "Archs to build")
+    elseif($ENV{platform} STREQUAL "mac-arm")
+        message ("   Building cross-platform for mac/arm64")
+        set(CMAKE_OSX_ARCHITECTURES "arm64" CACHE STRING "Archs to build")
+    endif()
+else()
+    # No 'platform' defined could mean running from command line, assume we build universal image in one go via XCode
+    set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64" CACHE STRING "Archs to build")
+endif()
+
 project(XPMP2
-        VERSION 2.4
-        DESCRIPTION "Multiplayer library for X-Plane 11")
+        VERSION 2.50
+        DESCRIPTION "Multiplayer library for X-Plane 11 and 12")
+
+# Provide compile macros from the above project version definition
+add_compile_definitions(
+    XPMP2_VERSION="${PROJECT_VERSION}"
+    XPMP2_VER_MAJOR=${PROJECT_VERSION_MAJOR}
+    XPMP2_VER_MINOR=${PROJECT_VERSION_MINOR}
+)
 
 message ("Compiler Info:")
 message ("CMAKE_CXX_COMPILER_ID         = ${CMAKE_CXX_COMPILER_ID}")
@@ -15,6 +37,7 @@ message ("WIN32 / MSVC / MINGW          = ${WIN32} / ${MSVC} / ${MINGW}")
 message ("UNIX / APPLE                  = ${UNIX} / ${APPLE}")
 if (APPLE)
     message ("OSX_SDK_PATH                  = $ENV{OSX_SDK_PATH}")
+    message ("CMAKE_OSX_ARCHITECTURES       = ${CMAKE_OSX_ARCHITECTURES}")
 endif()
 
 ################################################################################
@@ -28,8 +51,9 @@ if (WIN32)
         set(ENV{platform} "win")
     endif()
 elseif(APPLE)
-    add_compile_options(-mmacosx-version-min=10.11)
-    add_link_options(-mmacosx-version-min=10.11)
+    set(CMAKE_OSX_DEPLOYMENT_TARGET 11.0)
+    add_compile_options(-mmacosx-version-min=11.0)
+    add_link_options(-mmacosx-version-min=11.0)
 endif()
 
 ################################################################################

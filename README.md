@@ -8,9 +8,10 @@ with Ben Supnik, Chris Serio, and Chris Collins appearing in recent files and do
 But the origins date back to 2004, and very likely many more were involved. Thanks to all of them!
 
 This complete re-implementation honours all the basic concepts (so I hope)
-but makes use of 2 modern X-Plane 11 concepts:
-- [instancing](https://developer.x-plane.com/sdk/XPLMInstance/), and
-- [TCAS Override](https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/)
+but makes use of now 3 modern X-Plane 11 concepts:
+- [instancing](https://developer.x-plane.com/sdk/XPLMInstance/),
+- [TCAS Override](https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/), and
+- [Wake Turbulence](https://developer.x-plane.com/2022/02/wake-turbulence/)
 
 Thus, it ports the idea of the library also into the times of Vulkan and Metal
 when the drawing mechanisms used by the original library no longer work.
@@ -20,7 +21,7 @@ of the library outdated...it is basically replaced by one line of code calling
 `XPLMInstanceSetPosition`.
 
 Concepts like the syntax of the `xsb_aircraft.txt` file or certainly the idea of an
-multi-pass matching to find a good model are retained, though re-implemented (read: can have new bugs).
+multi-pass matching to find a good model are retained, though re-implemented.
 
 Added is support for synchronizing planes across the network with the remote
 machines running the included [**XPMP2 Remote Client**](#XPMP2-Remote-Client-Synchronizing-Planes-across-the-Network).
@@ -50,18 +51,16 @@ Future development can certainly extend functionality while trying hard
 to stay backward compatible.
 
 The XPMP2 library has been successfully tested with
-- X-Plane 11.50 RC3 under OpenGL, Vulkan, and Metal,
+- X-Plane 11.5x under OpenGL, Vulkan, and Metal,
+- X-Plane 12 Alpha and Beta version,
 - the enclosed [XPMP2 Remote Client](#XPMP2-Remote-Client-Synchronizing-Planes-across-the-Network),
 - the enclosed sample plugin,
 - [LiveTraffic v2.20](https://forums.x-plane.org/index.php?/files/file/49749-livetraffic/)
 - [X-Pilot 1.3](http://xpilot-project.org/)
+- X-Plane version of [IVAO Altitude](https://www.ivao.aero/softdev/beta/altitudebeta.asp)
 - on Mac OS,
 - Windows, and
-- Linux (Ubuntu 18.04 and similar).
-
-Apparently, also the X-Plane version of the
-[IVAO Altitude](https://www.ivao.aero/softdev/beta/altitudebeta.asp)
-client seems to be built upon XPMP2.
+- Linux (Ubuntu 20.04 and similar).
 
 ## Requirements ##
 
@@ -120,6 +119,20 @@ Beyond the standard set of information by X-Plane's family of dataRefs,
 XPMP2 also supports a set of shared dataRefs for providing
 textual aircraft and flight information,
 [details here](https://twinfan.github.io/XPMP2/SharedDataRefs.html).
+
+### Wake Turbulence ###
+
+X-Plane 12 started to
+[support wake turbulence](https://developer.x-plane.com/2022/02/wake-turbulence/)
+also for TCAS targets. As a trade-off between complexity (knowing exact
+wing dimensions and weight/lift of any plane) and results (strength of the wake)
+XPMP2 applies defaults to the aircraft dimensions based on the
+Wake Turbulence Category (WTC) listed in the `Doc8643` data.
+
+A plugin using XPMP2 can opt to provide its own values for even more
+precice results.
+
+Find [more details here](https://twinfan.github.io/XPMP2/Wake.html).
 
 ### Map Layer ###
 

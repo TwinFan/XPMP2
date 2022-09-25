@@ -5,9 +5,10 @@
 # OSX_SDK_PATH = "/usr/osxcross/SDK/MacOSX11.1.sdk"
 
 set(CMAKE_SYSTEM_NAME Darwin)
-set(TOOLCHAIN_PREFIX $ENV{OSX_TOOLCHAIN_PREFIX})
+set(CMAKE_OSX_SYSROOT "macosx" CACHE STRING "SysRoot")
 
 # cross compilers to use for C and C++
+set(TOOLCHAIN_PREFIX $ENV{OSX_TOOLCHAIN_PREFIX})
 set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}-clang)
 set(CMAKE_CXX_COMPILER ${TOOLCHAIN_PREFIX}-clang++-libc++)
 

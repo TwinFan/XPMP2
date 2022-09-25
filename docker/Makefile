@@ -31,7 +31,7 @@ mac: mac-arm mac-x86
 	docker run -i --rm -v "$(realpath ..):/build" --entrypoint bash $(container_focal) -c 'lipo -create -output build-mac/mac_x64/XPMP2-Sample.xpl build-mac-x86/mac_x64/XPMP2-Sample.xpl build-mac-arm/mac_x64/XPMP2-Sample.xpl'
 	# Create universal binary for the XPMP2 library
 	# (This is a bit ugly as it hard-codes the library version number as configured in CMakeList...but at least it will consequently fail when that version number is updated ;-)
-	rm -r ../build-mac/XPMP2.framework
+	rm -r ../build-mac/XPMP2.framework || true
 	cp -a ../build-mac-arm/XPMP2.framework ../build-mac/
 	docker run -i --rm -v "$(realpath ..):/build" --entrypoint bash $(container_focal) -c 'lipo -create -output build-mac/XPMP2.framework/Versions/2.50/XPMP2 build-mac-x86/XPMP2.framework/Versions/2.50/XPMP2 build-mac-arm/XPMP2.framework/Versions/2.50/XPMP2'
 	# Copy the universal library also to the XPMP2-Sample/lib folder

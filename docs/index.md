@@ -10,6 +10,7 @@ Content and availability status:
   - [X] [Model Matching](Matching.html)
   - [X] [TCAS Target and AI/multiplayer support](TCAS.html)
   - [ ] Additional map layer
+  - [X] [Wake Turbulence Support](Wake.html)
   - [X] [Shared dataRefs](SharedDataRefs.html) providing textual aircraft / flight information to interested 3rd party plugins
   - [X] [XPMP2 Remote](Remote.html) functionality
 - [ ] Coding, Building, Deployment

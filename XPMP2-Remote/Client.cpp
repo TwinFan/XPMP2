@@ -78,6 +78,8 @@ void RemoteAC::Update (const XPMP2::RemoteAcDetailTy& _acDetails)
     
     label = STR_N(_acDetails.label);
     _acDetails.GetLabelCol(colLabel);
+    // Labels are forced on if our local config says so
+    bDrawLabel = _acDetails.bDrawLabel || (rcGlob.eDrawLabels == XPMP2RCGlobals::LABELS_ON);
 
     // We might be in a worker thread...only temporarily store the position
     lat = _acDetails.lat;

@@ -145,7 +145,7 @@ struct CSLModelInfo_t {
 /// @brief Actual representation of all aircraft in XPMP2.
 /// @note In modern implementations, this class shall be subclassed by your plugin's code.
 class Aircraft {
-
+    
 public:
     
 protected:
@@ -179,7 +179,8 @@ public:
     
     /// aircraft label shown in the 3D world next to the plane
     std::string label;
-    float       colLabel[4]  = {1.0f,1.0f,0.0f,1.0f};    ///< label base color (RGB)
+    float       colLabel[4]  = {1.0f,1.0f,0.0f,1.0f};   ///< label base color (RGB)
+    bool        bDrawLabel   = true;                    ///< Shall this aircraft's label be drawn?
     
     /// How much of the vertical offset shall be applied? (This allows phasing out the vertical offset in higher altitudes.) [0..1]
     float       vertOfsRatio = 1.0f;
@@ -190,7 +191,7 @@ public:
     ///          If you know better, then overwrite.\n
     ///          If you don't want XPMP2 to correct for gear deflection, set `0.0`.
     float       gearDeflectRatio = 0.5f;
-
+    
     /// @brief Shall this plane be clamped to ground (ie. never sink below ground)?
     /// @note This involves Y-Testing, which is a bit expensive, see [SDK](https://developer.x-plane.com/sdk/XPLMScenery).
     ///       If you know your plane is not close to the ground,
@@ -210,14 +211,14 @@ public:
     
     /// @brief Wake dataRef support
     /// @see https://developer.x-plane.com/article/plugin-traffic-wake-turbulence/
-    /// @detail If values aren't set during aircraft creation, ie. remain at `NAN`, then defaults will be applied
+    /// @details If values aren't set during aircraft creation, ie. remain at `NAN`, then defaults will be applied
     ///         based on the aircraft's wake turbulence category,
     ///         looked up from the Doc8643 list via ICAO aircraft type designator.
     struct wakeTy {
         float wingSpan_m = NAN;             ///< wing span of the aircraft creating wake turbulence
         float wingArea_m2 = NAN;            ///< wing area (total area of both wings combined) of the aircraft creating wake turbulence
         float mass_kg = NAN;                ///< actual mass of the aircraft creating the wake
-
+        
         void clear() { *this = wakeTy(); }  ///< clear all values to defaults
         bool needsDefaults() const;         ///< any value left at `NAN`, ie. requires setting from Doc8643 WTC defaults?
         /// based on Doc8643 WTC fill with defaults
@@ -225,7 +226,7 @@ public:
         /// Copies values only for non-NAN fields
         void fillUpFrom(const wakeTy& o);
     } wake;                                 ///< wake-support data
-
+    
     /// Informational texts passed on via multiplayer shared dataRefs
     XPMPInfoTexts_t acInfoTexts;
     
@@ -246,14 +247,14 @@ protected:
     std::list<XPLMInstanceRef> listInst;
     /// Which `sim/cockpit2/tcas/targets`-index does this plane occupy? [1..63], `-1` if none
     int                 tcasTargetIdx = -1;
-
+    
     /// Timestamp of last update of camera dist/bearing
     float               camTimLstUpd = 0.0f;
     /// Distance to camera in meters (updated internally regularly)
     float               camDist = 0.0f;
     /// Bearing from camera in degrees (updated internally regularly)
     float               camBearing = 0.0f;
-
+    
     /// Y Probe for terrain testing, needed in ground clamping
     XPLMProbeRef        hProbe = nullptr;
     
@@ -288,7 +289,7 @@ public:
     Aircraft (const Aircraft&) = delete;
     /// Aircraft must not be copied as they reference non-copyable resources like XP instances
     Aircraft& operator=(const Aircraft&) = delete;
-
+    
     /// @brief Creates a plane, only a valid operation if object was created using the default constructor
     /// @exception Tried on already defined object; XPMP2::XPMP2Error Mode S id invalid or duplicate, no model found during model matching
     /// @param _icaoType ICAO aircraft type designator, like 'A320', 'B738', 'C172'
@@ -303,7 +304,7 @@ public:
                  XPMPPlaneID _modeS_id = 0,
                  const std::string& _cslId = "",
                  CSLModel* _pCSLModel = nullptr);
-
+    
     /// return the XPMP2 plane id
     XPMPPlaneID GetModeS_ID () const { return modeS_id; }
     /// Is this object a ground vehicle?
@@ -322,7 +323,7 @@ public:
     bool        ShowAsAIPlane () const { return IsVisible() && acRadar.mode != xpmpTransponderMode_Standby; }
     /// Reset TCAS target slot index to `-1`
     void        ResetTcasTargetIdx () { tcasTargetIdx = -1; }
-
+    
     /// @brief Return a value for dataRef .../tcas/target/flight_id
     /// @returns The first non-empty string out of: flight number, registration, departure/arrival airports
     virtual std::string GetFlightId() const;
@@ -339,14 +340,14 @@ public:
     /// @brief Finds a match again, using the existing parameters, eg. after more models have been loaded
     /// @return match quality, the lower the better
     int ReMatchModel () { return ChangeModel(acIcaoType,acIcaoAirline,acLivery); }
-
+    
     /// @brief Assigns the given model
     /// @param _cslId Search for this id (package/short)
     /// @param _pCSLModel (optional) If given use this model and don't search
     /// @return Successfuly found and assigned a model?
     bool AssignModel (const std::string& _cslId,
                       CSLModel* _pCSLModel = nullptr);
-
+    
     /// return a pointer to the CSL model in use (Note: The CSLModel structure is not public.)
     XPMP2::CSLModel* GetModel () const { return pCSLMdl; }
     /// return the name of the CSL model in use
@@ -357,12 +358,12 @@ public:
     int         GetMatchQuality () const { return matchQuality; }
     /// Vertical offset, ie. the value that needs to be added to `drawInfo.y` to make the aircraft appear on the ground
     float       GetVertOfs () const;
-
+    
     /// Is the a/c object valid?
     bool IsValid() const { return bValid; }
     /// Mark the plane invalid, e.g. after exceptions occured on the data
     virtual void SetInvalid();
-
+    
     /// Make the plane (in)visible
     virtual void SetVisible (bool _bVisible);
     /// Is the plane visible?
@@ -375,6 +376,11 @@ public:
     
     /// Are instances created for this aircraft?
     bool IsInstanciated () const { return !listInst.empty(); }
+    
+    /// Define if this aircraft's label is to be drawn (provided label drawing is enabled globally)
+    void SetDrawLabel (bool _b) { bDrawLabel = _b; }
+    /// Shall this aircraft's label be drawn?
+    bool ShallDrawLabel () const { return bDrawLabel; }
     
     /// Distance to camera [m]
     float GetCameraDist () const { return camDist; }

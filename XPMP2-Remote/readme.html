@@ -36,7 +36,8 @@
                     as CSL models are identified by internal names,
                     but all models need to be in reach if you want planes
                     to appear the same way as at your senders.</li>
-            </ul></li>
+            </ul>
+        </li>
     </ul>
     
     <h2>Installation / Local TCAS Concentrator</h2>
@@ -76,8 +77,41 @@
 
     <h1>Release Notes</h1>
     
-    <h2>v1.1</h2>
+    <h2>v1.x</h2>
     
+    <h3>v1.20</h3>
+    
+    <p><b>Update:</b> In case of doubt you can always just copy all files from the archive over the files of your existing installation.</p>
+
+    <p>At least copy the following files, which have changed compared to v1.10:</p>
+    <ul>
+        <li><code>lin|mac|win_x64/XPMP2-Remote.xpl</code></li>
+        <li><code>Resources/Doc8643.txt</code></li>
+        <li><code>Resources/related.txt</code></li>
+    </ul>
+
+    <P>Change log:</P>
+
+    <ul>
+        <li>
+            ADDED <a href="https://github.com/TwinFan/XPMP2/issues/49">#49</a>
+            control of aircraft labels via new sub-menu <i>Labels</i>:
+            <ul>
+                <li>
+                    <i>Synchronized</i> (default) takes over the state of displaying labels
+                    from the senders.<br>
+                    <i>Note:</i> Senders will require an update to send this info!
+                    Until then, <i>On</i> is assumed.
+                </li>
+                <li><i>On</i> always displays labels</li>
+                <li><i>Off</i> switches off display of labels</li>
+            </ul>
+        </li>
+        <li>
+            Universal Mac binary for native support of Apple Silicon with XP12.
+        </li>
+    </ul>
+
     <h3>v1.10</h3>
     
     <P>For updating coming from v1.00
@@ -102,8 +136,6 @@
             signature and notarization to the Mac version.</li>
     </ul>
 
-    <h2>v1.0</h2>
-    
     <h3>v1.00</h3>
     
     <P>First public version.</P>

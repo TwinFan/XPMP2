@@ -209,11 +209,13 @@ void RemoteAcDetailTy::CopyFrom (const Aircraft& _ac,
     SetHeading  (_ac.drawInfo.heading);
     SetRoll     (_ac.drawInfo.roll);
 
-    aiPrio   = std::int16_t(_ac.aiPrio);
-    dTime    = _dTime;
-    bValid   = _ac.IsValid();
-    bVisible = _ac.IsVisible();
-    bRender  = _ac.IsRendered();
+    aiPrio      = std::int16_t(_ac.aiPrio);
+    dTime       = _dTime;
+    bValid      = _ac.IsValid();
+    bVisible    = _ac.IsVisible();
+    bRender     = _ac.IsRendered();
+    // Labels are only to be drawn if both individually (per a/c) and globally they shall:
+    bDrawLabel  = _ac.ShallDrawLabel() && XPMPDrawingAircraftLabels();
     
     // Info texts
 #define memcpy_min(to,from) std::memcpy(to,from,std::min(sizeof(from),sizeof(to)))
@@ -877,15 +879,25 @@ void RmtRecvMain()
                             
                         // Full A/C Details
                         case RMT_MSG_AC_DETAILED:
-                            if (hdr.msgVer == RMT_VER_AC_DETAIL && recvSize >= sizeof(RemoteMsgAcDetailTy))
+                            // v1 and v2 have same size, but v2 has bDrawLabel
+                            if ((hdr.msgVer == RMT_VER_AC_DETAIL || hdr.msgVer == RMT_VER_AC_DETAIL_1) &&
+                                recvSize >= sizeof(RemoteMsgAcDetailTy))
                             {
                                 if (gRmtCBFcts.pfMsgACDetails) {
-                                    const RemoteMsgAcDetailTy& s = *(RemoteMsgAcDetailTy*)gpMc->getBuf();
+                                    RemoteMsgAcDetailTy& s = *(RemoteMsgAcDetailTy*)gpMc->getBuf();
+                                    
+                                    // v1: Default was "Draw Labels"
+                                    if (hdr.msgVer == RMT_VER_AC_DETAIL_1) {
+                                        const size_t n = s.NumElem(recvSize);
+                                        for (size_t i = 0; i < n; ++i)
+                                            s.arr[i].bDrawLabel = true;
+                                    }
+                                    
                                     gRmtCBFcts.pfMsgACDetails(from.addr, recvSize, s);
                                 }
                             }
                             // Convert a v0 msg, then process
-                            else if (hdr.msgVer == 0 && recvSize >= sizeof(RemoteMsgAcDetailTy_v0))
+                            else if (hdr.msgVer == RMT_VER_AC_DETAIL_0 && recvSize >= sizeof(RemoteMsgAcDetailTy_v0))
                             {
                                 if (gRmtCBFcts.pfMsgACDetails) {
                                     const RemoteMsgAcDetailTy_v0& s = *(RemoteMsgAcDetailTy_v0*)gpMc->getBuf();

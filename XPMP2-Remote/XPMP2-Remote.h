@@ -109,7 +109,7 @@
 constexpr const char* REMOTE_CLIENT_NAME    =  "XPMP2 Remote Client";   ///< Plugin name
 constexpr const char* REMOTE_CLIENT_LOG     =  "XPMP2_RC";              ///< ID used in own log entries
 constexpr const char* REMOTE_CLIENT_LOG2    =  "RC";                    ///< Short ID used in XPMP2 log entries
-constexpr float REMOTE_CLIENT_VER           = 1.10f;
+constexpr float REMOTE_CLIENT_VER           = 1.20f;                    ///< Version number for the XPMP2 Remote plugin
 
 //
 // MARK: Globals
@@ -120,6 +120,12 @@ struct XPMP2RCGlobals {
     
     /// Config values reconciled from sending plugins
     XPMP2::RemoteMsgSettingsTy mergedS;
+    /// Shall aircraft labels be drawn at remote site?
+    enum DrawLabelsTy {
+        LABELS_SYNCH = 0,           ///< Synchronize drawing of labels with sending client
+        LABELS_ON,                  ///< Always draw labels
+        LABELS_OFF,                 ///< Don't draw labels
+    } eDrawLabels = LABELS_SYNCH;   ///< Shall aircraft labels be drawn at remote site?
 
     /// The global map of all sending plugins we've ever heard of
     mapSenderTy gmapSender;

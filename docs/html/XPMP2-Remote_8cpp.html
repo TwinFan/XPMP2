@@ -75,6 +75,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a334c365d22bc62c00ecb83dfb00db93c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#a334c365d22bc62c00ecb83dfb00db93c">CmdCallback</a> (XPLMCommandRef cmdRef, XPLMCommandPhase inPhase, void *)</td></tr>
 <tr class="memdesc:a334c365d22bc62c00ecb83dfb00db93c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback function for menu.  <a href="XPMP2-Remote_8cpp.html#a334c365d22bc62c00ecb83dfb00db93c">More...</a><br /></td></tr>
 <tr class="separator:a334c365d22bc62c00ecb83dfb00db93c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab07ae2144e7252486b3ed18d0a78fedf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#ab07ae2144e7252486b3ed18d0a78fedf">MenuLabelsCB</a> (void *, void *inItemRef)</td></tr>
+<tr class="memdesc:ab07ae2144e7252486b3ed18d0a78fedf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback function for the Labels submenu.  <a href="XPMP2-Remote_8cpp.html#ab07ae2144e7252486b3ed18d0a78fedf">More...</a><br /></td></tr>
+<tr class="separator:ab07ae2144e7252486b3ed18d0a78fedf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a72cc48b2accb0555598fd338a71a0a1f"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#a72cc48b2accb0555598fd338a71a0a1f">FlightLoopCallback</a> (float, float, int, void *)</td></tr>
 <tr class="memdesc:a72cc48b2accb0555598fd338a71a0a1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Regular tasks, called by flight loop.  <a href="XPMP2-Remote_8cpp.html#a72cc48b2accb0555598fd338a71a0a1f">More...</a><br /></td></tr>
 <tr class="separator:a72cc48b2accb0555598fd338a71a0a1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -94,6 +97,9 @@ Variables</h2></td></tr>
 <tr class="memitem:ac9fce27897774a040a76bdca6b996493"><td class="memItemLeft" align="right" valign="top">XPLMMenuID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#ac9fce27897774a040a76bdca6b996493">hMenu</a> = nullptr</td></tr>
 <tr class="memdesc:ac9fce27897774a040a76bdca6b996493"><td class="mdescLeft">&#160;</td><td class="mdescRight">menu id of our plugin's menu  <a href="XPMP2-Remote_8cpp.html#ac9fce27897774a040a76bdca6b996493">More...</a><br /></td></tr>
 <tr class="separator:ac9fce27897774a040a76bdca6b996493"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a577dbb4f6337fa5477da9bfd85dda080"><td class="memItemLeft" align="right" valign="top">XPLMMenuID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#a577dbb4f6337fa5477da9bfd85dda080">hLabels</a> = nullptr</td></tr>
+<tr class="memdesc:a577dbb4f6337fa5477da9bfd85dda080"><td class="mdescLeft">&#160;</td><td class="mdescRight">menu id of the Labels submenu  <a href="XPMP2-Remote_8cpp.html#a577dbb4f6337fa5477da9bfd85dda080">More...</a><br /></td></tr>
+<tr class="separator:a577dbb4f6337fa5477da9bfd85dda080"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeeab005b853026167633c25bc693e16c"><td class="memItemLeft" align="right" valign="top">XPLMMenuID&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#aeeab005b853026167633c25bc693e16c">hSenders</a> = nullptr</td></tr>
 <tr class="memdesc:aeeab005b853026167633c25bc693e16c"><td class="mdescLeft">&#160;</td><td class="mdescRight">menu id of the Senders submenu  <a href="XPMP2-Remote_8cpp.html#aeeab005b853026167633c25bc693e16c">More...</a><br /></td></tr>
 <tr class="separator:aeeab005b853026167633c25bc693e16c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -104,7 +110,9 @@ Variables</h2></td></tr>
 <tr class="separator:a01f35c17d5fa447d85debe140ae1cb08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8bf1418c4c15243d1671d388c3923cf"><td class="memItemLeft" align="right" valign="top">constexpr std::uintptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#ae8bf1418c4c15243d1671d388c3923cf">MENU_TCAS</a> = 1</td></tr>
 <tr class="separator:ae8bf1418c4c15243d1671d388c3923cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d50a6e7c99b273c658df48f69bb52fd"><td class="memItemLeft" align="right" valign="top">constexpr std::uintptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#a0d50a6e7c99b273c658df48f69bb52fd">MENU_SENDER</a> = 2</td></tr>
+<tr class="memitem:a36ebeaf7a8905bed335b8c6eaee54954"><td class="memItemLeft" align="right" valign="top">constexpr std::uintptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#a36ebeaf7a8905bed335b8c6eaee54954">MENU_LABELS</a> = 2</td></tr>
+<tr class="separator:a36ebeaf7a8905bed335b8c6eaee54954"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d50a6e7c99b273c658df48f69bb52fd"><td class="memItemLeft" align="right" valign="top">constexpr std::uintptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#a0d50a6e7c99b273c658df48f69bb52fd">MENU_SENDER</a> = 3</td></tr>
 <tr class="separator:a0d50a6e7c99b273c658df48f69bb52fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05ced0622b3600ad32e0b1cd4e37583f"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="XPMP2-Remote_8cpp.html#structCmdMenuDefTy">CmdMenuDefTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Remote_8cpp.html#a05ced0622b3600ad32e0b1cd4e37583f">CMD_MENU_DEF</a> [2]</td></tr>
 <tr class="separator:a05ced0622b3600ad32e0b1cd4e37583f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -295,6 +303,36 @@ menuName</td>
 </div><div class="memdoc">
 
 <p>Regular tasks, called by flight loop. </p>
+
+</div>
+</div>
+<a id="ab07ae2144e7252486b3ed18d0a78fedf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab07ae2144e7252486b3ed18d0a78fedf">&#9670;&nbsp;</a></span>MenuLabelsCB()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MenuLabelsCB </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>inItemRef</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Callback function for the Labels submenu. </p>
 
 </div>
 </div>
@@ -493,6 +531,22 @@ menuName</td>
 
 </div>
 </div>
+<a id="a577dbb4f6337fa5477da9bfd85dda080"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a577dbb4f6337fa5477da9bfd85dda080">&#9670;&nbsp;</a></span>hLabels</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">XPLMMenuID hLabels = nullptr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>menu id of the Labels submenu </p>
+
+</div>
+</div>
 <a id="ac9fce27897774a040a76bdca6b996493"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac9fce27897774a040a76bdca6b996493">&#9670;&nbsp;</a></span>hMenu</h2>
 
@@ -547,6 +601,28 @@ menuName</td>
 
 </div>
 </div>
+<a id="a36ebeaf7a8905bed335b8c6eaee54954"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36ebeaf7a8905bed335b8c6eaee54954">&#9670;&nbsp;</a></span>MENU_LABELS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr std::uintptr_t MENU_LABELS = 2</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a0d50a6e7c99b273c658df48f69bb52fd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0d50a6e7c99b273c658df48f69bb52fd">&#9670;&nbsp;</a></span>MENU_SENDER</h2>
 
@@ -557,7 +633,7 @@ menuName</td>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr std::uintptr_t MENU_SENDER = 2</td>
+          <td class="memname">constexpr std::uintptr_t MENU_SENDER = 3</td>
         </tr>
       </table>
   </td>

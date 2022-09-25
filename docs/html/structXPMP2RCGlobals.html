@@ -40,6 +40,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structXPMP2RCGlobals-members.html">List of all members</a>  </div>
@@ -53,6 +54,15 @@ $(function() {
 
 <p><code>#include &lt;<a class="el" href="XPMP2-Remote_8h_source.html">XPMP2-Remote.h</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:ac74ad28f6771784bb08b7555feb6cba5"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2RCGlobals.html#ac74ad28f6771784bb08b7555feb6cba5">DrawLabelsTy</a> { <a class="el" href="structXPMP2RCGlobals.html#ac74ad28f6771784bb08b7555feb6cba5ac909144f7d8ba1e954886760507c7d43">LABELS_SYNCH</a> = 0
+, <a class="el" href="structXPMP2RCGlobals.html#ac74ad28f6771784bb08b7555feb6cba5a5a7c6afc014c456d2e68b332b125e06e">LABELS_ON</a>
+, <a class="el" href="structXPMP2RCGlobals.html#ac74ad28f6771784bb08b7555feb6cba5aa52a9dfeb4849fe2152fe9dbaa7ae2d3">LABELS_OFF</a>
+ }</td></tr>
+<tr class="memdesc:ac74ad28f6771784bb08b7555feb6cba5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shall aircraft labels be drawn at remote site?  <a href="structXPMP2RCGlobals.html#ac74ad28f6771784bb08b7555feb6cba5">More...</a><br /></td></tr>
+<tr class="separator:ac74ad28f6771784bb08b7555feb6cba5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a6c92cdcd9377ec81339ab5180cf7708d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2RCGlobals.html#a6c92cdcd9377ec81339ab5180cf7708d">IsXPThread</a> () const</td></tr>
@@ -64,6 +74,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:ac31a83e621b72c7744b6b9ac027c000f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structXPMP2_1_1RemoteMsgSettingsTy.html">XPMP2::RemoteMsgSettingsTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2RCGlobals.html#ac31a83e621b72c7744b6b9ac027c000f">mergedS</a></td></tr>
 <tr class="memdesc:ac31a83e621b72c7744b6b9ac027c000f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config values reconciled from sending plugins.  <a href="structXPMP2RCGlobals.html#ac31a83e621b72c7744b6b9ac027c000f">More...</a><br /></td></tr>
 <tr class="separator:ac31a83e621b72c7744b6b9ac027c000f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16565f1a231c282ab1625b0163808187"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="structXPMP2RCGlobals.html#ac74ad28f6771784bb08b7555feb6cba5">XPMP2RCGlobals::DrawLabelsTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2RCGlobals.html#a16565f1a231c282ab1625b0163808187">eDrawLabels</a> = <a class="el" href="structXPMP2RCGlobals.html#ac74ad28f6771784bb08b7555feb6cba5ac909144f7d8ba1e954886760507c7d43">LABELS_SYNCH</a></td></tr>
+<tr class="memdesc:a16565f1a231c282ab1625b0163808187"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shall aircraft labels be drawn at remote site?  <a href="structXPMP2RCGlobals.html#a16565f1a231c282ab1625b0163808187">More...</a><br /></td></tr>
+<tr class="separator:a16565f1a231c282ab1625b0163808187"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abdb9d51f323ea1ea82817ea2b24a25bf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Client_8h.html#a50ead3dfde49cb10056560be6150c58f">mapSenderTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2RCGlobals.html#abdb9d51f323ea1ea82817ea2b24a25bf">gmapSender</a></td></tr>
 <tr class="memdesc:abdb9d51f323ea1ea82817ea2b24a25bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">The global map of all sending plugins we've ever heard of.  <a href="structXPMP2RCGlobals.html#abdb9d51f323ea1ea82817ea2b24a25bf">More...</a><br /></td></tr>
 <tr class="separator:abdb9d51f323ea1ea82817ea2b24a25bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -75,7 +88,32 @@ Public Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Holds all global variables. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="ac74ad28f6771784bb08b7555feb6cba5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac74ad28f6771784bb08b7555feb6cba5">&#9670;&nbsp;</a></span>DrawLabelsTy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="structXPMP2RCGlobals.html#ac74ad28f6771784bb08b7555feb6cba5">XPMP2RCGlobals::DrawLabelsTy</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Shall aircraft labels be drawn at remote site? </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ac74ad28f6771784bb08b7555feb6cba5ac909144f7d8ba1e954886760507c7d43"></a>LABELS_SYNCH&#160;</td><td class="fielddoc"><p>Synchronize drawing of labels with sending client. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac74ad28f6771784bb08b7555feb6cba5a5a7c6afc014c456d2e68b332b125e06e"></a>LABELS_ON&#160;</td><td class="fielddoc"><p>Always draw labels. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac74ad28f6771784bb08b7555feb6cba5aa52a9dfeb4849fe2152fe9dbaa7ae2d3"></a>LABELS_OFF&#160;</td><td class="fielddoc"><p>Don't draw labels. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a id="a6c92cdcd9377ec81339ab5180cf7708d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6c92cdcd9377ec81339ab5180cf7708d">&#9670;&nbsp;</a></span>IsXPThread()</h2>
 
@@ -104,6 +142,22 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="a16565f1a231c282ab1625b0163808187"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16565f1a231c282ab1625b0163808187">&#9670;&nbsp;</a></span>eDrawLabels</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="structXPMP2RCGlobals.html#ac74ad28f6771784bb08b7555feb6cba5">XPMP2RCGlobals::DrawLabelsTy</a> XPMP2RCGlobals::eDrawLabels = <a class="el" href="structXPMP2RCGlobals.html#ac74ad28f6771784bb08b7555feb6cba5ac909144f7d8ba1e954886760507c7d43">LABELS_SYNCH</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Shall aircraft labels be drawn at remote site? </p>
+
+</div>
+</div>
 <a id="abdb9d51f323ea1ea82817ea2b24a25bf"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abdb9d51f323ea1ea82817ea2b24a25bf">&#9670;&nbsp;</a></span>gmapSender</h2>
 

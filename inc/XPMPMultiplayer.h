@@ -255,6 +255,7 @@ constexpr XPMPPlaneID MAX_MODE_S_ID = 0x00FFFFFF;
 // Config section is defined for legacy reasons only
 #define XPMP_CFG_SEC_MODELS          "models"               ///< Config section "models"
 #define XPMP_CFG_SEC_PLANES          "planes"               ///< Config section "planes"
+#define XPMP_CFG_SEC_SOUND           "sound"                ///< Config section "sound"
 #define XPMP_CFG_SEC_DEBUG           "debug"                ///< Config section "debug"
 
 // Config key definitions
@@ -263,6 +264,7 @@ constexpr XPMPPlaneID MAX_MODE_S_ID = 0x00FFFFFF;
 #define XPMP_CFG_ITM_CLAMPALL        "clamp_all_to_ground"  ///< Config key: Ensure no plane sinks below ground, no matter of XPMP2::Aircraft::bClampToGround
 #define XPMP_CFG_ITM_HANDLE_DUP_ID   "handle_dup_id"        ///< Config key: Boolean: If XPMP2::Aircraft::modeS_id already exists then assign a new unique one, overwrites XPMP2::Aircraft::modeS_id
 #define XPMP_CFG_ITM_SUPPORT_REMOTE  "support_remote"       ///< Config key: Support remote connections? `<0` force off, `0` default: on if in a networked or multiplayer setup, `>0` force on
+#define XPMP_CFG_ITM_ACTIVATE_SOUND  "activate_sound"       ///< Config key: Activate Sound upon initial startup? (No effect later)
 #define XPMP_CFG_ITM_LOGLEVEL        "log_level"            ///< Config key: General level of logging into `Log.txt` (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)
 #define XPMP_CFG_ITM_MODELMATCHING   "model_matching"       ///< Config key: Write information on model matching into `Log.txt`
 
@@ -277,6 +279,7 @@ constexpr XPMPPlaneID MAX_MODE_S_ID = 0x00FFFFFF;
 /// `planes  | clamp_all_to_ground | int  |    1    | Ensure no plane sinks below ground, no matter of XPMP2::Aircraft::bClampToGround`\n
 /// `planes  | handle_dup_id       | int  |    0    | Boolean: If XPMP2::Aircraft::modeS_id already exists then assign a new unique one, overwrites XPMP2::Aircraft::modeS_id`\n
 /// `planes  | support_remote      | int  |    0    | 3-state integer: Support remote connections? <0 force off, 0 default: on if in a networked or multiplayer setup, >0 force on`\n
+/// `sound   | activate_sound      | int  |    1    | Activate Sound upon initial startup? (No effect later)`\n
 /// `debug   | log_level           | int  |    2    | General level of logging into Log.txt (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)`\n
 /// `debug   | model_matching      | int  |    0    | Write information on model matching into Log.txt`\n
 /// @note There is no immediate requirement to check the value of `_section` in your implementation.
@@ -336,6 +339,20 @@ void XPMPMultiplayerCleanup();
 [[deprecated("Unsupported feature, will alsways return 'OBJ7 format is no longer supported'")]]
 const char * XPMPMultiplayerOBJ7SupportEnable(const char * inTexturePath);
 
+/************************************************************************************
+* MARK: Sound
+************************************************************************************/
+
+/// @brief Enable/Disable Sound
+/// @details Enable or disable sound support.
+///          The default on startup is controlled by the configuration item
+///          `sound / activate_sound`, which in turn defaults to `1`.
+/// @returns Is sound now available? (Could still be `false` even in case
+///          of activation if there was a problem during sound initialization)
+bool XPMPSoundEnable (bool bEnable = true);
+
+/// @brief Is Sound enabled?
+bool XPMPSoundIsEnabled ();
 
 /************************************************************************************
 * MARK: AI / Multiplayer plane control

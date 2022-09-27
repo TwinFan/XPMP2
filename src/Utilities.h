@@ -114,6 +114,12 @@ inline std::string& trim(std::string& s, const char* t = WHITESPACE)
     return ltrim(rtrim(s, t), t);
 }
 
+/// @brief Returns everything left of any of terminators
+inline std::string leftOf(const std::string& s, const std::string& terminators)
+{
+    return s.substr(0, std::min(s.find_first_of(terminators), s.size()));
+}
+
 /// separates string into tokens
 std::vector<std::string> str_tokenize (const std::string s,
                                        const std::string tokens,

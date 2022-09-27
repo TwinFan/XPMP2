@@ -16,6 +16,11 @@
 		2541FA46253C902200AEA532 /* XPMPRemote.h in Headers */ = {isa = PBXBuildFile; fileRef = 2541FA45253C902200AEA532 /* XPMPRemote.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2541FA4D253CDD6700AEA532 /* Remote.h in Headers */ = {isa = PBXBuildFile; fileRef = 2541FA4B253CDD6700AEA532 /* Remote.h */; };
 		2541FA4E253CDD6700AEA532 /* Remote.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2541FA4C253CDD6700AEA532 /* Remote.cpp */; };
+		255EC98F28E3821200F99F93 /* libfmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 255EC98E28E3821200F99F93 /* libfmod.dylib */; };
+		255EC99228E3871100F99F93 /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 255EC99028E3871100F99F93 /* Sound.cpp */; };
+		255EC99328E3871100F99F93 /* Sound.h in Headers */ = {isa = PBXBuildFile; fileRef = 255EC99128E3871100F99F93 /* Sound.h */; };
+		255EC99428E3A29700F99F93 /* libfmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 255EC98E28E3821200F99F93 /* libfmod.dylib */; };
+		255EC99528E3A29800F99F93 /* libfmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 255EC98E28E3821200F99F93 /* libfmod.dylib */; };
 		256DC2F724F3141500C1595C /* CSLCopy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 256DC2F624F3141500C1595C /* CSLCopy.cpp */; };
 		256EE0002540D7EF0007D517 /* XPMP2-Remote.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 256EDFFF2540D7EF0007D517 /* XPMP2-Remote.cpp */; };
 		256EE0102540E39D0007D517 /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 256EE00F2540E39D0007D517 /* Utilities.cpp */; };
@@ -99,6 +104,9 @@
 		2541FA45253C902200AEA532 /* XPMPRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPMPRemote.h; sourceTree = "<group>"; };
 		2541FA4B253CDD6700AEA532 /* Remote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Remote.h; sourceTree = "<group>"; };
 		2541FA4C253CDD6700AEA532 /* Remote.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Remote.cpp; sourceTree = "<group>"; };
+		255EC98E28E3821200F99F93 /* libfmod.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmod.dylib; path = lib/fmod/libfmod.dylib; sourceTree = "<group>"; };
+		255EC99028E3871100F99F93 /* Sound.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Sound.cpp; sourceTree = "<group>"; };
+		255EC99128E3871100F99F93 /* Sound.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Sound.h; sourceTree = "<group>"; };
 		2561DA2D2571AE4800E3DE3D /* readme.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = readme.html; sourceTree = "<group>"; };
 		256C287925B4E6270033007D /* Toolchain-ubuntu-osxcross.cmake */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Toolchain-ubuntu-osxcross.cmake"; sourceTree = "<group>"; };
 		256DC2F524F3090B00C1595C /* Obj8DataRefs.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Obj8DataRefs.txt; sourceTree = "<group>"; };
@@ -148,10 +156,19 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		255EC98D28E381EF00F99F93 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				255EC98F28E3821200F99F93 /* libfmod.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		25B071F02540D6C400CCDA1D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				255EC99528E3A29800F99F93 /* libfmod.dylib in Frameworks */,
 				25B071F12540D6C400CCDA1D /* XPMP2.framework in Frameworks */,
 				25B071F22540D6C400CCDA1D /* CoreFoundation.framework in Frameworks */,
 				25B071F32540D6C400CCDA1D /* XPLM.framework in Frameworks */,
@@ -162,6 +179,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				255EC99428E3A29700F99F93 /* libfmod.dylib in Frameworks */,
 				25D86CCD253E289100424494 /* XPMP2.framework in Frameworks */,
 				25D86CC8253E285F00424494 /* CoreFoundation.framework in Frameworks */,
 				25D86CCA253E288900424494 /* XPLM.framework in Frameworks */,
@@ -276,6 +294,8 @@
 				2599B92123BF63F600F92BB5 /* XPMP2.h */,
 				25EC1C4623BF7569000940BB /* Utilities.h */,
 				25D680C423BE9DBD00C83CC5 /* XPMPMultiplayer.cpp */,
+				255EC99028E3871100F99F93 /* Sound.cpp */,
+				255EC99128E3871100F99F93 /* Sound.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -302,6 +322,7 @@
 		25D86CC6253E285E00424494 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				255EC98E28E3821200F99F93 /* libfmod.dylib */,
 				25D86CC9253E288900424494 /* XPLM.framework */,
 				25D86CC7253E285E00424494 /* CoreFoundation.framework */,
 			);
@@ -332,6 +353,7 @@
 				253485AA23C289E5002BA65A /* XPMPAircraft.h in Headers */,
 				25D680BA23BE95FB00C83CC5 /* XPMPMultiplayer.h in Headers */,
 				25D680B923BE95FB00C83CC5 /* XPCAircraft.h in Headers */,
+				255EC99328E3871100F99F93 /* Sound.h in Headers */,
 				252C01F523E62040007C231F /* AIMultiplayer.h in Headers */,
 				25338212253A39060090E0B3 /* Network.h in Headers */,
 				2541FA4D253CDD6700AEA532 /* Remote.h in Headers */,
@@ -350,6 +372,7 @@
 			buildConfigurationList = 2502C17F23BE8A1700578919 /* Build configuration list for PBXNativeTarget "XPMP2" */;
 			buildPhases = (
 				2502C17623BE8A1600578919 /* Sources */,
+				255EC98D28E381EF00F99F93 /* Frameworks */,
 				2502C17523BE8A1600578919 /* Headers */,
 				259FFDFA25A1327F00B6D553 /* CopyFiles */,
 				255C338A2544E1FF002C166F /* ShellScript */,
@@ -405,7 +428,7 @@
 		2502C16023BE3CFC00578919 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1340;
+				LastUpgradeCheck = 1400;
 				ORGANIZATIONNAME = TwinFan;
 				TargetAttributes = {
 					2502C17923BE8A1600578919 = {
@@ -478,7 +501,7 @@
 		259FFDFC25A132EC00B6D553 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
@@ -491,7 +514,7 @@
 			outputPaths = (
 				"${LT_LIB_DIR}/${WRAPPER_NAME}",
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "# Copy to LiveTraffic build dir if that exists (but don't fail)\nLT_LIB_DIR=\"${PROJECT_DIR}/../LiveTraffic/Lib/XPMP2\"\n[[ ! -d \"${LT_LIB_DIR}\" ]] && exit 0\nrm -Rf ${LT_LIB_DIR}/${WRAPPER_NAME}\ncp -af ${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME} ${LT_LIB_DIR}\n";
 			showEnvVarsInLog = 0;
@@ -514,6 +537,7 @@
 				2575F45523EDFC5E00747524 /* Map.cpp in Sources */,
 				25338211253A39060090E0B3 /* Network.cpp in Sources */,
 				2599B91923BF636E00F92BB5 /* Aircraft.cpp in Sources */,
+				255EC99228E3871100F99F93 /* Sound.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -593,6 +617,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = "${XPMP2_VER_MAJOR}.${XPMP2_VER_MINOR}";
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = W5UR4ZV2BP;
@@ -648,7 +673,7 @@
 				USER_HEADER_SEARCH_PATHS = "$(XPSDK_ROOT)/CHeaders/XPLM";
 				XPLANE11_ROOT = "$(USER_APPS_DIR)/X-Plane/Release";
 				XPMP2_VER_MAJOR = 2;
-				XPMP2_VER_MINOR = 50;
+				XPMP2_VER_MINOR = 60;
 				XPSDK_ROOT = "XPMP2-Sample/SDK";
 			};
 			name = Debug;
@@ -695,6 +720,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = "${XPMP2_VER_MAJOR}.${XPMP2_VER_MINOR}";
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = W5UR4ZV2BP;
@@ -747,7 +773,7 @@
 				USER_HEADER_SEARCH_PATHS = "$(XPSDK_ROOT)/CHeaders/XPLM";
 				XPLANE11_ROOT = "$(USER_APPS_DIR)/X-Plane/Release";
 				XPMP2_VER_MAJOR = 2;
-				XPMP2_VER_MINOR = 50;
+				XPMP2_VER_MINOR = 60;
 				XPSDK_ROOT = "XPMP2-Sample/SDK";
 			};
 			name = Release;
@@ -757,15 +783,24 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				DSTROOT = "$(PROJECT_DIR)";
 				GCC_PREFIX_HEADER = src/XPMP2.h;
+				HEADER_SEARCH_PATHS = (
+					inc,
+					lib/fmod/inc,
+				);
 				INSTALL_PATH = "XPMP2-Sample/lib";
 				LD_DYLIB_INSTALL_NAME = "$(DYLIB_INSTALL_NAME_BASE:standardizepath)/$(PRODUCT_MODULE_NAME)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib/fmod",
 				);
 				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = com.twinfan.XPMP2;
@@ -778,15 +813,24 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				DSTROOT = "$(PROJECT_DIR)";
 				GCC_PREFIX_HEADER = src/XPMP2.h;
+				HEADER_SEARCH_PATHS = (
+					inc,
+					lib/fmod/inc,
+				);
 				INSTALL_PATH = "XPMP2-Sample/lib";
 				LD_DYLIB_INSTALL_NAME = "$(DYLIB_INSTALL_NAME_BASE:standardizepath)/$(PRODUCT_MODULE_NAME)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib/fmod",
 				);
 				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = com.twinfan.XPMP2;
@@ -801,6 +845,7 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = NO;
 				DEPLOYMENT_LOCATION = YES;
 				DYLIB_COMPATIBILITY_VERSION = "";
@@ -818,6 +863,10 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "";
 				INSTALL_PATH = mac_x64;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib/fmod",
+				);
 				MACH_O_TYPE = mh_bundle;
 				OTHER_CODE_SIGN_FLAGS = "--timestamp";
 				OTHER_LDFLAGS = (
@@ -845,6 +894,7 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = NO;
 				DEPLOYMENT_LOCATION = YES;
 				DYLIB_COMPATIBILITY_VERSION = "";
@@ -862,6 +912,10 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "";
 				INSTALL_PATH = mac_x64;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib/fmod",
+				);
 				MACH_O_TYPE = mh_bundle;
 				OTHER_CODE_SIGN_FLAGS = "--timestamp";
 				OTHER_LDFLAGS = (
@@ -887,6 +941,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = NO;
 				DEPLOYMENT_LOCATION = YES;
 				DYLIB_COMPATIBILITY_VERSION = "";
@@ -902,6 +957,10 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "";
 				INSTALL_PATH = mac_x64;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib/fmod",
+				);
 				MACH_O_TYPE = mh_bundle;
 				OTHER_LDFLAGS = (
 					"$(OTHER_LDFLAGS)",
@@ -926,6 +985,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = NO;
 				DEPLOYMENT_LOCATION = YES;
 				DYLIB_COMPATIBILITY_VERSION = "";
@@ -941,6 +1001,10 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "";
 				INSTALL_PATH = mac_x64;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib/fmod",
+				);
 				MACH_O_TYPE = mh_bundle;
 				OTHER_LDFLAGS = (
 					"$(OTHER_LDFLAGS)",

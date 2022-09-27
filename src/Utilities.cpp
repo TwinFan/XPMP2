@@ -197,6 +197,9 @@ void GlobVars::UpdateCfgVals ()
     else if (i < 0) remoteCfg = REMOTE_CFG_OFF;
     else            remoteCfg = REMOTE_CFG_ON;
 
+    // Ask for enabling sound
+    bSoundOnStartup = prefsFuncInt(XPMP_CFG_SEC_SOUND, XPMP_CFG_ITM_ACTIVATE_SOUND, bSoundOnStartup) != 0;
+    
     // Ask for model matching logging
     bLogMdlMatch = prefsFuncInt(XPMP_CFG_SEC_DEBUG, XPMP_CFG_ITM_MODELMATCHING, bLogMdlMatch) != 0;
     

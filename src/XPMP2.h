@@ -81,6 +81,7 @@
 #include "Map.h"
 #include "Network.h"
 #include "Remote.h"
+#include "Sound.h"
 
 // On Windows, 'max' and 'min' are defined macros in conflict with C++ library. Let's undefine them!
 #if IBM
@@ -214,6 +215,11 @@ public:
     /// Are we a sender?
     bool RemoteIsSender() const { return remoteStatus == REMOTE_SENDING || remoteStatus == REMOTE_SEND_WAITING; }
 
+    /// Start Sound on startup?
+    bool bSoundOnStartup = true;
+    /// Is the sound system available?
+    bool bSoundAvail = false;
+    
     /// X-Plane's version number (XPLMGetVersions)
     int             verXPlane = -1;
     /// XPLM's SDK version number (XPLMGetVersions)

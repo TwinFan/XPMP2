@@ -173,6 +173,8 @@ const char *    XPMPMultiplayerInit(const char* inPluginName,
     AIMultiInit();
     MapInit();
     RemoteInit();
+    if (glob.bSoundOnStartup)
+        XPMPSoundEnable(true);
     
     // Load related.txt
     ret = RelatedLoad(glob.pathRelated);
@@ -207,6 +209,7 @@ void XPMPMultiplayerCleanup()
     LOG_MSG(logINFO, "XPMP2 cleaning up...")
 
     // Cleanup all modules in revers order of initialization
+    SoundCleanup();
     RemoteCleanup();
     MapCleanup();
     AIMultiCleanup();

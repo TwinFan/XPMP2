@@ -16,11 +16,14 @@
 		2541FA46253C902200AEA532 /* XPMPRemote.h in Headers */ = {isa = PBXBuildFile; fileRef = 2541FA45253C902200AEA532 /* XPMPRemote.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2541FA4D253CDD6700AEA532 /* Remote.h in Headers */ = {isa = PBXBuildFile; fileRef = 2541FA4B253CDD6700AEA532 /* Remote.h */; };
 		2541FA4E253CDD6700AEA532 /* Remote.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2541FA4C253CDD6700AEA532 /* Remote.cpp */; };
-		255EC98F28E3821200F99F93 /* libfmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 255EC98E28E3821200F99F93 /* libfmod.dylib */; };
 		255EC99228E3871100F99F93 /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 255EC99028E3871100F99F93 /* Sound.cpp */; };
 		255EC99328E3871100F99F93 /* Sound.h in Headers */ = {isa = PBXBuildFile; fileRef = 255EC99128E3871100F99F93 /* Sound.h */; };
-		255EC99428E3A29700F99F93 /* libfmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 255EC98E28E3821200F99F93 /* libfmod.dylib */; };
-		255EC99528E3A29800F99F93 /* libfmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 255EC98E28E3821200F99F93 /* libfmod.dylib */; };
+		255EC99728E4F06900F99F93 /* libfmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 255EC99628E4F06900F99F93 /* libfmod.dylib */; };
+		255EC99828E4F06900F99F93 /* libfmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 255EC99628E4F06900F99F93 /* libfmod.dylib */; };
+		255EC99928E4F06900F99F93 /* libfmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 255EC99628E4F06900F99F93 /* libfmod.dylib */; };
+		255EC99B28E4F08300F99F93 /* XPLM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 255EC99A28E4F08300F99F93 /* XPLM.framework */; };
+		255EC99C28E4F08300F99F93 /* XPLM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 255EC99A28E4F08300F99F93 /* XPLM.framework */; };
+		255EC99D28E4F08300F99F93 /* XPLM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 255EC99A28E4F08300F99F93 /* XPLM.framework */; };
 		256DC2F724F3141500C1595C /* CSLCopy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 256DC2F624F3141500C1595C /* CSLCopy.cpp */; };
 		256EE0002540D7EF0007D517 /* XPMP2-Remote.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 256EDFFF2540D7EF0007D517 /* XPMP2-Remote.cpp */; };
 		256EE0102540E39D0007D517 /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 256EE00F2540E39D0007D517 /* Utilities.cpp */; };
@@ -35,13 +38,11 @@
 		25AE8CB623E376E2000BE21E /* 2D.h in Headers */ = {isa = PBXBuildFile; fileRef = 25AE8CB423E376E2000BE21E /* 2D.h */; };
 		25B071F12540D6C400CCDA1D /* XPMP2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2502C17A23BE8A1600578919 /* XPMP2.framework */; };
 		25B071F22540D6C400CCDA1D /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25D86CC7253E285E00424494 /* CoreFoundation.framework */; };
-		25B071F32540D6C400CCDA1D /* XPLM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25D86CC9253E288900424494 /* XPLM.framework */; };
 		25D680B923BE95FB00C83CC5 /* XPCAircraft.h in Headers */ = {isa = PBXBuildFile; fileRef = 25D680B623BE95FB00C83CC5 /* XPCAircraft.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		25D680BA23BE95FB00C83CC5 /* XPMPMultiplayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 25D680B723BE95FB00C83CC5 /* XPMPMultiplayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		25D680BB23BE95FB00C83CC5 /* XPMPPlaneRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 25D680B823BE95FB00C83CC5 /* XPMPPlaneRenderer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		25D680C523BE9DBD00C83CC5 /* XPMPMultiplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 25D680C423BE9DBD00C83CC5 /* XPMPMultiplayer.cpp */; };
 		25D86CC8253E285F00424494 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25D86CC7253E285E00424494 /* CoreFoundation.framework */; };
-		25D86CCA253E288900424494 /* XPLM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25D86CC9253E288900424494 /* XPLM.framework */; };
 		25D86CCD253E289100424494 /* XPMP2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2502C17A23BE8A1600578919 /* XPMP2.framework */; };
 		25D86D7A253E2F3E00424494 /* XPMP2-Sample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 25D86D06253E2E5900424494 /* XPMP2-Sample.cpp */; };
 		25EC1C4023BF6DF1000940BB /* CSLModels.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 25EC1C3F23BF6DF1000940BB /* CSLModels.cpp */; };
@@ -104,9 +105,10 @@
 		2541FA45253C902200AEA532 /* XPMPRemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPMPRemote.h; sourceTree = "<group>"; };
 		2541FA4B253CDD6700AEA532 /* Remote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Remote.h; sourceTree = "<group>"; };
 		2541FA4C253CDD6700AEA532 /* Remote.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Remote.cpp; sourceTree = "<group>"; };
-		255EC98E28E3821200F99F93 /* libfmod.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmod.dylib; path = lib/fmod/libfmod.dylib; sourceTree = "<group>"; };
 		255EC99028E3871100F99F93 /* Sound.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Sound.cpp; sourceTree = "<group>"; };
 		255EC99128E3871100F99F93 /* Sound.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Sound.h; sourceTree = "<group>"; };
+		255EC99628E4F06900F99F93 /* libfmod.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmod.dylib; path = "XPMP2-Sample/lib/fmod/libfmod.dylib"; sourceTree = "<group>"; };
+		255EC99A28E4F08300F99F93 /* XPLM.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XPLM.framework; path = "XPMP2-Sample/lib/SDK/Libraries/Mac/XPLM.framework"; sourceTree = "<group>"; };
 		2561DA2D2571AE4800E3DE3D /* readme.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = readme.html; sourceTree = "<group>"; };
 		256C287925B4E6270033007D /* Toolchain-ubuntu-osxcross.cmake */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Toolchain-ubuntu-osxcross.cmake"; sourceTree = "<group>"; };
 		256DC2F524F3090B00C1595C /* Obj8DataRefs.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Obj8DataRefs.txt; sourceTree = "<group>"; };
@@ -145,7 +147,6 @@
 		25D680C423BE9DBD00C83CC5 /* XPMPMultiplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XPMPMultiplayer.cpp; sourceTree = "<group>"; };
 		25D86CC0253E281800424494 /* XPMP2-Sample.xpl */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = "XPMP2-Sample.xpl"; sourceTree = BUILT_PRODUCTS_DIR; };
 		25D86CC7253E285E00424494 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
-		25D86CC9253E288900424494 /* XPLM.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XPLM.framework; path = "XPMP2-Sample/SDK/Libraries/Mac/XPLM.framework"; sourceTree = "<group>"; };
 		25D86D06253E2E5900424494 /* XPMP2-Sample.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "XPMP2-Sample.cpp"; sourceTree = "<group>"; };
 		25D86D98253F94F200424494 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		25EC1C3F23BF6DF1000940BB /* CSLModels.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSLModels.cpp; sourceTree = "<group>"; };
@@ -160,7 +161,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				255EC98F28E3821200F99F93 /* libfmod.dylib in Frameworks */,
+				255EC99728E4F06900F99F93 /* libfmod.dylib in Frameworks */,
+				255EC99B28E4F08300F99F93 /* XPLM.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -168,10 +170,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				255EC99528E3A29800F99F93 /* libfmod.dylib in Frameworks */,
-				25B071F12540D6C400CCDA1D /* XPMP2.framework in Frameworks */,
 				25B071F22540D6C400CCDA1D /* CoreFoundation.framework in Frameworks */,
-				25B071F32540D6C400CCDA1D /* XPLM.framework in Frameworks */,
+				255EC99D28E4F08300F99F93 /* XPLM.framework in Frameworks */,
+				255EC99928E4F06900F99F93 /* libfmod.dylib in Frameworks */,
+				25B071F12540D6C400CCDA1D /* XPMP2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,10 +181,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				255EC99428E3A29700F99F93 /* libfmod.dylib in Frameworks */,
-				25D86CCD253E289100424494 /* XPMP2.framework in Frameworks */,
 				25D86CC8253E285F00424494 /* CoreFoundation.framework in Frameworks */,
-				25D86CCA253E288900424494 /* XPLM.framework in Frameworks */,
+				255EC99C28E4F08300F99F93 /* XPLM.framework in Frameworks */,
+				255EC99828E4F06900F99F93 /* libfmod.dylib in Frameworks */,
+				25D86CCD253E289100424494 /* XPMP2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -322,8 +324,8 @@
 		25D86CC6253E285E00424494 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				255EC98E28E3821200F99F93 /* libfmod.dylib */,
-				25D86CC9253E288900424494 /* XPLM.framework */,
+				255EC99628E4F06900F99F93 /* libfmod.dylib */,
+				255EC99A28E4F08300F99F93 /* XPLM.framework */,
 				25D86CC7253E285E00424494 /* CoreFoundation.framework */,
 			);
 			name = Frameworks;
@@ -674,7 +676,7 @@
 				XPLANE11_ROOT = "$(USER_APPS_DIR)/X-Plane/Release";
 				XPMP2_VER_MAJOR = 2;
 				XPMP2_VER_MINOR = 60;
-				XPSDK_ROOT = "XPMP2-Sample/SDK";
+				XPSDK_ROOT = "XPMP2-Sample/lib/SDK";
 			};
 			name = Debug;
 		};
@@ -774,7 +776,7 @@
 				XPLANE11_ROOT = "$(USER_APPS_DIR)/X-Plane/Release";
 				XPMP2_VER_MAJOR = 2;
 				XPMP2_VER_MINOR = 60;
-				XPSDK_ROOT = "XPMP2-Sample/SDK";
+				XPSDK_ROOT = "XPMP2-Sample/lib/SDK";
 			};
 			name = Release;
 		};
@@ -786,10 +788,14 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				DSTROOT = "$(PROJECT_DIR)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/XPMP2-Sample/lib/SDK/Libraries/Mac",
+				);
 				GCC_PREFIX_HEADER = src/XPMP2.h;
 				HEADER_SEARCH_PATHS = (
 					inc,
-					lib/fmod/inc,
+					"XPMP2-Sample/lib/fmod/inc",
 				);
 				INSTALL_PATH = "XPMP2-Sample/lib";
 				LD_DYLIB_INSTALL_NAME = "$(DYLIB_INSTALL_NAME_BASE:standardizepath)/$(PRODUCT_MODULE_NAME)";
@@ -800,7 +806,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/lib/fmod",
+					"$(PROJECT_DIR)/XPMP2-Sample/lib/fmod",
 				);
 				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = com.twinfan.XPMP2;
@@ -816,10 +822,14 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				DSTROOT = "$(PROJECT_DIR)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/XPMP2-Sample/lib/SDK/Libraries/Mac",
+				);
 				GCC_PREFIX_HEADER = src/XPMP2.h;
 				HEADER_SEARCH_PATHS = (
 					inc,
-					lib/fmod/inc,
+					"XPMP2-Sample/lib/fmod/inc",
 				);
 				INSTALL_PATH = "XPMP2-Sample/lib";
 				LD_DYLIB_INSTALL_NAME = "$(DYLIB_INSTALL_NAME_BASE:standardizepath)/$(PRODUCT_MODULE_NAME)";
@@ -830,7 +840,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/lib/fmod",
+					"$(PROJECT_DIR)/XPMP2-Sample/lib/fmod",
 				);
 				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = com.twinfan.XPMP2;
@@ -855,7 +865,7 @@
 				EXECUTABLE_PREFIX = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/XPMP2-Sample/SDK/Libraries/Mac",
+					"$(PROJECT_DIR)/XPMP2-Sample/lib/SDK/Libraries/Mac",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "XPMP2-Remote/XPMP2-Remote.h";
@@ -865,7 +875,7 @@
 				INSTALL_PATH = mac_x64;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/lib/fmod",
+					"$(PROJECT_DIR)/XPMP2-Sample/lib/fmod",
 				);
 				MACH_O_TYPE = mh_bundle;
 				OTHER_CODE_SIGN_FLAGS = "--timestamp";
@@ -904,7 +914,7 @@
 				EXECUTABLE_PREFIX = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/XPMP2-Sample/SDK/Libraries/Mac",
+					"$(PROJECT_DIR)/XPMP2-Sample/lib/SDK/Libraries/Mac",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "XPMP2-Remote/XPMP2-Remote.h";
@@ -914,7 +924,7 @@
 				INSTALL_PATH = mac_x64;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/lib/fmod",
+					"$(PROJECT_DIR)/XPMP2-Sample/lib/fmod",
 				);
 				MACH_O_TYPE = mh_bundle;
 				OTHER_CODE_SIGN_FLAGS = "--timestamp";
@@ -950,7 +960,7 @@
 				EXECUTABLE_PREFIX = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/XPMP2-Sample/SDK/Libraries/Mac",
+					"$(PROJECT_DIR)/XPMP2-Sample/lib/SDK/Libraries/Mac",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
@@ -959,7 +969,7 @@
 				INSTALL_PATH = mac_x64;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/lib/fmod",
+					"$(PROJECT_DIR)/XPMP2-Sample/lib/fmod",
 				);
 				MACH_O_TYPE = mh_bundle;
 				OTHER_LDFLAGS = (
@@ -994,7 +1004,7 @@
 				EXECUTABLE_PREFIX = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/XPMP2-Sample/SDK/Libraries/Mac",
+					"$(PROJECT_DIR)/XPMP2-Sample/lib/SDK/Libraries/Mac",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
@@ -1003,7 +1013,7 @@
 				INSTALL_PATH = mac_x64;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/lib/fmod",
+					"$(PROJECT_DIR)/XPMP2-Sample/lib/fmod",
 				);
 				MACH_O_TYPE = mh_bundle;
 				OTHER_LDFLAGS = (

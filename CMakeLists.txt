@@ -121,7 +121,7 @@ endif()
 # Mingw Threads
 if (MINGW)
     option(MINGW_STDTHREADS_GENERATE_STDHEADERS "" ON)
-    add_subdirectory(XPMP2-Sample/mingw-std-threads)
+    add_subdirectory(lib/mingw-std-threads)
 endif()
 
 ################################################################################
@@ -152,6 +152,8 @@ add_library(XPMP2 STATIC
     src/RelatedDoc8643.cpp
     src/Remote.h
     src/Remote.cpp
+    src/Sound.h
+    src/Sound.cpp
     src/Utilities.h
     src/Utilities.cpp
     src/XPMP2.h
@@ -166,7 +168,8 @@ target_include_directories(XPMP2
 	PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/inc
     PRIVATE
-		${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/SDK/CHeaders/XPLM
+		${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/SDK/CHeaders/XPLM
+		${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/fmod/inc
 		${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
@@ -175,8 +178,20 @@ if (MINGW)
     target_link_libraries(XPMP2 mingw_stdthreads)
 endif()
 
+# FMOD Library
+list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/fmod")
+if(WIN32)
+    find_library(FMOD_LIBRARY NAMES fmod_vc.lib REQUIRED)
+elseif(APPLE)
+    find_library(FMOD_LIBRARY NAMES libfmod.dylib REQUIRED)
+elseif(UNIX AND NOT APPLE)
+    find_library(FMOD_LIBRARY NAMES libfmod.so.13.9 REQUIRED)
+endif()
+message ("FMOD_LIBRARY                  = ${FMOD_LIBRARY}")
+target_link_libraries(XPMP2 ${FMOD_LIBRARY})
+
+# make it a framework
 if(APPLE)
-    # make it a framework
     list(APPEND XPMP2_PUB_HEADERS
         ../inc/XPCAircraft.h
         ../inc/XPMPAircraft.h
@@ -196,17 +211,17 @@ if(APPLE)
     )
 endif()
 
-# Copy the resulting framework/library also into the 'lib' directory of the sample plugin
+# Copy the resulting framework/library also into the 'lib/XPMP2' directory of the sample plugin
 if(APPLE)
     add_custom_command(TARGET XPMP2 POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2.framework
-        COMMAND ${CMAKE_COMMAND} -E make_directory   ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2.framework
-        COMMAND cp -a $<TARGET_FILE_DIR:XPMP2>/../.. ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2.framework
+        COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2/XPMP2.framework
+        COMMAND ${CMAKE_COMMAND} -E make_directory   ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2/XPMP2.framework
+        COMMAND cp -a $<TARGET_FILE_DIR:XPMP2>/../.. ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2/XPMP2.framework
     )
 elseif(UNIX OR WIN32)
     add_custom_command(TARGET XPMP2 POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E make_directory            ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/$ENV{platform}
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:XPMP2> ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/$ENV{platform}
+        COMMAND ${CMAKE_COMMAND} -E make_directory            ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2/$ENV{platform}
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:XPMP2> ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2/$ENV{platform}
     )
 endif()
 
@@ -223,12 +238,6 @@ add_library(XPMP2-Remote MODULE
     inc/XPMPMultiplayer.h
     inc/XPMPRemote.h
     inc/XPMPPlaneRenderer.h
-    # X-Plane SDK
-    XPMP2-Sample/SDK/CHeaders/XPLM/XPLMDataAccess.h
-    XPMP2-Sample/SDK/CHeaders/XPLM/XPLMUtilities.h
-    XPMP2-Sample/SDK/CHeaders/XPLM/XPLMPlugin.h
-    XPMP2-Sample/SDK/CHeaders/XPLM/XPLMGraphics.h
-    XPMP2-Sample/SDK/CHeaders/XPLM/XPLMMenus.h
     # actual XPMP2-Remote client code
     XPMP2-Remote/Client.h
     XPMP2-Remote/Client.cpp
@@ -241,7 +250,7 @@ add_library(XPMP2-Remote MODULE
 # Header include directories
 target_include_directories(XPMP2-Remote PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/inc
-    ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/SDK/CHeaders/XPLM
+    ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/SDK/CHeaders/XPLM
     ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Remote
 )
 
@@ -249,15 +258,15 @@ target_include_directories(XPMP2-Remote PRIVATE
 add_dependencies(XPMP2-Remote XPMP2)
 
 # Link to the just built XPMP2 library
-target_link_libraries(XPMP2-Remote XPMP2)
+target_link_libraries(XPMP2-Remote XPMP2 ${FMOD_LIBRARY})
 
 # Link X-Plane plugin system libraries. They are only provided for OS X and Windows.
 if (WIN32 OR APPLE)
     # Specify library search location for X-Plane SDK
     if (APPLE)
-        list(APPEND CMAKE_FRAMEWORK_PATH "${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/SDK/Libraries/Mac")
+        list(APPEND CMAKE_FRAMEWORK_PATH "${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/SDK/Libraries/Mac")
     else ()
-        list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/SDK/Libraries/Win")
+        list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/SDK/Libraries/Win")
     endif ()
     find_library(XPLM_LIBRARY XPLM REQUIRED NAMES XPLM XPLM_64.lib)
     target_link_libraries(XPMP2-Remote ${XPLM_LIBRARY})
@@ -321,12 +330,6 @@ add_library(XPMP2-Sample MODULE
     inc/XPMPMultiplayer.h
     inc/XPMPRemote.h
     inc/XPMPPlaneRenderer.h
-    # X-Plane SDK
-    XPMP2-Sample/SDK/CHeaders/XPLM/XPLMDataAccess.h
-    XPMP2-Sample/SDK/CHeaders/XPLM/XPLMUtilities.h
-    XPMP2-Sample/SDK/CHeaders/XPLM/XPLMPlugin.h
-    XPMP2-Sample/SDK/CHeaders/XPLM/XPLMGraphics.h
-    XPMP2-Sample/SDK/CHeaders/XPLM/XPLMMenus.h
     # actual XPMP2-Sample code
     XPMP2-Sample/XPMP2-Sample.cpp
 )
@@ -334,7 +337,7 @@ add_library(XPMP2-Sample MODULE
 # Header include directories
 target_include_directories(XPMP2-Sample PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/inc
-    ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/SDK/CHeaders/XPLM
+    ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/SDK/CHeaders/XPLM
     ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Remote
 )
 
@@ -342,7 +345,7 @@ target_include_directories(XPMP2-Sample PRIVATE
 add_dependencies(XPMP2-Sample XPMP2)
 
 # Link to the just built XPMP2 library
-target_link_libraries(XPMP2-Sample XPMP2)
+target_link_libraries(XPMP2-Sample XPMP2 ${FMOD_LIBRARY})
 
 # Link X-Plane plugin system libraries. They are only provided for OS X and Windows.
 if (WIN32 OR APPLE)

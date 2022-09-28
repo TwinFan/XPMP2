@@ -19,7 +19,7 @@ else()
 endif()
 
 project(XPMP2-Sample
-        VERSION 2.50
+        VERSION 2.60
         DESCRIPTION "XPMP2-Sample X-Plane plugin")
 
 # Provide compile macros from the above project version definition
@@ -122,22 +122,14 @@ endif()
 # Source Files
 ################################################################################
 add_library(XPMP2-Sample MODULE
-    lib/XPMP2.framework/Versions/${PROJECT_VERSION}/Headers/XPCAircraft.h
-    lib/XPMP2.framework/Versions/${PROJECT_VERSION}/Headers/XPMPAircraft.h
-    lib/XPMP2.framework/Versions/${PROJECT_VERSION}/Headers/XPMPMultiplayer.h
-    SDK/CHeaders/XPLM/XPLMDataAccess.h
-    SDK/CHeaders/XPLM/XPLMUtilities.h
-    SDK/CHeaders/XPLM/XPLMPlugin.h
-    SDK/CHeaders/XPLM/XPLMGraphics.h
-    SDK/CHeaders/XPLM/XPLMMenus.h
     XPMP2-Sample.cpp
 )
 
 # Header include directories
 target_include_directories(XPMP2-Sample PRIVATE
     ${ADDITIONAL_INCLUDES}
-    ${CMAKE_CURRENT_SOURCE_DIR}/SDK/CHeaders/XPLM
-    ${CMAKE_CURRENT_SOURCE_DIR}/lib/XPMP2.framework/Versions/${PROJECT_VERSION}/Headers
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/SDK/CHeaders/XPLM
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/XPMP2/XPMP2.framework/Versions/${PROJECT_VERSION}/Headers
 )
 
 
@@ -148,21 +140,36 @@ target_include_directories(XPMP2-Sample PRIVATE
 # Specify library search locations, especially for X-Plane SDK
 # XPMP2 path is hard-coded. Couldn't convince find_library to distinguish libXPMP2.a from XPMP2.lib in Mingw vs MSVC build.
 if (APPLE)
-    list(APPEND CMAKE_FRAMEWORK_PATH "${CMAKE_CURRENT_SOURCE_DIR}/lib" "${CMAKE_CURRENT_SOURCE_DIR}/SDK/Libraries/Mac")
+    list(APPEND CMAKE_FRAMEWORK_PATH
+         "${CMAKE_CURRENT_SOURCE_DIR}/lib/XPMP2"
+         "${CMAKE_CURRENT_SOURCE_DIR}/lib/SDK/Libraries/Mac")
 else ()
-    list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/SDK/Libraries/Win" "${CMAKE_CURRENT_SOURCE_DIR}/lib/$ENV{platform}")
+    list(APPEND CMAKE_LIBRARY_PATH
+         "${CMAKE_CURRENT_SOURCE_DIR}/lib/SDK/Libraries/Win"
+         "${CMAKE_CURRENT_SOURCE_DIR}/lib/XPMP2/$ENV{platform}")
 endif ()
 
 # Link the XPMP2 library
 find_library(XPMP2_LIBRARY XPMP2 REQUIRED)
-message ("XPMP2_LIBRARY = ${XPMP2_LIBRARY}")
+message ("XPMP2_LIBRARY                 = ${XPMP2_LIBRARY}")
 target_link_libraries(XPMP2-Sample ${XPMP2_LIBRARY})
 
+# FMOD Library
+list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/lib/fmod")
+if(WIN32)
+    find_library(FMOD_LIBRARY NAMES fmod_vc.lib REQUIRED)
+elseif(APPLE)
+    find_library(FMOD_LIBRARY NAMES libfmod.dylib REQUIRED)
+elseif(UNIX AND NOT APPLE)
+    find_library(FMOD_LIBRARY NAMES libfmod.so.13.9 REQUIRED)
+endif()
+message ("FMOD_LIBRARY                  = ${FMOD_LIBRARY}")
+target_link_libraries(XPMP2-Sample ${FMOD_LIBRARY})
 
 # Link X-Plane plugin system libraries. They are only provided for OS X and Windows.
 if (WIN32 OR APPLE)
     find_library(XPLM_LIBRARY XPLM REQUIRED NAMES XPLM_64.lib)
-    message ("XPLM_LIBRARY  = ${XPLM_LIBRARY}")
+    message ("XPLM_LIBRARY                  = ${XPLM_LIBRARY}")
     target_link_libraries(XPMP2-Sample ${XPLM_LIBRARY})
 endif ()
 

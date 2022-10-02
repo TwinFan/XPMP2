@@ -233,6 +233,9 @@ public:
     /// id of X-Plane's thread (when it is OK to use XP API calls)
     std::thread::id xpThread;
 
+    /// Current camera location, updated every flight loop
+    XPLMCameraPosition_t posCamera = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+
 #ifdef DEBUG
     /// Current XP cycle number (see XPLMGetCycleNumber())
     int             xpCycleNum = 0;

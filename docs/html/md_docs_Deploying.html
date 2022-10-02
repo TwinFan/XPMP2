@@ -43,7 +43,7 @@ $(function() {
 <div class="title">Deploying XPMP2-based Plugins </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="el" href="namespaceXPMP2.html">XPMP2</a> needs a couple additional files to work. In your calls to <code>XPMPMultiplayerInit</code> and <code>XPMPLoadCSLPackage</code> you provide the locations to the folders holding these files.</p>
+<div class="textblock"><p><a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> needs a couple additional files to work. In your calls to <code>XPMPMultiplayerInit</code> and <code>XPMPLoadCSLPackage</code> you provide the locations to the folders holding these files.</p>
 <h1><a class="anchor" id="autotoc_md14"></a>
 Resources</h1>
 <p>You should ship all the files provided in the <code>Resources</code> folder:</p>
@@ -53,14 +53,14 @@ Resources</h1>
 <li><code>related.txt</code> defines "similar looking" aircraft types, so that an A320 model could be used if no exact match for the A319 at hand is found. Without that file this "related" matching cannot take place.</li>
 <li><code>Obj8DataRefs.txt</code> is only required for the <a href="CopyingObjFiles.html">"Copying .OBJ Files" functionality</a>: It defines dataRef replacements. You don't need to ship this file if you do not enable that functionality in your plugin.</li>
 </ul>
-<p>These files have all to be installed in the same folder. It is good practice to install these files in a folder named <code>Resources</code> in the plugin's folder. Your plugin provides <a class="el" href="namespaceXPMP2.html">XPMP2</a> with the folder location in the <code>resourceDir</code> parameter of the <code>XPMPMultiplayerInit</code> call (see <a href="html/XPMPMultiplayer_8h.html">XPMPMultiplayer.h</a> for more details).</p>
-<p>You do not need to and shall not ship the <a class="el" href="namespaceXPMP2.html">XPMP2</a> Remote Client with your plugin. This plugin is maintained and provided centrally. Please refer your users to</p><ul>
+<p>These files have all to be installed in the same folder. It is good practice to install these files in a folder named <code>Resources</code> in the plugin's folder. Your plugin provides <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> with the folder location in the <code>resourceDir</code> parameter of the <code>XPMPMultiplayerInit</code> call (see <a href="html/XPMPMultiplayer_8h.html">XPMPMultiplayer.h</a> for more details).</p>
+<p>You do not need to and shall not ship the <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> Remote Client with your plugin. This plugin is maintained and provided centrally. Please refer your users to</p><ul>
 <li>the <a href="https://forums.x-plane.org/index.php?/files/file/67797-xpmp2-remote-client/">download location</a> and</li>
 <li>the <a href="https://twinfan.gitbook.io/livetraffic/setup/installation/xpmp2-remote-client">documentation location</a>.</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md15"></a>
 CSL Models</h1>
-<p>CSL Models are not shipped with <a class="el" href="namespaceXPMP2.html">XPMP2</a>. They are available as separate downloads. Recommended sources are:</p>
+<p>CSL Models are not shipped with <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>. They are available as separate downloads. Recommended sources are:</p>
 <ul>
 <li><a href="https://forums.x-plane.org/index.php?/files/file/37041-bluebell-obj8-csl-packages/">Bluebell</a></li>
 <li><a href="https://csl.x-air.ru/?lang_id=43">X-CSL</a></li>
@@ -68,7 +68,7 @@ CSL Models</h1>
 </ul>
 <p>You may want to refer to <a href="https://twinfan.gitbook.io/livetraffic/setup/installation/step-by-step#bluebell-csl-package-by-oktalist">LiveTraffic's detailed CSL model installation instructions</a>.</p>
 <p>While it is recommendable to have the models installed somewhere under the plugin's folder, the CSL packages' location is a matter of convention. Your plugin provides the folder location of CSL packages in one or more calls to <code>XPMPLoadCSLPackage</code>.</p>
-<p>Additional <code>.obj</code> files next to the existing ones might be generated during runtime by <a class="el" href="namespaceXPMP2.html">XPMP2</a> for replacing dataRefs and textures. A plugin can control this behaviour via configuration settings. <a href="CopyingObjFiles.html">See here for details.</a> </p>
+<p>Additional <code>.obj</code> files next to the existing ones might be generated during runtime by <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> for replacing dataRefs and textures. A plugin can control this behaviour via configuration settings. <a href="CopyingObjFiles.html">See here for details.</a> </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->

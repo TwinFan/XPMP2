@@ -40,7 +40,7 @@ $(function() {
 </div><!-- top -->
 <div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">How to Use <a class="el" href="namespaceXPMP2.html">XPMP2</a> </div>  </div>
+<div class="title">How to Use <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> </div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><b>This page probably requires more attention...</b> but there is a working sample plugin available in the <code>XPMP2-Sample</code> folder for you to study:</p>
@@ -49,7 +49,7 @@ Sample Plugin</h1>
 <p>This package comes with a sample plugin in the <code>XPMP2-Sample</code> folder. It is a complete plugin including build projects and CMake setup. It displays 3 aircraft flying circles in front of the user's plane. Each of the 3 aircraft is using a different technology: the now recommended way of subclassing <code><a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a></code>, the legacy way of subclassing <code><a class="el" href="classXPCAircraft.html" title="Legacy wrapper class as provided by original libxplanemp.">XPCAircraft</a></code> (as used by LiveTraffic v1.x), and by calling standard C functions.</p>
 <p>For the sample plugin to work you need to follow instruction in <a href="Deploying.html">Deploying XPMP2-based Plugins</a> for</p>
 <ul>
-<li>a <code>Resources</code> folder under the plugin's folder holding the 3 files from the <code>Resources</code> folder provided here with <a class="el" href="namespaceXPMP2.html">XPMP2</a>,</li>
+<li>a <code>Resources</code> folder under the plugin's folder holding the 3 files from the <code>Resources</code> folder provided here with <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>,</li>
 <li>CSL models installed in folders under that <code>Resources</code> folder.<ul>
 <li>The sample plugin tries to find matches for "B06/TXB", "DH8A/BER", and "A321", all available in the <a href="https://forums.x-plane.org/index.php?/files/file/37041-bluebell-obj8-csl-packages/">Bluebell</a> packages. But matching will find <em>anything</em> if you provide at least one model.</li>
 </ul>
@@ -71,9 +71,9 @@ Binaries and Header Files</h1>
 <p>You don't need to build the library yourself if you don't want. Archives with headers and release/debug builds are available in the <a href="https://github.com/TwinFan/XPMP2/releases">Release section</a> here on GitHub.</p>
 <h1><a class="anchor" id="autotoc_md18"></a>
 Anatomy of Your Plugin using XPMP2</h1>
-<p>Generically you should probably use <a class="el" href="namespaceXPMP2.html">XPMP2</a> as follows:</p>
+<p>Generically you should probably use <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> as follows:</p>
 <ul>
-<li><code>XPluginEnable</code>: Initialize <a class="el" href="namespaceXPMP2.html">XPMP2</a> using<ul>
+<li><code>XPluginEnable</code>: Initialize <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> using<ul>
 <li><code>XPMPMultiplayerInit</code>,</li>
 <li><code>XPMPLoadCSLPackage</code> once or multiple times, and</li>
 <li><code>XPMPMultiplayerEnable</code>.</li>

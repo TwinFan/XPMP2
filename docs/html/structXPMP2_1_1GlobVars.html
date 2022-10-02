@@ -73,7 +73,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:af689bba7dd10c704df3f6e404fb87eca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="structXPMP2_1_1GlobVars.html#af689bba7dd10c704df3f6e404fb87eca">More...</a><br /></td></tr>
 <tr class="separator:af689bba7dd10c704df3f6e404fb87eca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0bc37d57c6a526d9b222b241e3a122f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#aa0bc37d57c6a526d9b222b241e3a122f">ReadConfigFile</a> ()</td></tr>
-<tr class="memdesc:aa0bc37d57c6a526d9b222b241e3a122f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read from a generic <code>XPMP2.prf</code> or <code><a class="el" href="namespaceXPMP2.html">XPMP2</a>.&lt;logAcronym&gt;.prf</code> config file.  <a href="structXPMP2_1_1GlobVars.html#aa0bc37d57c6a526d9b222b241e3a122f">More...</a><br /></td></tr>
+<tr class="memdesc:aa0bc37d57c6a526d9b222b241e3a122f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read from a generic <code>XPMP2.prf</code> or <code><a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>.&lt;logAcronym&gt;.prf</code> config file.  <a href="structXPMP2_1_1GlobVars.html#aa0bc37d57c6a526d9b222b241e3a122f">More...</a><br /></td></tr>
 <tr class="separator:aa0bc37d57c6a526d9b222b241e3a122f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a40b872877b9d0d5d96d36490aebb25ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a40b872877b9d0d5d96d36490aebb25ab">UpdateCfgVals</a> ()</td></tr>
 <tr class="memdesc:a40b872877b9d0d5d96d36490aebb25ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update all settings, e.g. for logging level, by calling prefsFuncInt.  <a href="structXPMP2_1_1GlobVars.html#a40b872877b9d0d5d96d36490aebb25ab">More...</a><br /></td></tr>
@@ -234,6 +234,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a3f3744b97488f60be5bbd0e4706224cd"><td class="memItemLeft" align="right" valign="top">std::thread::id&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a3f3744b97488f60be5bbd0e4706224cd">xpThread</a></td></tr>
 <tr class="memdesc:a3f3744b97488f60be5bbd0e4706224cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">id of X-Plane's thread (when it is OK to use XP API calls)  <a href="structXPMP2_1_1GlobVars.html#a3f3744b97488f60be5bbd0e4706224cd">More...</a><br /></td></tr>
 <tr class="separator:a3f3744b97488f60be5bbd0e4706224cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f17c5ab47b068e7c17203ac7583b3c2"><td class="memItemLeft" align="right" valign="top">XPLMCameraPosition_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a1f17c5ab47b068e7c17203ac7583b3c2">posCamera</a> = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f }</td></tr>
+<tr class="memdesc:a1f17c5ab47b068e7c17203ac7583b3c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current camera location, updated every flight loop.  <a href="structXPMP2_1_1GlobVars.html#a1f17c5ab47b068e7c17203ac7583b3c2">More...</a><br /></td></tr>
+<tr class="separator:a1f17c5ab47b068e7c17203ac7583b3c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -344,8 +347,8 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Read from a generic <code>XPMP2.prf</code> or <code><a class="el" href="namespaceXPMP2.html">XPMP2</a>.&lt;logAcronym&gt;.prf</code> config file. </p>
-<p>Goal is to provide some few configuration options independend of the plugin using <a class="el" href="namespaceXPMP2.html">XPMP2</a>. This is useful e.g. when configuring non-standard network settings for remote connections.<br  />
+<p>Read from a generic <code>XPMP2.prf</code> or <code><a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>.&lt;logAcronym&gt;.prf</code> config file. </p>
+<p>Goal is to provide some few configuration options independend of the plugin using <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>. This is useful e.g. when configuring non-standard network settings for remote connections.<br  />
  For even greate flexibility the function will try a plugin-specific file first, named "XPMP2.&lt;logAcronym&gt;.prf" (with spaces replaced with underscores) and if that is not found it tries the generic file "XPMP2.prf".<br  />
  A config file is completely optional, none is required. </p>
 
@@ -1063,6 +1066,22 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Name of the plugin we are serving (used as map layer name or for folders) </p>
+
+</div>
+</div>
+<a id="a1f17c5ab47b068e7c17203ac7583b3c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f17c5ab47b068e7c17203ac7583b3c2">&#9670;&nbsp;</a></span>posCamera</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">XPLMCameraPosition_t XPMP2::GlobVars::posCamera = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Current camera location, updated every flight loop. </p>
 
 </div>
 </div>

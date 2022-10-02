@@ -220,12 +220,12 @@ $(function() {
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160; </div>
 <div class="line"><a name="l00248"></a><span class="lineno"><a class="line" href="src_2Utilities_8h.html#a7487f8c90e86579f91e9e23251232cf7">  248</a></span>&#160;<span class="preprocessor">#define LOG_MSG(lvl,...)  {                                         \</span></div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;<span class="preprocessor">    if (lvl &gt;= glob.logLvl)                                         \</span></div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;<span class="preprocessor">    if (lvl &gt;= XPMP2::glob.logLvl)                                  \</span></div>
 <div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;<span class="preprocessor">    {LogMsg(__FILE__, __LINE__, __func__, lvl, __VA_ARGS__);}       \</span></div>
 <div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;<span class="preprocessor">}</span></div>
 <div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160; </div>
 <div class="line"><a name="l00256"></a><span class="lineno"><a class="line" href="src_2Utilities_8h.html#a2b054e3b3c6a7fe4c084f7cbcbb533b2">  256</a></span>&#160;<span class="preprocessor">#define LOG_MATCHING(lvl,...)  {                                    \</span></div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;<span class="preprocessor">    if (glob.bLogMdlMatch &amp;&amp; lvl &gt;= glob.logLvl)                                          \</span></div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;<span class="preprocessor">    if (XPMP2::glob.bLogMdlMatch &amp;&amp; lvl &gt;= glob.logLvl)             \</span></div>
 <div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;<span class="preprocessor">    {LogMsg(__FILE__, __LINE__, __func__, lvl, __VA_ARGS__);}       \</span></div>
 <div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;<span class="preprocessor">}</span></div>
 <div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160; </div>
@@ -306,7 +306,7 @@ $(function() {
 <div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160; </div>
 <div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aXPMP2-Remote_2Utilities_8h_html_a92cbe77160a577ab2ee606aede56b399"><div class="ttname"><a href="XPMP2-Remote_2Utilities_8h.html#a92cbe77160a577ab2ee606aede56b399">logLevelTy</a></div><div class="ttdeci">logLevelTy</div><div class="ttdoc">Logging level.</div><div class="ttdef"><b>Definition:</b> Utilities.h:78</div></div>
-<div class="ttc" id="anamespaceXPMP2_html"><div class="ttname"><a href="namespaceXPMP2.html">XPMP2</a></div><div class="ttdef"><b>Definition:</b> XPMPAircraft.h:41</div></div>
+<div class="ttc" id="anamespaceXPMP2_html"><div class="ttname"><a href="namespaceXPMP2.html">XPMP2</a></div><div class="ttdoc">Defined by FMOD.</div><div class="ttdef"><b>Definition:</b> XPMPAircraft.h:44</div></div>
 <div class="ttc" id="anamespaceXPMP2_html_a0dde56f3584558b8f103c27cc375e052"><div class="ttname"><a href="namespaceXPMP2.html#a0dde56f3584558b8f103c27cc375e052">XPMP2::rad2deg</a></div><div class="ttdeci">T rad2deg(const T _rad)</div><div class="ttdoc">Convert radians to degrees, normalized to [0..360)</div><div class="ttdef"><b>Definition:</b> Utilities.h:137</div></div>
 <div class="ttc" id="anamespaceXPMP2_html_a0f7e2680dc39872f8204f510de0d8429"><div class="ttname"><a href="namespaceXPMP2.html#a0f7e2680dc39872f8204f510de0d8429">XPMP2::logLevelTy</a></div><div class="ttdeci">logLevelTy</div><div class="ttdoc">Logging level.</div><div class="ttdef"><b>Definition:</b> Utilities.h:226</div></div>
 <div class="ttc" id="anamespaceXPMP2_html_a0f7e2680dc39872f8204f510de0d8429a083be64fa2f445d85e459ef0c16c77da"><div class="ttname"><a href="namespaceXPMP2.html#a0f7e2680dc39872f8204f510de0d8429a083be64fa2f445d85e459ef0c16c77da">XPMP2::logFATAL</a></div><div class="ttdeci">@ logFATAL</div><div class="ttdoc">fatal is shortly before a crash</div><div class="ttdef"><b>Definition:</b> Utilities.h:231</div></div>

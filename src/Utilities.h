@@ -246,7 +246,7 @@ void LogMsg ( const char* szFile, int ln, const char* szFunc, logLevelTy lvl, co
 /// @note First parameter after lvl must be the message text,
 ///       which can be a format string with its parameters following like in sprintf
 #define LOG_MSG(lvl,...)  {                                         \
-    if (lvl >= glob.logLvl)                                         \
+    if (lvl >= XPMP2::glob.logLvl)                                  \
     {LogMsg(__FILE__, __LINE__, __func__, lvl, __VA_ARGS__);}       \
 }
 
@@ -254,7 +254,7 @@ void LogMsg ( const char* szFile, int ln, const char* szFunc, logLevelTy lvl, co
 /// @note First parameter after lvl must be the message text,
 ///       which can be a format string with its parameters following like in sprintf
 #define LOG_MATCHING(lvl,...)  {                                    \
-    if (glob.bLogMdlMatch && lvl >= glob.logLvl)                                          \
+    if (XPMP2::glob.bLogMdlMatch && lvl >= glob.logLvl)             \
     {LogMsg(__FILE__, __LINE__, __func__, lvl, __VA_ARGS__);}       \
 }
 

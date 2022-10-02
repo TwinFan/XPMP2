@@ -30,9 +30,11 @@ namespace XPMP2 {
 /// Initialize the sound module and load the sounds
 bool SoundInit ();
 
+/// Tell FMOD that all updates are done
+void SoundUpdatesDone ();
+
 /// Graceful shoutdown
 void SoundCleanup ();
-
 
 }
 

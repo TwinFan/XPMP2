@@ -288,9 +288,11 @@ size_t AIUpdateMultiplayerDataRefs()
                 if (ac.prev_ts > 0.0001f) {
                     // yes, so we can calculate velocity
                     const float d_s = now - ac.prev_ts;                 // time that had passed in seconds
-                    XPLMSetDataf(mdr.v_x, (ac.drawInfo.x - ac.prev_x) / d_s);
-                    XPLMSetDataf(mdr.v_y, (ac.drawInfo.y - ac.prev_y) / d_s);
-                    XPLMSetDataf(mdr.v_z, (ac.drawInfo.z - ac.prev_z) / d_s);
+                    XPLMSetDataf(mdr.v_x, ac.v_x = (ac.drawInfo.x - ac.prev_x) / d_s);
+                    XPLMSetDataf(mdr.v_y, ac.v_y = (ac.drawInfo.y - ac.prev_y) / d_s);
+                    XPLMSetDataf(mdr.v_z, ac.v_z = (ac.drawInfo.z - ac.prev_z) / d_s);
+                    // based on horizontal coordinates calculate a (rough) ground speed
+                    ac.gs_kn = std::sqrt(ac.v_x*ac.v_x + ac.v_z*ac.v_z) * float(KT_per_M_per_S);
                 }
                 ac.prev_x = ac.drawInfo.x;
                 ac.prev_y = ac.drawInfo.y;

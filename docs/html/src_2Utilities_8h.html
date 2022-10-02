@@ -62,6 +62,7 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespaceXPMP2"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html">XPMP2</a></td></tr>
+<tr class="memdesc:namespaceXPMP2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defined by FMOD. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
@@ -356,12 +357,11 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">    {                                    \</div>
-<div class="line">    if (<a class="code" href="namespaceXPMP2.html#a46675aca62eb955a94fa1eb18f65426f">glob</a>.<a class="code" href="structXPMP2_1_1GlobVars.html#a6b555220241ae0aebcbe21bb03cfb4e4">bLogMdlMatch</a> &amp;&amp; lvl &gt;= <a class="code" href="namespaceXPMP2.html#a46675aca62eb955a94fa1eb18f65426f">glob</a>.<a class="code" href="structXPMP2_1_1GlobVars.html#a872131ea4b303be77d6b7748a13538b3">logLvl</a>)                                          \</div>
+<div class="line">    if (<a class="code" href="namespaceXPMP2.html#a46675aca62eb955a94fa1eb18f65426f">XPMP2::glob</a>.bLogMdlMatch &amp;&amp; lvl &gt;= <a class="code" href="namespaceXPMP2.html#a46675aca62eb955a94fa1eb18f65426f">glob</a>.<a class="code" href="structXPMP2_1_1GlobVars.html#a872131ea4b303be77d6b7748a13538b3">logLvl</a>)             \</div>
 <div class="line">    {<a class="code" href="XPMP2-Remote_2Utilities_8h.html#a90c55783687d60d8ef2b24ed9975c244">LogMsg</a>(__FILE__, __LINE__, __func__, lvl, __VA_ARGS__);}       \</div>
 <div class="line">}</div>
 <div class="ttc" id="aXPMP2-Remote_2Utilities_8h_html_a90c55783687d60d8ef2b24ed9975c244"><div class="ttname"><a href="XPMP2-Remote_2Utilities_8h.html#a90c55783687d60d8ef2b24ed9975c244">LogMsg</a></div><div class="ttdeci">void LogMsg(const char *szFile, int ln, const char *szFunc, logLevelTy lvl, const char *szMsg,...) XPMP2RC_FMTARGS(5)</div><div class="ttdoc">Log Text to log file.</div><div class="ttdef"><b>Definition:</b> Utilities.cpp:135</div></div>
 <div class="ttc" id="anamespaceXPMP2_html_a46675aca62eb955a94fa1eb18f65426f"><div class="ttname"><a href="namespaceXPMP2.html#a46675aca62eb955a94fa1eb18f65426f">XPMP2::glob</a></div><div class="ttdeci">GlobVars glob</div><div class="ttdoc">The one and only global variable structure.</div><div class="ttdef"><b>Definition:</b> Utilities.cpp:29</div></div>
-<div class="ttc" id="astructXPMP2_1_1GlobVars_html_a6b555220241ae0aebcbe21bb03cfb4e4"><div class="ttname"><a href="structXPMP2_1_1GlobVars.html#a6b555220241ae0aebcbe21bb03cfb4e4">XPMP2::GlobVars::bLogMdlMatch</a></div><div class="ttdeci">bool bLogMdlMatch</div><div class="ttdoc">Debug model matching?</div><div class="ttdef"><b>Definition:</b> XPMP2.h:128</div></div>
 <div class="ttc" id="astructXPMP2_1_1GlobVars_html_a872131ea4b303be77d6b7748a13538b3"><div class="ttname"><a href="structXPMP2_1_1GlobVars.html#a872131ea4b303be77d6b7748a13538b3">XPMP2::GlobVars::logLvl</a></div><div class="ttdeci">logLevelTy logLvl</div><div class="ttdoc">Logging level.</div><div class="ttdef"><b>Definition:</b> XPMP2.h:126</div></div>
 </div><!-- fragment -->
 <p>Log a message about matching if logging of model matching is enabled. </p>
@@ -395,7 +395,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">    {                                         \</div>
-<div class="line">    if (lvl &gt;= <a class="code" href="namespaceXPMP2.html#a46675aca62eb955a94fa1eb18f65426f">glob</a>.<a class="code" href="structXPMP2_1_1GlobVars.html#a872131ea4b303be77d6b7748a13538b3">logLvl</a>)                                         \</div>
+<div class="line">    if (lvl &gt;= <a class="code" href="namespaceXPMP2.html#a46675aca62eb955a94fa1eb18f65426f">XPMP2::glob</a>.logLvl)                                  \</div>
 <div class="line">    {<a class="code" href="XPMP2-Remote_2Utilities_8h.html#a90c55783687d60d8ef2b24ed9975c244">LogMsg</a>(__FILE__, __LINE__, __func__, lvl, __VA_ARGS__);}       \</div>
 <div class="line">}</div>
 </div><!-- fragment -->

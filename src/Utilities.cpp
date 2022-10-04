@@ -264,6 +264,26 @@ void GlobVars::ReadVersions ()
         bXPUsingModernGraphicsDriver = false;
 }
 
+
+// Update the stored camera position and velocity values
+void GlobVars::UpdateCameraPos ()
+{
+    // Always update current camera position
+    XPLMReadCameraPosition(&posCamera);
+    
+    // Update velocity only every second
+    const float prev_ts = prevCamera_ts;
+    if (CheckEverySoOften(prevCamera_ts, 1.0f))
+    {
+        const float dt = prevCamera_ts - prev_ts;       // delta time (about 1s)
+        vCam_x = (posCamera.x - prevCamera.x) / dt;
+        vCam_y = (posCamera.y - prevCamera.y) / dt;
+        vCam_z = (posCamera.z - prevCamera.z) / dt;
+        prevCamera = posCamera;
+    }
+}
+
+
 //
 // MARK: File access helpers
 //

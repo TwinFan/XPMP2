@@ -489,7 +489,7 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memdesc:a5b4a5f6fb3443ca9e53e68f66f3bc5b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop a continuously playing sound.  <a href="classXPMP2_1_1Aircraft.html#a5b4a5f6fb3443ca9e53e68f66f3bc5b7">More...</a><br /></td></tr>
 <tr class="separator:a5b4a5f6fb3443ca9e53e68f66f3bc5b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae912e0e694c53eb742792f12da5827da"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ae912e0e694c53eb742792f12da5827da">SoundVolume</a> (FMOD_CHANNEL *pChn, float vol)</td></tr>
-<tr class="memdesc:ae912e0e694c53eb742792f12da5827da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the sound's volume between 0 and 1.  <a href="classXPMP2_1_1Aircraft.html#ae912e0e694c53eb742792f12da5827da">More...</a><br /></td></tr>
+<tr class="memdesc:ae912e0e694c53eb742792f12da5827da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the sound's volume (after applying master volume)  <a href="classXPMP2_1_1Aircraft.html#ae912e0e694c53eb742792f12da5827da">More...</a><br /></td></tr>
 <tr class="separator:ae912e0e694c53eb742792f12da5827da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
@@ -4472,7 +4472,7 @@ Friends</h2></td></tr>
 <p>Play a sound; a looping sound plays until explicitely stopped. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">sndName</td><td>One of the sounds available or registered with <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>, see <a class="el" href="XPMPMultiplayer_8h.html#a5f1f208064c1907ff0fab59605f2fea4" title="Add a sound that can later be referenced from an XPMP2::Aircraft.">XPMPSoundAdd()</a> and <a class="el" href="XPMPMultiplayer_8h.html#a69b4a4dc625deaec2d764d3e6a4c185b" title="Enumerate all sounds, including the internal ones.">XPMPSoundEnumerate()</a> </td></tr>
+    <tr><td class="paramname">sndName</td><td>One of the sounds available or registered with <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>, see <a class="el" href="XPMPMultiplayer_8h.html#af9b0bd8f4f3c7e78ce6cf6e7f1d40801" title="Add a sound that can later be referenced from an XPMP2::Aircraft.">XPMPSoundAdd()</a> and <a class="el" href="XPMPMultiplayer_8h.html#a69b4a4dc625deaec2d764d3e6a4c185b" title="Enumerate all sounds, including the internal ones.">XPMPSoundEnumerate()</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -4629,7 +4629,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Sets the sound's volume between 0 and 1. </p>
+<p>Sets the sound's volume (after applying master volume) </p>
 
 </div>
 </div>

@@ -90,6 +90,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af34804f42115ebe0b2c36809bc40f181"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#af34804f42115ebe0b2c36809bc40f181">IsXPThread</a> () const</td></tr>
 <tr class="memdesc:af34804f42115ebe0b2c36809bc40f181"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is this thread XP's main thread?  <a href="structXPMP2_1_1GlobVars.html#af34804f42115ebe0b2c36809bc40f181">More...</a><br /></td></tr>
 <tr class="separator:af34804f42115ebe0b2c36809bc40f181"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3f1dc73af86001c7ec177ecbfe76509"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#ad3f1dc73af86001c7ec177ecbfe76509">UpdateCameraPos</a> ()</td></tr>
+<tr class="memdesc:ad3f1dc73af86001c7ec177ecbfe76509"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update the stored camera position and velocity values.  <a href="structXPMP2_1_1GlobVars.html#ad3f1dc73af86001c7ec177ecbfe76509">More...</a><br /></td></tr>
+<tr class="separator:ad3f1dc73af86001c7ec177ecbfe76509"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -216,6 +219,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:aee1ba973a59530575a9c820044df93fa"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#aee1ba973a59530575a9c820044df93fa">bSoundAvail</a> = false</td></tr>
 <tr class="memdesc:aee1ba973a59530575a9c820044df93fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the sound system available?  <a href="structXPMP2_1_1GlobVars.html#aee1ba973a59530575a9c820044df93fa">More...</a><br /></td></tr>
 <tr class="separator:aee1ba973a59530575a9c820044df93fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a4e89e2b23459bca379d4f5ebca507c"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a5a4e89e2b23459bca379d4f5ebca507c">sndMasterVol</a> = 1.0f</td></tr>
+<tr class="memdesc:a5a4e89e2b23459bca379d4f5ebca507c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sound master volume.  <a href="structXPMP2_1_1GlobVars.html#a5a4e89e2b23459bca379d4f5ebca507c">More...</a><br /></td></tr>
+<tr class="separator:a5a4e89e2b23459bca379d4f5ebca507c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a857fa0330831eb8280874f94c30f05f6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a857fa0330831eb8280874f94c30f05f6">verXPlane</a> = -1</td></tr>
 <tr class="memdesc:a857fa0330831eb8280874f94c30f05f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">X-Plane's version number (XPLMGetVersions)  <a href="structXPMP2_1_1GlobVars.html#a857fa0330831eb8280874f94c30f05f6">More...</a><br /></td></tr>
 <tr class="separator:a857fa0330831eb8280874f94c30f05f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -237,6 +243,19 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a1f17c5ab47b068e7c17203ac7583b3c2"><td class="memItemLeft" align="right" valign="top">XPLMCameraPosition_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a1f17c5ab47b068e7c17203ac7583b3c2">posCamera</a> = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f }</td></tr>
 <tr class="memdesc:a1f17c5ab47b068e7c17203ac7583b3c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current camera location, updated every flight loop.  <a href="structXPMP2_1_1GlobVars.html#a1f17c5ab47b068e7c17203ac7583b3c2">More...</a><br /></td></tr>
 <tr class="separator:a1f17c5ab47b068e7c17203ac7583b3c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa904cdf93c0dd1fb642d4f7010952449"><td class="memItemLeft" align="right" valign="top">XPLMCameraPosition_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#aa904cdf93c0dd1fb642d4f7010952449">prevCamera</a> = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f }</td></tr>
+<tr class="memdesc:aa904cdf93c0dd1fb642d4f7010952449"><td class="mdescLeft">&#160;</td><td class="mdescRight">Previous camera location of about a second ago.  <a href="structXPMP2_1_1GlobVars.html#aa904cdf93c0dd1fb642d4f7010952449">More...</a><br /></td></tr>
+<tr class="separator:aa904cdf93c0dd1fb642d4f7010952449"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4faa56759d62f83424332e46fa8a93ac"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a4faa56759d62f83424332e46fa8a93ac">vCam_x</a> = 0.0f</td></tr>
+<tr class="memdesc:a4faa56759d62f83424332e46fa8a93ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Camera velocity.  <a href="structXPMP2_1_1GlobVars.html#a4faa56759d62f83424332e46fa8a93ac">More...</a><br /></td></tr>
+<tr class="separator:a4faa56759d62f83424332e46fa8a93ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae10958b3969101ee99cb4c78ee6492c3"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#ae10958b3969101ee99cb4c78ee6492c3">vCam_y</a> = 0.0f</td></tr>
+<tr class="separator:ae10958b3969101ee99cb4c78ee6492c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a4ae35e4de88cd83e8038e8554804c5"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a0a4ae35e4de88cd83e8038e8554804c5">vCam_z</a> = 0.0f</td></tr>
+<tr class="separator:a0a4ae35e4de88cd83e8038e8554804c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36d91ea67d7cb101ad75b5f33b5f6d25"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a36d91ea67d7cb101ad75b5f33b5f6d25">prevCamera_ts</a> = 0.0f</td></tr>
+<tr class="memdesc:a36d91ea67d7cb101ad75b5f33b5f6d25"><td class="mdescLeft">&#160;</td><td class="mdescRight">When has <code>prevCamera</code> been updated last?  <a href="structXPMP2_1_1GlobVars.html#a36d91ea67d7cb101ad75b5f33b5f6d25">More...</a><br /></td></tr>
+<tr class="separator:a36d91ea67d7cb101ad75b5f33b5f6d25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -451,6 +470,25 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set current thread as main xp Thread. </p>
+
+</div>
+</div>
+<a id="ad3f1dc73af86001c7ec177ecbfe76509"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3f1dc73af86001c7ec177ecbfe76509">&#9670;&nbsp;</a></span>UpdateCameraPos()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::GlobVars::UpdateCameraPos </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Update the stored camera position and velocity values. </p>
 
 </div>
 </div>
@@ -1101,6 +1139,38 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="aa904cdf93c0dd1fb642d4f7010952449"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa904cdf93c0dd1fb642d4f7010952449">&#9670;&nbsp;</a></span>prevCamera</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">XPLMCameraPosition_t XPMP2::GlobVars::prevCamera = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Previous camera location of about a second ago. </p>
+
+</div>
+</div>
+<a id="a36d91ea67d7cb101ad75b5f33b5f6d25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36d91ea67d7cb101ad75b5f33b5f6d25">&#9670;&nbsp;</a></span>prevCamera_ts</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::GlobVars::prevCamera_ts = 0.0f</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>When has <code>prevCamera</code> been updated last? </p>
+
+</div>
+</div>
 <a id="a651c94d643a7db31a026c3cd0c029ffa"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a651c94d643a7db31a026c3cd0c029ffa">&#9670;&nbsp;</a></span>remoteBufSize</h2>
 
@@ -1243,6 +1313,66 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Resource directory, to store local definitions of vertical offsets (clamping) </p>
+
+</div>
+</div>
+<a id="a5a4e89e2b23459bca379d4f5ebca507c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a4e89e2b23459bca379d4f5ebca507c">&#9670;&nbsp;</a></span>sndMasterVol</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::GlobVars::sndMasterVol = 1.0f</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sound master volume. </p>
+
+</div>
+</div>
+<a id="a4faa56759d62f83424332e46fa8a93ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4faa56759d62f83424332e46fa8a93ac">&#9670;&nbsp;</a></span>vCam_x</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::GlobVars::vCam_x = 0.0f</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Camera velocity. </p>
+
+</div>
+</div>
+<a id="ae10958b3969101ee99cb4c78ee6492c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae10958b3969101ee99cb4c78ee6492c3">&#9670;&nbsp;</a></span>vCam_y</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::GlobVars::vCam_y = 0.0f</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0a4ae35e4de88cd83e8038e8554804c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a4ae35e4de88cd83e8038e8554804c5">&#9670;&nbsp;</a></span>vCam_z</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::GlobVars::vCam_z = 0.0f</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>

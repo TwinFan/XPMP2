@@ -580,7 +580,7 @@ public:
     /// @param pChn The channel returned by SoundLoopPlay()
     static void SoundStop (FMOD_CHANNEL* pChn);
     
-    /// @brief Sets the sound's volume between 0 and 1
+    /// @brief Sets the sound's volume (after applying master volume)
     static void SoundVolume (FMOD_CHANNEL* pChn, float vol);
     
     /// @brief Returns the name of the sound to play per event

@@ -219,6 +219,8 @@ public:
     bool bSoundOnStartup = true;
     /// Is the sound system available?
     bool bSoundAvail = false;
+    /// Sound master volume
+    float sndMasterVol = 1.0f;
     
     /// X-Plane's version number (XPLMGetVersions)
     int             verXPlane = -1;
@@ -235,6 +237,12 @@ public:
 
     /// Current camera location, updated every flight loop
     XPLMCameraPosition_t posCamera = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+    /// Previous camera location of about a second ago
+    XPLMCameraPosition_t prevCamera = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+    /// Camera velocity
+    float vCam_x = 0.0f, vCam_y = 0.0f, vCam_z = 0.0f;
+    /// When has `prevCamera` been updated last?
+    float prevCamera_ts = 0.0f;
 
 #ifdef DEBUG
     /// Current XP cycle number (see XPLMGetCycleNumber())
@@ -269,6 +277,8 @@ public:
     /// Is this thread XP's main thread?
     bool IsXPThread() const { return std::this_thread::get_id() == xpThread; }
 
+    /// Update the stored camera position and velocity values
+    void UpdateCameraPos ();
 };
 
 /// The one and only global variable structure

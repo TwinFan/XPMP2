@@ -231,9 +231,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a89f7942133a3bc26c8c32eeb2c5f0443"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a89f7942133a3bc26c8c32eeb2c5f0443">XPMPSoundIsEnabled</a> ()</td></tr>
 <tr class="memdesc:a89f7942133a3bc26c8c32eeb2c5f0443"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is Sound enabled?  <a href="XPMPMultiplayer_8h.html#a89f7942133a3bc26c8c32eeb2c5f0443">More...</a><br /></td></tr>
 <tr class="separator:a89f7942133a3bc26c8c32eeb2c5f0443"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f1f208064c1907ff0fab59605f2fea4"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a5f1f208064c1907ff0fab59605f2fea4">XPMPSoundAdd</a> (const char *sName, const char *filePath, bool bLoop)</td></tr>
-<tr class="memdesc:a5f1f208064c1907ff0fab59605f2fea4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a sound that can later be referenced from an <a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a>.  <a href="XPMPMultiplayer_8h.html#a5f1f208064c1907ff0fab59605f2fea4">More...</a><br /></td></tr>
-<tr class="separator:a5f1f208064c1907ff0fab59605f2fea4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a280d1a336529b2515b74d0d1684f0647"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a280d1a336529b2515b74d0d1684f0647">XPMPSoundSetMasterVolume</a> (float fVol=1.0f)</td></tr>
+<tr class="memdesc:a280d1a336529b2515b74d0d1684f0647"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set Master Volume.  <a href="XPMPMultiplayer_8h.html#a280d1a336529b2515b74d0d1684f0647">More...</a><br /></td></tr>
+<tr class="separator:a280d1a336529b2515b74d0d1684f0647"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9b0bd8f4f3c7e78ce6cf6e7f1d40801"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#af9b0bd8f4f3c7e78ce6cf6e7f1d40801">XPMPSoundAdd</a> (const char *sName, const char *filePath, bool bLoop, float fVolAdj=1.0f)</td></tr>
+<tr class="memdesc:af9b0bd8f4f3c7e78ce6cf6e7f1d40801"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a sound that can later be referenced from an <a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a>.  <a href="XPMPMultiplayer_8h.html#af9b0bd8f4f3c7e78ce6cf6e7f1d40801">More...</a><br /></td></tr>
+<tr class="separator:af9b0bd8f4f3c7e78ce6cf6e7f1d40801"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69b4a4dc625deaec2d764d3e6a4c185b"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a69b4a4dc625deaec2d764d3e6a4c185b">XPMPSoundEnumerate</a> (const char *prevName, const char **ppFilePath=nullptr)</td></tr>
 <tr class="memdesc:a69b4a4dc625deaec2d764d3e6a4c185b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerate all sounds, including the internal ones.  <a href="XPMPMultiplayer_8h.html#a69b4a4dc625deaec2d764d3e6a4c185b">More...</a><br /></td></tr>
 <tr class="separator:a69b4a4dc625deaec2d764d3e6a4c185b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2685,8 +2688,8 @@ User-defined dataRefs are <em>not</em> transfered to the <a class="el" href="nam
 
 </div>
 </div>
-<a id="a5f1f208064c1907ff0fab59605f2fea4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5f1f208064c1907ff0fab59605f2fea4">&#9670;&nbsp;</a></span>XPMPSoundAdd()</h2>
+<a id="af9b0bd8f4f3c7e78ce6cf6e7f1d40801"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9b0bd8f4f3c7e78ce6cf6e7f1d40801">&#9670;&nbsp;</a></span>XPMPSoundAdd()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2707,7 +2710,13 @@ User-defined dataRefs are <em>not</em> transfered to the <a class="el" href="nam
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>bLoop</em>&#160;</td>
+          <td class="paramname"><em>bLoop</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>fVolAdj</em> = <code>1.0f</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -2723,6 +2732,7 @@ User-defined dataRefs are <em>not</em> transfered to the <a class="el" href="nam
     <tr><td class="paramname">sName</td><td>A descriptive name, used as a key to refer to this sound later </td></tr>
     <tr><td class="paramname">filePath</td><td>Path to the sound file; a relative path is relative to <code>resourceDir</code> as set by <a class="el" href="XPMPMultiplayer_8h.html#a2dc9cac25ba883b352fd77c6cbd10460" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a> </td></tr>
     <tr><td class="paramname">bLoop</td><td>Is this sound to be played in a loop? </td></tr>
+    <tr><td class="paramname">fVolAdj</td><td>Volume Adjustment factor for this particular sound, <code>&gt;1</code> amplifies </td></tr>
   </table>
   </dd>
 </dl>
@@ -2806,6 +2816,32 @@ User-defined dataRefs are <em>not</em> transfered to the <a class="el" href="nam
 </div><div class="memdoc">
 
 <p>Is Sound enabled? </p>
+
+</div>
+</div>
+<a id="a280d1a336529b2515b74d0d1684f0647"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a280d1a336529b2515b74d0d1684f0647">&#9670;&nbsp;</a></span>XPMPSoundSetMasterVolume()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMPSoundSetMasterVolume </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>fVol</em> = <code>1.0f</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set Master Volume. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fVol</td><td>Volume level. 0 = silent, 1 = full. Negative level inverts the signal. Values larger than 1 amplify the signal. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

@@ -502,7 +502,7 @@ float Aircraft::FlightLoopCB(float _elapsedSinceLastCall, float, int _flCounter,
         glob.UpdateCfgVals();
 
         // Need the camera's position to calculate the a/c's distance to it
-        XPLMReadCameraPosition(&glob.posCamera);
+        glob.UpdateCameraPos();
 
         // As we need the current timestamp more often we read it here once
         const float now = GetMiscNetwTime();

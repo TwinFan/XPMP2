@@ -38,9 +38,12 @@
 // MARK: XPMP2 New Definitions
 //
 
+struct FMOD_CHANNELGROUP;                       ///< Defined by FMOD
+struct FMOD_CHANNEL;                            ///< Defined by FMOD
+
 namespace XPMP2 {
 
-class CSLModel;
+class CSLModel;                                 ///< Defined by XPMP2 internally
 
 /// Convert revolutions-per-minute (RPM) to radians per second (rad/s) by multiplying with PI/30
 constexpr float RPM_to_RADs = 0.10471975511966f;
@@ -48,6 +51,8 @@ constexpr float RPM_to_RADs = 0.10471975511966f;
 constexpr double M_per_FT   = 0.3048;   // meter per 1 foot
 /// Convert nautical miles to meters
 constexpr int M_per_NM      = 1852;     // meter per one nautical mile
+/// Convert m/s to knots
+constexpr double KT_per_M_per_S = 1.94384;  // 1m/s = 1.94384kt
 /// @brief standard gravitational acceleration [m/s²]
 /// @see https://en.wikipedia.org/wiki/Gravity_of_Earth
 constexpr float G_EARTH     = 9.80665f;
@@ -242,6 +247,8 @@ protected:
     // this is data from about a second ago to calculate cartesian velocities
     float               prev_x = 0.0f, prev_y = 0.0f, prev_z = 0.0f;
     float               prev_ts = 0.0f;     ///< last update of `prev_x/y/z` in XP's network time
+    float               v_x = 0.0f, v_y = 0.0f, v_z = 0.0f; ///< Cartesian velocity in m/s per axis
+    float               gs_kn = 0.0f;       /// ground speed in [kn] based on above v_x/z
     
     /// X-Plane instance handles for all objects making up the model
     std::list<XPLMInstanceRef> listInst;
@@ -265,6 +272,30 @@ protected:
     float               mapY = 0.0f;        ///< temporary: map coordinates (NAN = not to be drawn)
     std::string         mapLabel;           ///< label for map drawing
     
+    // *** Sound support ***
+public:
+    /// Types of sound supported directly by XPMP2
+    enum SoundEventsTy {
+        SND_ENG = 0,                        ///< Engine sound (continuously while engine running)
+        SND_REVERSE_THRUST,                 ///< Engine sound while reverse thrust (continuously while reversers deployed)
+        SND_TIRE,                           ///< Tires rolling on the ground (continuously while rolling on ground)
+        SND_GEAR,                           ///< Gear extending/retracting (once per event)
+        SND_FLAPS,                          ///< Flaps extending/retracting (once per event)
+        SND_NUM_EVENTS                      ///< Number of events (always last in `enum`)
+    };
+    
+    /// @brief Which of the above sounds shall be hanled by XPMP2 automatically?
+    /// @details Reset in your constructor if you want to handle some of them yourself
+    bool abSndAuto[SND_NUM_EVENTS] = { true, true, true, true, true };
+    
+protected:
+    /// The plane's channel group, e.g. used for 3D positioning
+    FMOD_CHANNELGROUP*  pChnGrp = nullptr;
+    /// The audio channels per event type
+    FMOD_CHANNEL*       apChn[SND_NUM_EVENTS] = { nullptr, nullptr, nullptr, nullptr, nullptr };
+    /// If sound is triggered by the change of a (dataRef) value we need to keep track of the latest such value to be able to identify change
+    float               afChnLastVal[SND_NUM_EVENTS] = { NAN, NAN, NAN, NAN, NAN };
+
 private:
     bool bDestroyInst           = false;    ///< Instance to be destroyed in next flight loop callback?
 public:
@@ -422,6 +453,8 @@ public:
     float GetRoll () const               { return drawInfo.roll; }                      ///< roll [degree]
     void  SetRoll (float _deg)           { drawInfo.roll = _deg; }                      ///< roll [degree]
 
+    float GetGS_kn() const               { return gs_kn; }                              ///< Rough estimate of a ground speed based on `v_x/z`
+    
     // --- Getters and Setters for the values in the `v` array ---
     float GetGearRatio () const          { return v[V_CONTROLS_GEAR_RATIO]; }           ///< Gear deploy ratio
     void  SetGearRatio (float _f)        { v[V_CONTROLS_GEAR_RATIO] = _f;   }           ///< Gear deploy ratio
@@ -535,6 +568,27 @@ public:
     void MapDrawIcon (XPLMMapLayerID inLayer, float acSize);
     /// Actually draw the map label
     void MapDrawLabel (XPLMMapLayerID inLayer, float yOfs);
+    
+    // *** Sound Support *** is implemented in Sound.cpp:
+    
+    /// @brief Play a sound; a looping sound plays until explicitely stopped
+    /// @param sndName One of the sounds available or registered with XPMP2, see XPMPSoundAdd() and XPMPSoundEnumerate()
+    /// @returns an FMOD sound channel, or `nullptr` if unsuccessful
+    FMOD_CHANNEL* SoundPlay (const std::string& sndName);
+    
+    /// @brief Stop a continuously playing sound
+    /// @param pChn The channel returned by SoundLoopPlay()
+    static void SoundStop (FMOD_CHANNEL* pChn);
+    
+    /// @brief Sets the sound's volume (after applying master volume)
+    static void SoundVolume (FMOD_CHANNEL* pChn, float vol);
+    
+    /// @brief Returns the name of the sound to play per event
+    /// @details This standard implementation determines the engine sound via
+    ///          aircraft classification and returns constant
+    ///          names for the other sound types.
+    /// @note Override in derived class if you want to assign (some) sounds yourself
+    virtual std::string SoundGetName (SoundEventsTy sndEvent) const;
 
 protected:
     /// Internal: Flight loop callback function controlling update and movement of all planes
@@ -561,6 +615,15 @@ protected:
     friend void AIMultiUpdate ();
     friend size_t AIUpdateTCASTargets ();
     friend size_t AIUpdateMultiplayerDataRefs ();
+    
+    // *** Sound Support *** is implemented in Sound.cpp:
+    /// Update sound, like position and volume, called once per frame
+    virtual void SoundUpdate ();
+    /// Make sure a Sound Grp is available and update its 3D location
+    bool SoundUpdateGrp ();
+    /// Remove all sound, e.g. during destruction
+    virtual void SoundRemoveAll ();
+    
 };
 
 /// Find aircraft by its plane ID, can return nullptr

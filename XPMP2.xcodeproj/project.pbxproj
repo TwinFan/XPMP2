@@ -73,7 +73,7 @@
 		259FFDFA25A1327F00B6D553 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "${PROJECT_DIR}/XPMP2-Sample/lib";
+			dstPath = "${PROJECT_DIR}/XPMP2-Sample/lib/XPMP2";
 			dstSubfolderSpec = 0;
 			files = (
 				259FFDFB25A132D400B6D553 /* XPMP2.framework in CopyFiles */,

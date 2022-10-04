@@ -354,6 +354,45 @@ bool XPMPSoundEnable (bool bEnable = true);
 /// @brief Is Sound enabled?
 bool XPMPSoundIsEnabled ();
 
+/// @brief Set Master Volume
+/// @param fVol Volume level. 0 = silent, 1 = full. Negative level inverts the signal. Values larger than 1 amplify the signal.
+void XPMPSoundSetMasterVolume (float fVol = 1.0f);
+
+/// @brief Add a sound that can later be referenced from an XPMP2::Aircraft
+/// @details XPMP2 loads a number of default sounds from what X-Plane ships.
+///          This function allows to add your own. It will try to load the
+///          sound immediately.
+/// @param sName A descriptive name, used as a key to refer to this sound later
+/// @param filePath Path to the sound file; a relative path is relative to `resourceDir` as set by XPMPMultiplayerInit()
+/// @param bLoop Is this sound to be played in a loop?
+/// @param fVolAdj Volume Adjustment factor for this particular sound, `>1` amplifies
+/// @return Empty string in case of success, otherwise a human-readable error message.
+// TODO: Add Cone definition including direction relative to plane's front
+const char* XPMPSoundAdd (const char* sName,
+                          const char* filePath,
+                          bool bLoop,
+                          float fVolAdj = 1.0f);
+
+/// @brief Enumerate all sounds, including the internal ones
+/// @param prevName `nullptr` or empty string to start from beginning, last returned name to continue with next sound
+/// @param[out] ppFilePath (optional) Receives pointer to file path
+/// @returns Next sound's name.
+/// @note String pointers can change any frame. If you want to use the strings
+///       longer than immediately, make yourself a string copy.
+const char* XPMPSoundEnumerate (const char* prevName, const char** ppFilePath = nullptr);
+
+// Standard sounds loaded by XPMP2 from XP's `Resource/sounds` folders
+#define XP_SOUND_ELECTRIC       "Electric"
+#define XP_SOUND_HIBYPASSJET    "HiBypassJet"
+#define XP_SOUND_LOBYPASSJET    "LoBypassJet"
+#define XP_SOUND_TURBOPROP      "Turboprop"
+#define XP_SOUND_PROP_AIRPLANE  "PropAirplane"
+#define XP_SOUND_PROP_HELI      "PropHeli"
+#define XP_SOUND_REVERSE_THRUST "ReverseThrust"
+#define XP_SOUND_ROLL_RUNWAY    "RollRunway"
+#define XP_SOUND_FLAP           "Flap"
+#define XP_SOUND_GEAR           "Gear"
+
 /************************************************************************************
 * MARK: AI / Multiplayer plane control
 ************************************************************************************/

@@ -220,13 +220,13 @@ public:
         int n = 0;
 #define ADD_ONE(s,f,l,va) if (!XPMPSoundAdd(s,f,l,va)[0]) ++n;
         // Engine sounds
-        ADD_ONE(XP_SOUND_ELECTRIC,          "Resources/sounds/engine/ENGINE_ELECTRIC_out.wav",          true,  100.0f);
-        ADD_ONE(XP_SOUND_HIBYPASSJET,       "Resources/sounds/engine/ENGINE_HI_BYPASS_JET_out.wav",     true,  100.0f);
-        ADD_ONE(XP_SOUND_LOBYPASSJET,       "Resources/sounds/engine/ENGINE_LO_BYPASS_JET_out.wav",     true,  100.0f);
-        ADD_ONE(XP_SOUND_TURBOPROP,         "Resources/sounds/engine/ENGINE_TURBOPROP_out.wav",         true,  100.0f);
-        ADD_ONE(XP_SOUND_PROP_AIRPLANE,     "Resources/sounds/engine/PROPELLER_OF_AIRPLANE_out.wav",    true,  100.0f);
-        ADD_ONE(XP_SOUND_PROP_HELI,         "Resources/sounds/engine/PROPELLER_OF_HELO_out.wav",        true,  100.0f);
-        ADD_ONE(XP_SOUND_REVERSE_THRUST,    "Resources/sounds/engine/REVERSE_THRUST_out.wav",           true,  100.0f);
+        ADD_ONE(XP_SOUND_ELECTRIC,          "Resources/sounds/engine/ENGINE_ELECTRIC_out.wav",          true,  20.0f);
+        ADD_ONE(XP_SOUND_HIBYPASSJET,       "Resources/sounds/engine/ENGINE_HI_BYPASS_JET_out.wav",     true,  20.0f);
+        ADD_ONE(XP_SOUND_LOBYPASSJET,       "Resources/sounds/engine/ENGINE_LO_BYPASS_JET_out.wav",     true,  20.0f);
+        ADD_ONE(XP_SOUND_TURBOPROP,         "Resources/sounds/engine/ENGINE_TURBOPROP_out.wav",         true,  20.0f);
+        ADD_ONE(XP_SOUND_PROP_AIRPLANE,     "Resources/sounds/engine/PROPELLER_OF_AIRPLANE_out.wav",    true,  20.0f);
+        ADD_ONE(XP_SOUND_PROP_HELI,         "Resources/sounds/engine/PROPELLER_OF_HELO_out.wav",        true,  20.0f);
+        ADD_ONE(XP_SOUND_REVERSE_THRUST,    "Resources/sounds/engine/REVERSE_THRUST_out.wav",           true,  20.0f);
         
         // Rolling on the ground
         ADD_ONE(XP_SOUND_ROLL_RUNWAY,       "Resources/sounds/contact/roll_runway.wav",                 true,   1.0f);
@@ -247,6 +247,15 @@ static mapSoundTy mapSound;
 //
 // MARK: Local Functions
 //
+
+/// Get the FMOD system's master channel group, or `nullptr`
+FMOD_CHANNELGROUP* SoundGetMasterChn()
+{
+    FMOD_CHANNELGROUP* pMstChnGrp = nullptr;
+    if (!gpFmodSystem) return nullptr;
+    FMOD_LOG(FMOD_System_GetMasterChannelGroup(gpFmodSystem, &pMstChnGrp));
+    return pMstChnGrp;
+}
 
 /// @brief Helper functon to set FMOD settings
 /// @details Implement as template function so it works with both
@@ -539,6 +548,21 @@ void SoundUpdatesDone ()
         
         // TODO: Activate Low Pass filter in case we're in an inside view
         
+        // Mute-on-Pause
+        if (glob.bSoundMuteOnPause) {                           // shall act automatically on Pause?
+            if (IsPaused()) {                                   // XP is paused?
+                if (!glob.bSoundAutoMuted) {                    // ...but not yet muted?
+                    XPMPSoundMute(true);                        //    -> do mute
+                    glob.bSoundAutoMuted = true;
+                }
+            } else {                                            // XP is not paused
+                if (glob.bSoundAutoMuted) {                     // ...but sound is auto-muted?
+                    XPMPSoundMute(false);                       //    -> unmute
+                    glob.bSoundAutoMuted = false;
+                }
+            }
+        }
+
         // Tell FMOD we're done
         FMOD_TEST(FMOD_System_Update(gpFmodSystem));
     }
@@ -591,13 +615,18 @@ bool XPMPSoundIsEnabled ()
 // Set Master Volume
 void XPMPSoundSetMasterVolume (float fVol)
 {
-    // That's (currently) the only thing we need the Master Channel Group for
     XPMP2::glob.sndMasterVol = fVol;
-    if (!XPMP2::gpFmodSystem) return;
-    FMOD_CHANNELGROUP* pMstChnGrp = nullptr;
-    FMOD_LOG(FMOD_System_GetMasterChannelGroup(XPMP2::gpFmodSystem, &pMstChnGrp));
+    FMOD_CHANNELGROUP* pMstChnGrp = XPMP2::SoundGetMasterChn();
     if (!pMstChnGrp) return;
     FMOD_LOG(FMOD_ChannelGroup_SetVolume(pMstChnGrp, XPMP2::glob.sndMasterVol));
+}
+
+// Mute all sounds (temporarily)
+void XPMPSoundMute(bool bMute)
+{
+    FMOD_CHANNELGROUP* pMstChnGrp = XPMP2::SoundGetMasterChn();
+    if (!pMstChnGrp) return;
+    FMOD_LOG(FMOD_ChannelGroup_SetMute(pMstChnGrp, bMute));
 }
 
 // Add a sound that can later be referenced from an XPMP2::Aircraft

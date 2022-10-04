@@ -265,6 +265,7 @@ constexpr XPMPPlaneID MAX_MODE_S_ID = 0x00FFFFFF;
 #define XPMP_CFG_ITM_HANDLE_DUP_ID   "handle_dup_id"        ///< Config key: Boolean: If XPMP2::Aircraft::modeS_id already exists then assign a new unique one, overwrites XPMP2::Aircraft::modeS_id
 #define XPMP_CFG_ITM_SUPPORT_REMOTE  "support_remote"       ///< Config key: Support remote connections? `<0` force off, `0` default: on if in a networked or multiplayer setup, `>0` force on
 #define XPMP_CFG_ITM_ACTIVATE_SOUND  "activate_sound"       ///< Config key: Activate Sound upon initial startup? (No effect later)
+#define XPMP_CFG_ITM_MUTE_ON_PAUSE   "mute_on_pause"        ///< Config key: Mute all sound temporarily while X-Plane is in a paused state?
 #define XPMP_CFG_ITM_LOGLEVEL        "log_level"            ///< Config key: General level of logging into `Log.txt` (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)
 #define XPMP_CFG_ITM_MODELMATCHING   "model_matching"       ///< Config key: Write information on model matching into `Log.txt`
 
@@ -280,6 +281,7 @@ constexpr XPMPPlaneID MAX_MODE_S_ID = 0x00FFFFFF;
 /// `planes  | handle_dup_id       | int  |    0    | Boolean: If XPMP2::Aircraft::modeS_id already exists then assign a new unique one, overwrites XPMP2::Aircraft::modeS_id`\n
 /// `planes  | support_remote      | int  |    0    | 3-state integer: Support remote connections? <0 force off, 0 default: on if in a networked or multiplayer setup, >0 force on`\n
 /// `sound   | activate_sound      | int  |    1    | Activate Sound upon initial startup? (No effect later)`\n
+/// `sound   | mute_on_pause       | int  |    1    | Mute all sound temporarily while X-Plane is in a paused state?`\n
 /// `debug   | log_level           | int  |    2    | General level of logging into Log.txt (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)`\n
 /// `debug   | model_matching      | int  |    0    | Write information on model matching into Log.txt`\n
 /// @note There is no immediate requirement to check the value of `_section` in your implementation.
@@ -357,6 +359,10 @@ bool XPMPSoundIsEnabled ();
 /// @brief Set Master Volume
 /// @param fVol Volume level. 0 = silent, 1 = full. Negative level inverts the signal. Values larger than 1 amplify the signal.
 void XPMPSoundSetMasterVolume (float fVol = 1.0f);
+
+/// @brief Mute all sounds (temporarily)
+/// @param bMute Mute (`true`) or unmute (`false`)?
+void XPMPSoundMute (bool bMute);
 
 /// @brief Add a sound that can later be referenced from an XPMP2::Aircraft
 /// @details XPMP2 loads a number of default sounds from what X-Plane ships.

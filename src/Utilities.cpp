@@ -197,9 +197,10 @@ void GlobVars::UpdateCfgVals ()
     else if (i < 0) remoteCfg = REMOTE_CFG_OFF;
     else            remoteCfg = REMOTE_CFG_ON;
 
-    // Ask for enabling sound
+    // Ask for enabling sound and mute-on-pause
     bSoundOnStartup = prefsFuncInt(XPMP_CFG_SEC_SOUND, XPMP_CFG_ITM_ACTIVATE_SOUND, bSoundOnStartup) != 0;
-    
+    bSoundMuteOnPause = prefsFuncInt(XPMP_CFG_SEC_SOUND, XPMP_CFG_ITM_MUTE_ON_PAUSE, bSoundMuteOnPause) != 0;
+
     // Ask for model matching logging
     bLogMdlMatch = prefsFuncInt(XPMP_CFG_SEC_DEBUG, XPMP_CFG_ITM_MODELMATCHING, bLogMdlMatch) != 0;
     
@@ -674,6 +675,12 @@ const char* GetGraphicsDriverTxt ()
         return "OpenGL";
 }
 
+// X-Plane in a Pause state?
+bool IsPaused()
+{
+    static XPLMDataRef drPause = XPLMFindDataRef("sim/time/paused");
+    return XPLMGetDatai(drPause) != 0;
+}
 
 // Convenience function to check on something at most every x seconds
 bool CheckEverySoOften (float& _lastCheck, float _interval, float _now)

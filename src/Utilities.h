@@ -196,6 +196,9 @@ std::string GetMiscNetwTimeStr (float _time = NAN);
 /// Text string for current graphics driver in use
 const char* GetGraphicsDriverTxt ();
 
+/// X-Plane in a Pause state?
+bool IsPaused ();
+
 /// @brief Convenience function to check on something at most every x seconds
 /// @param _lastCheck Provide a float which holds the time of last check (init with `0.0f`)
 /// @param _interval [seconds] How often to perform the check?

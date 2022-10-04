@@ -27,6 +27,10 @@
 #include <ws2ipdef.h>           // required for sockaddr_in6 (?)
 #include <iphlpapi.h>           // for GetAdaptersAddresses
 #include <ws2tcpip.h>
+// On Windows, 'max' and 'min' are defined macros in conflict with C++ library. Let's undefine them!
+#include <direct.h>
+#undef max
+#undef min
 #endif
 
 // XPlaneMP 2 - Public Header Files
@@ -82,13 +86,6 @@
 #include "Network.h"
 #include "Remote.h"
 #include "Sound.h"
-
-// On Windows, 'max' and 'min' are defined macros in conflict with C++ library. Let's undefine them!
-#if IBM
-#include <direct.h>
-#undef max
-#undef min
-#endif
 
 //
 // MARK: Global Configurations and variables
@@ -215,12 +212,16 @@ public:
     /// Are we a sender?
     bool RemoteIsSender() const { return remoteStatus == REMOTE_SENDING || remoteStatus == REMOTE_SEND_WAITING; }
 
-    /// Start Sound on startup?
+    /// Config: Start Sound on startup?
     bool bSoundOnStartup = true;
+    /// Config: Mute on Pause?
+    bool bSoundMuteOnPause = true;
     /// Is the sound system available?
     bool bSoundAvail = false;
     /// Sound master volume
     float sndMasterVol = 1.0f;
+    /// Is sound currently being auto-muted?
+    bool bSoundAutoMuted = false;
     
     /// X-Plane's version number (XPLMGetVersions)
     int             verXPlane = -1;

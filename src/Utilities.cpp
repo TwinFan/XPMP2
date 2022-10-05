@@ -682,6 +682,13 @@ bool IsPaused()
     return XPLMGetDatai(drPause) != 0;
 }
 
+// Is current X-Plane view an external view (outside a cockpit)?
+bool IsViewExternal()
+{
+    static XPLMDataRef drExternalView = XPLMFindDataRef("sim/graphics/view/view_is_external");
+    return XPLMGetDatai(drExternalView) != 0;
+}
+
 // Convenience function to check on something at most every x seconds
 bool CheckEverySoOften (float& _lastCheck, float _interval, float _now)
 {

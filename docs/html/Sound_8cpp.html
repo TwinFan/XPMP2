@@ -106,6 +106,15 @@ Functions</h2></td></tr>
 <tr class="memitem:af97f0e369158f033b192ece23752a67e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#af97f0e369158f033b192ece23752a67e">XPMP2::UseOldFmod</a> ()</td></tr>
 <tr class="memdesc:af97f0e369158f033b192ece23752a67e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use pre-v2 FMOD version structures?  <a href="namespaceXPMP2.html#af97f0e369158f033b192ece23752a67e">More...</a><br /></td></tr>
 <tr class="separator:af97f0e369158f033b192ece23752a67e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c557ca710fc2bf914ad0beebd9e03c9"><td class="memItemLeft" align="right" valign="top">FMOD_CHANNELGROUP *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a5c557ca710fc2bf914ad0beebd9e03c9">XPMP2::SoundGetMasterChn</a> ()</td></tr>
+<tr class="memdesc:a5c557ca710fc2bf914ad0beebd9e03c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the FMOD system's master channel group, or <code>nullptr</code>  <a href="namespaceXPMP2.html#a5c557ca710fc2bf914ad0beebd9e03c9">More...</a><br /></td></tr>
+<tr class="separator:a5c557ca710fc2bf914ad0beebd9e03c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b5bd1effc251da2eebfc687d9b51bd7"><td class="memItemLeft" align="right" valign="top">SoundFile *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a2b5bd1effc251da2eebfc687d9b51bd7">XPMP2::SoundGetSoundFile</a> (FMOD_CHANNEL *pChn)</td></tr>
+<tr class="memdesc:a2b5bd1effc251da2eebfc687d9b51bd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get pointer to Sound File that created the channel.  <a href="namespaceXPMP2.html#a2b5bd1effc251da2eebfc687d9b51bd7">More...</a><br /></td></tr>
+<tr class="separator:a2b5bd1effc251da2eebfc687d9b51bd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37a88401183b53e055f111f41687b5bb"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a37a88401183b53e055f111f41687b5bb">XPMP2::SoundGetVolAdj</a> (FMOD_CHANNEL *pChn)</td></tr>
+<tr class="memdesc:a37a88401183b53e055f111f41687b5bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">From the original Sund File, get the volume adjustment.  <a href="namespaceXPMP2.html#a37a88401183b53e055f111f41687b5bb">More...</a><br /></td></tr>
+<tr class="separator:a37a88401183b53e055f111f41687b5bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9528f39a8020557fb93fcdcbc081568"><td class="memTemplParams" colspan="2">template&lt;class T_ADVSET &gt; </td></tr>
 <tr class="memitem:ac9528f39a8020557fb93fcdcbc081568"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ac9528f39a8020557fb93fcdcbc081568">XPMP2::SoundSetFmodSettings</a> (T_ADVSET &amp;advSet)</td></tr>
 <tr class="memdesc:ac9528f39a8020557fb93fcdcbc081568"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper functon to set FMOD settings.  <a href="namespaceXPMP2.html#ac9528f39a8020557fb93fcdcbc081568">More...</a><br /></td></tr>
@@ -128,6 +137,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a48bc6cdfe47526a01541932224f222b0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Sound_8cpp.html#a48bc6cdfe47526a01541932224f222b0">XPMPSoundSetMasterVolume</a> (float fVol)</td></tr>
 <tr class="memdesc:a48bc6cdfe47526a01541932224f222b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set Master Volume.  <a href="Sound_8cpp.html#a48bc6cdfe47526a01541932224f222b0">More...</a><br /></td></tr>
 <tr class="separator:a48bc6cdfe47526a01541932224f222b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4bd3405ad71d776c058df6aaac6c0e52"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Sound_8cpp.html#a4bd3405ad71d776c058df6aaac6c0e52">XPMPSoundMute</a> (bool bMute)</td></tr>
+<tr class="memdesc:a4bd3405ad71d776c058df6aaac6c0e52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mute all sounds (temporarily)  <a href="Sound_8cpp.html#a4bd3405ad71d776c058df6aaac6c0e52">More...</a><br /></td></tr>
+<tr class="separator:a4bd3405ad71d776c058df6aaac6c0e52"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47707afd8d40ec5d64e06a4bab43da41"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Sound_8cpp.html#a47707afd8d40ec5d64e06a4bab43da41">XPMPSoundAdd</a> (const char *sName, const char *filePath, bool bLoop, float fVolAdj)</td></tr>
 <tr class="memdesc:a47707afd8d40ec5d64e06a4bab43da41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a sound that can later be referenced from an <a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a>.  <a href="Sound_8cpp.html#a47707afd8d40ec5d64e06a4bab43da41">More...</a><br /></td></tr>
 <tr class="separator:a47707afd8d40ec5d64e06a4bab43da41"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -137,6 +149,9 @@ Variables</h2></td></tr>
 <tr class="memitem:a74cc62d976c1af9444060b45582b7d07"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a74cc62d976c1af9444060b45582b7d07">XPMP2::FMOD_NUM_VIRT_CHANNELS</a> = 1000</td></tr>
 <tr class="memdesc:a74cc62d976c1af9444060b45582b7d07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of virtual channels during initialization.  <a href="namespaceXPMP2.html#a74cc62d976c1af9444060b45582b7d07">More...</a><br /></td></tr>
 <tr class="separator:a74cc62d976c1af9444060b45582b7d07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca843e796917a20abbd091cb75f1771e"><td class="memItemLeft" align="right" valign="top">constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aca843e796917a20abbd091cb75f1771e">XPMP2::FMOD_LOW_PASS_GAIN</a> = 0.2f</td></tr>
+<tr class="memdesc:aca843e796917a20abbd091cb75f1771e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gain used when activating Low Pass filter.  <a href="namespaceXPMP2.html#aca843e796917a20abbd091cb75f1771e">More...</a><br /></td></tr>
+<tr class="separator:aca843e796917a20abbd091cb75f1771e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Sound for aircraft, based on the FMOD library. </p>
@@ -523,6 +538,32 @@ vol0virtualvol</td>
 </div><div class="memdoc">
 
 <p>Is Sound enabled? </p>
+
+</div>
+</div>
+<a id="a4bd3405ad71d776c058df6aaac6c0e52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4bd3405ad71d776c058df6aaac6c0e52">&#9670;&nbsp;</a></span>XPMPSoundMute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMPSoundMute </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>bMute</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Mute all sounds (temporarily) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bMute</td><td>Mute (<code>true</code>) or unmute (<code>false</code>)? </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

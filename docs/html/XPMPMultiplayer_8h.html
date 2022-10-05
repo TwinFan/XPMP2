@@ -121,6 +121,9 @@ Macros</h2></td></tr>
 <tr class="memitem:aeecdbccddbe9f644074eea0917632b3c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#aeecdbccddbe9f644074eea0917632b3c">XPMP_CFG_ITM_ACTIVATE_SOUND</a>&#160;&#160;&#160;&quot;activate_sound&quot;</td></tr>
 <tr class="memdesc:aeecdbccddbe9f644074eea0917632b3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config key: Activate Sound upon initial startup? (No effect later)  <a href="XPMPMultiplayer_8h.html#aeecdbccddbe9f644074eea0917632b3c">More...</a><br /></td></tr>
 <tr class="separator:aeecdbccddbe9f644074eea0917632b3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac068c9e41fdcc6af7a7599b51a1d472e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#ac068c9e41fdcc6af7a7599b51a1d472e">XPMP_CFG_ITM_MUTE_ON_PAUSE</a>&#160;&#160;&#160;&quot;mute_on_pause&quot;</td></tr>
+<tr class="memdesc:ac068c9e41fdcc6af7a7599b51a1d472e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config key: Mute all sound temporarily while X-Plane is in a paused state?  <a href="XPMPMultiplayer_8h.html#ac068c9e41fdcc6af7a7599b51a1d472e">More...</a><br /></td></tr>
+<tr class="separator:ac068c9e41fdcc6af7a7599b51a1d472e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5728e039cf8cdf415112b629e7a1667b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a5728e039cf8cdf415112b629e7a1667b">XPMP_CFG_ITM_LOGLEVEL</a>&#160;&#160;&#160;&quot;log_level&quot;</td></tr>
 <tr class="memdesc:a5728e039cf8cdf415112b629e7a1667b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config key: General level of logging into <code>Log.txt</code> (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)  <a href="XPMPMultiplayer_8h.html#a5728e039cf8cdf415112b629e7a1667b">More...</a><br /></td></tr>
 <tr class="separator:a5728e039cf8cdf415112b629e7a1667b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -234,6 +237,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a280d1a336529b2515b74d0d1684f0647"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a280d1a336529b2515b74d0d1684f0647">XPMPSoundSetMasterVolume</a> (float fVol=1.0f)</td></tr>
 <tr class="memdesc:a280d1a336529b2515b74d0d1684f0647"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set Master Volume.  <a href="XPMPMultiplayer_8h.html#a280d1a336529b2515b74d0d1684f0647">More...</a><br /></td></tr>
 <tr class="separator:a280d1a336529b2515b74d0d1684f0647"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4bd3405ad71d776c058df6aaac6c0e52"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a4bd3405ad71d776c058df6aaac6c0e52">XPMPSoundMute</a> (bool bMute)</td></tr>
+<tr class="memdesc:a4bd3405ad71d776c058df6aaac6c0e52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mute all sounds (temporarily)  <a href="XPMPMultiplayer_8h.html#a4bd3405ad71d776c058df6aaac6c0e52">More...</a><br /></td></tr>
+<tr class="separator:a4bd3405ad71d776c058df6aaac6c0e52"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9b0bd8f4f3c7e78ce6cf6e7f1d40801"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#af9b0bd8f4f3c7e78ce6cf6e7f1d40801">XPMPSoundAdd</a> (const char *sName, const char *filePath, bool bLoop, float fVolAdj=1.0f)</td></tr>
 <tr class="memdesc:af9b0bd8f4f3c7e78ce6cf6e7f1d40801"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a sound that can later be referenced from an <a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a>.  <a href="XPMPMultiplayer_8h.html#af9b0bd8f4f3c7e78ce6cf6e7f1d40801">More...</a><br /></td></tr>
 <tr class="separator:af9b0bd8f4f3c7e78ce6cf6e7f1d40801"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1042,6 +1048,22 @@ time offset to avoid lights across planes blink in sync (unused in <a class="el"
 
 </div>
 </div>
+<a id="ac068c9e41fdcc6af7a7599b51a1d472e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac068c9e41fdcc6af7a7599b51a1d472e">&#9670;&nbsp;</a></span>XPMP_CFG_ITM_MUTE_ON_PAUSE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define XPMP_CFG_ITM_MUTE_ON_PAUSE&#160;&#160;&#160;&quot;mute_on_pause&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Config key: Mute all sound temporarily while X-Plane is in a paused state? </p>
+
+</div>
+</div>
 <a id="ac1837ae72293e9c19ac6a827c836296a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac1837ae72293e9c19ac6a827c836296a">&#9670;&nbsp;</a></span>XPMP_CFG_ITM_REPLDATAREFS</h2>
 
@@ -1178,6 +1200,7 @@ time offset to avoid lights across planes blink in sync (unused in <a class="el"
 <code>planes&#160; | handle_dup_id&#160;&#160;&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;0&#160;&#160;&#160; | Boolean: If <a class="el" href="classXPMP2_1_1Aircraft.html#a7180fb04f2307508345fd80201f0709f" title="A plane is uniquely identified by a 24bit number [0x01..0xFFFFFF].">XPMP2::Aircraft::modeS_id</a> already exists then assign a new unique one, overwrites <a class="el" href="classXPMP2_1_1Aircraft.html#a7180fb04f2307508345fd80201f0709f" title="A plane is uniquely identified by a 24bit number [0x01..0xFFFFFF].">XPMP2::Aircraft::modeS_id</a></code><br  />
 <code>planes&#160; | support_remote&#160;&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;0&#160;&#160;&#160; | 3-state integer: Support remote connections? &lt;0 force off, 0 default: on if in a networked or multiplayer setup, &gt;0 force on</code><br  />
 <code>sound | activate_sound&#160;&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;1&#160;&#160;&#160; | Activate Sound upon initial startup? (No effect later)</code><br  />
+<code>sound | mute_on_pause&#160;&#160;&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;1&#160;&#160;&#160; | Mute all sound temporarily while X-Plane is in a paused state?</code><br  />
 <code>debug&#160;&#160; | log_level&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;2&#160;&#160;&#160; | General level of logging into Log.txt (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)</code><br  />
 <code>debug&#160;&#160; | model_matching&#160;&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;0&#160;&#160;&#160; | Write information on model matching into Log.txt</code><br  />
 </p><dl class="section note"><dt>Note</dt><dd>There is no immediate requirement to check the value of <code>_section</code> in your implementation. <code>_key</code> by itself is unique. Compare it with any of the <code>XPMP_CFG_ITM_*</code> values and return your value. </dd></dl>
@@ -2816,6 +2839,32 @@ User-defined dataRefs are <em>not</em> transfered to the <a class="el" href="nam
 </div><div class="memdoc">
 
 <p>Is Sound enabled? </p>
+
+</div>
+</div>
+<a id="a4bd3405ad71d776c058df6aaac6c0e52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4bd3405ad71d776c058df6aaac6c0e52">&#9670;&nbsp;</a></span>XPMPSoundMute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMPSoundMute </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>bMute</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Mute all sounds (temporarily) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bMute</td><td>Mute (<code>true</code>) or unmute (<code>false</code>)? </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

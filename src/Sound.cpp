@@ -74,6 +74,7 @@ struct FMOD_10830_ADVANCEDSETTINGS
 //
 
 constexpr int FMOD_NUM_VIRT_CHANNELS = 1000;        ///< Number of virtual channels during initialization
+constexpr float FMOD_LOW_PASS_GAIN   = 0.2f;        ///< Gain used when activating Low Pass filter
 
 static FMOD_SYSTEM* gpFmodSystem = nullptr;         ///< FMOD system
 static unsigned int gFmodVer = 0;                   ///< FMOD version
@@ -93,7 +94,7 @@ struct SoundDefTy {
 static SoundDefTy gaSoundDef[Aircraft::SND_NUM_EVENTS] = {
     { &Aircraft::GetThrustRatio,        true, 0.0f,  1.0f },    // SND_ENG
     { &Aircraft::GetThrustReversRatio,  true, 0.0f,  1.0f },    // SND_REVERSE_THRUST
-    { &Aircraft::GetGS_kn,              true, 0.5f, 35.0f },    // SND_TIRE
+    { &Aircraft::GetGS_kn,              true, 0.5f, 35.0f },    // TODO: Depends on being on the ground! // SND_TIRE
     { &Aircraft::GetGearRatio,          false, NAN, NAN },      // SND_GEAR
     { &Aircraft::GetFlapRatio,          false, NAN, NAN },      // SND_FLAPS
 };
@@ -257,6 +258,22 @@ FMOD_CHANNELGROUP* SoundGetMasterChn()
     return pMstChnGrp;
 }
 
+/// Get pointer to Sound File that created the channel
+SoundFile* SoundGetSoundFile (FMOD_CHANNEL* pChn)
+{
+    if (!pChn) return nullptr;
+    SoundFile* pSnd = nullptr;
+    FMOD_Channel_GetUserData(pChn, (void**)&pSnd);
+    return pSnd;
+}
+
+/// From the original Sund File, get the volume adjustment
+float SoundGetVolAdj (FMOD_CHANNEL* pChn)
+{
+    const SoundFile* pSndFile = SoundGetSoundFile(pChn);
+    return pSndFile ? pSndFile->fVolAdj : 1.0f;
+}
+
 /// @brief Helper functon to set FMOD settings
 /// @details Implement as template function so it works with both
 ///          `FMOD_ADVANCEDSETTINGS` and `FMOD_10830_ADVANCEDSETTINGS`
@@ -275,7 +292,7 @@ void SoundSetFmodSettings(T_ADVSET& advSet)
 //
 
 // Play a sound; a looping sound plays until explicitely stopped
-FMOD_CHANNEL* Aircraft::SoundPlay (const std::string& sndName)
+FMOD_CHANNEL* Aircraft::SoundPlay (const std::string& sndName, float vol)
 {
     // Make sure there's a sound group to connect to
     if (!SoundUpdateGrp()) return nullptr;
@@ -285,6 +302,10 @@ FMOD_CHANNEL* Aircraft::SoundPlay (const std::string& sndName)
         SoundFile& snd = mapSound.at(sndName);
         FMOD_CHANNEL* pChn = snd.play(pChnGrp);
         FMOD_Channel_SetUserData(pChn, &snd);       // save pointer to SoundFile as user data to the channel
+        SoundVolume(pChn, vol, snd.fVolAdj);        // Set volume
+        if (bChnLowPass) {                          // if currently active, also activate low pass filter on this new channel
+            FMOD_LOG(FMOD_Channel_SetLowPassGain(pChn, FMOD_LOW_PASS_GAIN));
+        }
         return pChn;
     }
     // Raised by map.at if not finding the key
@@ -301,10 +322,11 @@ void Aircraft::SoundStop (FMOD_CHANNEL* pChn)
 }
 
 // Sets the sound's volume after applying master volume
-void Aircraft::SoundVolume (FMOD_CHANNEL* pChn, float vol)
+void Aircraft::SoundVolume (FMOD_CHANNEL* pChn, float vol, float fVolAdj)
 {
-    // Set the volume, in accordance with master volume
-    FMOD_LOG(FMOD_Channel_SetVolume(pChn, vol * glob.sndMasterVol));
+    // Set the volume, in accordance with master volume and sound volume adjustment
+    if (std::isnan(fVolAdj)) fVolAdj = SoundGetVolAdj(pChn);
+    FMOD_LOG(FMOD_Channel_SetVolume(pChn, vol * fVolAdj * glob.sndMasterVol));
 }
 
 // Returns the name of the sound to play per event
@@ -366,6 +388,15 @@ void Aircraft::SoundUpdate ()
         // Update the group and its 3D location, also tests for sound enabled
         if (!SoundUpdateGrp()) return;
         
+        // Decide here already if we need to activate or inactivate the Low Pass filter
+        enum { LP_NoAction = 0, LP_Enable, LP_Disable } eLP = LP_NoAction;
+        if (IsViewExternal()) {
+            if (bChnLowPass) { eLP = LP_Disable; bChnLowPass = false; }
+        } else {
+            if (!bChnLowPass) { eLP = LP_Enable; bChnLowPass = true; }
+        }
+
+        
         // --- Loop all Sound Definitions ---
         for (SoundEventsTy eSndEvent = SoundEventsTy(0);
              eSndEvent < SND_NUM_EVENTS;
@@ -375,44 +406,50 @@ void Aircraft::SoundUpdate ()
             const SoundDefTy    &def        = gaSoundDef[eSndEvent];
             FMOD_CHANNEL*       &chn        = apChn[eSndEvent];
             float               &lastVal    = afChnLastVal[eSndEvent];
-            
+
+            // Get the pointer to the sound file that created the channel
+            SoundFile* pSnd = nullptr;
+            if (chn)
+                FMOD_Channel_GetUserData(chn, (void**)&pSnd);
+            // ...and from there the volume adjustment
+            float volAdj = 1.0f;
+            if (pSnd)
+                volAdj = pSnd->fVolAdj;
+            else
+                // if the UserData comes back `nullptr` then this channel is now invalid, has stopped playing
+                chn = nullptr;
+
             // Automatic Handling of this event?
             if (abSndAuto[eSndEvent])
             {
                 assert(def.pVal);
                 const float fVal = (this->*def.pVal)();     // get the current (dataRef) value
-                // Looping sound?
+                // --- Looping sound? ---
                 if (def.bSndLoop)
                 {
                     assert(def.valMax > def.valMin);
                     
                     // Looping sound: Should there be sound?
                     if (fVal > def.valMin) {
-                        // If there hasn't been a sound triggered do so now
-                        if (!chn)
-                            chn = SoundPlay(SoundGetName(eSndEvent));
                         // Set volume based on val (between min and max)
                         const float vol = std::clamp<float>((fVal - def.valMin) / (def.valMax - def.valMin), 0.0f, 1.0f);
-                        float volAdj = 1.0f;
-                        SoundFile* pSnd = nullptr;
-                        FMOD_Channel_GetUserData(chn, (void**)&pSnd);
-                        if (pSnd)
-                            volAdj = pSnd->fVolAdj;
-                        SoundVolume (chn, vol * volAdj);
+                        // If there hasn't been a sound triggered do so now
+                        if (!chn)
+                            chn = SoundPlay(SoundGetName(eSndEvent), vol);
                     } else {
                         // There should be no sound, remove it if there was one
                         if (chn) SoundStop(chn);
                         chn = nullptr;
                     }
                 }
-                // One-time event
+                // --- One-time event ---
                 else
                 {
                     // Should there be sound because the value changed?
                     if (!std::isnan(lastVal) && (lastVal != fVal)) {
                         // If there hasn't been a sound triggered do so now
                         if (!chn)
-                            chn = SoundPlay(SoundGetName(eSndEvent));
+                            chn = SoundPlay(SoundGetName(eSndEvent), volAdj);
                     } else {
                         // Now (more) value change, stop and remove the sound
                         if (chn) SoundStop(chn);
@@ -420,6 +457,12 @@ void Aircraft::SoundUpdate ()
                     }
                     // Remember the last value we've seen
                     lastVal = fVal;
+                }
+                
+                // --- Low pass filter in case we're inside a cockpit ---
+                if (chn && eLP) {
+                    FMOD_LOG(FMOD_Channel_SetLowPassGain(chn,
+                                                         eLP == LP_Enable ? FMOD_LOW_PASS_GAIN : 1.0f));
                 }
             }
             // No automatic handling of this even
@@ -545,8 +588,6 @@ void SoundUpdatesDone ()
         const FMOD_VECTOR normForw  = { std::sin(deg2rad(glob.posCamera.heading)), 0.0f, std::cos(deg2rad(glob.posCamera.heading - 180)) };
         const FMOD_VECTOR normUpw   = { 0.0f, 1.0f, 0.0f };     // Upward is current always straight up
         FMOD_TEST(FMOD_System_Set3DListenerAttributes(gpFmodSystem, 0, &posNull, &velocity, &normForw, &normUpw));
-        
-        // TODO: Activate Low Pass filter in case we're in an inside view
         
         // Mute-on-Pause
         if (glob.bSoundMuteOnPause) {                           // shall act automatically on Pause?

@@ -276,11 +276,11 @@ protected:
 public:
     /// Types of sound supported directly by XPMP2
     enum SoundEventsTy {
-        SND_ENG = 0,                        ///< Engine sound (continuously while engine running)
-        SND_REVERSE_THRUST,                 ///< Engine sound while reverse thrust (continuously while reversers deployed)
-        SND_TIRE,                           ///< Tires rolling on the ground (continuously while rolling on ground)
-        SND_GEAR,                           ///< Gear extending/retracting (once per event)
-        SND_FLAPS,                          ///< Flaps extending/retracting (once per event)
+        SND_ENG = 0,                        ///< Engine sound (continuously while engine running), bases on GetThrustRatio()
+        SND_REVERSE_THRUST,                 ///< Engine sound while reverse thrust (continuously while reversers deployed), bases on GetThrustReversRatio()
+        SND_TIRE,                           ///< Tires rolling on the ground (continuously while rolling on ground), bases on GetTireRotRpm()
+        SND_GEAR,                           ///< Gear extending/retracting (once per event), bases on GetGearRatio()
+        SND_FLAPS,                          ///< Flaps extending/retracting (once per event), bases on GetFlapRatio()
         SND_NUM_EVENTS                      ///< Number of events (always last in `enum`)
     };
     

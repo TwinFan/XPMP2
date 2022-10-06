@@ -267,7 +267,7 @@ constexpr XPMPPlaneID MAX_MODE_S_ID = 0x00FFFFFF;
 #define XPMP_CFG_ITM_ACTIVATE_SOUND  "activate_sound"       ///< Config key: Activate Sound upon initial startup? (No effect later)
 #define XPMP_CFG_ITM_MUTE_ON_PAUSE   "mute_on_pause"        ///< Config key: Mute all sound temporarily while X-Plane is in a paused state?
 #define XPMP_CFG_ITM_LOGLEVEL        "log_level"            ///< Config key: General level of logging into `Log.txt` (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)
-#define XPMP_CFG_ITM_MODELMATCHING   "model_matching"       ///< Config key: Write information on model matching into `Log.txt`
+#define XPMP_CFG_ITM_MODELMATCHING   "model_matching"       ///< Config key: Write information on model matching and sound selection into `Log.txt`
 
 /// @brief Definition for the type of configuration callback function
 /// @details The plugin using XPMP2 can provide such a callback function via XPMPMultiplayerInit().
@@ -283,7 +283,7 @@ constexpr XPMPPlaneID MAX_MODE_S_ID = 0x00FFFFFF;
 /// `sound   | activate_sound      | int  |    1    | Activate Sound upon initial startup? (No effect later)`\n
 /// `sound   | mute_on_pause       | int  |    1    | Mute all sound temporarily while X-Plane is in a paused state?`\n
 /// `debug   | log_level           | int  |    2    | General level of logging into Log.txt (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)`\n
-/// `debug   | model_matching      | int  |    0    | Write information on model matching into Log.txt`\n
+/// `debug   | model_matching      | int  |    0    | Write information on model matching and sound selection into Log.txt`\n
 /// @note There is no immediate requirement to check the value of `_section` in your implementation.
 ///       `_key` by itself is unique. Compare it with any of the `XPMP_CFG_ITM_*` values and return your value.
 /// @param _section Configuration section, ie. group of values, any of the `XPMP_CFG_SEC_...` values

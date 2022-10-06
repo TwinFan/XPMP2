@@ -94,7 +94,7 @@ struct SoundDefTy {
 static SoundDefTy gaSoundDef[Aircraft::SND_NUM_EVENTS] = {
     { &Aircraft::GetThrustRatio,        true, 0.0f,  1.0f },    // SND_ENG
     { &Aircraft::GetThrustReversRatio,  true, 0.0f,  1.0f },    // SND_REVERSE_THRUST
-    { &Aircraft::GetGS_kn,              true, 0.5f, 35.0f },    // TODO: Depends on being on the ground! // SND_TIRE
+    { &Aircraft::GetTireRotRpm,         true, 60.0f, 1000.0f }, // SND_TIRE
     { &Aircraft::GetGearRatio,          false, NAN, NAN },      // SND_GEAR
     { &Aircraft::GetFlapRatio,          false, NAN, NAN },      // SND_FLAPS
 };
@@ -287,6 +287,19 @@ void SoundSetFmodSettings(T_ADVSET& advSet)
     FMOD_TEST(FMOD_System_SetAdvancedSettings(gpFmodSystem, (FMOD_ADVANCEDSETTINGS*)&advSet));
 }
 
+const char* SoundEventTxt (Aircraft::SoundEventsTy e)
+{
+    switch (e) {
+        case Aircraft::SND_ENG:             return "Engine";
+        case Aircraft::SND_REVERSE_THRUST:  return "Reverse Thrust";
+        case Aircraft::SND_TIRE:            return "Tires";
+        case Aircraft::SND_GEAR:            return "Gear";
+        case Aircraft::SND_FLAPS:           return "Flaps";
+        default:
+            return "<unknown>";
+    }
+}
+
 //
 // MARK: Public Aircraft member functions
 //
@@ -337,7 +350,8 @@ std::string Aircraft::SoundGetName (SoundEventsTy sndEvent) const
         case SND_ENG:
             // Sanity check: need a CSL model to derive details
             if (!pCSLMdl) {
-                LOG_MSG(logWARN, "Aircraft %08X: No CSL model info, using default engine sound", modeS_id);
+                LOG_MSG(logWARN, "Aircraft %08X (%s): No CSL model info, using default engine sound",
+                        modeS_id, GetFlightId().c_str());
                 return XP_SOUND_PROP_AIRPLANE;
             }
             // Now check out engine type and return proper sound name
@@ -348,8 +362,8 @@ std::string Aircraft::SoundGetName (SoundEventsTy sndEvent) const
                 case 'P': return XP_SOUND_PROP_AIRPLANE;
                 case 'T': return XP_SOUND_TURBOPROP;
                 default:
-                    LOG_MSG(logWARN, "Aircraft %08X: Unknown engine type '%c', using default engine sound",
-                            modeS_id, pCSLMdl->GetClassEngType());
+                    LOG_MSG(logWARN, "Aircraft %08X (%s): Unknown engine type '%c', using default engine sound",
+                            modeS_id, GetFlightId().c_str(), pCSLMdl->GetClassEngType());
                     return XP_SOUND_PROP_AIRPLANE;
             }
             
@@ -360,8 +374,8 @@ std::string Aircraft::SoundGetName (SoundEventsTy sndEvent) const
         case SND_FLAPS: return XP_SOUND_FLAP;
             
         default:
-            LOG_MSG(logERR, "Aircraft %08X: Unknown Sound Event type %d, no sound name returned",
-                    modeS_id, int(sndEvent));
+            LOG_MSG(logERR, "Aircraft %08X (%s): Unknown Sound Event type %d, no sound name returned",
+                    modeS_id, GetFlightId().c_str(), int(sndEvent));
             return "<UnknownSndType>";
     }
 }
@@ -434,11 +448,20 @@ void Aircraft::SoundUpdate ()
                         // Set volume based on val (between min and max)
                         const float vol = std::clamp<float>((fVal - def.valMin) / (def.valMax - def.valMin), 0.0f, 1.0f);
                         // If there hasn't been a sound triggered do so now
-                        if (!chn)
+                        if (!chn) {
                             chn = SoundPlay(SoundGetName(eSndEvent), vol);
+                            LOG_MATCHING(logINFO, "Aircraft %08X (%s): Looping sound '%s' at volume %.2f for '%s'",
+                                         modeS_id, GetFlightId().c_str(),
+                                         SoundGetName(eSndEvent).c_str(), vol, SoundEventTxt(eSndEvent));
+                        }
                     } else {
                         // There should be no sound, remove it if there was one
-                        if (chn) SoundStop(chn);
+                        if (chn) {
+                            SoundStop(chn);
+                            LOG_MATCHING(logINFO, "Aircraft %08X (%s): Stopped sound for '%s'",
+                                         modeS_id, GetFlightId().c_str(),
+                                         SoundEventTxt(eSndEvent));
+                        }
                         chn = nullptr;
                     }
                 }
@@ -448,8 +471,12 @@ void Aircraft::SoundUpdate ()
                     // Should there be sound because the value changed?
                     if (!std::isnan(lastVal) && (lastVal != fVal)) {
                         // If there hasn't been a sound triggered do so now
-                        if (!chn)
+                        if (!chn) {
                             chn = SoundPlay(SoundGetName(eSndEvent), volAdj);
+                            LOG_MATCHING(logINFO, "Aircraft %08X (%s): Playing sound '%s' once at volume %.2f for '%s'",
+                                         modeS_id, GetFlightId().c_str(),
+                                         SoundGetName(eSndEvent).c_str(), volAdj, SoundEventTxt(eSndEvent));
+                        }
                     } else {
                         // Now (more) value change, stop and remove the sound
                         if (chn) SoundStop(chn);
@@ -522,6 +549,8 @@ void Aircraft::SoundRemoveAll ()
         FMOD_ChannelGroup_Stop(pChnGrp);
         FMOD_ChannelGroup_Release(pChnGrp);
         pChnGrp = nullptr;
+        LOG_MATCHING(logDEBUG, "Aircraft %08X (%s): Removed all sounds",
+                     modeS_id, GetFlightId().c_str());
     }
     // All channels now stopped and invalid
     for (FMOD_CHANNEL* &chn: apChn) chn = nullptr;
@@ -668,6 +697,7 @@ void XPMPSoundMute(bool bMute)
     FMOD_CHANNELGROUP* pMstChnGrp = XPMP2::SoundGetMasterChn();
     if (!pMstChnGrp) return;
     FMOD_LOG(FMOD_ChannelGroup_SetMute(pMstChnGrp, bMute));
+    LOG_MSG(XPMP2::logDEBUG, "All sounds %s", bMute ? "muted" : "unmuted");
 }
 
 // Add a sound that can later be referenced from an XPMP2::Aircraft
@@ -686,6 +716,8 @@ const char* XPMPSoundAdd (const char* sName,
         XPMP2::mapSound.emplace(std::piecewise_construct,
                                 std::forward_as_tuple(sName),
                                 std::forward_as_tuple(filePath,bLoop,fVolAdj));
+        LOG_MSG(XPMP2::logDEBUG, "Added%ssound '%s' from file '%s'",
+                bLoop ? " looping " : " ", sName, filePath);
     }
     catch (const XPMP2::FmodError& e) {
         e.LogErr();                             // log the error

@@ -128,7 +128,7 @@ Macros</h2></td></tr>
 <tr class="memdesc:a5728e039cf8cdf415112b629e7a1667b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config key: General level of logging into <code>Log.txt</code> (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)  <a href="XPMPMultiplayer_8h.html#a5728e039cf8cdf415112b629e7a1667b">More...</a><br /></td></tr>
 <tr class="separator:a5728e039cf8cdf415112b629e7a1667b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a806b63b0cfab848825db7e7745bb1a11"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a806b63b0cfab848825db7e7745bb1a11">XPMP_CFG_ITM_MODELMATCHING</a>&#160;&#160;&#160;&quot;model_matching&quot;</td></tr>
-<tr class="memdesc:a806b63b0cfab848825db7e7745bb1a11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config key: Write information on model matching into <code>Log.txt</code>  <a href="XPMPMultiplayer_8h.html#a806b63b0cfab848825db7e7745bb1a11">More...</a><br /></td></tr>
+<tr class="memdesc:a806b63b0cfab848825db7e7745bb1a11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config key: Write information on model matching and sound selection into <code>Log.txt</code>  <a href="XPMPMultiplayer_8h.html#a806b63b0cfab848825db7e7745bb1a11">More...</a><br /></td></tr>
 <tr class="separator:a806b63b0cfab848825db7e7745bb1a11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5fb77313523d24a099213c6b2534fca5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a5fb77313523d24a099213c6b2534fca5">XP_SOUND_ELECTRIC</a>&#160;&#160;&#160;&quot;Electric&quot;</td></tr>
 <tr class="separator:a5fb77313523d24a099213c6b2534fca5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1044,7 +1044,7 @@ time offset to avoid lights across planes blink in sync (unused in <a class="el"
       </table>
 </div><div class="memdoc">
 
-<p>Config key: Write information on model matching into <code>Log.txt</code> </p>
+<p>Config key: Write information on model matching and sound selection into <code>Log.txt</code> </p>
 
 </div>
 </div>
@@ -1202,7 +1202,7 @@ time offset to avoid lights across planes blink in sync (unused in <a class="el"
 <code>sound | activate_sound&#160;&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;1&#160;&#160;&#160; | Activate Sound upon initial startup? (No effect later)</code><br  />
 <code>sound | mute_on_pause&#160;&#160;&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;1&#160;&#160;&#160; | Mute all sound temporarily while X-Plane is in a paused state?</code><br  />
 <code>debug&#160;&#160; | log_level&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;2&#160;&#160;&#160; | General level of logging into Log.txt (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)</code><br  />
-<code>debug&#160;&#160; | model_matching&#160;&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;0&#160;&#160;&#160; | Write information on model matching into Log.txt</code><br  />
+<code>debug&#160;&#160; | model_matching&#160;&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;0&#160;&#160;&#160; | Write information on model matching and sound selection into Log.txt</code><br  />
 </p><dl class="section note"><dt>Note</dt><dd>There is no immediate requirement to check the value of <code>_section</code> in your implementation. <code>_key</code> by itself is unique. Compare it with any of the <code>XPMP_CFG_ITM_*</code> values and return your value. </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">

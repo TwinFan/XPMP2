@@ -12,7 +12,7 @@
 ///             XPMP2 is a library allowing an X-Plane plugin to have
 ///             planes rendered in X-Plane's 3D world based on OBJ8
 ///             CSL models, which need to be installed separately.
-///             The plugin shall subclass XPMP2::Aircraft:: and override
+///             The plugin shall subclass XPMP2::Aircraft and override
 ///             the abstract virtual function XPMP2::Aircraft::UpdatePosition()
 ///             to provide updated position and attitude information.
 ///             XPMP2 takes care of reading and initializaing CSL models,
@@ -22,6 +22,9 @@
 ///
 /// @see        For more developer's information see
 ///             https://twinfan.github.io/XPMP2/
+///
+/// @see        Sample and "How to" available, see
+///             https://twinfan.github.io/XPMP2/HowTo.html
 ///
 /// @see        For TCAS Override approach see
 ///             https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/
@@ -35,7 +38,7 @@
 /// @author     Ben Supnik and Chris Serio
 /// @copyright  Copyright (c) 2004, Ben Supnik and Chris Serio.
 /// @author     Birger Hoppe
-/// @copyright  (c) 2020 Birger Hoppe
+/// @copyright  (c) 2020-2022 Birger Hoppe
 /// @copyright  Permission is hereby granted, free of charge, to any person obtaining a
 ///             copy of this software and associated documentation files (the "Software"),
 ///             to deal in the Software without restriction, including without limitation
@@ -95,7 +98,7 @@ struct XPMPPlanePosition_t {
 
 /// @brief Light flash patterns
 /// @note Unused in XPMP2
-/// @note Not changed to proper enum type as it is used in bitfields in xpmp_LightStatus,
+/// @note Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightStatus,
 ///       which causes misleading, non-suppressable warnings in gcc:\n
 ///       https://gcc.gnu.org/bugzilla/show_bug.cgi?id=51242
 enum {
@@ -252,13 +255,18 @@ constexpr XPMPPlaneID MAX_MODE_S_ID = 0x00FFFFFF;
 * MARK: INITIALIZATION
 ************************************************************************************/
 
-// Config section is defined for legacy reasons only
+/// @name Configuration Sections
+///        Config section is defined for legacy reasons only
+/// @{
 #define XPMP_CFG_SEC_MODELS          "models"               ///< Config section "models"
 #define XPMP_CFG_SEC_PLANES          "planes"               ///< Config section "planes"
 #define XPMP_CFG_SEC_SOUND           "sound"                ///< Config section "sound"
 #define XPMP_CFG_SEC_DEBUG           "debug"                ///< Config section "debug"
+/// @}
 
-// Config key definitions
+/// @name Configuration Items
+///       Configuration Items are unique in itself even without considering the configuration section
+/// @{
 #define XPMP_CFG_ITM_REPLDATAREFS    "replace_datarefs"     ///< Config key: Replace dataRefs in OBJ8 files upon load, creating new OBJ8 files for XPMP2 (defaults to OFF!)
 #define XPMP_CFG_ITM_REPLTEXTURE     "replace_texture"      ///< Config key: Replace textures in OBJ8 files upon load if needed (specified on the OBJ8 line in xsb_aircraft.txt), creating new OBJ8 files
 #define XPMP_CFG_ITM_CLAMPALL        "clamp_all_to_ground"  ///< Config key: Ensure no plane sinks below ground, no matter of XPMP2::Aircraft::bClampToGround
@@ -268,6 +276,7 @@ constexpr XPMPPlaneID MAX_MODE_S_ID = 0x00FFFFFF;
 #define XPMP_CFG_ITM_MUTE_ON_PAUSE   "mute_on_pause"        ///< Config key: Mute all sound temporarily while X-Plane is in a paused state?
 #define XPMP_CFG_ITM_LOGLEVEL        "log_level"            ///< Config key: General level of logging into `Log.txt` (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)
 #define XPMP_CFG_ITM_MODELMATCHING   "model_matching"       ///< Config key: Write information on model matching and sound selection into `Log.txt`
+/// @}
 
 /// @brief Definition for the type of configuration callback function
 /// @details The plugin using XPMP2 can provide such a callback function via XPMPMultiplayerInit().
@@ -280,8 +289,8 @@ constexpr XPMPPlaneID MAX_MODE_S_ID = 0x00FFFFFF;
 /// `planes  | clamp_all_to_ground | int  |    1    | Ensure no plane sinks below ground, no matter of XPMP2::Aircraft::bClampToGround`\n
 /// `planes  | handle_dup_id       | int  |    0    | Boolean: If XPMP2::Aircraft::modeS_id already exists then assign a new unique one, overwrites XPMP2::Aircraft::modeS_id`\n
 /// `planes  | support_remote      | int  |    0    | 3-state integer: Support remote connections? <0 force off, 0 default: on if in a networked or multiplayer setup, >0 force on`\n
-/// `sound   | activate_sound      | int  |    1    | Activate Sound upon initial startup? (No effect later)`\n
-/// `sound   | mute_on_pause       | int  |    1    | Mute all sound temporarily while X-Plane is in a paused state?`\n
+/// `sound   | activate_sound      | int  |    1    | Activate Sound upon initial startup? (No effect later)`\n
+/// `sound   | mute_on_pause       | int  |    1    | Mute all sound temporarily while X-Plane is in a paused state?`\n
 /// `debug   | log_level           | int  |    2    | General level of logging into Log.txt (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)`\n
 /// `debug   | model_matching      | int  |    0    | Write information on model matching and sound selection into Log.txt`\n
 /// @note There is no immediate requirement to check the value of `_section` in your implementation.
@@ -291,6 +300,9 @@ constexpr XPMPPlaneID MAX_MODE_S_ID = 0x00FFFFFF;
 /// @param _default A default provided by XPMP2. Have your callback return `_default` if you don't want to explicitely set a value or don't know the `_key`.
 /// @return Your callback shall return your config value for config item `_key`
 typedef int (*XPMPIntPrefsFuncTy)(const char* _section, const char* _key, int _default);
+
+/// @name Initialization
+/// @{
 
 /// @brief Deprecated legacy initialization of XPMP2.
 /// @note Parameters changed compared to libxplanemp!
@@ -341,9 +353,14 @@ void XPMPMultiplayerCleanup();
 [[deprecated("Unsupported feature, will alsways return 'OBJ7 format is no longer supported'")]]
 const char * XPMPMultiplayerOBJ7SupportEnable(const char * inTexturePath);
 
+/// @}
+
 /************************************************************************************
 * MARK: Sound
 ************************************************************************************/
+
+/// @name Sound
+/// @{
 
 /// @brief Enable/Disable Sound
 /// @details Enable or disable sound support.
@@ -371,9 +388,8 @@ void XPMPSoundMute (bool bMute);
 /// @param sName A descriptive name, used as a key to refer to this sound later
 /// @param filePath Path to the sound file; a relative path is relative to `resourceDir` as set by XPMPMultiplayerInit()
 /// @param bLoop Is this sound to be played in a loop?
-/// @param fVolAdj Volume Adjustment factor for this particular sound, `>1` amplifies
+/// @param fVolAdj [opt] Volume Adjustment factor for this particular sound, `>1` amplifies
 /// @return Empty string in case of success, otherwise a human-readable error message.
-// TODO: Add Cone definition including direction relative to plane's front
 const char* XPMPSoundAdd (const char* sName,
                           const char* filePath,
                           bool bLoop,
@@ -387,6 +403,11 @@ const char* XPMPSoundAdd (const char* sName,
 ///       longer than immediately, make yourself a string copy.
 const char* XPMPSoundEnumerate (const char* prevName, const char** ppFilePath = nullptr);
 
+/// @}
+
+/// @name Sound Macros
+/// @{
+
 // Standard sounds loaded by XPMP2 from XP's `Resource/sounds` folders
 #define XP_SOUND_ELECTRIC       "Electric"
 #define XP_SOUND_HIBYPASSJET    "HiBypassJet"
@@ -399,10 +420,14 @@ const char* XPMPSoundEnumerate (const char* prevName, const char** ppFilePath = 
 #define XP_SOUND_FLAP           "Flap"
 #define XP_SOUND_GEAR           "Gear"
 
+/// @}
+
 /************************************************************************************
 * MARK: AI / Multiplayer plane control
 ************************************************************************************/
 
+/// @name AI / Multiplayer plane control
+/// @{
 
 /// @brief Tries to grab control of TCAS targets (formerly known as AI/multiplayer) from X-Plane
 /// @details Only one plugin can have TCAS targets control at any one time.
@@ -439,9 +464,14 @@ void XPMPMultiplayerDisable();
 /// @see XPMPMultiplayerEnable()
 bool XPMPHasControlOfAIAircraft();
 
+/// @}
+
 /************************************************************************************
 * MARK: CSL Package Handling
 ************************************************************************************/
+
+/// @name CSL Package Handling
+/// @{
 
 /// @brief Loads CSL packages from the given folder, searching up to 5 folder levels deep.
 /// @details This function mainly searches the given folder for packages.
@@ -532,6 +562,8 @@ bool            XPMPIsICAOValid(const char *                inICAO);
 ///       for display on network-connected X-Plane instances.
 size_t XPMPAddModelDataRef (const std::string& dataRef);
 
+/// @}
+
 /************************************************************************************
  * MARK: PLANE CREATION API
  ************************************************************************************/
@@ -553,6 +585,8 @@ typedef XPMPPlaneCallbackResult (* XPMPPlaneData_f)(XPMPPlaneID         inPlane,
                                                     void *              ioData,
                                                     void *              inRefcon);
 
+/// @name Plane Creation API
+/// @{
 
 /// @brief Creates a new plane
 /// @deprecated Subclass XPMP2::Aircraft instead
@@ -676,6 +710,8 @@ XPMP2::Aircraft* XPMPGetAircraft (XPMPPlaneID _id);
 void    XPMPSetDefaultPlaneICAO(const char* _acIcaoType,
                                 const char* _carIcaoType = nullptr);
 
+/// @}
+
 /************************************************************************************
  * MARK: PLANE OBSERVATION API
  ************************************************************************************/
@@ -698,6 +734,8 @@ typedef void (*XPMPPlaneNotifier_f)(XPMPPlaneID            inPlaneID,
                                     XPMPPlaneNotification  inNotification,
                                     void *                 inRefcon);
 
+/// @name Plane Observation API
+/// @{
 
 /// @brief Registers a callback, which is called when one of the
 ///        events defined in ::XPMPPlaneNotification happens
@@ -714,6 +752,8 @@ void            XPMPRegisterPlaneNotifierFunc(XPMPPlaneNotifier_f       inFunc,
 void            XPMPUnregisterPlaneNotifierFunc(XPMPPlaneNotifier_f     inFunc,
                                                 void *                  inRefcon);
 
+/// @}
+
 /************************************************************************************
  * MARK: PLANE RENDERING API (unsued in XPMP2)
  ************************************************************************************/
@@ -726,6 +766,8 @@ typedef void (* XPMPRenderPlanes_f)(
                                     int                         inIsBlend,
                                     void *                      inRef);
 
+/// @name Plane Rendering API
+/// @{
 
 /// @brief The original libxplanemp allowed to override rendering; no longer supported
 /// @deprecated Unsupported in XPMP2. The function is available to stay compile-time compatible,
@@ -770,6 +812,8 @@ void XPMPSetAircraftLabelDist (float _dist_nm, bool _bCutOffAtVisibility = true)
 /// @details XPMP2 creates a separate Map Layer named after the plugin for this purposes.
 ///          By default, the map functionality is enabled including label writing.
 void XPMPEnableMap (bool _bEnable, bool _bLabels = true);
+
+/// @}
 
 #ifdef __cplusplus
 }

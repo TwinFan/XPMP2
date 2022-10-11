@@ -1,8 +1,37 @@
 /// @file       XPMPAircraft.h
 /// @brief      XPMP2::Aircraft represent an aircraft as managed by XPMP2
 /// @details    New implementations should derive directly from XPMP2::Aircraft.
+///
+/// @details    This is one of two main header files for using XPMP2.
+///             (The other is `XPMPMultiplayer.h`).
+///             XPMP2 is a library allowing an X-Plane plugin to have
+///             planes rendered in X-Plane's 3D world based on OBJ8
+///             CSL models, which need to be installed separately.
+///             The plugin shall subclass XPMP2::Aircraft and override
+///             the abstract virtual function XPMP2::Aircraft::UpdatePosition()
+///             to provide updated position and attitude information.
+///             XPMP2 takes care of reading and initializaing CSL models,
+///             instanciating and updating the aircraft objects in X-Plane,
+///             display in a map layer, provisioning information via X-Plane's
+///             TCAS targets and AI/multiplayer (and more) dataRefs.
+///
+/// @see        For more developer's information see
+///             https://twinfan.github.io/XPMP2/
+///
+/// @see        Sample and "How to" available, see
+///             https://twinfan.github.io/XPMP2/HowTo.html
+///
+/// @see        For TCAS Override approach see
+///             https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/
+///
+/// @see        For a definition of ICAO aircraft type designators see
+///             https://www.icao.int/publications/DOC8643/Pages/Search.aspx
+///
+/// @see        For a list of ICAO airline/operator codes see
+///             https://en.wikipedia.org/wiki/List_of_airline_codes
+///
 /// @author     Birger Hoppe
-/// @copyright  (c) 2020 Birger Hoppe
+/// @copyright  (c) 2020-2022 Birger Hoppe
 /// @copyright  Permission is hereby granted, free of charge, to any person obtaining a
 ///             copy of this software and associated documentation files (the "Software"),
 ///             to deal in the Software without restriction, including without limitation
@@ -301,6 +330,10 @@ protected:
 private:
     bool bDestroyInst           = false;    ///< Instance to be destroyed in next flight loop callback?
 public:
+    
+    /// @name Construction
+    /// @{
+    
     /// @brief Constructor creates a new aircraft object, which will be managed and displayed
     /// @exception XPMP2::XPMP2Error Mode S id invalid or duplicate, no model found during model matching
     /// @param _icaoType ICAO aircraft type designator, like 'A320', 'B738', 'C172'
@@ -337,7 +370,10 @@ public:
                  XPMPPlaneID _modeS_id = 0,
                  const std::string& _cslId = "",
                  CSLModel* _pCSLModel = nullptr);
-    
+    /// @}
+    /// @name Information
+    /// @{
+
     /// return the XPMP2 plane id
     XPMPPlaneID GetModeS_ID () const { return modeS_id; }
     /// Is this object a ground vehicle?
@@ -361,6 +397,11 @@ public:
     /// @returns The first non-empty string out of: flight number, registration, departure/arrival airports
     virtual std::string GetFlightId() const;
     
+    /// @}
+    /// @name Model Matching
+    /// @see  https://twinfan.github.io/XPMP2/Matching.html
+    /// @{
+
     /// @brief (Potentially) changes the plane's model after doing a new match attempt
     /// @param _icaoType ICAO aircraft type designator, like 'A320', 'B738', 'C172'
     /// @param _icaoAirline ICAO airline code, like 'BAW', 'DLH', can be an empty string
@@ -389,6 +430,11 @@ public:
     CSLModelInfo_t GetModelInfo() const { return pCSLMdl ? CSLModelInfo_t(*pCSLMdl) : CSLModelInfo_t();  }
     /// quality of the match with the CSL model
     int         GetMatchQuality () const { return matchQuality; }
+
+    /// @}
+    /// @name Visualization
+    /// @{
+
     /// Vertical offset, ie. the value that needs to be added to `drawInfo.y` to make the aircraft appear on the ground
     float       GetVertOfs () const;
     
@@ -430,7 +476,9 @@ public:
     /// @param _flCounter A monotonically increasing counter, bumped once per flight loop dispatch from the sim.
     virtual void UpdatePosition (float _elapsedSinceLastCall, int _flCounter) = 0;
     
-    // --- Getters and Setters for the values in `drawInfo` ---
+    /// @}
+    /// @name Getters and Setters for the values in Aircraft::drawInfo
+    /// @{
 
     /// @brief Converts world coordinates to local coordinates, writes to Aircraft::drawInfo
     /// @note Alternatively, the calling plugin can set local coordinates in Aircraft::drawInfo directly
@@ -457,7 +505,11 @@ public:
 
     float GetGS_kn() const               { return gs_kn; }                              ///< Rough estimate of a ground speed based on `v_x/z`
     
-    // --- Getters and Setters for the values in the `v` array ---
+    /// @}
+    /// @name Getters and Setters for the values in the Aircraft::v array
+    /// @see  https://twinfan.github.io/XPMP2/CSLdataRefs.html
+    /// @{
+
     float GetGearRatio () const          { return v[V_CONTROLS_GEAR_RATIO]; }           ///< Gear deploy ratio
     void  SetGearRatio (float _f)        { v[V_CONTROLS_GEAR_RATIO] = _f;   }           ///< Gear deploy ratio
     float GetNoseWheelAngle () const     { return v[V_CONTROLS_NWS_RATIO]; }            ///< Nose Wheel angle in degrees
@@ -539,7 +591,12 @@ public:
     bool  GetTouchDown () const          { return v[V_MISC_TOUCH_DOWN] > 0.5f; }                ///< Moment of touch down
     void  SetTouchDown (bool _b)         { v[V_MISC_TOUCH_DOWN] = float(_b);   }                ///< Moment of touch down
 
-    // Wake support as per X-Plane 12
+    /// @}
+    /// @name Wake support as per X-Plane 12
+    /// @see  https://twinfan.github.io/XPMP2/Wake.html
+    /// @see  https://developer.x-plane.com/2022/02/wake-turbulence/
+    /// @see  https://developer.x-plane.com/article/plugin-traffic-wake-turbulence/
+    /// @{
                                                                                                 
     /// @brief Fill in default wake turbulence support data based on Doc8643 wake turbulence category
     /// @param _bOverwriteAllFields If `false` only overwrites `NAN` values in `wakeTy`
@@ -560,7 +617,11 @@ public:
     virtual float GetAoA() const        { return GetPitch(); }          ///< Angle of Attach, returns pitch (but you can override in your class)
     virtual float GetLift() const       { return GetMass() * G_EARTH; } ///< Lift produced. You _should_ override to blend in/out for take-off/landing, but XPMP2 has no dynamic info of your plane, not even an on-the-ground flag
 
-    // The following is implemented in Map.cpp:
+    /// @}
+    /// @name Map Support
+    /// @note Implemented in Map.cpp
+    /// @{
+
     /// Determine which map icon to use for this aircraft
     void MapFindIcon ();
     /// Prepare map coordinates
@@ -571,8 +632,11 @@ public:
     /// Actually draw the map label
     void MapDrawLabel (XPLMMapLayerID inLayer, float yOfs);
     
-    // *** Sound Support *** is implemented in Sound.cpp:
-    
+    /// @}
+    /// @name Sound Support
+    /// @note Implemented in Sound.cpp
+    /// @{
+
     /// @brief Play a sound; a looping sound plays until explicitely stopped
     /// @param sndName One of the sounds available or registered with XPMP2, see XPMPSoundAdd() and XPMPSoundEnumerate()
     /// @param vol Volume level. 0 = silent, 1 = full. Negative level inverts the signal. Values larger than 1 amplify the signal.
@@ -581,13 +645,13 @@ public:
     
     /// @brief Stop a continuously playing sound
     /// @param pChn The channel returned by SoundLoopPlay()
-    static void SoundStop (FMOD_CHANNEL* pChn);
+    void SoundStop (FMOD_CHANNEL* pChn);
     
     /// @brief Sets the sound's volume (after applying master volume and Sound File's adjustments)
     /// @param pChn The channel returned by SoundLoopPlay()
     /// @param vol Volume level. 0 = silent, 1 = full. Negative level inverts the signal. Values larger than 1 amplify the signal.
     /// @param fVolAdj the volume adjustment from the Sound File; if not given then retrieved from the channel's user data
-    static void SoundVolume (FMOD_CHANNEL* pChn, float vol, float fVolAdj = NAN);
+    void SoundVolume (FMOD_CHANNEL* pChn, float vol, float fVolAdj = NAN);
     
     /// @brief Returns the name of the sound to play per event
     /// @details This standard implementation determines the engine sound via
@@ -597,8 +661,15 @@ public:
     virtual std::string SoundGetName (SoundEventsTy sndEvent) const;
 
 protected:
+
+    /// @}
+
     /// Internal: Flight loop callback function controlling update and movement of all planes
     static float FlightLoopCB (float, float, int, void*);
+
+    /// @name Internal Control Functions
+    /// @{
+
     /// Internal: This puts the instance into XP's sky and makes it move
     void DoMove ();
     /// Internal: Update the plane's distance/bearing from the camera location
@@ -617,12 +688,18 @@ protected:
     // The following functions are implemented in AIMultiplayer.cpp:
     /// Define the TCAS target index in use
     virtual void SetTcasTargetIdx (int _idx) { tcasTargetIdx = _idx; }
+
+    /// @}
+
     // These functions perform the TCAS target / multiplayer data updates
     friend void AIMultiUpdate ();
     friend size_t AIUpdateTCASTargets ();
     friend size_t AIUpdateMultiplayerDataRefs ();
     
-    // *** Sound Support *** is implemented in Sound.cpp:
+    /// @name Sound Support (internal)
+    /// @note Implemented in Sound.cpp
+    /// @{
+
     /// Update sound, like position and volume, called once per frame
     virtual void SoundUpdate ();
     /// Make sure a Sound Grp is available and update its 3D location
@@ -630,6 +707,7 @@ protected:
     /// Remove all sound, e.g. during destruction
     virtual void SoundRemoveAll ();
     
+    /// @}
 };
 
 /// Find aircraft by its plane ID, can return nullptr

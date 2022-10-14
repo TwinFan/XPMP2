@@ -73,6 +73,7 @@ public:
     
     char GetClassType () const      { return classification[0]; }
     char GetClassNumEng () const    { return classification[1]; }
+    int  GetNumEngines () const     { return ('0' <= classification[1] && classification[1] <= '9') ? classification[1] - '0' : 0; }
     char GetClassEngType () const   { return classification[2]; }
     bool HasRotor () const          { return (classification[0] == 'H' ||
                                               classification[0] == 'G'); }

@@ -312,20 +312,27 @@ public:
         SND_FLAPS,                          ///< Flaps extending/retracting (once per event), bases on GetFlapRatio()
         SND_NUM_EVENTS                      ///< Number of events (always last in `enum`)
     };
-    
+    /// List of FMOD channels
+    typedef std::list<FMOD_CHANNEL*> ChnListTy;
+
     /// @brief Which of the above sounds shall be hanled by XPMP2 automatically?
     /// @details Reset in your constructor if you want to handle some of them yourself
-    bool abSndAuto[SND_NUM_EVENTS] = { true, true, true, true, true };
+    bool abSndAuto[SND_NUM_EVENTS] = { true, true, false, false, false }; // TODO: Undo true, true, true };
+    /// @brief Minimum distance in [m] to play sound in full volume, the larger the 'louder' the aircraft
+    /// @details Initialized based on engine type and numbers, overwrite in your constructor if you want to control "size" of aircraft in terms of its sound volume
+    int sndMinDist = 50.0;
     
 protected:
-    /// The plane's channel group, e.g. used for 3D positioning
-    FMOD_CHANNELGROUP*  pChnGrp = nullptr;
     /// The audio channels per event type
     FMOD_CHANNEL*       apChn[SND_NUM_EVENTS] = { nullptr, nullptr, nullptr, nullptr, nullptr };
     /// If sound is triggered by the change of a (dataRef) value we need to keep track of the latest such value to be able to identify change
     float               afChnLastVal[SND_NUM_EVENTS] = { NAN, NAN, NAN, NAN, NAN };
     /// Is Low Pass Filter currently being active?
     bool                bChnLowPass = false;
+    /// Is sound for this aircraft currently muted?
+    bool                bChnMuted = false;
+    /// List of channels produced via calls to SoundPlay()
+    ChnListTy           chnList;
     
 private:
     bool bDestroyInst           = false;    ///< Instance to be destroyed in next flight loop callback?
@@ -639,9 +646,9 @@ public:
 
     /// @brief Play a sound; a looping sound plays until explicitely stopped
     /// @param sndName One of the sounds available or registered with XPMP2, see XPMPSoundAdd() and XPMPSoundEnumerate()
-    /// @param vol Volume level. 0 = silent, 1 = full. Negative level inverts the signal. Values larger than 1 amplify the signal.
+    /// @param vol [opt] Volume level. 0 = silent, 1 = full. Negative level inverts the signal. Values larger than 1 amplify the signal.
     /// @returns an FMOD sound channel, or `nullptr` if unsuccessful
-    FMOD_CHANNEL* SoundPlay (const std::string& sndName, float vol);
+    FMOD_CHANNEL* SoundPlay (const std::string& sndName, float vol = 1.0f);
     
     /// @brief Stop a continuously playing sound
     /// @param pChn The channel returned by SoundLoopPlay()
@@ -650,8 +657,10 @@ public:
     /// @brief Sets the sound's volume (after applying master volume and Sound File's adjustments)
     /// @param pChn The channel returned by SoundLoopPlay()
     /// @param vol Volume level. 0 = silent, 1 = full. Negative level inverts the signal. Values larger than 1 amplify the signal.
-    /// @param fVolAdj the volume adjustment from the Sound File; if not given then retrieved from the channel's user data
-    void SoundVolume (FMOD_CHANNEL* pChn, float vol, float fVolAdj = NAN);
+    void SoundVolume (FMOD_CHANNEL* pChn, float vol);
+    
+    /// @brief Mute/Unmute all sounds of the airplane temporarily
+    void SoundMuteAll (bool bMute);
     
     /// @brief Returns the name of the sound to play per event
     /// @details This standard implementation determines the engine sound via
@@ -700,10 +709,10 @@ protected:
     /// @note Implemented in Sound.cpp
     /// @{
 
+    /// Sound-related initializations, called by Create() and ChangeModel()
+    virtual void SoundSetup ();
     /// Update sound, like position and volume, called once per frame
     virtual void SoundUpdate ();
-    /// Make sure a Sound Grp is available and update its 3D location
-    bool SoundUpdateGrp ();
     /// Remove all sound, e.g. during destruction
     virtual void SoundRemoveAll ();
     

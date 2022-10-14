@@ -293,6 +293,9 @@ void Aircraft::Create (const std::string& _icaoType,
         ChangeModel(_icaoType, _icaoAirline, _livery);
     LOG_ASSERT(pCSLMdl);
     
+    // Setup sound for this aircraft
+    SoundSetup();
+    
     // add the aircraft to our global map and inform observers
     glob.mapAc.emplace(modeS_id,this);
     XPMPSendNotification(*this, xpmp_PlaneNotification_Created);
@@ -401,8 +404,10 @@ int Aircraft::ChangeModel (const std::string& _icaoType,
     WakeApplyDefaults(bChangeExisting);
     
     // inform observers in case this was an actual replacement change
-    if (bChangeExisting)
+    if (bChangeExisting) {
+        SoundSetup();
         XPMPSendNotification(*this, xpmp_PlaneNotification_ModelChanged);
+    }
 
     return q;
 }
@@ -832,6 +837,9 @@ void Aircraft::SetVisible (bool _bVisible)
         ResetTcasTargetIdx();
         DestroyInstances();
     }
+    
+    // (Un)mute Sound
+    SoundMuteAll(!bVisible);
 }
 
 // Switch rendering of the CSL model on or off

@@ -388,12 +388,10 @@ void XPMPSoundMute (bool bMute);
 /// @param sName A descriptive name, used as a key to refer to this sound later
 /// @param filePath Path to the sound file; a relative path is relative to `resourceDir` as set by XPMPMultiplayerInit()
 /// @param bLoop Is this sound to be played in a loop?
-/// @param fVolAdj [opt] Volume Adjustment factor for this particular sound, `>1` amplifies
 /// @return Empty string in case of success, otherwise a human-readable error message.
 const char* XPMPSoundAdd (const char* sName,
                           const char* filePath,
-                          bool bLoop,
-                          float fVolAdj = 1.0f);
+                          bool bLoop);
 
 /// @brief Enumerate all sounds, including the internal ones
 /// @param prevName `nullptr` or empty string to start from beginning, last returned name to continue with next sound

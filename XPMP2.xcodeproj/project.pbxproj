@@ -19,7 +19,6 @@
 		255EC99228E3871100F99F93 /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 255EC99028E3871100F99F93 /* Sound.cpp */; };
 		255EC99328E3871100F99F93 /* Sound.h in Headers */ = {isa = PBXBuildFile; fileRef = 255EC99128E3871100F99F93 /* Sound.h */; };
 		255EC99728E4F06900F99F93 /* libfmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 255EC99628E4F06900F99F93 /* libfmod.dylib */; };
-		255EC99828E4F06900F99F93 /* libfmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 255EC99628E4F06900F99F93 /* libfmod.dylib */; };
 		255EC99928E4F06900F99F93 /* libfmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 255EC99628E4F06900F99F93 /* libfmod.dylib */; };
 		255EC99B28E4F08300F99F93 /* XPLM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 255EC99A28E4F08300F99F93 /* XPLM.framework */; };
 		255EC99C28E4F08300F99F93 /* XPLM.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 255EC99A28E4F08300F99F93 /* XPLM.framework */; };
@@ -29,6 +28,7 @@
 		256EE0102540E39D0007D517 /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 256EE00F2540E39D0007D517 /* Utilities.cpp */; };
 		2575F45423EDFC5E00747524 /* Map.h in Headers */ = {isa = PBXBuildFile; fileRef = 2575F45223EDFC5E00747524 /* Map.h */; };
 		2575F45523EDFC5E00747524 /* Map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2575F45323EDFC5E00747524 /* Map.cpp */; };
+		2589178328F9F937003A3544 /* libfmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 255EC99628E4F06900F99F93 /* libfmod.dylib */; };
 		2589B84A23CB4D6F005B76B8 /* RelatedDoc8643.h in Headers */ = {isa = PBXBuildFile; fileRef = 2589B84823CB4D6F005B76B8 /* RelatedDoc8643.h */; };
 		2589B84B23CB4D6F005B76B8 /* RelatedDoc8643.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2589B84923CB4D6F005B76B8 /* RelatedDoc8643.cpp */; };
 		2599B91923BF636E00F92BB5 /* Aircraft.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2599B91823BF636E00F92BB5 /* Aircraft.cpp */; };
@@ -125,6 +125,7 @@
 		2574E0052457842A000E8156 /* html */ = {isa = PBXFileReference; lastKnownFileType = folder; path = html; sourceTree = "<group>"; };
 		2575F45223EDFC5E00747524 /* Map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Map.h; sourceTree = "<group>"; };
 		2575F45323EDFC5E00747524 /* Map.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Map.cpp; sourceTree = "<group>"; };
+		2589178128F762F9003A3544 /* libfmodL.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmodL.dylib; path = "XPMP2-Sample/lib/fmod/libfmodL.dylib"; sourceTree = "<group>"; };
 		2589B84823CB4D6F005B76B8 /* RelatedDoc8643.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RelatedDoc8643.h; sourceTree = "<group>"; };
 		2589B84923CB4D6F005B76B8 /* RelatedDoc8643.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RelatedDoc8643.cpp; sourceTree = "<group>"; };
 		2596FD482447226700C6A41E /* Doc8643.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Doc8643.txt; sourceTree = "<group>"; };
@@ -183,7 +184,7 @@
 			files = (
 				25D86CC8253E285F00424494 /* CoreFoundation.framework in Frameworks */,
 				255EC99C28E4F08300F99F93 /* XPLM.framework in Frameworks */,
-				255EC99828E4F06900F99F93 /* libfmod.dylib in Frameworks */,
+				2589178328F9F937003A3544 /* libfmod.dylib in Frameworks */,
 				25D86CCD253E289100424494 /* XPMP2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -324,6 +325,7 @@
 		25D86CC6253E285E00424494 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2589178128F762F9003A3544 /* libfmodL.dylib */,
 				255EC99628E4F06900F99F93 /* libfmod.dylib */,
 				255EC99A28E4F08300F99F93 /* XPLM.framework */,
 				25D86CC7253E285E00424494 /* CoreFoundation.framework */,

@@ -138,6 +138,22 @@ void CBPlaneNotifier(XPMPPlaneID            inPlaneID,
     }
 }
 
+#ifdef DEBUG
+/// Just for purposes of testing this functionality, we list all loaded sounds
+void DebugListLoadedSoundNames()
+{
+    int i = 0;
+    const char *filePath = nullptr, *sndName = nullptr;
+    for (sndName = XPMPSoundEnumerate(nullptr, &filePath);
+         sndName != nullptr;
+         sndName = XPMPSoundEnumerate(sndName, &filePath))
+    {
+        LogMsg("XPMP2-Sample: %2d. Sound: `%s`, loaded from `%s`",
+               ++i, sndName, filePath ? filePath : "?");
+    }
+}
+#endif
+
 //
 // MARK: Helper functions for position calculations
 //
@@ -995,6 +1011,12 @@ PLUGIN_API int XPluginEnable(void)
         LogMsg("XPMP2-Sample: Error while loading CSL packages: %s", res);
     }
 
+#ifdef DEBUG
+    // Just for purposes of testing this functionality, we list all loaded sounds
+    // (This is likely not required in your plugin)
+    DebugListLoadedSoundNames();
+#endif
+    
     // Now we also try to get control of AI planes. That's optional, though,
     // other plugins (like LiveTraffic, XSquawkBox, X-IvAp...)
     // could have control already

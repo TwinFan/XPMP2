@@ -892,3 +892,32 @@ const char* XPMPSoundAdd (const char* sName,
     // All good
     return "";
 }
+
+// Enumerate all sounds, including the internal ones
+const char* XPMPSoundEnumerate (const char* prevName, const char** ppFilePath)
+{
+    // No sounds available at all?
+    if (XPMP2::mapSound.empty())
+        return nullptr;
+    
+    auto sndIter = XPMP2::mapSound.end();
+    // Return first sound?
+    if (!prevName || !prevName[0])
+        sndIter = XPMP2::mapSound.begin();
+    else {
+        // Try finding the given `prevName` sound, then return next
+        sndIter = XPMP2::mapSound.find(prevName);
+        if (sndIter != XPMP2::mapSound.end())
+            sndIter++;
+    }
+    
+    // Not found anything anymore?
+    if (sndIter == XPMP2::mapSound.end()) {
+        if (ppFilePath) *ppFilePath = nullptr;
+        return nullptr;
+    } else {
+        // Return the found element
+        if (ppFilePath) *ppFilePath = sndIter->second.filePath.c_str();
+        return sndIter->first.c_str();
+    }
+}

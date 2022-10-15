@@ -59,6 +59,7 @@
 #define _XPLMMultiplayer_h_
 
 #include <string>
+#include <cmath>
 #include "XPLMDefs.h"
 
 #ifdef __cplusplus
@@ -388,10 +389,18 @@ void XPMPSoundMute (bool bMute);
 /// @param sName A descriptive name, used as a key to refer to this sound later
 /// @param filePath Path to the sound file; a relative path is relative to `resourceDir` as set by XPMPMultiplayerInit()
 /// @param bLoop Is this sound to be played in a loop?
+/// @param coneDir [opt] Which direction relative to plane's heading does the cone point to? (180 would be typical for jet engines)
+/// @param conePitch [opt] Which pitch does the cone point to (up/down)? (0 would be typical, ie. level with the plane)
+/// @param coneInAngle [opt] Inside cone angle. This is the angle spread within which the sound is unattenuated.
+/// @param coneOutAngle [opt] Outside cone angle. This is the angle spread outside of which the sound is attenuated to its `coneOutVol`.
+/// @param coneOutVol [opt] Cone outside volume.
 /// @return Empty string in case of success, otherwise a human-readable error message.
 const char* XPMPSoundAdd (const char* sName,
                           const char* filePath,
-                          bool bLoop);
+                          bool bLoop,
+                          float coneDir = NAN, float conePitch = NAN,
+                          float coneInAngle = NAN, float coneOutAngle = NAN,
+                          float coneOutVol = NAN);
 
 /// @brief Enumerate all sounds, including the internal ones
 /// @param prevName `nullptr` or empty string to start from beginning, last returned name to continue with next sound

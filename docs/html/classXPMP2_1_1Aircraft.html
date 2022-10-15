@@ -562,7 +562,7 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a8f5bfa2ee408382168b2ccef6aafb20c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPMultiplayer_8h.html#structXPMPInfoTexts__t">XPMPInfoTexts_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a8f5bfa2ee408382168b2ccef6aafb20c">acInfoTexts</a></td></tr>
 <tr class="memdesc:a8f5bfa2ee408382168b2ccef6aafb20c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Informational texts passed on via multiplayer shared dataRefs.  <a href="classXPMP2_1_1Aircraft.html#a8f5bfa2ee408382168b2ccef6aafb20c">More...</a><br /></td></tr>
 <tr class="separator:a8f5bfa2ee408382168b2ccef6aafb20c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e8542fd3ae44b9ff20cb950b9388b88"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a8e8542fd3ae44b9ff20cb950b9388b88">abSndAuto</a> [<a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336ad77fac2238d59d130d2f38d4560f9d11">SND_NUM_EVENTS</a>] = { true, true, false, false, false }</td></tr>
+<tr class="memitem:a8e8542fd3ae44b9ff20cb950b9388b88"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a8e8542fd3ae44b9ff20cb950b9388b88">abSndAuto</a> [<a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336ad77fac2238d59d130d2f38d4560f9d11">SND_NUM_EVENTS</a>] = { true, true, true, true, true }</td></tr>
 <tr class="memdesc:a8e8542fd3ae44b9ff20cb950b9388b88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Which of the above sounds shall be hanled by <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> automatically?  <a href="classXPMP2_1_1Aircraft.html#a8e8542fd3ae44b9ff20cb950b9388b88">More...</a><br /></td></tr>
 <tr class="separator:a8e8542fd3ae44b9ff20cb950b9388b88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad74a4af3c57bda4235c2a1b09c50c241"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ad74a4af3c57bda4235c2a1b09c50c241">sndMinDist</a> = 50.0</td></tr>
@@ -701,6 +701,9 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:ae96813e1591cc8662ebb38e1cbb7dfba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1Aircraft.html#aa0adb2f6532027d67f3ce815963191ee">ChnListTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ae96813e1591cc8662ebb38e1cbb7dfba">chnList</a></td></tr>
 <tr class="memdesc:ae96813e1591cc8662ebb38e1cbb7dfba"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of channels produced via calls to <a class="el" href="classXPMP2_1_1Aircraft.html#ad19d56d9025d6fabafc1958c2badd0cc" title="Play a sound; a looping sound plays until explicitely stopped.">SoundPlay()</a>  <a href="classXPMP2_1_1Aircraft.html#ae96813e1591cc8662ebb38e1cbb7dfba">More...</a><br /></td></tr>
 <tr class="separator:ae96813e1591cc8662ebb38e1cbb7dfba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4c71e970690123306301ee261e58451"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ad4c71e970690123306301ee261e58451">skipCounter</a> = 0</td></tr>
+<tr class="memdesc:ad4c71e970690123306301ee261e58451"><td class="mdescLeft">&#160;</td><td class="mdescRight">Counts how often we skipped expensive computations.  <a href="classXPMP2_1_1Aircraft.html#ad4c71e970690123306301ee261e58451">More...</a><br /></td></tr>
+<tr class="separator:ad4c71e970690123306301ee261e58451"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -4555,7 +4558,7 @@ Friends</h2></td></tr>
 <p>Play a sound; a looping sound plays until explicitely stopped. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">sndName</td><td>One of the sounds available or registered with <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>, see <a class="el" href="XPMPMultiplayer_8h.html#a5f1f208064c1907ff0fab59605f2fea4" title="Add a sound that can later be referenced from an XPMP2::Aircraft.">XPMPSoundAdd()</a> and <a class="el" href="XPMPMultiplayer_8h.html#a69b4a4dc625deaec2d764d3e6a4c185b" title="Enumerate all sounds, including the internal ones.">XPMPSoundEnumerate()</a> </td></tr>
+    <tr><td class="paramname">sndName</td><td>One of the sounds available or registered with <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>, see <a class="el" href="XPMPMultiplayer_8h.html#a312fc6a5b8b9389386606f89eaf69d6c" title="Add a sound that can later be referenced from an XPMP2::Aircraft.">XPMPSoundAdd()</a> and <a class="el" href="XPMPMultiplayer_8h.html#a69b4a4dc625deaec2d764d3e6a4c185b" title="Enumerate all sounds, including the internal ones.">XPMPSoundEnumerate()</a> </td></tr>
     <tr><td class="paramname">vol</td><td>[opt] Volume level. 0 = silent, 1 = full. Negative level inverts the signal. Values larger than 1 amplify the signal. </td></tr>
   </table>
   </dd>
@@ -4902,7 +4905,7 @@ Friends</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool XPMP2::Aircraft::abSndAuto[<a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336ad77fac2238d59d130d2f38d4560f9d11">SND_NUM_EVENTS</a>] = { true, true, false, false, false }</td>
+          <td class="memname">bool XPMP2::Aircraft::abSndAuto[<a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336ad77fac2238d59d130d2f38d4560f9d11">SND_NUM_EVENTS</a>] = { true, true, true, true, true }</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -5753,6 +5756,30 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad4c71e970690123306301ee261e58451"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4c71e970690123306301ee261e58451">&#9670;&nbsp;</a></span>skipCounter</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int XPMP2::Aircraft::skipCounter = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Counts how often we skipped expensive computations. </p>
 
 </div>
 </div>

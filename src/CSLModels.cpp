@@ -496,7 +496,6 @@ void CSLModel::DecRefCnt ()
 // Static functions: Unload all objects which haven't been used for a while
 float CSLModel::GarbageCollection (float, float, int, void*)
 {
-    UPDATE_CYCLE_NUM;               // DEBUG only: Store current cycle number in glob.xpCycleNum
     const float now = GetMiscNetwTime();
     // loop all models
     for (auto& p: glob.mapCSLModels) {

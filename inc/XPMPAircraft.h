@@ -317,7 +317,7 @@ public:
 
     /// @brief Which of the above sounds shall be hanled by XPMP2 automatically?
     /// @details Reset in your constructor if you want to handle some of them yourself
-    bool abSndAuto[SND_NUM_EVENTS] = { true, true, false, false, false }; // TODO: Undo true, true, true };
+    bool abSndAuto[SND_NUM_EVENTS] = { true, true, true, true, true };
     /// @brief Minimum distance in [m] to play sound in full volume, the larger the 'louder' the aircraft
     /// @details Initialized based on engine type and numbers, overwrite in your constructor if you want to control "size" of aircraft in terms of its sound volume
     int sndMinDist = 50.0;
@@ -333,6 +333,8 @@ protected:
     bool                bChnMuted = false;
     /// List of channels produced via calls to SoundPlay()
     ChnListTy           chnList;
+    /// Counts how often we skipped expensive computations
+    int                 skipCounter = 0;
     
 private:
     bool bDestroyInst           = false;    ///< Instance to be destroyed in next flight loop callback?

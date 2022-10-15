@@ -45,6 +45,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
@@ -79,12 +80,28 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subclassing <a class="el" href="classXPCAircraft.html" title="Legacy wrapper class as provided by original libxplanemp.">XPCAircraft</a> to create our own class.  <a href="classLegacySampleAircraft.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a436f4a25041ecf7733f4d3aabedab2d7"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Sample_8cpp.html#a436f4a25041ecf7733f4d3aabedab2d7">MenuItemsTy</a> { <br />
+&#160;&#160;<a class="el" href="XPMP2-Sample_8cpp.html#a436f4a25041ecf7733f4d3aabedab2d7a86b0bc76781e6b4c5dff6d9c8485fdf7">MENU_PLANES</a> = 0
+, <a class="el" href="XPMP2-Sample_8cpp.html#a436f4a25041ecf7733f4d3aabedab2d7a73ebd5e7bdafebbf459608ec93462169">MENU_VISIBLE</a>
+, <a class="el" href="XPMP2-Sample_8cpp.html#a436f4a25041ecf7733f4d3aabedab2d7a89928488c4049ba8a45ab48a26d6a669">MENU_FREEZE</a>
+, <a class="el" href="XPMP2-Sample_8cpp.html#a436f4a25041ecf7733f4d3aabedab2d7aac61b8b44ee1d9eedaa211f573937cde">MENU_CYCLE_MDL</a>
+, <br />
+&#160;&#160;<a class="el" href="XPMP2-Sample_8cpp.html#a436f4a25041ecf7733f4d3aabedab2d7ad39246543ac2f4661897884cd11b0eb2">MENU_REMATCH_MDL</a>
+, <a class="el" href="XPMP2-Sample_8cpp.html#a436f4a25041ecf7733f4d3aabedab2d7a53a4f7a9da24fe46e059c017d9be6aff">MENU_AI</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a436f4a25041ecf7733f4d3aabedab2d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of all menu item indexes.  <a href="XPMP2-Sample_8cpp.html#a436f4a25041ecf7733f4d3aabedab2d7">More...</a><br /></td></tr>
+<tr class="separator:a436f4a25041ecf7733f4d3aabedab2d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a482f90afe71485780c137234d572c799"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Sample_8cpp.html#a482f90afe71485780c137234d572c799">LogMsg</a> (const char *szMsg,...)</td></tr>
 <tr class="memdesc:a482f90afe71485780c137234d572c799"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log a message to X-Plane's Log.txt with sprintf-style parameters.  <a href="XPMP2-Sample_8cpp.html#a482f90afe71485780c137234d572c799">More...</a><br /></td></tr>
 <tr class="separator:a482f90afe71485780c137234d572c799"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:accfea755be3f58d51c57997005b7a114"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Sample_8cpp.html#accfea755be3f58d51c57997005b7a114">CBIntPrefsFunc</a> (const char *, [[maybe_unused]] const char *item, int defaultVal)</td></tr>
+<tr class="memdesc:accfea755be3f58d51c57997005b7a114"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is a callback the <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> calls regularly to learn about configuration settings.  <a href="XPMP2-Sample_8cpp.html#accfea755be3f58d51c57997005b7a114">More...</a><br /></td></tr>
 <tr class="separator:accfea755be3f58d51c57997005b7a114"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab38e6357a4b37366d26136b2a3f6daea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Sample_8cpp.html#ab38e6357a4b37366d26136b2a3f6daea">CBPlaneNotifier</a> (<a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> inPlaneID, <a class="el" href="XPMPMultiplayer_8h.html#a85c39111f42dc5515b57593d6d0e59f4">XPMPPlaneNotification</a> inNotification, void *)</td></tr>
 <tr class="separator:ab38e6357a4b37366d26136b2a3f6daea"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -165,6 +182,9 @@ Functions</h2></td></tr>
 Variables</h2></td></tr>
 <tr class="memitem:a9985370f8f2f271b81228fe0e0111b4e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Sample_8cpp.html#a9985370f8f2f271b81228fe0e0111b4e">PLANE_MODEL</a> [3][3]</td></tr>
 <tr class="separator:a9985370f8f2f271b81228fe0e0111b4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e1ee6da3110f38e142dd65d9d6c1085"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Sample_8cpp.html#a5e1ee6da3110f38e142dd65d9d6c1085">gbFreeze</a> = false</td></tr>
+<tr class="memdesc:a5e1ee6da3110f38e142dd65d9d6c1085"><td class="mdescLeft">&#160;</td><td class="mdescRight">Freeze all movements at the moment?  <a href="XPMP2-Sample_8cpp.html#a5e1ee6da3110f38e142dd65d9d6c1085">More...</a><br /></td></tr>
+<tr class="separator:a5e1ee6da3110f38e142dd65d9d6c1085"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a25e1bdfa37f8993b8f682f128ec94c7d"><td class="memItemLeft" align="right" valign="top">constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMP2-Sample_8cpp.html#a25e1bdfa37f8993b8f682f128ec94c7d">PLANE_DIST_M</a> = 200.0f</td></tr>
 <tr class="memdesc:a25e1bdfa37f8993b8f682f128ec94c7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Distance of our simulated planes to the user's plane's position? [m].  <a href="XPMP2-Sample_8cpp.html#a25e1bdfa37f8993b8f682f128ec94c7d">More...</a><br /></td></tr>
 <tr class="separator:a25e1bdfa37f8993b8f682f128ec94c7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -283,6 +303,37 @@ z</td>
 
 </div>
 </div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a436f4a25041ecf7733f4d3aabedab2d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a436f4a25041ecf7733f4d3aabedab2d7">&#9670;&nbsp;</a></span>MenuItemsTy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="XPMP2-Sample_8cpp.html#a436f4a25041ecf7733f4d3aabedab2d7">MenuItemsTy</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>List of all menu item indexes. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a436f4a25041ecf7733f4d3aabedab2d7a86b0bc76781e6b4c5dff6d9c8485fdf7"></a>MENU_PLANES&#160;</td><td class="fielddoc"><p>Menu Item "Toggle Planes". </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a436f4a25041ecf7733f4d3aabedab2d7a73ebd5e7bdafebbf459608ec93462169"></a>MENU_VISIBLE&#160;</td><td class="fielddoc"><p>Menu Item "Toggle Visibility". </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a436f4a25041ecf7733f4d3aabedab2d7a89928488c4049ba8a45ab48a26d6a669"></a>MENU_FREEZE&#160;</td><td class="fielddoc"><p>Menu Item "Freeze". </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a436f4a25041ecf7733f4d3aabedab2d7aac61b8b44ee1d9eedaa211f573937cde"></a>MENU_CYCLE_MDL&#160;</td><td class="fielddoc"><p>Menu Item "Cycle Models". </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a436f4a25041ecf7733f4d3aabedab2d7ad39246543ac2f4661897884cd11b0eb2"></a>MENU_REMATCH_MDL&#160;</td><td class="fielddoc"><p>Menu Item "Rematch Models". </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a436f4a25041ecf7733f4d3aabedab2d7a53a4f7a9da24fe46e059c017d9be6aff"></a>MENU_AI&#160;</td><td class="fielddoc"><p>Menu Item "Toggle AI control". </p>
+</td></tr>
+</table>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ad484148df8ef3bdc1a98c2943e77817a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad484148df8ef3bdc1a98c2943e77817a">&#9670;&nbsp;</a></span>ArePlanesCreated()</h2>
@@ -342,7 +393,8 @@ z</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>This is a callback the <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> calls regularly to learn about configuration settings. Only 3 are left, all of them integers. </p>
+
+<p>This is a callback the <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> calls regularly to learn about configuration settings. </p>
 
 </div>
 </div>
@@ -604,9 +656,6 @@ z</td>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">float GetTimeFragment </td>
@@ -615,11 +664,6 @@ z</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Returns a number between 0.0 and 1.0, increasing over the course of 10 seconds, then restarting. </p>
@@ -631,9 +675,6 @@ z</td>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">float GetTimeUpDown </td>
@@ -642,11 +683,6 @@ z</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Returns a number between 0.0 and 1.0, going up and down over the course of 10 seconds. </p>
@@ -1048,6 +1084,22 @@ z</td>
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
+<a id="a5e1ee6da3110f38e142dd65d9d6c1085"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e1ee6da3110f38e142dd65d9d6c1085">&#9670;&nbsp;</a></span>gbFreeze</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool gbFreeze = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Freeze all movements at the moment? </p>
+
+</div>
+</div>
 <a id="ad8658397f9136b8879bd722bc3233b1b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad8658397f9136b8879bd722bc3233b1b">&#9670;&nbsp;</a></span>gbMapLabels</h2>
 
@@ -1240,7 +1292,7 @@ z</td>
 <div class="line">    { <span class="stringliteral">&quot;B06&quot;</span>,  <span class="stringliteral">&quot;TXB&quot;</span>, <span class="stringliteral">&quot;&quot;</span> },</div>
 <div class="line">    { <span class="stringliteral">&quot;A321&quot;</span>, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;&quot;</span> },         </div>
 <div class="line">}</div>
-</div><!-- fragment --><p>Initial type / airline / livery to be used to create our 3 planes </p><dl class="section see"><dt>See also</dt><dd><a href="https://www.icao.int/publications/DOC8643/Pages/Search.aspx">https://www.icao.int/publications/DOC8643/Pages/Search.aspx</a> for ICAO aircraft types</dd>
+</div><!-- fragment --><p>Initial type / airline / livery to be used to create our 3 planes </p><dl class="section see"><dt>See also</dt><dd><a href="https://www.icao.int/publications/DOC8643/Pages/Search.aspx">https://www.icao.int/publications/DOC8643/Pages/Search.aspx</a> for ICAO aircraft types </dd>
 <dd>
 <a href="https://forums.x-plane.org/index.php?/files/file/37041-bluebell-obj8-csl-packages/">https://forums.x-plane.org/index.php?/files/file/37041-bluebell-obj8-csl-packages/</a> for the Bluebell package, which includes the models named here </dd></dl>
 

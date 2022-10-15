@@ -245,13 +245,8 @@ public:
     /// When has `prevCamera` been updated last?
     float prevCamera_ts = 0.0f;
 
-#ifdef DEBUG
     /// Current XP cycle number (see XPLMGetCycleNumber())
     int             xpCycleNum = 0;
-#define UPDATE_CYCLE_NUM glob.xpCycleNum=XPLMGetCycleNumber();
-#else
-#define UPDATE_CYCLE_NUM
-#endif
     
 protected:
     /// Current plane ID counter

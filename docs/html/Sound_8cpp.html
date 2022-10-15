@@ -92,8 +92,10 @@ Macros</h2></td></tr>
 <tr class="memitem:a47b55e9f6131ed3d24426097426246a5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Sound_8cpp.html#a47b55e9f6131ed3d24426097426246a5">FMOD_LOG</a>(fmodCall)</td></tr>
 <tr class="memdesc:a47b55e9f6131ed3d24426097426246a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Just log an error without raising an exception.  <a href="Sound_8cpp.html#a47b55e9f6131ed3d24426097426246a5">More...</a><br /></td></tr>
 <tr class="separator:a47b55e9f6131ed3d24426097426246a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23831420e34349638f25facfa1d84bfa"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Sound_8cpp.html#a23831420e34349638f25facfa1d84bfa">ADD_ONE</a>(s,  f,  l)&#160;&#160;&#160;if (!<a class="el" href="Sound_8cpp.html#a5f1f208064c1907ff0fab59605f2fea4">XPMPSoundAdd</a>(s,f,l)[0]) ++n;</td></tr>
-<tr class="separator:a23831420e34349638f25facfa1d84bfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6885e5ec5f84de451d94450765c72e7d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Sound_8cpp.html#a6885e5ec5f84de451d94450765c72e7d">ADD_SND</a>(s,  f,  l)&#160;&#160;&#160;if (!<a class="el" href="Sound_8cpp.html#a24c0c14c03ef0c0c6f13fe2807a7bef7">XPMPSoundAdd</a>(s,f,l)[0]) ++n;</td></tr>
+<tr class="separator:a6885e5ec5f84de451d94450765c72e7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a484c15581d488764e80809c798625edf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Sound_8cpp.html#a484c15581d488764e80809c798625edf">ADD_CONE</a>(s,  f,  l,  cd,  cp,  cia,  coa,  cov)&#160;&#160;&#160;if (!<a class="el" href="Sound_8cpp.html#a24c0c14c03ef0c0c6f13fe2807a7bef7">XPMPSoundAdd</a>(s,f,l,cd,cp,cia,coa,cov)[0]) ++n;</td></tr>
+<tr class="separator:a484c15581d488764e80809c798625edf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -103,6 +105,9 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a2d6616f63713cadf96dccec755e9a0ba"><td class="memItemLeft" align="right" valign="top">FMOD_VECTOR&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a2d6616f63713cadf96dccec755e9a0ba">XPMP2::HeadPitch2Vec</a> (const float head, const float pitch)</td></tr>
+<tr class="memdesc:a2d6616f63713cadf96dccec755e9a0ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert heading/pitch to normalized x/y/z vector.  <a href="namespaceXPMP2.html#a2d6616f63713cadf96dccec755e9a0ba">More...</a><br /></td></tr>
+<tr class="separator:a2d6616f63713cadf96dccec755e9a0ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af97f0e369158f033b192ece23752a67e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#af97f0e369158f033b192ece23752a67e">XPMP2::UseOldFmod</a> ()</td></tr>
 <tr class="memdesc:af97f0e369158f033b192ece23752a67e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use pre-v2 FMOD version structures?  <a href="namespaceXPMP2.html#af97f0e369158f033b192ece23752a67e">More...</a><br /></td></tr>
 <tr class="separator:af97f0e369158f033b192ece23752a67e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -126,6 +131,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:ac9528f39a8020557fb93fcdcbc081568"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper functon to set FMOD settings.  <a href="namespaceXPMP2.html#ac9528f39a8020557fb93fcdcbc081568">More...</a><br /></td></tr>
 <tr class="separator:ac9528f39a8020557fb93fcdcbc081568"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad443c432a7be5f795b9387064cd62e2b"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ad443c432a7be5f795b9387064cd62e2b">XPMP2::SoundEventTxt</a> (Aircraft::SoundEventsTy e)</td></tr>
+<tr class="memdesc:ad443c432a7be5f795b9387064cd62e2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a text for the values of <a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336" title="Types of sound supported directly by XPMP2.">Aircraft::SoundEventsTy</a>.  <a href="namespaceXPMP2.html#ad443c432a7be5f795b9387064cd62e2b">More...</a><br /></td></tr>
 <tr class="separator:ad443c432a7be5f795b9387064cd62e2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b7f11ea031b0b223defbcbafce60bd5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a0b7f11ea031b0b223defbcbafce60bd5">XPMP2::SoundInit</a> ()</td></tr>
 <tr class="memdesc:a0b7f11ea031b0b223defbcbafce60bd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the sound module and load the sounds.  <a href="namespaceXPMP2.html#a0b7f11ea031b0b223defbcbafce60bd5">More...</a><br /></td></tr>
@@ -148,12 +154,15 @@ Functions</h2></td></tr>
 <tr class="memitem:a4bd3405ad71d776c058df6aaac6c0e52"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Sound_8cpp.html#a4bd3405ad71d776c058df6aaac6c0e52">XPMPSoundMute</a> (bool bMute)</td></tr>
 <tr class="memdesc:a4bd3405ad71d776c058df6aaac6c0e52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mute all sounds (temporarily)  <a href="Sound_8cpp.html#a4bd3405ad71d776c058df6aaac6c0e52">More...</a><br /></td></tr>
 <tr class="separator:a4bd3405ad71d776c058df6aaac6c0e52"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f1f208064c1907ff0fab59605f2fea4"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Sound_8cpp.html#a5f1f208064c1907ff0fab59605f2fea4">XPMPSoundAdd</a> (const char *sName, const char *filePath, bool bLoop)</td></tr>
-<tr class="memdesc:a5f1f208064c1907ff0fab59605f2fea4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a sound that can later be referenced from an <a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a>.  <a href="Sound_8cpp.html#a5f1f208064c1907ff0fab59605f2fea4">More...</a><br /></td></tr>
-<tr class="separator:a5f1f208064c1907ff0fab59605f2fea4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24c0c14c03ef0c0c6f13fe2807a7bef7"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Sound_8cpp.html#a24c0c14c03ef0c0c6f13fe2807a7bef7">XPMPSoundAdd</a> (const char *sName, const char *filePath, bool bLoop, float coneDir, float conePitch, float coneInAngle, float coneOutAngle, float coneOutVol)</td></tr>
+<tr class="memdesc:a24c0c14c03ef0c0c6f13fe2807a7bef7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a sound that can later be referenced from an <a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a>.  <a href="Sound_8cpp.html#a24c0c14c03ef0c0c6f13fe2807a7bef7">More...</a><br /></td></tr>
+<tr class="separator:a24c0c14c03ef0c0c6f13fe2807a7bef7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
+<tr class="memitem:acb0e37ce511f804b6d0372dc5c8d0441"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#acb0e37ce511f804b6d0372dc5c8d0441">XPMP2::EXP_COMP_SKIP_CYCLES</a> = 10</td></tr>
+<tr class="memdesc:acb0e37ce511f804b6d0372dc5c8d0441"><td class="mdescLeft">&#160;</td><td class="mdescRight">In how many cycles to skip expensive computations?  <a href="namespaceXPMP2.html#acb0e37ce511f804b6d0372dc5c8d0441">More...</a><br /></td></tr>
+<tr class="separator:acb0e37ce511f804b6d0372dc5c8d0441"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a74cc62d976c1af9444060b45582b7d07"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a74cc62d976c1af9444060b45582b7d07">XPMP2::FMOD_NUM_VIRT_CHANNELS</a> = 1000</td></tr>
 <tr class="memdesc:a74cc62d976c1af9444060b45582b7d07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of virtual channels during initialization.  <a href="namespaceXPMP2.html#a74cc62d976c1af9444060b45582b7d07">More...</a><br /></td></tr>
 <tr class="separator:a74cc62d976c1af9444060b45582b7d07"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -357,14 +366,78 @@ vol0virtualvol</td>
 </div>
 </div>
 <h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a23831420e34349638f25facfa1d84bfa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a23831420e34349638f25facfa1d84bfa">&#9670;&nbsp;</a></span>ADD_ONE</h2>
+<a id="a484c15581d488764e80809c798625edf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a484c15581d488764e80809c798625edf">&#9670;&nbsp;</a></span>ADD_CONE</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define ADD_ONE</td>
+          <td class="memname">#define ADD_CONE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">s, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">f, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">l, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">cd, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">cp, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">cia, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">coa, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">cov&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;if (!<a class="el" href="Sound_8cpp.html#a24c0c14c03ef0c0c6f13fe2807a7bef7">XPMPSoundAdd</a>(s,f,l,cd,cp,cia,coa,cov)[0]) ++n;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6885e5ec5f84de451d94450765c72e7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6885e5ec5f84de451d94450765c72e7d">&#9670;&nbsp;</a></span>ADD_SND</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ADD_SND</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">s, </td>
@@ -384,7 +457,7 @@ vol0virtualvol</td>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;if (!<a class="el" href="Sound_8cpp.html#a5f1f208064c1907ff0fab59605f2fea4">XPMPSoundAdd</a>(s,f,l)[0]) ++n;</td>
+          <td></td><td>&#160;&#160;&#160;if (!<a class="el" href="Sound_8cpp.html#a24c0c14c03ef0c0c6f13fe2807a7bef7">XPMPSoundAdd</a>(s,f,l)[0]) ++n;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -456,8 +529,8 @@ vol0virtualvol</td>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a5f1f208064c1907ff0fab59605f2fea4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5f1f208064c1907ff0fab59605f2fea4">&#9670;&nbsp;</a></span>XPMPSoundAdd()</h2>
+<a id="a24c0c14c03ef0c0c6f13fe2807a7bef7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24c0c14c03ef0c0c6f13fe2807a7bef7">&#9670;&nbsp;</a></span>XPMPSoundAdd()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -478,7 +551,37 @@ vol0virtualvol</td>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>bLoop</em>&#160;</td>
+          <td class="paramname"><em>bLoop</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>coneDir</em> = <code>NAN</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>conePitch</em> = <code>NAN</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>coneInAngle</em> = <code>NAN</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>coneOutAngle</em> = <code>NAN</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>coneOutVol</em> = <code>NAN</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -494,6 +597,11 @@ vol0virtualvol</td>
     <tr><td class="paramname">sName</td><td>A descriptive name, used as a key to refer to this sound later </td></tr>
     <tr><td class="paramname">filePath</td><td>Path to the sound file; a relative path is relative to <code>resourceDir</code> as set by <a class="el" href="XPMPMultiplayer_8h.html#a2dc9cac25ba883b352fd77c6cbd10460" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a> </td></tr>
     <tr><td class="paramname">bLoop</td><td>Is this sound to be played in a loop? </td></tr>
+    <tr><td class="paramname">coneDir</td><td>[opt] Which direction relative to plane's heading does the cone point to? (180 would be typical for jet engines) </td></tr>
+    <tr><td class="paramname">conePitch</td><td>[opt] Which pitch does the cone point to (up/down)? (0 would be typical, ie. level with the plane) </td></tr>
+    <tr><td class="paramname">coneInAngle</td><td>[opt] Inside cone angle. This is the angle spread within which the sound is unattenuated. </td></tr>
+    <tr><td class="paramname">coneOutAngle</td><td>[opt] Outside cone angle. This is the angle spread outside of which the sound is attenuated to its <code>coneOutVol</code>. </td></tr>
+    <tr><td class="paramname">coneOutVol</td><td>[opt] Cone outside volume. </td></tr>
   </table>
   </dd>
 </dl>

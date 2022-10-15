@@ -496,7 +496,7 @@ float Aircraft::FlightLoopCB(float _elapsedSinceLastCall, float, int _flCounter,
 {
     // This is a plugin entry function, so we try to catch all exceptions
     try {
-        UPDATE_CYCLE_NUM;               // DEBUG only: Store current cycle number in glob.xpCycleNum
+        glob.xpCycleNum=XPLMGetCycleNumber();       // Store current cycle number in glob.xpCycleNum
 
         // Update configuration
         glob.UpdateCfgVals();

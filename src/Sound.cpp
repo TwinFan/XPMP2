@@ -32,6 +32,8 @@
 
 namespace XPMP2 {
 
+FMOD_VECTOR HeadPitch2Vec (const float head, const float pitch);
+
 //
 // MARK: FMOD Old version Structures
 //
@@ -73,6 +75,7 @@ struct FMOD_10830_ADVANCEDSETTINGS
 // MARK: Global Variables and Types
 //
 
+constexpr int EXP_COMP_SKIP_CYCLES = 10;            ///< In how many cycles to skip expensive computations?
 constexpr int FMOD_NUM_VIRT_CHANNELS = 1000;        ///< Number of virtual channels during initialization
 constexpr float FMOD_LOW_PASS_GAIN   = 0.2f;        ///< Gain used when activating Low Pass filter
 
@@ -150,12 +153,20 @@ static FMOD_RESULT gFmodRes = FMOD_OK;
 // MARK: Sound Files
 //
 
-/// Represents a sound file
+/// @brief Represents a sound file
+/// @see For 3D cones also see https://www.fmod.com/docs/2.01/api/core-api-channelcontrol.html#channelcontrol_set3dconesettings
 class SoundFile {
 public:
     std::string filePath;           ///< File path to sound file
     bool bLoop = true;              ///< sound to be played in a loop?
     float fVolAdj = 1.0f;           ///< Volume Adjustment factor for this particular sound, `>1` amplifies
+    
+    // 3D Cone information, to be applied to the channel later when playing the sound
+    float coneDir = NAN;            ///< Which direction relative to plane's heading does the cone point to? (180 would be typical for jet engines)
+    float conePitch = NAN;          ///< Which pitch does the cone point to (up/down)? (0 would be typical, ie. level with the plane)
+    float coneInAngle = NAN;        ///< Inside cone angle. This is the angle spread within which the sound is unattenuated.
+    float coneOutAngle = NAN;       ///< Outside cone angle. This is the angle spread outside of which the sound is attenuated to its SoundFile::coneOutVol.
+    float coneOutVol = NAN;         ///< Cone outside volume.
 
 protected:
     FMOD_SOUND* pSound = nullptr;   ///< FMOD sound object
@@ -164,8 +175,12 @@ protected:
 public:
     /// @brief Construct a sound object from a file name and have it loaded asynchonously
     /// @throws FmodError in case of errors during `CreateSound`
-    SoundFile (const std::string& _filePath, bool _bLoop, float _fVolAdj) :
-    filePath(_filePath), bLoop(_bLoop), fVolAdj(_fVolAdj)
+    SoundFile (const std::string& _filePath, bool _bLoop, float _fVolAdj,
+               float _coneDir, float _conePitch,
+               float _coneInAngle, float _coneOutAngle, float _coneOutVol) :
+    filePath(_filePath), bLoop(_bLoop), fVolAdj(_fVolAdj),
+    coneDir(_coneDir), conePitch(_conePitch),
+    coneInAngle(_coneInAngle), coneOutAngle(_coneOutAngle), coneOutVol(_coneOutVol)
     {
         FMOD_TEST(FMOD_System_CreateSound(gpFmodSystem, filePath.c_str(),
                                           (bLoop ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF) |
@@ -201,40 +216,70 @@ public:
         return false;
     }
     
-    /// Play the sound
-    FMOD_CHANNEL* play (FMOD_CHANNELGROUP* pChGrp = nullptr, bool bPaused = false)
+    /// Has full cone information?
+    bool hasConeInfo () const
+    {
+        return
+            !std::isnan(coneDir) &&
+            !std::isnan(conePitch) &&
+            !std::isnan(coneInAngle) &&
+            !std::isnan(coneOutAngle) &&
+            !std::isnan(coneOutVol);
+    }
+    
+    /// @brief Play the sound
+    /// @param pChGrp The (aircraft's) channel group this sound is to be added to, can be `nullptr`
+    /// @param bPaused [opt] Shall channel stay paused after creation?
+    FMOD_CHANNEL* play (FMOD_CHANNELGROUP* pChGrp,
+                        bool bPaused = false)
     {
         FMOD_CHANNEL* pChn = nullptr;
         if (isReady()) {
             FMOD_LOG(FMOD_System_PlaySound(gpFmodSystem, pSound, pChGrp, bPaused, &pChn));
-            // TODO: Need to add orientation of sound cone
+            if (!pChn) return nullptr;
+            FMOD_LOG(FMOD_Channel_SetUserData(pChn, this));     // save pointer to this SoundFile as user data to the channel
+            if (hasConeInfo()) {
+                FMOD_LOG(FMOD_Channel_Set3DConeSettings(pChn, coneInAngle, coneOutAngle, coneOutVol));
+            }
         } else {
             LOG_MSG(logWARN, "Sound '%s' isn't ready yet, won't play now", filePath.c_str());
         }
         return pChn;
     }
     
+    /// @brief Set the channel's sound cone
+    /// @param pChn The channel, which is to be modified
+    /// @param acHead Aircraft's heading, used to calculate sound cone orientation
+    /// @param acPitch Aicraft's pitch, used to calculate sound cone orientation
+    void setConeOrientation (FMOD_CHANNEL* pChn, float acHead, float acPitch)
+    {
+        if (!hasConeInfo()) return;
+        FMOD_VECTOR coneVec = HeadPitch2Vec(acHead + coneDir, acPitch + conePitch);
+        FMOD_LOG(FMOD_Channel_Set3DConeOrientation(pChn, &coneVec));
+    }
+
     /// @brief Load fixed set of X-Plane-internal sounds
     /// @returns Number of loaded sounds
     static int LoadXPSounds ()
     {
         int n = 0;
-#define ADD_ONE(s,f,l,va) if (!XPMPSoundAdd(s,f,l,va)[0]) ++n;
+#define ADD_SND(s,f,l,va) if (!XPMPSoundAdd(s,f,l,va)[0]) ++n;
+#define ADD_CONE(s,f,l,va,cd,cp,cia,coa,cov) if (!XPMPSoundAdd(s,f,l,va,cd,cp,cia,coa,cov)[0]) ++n;
         // Engine sounds
-        ADD_ONE(XP_SOUND_ELECTRIC,          "Resources/sounds/engine/ENGINE_ELECTRIC_out.wav",          true,  20.0f);
-        ADD_ONE(XP_SOUND_HIBYPASSJET,       "Resources/sounds/engine/ENGINE_HI_BYPASS_JET_out.wav",     true,  20.0f);
-        ADD_ONE(XP_SOUND_LOBYPASSJET,       "Resources/sounds/engine/ENGINE_LO_BYPASS_JET_out.wav",     true,  20.0f);
-        ADD_ONE(XP_SOUND_TURBOPROP,         "Resources/sounds/engine/ENGINE_TURBOPROP_out.wav",         true,  20.0f);
-        ADD_ONE(XP_SOUND_PROP_AIRPLANE,     "Resources/sounds/engine/PROPELLER_OF_AIRPLANE_out.wav",    true,  20.0f);
-        ADD_ONE(XP_SOUND_PROP_HELI,         "Resources/sounds/engine/PROPELLER_OF_HELO_out.wav",        true,  20.0f);
-        ADD_ONE(XP_SOUND_REVERSE_THRUST,    "Resources/sounds/engine/REVERSE_THRUST_out.wav",           true,  20.0f);
+        ADD_SND(XP_SOUND_ELECTRIC,          "Resources/sounds/engine/ENGINE_ELECTRIC_out.wav",          true,  20.0f);
+        ADD_CONE(XP_SOUND_HIBYPASSJET,      "Resources/sounds/engine/ENGINE_HI_BYPASS_JET_out.wav",     true,  20.0f, 180.0f, 0.0f, 30.0f, 60.0f, 0.0f);
+        ADD_CONE(XP_SOUND_LOBYPASSJET,      "Resources/sounds/engine/ENGINE_LO_BYPASS_JET_out.wav",     true,  20.0f, 180.0f, 0.0f, 30.0f, 60.0f, 0.0f);
+        ADD_SND(XP_SOUND_TURBOPROP,         "Resources/sounds/engine/ENGINE_TURBOPROP_out.wav",         true,  20.0f);
+        ADD_SND(XP_SOUND_PROP_AIRPLANE,     "Resources/sounds/engine/PROPELLER_OF_AIRPLANE_out.wav",    true,  20.0f);
+        ADD_SND(XP_SOUND_PROP_HELI,         "Resources/sounds/engine/PROPELLER_OF_HELO_out.wav",        true,  20.0f);
+        ADD_SND(XP_SOUND_REVERSE_THRUST,    "Resources/sounds/engine/REVERSE_THRUST_out.wav",           true,  20.0f);
         
         // Rolling on the ground
-        ADD_ONE(XP_SOUND_ROLL_RUNWAY,       "Resources/sounds/contact/roll_runway.wav",                 true,   1.0f);
+        ADD_SND(XP_SOUND_ROLL_RUNWAY,       "Resources/sounds/contact/roll_runway.wav",                 true,   1.0f);
         
         // One-time sounds
-        ADD_ONE(XP_SOUND_FLAP,              "Resources/sounds/systems/flap.wav",                        false,  1.0f);
-        ADD_ONE(XP_SOUND_GEAR,              "Resources/sounds/systems/gear.wav",                        false,  1.0f);
+        ADD_SND(XP_SOUND_FLAP,              "Resources/sounds/systems/flap.wav",                        false,  1.0f);
+        ADD_SND(XP_SOUND_GEAR,              "Resources/sounds/systems/gear.wav",                        false,  1.0f);
         return n;
     }
 };
@@ -287,6 +332,7 @@ void SoundSetFmodSettings(T_ADVSET& advSet)
     FMOD_TEST(FMOD_System_SetAdvancedSettings(gpFmodSystem, (FMOD_ADVANCEDSETTINGS*)&advSet));
 }
 
+/// Return a text for the values of Aircraft::SoundEventsTy
 const char* SoundEventTxt (Aircraft::SoundEventsTy e)
 {
     switch (e) {
@@ -298,6 +344,27 @@ const char* SoundEventTxt (Aircraft::SoundEventsTy e)
         default:
             return "<unknown>";
     }
+}
+
+/// @brief Convert heading/pitch to normalized x/y/z vector
+/// @note Given all the trigonometric functions this is probably expensive,
+///       so use with care and avoid in flight loop callback when unnecessary.
+FMOD_VECTOR HeadPitch2Vec (const float head, const float pitch)
+{
+    // Subtracting 90 degress is because x coordinate is heading east,
+    // so 90 degrees is equivalent to x = 0
+    const float radHead = deg2rad(head - 90.0f);
+    const float radPitch = deg2rad(pitch);
+    // Have sinus/cosinus pre-computed and let the optimizer deal with reducing local variables
+    const float sinHead = std::sin(radHead);
+    const float cosHead = std::cos(radHead);
+    const float sinPitch = std::sin(radPitch);
+    const float cosPitch = std::cos(radPitch);
+    return FMOD_VECTOR {
+        cosHead * cosPitch,         // x
+        sinPitch,                   // y
+        sinHead * cosPitch          // z
+    };
 }
 
 //
@@ -313,12 +380,15 @@ FMOD_CHANNEL* Aircraft::SoundPlay (const std::string& sndName, float vol)
     // Have FMOD create the sound
     try {
         SoundFile& snd = mapSound.at(sndName);
-        FMOD_CHANNEL* pChn = snd.play(pChnGrp);
-        FMOD_Channel_SetUserData(pChn, &snd);       // save pointer to SoundFile as user data to the channel
-        SoundVolume(pChn, vol, snd.fVolAdj);        // Set volume
-        if (bChnLowPass) {                          // if currently active, also activate low pass filter on this new channel
+        FMOD_CHANNEL* pChn = snd.play(pChnGrp, true);           // Create paused(!) channel
+        if(!pChn) return nullptr;
+        
+        snd.setConeOrientation(pChn, GetHeading(), GetPitch()); // set cone orientation if there is one defined
+        SoundVolume(pChn, vol, snd.fVolAdj);                    // Set volume
+        if (bChnLowPass) {                                      // if currently active, also activate low pass filter on this new channel
             FMOD_LOG(FMOD_Channel_SetLowPassGain(pChn, FMOD_LOW_PASS_GAIN));
         }
+        FMOD_LOG(FMOD_Channel_SetPaused(pChn, false));          // un-pause
         return pChn;
     }
     // Raised by map.at if not finding the key
@@ -410,6 +480,12 @@ void Aircraft::SoundUpdate ()
             if (!bChnLowPass) { eLP = LP_Enable; bChnLowPass = true; }
         }
 
+        // Decide here already if this time we do expensive computations (like sound cone orientation)
+        bool bDoExpensiveComp = false;
+        if (++skipCounter > EXP_COMP_SKIP_CYCLES) {
+            skipCounter = 0;
+            bDoExpensiveComp = true;
+        }
         
         // --- Loop all Sound Definitions ---
         for (SoundEventsTy eSndEvent = SoundEventsTy(0);
@@ -491,8 +567,25 @@ void Aircraft::SoundUpdate ()
                     FMOD_LOG(FMOD_Channel_SetLowPassGain(chn,
                                                          eLP == LP_Enable ? FMOD_LOW_PASS_GAIN : 1.0f));
                 }
+                
+                // --- Expensive Compuations: Cone Orientation ---
+                if (bDoExpensiveComp && chn && pSnd && pSnd->hasConeInfo())
+                {
+                    pSnd->setConeOrientation(chn, GetHeading(), GetPitch());
+                }
+                
+                if (chn) {
+                    // TODO: Remove me
+                    float in = NAN, out = NAN, vol = NAN;
+                    FMOD_VECTOR vec { NAN, NAN, NAN };
+                    FMOD_Channel_Get3DConeSettings(chn, &in, &out, &vol);
+                    FMOD_Channel_Get3DConeOrientation(chn, &vec);
+                    if (in == out == vol)
+                        continue;
+                }
+                
             }
-            // No automatic handling of this even
+            // No automatic handling of this event
             else
             {
                 // So if there currently is a channel, remove it
@@ -704,7 +797,10 @@ void XPMPSoundMute(bool bMute)
 const char* XPMPSoundAdd (const char* sName,
                           const char* filePath,
                           bool bLoop,
-                          float fVolAdj)
+                          float fVolAdj,
+                          float coneDir, float conePitch,
+                          float coneInAngle, float coneOutAngle,
+                          float coneOutVol)
 {
     // Test file existence first before bothering
     if (!XPMP2::ExistsFile(filePath)) {
@@ -715,7 +811,10 @@ const char* XPMPSoundAdd (const char* sName,
     try {
         XPMP2::mapSound.emplace(std::piecewise_construct,
                                 std::forward_as_tuple(sName),
-                                std::forward_as_tuple(filePath,bLoop,fVolAdj));
+                                std::forward_as_tuple(filePath,bLoop,fVolAdj,
+                                                      coneDir, conePitch,
+                                                      coneInAngle, coneOutAngle,
+                                                      coneOutVol));
         LOG_MSG(XPMP2::logDEBUG, "Added%ssound '%s' from file '%s'",
                 bLoop ? " looping " : " ", sName, filePath);
     }

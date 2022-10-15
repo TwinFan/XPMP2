@@ -326,6 +326,8 @@ protected:
     float               afChnLastVal[SND_NUM_EVENTS] = { NAN, NAN, NAN, NAN, NAN };
     /// Is Low Pass Filter currently being active?
     bool                bChnLowPass = false;
+    /// Counts how often we skipped expensive computations
+    int                 skipCounter = 0;
     
 private:
     bool bDestroyInst           = false;    ///< Instance to be destroyed in next flight loop callback?

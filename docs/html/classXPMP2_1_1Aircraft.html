@@ -497,7 +497,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a21cc6547b402f4bf58c2ba69edaeff41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Actually draw the map label.  <a href="classXPMP2_1_1Aircraft.html#a21cc6547b402f4bf58c2ba69edaeff41">More...</a><br /></td></tr>
 <tr class="separator:a21cc6547b402f4bf58c2ba69edaeff41"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Sound Support</div></td></tr>
-<tr><td colspan="2"><div class="groupText"><dl class="section note"><dt>Note</dt><dd>Implemented in <a class="el" href="Sound_8cpp.html" title="Sound for aircraft, based on the FMOD library.">Sound.cpp</a> </dd></dl>
+<tr><td colspan="2"><div class="groupText"><dl class="section note"><dt>Note</dt><dd>Implemented in <a class="el" href="Sound_8cpp.html" title="Sound for aircraft, based on the FMOD library.">Sound.cpp</a> only if built with <code>INCLUDE_FMOD_SOUND</code> </dd></dl>
 </div></td></tr>
 <tr class="memitem:ad19d56d9025d6fabafc1958c2badd0cc"><td class="memItemLeft" align="right" valign="top">FMOD_CHANNEL *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ad19d56d9025d6fabafc1958c2badd0cc">SoundPlay</a> (const std::string &amp;sndName, float vol=1.0f)</td></tr>
 <tr class="memdesc:ad19d56d9025d6fabafc1958c2badd0cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Play a sound; a looping sound plays until explicitely stopped.  <a href="classXPMP2_1_1Aircraft.html#ad19d56d9025d6fabafc1958c2badd0cc">More...</a><br /></td></tr>
@@ -594,7 +594,7 @@ Protected Member Functions</h2></td></tr>
 <tr class="memdesc:a4f50879fcaff911cee0581733fdb4d3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define the TCAS target index in use.  <a href="classXPMP2_1_1Aircraft.html#a4f50879fcaff911cee0581733fdb4d3f">More...</a><br /></td></tr>
 <tr class="separator:a4f50879fcaff911cee0581733fdb4d3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Sound Support (internal)</div></td></tr>
-<tr><td colspan="2"><div class="groupText"><dl class="section note"><dt>Note</dt><dd>Implemented in <a class="el" href="Sound_8cpp.html" title="Sound for aircraft, based on the FMOD library.">Sound.cpp</a> </dd></dl>
+<tr><td colspan="2"><div class="groupText"><dl class="section note"><dt>Note</dt><dd>Implemented in <a class="el" href="Sound_8cpp.html" title="Sound for aircraft, based on the FMOD library.">Sound.cpp</a> only if built with <code>INCLUDE_FMOD_SOUND</code> </dd></dl>
 </div></td></tr>
 <tr class="memitem:ac7a342fc54cf4352a5131d00cddfec02"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ac7a342fc54cf4352a5131d00cddfec02">SoundSetup</a> ()</td></tr>
 <tr class="memdesc:ac7a342fc54cf4352a5131d00cddfec02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sound-related initializations, called by <a class="el" href="classXPMP2_1_1Aircraft.html#a7ece414d098de338e22e995ba4a696df" title="Creates a plane, only a valid operation if object was created using the default constructor.">Create()</a> and <a class="el" href="classXPMP2_1_1Aircraft.html#a8b79245eb13698da96e1239c010ec3bc" title="(Potentially) changes the plane&#39;s model after doing a new match attempt">ChangeModel()</a>  <a href="classXPMP2_1_1Aircraft.html#ac7a342fc54cf4352a5131d00cddfec02">More...</a><br /></td></tr>

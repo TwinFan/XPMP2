@@ -173,8 +173,10 @@ const char *    XPMPMultiplayerInit(const char* inPluginName,
     AIMultiInit();
     MapInit();
     RemoteInit();
+#ifdef INCLUDE_FMOD_SOUND
     if (glob.bSoundOnStartup)
         XPMPSoundEnable(true);
+#endif
     
     // Load related.txt
     ret = RelatedLoad(glob.pathRelated);
@@ -209,7 +211,9 @@ void XPMPMultiplayerCleanup()
     LOG_MSG(logINFO, "XPMP2 cleaning up...")
 
     // Cleanup all modules in revers order of initialization
+#ifdef INCLUDE_FMOD_SOUND
     SoundCleanup();
+#endif
     RemoteCleanup();
     MapCleanup();
     AIMultiCleanup();

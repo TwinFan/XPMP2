@@ -35,6 +35,11 @@
 /// @see        For a list of ICAO airline/operator codes see
 ///             https://en.wikipedia.org/wiki/List_of_airline_codes
 ///
+/// @note       Audio Engine is FMOD Studio by Firelight Technologies Pty Ltd.
+///             Understand FMOD [licensing](https://www.fmod.com/licensing) and
+///             [attribution requirements](https://www.fmod.com/attribution) first!\n
+///             Sound support is only included if built with CMake cache entry `INCLUDE_FMOD_SOUND`.\n
+///
 /// @author     Ben Supnik and Chris Serio
 /// @copyright  Copyright (c) 2004, Ben Supnik and Chris Serio.
 /// @author     Birger Hoppe
@@ -351,7 +356,7 @@ void XPMPMultiplayerCleanup();
 
 /// @brief Used to set the light textures for old OBJ7 models.
 /// @note  Unsupported with XPMP2, will always return "OBJ7 format is no longer supported"
-[[deprecated("Unsupported feature, will alsways return 'OBJ7 format is no longer supported'")]]
+[[deprecated("Unsupported feature, will always return 'OBJ7 format is no longer supported'")]]
 const char * XPMPMultiplayerOBJ7SupportEnable(const char * inTexturePath);
 
 /// @}
@@ -360,7 +365,11 @@ const char * XPMPMultiplayerOBJ7SupportEnable(const char * inTexturePath);
 * MARK: Sound
 ************************************************************************************/
 
+// Only included if specified. Understand FMOD licensing and attribution first!
+#ifdef INCLUDE_FMOD_SOUND
+
 /// @name Sound
+/// @note Only included if built with `INCLUDE_FMOD_SOUND`
 /// @{
 
 /// @brief Enable/Disable Sound
@@ -428,6 +437,8 @@ const char* XPMPSoundEnumerate (const char* prevName, const char** ppFilePath = 
 #define XP_SOUND_GEAR           "Gear"
 
 /// @}
+
+#endif // INCLUDE_FMOD_SOUND
 
 /************************************************************************************
 * MARK: AI / Multiplayer plane control

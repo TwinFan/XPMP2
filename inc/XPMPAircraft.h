@@ -301,6 +301,7 @@ protected:
     float               mapY = 0.0f;        ///< temporary: map coordinates (NAN = not to be drawn)
     std::string         mapLabel;           ///< label for map drawing
     
+#ifdef INCLUDE_FMOD_SOUND
     // *** Sound support ***
 public:
     /// Types of sound supported directly by XPMP2
@@ -335,6 +336,7 @@ protected:
     ChnListTy           chnList;
     /// Counts how often we skipped expensive computations
     int                 skipCounter = 0;
+#endif // INCLUDE_FMOD_SOUND
     
 private:
     bool bDestroyInst           = false;    ///< Instance to be destroyed in next flight loop callback?
@@ -641,9 +643,10 @@ public:
     /// Actually draw the map label
     void MapDrawLabel (XPLMMapLayerID inLayer, float yOfs);
     
+#ifdef INCLUDE_FMOD_SOUND
     /// @}
     /// @name Sound Support
-    /// @note Implemented in Sound.cpp
+    /// @note Implemented in Sound.cpp only if built with `INCLUDE_FMOD_SOUND`
     /// @{
 
     /// @brief Play a sound; a looping sound plays until explicitely stopped
@@ -670,6 +673,7 @@ public:
     ///          names for the other sound types.
     /// @note Override in derived class if you want to assign (some) sounds yourself
     virtual std::string SoundGetName (SoundEventsTy sndEvent) const;
+#endif
 
 protected:
 
@@ -707,8 +711,9 @@ protected:
     friend size_t AIUpdateTCASTargets ();
     friend size_t AIUpdateMultiplayerDataRefs ();
     
+#ifdef INCLUDE_FMOD_SOUND
     /// @name Sound Support (internal)
-    /// @note Implemented in Sound.cpp
+    /// @note Implemented in Sound.cpp only if built with `INCLUDE_FMOD_SOUND`
     /// @{
 
     /// Sound-related initializations, called by Create() and ChangeModel()
@@ -719,6 +724,7 @@ protected:
     virtual void SoundRemoveAll ();
     
     /// @}
+#endif
 };
 
 /// Find aircraft by its plane ID, can return nullptr

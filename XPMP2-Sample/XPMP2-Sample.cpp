@@ -138,7 +138,7 @@ void CBPlaneNotifier(XPMPPlaneID            inPlaneID,
     }
 }
 
-#ifdef DEBUG
+#if defined(DEBUG) && defined(INCLUDE_FMOD_SOUND)
 /// Just for purposes of testing this functionality, we list all loaded sounds
 void DebugListLoadedSoundNames()
 {
@@ -1011,7 +1011,7 @@ PLUGIN_API int XPluginEnable(void)
         LogMsg("XPMP2-Sample: Error while loading CSL packages: %s", res);
     }
 
-#ifdef DEBUG
+#if defined(DEBUG) && defined(INCLUDE_FMOD_SOUND)
     // Just for purposes of testing this functionality, we list all loaded sounds
     // (This is likely not required in your plugin)
     DebugListLoadedSoundNames();

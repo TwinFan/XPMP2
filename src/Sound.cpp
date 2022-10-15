@@ -1,5 +1,11 @@
 /// @file       Sound.cpp
 /// @brief      Sound for aircraft, based on the FMOD library
+///
+/// @note       Audio Engine is FMOD Studio by Firelight Technologies Pty Ltd.
+///             Understand FMOD [licensing](https://www.fmod.com/licensing) and
+///             [attribution requirements](https://www.fmod.com/attribution) first!\n
+///             Sound support is only included if built with CMake cache entry `INCLUDE_FMOD_SOUND`.\n
+///
 /// @see        FMOD Core API Guide
 ///             https://fmod.com/docs/2.02/api/core-guide.html
 /// @details    FMOD's C interface is used exclusively (and not the C++ ABI).

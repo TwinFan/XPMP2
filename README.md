@@ -67,6 +67,8 @@ The XPMP2 library has been successfully tested with
 - XPMP2 implements [instancing](https://developer.x-plane.com/sdk/XPLMInstance/),
   so it **requires X-Plane 11.10** or later
 - CSL models in **OBJ8 format** (ie. older OBJ7 models are no longer supported)
+- Potentially an FMOD license if built with sound support, see below in
+  [Sound Support by FMOD](#sound-support-by-fmod)
 
 ## Documentation: See [GitHub pages](https://twinfan.github.io/XPMP2/) ##
 
@@ -133,6 +135,20 @@ A plugin using XPMP2 can opt to provide its own values for even more
 precice results.
 
 Find [more details here](https://twinfan.github.io/XPMP2/Wake.html).
+
+### Sound Support by FMOD ###
+
+All displayed aircraft can produce sound in the 3D world for
+engine, reversers, taxiing, gear and flap movement.
+
+Audio Engine is FMOD Studio by Firelight Technologies Pty Ltd.
+Understand FMOD [licensing](https://www.fmod.com/licensing) and
+[attribution requirements](https://www.fmod.com/attribution) first,
+as they will apply to _your_ plugin if using XPMP2 with sound support.
+
+Hence, sound support is only included if XPMP2 is explicitely built with
+CMake cache entry `INCLUDE_FMOD_SOUND`, e.g. by doing
+`cmake -G Ninja -D INCLUDE_FMOD_SOUND=1 ..`
 
 ### Map Layer ###
 

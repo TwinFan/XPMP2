@@ -1,5 +1,11 @@
 # XPMP2 - Set up to be used in the provided docker environment to build lin and mac
 #         Set up to be used in a Visual Studio environment to build win (File > Open > Folder, then VS recognized the CMAKE configuration)
+#
+# If you want to build with FMOD sound support,
+# 1. Make sure to understand the FMOD license and attribution requirements:
+#    https://www.fmod.com/licensing
+#    https://www.fmod.com/attribution
+# 2. Define INCLUDE_FMOD_SOUND cache entry, e.g. using `cmake -G Ninja -D INCLUDE_FMOD_SOUND=1 ..`
 
 cmake_minimum_required(VERSION 3.16)
 
@@ -152,8 +158,6 @@ add_library(XPMP2 STATIC
     src/RelatedDoc8643.cpp
     src/Remote.h
     src/Remote.cpp
-    src/Sound.h
-    src/Sound.cpp
     src/Utilities.h
     src/Utilities.cpp
     src/XPMP2.h
@@ -169,7 +173,6 @@ target_include_directories(XPMP2
         ${CMAKE_CURRENT_SOURCE_DIR}/inc
     PRIVATE
 		${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/SDK/CHeaders/XPLM
-		${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/fmod/inc
 		${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
@@ -178,17 +181,28 @@ if (MINGW)
     target_link_libraries(XPMP2 mingw_stdthreads)
 endif()
 
-# FMOD Library
-list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/fmod")
-if(WIN32)
-    find_library(FMOD_LIBRARY NAMES fmod_vc.lib REQUIRED)
-elseif(APPLE)
-    find_library(FMOD_LIBRARY NAMES libfmod.dylib REQUIRED)
-elseif(UNIX AND NOT APPLE)
-    find_library(FMOD_LIBRARY NAMES libfmod.so REQUIRED)
+# FMOD Library only if requested
+if(INCLUDE_FMOD_SOUND)
+    # Compile options
+    add_compile_definitions(INCLUDE_FMOD_SOUND)
+    target_include_directories(XPMP2 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/fmod/inc)
+    target_sources(XPMP2 PRIVATE
+        src/Sound.h
+        src/Sound.cpp
+    )
+
+    # Link options
+    list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/fmod")
+    if(WIN32)
+        find_library(FMOD_LIBRARY NAMES fmod_vc.lib REQUIRED)
+    elseif(APPLE)
+        find_library(FMOD_LIBRARY NAMES libfmod.dylib REQUIRED)
+    elseif(UNIX AND NOT APPLE)
+        find_library(FMOD_LIBRARY NAMES libfmod.so REQUIRED)
+    endif()
+    message ("FMOD_LIBRARY                  = ${FMOD_LIBRARY}")
+    target_link_libraries(XPMP2 ${FMOD_LIBRARY})
 endif()
-message ("FMOD_LIBRARY                  = ${FMOD_LIBRARY}")
-target_link_libraries(XPMP2 ${FMOD_LIBRARY})
 
 # make it a framework
 if(APPLE)
@@ -258,7 +272,10 @@ target_include_directories(XPMP2-Remote PRIVATE
 add_dependencies(XPMP2-Remote XPMP2)
 
 # Link to the just built XPMP2 library
-target_link_libraries(XPMP2-Remote XPMP2 ${FMOD_LIBRARY})
+target_link_libraries(XPMP2-Remote XPMP2)
+if(INCLUDE_FMOD_SOUND)
+    target_link_libraries(XPMP2-Remote ${FMOD_LIBRARY})
+endif()
 
 # Link X-Plane plugin system libraries. They are only provided for OS X and Windows.
 if (WIN32 OR APPLE)
@@ -345,7 +362,10 @@ target_include_directories(XPMP2-Sample PRIVATE
 add_dependencies(XPMP2-Sample XPMP2)
 
 # Link to the just built XPMP2 library
-target_link_libraries(XPMP2-Sample XPMP2 ${FMOD_LIBRARY})
+target_link_libraries(XPMP2-Sample XPMP2)
+if(INCLUDE_FMOD_SOUND)
+    target_link_libraries(XPMP2-Sample ${FMOD_LIBRARY})
+endif()
 
 # Link X-Plane plugin system libraries. They are only provided for OS X and Windows.
 if (WIN32 OR APPLE)

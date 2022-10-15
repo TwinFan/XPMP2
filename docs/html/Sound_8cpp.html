@@ -157,6 +157,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a24c0c14c03ef0c0c6f13fe2807a7bef7"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Sound_8cpp.html#a24c0c14c03ef0c0c6f13fe2807a7bef7">XPMPSoundAdd</a> (const char *sName, const char *filePath, bool bLoop, float coneDir, float conePitch, float coneInAngle, float coneOutAngle, float coneOutVol)</td></tr>
 <tr class="memdesc:a24c0c14c03ef0c0c6f13fe2807a7bef7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a sound that can later be referenced from an <a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a>.  <a href="Sound_8cpp.html#a24c0c14c03ef0c0c6f13fe2807a7bef7">More...</a><br /></td></tr>
 <tr class="separator:a24c0c14c03ef0c0c6f13fe2807a7bef7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0acc031607c9380f083b16986774ec10"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Sound_8cpp.html#a0acc031607c9380f083b16986774ec10">XPMPSoundEnumerate</a> (const char *prevName, const char **ppFilePath)</td></tr>
+<tr class="memdesc:a0acc031607c9380f083b16986774ec10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerate all sounds, including the internal ones.  <a href="Sound_8cpp.html#a0acc031607c9380f083b16986774ec10">More...</a><br /></td></tr>
+<tr class="separator:a0acc031607c9380f083b16986774ec10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -175,6 +178,9 @@ Variables</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Sound for aircraft, based on the FMOD library. </p>
+<dl class="section note"><dt>Note</dt><dd>Audio Engine is FMOD Studio by Firelight Technologies Pty Ltd. Understand FMOD <a href="https://www.fmod.com/licensing">licensing</a> and <a href="https://www.fmod.com/attribution">attribution requirements</a> first!<br  />
+ Sound support is only included if built with CMake cache entry <code>INCLUDE_FMOD_SOUND</code>.<br  />
+ </dd></dl>
 <dl class="section see"><dt>See also</dt><dd>FMOD Core API Guide <a href="https://fmod.com/docs/2.02/api/core-guide.html">https://fmod.com/docs/2.02/api/core-guide.html</a></dd></dl>
 <p>FMOD's C interface is used exclusively (and not the C++ ABI). This is to ease handling of dynamic libaries between versions (XP11 is using FMOD 1.x while XP12 has upgraded to 2.x) and allows compiling with MingW.</p>
 <p>Some functionality looks like immitating FMOD's SoundGroup, but 3D positioning was unstable when used via SoundGroup, and the cone functionality did not work at all, so this file handles all sound channels individually. </p><dl class="section note"><dt>Note</dt><dd>If linking to the logging version of the FMOD API library (the one ending in <code>L</code>) and specifying a config item <code>log_level</code> of <code>0 = Debug</code> (see <a class="el" href="XPMPMultiplayer_8h.html#a002b2c41d868c6de5fdaec4edb0282f4" title="Definition for the type of configuration callback function.">XPMPIntPrefsFuncTy</a>) while initializing sound, ie. typically during the first call to <a class="el" href="XPMPMultiplayer_8h.html#a2dc9cac25ba883b352fd77c6cbd10460" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a>, then FMOD logging output is added to X-Plane's <code>Log.txt</code>. </dd></dl>
@@ -627,6 +633,45 @@ vol0virtualvol</td>
 
 <p>Enable/Disable Sound. </p>
 <p>Enable or disable sound support. The default on startup is controlled by the configuration item <code>sound / activate_sound</code>, which in turn defaults to <code>1</code>. </p><dl class="section return"><dt>Returns</dt><dd>Is sound now available? (Could still be <code>false</code> even in case of activation if there was a problem during sound initialization) </dd></dl>
+
+</div>
+</div>
+<a id="a0acc031607c9380f083b16986774ec10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0acc031607c9380f083b16986774ec10">&#9670;&nbsp;</a></span>XPMPSoundEnumerate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* XPMPSoundEnumerate </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>prevName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char **&#160;</td>
+          <td class="paramname"><em>ppFilePath</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enumerate all sounds, including the internal ones. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">prevName</td><td><code>nullptr</code> or empty string to start from beginning, last returned name to continue with next sound </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">ppFilePath</td><td>(optional) Receives pointer to file path </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Next sound's name. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>String pointers can change any frame. If you want to use the strings longer than immediately, make yourself a string copy. </dd></dl>
 
 </div>
 </div>

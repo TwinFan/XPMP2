@@ -197,9 +197,14 @@ void GlobVars::UpdateCfgVals ()
     else if (i < 0) remoteCfg = REMOTE_CFG_OFF;
     else            remoteCfg = REMOTE_CFG_ON;
 
+#ifdef INCLUDE_FMOD_SOUND
     // Ask for enabling sound and mute-on-pause
     bSoundOnStartup = prefsFuncInt(XPMP_CFG_SEC_SOUND, XPMP_CFG_ITM_ACTIVATE_SOUND, bSoundOnStartup) != 0;
     bSoundMuteOnPause = prefsFuncInt(XPMP_CFG_SEC_SOUND, XPMP_CFG_ITM_MUTE_ON_PAUSE, bSoundMuteOnPause) != 0;
+#else
+    bSoundOnStartup = false;
+    bSoundMuteOnPause = false;
+#endif
 
     // Ask for model matching logging
     bLogMdlMatch = prefsFuncInt(XPMP_CFG_SEC_DEBUG, XPMP_CFG_ITM_MODELMATCHING, bLogMdlMatch) != 0;

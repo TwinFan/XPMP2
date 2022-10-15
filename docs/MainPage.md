@@ -30,6 +30,14 @@ The following header file is for use by the "XPMP2 Remote Client":
 - XPMPRemote.h - Defines network functionality and data structure
   for synchronizing planes between networked computers. 
 
+### Sound Support by FMOD
+Audio Engine is FMOD Studio by Firelight Technologies Pty Ltd.
+Understand FMOD [licensing](https://www.fmod.com/licensing) and
+[attribution requirements](https://www.fmod.com/attribution) first!
+
+Sound support is only built if XPMP2 is built with CMake cache entry `INCLUDE_FMOD_SOUND`,
+e.g. by doing `cmake -G Ninja -D INCLUDE_FMOD_SOUND=1 ..`.
+
 Quick Links to Detailed Documentation:
 --
 

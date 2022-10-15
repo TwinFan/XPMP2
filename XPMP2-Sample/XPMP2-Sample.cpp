@@ -78,7 +78,6 @@
 
 /// Initial type / airline / livery to be used to create our 3 planes
 /// @see https://www.icao.int/publications/DOC8643/Pages/Search.aspx for ICAO aircraft types
-
 /// @see https://forums.x-plane.org/index.php?/files/file/37041-bluebell-obj8-csl-packages/ for the Bluebell package, which includes the models named here
 std::string PLANE_MODEL[3][3] = {
     { "DH8A", "BER", "" },
@@ -105,7 +104,6 @@ void LogMsg (const char* szMsg, ... )
 }
 
 /// This is a callback the XPMP2 calls regularly to learn about configuration settings.
-/// Only 3 are left, all of them integers.
 int CBIntPrefsFunc (const char *, [[maybe_unused]] const char * item, int defaultVal)
 {
     // We always want to replace dataRefs and textures upon load to make the most out of the .obj files
@@ -143,6 +141,9 @@ void CBPlaneNotifier(XPMPPlaneID            inPlaneID,
 //
 // MARK: Helper functions for position calculations
 //
+
+/// Freeze all movements at the moment?
+bool gbFreeze = false;
 
 /// Distance of our simulated planes to the user's plane's position? [m]
 constexpr float PLANE_DIST_M = 200.0f;
@@ -706,6 +707,14 @@ XPMPPlaneCallbackResult CBPlaneData (XPMPPlaneID         inPlane,
 /// menu id of our plugin's menu
 XPLMMenuID hMenu = nullptr;
 
+enum MenuItemsTy {
+    MENU_PLANES = 0,        ///< Menu Item "Toggle Planes"
+    MENU_VISIBLE,           ///< Menu Item "Toggle Visibility"
+    MENU_CYCLE_MDL,         ///< Menu Item "Cycle Models"
+    MENU_REMATCH_MDL,       ///< Menu Item "Rematch Models"
+    MENU_AI,                ///< Menu Item "Toggle AI control"
+};
+
 /// Planes currently visible?
 bool gbVisible = true;
 
@@ -857,9 +866,9 @@ void PlanesRematch ()
 
 void MenuUpdateCheckmarks ()
 {
-    XPLMCheckMenuItem(hMenu, 0, ArePlanesCreated()           ? xplm_Menu_Checked : xplm_Menu_Unchecked);
-    XPLMCheckMenuItem(hMenu, 1, gbVisible                    ? xplm_Menu_Checked : xplm_Menu_Unchecked);
-    XPLMCheckMenuItem(hMenu, 4, XPMPHasControlOfAIAircraft() ? xplm_Menu_Checked : xplm_Menu_Unchecked);
+    XPLMCheckMenuItem(hMenu, MENU_PLANES,   ArePlanesCreated()           ? xplm_Menu_Checked : xplm_Menu_Unchecked);
+    XPLMCheckMenuItem(hMenu, MENU_VISIBLE,  gbVisible                    ? xplm_Menu_Checked : xplm_Menu_Unchecked);
+    XPLMCheckMenuItem(hMenu, MENU_AI,       XPMPHasControlOfAIAircraft() ? xplm_Menu_Checked : xplm_Menu_Unchecked);
 }
 
 /// Callback function for the case that we might get AI access later
@@ -873,38 +882,36 @@ void CPRequestAIAgain (void*)
 /// Callback function for menu
 void CBMenu (void* /*inMenuRef*/, void* inItemRef)
 {
-    // Toggle plane visibility?
-    if (inItemRef == (void*)1)
+    switch (MenuItemsTy(reinterpret_cast<unsigned long long>(inItemRef)))
     {
-        if (ArePlanesCreated())
-            PlanesRemove();
-        else
-            PlanesCreate();
+        case MENU_PLANES:                       // Toggle planes?
+            if (ArePlanesCreated())
+                PlanesRemove();
+            else
+                PlanesCreate();
+            break;
+            
+        case MENU_VISIBLE:                      // Show/Hide Planes?
+            PlanesShowHide();
+            break;
+            
+        case MENU_CYCLE_MDL:                    // Cycle Models?
+            PlanesCycleModels();
+            break;
+
+        case MENU_REMATCH_MDL:                  // Rematch Models?
+            PlanesRematch();
+            break;
+            
+        case MENU_AI:                           // Toggle AI control?
+            if (XPMPHasControlOfAIAircraft())
+                XPMPMultiplayerDisable();
+            else
+                // When requested by menu we actually wait via callback to get control
+                XPMPMultiplayerEnable(CPRequestAIAgain);
+            break;
     }
-    // Show/Hide Planes?
-    else if (inItemRef == (void*)2)
-    {
-        PlanesShowHide();
-    }
-    // Cycle Models?
-    else if (inItemRef == (void*)3)
-    {
-        PlanesCycleModels();
-    }
-    // Rematch Models?
-    else if (inItemRef == (void*)4)
-    {
-        PlanesRematch();
-    }
-    // Toggle AI control?
-    else if (inItemRef == (void*)5)
-    {
-        if (XPMPHasControlOfAIAircraft())
-            XPMPMultiplayerDisable();
-        else
-            // When requested by menu we actually wait via callback to get control
-            XPMPMultiplayerEnable(CPRequestAIAgain);
-    }
+
     // Update menu items' checkmarks
     MenuUpdateCheckmarks();
 }
@@ -928,11 +935,11 @@ PLUGIN_API int XPluginStart(char* outName, char* outSig, char* outDesc)
     // Create the menu for the plugin
     int my_slot = XPLMAppendMenuItem(XPLMFindPluginsMenu(), "XPMP2 Sample", NULL, 0);
     hMenu = XPLMCreateMenu("XPMP2 Sample", XPLMFindPluginsMenu(), my_slot, CBMenu, NULL);
-    XPLMAppendMenuItem(hMenu, "Toggle Planes",      (void*)1, 0);
-    XPLMAppendMenuItem(hMenu, "Toggle Visibility",  (void*)2, 0);
-    XPLMAppendMenuItem(hMenu, "Cycle Models",       (void*)3, 0);
-    XPLMAppendMenuItem(hMenu, "Rematch Models",     (void*)4, 0);
-    XPLMAppendMenuItem(hMenu, "Toggle AI control",  (void*)5, 0);
+    XPLMAppendMenuItem(hMenu, "Toggle Planes",      (void*)MENU_PLANES, 0);
+    XPLMAppendMenuItem(hMenu, "Toggle Visibility",  (void*)MENU_VISIBLE, 0);
+    XPLMAppendMenuItem(hMenu, "Cycle Models",       (void*)MENU_CYCLE_MDL, 0);
+    XPLMAppendMenuItem(hMenu, "Rematch Models",     (void*)MENU_REMATCH_MDL, 0);
+    XPLMAppendMenuItem(hMenu, "Toggle AI control",  (void*)MENU_AI, 0);
     MenuUpdateCheckmarks();
 	return 1;
 }

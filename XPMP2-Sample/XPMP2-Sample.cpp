@@ -178,16 +178,26 @@ static XPLMDataRef dr_heading = XPLMFindDataRef("sim/flightmodel/position/psi");
 static XPLMDataRef dr_time = XPLMFindDataRef("sim/time/total_running_time_sec");    // float
 
 /// Returns a number between 0.0 and 1.0, increasing over the course of 10 seconds, then restarting
-inline float GetTimeFragment ()
+float GetTimeFragment ()
 {
+    static float lastVal = 0.0f;
+    
+    // Just keep returning last value while frozen
+    if (gbFreeze) return lastVal;
+    
     const float t = XPLMGetDataf(dr_time);
-    return std::fmod(t, PLANE_CIRCLE_TIME_S) / PLANE_CIRCLE_TIME_S;
+    return lastVal = std::fmod(t, PLANE_CIRCLE_TIME_S) / PLANE_CIRCLE_TIME_S;
 }
 
 /// Returns a number between 0.0 and 1.0, going up and down over the course of 10 seconds
-inline float GetTimeUpDown ()
+float GetTimeUpDown ()
 {
-    return std::abs(std::fmod(XPLMGetDataf(dr_time), PLANE_CIRCLE_TIME_S) / (PLANE_CIRCLE_TIME_S/2.0f) - 1.0f);
+    static float lastVal = 0.0f;
+    
+    // Just keep returning last value while frozen
+    if (gbFreeze) return lastVal;
+    
+    return lastVal = std::abs(std::fmod(XPLMGetDataf(dr_time), PLANE_CIRCLE_TIME_S) / (PLANE_CIRCLE_TIME_S/2.0f) - 1.0f);
 }
 
 /// Convert from degree to radians
@@ -707,9 +717,11 @@ XPMPPlaneCallbackResult CBPlaneData (XPMPPlaneID         inPlane,
 /// menu id of our plugin's menu
 XPLMMenuID hMenu = nullptr;
 
+/// List of all menu item indexes
 enum MenuItemsTy {
     MENU_PLANES = 0,        ///< Menu Item "Toggle Planes"
     MENU_VISIBLE,           ///< Menu Item "Toggle Visibility"
+    MENU_FREEZE,            ///< Menu Item "Freeze"
     MENU_CYCLE_MDL,         ///< Menu Item "Cycle Models"
     MENU_REMATCH_MDL,       ///< Menu Item "Rematch Models"
     MENU_AI,                ///< Menu Item "Toggle AI control"
@@ -868,6 +880,7 @@ void MenuUpdateCheckmarks ()
 {
     XPLMCheckMenuItem(hMenu, MENU_PLANES,   ArePlanesCreated()           ? xplm_Menu_Checked : xplm_Menu_Unchecked);
     XPLMCheckMenuItem(hMenu, MENU_VISIBLE,  gbVisible                    ? xplm_Menu_Checked : xplm_Menu_Unchecked);
+    XPLMCheckMenuItem(hMenu, MENU_FREEZE,   gbFreeze                     ? xplm_Menu_Checked : xplm_Menu_Unchecked);
     XPLMCheckMenuItem(hMenu, MENU_AI,       XPMPHasControlOfAIAircraft() ? xplm_Menu_Checked : xplm_Menu_Unchecked);
 }
 
@@ -893,6 +906,10 @@ void CBMenu (void* /*inMenuRef*/, void* inItemRef)
             
         case MENU_VISIBLE:                      // Show/Hide Planes?
             PlanesShowHide();
+            break;
+            
+        case MENU_FREEZE:                       // Freeze planes?
+            gbFreeze = !gbFreeze;
             break;
             
         case MENU_CYCLE_MDL:                    // Cycle Models?
@@ -937,6 +954,7 @@ PLUGIN_API int XPluginStart(char* outName, char* outSig, char* outDesc)
     hMenu = XPLMCreateMenu("XPMP2 Sample", XPLMFindPluginsMenu(), my_slot, CBMenu, NULL);
     XPLMAppendMenuItem(hMenu, "Toggle Planes",      (void*)MENU_PLANES, 0);
     XPLMAppendMenuItem(hMenu, "Toggle Visibility",  (void*)MENU_VISIBLE, 0);
+    XPLMAppendMenuItem(hMenu, "Freeze",             (void*)MENU_FREEZE, 0);
     XPLMAppendMenuItem(hMenu, "Cycle Models",       (void*)MENU_CYCLE_MDL, 0);
     XPLMAppendMenuItem(hMenu, "Rematch Models",     (void*)MENU_REMATCH_MDL, 0);
     XPLMAppendMenuItem(hMenu, "Toggle AI control",  (void*)MENU_AI, 0);

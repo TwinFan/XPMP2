@@ -8,7 +8,7 @@ on:
     inputs:
       flags:
         description: "Flags to be passed to CMake"
-        required: false
+        required: true
         type: string
         default: '-DINCLUDE_FMOD_SOUND=1'
 

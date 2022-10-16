@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v2       # must checkout before we can use our own actions
+      uses: actions/checkout@v3       # must checkout before we can use our own actions
     - name: Build
       uses: ./.github/actions/build-lin
       id: build
@@ -49,7 +49,7 @@ jobs:
         cp -a ./inc deploy-lib
         mv ./build-lin/libXPMP2.a deploy-lib/lib/lin
     - name: Upload XPMP2 lib
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: XPMP2-lib
         path: deploy-lib/*        # this way we keep the folder structure in the artifact
@@ -61,7 +61,7 @@ jobs:
     runs-on: macos-latest
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v2       # must checkout before we can use our own actions
+      uses: actions/checkout@v3       # must checkout before we can use our own actions
     - name: Build
       uses: ./.github/actions/build-mac
       id: build
@@ -107,7 +107,7 @@ jobs:
         mkdir -p deploy-lib/lib
         mv ./build-mac/XPMP2.framework deploy-lib/lib
     - name: Upload XPMP2 Framework
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: XPMP2-lib
         path: deploy-lib/*        # this way we keep the folder structure in the artifact
@@ -119,7 +119,7 @@ jobs:
     runs-on: windows-2022
     steps:
     - name: Checkout Code
-      uses: actions/checkout@v2       # must checkout before we can use our own actions
+      uses: actions/checkout@v3       # must checkout before we can use our own actions
     - name: Build
       uses: ./.github/actions/build-win
       id: build
@@ -146,7 +146,7 @@ jobs:
         mkdir -p deploy-lib/lib/win
         cp ./build-win/XPMP2.lib deploy-lib/lib/win
     - name: Upload XPMP2 lib
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: XPMP2-lib
         path: deploy-lib/*        # this way we keep the folder structure in the artifact

@@ -27,7 +27,7 @@ runs:
   steps:
   - name: Build
     shell: cmd
-    run: ${{ github.action_path }}\build-win.cmd "C:\Program Files\Microsoft Visual Studio\2022\Enterprise" build-win ${{ inputs.flags }}
+    run: ${{ github.action_path }}\build-win.cmd "C:\Program Files\Microsoft Visual Studio\2022\Enterprise" build-win "${{ inputs.flags }}"
   - name: Test for Target
     shell: bash
     env:

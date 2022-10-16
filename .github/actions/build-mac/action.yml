@@ -10,6 +10,9 @@ inputs:
     description: "Subfolder in which the executable is placed, is based on architecture like 'mac_x64'"
     required: true
     default: mac_x64
+  flags:
+    description: "Flags to be passed to CMake"
+    required: false
 
 outputs:
   xpl-file-name:
@@ -32,7 +35,7 @@ runs:
     run: |
       cd build-mac
       pwd
-      cmake -G Ninja ..
+      cmake -G Ninja ${{ inputs.flags }} ..
   - name: Build
     shell: bash
     run: |

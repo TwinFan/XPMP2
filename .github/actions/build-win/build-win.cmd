@@ -1,6 +1,7 @@
 @ECHO OFF
 
 REM We expect 2 parameters
+REM Additional parameters are passed through to CMake
 IF "%~1"=="" GOTO :PRINT_HELP
 IF "%~2"=="" GOTO :PRINT_HELP
 
@@ -20,7 +21,7 @@ PUSHD "%MY_BUILD_DIR%"
 IF %ERRORLEVEL% NEQ 0 EXIT /B %ERRORLEVEL%
 
 REM Create Makefile from CMakeLists.txt, using NMake output beacause NMake happens to be available
-CMAKE -G "NMake Makefiles" -DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo" -DCMAKE_MAKE_PROGRAM="nmake.exe" -DCMAKE_TOOLCHAIN_FILE="..\docker\Toolchain-msvc-x86-64.cmake" ..
+CMAKE -G "NMake Makefiles" -DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo" -DCMAKE_MAKE_PROGRAM="nmake.exe" -DCMAKE_TOOLCHAIN_FILE="..\docker\Toolchain-msvc-x86-64.cmake" %~3 %~4 %~5 ..
 IF %ERRORLEVEL% NEQ 0 EXIT /B %ERRORLEVEL%
 
 REM Perform the actual build

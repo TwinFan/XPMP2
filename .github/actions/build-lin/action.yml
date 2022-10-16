@@ -10,6 +10,9 @@ inputs:
     description: "Subfolder in which the executable is placed, is based on architecture like 'lin_x64'"
     required: true
     default: lin_x64
+  flags:
+    description: "Flags to be passed to CMake"
+    required: false
 
 outputs:
   xpl-file-name:
@@ -33,7 +36,7 @@ runs:
     run: |
       cd build-lin
       pwd
-      cmake -G Ninja ..
+      cmake -G Ninja ${{ inputs.flags }} ..
   - name: Build
     shell: bash
     run: |

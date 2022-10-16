@@ -19,10 +19,10 @@ bash_focal: .image_focal
 	docker run -it --rm -v "$(realpath ..):/build" --entrypoint bash $(container_focal)
 
 lin-bionic: .image_bionic
-	docker run -i --rm -v "$(realpath ..):/build" --entrypoint docker/build.sh $(container_bionic) $@
+	docker run -i --rm -v "$(realpath ..):/build" --entrypoint docker/build.sh $(container_bionic) $(FLAGS) $@
 
 lin win mac-arm mac-x86: .image_focal
-	docker run -i --rm -v "$(realpath ..):/build" --entrypoint docker/build.sh $(container_focal) $@
+	docker run -i --rm -v "$(realpath ..):/build" --entrypoint docker/build.sh $(container_focal) $(FLAGS) $@
 
 mac: mac-arm mac-x86
 	# Create universal binaries for XPMP2-Remote and XPMP2-Sample

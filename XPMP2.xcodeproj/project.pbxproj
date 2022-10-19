@@ -505,7 +505,7 @@
 		259FFDFC25A132EC00B6D553 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputFileListPaths = (
@@ -518,7 +518,7 @@
 			outputPaths = (
 				"${LT_LIB_DIR}/${WRAPPER_NAME}",
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Copy to LiveTraffic build dir if that exists (but don't fail)\nLT_LIB_DIR=\"${PROJECT_DIR}/../LiveTraffic/Lib/XPMP2\"\n[[ ! -d \"${LT_LIB_DIR}\" ]] && exit 0\nrm -Rf ${LT_LIB_DIR}/${WRAPPER_NAME}\ncp -af ${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME} ${LT_LIB_DIR}\n";
 			showEnvVarsInLog = 0;
@@ -636,6 +636,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
+					"INCLUDE_FMOD_SOUND=1",
 					"APL=1",
 					"IBM=0",
 					"LIN=0",
@@ -737,6 +738,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"NDEBUG=1",
+					"INCLUDE_FMOD_SOUND=1",
 					"APL=1",
 					"IBM=0",
 					"LIN=0",

@@ -83,6 +83,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1Aircraft_1_1wakeTy.html">XPMP2::Aircraft::wakeTy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wake dataRef support.  <a href="structXPMP2_1_1Aircraft_1_1wakeTy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:structXPMP2_1_1Aircraft_1_1SndChTy"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#structXPMP2_1_1Aircraft_1_1SndChTy">XPMP2::Aircraft::SndChTy</a></td></tr>
+<tr class="memdesc:structXPMP2_1_1Aircraft_1_1SndChTy"><td class="mdescLeft">&#160;</td><td class="mdescRight">Operational values per sound channel, that is triggered by a standard sound event.  <a href="classXPMP2_1_1Aircraft.html#structXPMP2_1_1Aircraft_1_1SndChTy">More...</a><br /></td></tr>
+<tr class="separator:structXPMP2_1_1Aircraft_1_1SndChTy"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1XPMP2Error.html">XPMP2::XPMP2Error</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> Exception class, e.g. thrown if there are no CSL models or duplicate modeS_ids when creating an <a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">Aircraft</a>.  <a href="classXPMP2_1_1XPMP2Error.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -227,6 +230,48 @@ ICAO airine/operator code. </td></tr>
 livery</td>
 <td class="fielddoc">
 special livery (not often used) </td></tr>
+</table>
+
+</div>
+</div>
+<a name="structXPMP2_1_1Aircraft_1_1SndChTy" id="structXPMP2_1_1Aircraft_1_1SndChTy"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structXPMP2_1_1Aircraft_1_1SndChTy">&#9670;&nbsp;</a></span>XPMP2::Aircraft::SndChTy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct XPMP2::Aircraft::SndChTy</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><p>Operational values per sound channel, that is triggered by a standard sound event. </p>
+</div><table class="fieldtable">
+<tr><th colspan="3">Class Members</th></tr>
+<tr><td class="fieldtype">
+<a id="addb3152c09f1da9806b272d133e8d8b5"></a>bool</td>
+<td class="fieldname">
+bAuto</td>
+<td class="fielddoc">
+Shall this sound event be handled automatically? (Set to false in your constructor or in <a class="el" href="classXPMP2_1_1Aircraft.html#ac7a342fc54cf4352a5131d00cddfec02" title="Sound-related initializations, called by Create() and ChangeModel()">Aircraft::SoundSetup()</a> if you want to control that event type yourself) </td></tr>
+<tr><td class="fieldtype">
+<a id="a0926bfe1fd880f653632dcdb235396be"></a>float</td>
+<td class="fieldname">
+lastDRVal</td>
+<td class="fielddoc">
+last observed dataRef value to see if sound is to be triggered </td></tr>
+<tr><td class="fieldtype">
+<a id="a56819f3dc6baa7b65eff91add3cd49a1"></a>FMOD_CHANNEL *</td>
+<td class="fieldname">
+pChn</td>
+<td class="fielddoc">
+channel playing the sound currently </td></tr>
+<tr><td class="fieldtype">
+<a id="ab2e792ed39e1161ce4fce4d691ca17a3"></a>float</td>
+<td class="fieldname">
+volAdj</td>
+<td class="fielddoc">
+Volume adjustment, fed from <a class="el" href="classXPMP2_1_1Aircraft.html#a37efba97b93d16aea2ba623bd411c9ee" title="Returns the name of the sound to play per event.">Aircraft::SoundGetName()</a> </td></tr>
 </table>
 
 </div>

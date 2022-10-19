@@ -146,9 +146,17 @@ Understand FMOD [licensing](https://www.fmod.com/licensing) and
 [attribution requirements](https://www.fmod.com/attribution) first,
 as they will apply to _your_ plugin if using XPMP2 with sound support.
 
-Hence, sound support is only included if XPMP2 is explicitely built with
-CMake cache entry `INCLUDE_FMOD_SOUND`, e.g. by doing
-`cmake -G Ninja -D INCLUDE_FMOD_SOUND=1 ..`
+Hence, sound support is only included if XPMP2 is built with CMake cache entry `INCLUDE_FMOD_SOUND`, which in turn defines a compile-time macro by the same name,
+e.g. by doing
+```
+cmake -G Ninja -DINCLUDE_FMOD_SOUND=1 ..
+```
+The Docker `Makefile` allows passing CMake parameters via the `FLAGS` macro:
+```
+make FLAGS=-DINCLUDE_FMOD_SOUND=1 {...platform(s)...}
+```
+The GitHub Actions triggered by default are building without FMOD support, too.
+Running "Build all Platforms" manually, though, allows to specify `FLAGS`.
 
 ### Map Layer ###
 

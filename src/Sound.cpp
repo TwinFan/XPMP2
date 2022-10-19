@@ -494,8 +494,12 @@ void Aircraft::SoundMuteAll (bool bMute)
 }
 
 // Returns the name of the sound to play per event
-std::string Aircraft::SoundGetName (SoundEventsTy sndEvent) const
+std::string Aircraft::SoundGetName (SoundEventsTy sndEvent, float& volAdj) const
 {
+    // The default is: The more engines, the louder;
+    // that not ownly goes for engine sounds, but also the rest will be bigger the bigger the plane
+    volAdj = float(pCSLMdl->GetNumEngines());
+    // Now go by event type:
     switch (sndEvent) {
         // Engine Sound is based on aircraft classification
         case SND_ENG:
@@ -506,7 +510,13 @@ std::string Aircraft::SoundGetName (SoundEventsTy sndEvent) const
                 return XP_SOUND_PROP_AIRPLANE;
             }
             // Now check out engine type and return proper sound name
-            if (pCSLMdl->HasRotor()) return XP_SOUND_PROP_HELI;
+            if (IsGroundVehicle()) {                                // We assume all ground vehicles are electric cars by now...they should be at least ;-)
+                return XP_SOUND_ELECTRIC;
+            }
+            if (pCSLMdl->HasRotor()) {
+                volAdj += 1.0f;                                     // Helis are loud anyway, but louder with more engines
+                return XP_SOUND_PROP_HELI;
+            }
             switch (pCSLMdl->GetClassEngType()) {
                 case 'E': return XP_SOUND_ELECTRIC;
                 case 'J': return pCSLMdl->GetClassNumEng() == '1' ? XP_SOUND_HIBYPASSJET : XP_SOUND_LOBYPASSJET;
@@ -519,10 +529,10 @@ std::string Aircraft::SoundGetName (SoundEventsTy sndEvent) const
             }
             
         // All other sound types have constant sounds assigned
-        case SND_REVERSE_THRUST: return XP_SOUND_REVERSE_THRUST;
-        case SND_TIRE: return XP_SOUND_ROLL_RUNWAY;
-        case SND_GEAR: return XP_SOUND_GEAR;
-        case SND_FLAPS: return XP_SOUND_FLAP;
+        case SND_REVERSE_THRUST:                        return XP_SOUND_REVERSE_THRUST;
+        case SND_TIRE:              volAdj *= 0.50f;    return XP_SOUND_ROLL_RUNWAY;
+        case SND_GEAR:              volAdj *= 0.25f;    return XP_SOUND_GEAR;   // that sound is too loud compared to engines, make it more quiet
+        case SND_FLAPS:             volAdj *= 0.25f;    return XP_SOUND_FLAP;   // that sound is too loud compared to engines, make it more quiet
             
         default:
             LOG_MSG(logERR, "Aircraft %08X (%s): Unknown Sound Event type %d, no sound name returned",
@@ -572,15 +582,14 @@ void Aircraft::SoundUpdate ()
         {
             // Simpler access to values indexed by the sound event:
             const SoundDefTy    &def        = gaSoundDef[eSndEvent];
-            FMOD_CHANNEL*       &chn        = apChn[eSndEvent];
-            float               &lastVal    = afChnLastVal[eSndEvent];
+            SndChTy             &sndCh      = aSndCh[eSndEvent];
 
             // Channel is no longer playing?
-            if (!SoundIsChnValid(chn))
-                chn = nullptr;
+            if (!SoundIsChnValid(sndCh.pChn))
+                sndCh.pChn = nullptr;
 
             // Automatic Handling of this event?
-            if (abSndAuto[eSndEvent])
+            if (sndCh.bAuto)
             {
                 assert(def.pVal);
                 const float fVal = (this->*def.pVal)();     // get the current (dataRef) value
@@ -592,52 +601,57 @@ void Aircraft::SoundUpdate ()
                     // Looping sound: Should there be sound?
                     if (fVal > def.valMin) {
                         // Set volume based on val (between min and max)
-                        const float vol = std::clamp<float>((fVal - def.valMin) / (def.valMax - def.valMin), 0.0f, 1.0f);
+                        float vol = std::clamp<float>((fVal - def.valMin) / (def.valMax - def.valMin), 0.0f, 1.0f);
                         // If there hasn't been a sound triggered do so now
-                        if (!chn) {
-                            chn = SoundPlay(SoundGetName(eSndEvent), vol);
+                        if (!sndCh.pChn) {
+                            const std::string sndName = SoundGetName(eSndEvent, sndCh.volAdj);
+                            vol *= sndCh.volAdj;
+                            sndCh.pChn = SoundPlay(sndName, vol);
                             LOG_MATCHING(logINFO, "Aircraft %08X (%s): Looping sound '%s' at volume %.2f for '%s'",
                                          modeS_id, GetFlightId().c_str(),
-                                         SoundGetName(eSndEvent).c_str(), vol, SoundEventTxt(eSndEvent));
+                                         sndName.c_str(), vol, SoundEventTxt(eSndEvent));
                         } else {
                             // Update the volume as it can change any time
-                            SoundVolume(chn, vol);
+                            SoundVolume(sndCh.pChn, vol * sndCh.volAdj);
                         }
                     } else {
                         // There should be no sound, remove it if there was one
-                        if (chn) {
-                            SoundStop(chn);
+                        if (sndCh.pChn) {
+                            SoundStop(sndCh.pChn);
                             LOG_MATCHING(logINFO, "Aircraft %08X (%s): Stopped sound for '%s'",
                                          modeS_id, GetFlightId().c_str(),
                                          SoundEventTxt(eSndEvent));
+                            sndCh.pChn = nullptr;
                         }
-                        chn = nullptr;
                     }
                 }
                 // --- One-time event ---
                 else
                 {
                     // Should there be sound because the value changed?
-                    if (!std::isnan(lastVal) && (lastVal != fVal)) {
+                    if (!std::isnan(sndCh.lastDRVal) && (sndCh.lastDRVal != fVal)) {
                         // If there hasn't been a sound triggered do so now
-                        if (!chn) {
-                            chn = SoundPlay(SoundGetName(eSndEvent));
+                        if (!sndCh.pChn) {
+                            const std::string sndName = SoundGetName(eSndEvent, sndCh.volAdj);
+                            sndCh.pChn = SoundPlay(sndName, sndCh.volAdj);
                             LOG_MATCHING(logINFO, "Aircraft %08X (%s): Playing sound '%s' once for '%s'",
                                          modeS_id, GetFlightId().c_str(),
-                                         SoundGetName(eSndEvent).c_str(), SoundEventTxt(eSndEvent));
+                                         sndName.c_str(), SoundEventTxt(eSndEvent));
                         }
                     } else {
                         // Now (more) value change, stop and remove the sound
-                        if (chn) SoundStop(chn);
-                        chn = nullptr;
+                        if (sndCh.pChn) {
+                            SoundStop(sndCh.pChn);
+                            sndCh.pChn = nullptr;
+                        }
                     }
                     // Remember the last value we've seen
-                    lastVal = fVal;
+                    sndCh.lastDRVal = fVal;
                 }
                 
                 // --- Low pass filter in case we're inside a cockpit ---
-                if (chn && eLP) {
-                    FMOD_LOG(FMOD_Channel_SetLowPassGain(chn,
+                if (sndCh.pChn && eLP) {
+                    FMOD_LOG(FMOD_Channel_SetLowPassGain(sndCh.pChn,
                                                          eLP == LP_Enable ? FMOD_LOW_PASS_GAIN : 1.0f));
                 }
             }
@@ -645,9 +659,9 @@ void Aircraft::SoundUpdate ()
             else
             {
                 // So if there currently is a channel, remove it
-                if (chn) {
-                    SoundStop(chn);
-                    chn = nullptr;
+                if (sndCh.pChn) {
+                    SoundStop(sndCh.pChn);
+                    sndCh.pChn = nullptr;
                 }
             }
         }
@@ -704,8 +718,8 @@ void Aircraft::SoundRemoveAll ()
     // All channels now to be stopped
     for (FMOD_CHANNEL* pChn: chnList)
         FMOD_Channel_Stop(pChn);
-    for (FMOD_CHANNEL* &chn: apChn)
-        chn = nullptr;
+    for (SndChTy &sndChn: aSndCh)
+        sndChn.pChn = nullptr;
 }
 
 

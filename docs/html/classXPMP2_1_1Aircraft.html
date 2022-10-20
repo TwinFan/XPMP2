@@ -565,9 +565,6 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a8f5bfa2ee408382168b2ccef6aafb20c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPMultiplayer_8h.html#structXPMPInfoTexts__t">XPMPInfoTexts_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a8f5bfa2ee408382168b2ccef6aafb20c">acInfoTexts</a></td></tr>
 <tr class="memdesc:a8f5bfa2ee408382168b2ccef6aafb20c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Informational texts passed on via multiplayer shared dataRefs.  <a href="classXPMP2_1_1Aircraft.html#a8f5bfa2ee408382168b2ccef6aafb20c">More...</a><br /></td></tr>
 <tr class="separator:a8f5bfa2ee408382168b2ccef6aafb20c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65870b2174593f3b7a5eadd680c2b67e"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="classXPMP2_1_1Aircraft.html#structXPMP2_1_1Aircraft_1_1SndChTy">XPMP2::Aircraft::SndChTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a65870b2174593f3b7a5eadd680c2b67e">abSndAuto</a> [<a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336ad77fac2238d59d130d2f38d4560f9d11">SND_NUM_EVENTS</a>] = { true, true, true, true, true }</td></tr>
-<tr class="memdesc:a65870b2174593f3b7a5eadd680c2b67e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Which of the above sounds shall be hanled by <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> automatically?  <a href="classXPMP2_1_1Aircraft.html#a65870b2174593f3b7a5eadd680c2b67e">More...</a><br /></td></tr>
-<tr class="separator:a65870b2174593f3b7a5eadd680c2b67e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad74a4af3c57bda4235c2a1b09c50c241"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ad74a4af3c57bda4235c2a1b09c50c241">sndMinDist</a> = 50.0</td></tr>
 <tr class="memdesc:ad74a4af3c57bda4235c2a1b09c50c241"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimum distance in [m] to play sound in full volume, the larger the 'louder' the aircraft.  <a href="classXPMP2_1_1Aircraft.html#ad74a4af3c57bda4235c2a1b09c50c241">More...</a><br /></td></tr>
 <tr class="separator:ad74a4af3c57bda4235c2a1b09c50c241"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -689,12 +686,9 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:ac4643c40c64cab40d598186048ddb607"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ac4643c40c64cab40d598186048ddb607">mapLabel</a></td></tr>
 <tr class="memdesc:ac4643c40c64cab40d598186048ddb607"><td class="mdescLeft">&#160;</td><td class="mdescRight">label for map drawing  <a href="classXPMP2_1_1Aircraft.html#ac4643c40c64cab40d598186048ddb607">More...</a><br /></td></tr>
 <tr class="separator:ac4643c40c64cab40d598186048ddb607"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6954e067c914e073a55520b779778a30"><td class="memItemLeft" align="right" valign="top">FMOD_CHANNEL *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a6954e067c914e073a55520b779778a30">apChn</a> [<a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336ad77fac2238d59d130d2f38d4560f9d11">SND_NUM_EVENTS</a>] = { nullptr, nullptr, nullptr, nullptr, nullptr }</td></tr>
-<tr class="memdesc:a6954e067c914e073a55520b779778a30"><td class="mdescLeft">&#160;</td><td class="mdescRight">The audio channels per event type.  <a href="classXPMP2_1_1Aircraft.html#a6954e067c914e073a55520b779778a30">More...</a><br /></td></tr>
-<tr class="separator:a6954e067c914e073a55520b779778a30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f0f0ffeb7a8d1436950e1678994a22e"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a1f0f0ffeb7a8d1436950e1678994a22e">afChnLastVal</a> [<a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336ad77fac2238d59d130d2f38d4560f9d11">SND_NUM_EVENTS</a>] = { NAN, NAN, NAN, NAN, NAN }</td></tr>
-<tr class="memdesc:a1f0f0ffeb7a8d1436950e1678994a22e"><td class="mdescLeft">&#160;</td><td class="mdescRight">If sound is triggered by the change of a (dataRef) value we need to keep track of the latest such value to be able to identify change.  <a href="classXPMP2_1_1Aircraft.html#a1f0f0ffeb7a8d1436950e1678994a22e">More...</a><br /></td></tr>
-<tr class="separator:a1f0f0ffeb7a8d1436950e1678994a22e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a025eb202941db585d65310205b6f89fa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1Aircraft.html#structXPMP2_1_1Aircraft_1_1SndChTy">SndChTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a025eb202941db585d65310205b6f89fa">aSndCh</a> [<a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336ad77fac2238d59d130d2f38d4560f9d11">SND_NUM_EVENTS</a>]</td></tr>
+<tr class="memdesc:a025eb202941db585d65310205b6f89fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Operational values per sound channel, that is triggered by a standard sound event.  <a href="classXPMP2_1_1Aircraft.html#a025eb202941db585d65310205b6f89fa">More...</a><br /></td></tr>
+<tr class="separator:a025eb202941db585d65310205b6f89fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3befbe91af24b5b12d14cd2037ee68dc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a3befbe91af24b5b12d14cd2037ee68dc">bChnLowPass</a> = false</td></tr>
 <tr class="memdesc:a3befbe91af24b5b12d14cd2037ee68dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is Low Pass Filter currently being active?  <a href="classXPMP2_1_1Aircraft.html#a3befbe91af24b5b12d14cd2037ee68dc">More...</a><br /></td></tr>
 <tr class="separator:a3befbe91af24b5b12d14cd2037ee68dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -4962,23 +4956,6 @@ Volume adjustment, fed from <a class="el" href="classXPMP2_1_1Aircraft.html#a37e
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a65870b2174593f3b7a5eadd680c2b67e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a65870b2174593f3b7a5eadd680c2b67e">&#9670;&nbsp;</a></span>abSndAuto</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct <a class="el" href="classXPMP2_1_1Aircraft.html#structXPMP2_1_1Aircraft_1_1SndChTy">XPMP2::Aircraft::SndChTy</a> XPMP2::Aircraft::abSndAuto[<a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336ad77fac2238d59d130d2f38d4560f9d11">SND_NUM_EVENTS</a>] = { true, true, true, true, true }</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Which of the above sounds shall be hanled by <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> automatically? </p>
-<p>Reset in your constructor if you want to handle some of them yourself </p>
-
-</div>
-</div>
 <a id="a30eb320779a4c94d4dab79eeacfad35f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a30eb320779a4c94d4dab79eeacfad35f">&#9670;&nbsp;</a></span>acIcaoAirline</h2>
 
@@ -5085,30 +5062,6 @@ Volume adjustment, fed from <a class="el" href="classXPMP2_1_1Aircraft.html#a37e
 
 </div>
 </div>
-<a id="a1f0f0ffeb7a8d1436950e1678994a22e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1f0f0ffeb7a8d1436950e1678994a22e">&#9670;&nbsp;</a></span>afChnLastVal</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float XPMP2::Aircraft::afChnLastVal[<a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336ad77fac2238d59d130d2f38d4560f9d11">SND_NUM_EVENTS</a>] = { NAN, NAN, NAN, NAN, NAN }</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>If sound is triggered by the change of a (dataRef) value we need to keep track of the latest such value to be able to identify change. </p>
-
-</div>
-</div>
 <a id="a28c6f513b396f95c6ca90e3d3e4d927c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a28c6f513b396f95c6ca90e3d3e4d927c">&#9670;&nbsp;</a></span>aiPrio</h2>
 
@@ -5126,8 +5079,8 @@ Volume adjustment, fed from <a class="el" href="classXPMP2_1_1Aircraft.html#a37e
 
 </div>
 </div>
-<a id="a6954e067c914e073a55520b779778a30"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6954e067c914e073a55520b779778a30">&#9670;&nbsp;</a></span>apChn</h2>
+<a id="a025eb202941db585d65310205b6f89fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a025eb202941db585d65310205b6f89fa">&#9670;&nbsp;</a></span>aSndCh</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -5136,7 +5089,7 @@ Volume adjustment, fed from <a class="el" href="classXPMP2_1_1Aircraft.html#a37e
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">FMOD_CHANNEL* XPMP2::Aircraft::apChn[<a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336ad77fac2238d59d130d2f38d4560f9d11">SND_NUM_EVENTS</a>] = { nullptr, nullptr, nullptr, nullptr, nullptr }</td>
+          <td class="memname"><a class="el" href="classXPMP2_1_1Aircraft.html#structXPMP2_1_1Aircraft_1_1SndChTy">SndChTy</a> XPMP2::Aircraft::aSndCh[<a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336ad77fac2238d59d130d2f38d4560f9d11">SND_NUM_EVENTS</a>]</td>
         </tr>
       </table>
   </td>
@@ -5146,7 +5099,7 @@ Volume adjustment, fed from <a class="el" href="classXPMP2_1_1Aircraft.html#a37e
 </table>
 </div><div class="memdoc">
 
-<p>The audio channels per event type. </p>
+<p>Operational values per sound channel, that is triggered by a standard sound event. </p>
 
 </div>
 </div>

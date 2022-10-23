@@ -52,7 +52,7 @@ $(function() {
 <li>In a call to <code>XPLMSetActiveAircraftCount</code> X-Plane is informed about the exact number of provided planes. (This might not be strictly necessary, but probably a cleaner approach than to wait 10 cylces for not updated dataRefs to be taken out of X-Plane's consideration.)</li>
 </ul>
 <p>When TCS Override is not available (like up to X-Plane 11.41), then TCAS is provided by writing the classic multiplayer dataRefs directly.</p>
-<h1><a class="anchor" id="autotoc_md39"></a>
+<h1><a class="anchor" id="autotoc_md40"></a>
 Slotting</h1>
 <p>There is a limited number of "slots" available for TCAS/multiplayer purposes. With TCAS Override, this is currently 63, with classic multiplayer dataRefs, this is up to 19, though for many 3rd party plugins the number of actually configured AI Aircraft (X-Planes Flight Setup) plays a role, too.</p>
 <p><a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> will show the aircraft closest to current camera location. This set of aircraft will change over time. But <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> will try to keep a plane, which once was shown on TCAS, in the same slot to make it easier for 3rd party plugins to follow one plane.</p>
@@ -63,7 +63,7 @@ Slotting</h1>
 <li><a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> will fill a continuous set of slots starting at 1. If a plane is removed, which occupied a slot in the middle then another plane will take it (potentially moving down from the upper range to the lower range).</li>
 <li>Also, if a plane is moved between lower and upper range because it moved ranks in the order by distance, then it changes slots.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md40"></a>
+<h1><a class="anchor" id="autotoc_md41"></a>
 TCAS Target dataRefs</h1>
 <p><a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> writes the folloing TCAS target dataRefs when it has TCAS control:</p>
 <table class="markdownTable">
@@ -118,7 +118,7 @@ TCAS Target dataRefs</h1>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><code>weight_on_wheels</code>   </td><td class="markdownTableBodyNone">-   </td></tr>
 </table>
-<h1><a class="anchor" id="autotoc_md41"></a>
+<h1><a class="anchor" id="autotoc_md42"></a>
 Classic AI/Multiplayer support</h1>
 <p>...is provided by X-Plane automatically when feeding above TCAS target dataRefs. That means: The lower 19 planes are mirrored into the well-known <code>sim/multiplayer/position/plane#_*</code> dataRefs. Plugins still relying on these dataRefs will mainly "just work". And this <em>without</em> any workarounds like defining AI Aircraft in X-Plane's settings!</p>
 <p>Please note that <a href="https://developer.x-plane.com/sdk/XPLMPlanes/#XPLMCountAircraft"><code>XPLMCountAircraft</code></a> can now return values larger than 20, up to 64 at the moment.</p>

@@ -1,12 +1,25 @@
 Deploying XPMP2-based Plugins
 ==
 
-XPMP2 needs a couple additional files to work. In your calls to
-`XPMPMultiplayerInit` and `XPMPLoadCSLPackage` you provide the locations
-to the folders holding these files.
+FMOD Sound Support (XP11/Windows)
+--
+If you built XPMP2 and your plugin with [FMOD Sound Support](Sound.html),
+and you want to allow running your plugin with X-Plane 11 under Windows,
+then you should ship the `XPMP2-Sample/lib/fmod/fmod.dll`, too, as
+```
+win_x64/fmod.dll
+```
+next to your plugin's Windows version.
+
+The reason is that X-Plane updated the FMOD versions included in X-Plane between XP11 and XP12. While XPMP2 is built in a way that it can run with either version,
+XP11 ships a DLL by the name of `fmod64.dll` while XPMP2 expects it by the name `fmod.dll` as XP12 provides it.
 
 Resources
 --
+
+XPMP2 needs a couple additional files to work. In your calls to
+`XPMPMultiplayerInit` and `XPMPLoadCSLPackage` you provide the locations
+to the folders holding these files.
 
 You should ship all the files provided in the `Resources` folder:
 

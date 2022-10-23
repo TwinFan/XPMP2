@@ -46,12 +46,13 @@ $(function() {
 <div class="textblock"><p>These pages, available as <a href="https://twinfan.github.io/XPMP2/">GitHub pages</a>, document both usage and internals of the <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> library.</p>
 <p>Content and availability status:</p>
 <ul>
-<li>Requirements (see below)</li>
+<li>[X] <a href="#requirements">Requirements</a></li>
 <li>[ ] Feature Details<ul>
 <li>[X] <a href="Matching.html">Model Matching</a></li>
 <li>[X] <a href="TCAS.html">TCAS Target and AI/multiplayer support</a></li>
 <li>[ ] Additional map layer</li>
 <li>[X] <a href="Wake.html">Wake Turbulence Support</a></li>
+<li>[X] <a href="Sound.html">Sound Support by FMOD</a></li>
 <li>[X] <a href="SharedDataRefs.html">Shared dataRefs</a> providing textual aircraft / flight information to interested 3rd party plugins</li>
 <li>[X] <a href="Remote.html">XPMP2 Remote</a> functionality</li>
 </ul>
@@ -71,17 +72,12 @@ $(function() {
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md21"></a>
+<h1><a class="anchor" id="autotoc_md22"></a>
 Requirements</h1>
 <ul>
 <li><a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> implements <a href="https://developer.x-plane.com/sdk/XPLMInstance/">instancing</a>, so it <b>requires X-Plane 11.10</b> or later</li>
 <li>CSL models in <b>OBJ8 format</b> (ie. older OBJ7 models are no longer supported)</li>
-</ul>
-<h1><a class="anchor" id="autotoc_md22"></a>
-Feature Details</h1>
-<ul>
-<li><a href="Matching.html">Model Matching</a></li>
-<li><a href="TCAS.html">TCAS and AI/Multiplayer support</a></li>
+<li>Potentially an FMOD license if built with sound support, see below in <a href="#sound-support-by-fmod">Sound Support by FMOD</a></li>
 </ul>
 <h1><a class="anchor" id="autotoc_md23"></a>
 Coding, Building, Deployment</h1>
@@ -112,8 +108,11 @@ CSL Models and Packages</h1>
 <p>CSL packages come in different flavours. Popular ones for general use are the Bluebell and the X-CSL packages. Both come with different history. For <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> to use all their features it needs to change their <code>.obj</code> files. Performing these changes is built into <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>. <a href="CopyingObjFiles.html">See here for details.</a></p>
 <h1><a class="anchor" id="autotoc_md25"></a>
 Links to outside locations</h1>
-<p><a href="https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/">TCAS Override approach</a> explains how TCAS information is provided, the classic multiplayer dataRefs are maintained and how 3rd party plugins can access this information. <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> publishes data via the <code>sim/cockpit2/tcas/targets</code> dataRefs.</p>
-<p>Original libxplanemp:</p>
+<h2>TCAS Override</h2>
+<p>The <a href="https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/">TCAS Override approach</a> explains how TCAS information is provided, the classic multiplayer dataRefs are maintained and how 3rd party plugins can access this information. <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> publishes data via the <code>sim/cockpit2/tcas/targets</code> dataRefs.</p>
+<h2>Wake Turbulence</h2>
+<p>X-Plane's approach to Wake Turbulence support for TCAS targets is described in <a href="https://developer.x-plane.com/2022/02/wake-turbulence/">this blog post</a> featuring LiveTraffic screenshots and <a href="https://developer.x-plane.com/article/plugin-traffic-wake-turbulence/">this article on the dataRef details</a>.</p>
+<h2>Original libxplanemp</h2>
 <ul>
 <li><a href="https://github.com/TwinFan/libxplanemp">TwinFan's libxplanemp fork</a> on GitHub<ul>
 <li><a href="https://github.com/TwinFan/libxplanemp/wiki">wiki explaining differences to the kuroneko fork</a></li>

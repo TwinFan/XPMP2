@@ -293,12 +293,12 @@
 				2589B84823CB4D6F005B76B8 /* RelatedDoc8643.h */,
 				2541FA4C253CDD6700AEA532 /* Remote.cpp */,
 				2541FA4B253CDD6700AEA532 /* Remote.h */,
-				25EC1C4523BF7569000940BB /* Utilities.cpp */,
-				2599B92123BF63F600F92BB5 /* XPMP2.h */,
-				25EC1C4623BF7569000940BB /* Utilities.h */,
-				25D680C423BE9DBD00C83CC5 /* XPMPMultiplayer.cpp */,
 				255EC99028E3871100F99F93 /* Sound.cpp */,
 				255EC99128E3871100F99F93 /* Sound.h */,
+				25EC1C4523BF7569000940BB /* Utilities.cpp */,
+				25EC1C4623BF7569000940BB /* Utilities.h */,
+				2599B92123BF63F600F92BB5 /* XPMP2.h */,
+				25D680C423BE9DBD00C83CC5 /* XPMPMultiplayer.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";

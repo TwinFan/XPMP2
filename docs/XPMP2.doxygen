@@ -827,7 +827,8 @@ INPUT                  = inc \
                          src \
                          docs \
                          XPMP2-Remote \
-                         XPMP2-Sample
+                         XPMP2-Sample \
+                         XPMP2-Sample/lib/fmod/logo
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses

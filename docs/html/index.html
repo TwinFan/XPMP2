@@ -63,10 +63,8 @@ API</h1>
 <li><a class="el" href="XPMPRemote_8h.html" title="Semi-public remote network functionality for master/client operations.">XPMPRemote.h</a> - Defines network functionality and data structure for synchronizing planes between networked computers.</li>
 </ul>
 <h2>Sound Support by FMOD</h2>
-<p>Audio Engine is FMOD Studio by Firelight Technologies Pty Ltd. Understand FMOD <a href="https://www.fmod.com/licensing">licensing</a> and <a href="https://www.fmod.com/attribution">attribution requirements</a> first, as they will apply to <em>your</em> plugin if using <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> with sound support.</p>
-<p>Hence, sound support is only included if <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> is built with CMake cache entry <code>INCLUDE_FMOD_SOUND</code>, which in turn defines a compile-time macro by the same name, e.g. by doing </p><div class="fragment"><div class="line">cmake -G Ninja -DINCLUDE_FMOD_SOUND=1 ..</div>
-</div><!-- fragment --><p> The Docker <code>Makefile</code> allows passing CMake parameters via the <code>FLAGS</code> macro: </p><div class="fragment"><div class="line">make FLAGS=-DINCLUDE_FMOD_SOUND=1 {...platform(s)...}</div>
-</div><!-- fragment --><p> The GitHub Actions triggered by default are building without FMOD support, too. Running "Build all Platforms" manually, though, allows to specify <code>FLAGS</code>.</p>
+<p><a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>'s Audio Engine is FMOD Core API by Firelight Technologies Pty Ltd. Understand FMOD <a href="https://www.fmod.com/licensing">licensing</a> and <a href="https://www.fmod.com/attribution">attribution requirements</a> first, as they will apply to <em>your</em> plugin if using <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> with sound support.</p>
+<p>Because of the licensing requirements, <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> by default is built <b>without</b> sound support. See the <a href="https://twinfan.github.io/XPMP2/Sound.html">Sound Support documentation</a> for details how to enable sound support and how to include it into your plugin.</p>
 <h1><a class="anchor" id="autotoc_md27"></a>
 Quick Links to Detailed Documentation:</h1>
 <ul>

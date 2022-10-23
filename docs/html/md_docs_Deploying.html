@@ -43,9 +43,14 @@ $(function() {
 <div class="title">Deploying XPMP2-based Plugins </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> needs a couple additional files to work. In your calls to <code>XPMPMultiplayerInit</code> and <code>XPMPLoadCSLPackage</code> you provide the locations to the folders holding these files.</p>
-<h1><a class="anchor" id="autotoc_md14"></a>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md14"></a>
+FMOD Sound Support (XP11/Windows)</h1>
+<p>If you built <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> and your plugin with <a href="Sound.html">FMOD Sound Support</a>, and you want to allow running your plugin with X-Plane 11 under Windows, then you should ship the <code>XPMP2-Sample/lib/fmod/fmod.dll</code>, too, as </p><div class="fragment"><div class="line">win_x64/fmod.dll</div>
+</div><!-- fragment --><p> next to your plugin's Windows version.</p>
+<p>The reason is that X-Plane updated the FMOD versions included in X-Plane between XP11 and XP12. While <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> is built in a way that it can run with either version, XP11 ships a DLL by the name of <code>fmod64.dll</code> while <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> expects it by the name <code>fmod.dll</code> as XP12 provides it.</p>
+<h1><a class="anchor" id="autotoc_md15"></a>
 Resources</h1>
+<p><a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> needs a couple additional files to work. In your calls to <code>XPMPMultiplayerInit</code> and <code>XPMPLoadCSLPackage</code> you provide the locations to the folders holding these files.</p>
 <p>You should ship all the files provided in the <code>Resources</code> folder:</p>
 <ul>
 <li><code>Doc8643.txt</code> is a list of ICAO aircraft type designators taken from the ICAO web site. This list is required for matching rules related to the aircraft type, ie. if no direct match is found in the available models or via the <code>related.txt</code> lists. ICAO provides monthly updates, so this file will update here from time to time, too.</li>
@@ -58,7 +63,7 @@ Resources</h1>
 <li>the <a href="https://forums.x-plane.org/index.php?/files/file/67797-xpmp2-remote-client/">download location</a> and</li>
 <li>the <a href="https://twinfan.gitbook.io/livetraffic/setup/installation/xpmp2-remote-client">documentation location</a>.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md15"></a>
+<h1><a class="anchor" id="autotoc_md16"></a>
 CSL Models</h1>
 <p>CSL Models are not shipped with <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>. They are available as separate downloads. Recommended sources are:</p>
 <ul>

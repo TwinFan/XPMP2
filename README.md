@@ -141,22 +141,15 @@ Find [more details here](https://twinfan.github.io/XPMP2/Wake.html).
 All displayed aircraft can produce sound in the 3D world for
 engine, reversers, taxiing, gear and flap movement.
 
-Audio Engine is FMOD Studio by Firelight Technologies Pty Ltd.
+XPMP2's Audio Engine is FMOD Core API by Firelight Technologies Pty Ltd.
 Understand FMOD [licensing](https://www.fmod.com/licensing) and
 [attribution requirements](https://www.fmod.com/attribution) first,
 as they will apply to _your_ plugin if using XPMP2 with sound support.
 
-Hence, sound support is only included if XPMP2 is built with CMake cache entry `INCLUDE_FMOD_SOUND`, which in turn defines a compile-time macro by the same name,
-e.g. by doing
-```
-cmake -G Ninja -DINCLUDE_FMOD_SOUND=1 ..
-```
-The Docker `Makefile` allows passing CMake parameters via the `FLAGS` macro:
-```
-make FLAGS=-DINCLUDE_FMOD_SOUND=1 {...platform(s)...}
-```
-The GitHub Actions triggered by default are building without FMOD support, too.
-Running "Build all Platforms" manually, though, allows to specify `FLAGS`.
+Because of the licensing requirements, XPMP2 by default is built
+**without** sound support.
+See the [Sound Support documentation](https://twinfan.github.io/XPMP2/Sound.html)
+for details how to enable sound support and how to include it into your plugin.
 
 ### Map Layer ###
 

@@ -45,7 +45,7 @@ $(function() {
 <div class="contents">
 <div class="textblock"><p>The <code>xsb_aircraft.txt</code> file describes the content of one CSL model package. <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> reads the file to learn about available CSL models and which ICAO aircraft type designators, airlines, and special liveries they match.</p>
 <p>The <a href="https://github.com/kuroneko/libxplanemp/wiki/LegacyCSL#aircraft-directory-text-file-format">original file format</a> supported more commands necessary to support older formats like <code>.acf</code> or OBJ7. <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> only supported OBJ8 models and processes only the commands listed here. Others are ignored. They may raise warnings in <code>Log.txt</code> but otherwise do no harm.</p>
-<h1><a class="anchor" id="autotoc_md44"></a>
+<h1><a class="anchor" id="autotoc_md45"></a>
 Example</h1>
 <p>The following is taken from the beginning of Bluebell's <code>xsb_aircraft.txt</code> file in its <code>BB_Airbus</code> folder:</p>
 <div class="fragment"><div class="line">EXPORT_NAME __Bluebell_Airbus</div>
@@ -59,7 +59,7 @@ Example</h1>
 <div class="line">OBJ8 SOLID YES __Bluebell_Airbus/A306/A306_AHK.obj</div>
 <div class="line">VERT_OFFSET 4.6</div>
 <div class="line">AIRLINE A306 AHK</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md45"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md46"></a>
 Structure</h1>
 <p>A <code>xsb_aircraft.txt</code> file starts defining one (or even more) package name(s) using the <code>EXPORT_NAME</code> command. Packages are identified by these names, which are then used as a root name to define the <code>.obj</code> file locations.</p>
 <p>Then follow one or typically many aircraft definitions. Each aircraft definition starts with an <code>OBJ8_AIRCRAFT</code> command defining a package-unique id. <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> expects the <em>combination</em> of <code>EXPORT_NAME</code> and <code>OBJ8_AIRCRAFT</code> name to be unique and ignores any duplicates (with a warning written to <code>Log.txt</code>).</p>
@@ -73,7 +73,7 @@ Structure</h1>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md46"></a>
+<h1><a class="anchor" id="autotoc_md47"></a>
 Commands</h1>
 <h2><code>EXPORT_NAME</code></h2>
 <div class="fragment"><div class="line">EXPORT_NAME &lt;package_name&gt;</div>

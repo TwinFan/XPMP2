@@ -27,8 +27,9 @@ lin win mac-arm mac-x86: .image_focal
 mac: mac-arm mac-x86
 	# Create universal binaries for XPMP2-Remote and XPMP2-Sample
 	mkdir -p ../build-mac/mac_x64
-	docker run -i --rm -v "$(realpath ..):/build" --entrypoint bash $(container_focal) -c 'lipo -create -output build-mac/mac_x64/XPMP2-Remote.xpl build-mac-x86/mac_x64/XPMP2-Remote.xpl build-mac-arm/mac_x64/XPMP2-Remote.xpl'
-	docker run -i --rm -v "$(realpath ..):/build" --entrypoint bash $(container_focal) -c 'lipo -create -output build-mac/mac_x64/XPMP2-Sample.xpl build-mac-x86/mac_x64/XPMP2-Sample.xpl build-mac-arm/mac_x64/XPMP2-Sample.xpl'
+	# Following two lines commented out as the standard build no longer builds the Sample/Remote targets
+	# docker run -i --rm -v "$(realpath ..):/build" --entrypoint bash $(container_focal) -c 'lipo -create -output build-mac/mac_x64/XPMP2-Remote.xpl build-mac-x86/mac_x64/XPMP2-Remote.xpl build-mac-arm/mac_x64/XPMP2-Remote.xpl'
+	# docker run -i --rm -v "$(realpath ..):/build" --entrypoint bash $(container_focal) -c 'lipo -create -output build-mac/mac_x64/XPMP2-Sample.xpl build-mac-x86/mac_x64/XPMP2-Sample.xpl build-mac-arm/mac_x64/XPMP2-Sample.xpl'
 	# Create universal binary for the XPMP2 library
 	# (This is a bit ugly as it hard-codes the library version number as configured in CMakeList...but at least it will consequently fail when that version number is updated ;-)
 	rm -r ../build-mac/XPMP2.framework || true

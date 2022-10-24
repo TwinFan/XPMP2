@@ -223,6 +223,7 @@ public:
     float coneOutVol = NAN;         ///< Cone outside volume.
 
 protected:
+    unsigned len_ms = 0;            ///< Sound length in ms
     FMOD_SOUND* pSound = nullptr;   ///< FMOD sound object
     bool bLoaded = false;           ///< cached version of the sound's `openstate`
 
@@ -256,6 +257,12 @@ public:
         bLoaded = false;
     }
     
+    /// Called the first time the sound is played after loading has finished
+    void firstTimeInit ()
+    {
+        FMOD_LOG(FMOD_Sound_GetLength(pSound, &len_ms, FMOD_TIMEUNIT_MS));
+    }
+    
     /// Has loading the sound sample finished?
     bool isReady ()
     {
@@ -267,6 +274,7 @@ public:
         if ((FMOD_Sound_GetOpenState(pSound, &state, nullptr, nullptr, nullptr) == FMOD_OK) &&
             (state == FMOD_OPENSTATE_READY))
         {
+            firstTimeInit();
             return bLoaded = true;
         }
         return false;

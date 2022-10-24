@@ -68,6 +68,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acbae62439f2f551f3da6c5f10d674b11"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1SoundFile.html#acbae62439f2f551f3da6c5f10d674b11">~SoundFile</a> ()</td></tr>
 <tr class="memdesc:acbae62439f2f551f3da6c5f10d674b11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor removes the sound object.  <a href="classXPMP2_1_1SoundFile.html#acbae62439f2f551f3da6c5f10d674b11">More...</a><br /></td></tr>
 <tr class="separator:acbae62439f2f551f3da6c5f10d674b11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f92fd9f228e647b817763bfc4185009"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1SoundFile.html#a9f92fd9f228e647b817763bfc4185009">firstTimeInit</a> ()</td></tr>
+<tr class="memdesc:a9f92fd9f228e647b817763bfc4185009"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called the first time the sound is played after loading has finished.  <a href="classXPMP2_1_1SoundFile.html#a9f92fd9f228e647b817763bfc4185009">More...</a><br /></td></tr>
+<tr class="separator:a9f92fd9f228e647b817763bfc4185009"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a134a5bc32929c91a1875ed6372cfaf7d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1SoundFile.html#a134a5bc32929c91a1875ed6372cfaf7d">isReady</a> ()</td></tr>
 <tr class="memdesc:a134a5bc32929c91a1875ed6372cfaf7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Has loading the sound sample finished?  <a href="classXPMP2_1_1SoundFile.html#a134a5bc32929c91a1875ed6372cfaf7d">More...</a><br /></td></tr>
 <tr class="separator:a134a5bc32929c91a1875ed6372cfaf7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -113,6 +116,9 @@ Public Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
+<tr class="memitem:a9b4c797c0417ba7f2da9e3ba009d1b57"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1SoundFile.html#a9b4c797c0417ba7f2da9e3ba009d1b57">len_ms</a> = 0</td></tr>
+<tr class="memdesc:a9b4c797c0417ba7f2da9e3ba009d1b57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sound length in ms.  <a href="classXPMP2_1_1SoundFile.html#a9b4c797c0417ba7f2da9e3ba009d1b57">More...</a><br /></td></tr>
+<tr class="separator:a9b4c797c0417ba7f2da9e3ba009d1b57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a87d97fc587c5d0fa4b38f52acf810d2a"><td class="memItemLeft" align="right" valign="top">FMOD_SOUND *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1SoundFile.html#a87d97fc587c5d0fa4b38f52acf810d2a">pSound</a> = nullptr</td></tr>
 <tr class="memdesc:a87d97fc587c5d0fa4b38f52acf810d2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">FMOD sound object.  <a href="classXPMP2_1_1SoundFile.html#a87d97fc587c5d0fa4b38f52acf810d2a">More...</a><br /></td></tr>
 <tr class="separator:a87d97fc587c5d0fa4b38f52acf810d2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -254,6 +260,33 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a9f92fd9f228e647b817763bfc4185009"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f92fd9f228e647b817763bfc4185009">&#9670;&nbsp;</a></span>firstTimeInit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::SoundFile::firstTimeInit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Called the first time the sound is played after loading has finished. </p>
+
+</div>
+</div>
 <a id="a8bf6fa68372835fb49d0ac549aa94a25"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8bf6fa68372835fb49d0ac549aa94a25">&#9670;&nbsp;</a></span>hasConeInfo()</h2>
 
@@ -561,6 +594,30 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>File path to sound file. </p>
+
+</div>
+</div>
+<a id="a9b4c797c0417ba7f2da9e3ba009d1b57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b4c797c0417ba7f2da9e3ba009d1b57">&#9670;&nbsp;</a></span>len_ms</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned XPMP2::SoundFile::len_ms = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sound length in ms. </p>
 
 </div>
 </div>

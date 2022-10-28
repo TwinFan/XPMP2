@@ -190,8 +190,17 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a021df5cf849d0bfc7468b84d2ba731e6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a021df5cf849d0bfc7468b84d2ba731e6">UpdatePosition</a> (float _elapsedSinceLastCall, int _flCounter)=0</td></tr>
 <tr class="memdesc:a021df5cf849d0bfc7468b84d2ba731e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called right before updating the aircraft's placement in the world.  <a href="classXPMP2_1_1Aircraft.html#a021df5cf849d0bfc7468b84d2ba731e6">More...</a><br /></td></tr>
 <tr class="separator:a021df5cf849d0bfc7468b84d2ba731e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69d3ca1d2d5636003af5c2c4d2c2d3be"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a69d3ca1d2d5636003af5c2c4d2c2d3be">IsOnGrnd</a> () const</td></tr>
+<tr class="memdesc:a69d3ca1d2d5636003af5c2c4d2c2d3be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the aircraft on the ground?  <a href="classXPMP2_1_1Aircraft.html#a69d3ca1d2d5636003af5c2c4d2c2d3be">More...</a><br /></td></tr>
+<tr class="separator:a69d3ca1d2d5636003af5c2c4d2c2d3be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ae240715c2746ab7b049775743c32c0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a8ae240715c2746ab7b049775743c32c0">SetOnGrnd</a> (bool on_grnd, float setTouchDownTime=NAN)</td></tr>
+<tr class="memdesc:a8ae240715c2746ab7b049775743c32c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if the aircraft is on the ground.  <a href="classXPMP2_1_1Aircraft.html#a8ae240715c2746ab7b049775743c32c0">More...</a><br /></td></tr>
+<tr class="separator:a8ae240715c2746ab7b049775743c32c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a930ec30642a5135e88daa62f829abd44"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a930ec30642a5135e88daa62f829abd44">SetLocation</a> (double lat, double lon, double alt_ft, bool on_grnd, float setTouchDownTime=NAN)</td></tr>
+<tr class="memdesc:a930ec30642a5135e88daa62f829abd44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts world coordinates to local coordinates, writes to <a class="el" href="classXPMP2_1_1Aircraft.html#a883ea3e9a9a1cca7debe7755f066e848" title="Holds position (in local coordinates!) and orientation (pitch, heading roll) of the aircraft.">Aircraft::drawInfo</a>.  <a href="classXPMP2_1_1Aircraft.html#a930ec30642a5135e88daa62f829abd44">More...</a><br /></td></tr>
+<tr class="separator:a930ec30642a5135e88daa62f829abd44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0fb2622b03447e6854687c4acec5de6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ad0fb2622b03447e6854687c4acec5de6">SetLocation</a> (double lat, double lon, double alt_ft)</td></tr>
-<tr class="memdesc:ad0fb2622b03447e6854687c4acec5de6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts world coordinates to local coordinates, writes to <a class="el" href="classXPMP2_1_1Aircraft.html#a883ea3e9a9a1cca7debe7755f066e848" title="Holds position (in local coordinates!) and orientation (pitch, heading roll) of the aircraft.">Aircraft::drawInfo</a>.  <a href="classXPMP2_1_1Aircraft.html#ad0fb2622b03447e6854687c4acec5de6">More...</a><br /></td></tr>
+<tr class="memdesc:ad0fb2622b03447e6854687c4acec5de6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Legacy version of above version of SetLocatiion(), here without setting ground flag.  <a href="classXPMP2_1_1Aircraft.html#ad0fb2622b03447e6854687c4acec5de6">More...</a><br /></td></tr>
 <tr class="separator:ad0fb2622b03447e6854687c4acec5de6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a996c9ebb817ae2a6f3204f0ab5fa317a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a996c9ebb817ae2a6f3204f0ab5fa317a">GetLocation</a> (double &amp;lat, double &amp;lon, double &amp;alt_ft) const</td></tr>
 <tr class="memdesc:a996c9ebb817ae2a6f3204f0ab5fa317a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts aircraft's local coordinates to lat/lon values.  <a href="classXPMP2_1_1Aircraft.html#a996c9ebb817ae2a6f3204f0ab5fa317a">More...</a><br /></td></tr>
@@ -471,6 +480,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a883ea3e9a9a1cca7debe7755f066e848"><td class="memItemLeft" align="right" valign="top">XPLMDrawInfo_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a883ea3e9a9a1cca7debe7755f066e848">drawInfo</a></td></tr>
 <tr class="memdesc:a883ea3e9a9a1cca7debe7755f066e848"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds position (in local coordinates!) and orientation (pitch, heading roll) of the aircraft.  <a href="classXPMP2_1_1Aircraft.html#a883ea3e9a9a1cca7debe7755f066e848">More...</a><br /></td></tr>
 <tr class="separator:a883ea3e9a9a1cca7debe7755f066e848"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90da3d63ed29846c97b60bef17fddef0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a90da3d63ed29846c97b60bef17fddef0">bOnGrnd</a> = false</td></tr>
+<tr class="memdesc:a90da3d63ed29846c97b60bef17fddef0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the aircraft on the ground?  <a href="classXPMP2_1_1Aircraft.html#a90da3d63ed29846c97b60bef17fddef0">More...</a><br /></td></tr>
+<tr class="separator:a90da3d63ed29846c97b60bef17fddef0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c2ccee83b592cd2a7064a380c660c5b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a8c2ccee83b592cd2a7064a380c660c5b">v</a></td></tr>
 <tr class="memdesc:a8c2ccee83b592cd2a7064a380c660c5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">actual dataRef values to be provided to the CSL model  <a href="classXPMP2_1_1Aircraft.html#a8c2ccee83b592cd2a7064a380c660c5b">More...</a><br /></td></tr>
 <tr class="separator:a8c2ccee83b592cd2a7064a380c660c5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -567,6 +579,9 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:ac0448956bacbe80641443606cb4cc076"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ac0448956bacbe80641443606cb4cc076">prev_ts</a> = 0.0f</td></tr>
 <tr class="memdesc:ac0448956bacbe80641443606cb4cc076"><td class="mdescLeft">&#160;</td><td class="mdescRight">last update of <code>prev_x/y/z</code> in XP's network time  <a href="classXPMP2_1_1Aircraft.html#ac0448956bacbe80641443606cb4cc076">More...</a><br /></td></tr>
 <tr class="separator:ac0448956bacbe80641443606cb4cc076"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9b50f311806c9c1c7d7d752e516c3bf"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ae9b50f311806c9c1c7d7d752e516c3bf">tsResetTouchDown</a> = NAN</td></tr>
+<tr class="memdesc:ae9b50f311806c9c1c7d7d752e516c3bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set by <a class="el" href="classXPMP2_1_1Aircraft.html#a8ae240715c2746ab7b049775743c32c0" title="Set if the aircraft is on the ground.">SetOnGrnd()</a> with the timestamp when to reset <a class="el" href="classXPMP2_1_1Aircraft.html#aa12f2f34fdd5252b7cb3ba209dd0076a" title="Moment of touch down.">SetTouchDown()</a>  <a href="classXPMP2_1_1Aircraft.html#ae9b50f311806c9c1c7d7d752e516c3bf">More...</a><br /></td></tr>
+<tr class="separator:ae9b50f311806c9c1c7d7d752e516c3bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a690e0ac4d1446c09fa13673df04dd223"><td class="memItemLeft" align="right" valign="top">std::list&lt; XPLMInstanceRef &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a690e0ac4d1446c09fa13673df04dd223">listInst</a></td></tr>
 <tr class="memdesc:a690e0ac4d1446c09fa13673df04dd223"><td class="mdescLeft">&#160;</td><td class="mdescRight">X-Plane instance handles for all objects making up the model.  <a href="classXPMP2_1_1Aircraft.html#a690e0ac4d1446c09fa13673df04dd223">More...</a><br /></td></tr>
 <tr class="separator:a690e0ac4d1446c09fa13673df04dd223"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2642,6 +2657,33 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a69d3ca1d2d5636003af5c2c4d2c2d3be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69d3ca1d2d5636003af5c2c4d2c2d3be">&#9670;&nbsp;</a></span>IsOnGrnd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::Aircraft::IsOnGrnd </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Is the aircraft on the ground? </p>
+
+</div>
+</div>
 <a id="a6f752025a5a4c2e325cf9123bb68c1d5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6f752025a5a4c2e325cf9123bb68c1d5">&#9670;&nbsp;</a></span>IsRelatedTo()</h2>
 
@@ -3423,7 +3465,7 @@ Friends</h2></td></tr>
 </div>
 </div>
 <a id="ad0fb2622b03447e6854687c4acec5de6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad0fb2622b03447e6854687c4acec5de6">&#9670;&nbsp;</a></span>SetLocation()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0fb2622b03447e6854687c4acec5de6">&#9670;&nbsp;</a></span>SetLocation() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3454,6 +3496,62 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Legacy version of above version of SetLocatiion(), here without setting ground flag. </p>
+
+</div>
+</div>
+<a id="a930ec30642a5135e88daa62f829abd44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a930ec30642a5135e88daa62f829abd44">&#9670;&nbsp;</a></span>SetLocation() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetLocation </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>lat</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>lon</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>alt_ft</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>on_grnd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>setTouchDownTime</em> = <code>NAN</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
 <p>Converts world coordinates to local coordinates, writes to <a class="el" href="classXPMP2_1_1Aircraft.html#a883ea3e9a9a1cca7debe7755f066e848" title="Holds position (in local coordinates!) and orientation (pitch, heading roll) of the aircraft.">Aircraft::drawInfo</a>. </p>
 <dl class="section note"><dt>Note</dt><dd>Alternatively, the calling plugin can set local coordinates in <a class="el" href="classXPMP2_1_1Aircraft.html#a883ea3e9a9a1cca7debe7755f066e848" title="Holds position (in local coordinates!) and orientation (pitch, heading roll) of the aircraft.">Aircraft::drawInfo</a> directly </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -3461,6 +3559,8 @@ Friends</h2></td></tr>
     <tr><td class="paramname">lat</td><td>Latitude in degress -90..90 </td></tr>
     <tr><td class="paramname">lon</td><td>Longitude in degrees -180..180 </td></tr>
     <tr><td class="paramname">alt_ft</td><td>Altitude in feet above MSL </td></tr>
+    <tr><td class="paramname">on_grnd</td><td>Is the aircraft on the ground? </td></tr>
+    <tr><td class="paramname">setTouchDownTime</td><td>[opt] If not <code>NAN</code> activates <a class="el" href="classXPMP2_1_1Aircraft.html#aa12f2f34fdd5252b7cb3ba209dd0076a" title="Moment of touch down.">SetTouchDown()</a>, and automatically resets it after the given time in seconds </td></tr>
   </table>
   </dd>
 </dl>
@@ -3548,6 +3648,43 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Nose Wheel angle in degrees. </p>
+
+</div>
+</div>
+<a id="a8ae240715c2746ab7b049775743c32c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ae240715c2746ab7b049775743c32c0">&#9670;&nbsp;</a></span>SetOnGrnd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SetOnGrnd </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>on_grnd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>setTouchDownTime</em> = <code>NAN</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set if the aircraft is on the ground. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">on_grnd</td><td>Is the aircraft on the ground? </td></tr>
+    <tr><td class="paramname">setTouchDownTime</td><td>[opt] If not <code>NAN</code> activates <a class="el" href="classXPMP2_1_1Aircraft.html#aa12f2f34fdd5252b7cb3ba209dd0076a" title="Moment of touch down.">SetTouchDown()</a>, and automatically resets it after the given time in seconds </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -4645,6 +4782,22 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a90da3d63ed29846c97b60bef17fddef0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90da3d63ed29846c97b60bef17fddef0">&#9670;&nbsp;</a></span>bOnGrnd</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::Aircraft::bOnGrnd = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Is the aircraft on the ground? </p>
+
+</div>
+</div>
 <a id="a98e3f6bdbb65cc9b5279a6df79bf390f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a98e3f6bdbb65cc9b5279a6df79bf390f">&#9670;&nbsp;</a></span>bRender</h2>
 
@@ -4819,7 +4972,7 @@ Friends</h2></td></tr>
 
 <p>Holds position (in local coordinates!) and orientation (pitch, heading roll) of the aircraft. </p>
 <p>This is where the plane will be placed in this drawing cycle.<br  />
-</p><dl class="section note"><dt>Note</dt><dd>When filling <code>y</code> directly (instead of using <a class="el" href="classXPMP2_1_1Aircraft.html#ad0fb2622b03447e6854687c4acec5de6" title="Converts world coordinates to local coordinates, writes to Aircraft::drawInfo.">SetLocation()</a>) remember to add <a class="el" href="classXPMP2_1_1Aircraft.html#a113fc0ea358aca3033245c30f0f05a1e" title="Vertical offset, ie. the value that needs to be added to drawInfo.y to make the aircraft appear on th...">GetVertOfs()</a> for accurate placement on the ground </dd></dl>
+</p><dl class="section note"><dt>Note</dt><dd>When filling <code>y</code> directly (instead of using <a class="el" href="classXPMP2_1_1Aircraft.html#a930ec30642a5135e88daa62f829abd44" title="Converts world coordinates to local coordinates, writes to Aircraft::drawInfo.">SetLocation()</a>) remember to add <a class="el" href="classXPMP2_1_1Aircraft.html#a113fc0ea358aca3033245c30f0f05a1e" title="Vertical offset, ie. the value that needs to be added to drawInfo.y to make the aircraft appear on th...">GetVertOfs()</a> for accurate placement on the ground </dd></dl>
 
 </div>
 </div>
@@ -5210,6 +5363,30 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Which <code>sim/cockpit2/tcas/targets</code>-index does this plane occupy? [1..63], <code>-1</code> if none. </p>
+
+</div>
+</div>
+<a id="ae9b50f311806c9c1c7d7d752e516c3bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9b50f311806c9c1c7d7d752e516c3bf">&#9670;&nbsp;</a></span>tsResetTouchDown</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::tsResetTouchDown = NAN</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set by <a class="el" href="classXPMP2_1_1Aircraft.html#a8ae240715c2746ab7b049775743c32c0" title="Set if the aircraft is on the ground.">SetOnGrnd()</a> with the timestamp when to reset <a class="el" href="classXPMP2_1_1Aircraft.html#aa12f2f34fdd5252b7cb3ba209dd0076a" title="Moment of touch down.">SetTouchDown()</a> </p>
 
 </div>
 </div>

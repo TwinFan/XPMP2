@@ -328,7 +328,7 @@ public:
         elev /= M_per_FT;                   // we need elevation in feet
 
         // So, here we tell the plane its position, which takes care of vertical offset, too
-        SetLocation(lat, lon, elev);
+        SetLocation(lat, lon, elev, false);
 
         // further attitude information
         SetPitch(0.0f);

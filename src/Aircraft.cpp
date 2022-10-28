@@ -541,6 +541,11 @@ float Aircraft::FlightLoopCB(float _elapsedSinceLastCall, float, int _flCounter,
                         ac.UpdateDistBearingCamera(glob.posCamera);
                         ac.ComputeMapLabel();
                     }
+                    // If required reset touch down animation
+                    if (!std::isnan(ac.tsResetTouchDown) && (now >= ac.tsResetTouchDown)) {
+                        ac.SetTouchDown(false);
+                        ac.tsResetTouchDown = NAN;
+                    }
                     // Actually move the plane, ie. the instance that represents it
                     ac.DoMove();
                     // Feed remote connections
@@ -698,6 +703,19 @@ void Aircraft::DestroyInstances ()
         LOG_MSG(logDEBUG, DEBUG_INSTANCE_DESTRYD, modeS_id);
     }
     bDestroyInst = false;
+}
+
+
+// Set if the aircraft is on the ground
+void Aircraft::SetOnGrnd (bool _grnd, float _fSetTouchDownTime)
+{
+    // Set the ground flag as stated
+    bOnGrnd = _grnd;
+    // If asked for set the touch down animation dataRef and remember when to reset
+    if (!std::isnan(_fSetTouchDownTime)) {
+        SetTouchDown(true);
+        tsResetTouchDown = GetMiscNetwTime() + _fSetTouchDownTime;
+    }
 }
 
 

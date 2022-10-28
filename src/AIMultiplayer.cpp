@@ -149,6 +149,7 @@ static XPLMDataRef drTcasVertSpeed  = nullptr;      ///< sim/cockpit2/tcas/targe
 static XPLMDataRef drTcasHeading    = nullptr;      ///< sim/cockpit2/tcas/targets/position/psi             float[64]
 static XPLMDataRef drTcasPitch      = nullptr;      ///< sim/cockpit2/tcas/targets/position/the             float[64]
 static XPLMDataRef drTcasRoll       = nullptr;      ///< sim/cockpit2/tcas/targets/position/phi             float[64]
+static XPLMDataRef drTcasGrnd       = nullptr;      ///< sim/cockpit2/tcas/targets/position/weight_on_wheels  int[64]
 static XPLMDataRef drTcasGear       = nullptr;      ///< sim/cockpit2/tcas/targets/position/gear_deploy     float[64]
 static XPLMDataRef drTcasFlap       = nullptr;      ///< sim/cockpit2/tcas/targets/position/flap_ratio      float[64]
 static XPLMDataRef drTcasFlap2      = nullptr;      ///< sim/cockpit2/tcas/targets/position/flap_ratio2     float[64]
@@ -354,7 +355,8 @@ size_t AIUpdateTCASTargets ()
     static std::vector<float> vHeading;    
     static std::vector<float> vPitch;      
     static std::vector<float> vRoll;       
-    static std::vector<float> vGear;       
+    static std::vector<int>   vGrnd;
+    static std::vector<float> vGear;
     static std::vector<float> vFlap;       
     static std::vector<float> vSpeedbrake; 
     static std::vector<float> vSlat;       
@@ -383,6 +385,7 @@ size_t AIUpdateTCASTargets ()
     vHeading.clear();       vHeading.reserve(numSlots);
     vPitch.clear();         vPitch.reserve(numSlots);
     vRoll.clear();          vRoll.reserve(numSlots);
+    vGrnd.clear();          vGrnd.reserve(numSlots);
     vGear.clear();          vGear.reserve(numSlots);
     vFlap.clear();          vFlap.reserve(numSlots);
     vSpeedbrake.clear();    vSpeedbrake.reserve(numSlots);
@@ -420,6 +423,7 @@ size_t AIUpdateTCASTargets ()
             vX.push_back(ac.drawInfo.x);
             vY.push_back(ac.drawInfo.y - ac.GetVertOfs());  // align with original altitude
             vZ.push_back(ac.drawInfo.z);
+            vGrnd.push_back(ac.IsOnGrnd());
             
             // attitude
             vPitch.push_back(ac.drawInfo.pitch);
@@ -530,6 +534,7 @@ size_t AIUpdateTCASTargets ()
     SET_DR(vf, Heading);
     SET_DR(vf, Pitch);
     SET_DR(vf, Roll);
+    SET_DR(vi, Grnd);
     SET_DR(vf, Gear);
     SET_DR(vf, Flap);
     XPLMSetDatavf(drTcasFlap2, vFlap.data(), 1, (int)vFlap.size());
@@ -880,6 +885,7 @@ void AIMultiInit ()
             drTcasHeading       = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/psi");
             drTcasPitch         = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/the");
             drTcasRoll          = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/phi");
+            drTcasGrnd          = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/weight_on_wheels");
             drTcasGear          = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/gear_deploy");
             drTcasFlap          = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/flap_ratio");
             drTcasFlap2         = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/flap_ratio2");

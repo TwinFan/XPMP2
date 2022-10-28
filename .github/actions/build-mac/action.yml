@@ -41,7 +41,7 @@ runs:
     run: |
       cd build-mac
       pwd
-      ninja
+      ninja XPMP2 XPMP2-Sample XPMP2-Remote
   - name: Test for Target
     shell: bash
     env:

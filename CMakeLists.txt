@@ -1,6 +1,10 @@
 # XPMP2 - Set up to be used in the provided docker environment to build lin and mac
 #         Set up to be used in a Visual Studio environment to build win (File > Open > Folder, then VS recognized the CMAKE configuration)
 #
+# Targets XPMP2-Remote and XPMP2-Sample are EXCLUDE_FROM_ALL.
+# If you want to build them you have to explicitely state them on the command line, like
+#   ninja XPMP2-Sample XPMP2-Remote
+#
 # If you want to build with FMOD sound support,
 # 1. Make sure to understand the FMOD license and attribution requirements:
 #    https://www.fmod.com/licensing
@@ -112,8 +116,8 @@ if(CMAKE_BUILD_TYPE MATCHES "Debug")
 else()
     add_compile_definitions(NDEBUG=1)
     if(MSVC)
-        # Use highest optimization level in Release builds
-        add_compile_options(/GL)
+        # Fast code, symbols into separate .pdb file, no global optimization (as it produces huge files)
+        add_compile_options(/Zi /O2 /GL-)
     elseif(APPLE)
         add_compile_options(-O3 -fPIC)
     elseif (UNIX OR MINGW)
@@ -245,7 +249,7 @@ endif()
 
 # To be able to build here we use header files from the original location.
 # And we use the SDK from XPMP2-Sample so that we don't need to keep 2 copies.
-add_library(XPMP2-Remote MODULE
+add_library(XPMP2-Remote MODULE EXCLUDE_FROM_ALL
     # Public XPMP2 header files, usually taken from the XPMP2 framework
     inc/XPCAircraft.h
     inc/XPMPAircraft.h
@@ -340,7 +344,7 @@ set_target_properties(XPMP2-Remote PROPERTIES
 ################################################################################
 
 # To be able to build here we use header files from the original location.
-add_library(XPMP2-Sample MODULE
+add_library(XPMP2-Sample MODULE EXCLUDE_FROM_ALL
     # Public XPMP2 header files, usually taken from the XPMP2 framework
     inc/XPCAircraft.h
     inc/XPMPAircraft.h

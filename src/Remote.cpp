@@ -216,6 +216,7 @@ void RemoteAcDetailTy::CopyFrom (const Aircraft& _ac,
     bRender     = _ac.IsRendered();
     // Labels are only to be drawn if both individually (per a/c) and globally they shall:
     bDrawLabel  = _ac.ShallDrawLabel() && XPMPDrawingAircraftLabels();
+    bOnGrnd     = _ac.IsOnGrnd();
     
     // Info texts
 #define memcpy_min(to,from) std::memcpy(to,from,std::min(sizeof(from),sizeof(to)))

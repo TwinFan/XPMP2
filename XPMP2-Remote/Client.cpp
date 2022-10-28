@@ -92,6 +92,7 @@ void RemoteAC::Update (const XPMP2::RemoteAcDetailTy& _acDetails)
     drawInfo.heading    = _acDetails.GetHeading();
     drawInfo.roll       = _acDetails.GetRoll();
     aiPrio              = _acDetails.aiPrio;
+    bOnGrnd             = _acDetails.bOnGrnd;
     
     // Info texts
 #if defined(__GNUC__) && (__GNUC__ >= 9)

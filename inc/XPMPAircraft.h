@@ -332,7 +332,7 @@ public:
 
     /// @brief Minimum distance in [m] to play sound in full volume, the larger the 'louder' the aircraft
     /// @details Initialized based on engine type and numbers, overwrite in your constructor if you want to control "size" of aircraft in terms of its sound volume
-    int sndMinDist = 50.0;
+    int sndMinDist = 50;
     
 protected:
     /// Operational values per sound channel, that is triggered by a standard sound event

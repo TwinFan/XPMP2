@@ -454,7 +454,7 @@ FMOD_CHANNEL* Aircraft::SoundPlay (const std::string& sndName, float vol)
         FMOD_CHANNEL* pChn = snd.play();
         if (pChn) {
             chnList.push_back(pChn);                    // add to managed list of sounds
-            FMOD_LOG(FMOD_Channel_Set3DMinMaxDistance(pChn, sndMinDist, FMOD_3D_MAX_DIST));
+            FMOD_LOG(FMOD_Channel_Set3DMinMaxDistance(pChn, (float)sndMinDist, FMOD_3D_MAX_DIST));
             snd.setConeOrientation(pChn, *this);        // set cone orientation if there is one defined
             SoundVolume(pChn, vol);                     // Set volume
             if (bChnLowPass) {                          // if currently active, also activate low pass filter on this new channel

@@ -39,6 +39,7 @@ These aspects are relevant for developers using XPMP2 in their own plugin:
 
 ### Building XPMP2
 
+XPMP2 can be included into your projects as GitHub submodule, and into a CMake build plan via `add_subdirectory`.
 XCode projects, Visual Studio solutions, and a Docker environment for
 Linux and Mac OS builds are provided. The details are
 [documented here](Building.html).

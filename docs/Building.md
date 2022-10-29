@@ -118,3 +118,32 @@ For **MacOS**, the plugin can be **signed and notarized**, provided that the req
 - `NOTARIZATION_USERNAME`: Apple ID for notarization service (parameter `--apple-id` to `notarytool`)
 - `NOTARIZATION_TEAM`: Team ID for notarization service (parameter `--team-id` to `notarytool`)
 - `NOTARIZATION_PASSWORD`: [App-specific password](https://support.apple.com/en-gb/HT204397) for notarization service (parameter `--password` to `notarytool`)
+
+## Including directly in GutHub project and CMake builds
+
+You can avoid separate builds and instead include XPMP2 directly into your project.
+Recommended steps are:
+
+1. Include XPMP2 as a Github Submodule into your Github project, using something like
+    ```
+    git submodule add --name XPMP2 'https://github.com/TwinFan/XPMP2' lib/XPMP2
+    ```
+    To update your local version with changes from the XPMP2 repository run something like
+    ```
+    git submodule update --remote
+    ```
+2. In your `CMakeLists.txt` file include XPMP2 using something like the following in appropriate places:
+    1. If needing FMOD sound support first define
+        ```
+        set (INCLUDE_FMOD_SOUND 1)              
+        add_compile_definitions(INCLUDE_FMOD_SOUND=1)
+        include_directories("${CMAKE_CURRENT_SOURCE_DIR}/lib/XPMP2/XPMP2-Sample/lib/fmod/logo")
+        target_sources(${CMAKE_PROJECT_NAME} lib/XPMP2/XPMP2-Sample/lib/fmod/logo/FMOD_Logo.cpp)
+        ```
+    2. Including building XPMP2 as follows:
+        ```
+        include_directories("${CMAKE_CURRENT_SOURCE_DIR}/lib/XPMP2/inc")
+        add_subdirectory(lib/XPMP2)
+        add_dependencies(${CMAKE_PROJECT_NAME} XPMP2)
+        target_link_libraries(${CMAKE_PROJECT_NAME} XPMP2)
+        ```

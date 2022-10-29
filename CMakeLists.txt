@@ -180,6 +180,15 @@ target_include_directories(XPMP2
 		${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
+# Some files are known to do float comparison, but are good with that
+if (NOT MSVC)
+    set_source_files_properties(
+        src/Remote.cpp
+        src/Sound.cpp
+    PROPERTIES
+        COMPILE_FLAGS -Wno-float-equal)
+endif()
+
 # Include MingW threads
 if (MINGW)
     target_link_libraries(XPMP2 mingw_stdthreads)
@@ -229,18 +238,21 @@ if(APPLE)
     )
 endif()
 
+# If used stand-alone, not included into some other project,
 # Copy the resulting framework/library also into the 'lib/XPMP2' directory of the sample plugin
-if(APPLE)
-    add_custom_command(TARGET XPMP2 POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2/XPMP2.framework
-        COMMAND ${CMAKE_COMMAND} -E make_directory   ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2/XPMP2.framework
-        COMMAND cp -a $<TARGET_FILE_DIR:XPMP2>/../.. ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2/XPMP2.framework
-    )
-elseif(UNIX OR WIN32)
-    add_custom_command(TARGET XPMP2 POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E make_directory            ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2/$ENV{platform}
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:XPMP2> ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2/$ENV{platform}
-    )
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+    if(APPLE)
+        add_custom_command(TARGET XPMP2 POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2/XPMP2.framework
+            COMMAND ${CMAKE_COMMAND} -E make_directory   ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2/XPMP2.framework
+            COMMAND cp -a $<TARGET_FILE_DIR:XPMP2>/../.. ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2/XPMP2.framework
+        )
+    elseif(UNIX OR WIN32)
+        add_custom_command(TARGET XPMP2 POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E make_directory            ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2/$ENV{platform}
+            COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:XPMP2> ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2/$ENV{platform}
+        )
+    endif()
 endif()
 
 ################################################################################

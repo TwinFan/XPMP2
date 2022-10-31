@@ -307,7 +307,7 @@ public:
                 FMOD_LOG(FMOD_Channel_Set3DConeSettings(pChn, coneInAngle, coneOutAngle, coneOutVol));
             }
         } else {
-            LOG_MSG(logWARN, "Sound '%s' isn't ready yet, won't play now", filePath.c_str());
+            LOG_MSG(logDEBUG, "Sound '%s' isn't ready yet, won't play now", filePath.c_str());
         }
         return pChn;
     }
@@ -463,8 +463,8 @@ FMOD_CHANNEL* Aircraft::SoundPlay (const std::string& sndName, float vol)
             if (bChnMuted) {                            // if currently muted, then mute
                 FMOD_LOG(FMOD_Channel_SetMute(pChn, true));
             }
+            FMOD_LOG(FMOD_Channel_SetPaused(pChn, false));  // un-pause
         }
-        FMOD_LOG(FMOD_Channel_SetPaused(pChn, false));          // un-pause
         return pChn;
     }
     // Raised by map.at if not finding the key
@@ -615,9 +615,11 @@ void Aircraft::SoundUpdate ()
                             const std::string sndName = SoundGetName(eSndEvent, sndCh.volAdj);
                             vol *= sndCh.volAdj;
                             sndCh.pChn = SoundPlay(sndName, vol);
-                            LOG_MATCHING(logINFO, "Aircraft %08X (%s): Looping sound '%s' at volume %.2f for '%s'",
-                                         modeS_id, GetFlightId().c_str(),
-                                         sndName.c_str(), vol, SoundEventTxt(eSndEvent));
+                            if (sndCh.pChn) {
+                                LOG_MATCHING(logINFO, "Aircraft %08X (%s): Looping sound '%s' at volume %.2f for '%s'",
+                                             modeS_id, GetFlightId().c_str(),
+                                             sndName.c_str(), vol, SoundEventTxt(eSndEvent));
+                            }
                         } else {
                             // Update the volume as it can change any time
                             SoundVolume(sndCh.pChn, vol * sndCh.volAdj);

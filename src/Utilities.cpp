@@ -277,14 +277,27 @@ void GlobVars::UpdateCameraPos ()
     // Always update current camera position
     XPLMReadCameraPosition(&posCamera);
     
-    // Update velocity only every second
+    // Compare to previous position: If we moved more than 100m
+    // (in a flight loop, so at max 1/20s) then camera position was changed manually
     const float prev_ts = prevCamera_ts;
-    if (CheckEverySoOften(prevCamera_ts, 1.0f))
+    const float dx = posCamera.x - prevCamera.x;
+    const float dy = posCamera.y - prevCamera.y;
+    const float dz = posCamera.z - prevCamera.z;
+    if (sqr(dx) + sqr(dy) + sqr(dz) > 10000.0f)
+    {
+        vCam_x = 0.0f;                                  // velocity is invalid, avoid too high values causing too high Doppler effects
+        vCam_y = 0.0f;
+        vCam_z = 0.0f;
+        prevCamera_ts = 0.0f;                           // ensure new velocity is calculated next time round
+        prevCamera = posCamera;
+    }
+    // Update velocity only every second
+    else if (CheckEverySoOften(prevCamera_ts, 1.0f))
     {
         const float dt = prevCamera_ts - prev_ts;       // delta time (about 1s)
-        vCam_x = (posCamera.x - prevCamera.x) / dt;
-        vCam_y = (posCamera.y - prevCamera.y) / dt;
-        vCam_z = (posCamera.z - prevCamera.z) / dt;
+        vCam_x = dx / dt;
+        vCam_y = dy / dt;
+        vCam_z = dz / dt;
         prevCamera = posCamera;
     }
 }

@@ -396,12 +396,14 @@ public:
 
     /// return the XPMP2 plane id
     XPMPPlaneID GetModeS_ID () const { return modeS_id; }
-    /// Is this object a ground vehicle?
-    bool        IsGroundVehicle() const;
     /// @brief Is this object "related" to the given ICAO code? (named in the same line in related.txt)
     /// @param _icaoType ICAO aircraft type designator, to which `*this` is compared
     /// @details For example, `IsRelatedTo("GLID")` returns if `*this` is a glider
     bool        IsRelatedTo (const std::string& _icaoType) const;
+    /// Is this object a ground vehicle? (related to `glob.carIcaoType`)
+    bool        IsGroundVehicle() const;
+    /// Is this object a glider?
+    bool        IsGlider() const { return IsRelatedTo("GLID"); }
     /// @brief return the current TCAS target index (into `sim/cockpit2/tcas/targets`), 1-based, `-1` if not used
     int         GetTcasTargetIdx () const { return tcasTargetIdx; }
     /// Is this plane currently also being tracked as a TCAS target, ie. will appear on TCAS?
@@ -698,7 +700,7 @@ public:
     /// @note Override in derived class if you want to assign (some) sounds yourself
     /// @param sndEvent The type of sound event, like engine or gear
     /// @param[out] volAdj Volume adjustment factor, allows to make sound louder (>1.0) or quiter, defaults to 1.0
-    /// @returns Name of the sound to play
+    /// @returns Name of the sound to play, empty string if no sound shall play
     virtual std::string SoundGetName (SoundEventsTy sndEvent, float& volAdj) const;
 #endif
 

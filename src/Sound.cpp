@@ -545,7 +545,7 @@ std::string Aircraft::SoundGetName (SoundEventsTy sndEvent, float& volAdj) const
         default:
             LOG_MSG(logERR, "Aircraft %08X (%s): Unknown Sound Event type %d, no sound name returned",
                     modeS_id, GetFlightId().c_str(), int(sndEvent));
-            return "<UnknownSndType>";
+            return "";
     }
 }
 
@@ -566,6 +566,9 @@ void Aircraft::SoundSetup ()
     else if (pCSLMdl->GetClassEngType() == 'T') sndMinDist = 15;    // Turboprops are nearly as loud
     else sndMinDist = 10;                                           // everything else falls behind
     sndMinDist *= pCSLMdl->GetNumEngines();
+    
+    // For gliders there's no engine sound, otherwise there is
+    aSndCh[SND_ENG].bAuto = !IsGlider();
 }
 
 // Update sound, like position and volume, called once per frame
@@ -612,13 +615,16 @@ void Aircraft::SoundUpdate ()
                         float vol = std::clamp<float>((fVal - def.valMin) / (def.valMax - def.valMin), 0.0f, 1.0f);
                         // If there hasn't been a sound triggered do so now
                         if (!sndCh.pChn) {
+                            // Get Sound's name and volume adjustment
                             const std::string sndName = SoundGetName(eSndEvent, sndCh.volAdj);
-                            vol *= sndCh.volAdj;
-                            sndCh.pChn = SoundPlay(sndName, vol);
-                            if (sndCh.pChn) {
-                                LOG_MATCHING(logINFO, "Aircraft %08X (%s): Looping sound '%s' at volume %.2f for '%s'",
-                                             modeS_id, GetFlightId().c_str(),
-                                             sndName.c_str(), vol, SoundEventTxt(eSndEvent));
+                            if (!sndName.empty()) {
+                                vol *= sndCh.volAdj;
+                                sndCh.pChn = SoundPlay(sndName, vol);
+                                if (sndCh.pChn) {
+                                    LOG_MATCHING(logINFO, "Aircraft %08X (%s): Looping sound '%s' at volume %.2f for '%s'",
+                                                 modeS_id, GetFlightId().c_str(),
+                                                 sndName.c_str(), vol, SoundEventTxt(eSndEvent));
+                                }
                             }
                         } else {
                             // Update the volume as it can change any time
@@ -643,10 +649,12 @@ void Aircraft::SoundUpdate ()
                         // If there hasn't been a sound triggered do so now
                         if (!sndCh.pChn) {
                             const std::string sndName = SoundGetName(eSndEvent, sndCh.volAdj);
-                            sndCh.pChn = SoundPlay(sndName, sndCh.volAdj);
-                            LOG_MATCHING(logINFO, "Aircraft %08X (%s): Playing sound '%s' once for '%s'",
-                                         modeS_id, GetFlightId().c_str(),
-                                         sndName.c_str(), SoundEventTxt(eSndEvent));
+                            if (!sndName.empty()) {
+                                sndCh.pChn = SoundPlay(sndName, sndCh.volAdj);
+                                LOG_MATCHING(logINFO, "Aircraft %08X (%s): Playing sound '%s' once for '%s'",
+                                             modeS_id, GetFlightId().c_str(),
+                                             sndName.c_str(), SoundEventTxt(eSndEvent));
+                            }
                         }
                     } else {
                         // Now (more) value change, stop and remove the sound

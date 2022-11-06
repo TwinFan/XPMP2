@@ -39,6 +39,7 @@ add_compile_definitions(
     XPMP2_VER_MINOR=${PROJECT_VERSION_MINOR}
 )
 
+message ("== Building: ${PROJECT_NAME} ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH} ==")
 message ("Compiler Info:")
 message ("CMAKE_CXX_COMPILER_ID         = ${CMAKE_CXX_COMPILER_ID}")
 message ("CMAKE_CXX_COMPILER_VERSION    = ${CMAKE_CXX_COMPILER_VERSION}")
@@ -111,7 +112,7 @@ if(CMAKE_BUILD_TYPE MATCHES "Debug")
     if (MSVC)
         add_compile_options(/Zi)
     else()
-        add_compile_options(-O0 -g)
+        add_compile_options(-O0 -g -fPIC)
     endif()
 else()
     add_compile_definitions(NDEBUG=1)
@@ -128,8 +129,8 @@ else()
     endif()
 endif()
 
-# Mingw Threads
-if (MINGW)
+# Mingw Threads (if not already defined by an outer target)
+if (MINGW AND NOT TARGET mingw_stdthreads)
     option(MINGW_STDTHREADS_GENERATE_STDHEADERS "" ON)
     add_subdirectory(lib/mingw-std-threads)
 endif()
@@ -176,7 +177,7 @@ target_include_directories(XPMP2
 	PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/inc
     PRIVATE
-		${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/SDK/CHeaders/XPLM
+		${CMAKE_CURRENT_SOURCE_DIR}/lib/SDK/CHeaders/XPLM
 		${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
@@ -194,27 +195,16 @@ if (MINGW)
     target_link_libraries(XPMP2 mingw_stdthreads)
 endif()
 
-# FMOD Library only if requested
+# FMOD Library support if requested
+# (The actual FMOD lib is not included here, that needs to be done by the plugin target)
 if(INCLUDE_FMOD_SOUND)
     # Compile options
     add_compile_definitions(INCLUDE_FMOD_SOUND)
-    target_include_directories(XPMP2 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/fmod/inc)
+    target_include_directories(XPMP2 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lib/fmod/inc)
     target_sources(XPMP2 PRIVATE
         src/Sound.h
         src/Sound.cpp
     )
-
-    # Link options
-    list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/fmod")
-    if(WIN32)
-        find_library(FMOD_LIBRARY NAMES fmod_vc.lib REQUIRED)
-    elseif(APPLE)
-        find_library(FMOD_LIBRARY NAMES libfmod.dylib REQUIRED)
-    elseif(UNIX AND NOT APPLE)
-        find_library(FMOD_LIBRARY NAMES libfmod.so REQUIRED)
-    endif()
-    message ("FMOD_LIBRARY                  = ${FMOD_LIBRARY}")
-    target_link_libraries(XPMP2 ${FMOD_LIBRARY})
 endif()
 
 # make it a framework
@@ -237,188 +227,3 @@ if(APPLE)
         PUBLIC_HEADER "${XPMP2_PUB_HEADERS}"
     )
 endif()
-
-# If used stand-alone, not included into some other project,
-# Copy the resulting framework/library also into the 'lib/XPMP2' directory of the sample plugin
-if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
-    if(APPLE)
-        add_custom_command(TARGET XPMP2 POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2/XPMP2.framework
-            COMMAND ${CMAKE_COMMAND} -E make_directory   ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2/XPMP2.framework
-            COMMAND cp -a $<TARGET_FILE_DIR:XPMP2>/../.. ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2/XPMP2.framework
-        )
-    elseif(UNIX OR WIN32)
-        add_custom_command(TARGET XPMP2 POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E make_directory            ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2/$ENV{platform}
-            COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:XPMP2> ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/XPMP2/$ENV{platform}
-        )
-    endif()
-endif()
-
-################################################################################
-# XPMP2-Remote plugin
-################################################################################
-
-# To be able to build here we use header files from the original location.
-# And we use the SDK from XPMP2-Sample so that we don't need to keep 2 copies.
-add_library(XPMP2-Remote MODULE EXCLUDE_FROM_ALL
-    # Public XPMP2 header files, usually taken from the XPMP2 framework
-    inc/XPCAircraft.h
-    inc/XPMPAircraft.h
-    inc/XPMPMultiplayer.h
-    inc/XPMPRemote.h
-    inc/XPMPPlaneRenderer.h
-    # actual XPMP2-Remote client code
-    XPMP2-Remote/Client.h
-    XPMP2-Remote/Client.cpp
-    XPMP2-Remote/Utilities.h
-    XPMP2-Remote/Utilities.cpp
-    XPMP2-Remote/XPMP2-Remote.h
-    XPMP2-Remote/XPMP2-Remote.cpp
-)
-
-# Header include directories
-target_include_directories(XPMP2-Remote PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/inc
-    ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/SDK/CHeaders/XPLM
-    ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Remote
-)
-
-# Which depends on XPMP2
-add_dependencies(XPMP2-Remote XPMP2)
-
-# Link to the just built XPMP2 library
-target_link_libraries(XPMP2-Remote XPMP2)
-if(INCLUDE_FMOD_SOUND)
-    target_link_libraries(XPMP2-Remote ${FMOD_LIBRARY})
-endif()
-
-# Link X-Plane plugin system libraries. They are only provided for OS X and Windows.
-if (WIN32 OR APPLE)
-    # Specify library search location for X-Plane SDK
-    if (APPLE)
-        list(APPEND CMAKE_FRAMEWORK_PATH "${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/SDK/Libraries/Mac")
-    else ()
-        list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/SDK/Libraries/Win")
-    endif ()
-    find_library(XPLM_LIBRARY XPLM REQUIRED NAMES XPLM XPLM_64.lib)
-    target_link_libraries(XPMP2-Remote ${XPLM_LIBRARY})
-endif ()
-
-if (WIN32)
-    # Link with winsock for network and iphlpap for GetAdaptersAddresses
-    target_link_libraries(XPMP2-Remote wsock32 ws2_32 iphlpapi)
-    if (MINGW)
-        # Include MingW threads
-        target_link_libraries(XPMP2-Remote mingw_stdthreads)
-        # When cross-compiling we link the standard libraries statically
-        target_link_options(XPMP2-Remote PRIVATE -static-libgcc -static-libstdc++)
-    endif()
-elseif (APPLE)
-    # Link OS X core system libraries.
-    find_library(IOKIT_LIBRARY IOKit REQUIRED)
-    find_library(CORE_FOUNDATION_LIBRARY CoreFoundation REQUIRED)
-    target_link_libraries(XPMP2-Remote ${IOKIT_LIBRARY} ${CORE_FOUNDATION_LIBRARY})
-    # Restrict set of symbols exported from the plugin to the ones required by XPLM:
-    target_link_options(XPMP2-Remote PRIVATE "-exported_symbols_list ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/XPMP2-Sample.sym_mac")
-elseif (UNIX)
-    # Link library for dynamic loading of shared objects on UNIX systems.
-    find_library(DL_LIBRARY dl REQUIRED)
-    # Threads
-    set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
-    set(THREADS_PREFER_PTHREAD_FLAG TRUE)
-    find_package(Threads REQUIRED)
-    target_link_libraries(XPMP2-Remote ${DL_LIBRARY} Threads::Threads)
-    # Specify additional runtime search paths for dynamically-linked libraries.
-    # Restrict set of symbols exported from the plugin to the ones required by XPLM:
-    target_link_options(XPMP2-Remote PRIVATE -Wl,--version-script -Wl,${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/XPMP2-Sample.sym)
-endif ()
-
-
-# Target directory and file name
-if (WIN32)
-   set_target_properties(XPMP2-Remote PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/win_x64")
-elseif (APPLE)
-   set_target_properties(XPMP2-Remote PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/mac_x64")
-elseif (UNIX)
-   set_target_properties(XPMP2-Remote PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lin_x64")
-endif ()
-
-set_target_properties(XPMP2-Remote PROPERTIES
-    PREFIX ""
-    OUTPUT_NAME "XPMP2-Remote"
-    SUFFIX ".xpl"
-)
-
-
-################################################################################
-# XPMP2-Sample plugin
-################################################################################
-
-# To be able to build here we use header files from the original location.
-add_library(XPMP2-Sample MODULE EXCLUDE_FROM_ALL
-    # Public XPMP2 header files, usually taken from the XPMP2 framework
-    inc/XPCAircraft.h
-    inc/XPMPAircraft.h
-    inc/XPMPMultiplayer.h
-    inc/XPMPRemote.h
-    inc/XPMPPlaneRenderer.h
-    # actual XPMP2-Sample code
-    XPMP2-Sample/XPMP2-Sample.cpp
-)
-
-# Header include directories
-target_include_directories(XPMP2-Sample PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/inc
-    ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/lib/SDK/CHeaders/XPLM
-    ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Remote
-)
-
-# Which depends on XPMP2
-add_dependencies(XPMP2-Sample XPMP2)
-
-# Link to the just built XPMP2 library
-target_link_libraries(XPMP2-Sample XPMP2)
-if(INCLUDE_FMOD_SOUND)
-    target_link_libraries(XPMP2-Sample ${FMOD_LIBRARY})
-endif()
-
-# Link X-Plane plugin system libraries. They are only provided for OS X and Windows.
-if (WIN32 OR APPLE)
-    target_link_libraries(XPMP2-Sample ${XPLM_LIBRARY})
-endif ()
-
-if (WIN32)
-    # Link with winsock for network and iphlpapi for GetAdaptersAddresses
-    target_link_libraries(XPMP2-Sample wsock32 ws2_32 iphlpapi)
-    if (MINGW)
-        # Include MingW threads
-        target_link_libraries(XPMP2-Sample mingw_stdthreads)
-        # When cross-compiling we link the standard libraries statically
-        target_link_options(XPMP2-Sample PRIVATE -static-libgcc -static-libstdc++)
-    endif()
-elseif (APPLE)
-    target_link_libraries(XPMP2-Sample ${IOKIT_LIBRARY} ${CORE_FOUNDATION_LIBRARY})
-    # Restrict set of symbols exported from the plugin to the ones required by XPLM:
-    target_link_options(XPMP2-Sample PRIVATE "-exported_symbols_list ${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/XPMP2-Sample.sym_mac")
-elseif (UNIX)
-    target_link_libraries(XPMP2-Sample ${DL_LIBRARY} Threads::Threads)
-    # Restrict set of symbols exported from the plugin to the ones required by XPLM:
-    target_link_options(XPMP2-Sample PRIVATE -Wl,--version-script -Wl,${CMAKE_CURRENT_SOURCE_DIR}/XPMP2-Sample/XPMP2-Sample.sym)
-endif ()
-
-# Target directory and file name
-if (WIN32)
-   set_target_properties(XPMP2-Sample PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/win_x64")
-elseif (APPLE)
-   set_target_properties(XPMP2-Sample PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/mac_x64")
-elseif (UNIX)
-   set_target_properties(XPMP2-Sample PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lin_x64")
-endif ()
-
-set_target_properties(XPMP2-Sample
-    PROPERTIES
-    PREFIX ""
-    OUTPUT_NAME "XPMP2-Sample"
-    SUFFIX ".xpl"
-)

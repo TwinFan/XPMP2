@@ -4,7 +4,7 @@ author: TwinFan
 
 inputs:                       
   libName:
-    description: "Library's name, used both as top-level folder name and as file name as required by X-Plane"
+    description: "Library's name, used as file name"
     required: true
   flags:
     description: "Flags to be passed to CMake"
@@ -53,4 +53,4 @@ runs:
     shell: bash
     env:
       TARGET_LIB: build-lin/lib${{ inputs.libName }}.a
-    run: echo "lib-file-name=$(echo $TARGET_XPL)" >> $GITHUB_OUTPUT
+    run: echo "lib-file-name=$(echo $TARGET_LIB)" >> $GITHUB_OUTPUT

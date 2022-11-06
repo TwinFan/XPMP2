@@ -24,7 +24,7 @@ runs:
   - name: Test for Target
     shell: bash
     env:
-      TARGET_LIB: build-win/${{ inputs.pluginName }}.lib
+      TARGET_LIB: build-win/${{ inputs.libName }}.lib
     run: |
       if [[ ! -f "$TARGET_LIB" ]]; then
         echo Expected target build not found: "$TARGET_LIB"
@@ -34,5 +34,5 @@ runs:
     id: return
     shell: bash
     env:
-      TARGET_LIB: build-win/${{ inputs.pluginName }}.lib
+      TARGET_LIB: build-win/${{ inputs.libName }}.lib
     run: echo "lib-file-name=$(echo $TARGET_LIB)" >> $GITHUB_OUTPUT

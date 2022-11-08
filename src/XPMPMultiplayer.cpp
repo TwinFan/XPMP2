@@ -150,8 +150,13 @@ const char *    XPMPMultiplayerInit(const char* inPluginName,
 
     // Get X-Plane's version numbers
     glob.ReadVersions();    
+#ifdef INCLUDE_FMOD_SOUND
+    LOG_MSG(logINFO, "XPMP2 %.2f with FMOD support initializing under X-Plane version %d/%s and XPLM version %d",
+            XPMP2_VER, glob.verXPlane, GetGraphicsDriverTxt(), glob.verXPLM);
+#else
     LOG_MSG(logINFO, "XPMP2 %.2f initializing under X-Plane version %d/%s and XPLM version %d",
             XPMP2_VER, glob.verXPlane, GetGraphicsDriverTxt(), glob.verXPLM);
+#endif
     
     // Read a potential global XPMP2-specific config file
     glob.ReadConfigFile();
@@ -173,6 +178,10 @@ const char *    XPMPMultiplayerInit(const char* inPluginName,
     AIMultiInit();
     MapInit();
     RemoteInit();
+#ifdef INCLUDE_FMOD_SOUND
+    if (glob.bSoundOnStartup)
+        XPMPSoundEnable(true);
+#endif
     
     // Load related.txt
     ret = RelatedLoad(glob.pathRelated);
@@ -207,6 +216,9 @@ void XPMPMultiplayerCleanup()
     LOG_MSG(logINFO, "XPMP2 cleaning up...")
 
     // Cleanup all modules in revers order of initialization
+#ifdef INCLUDE_FMOD_SOUND
+    SoundCleanup();
+#endif
     RemoteCleanup();
     MapCleanup();
     AIMultiCleanup();

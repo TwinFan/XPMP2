@@ -43,7 +43,7 @@ $(function() {
 <div class="title">Backwards Compatibilty </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>Despite its new approach, <a class="el" href="namespaceXPMP2.html">XPMP2</a> shall be your drop-in replacement for the original library: The original header files are still provided with the same name. All original public functions are still there. The original <a href="html/classXPCAircraft.html"><code>XPCAircraft</code> class</a> is still there, now derived from <a href="html/classXPMP2_1_1Aircraft.html"><code>XPMP2::Aircraft</code></a>.</p>
+<div class="textblock"><p>Despite its new approach, <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> shall be your drop-in replacement for the original library: The original header files are still provided with the same name. All original public functions are still there. The original <a href="html/classXPCAircraft.html"><code>XPCAircraft</code> class</a> is still there, now derived from <a href="html/classXPMP2_1_1Aircraft.html"><code>XPMP2::Aircraft</code></a>.</p>
 <h1><a class="anchor" id="autotoc_md0"></a>
 Changes</h1>
 <p>A few changes are there, though, for clarity and to be future-proof. Some few require simple code changes:</p><ul>
@@ -59,7 +59,7 @@ Changes</h1>
 <li>(optionally) a short name / acronym used for logging into <code>Log.txt</code>.</li>
 </ul>
 </li>
-<li>It is no longer necessary to define the compile-time macros <code>XPMP_CLIENT_NAME</code> and <code>XPMP_CLIENT_LONGNAME</code>. Instead, you can use the new parameter <code>inPluginName</code> in the call to <code>XPMPMultiplayerInit</code> or the function <code>XPMPSetPluginName</code> to set the plugin's name from within your plugin. <a class="el" href="namespaceXPMP2.html">XPMP2</a> tries to guess the plugin's name if no name is explicitely set. This allows using the provided libraries directly without the need to recompile.</li>
+<li>It is no longer necessary to define the compile-time macros <code>XPMP_CLIENT_NAME</code> and <code>XPMP_CLIENT_LONGNAME</code>. Instead, you can use the new parameter <code>inPluginName</code> in the call to <code>XPMPMultiplayerInit</code> or the function <code>XPMPSetPluginName</code> to set the plugin's name from within your plugin. <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> tries to guess the plugin's name if no name is explicitely set. This allows using the provided libraries directly without the need to recompile.</li>
 <li><code>XPMPLoadCSLPackage</code> walks directories hierarchically up to 5 levels until it finds an <code>xsb_aircraft.txt</code> file. This should not affect classic usages, where such a path was just one level away from the <code>xsb_aircraft.txt</code> file. It would just also search deeper if needed.</li>
 <li>Available configuration parameters have change, that will be queried in calls to the configuration function callback that you can provide in <code>XPMPMultiplayerInit</code>. Please see the <a href="html/XPMPMultiplayer_8h.html">header file documentation</a> for <code>XPMPIntPrefsFuncTy</code> for details.</li>
 </ul>

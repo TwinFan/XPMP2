@@ -1,45 +1,38 @@
 name: Build Windows / MSVC / CMake
-description: Build a Windows plugin with MS Visual Studio based on a CMake setup
+description: Build a Windows library with MS Visual Studio based on a CMake setup
 author: TwinFan
 
 inputs:                       
-  pluginName:
-    description: "Plugin's name, used both as top-level folder name and as file name as required by X-Plane"
+  libName:
+    description: "Library's name, used as file name"
     required: true
-  archFolder:
-    description: "Subfolder in which the executable is placed, is based on architecture like 'win_x64'"
-    required: true
-    default: win_x64
+  flags:
+    description: "Flags to be passed to CMake"
+    required: false
 
 outputs:
-  xpl-file-name:
-    description: Path to the resulting xpl file
-    value: ${{ steps.return.outputs.xpl-file-name }}
-  pdb-file-name:
-    description: Path to the resulting pdb file (debug symbol info)
-    value: ${{ steps.return.outputs.pdb-file-name }}
+  lib-file-name:
+    description: Path to the resulting lib
+    value: ${{ steps.return.outputs.lib-file-name }}
 
 runs:
   using: "composite"
   steps:
   - name: Build
     shell: cmd
-    run: ${{ github.action_path }}\build-win.cmd "C:\Program Files\Microsoft Visual Studio\2022\Enterprise" build-win
+    run: ${{ github.action_path }}\build-win.cmd "C:\Program Files\Microsoft Visual Studio\2022\Enterprise" build-win "${{ inputs.flags }}"
   - name: Test for Target
     shell: bash
     env:
-      TARGET_XPL: build-win/${{ inputs.archFolder }}/${{ inputs.pluginName }}.xpl
+      TARGET_LIB: build-win/${{ inputs.libName }}.lib
     run: |
-      if [[ ! -f "$TARGET_XPL" ]]; then
-        echo Expected target build not found: "$TARGET_XPL"
+      if [[ ! -f "$TARGET_LIB" ]]; then
+        echo Expected target build not found: "$TARGET_LIB"
         exit 1
       fi
   - name: Return Value
     id: return
     shell: bash
     env:
-      TARGET_XPL: build-win/${{ inputs.archFolder }}/${{ inputs.pluginName }}.xpl
-      TARGET_PDB: build-win/${{ inputs.archFolder }}/${{ inputs.pluginName }}.pdb
-    run: |
-      echo "::set-output name=xpl-file-name::$(echo $TARGET_XPL)"
-      echo "::set-output name=pdb-file-name::$(echo $TARGET_PDB)"
+      TARGET_LIB: build-win/${{ inputs.libName }}.lib
+    run: echo "lib-file-name=$(echo $TARGET_LIB)" >> $GITHUB_OUTPUT

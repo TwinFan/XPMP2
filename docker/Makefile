@@ -19,10 +19,10 @@ bash_focal: .image_focal
 	docker run -it --rm -v "$(realpath ..):/build" --entrypoint bash $(container_focal)
 
 lin-bionic: .image_bionic
-	docker run -i --rm -v "$(realpath ..):/build" --entrypoint docker/build.sh $(container_bionic) $@
+	docker run -i --rm -v "$(realpath ..):/build" --entrypoint docker/build.sh $(container_bionic) $(FLAGS) $@
 
 lin win mac-arm mac-x86: .image_focal
-	docker run -i --rm -v "$(realpath ..):/build" --entrypoint docker/build.sh $(container_focal) $@
+	docker run -i --rm -v "$(realpath ..):/build" --entrypoint docker/build.sh $(container_focal) $(FLAGS) $@
 
 mac: mac-arm mac-x86
 	# Create universal binaries for XPMP2-Remote and XPMP2-Sample
@@ -34,9 +34,9 @@ mac: mac-arm mac-x86
 	# (This is a bit ugly as it hard-codes the library version number as configured in CMakeList...but at least it will consequently fail when that version number is updated ;-)
 	rm -r ../build-mac/XPMP2.framework || true
 	cp -a ../build-mac-arm/XPMP2.framework ../build-mac/
-	docker run -i --rm -v "$(realpath ..):/build" --entrypoint bash $(container_focal) -c 'lipo -create -output build-mac/XPMP2.framework/Versions/2.50/XPMP2 build-mac-x86/XPMP2.framework/Versions/2.50/XPMP2 build-mac-arm/XPMP2.framework/Versions/2.50/XPMP2'
+	docker run -i --rm -v "$(realpath ..):/build" --entrypoint bash $(container_focal) -c 'lipo -create -output build-mac/XPMP2.framework/Versions/2.60/XPMP2 build-mac-x86/XPMP2.framework/Versions/2.60/XPMP2 build-mac-arm/XPMP2.framework/Versions/2.60/XPMP2'
 	# Copy the universal library also to the XPMP2-Sample/lib folder
-	cp ../build-mac/XPMP2.framework/Versions/2.50/XPMP2 ../XPMP2-Sample/lib/XPMP2.framework/Versions/2.50/XPMP2
+	cp ../build-mac/XPMP2.framework/Versions/2.60/XPMP2 ../XPMP2-Sample/lib/XPMP2/XPMP2.framework/Versions/2.60/XPMP2
 
 doc:
 	cd .. && /Applications/Doxygen.app/Contents/Resources/doxygen docs/XPMP2.doxygen

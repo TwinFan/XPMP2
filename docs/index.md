@@ -5,12 +5,13 @@ document both usage and internals of the XPMP2 library.
 
 Content and availability status:
 
-- Requirements (see below)
+- [X] [Requirements](#requirements)
 - [ ] Feature Details
   - [X] [Model Matching](Matching.html)
   - [X] [TCAS Target and AI/multiplayer support](TCAS.html)
   - [ ] Additional map layer
   - [X] [Wake Turbulence Support](Wake.html)
+  - [X] [Sound Support by FMOD](Sound.html)
   - [X] [Shared dataRefs](SharedDataRefs.html) providing textual aircraft / flight information to interested 3rd party plugins
   - [X] [XPMP2 Remote](Remote.html) functionality
 - [ ] Coding, Building, Deployment
@@ -29,11 +30,8 @@ Content and availability status:
 - XPMP2 implements [instancing](https://developer.x-plane.com/sdk/XPLMInstance/),
   so it **requires X-Plane 11.10** or later
 - CSL models in **OBJ8 format** (ie. older OBJ7 models are no longer supported)
-
-## Feature Details
-
-- [Model Matching](Matching.html)
-- [TCAS and AI/Multiplayer support](TCAS.html)
+- Potentially an FMOD license if built with sound support, see below in
+  [Sound Support by FMOD](#sound-support-by-fmod)
 
 ## Coding, Building, Deployment
 
@@ -41,6 +39,7 @@ These aspects are relevant for developers using XPMP2 in their own plugin:
 
 ### Building XPMP2
 
+XPMP2 can be included into your projects as GitHub submodule, and into a CMake build plan via `add_subdirectory`.
 XCode projects, Visual Studio solutions, and a Docker environment for
 Linux and Mac OS builds are provided. The details are
 [documented here](Building.html).
@@ -106,12 +105,21 @@ Performing these changes is built into XPMP2.
 
 ## Links to outside locations
 
-[TCAS Override approach](https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/)
+### TCAS Override
+
+The [TCAS Override approach](https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/)
 explains how TCAS information is provided, the classic multiplayer dataRefs are maintained
 and how 3rd party plugins can access this information. XPMP2 publishes data
 via the `sim/cockpit2/tcas/targets` dataRefs.
 
-Original libxplanemp:
+### Wake Turbulence
+
+X-Plane's approach to Wake Turbulence support for TCAS targets is described in
+[this blog post](https://developer.x-plane.com/2022/02/wake-turbulence/)
+featuring LiveTraffic screenshots and
+[this article on the dataRef details](https://developer.x-plane.com/article/plugin-traffic-wake-turbulence/).
+
+### Original libxplanemp
 
 - [TwinFan's libxplanemp fork](https://github.com/TwinFan/libxplanemp) on GitHub
   - [wiki explaining differences to the kuroneko fork](https://github.com/TwinFan/libxplanemp/wiki)

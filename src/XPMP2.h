@@ -27,6 +27,10 @@
 #include <ws2ipdef.h>           // required for sockaddr_in6 (?)
 #include <iphlpapi.h>           // for GetAdaptersAddresses
 #include <ws2tcpip.h>
+// On Windows, 'max' and 'min' are defined macros in conflict with C++ library. Let's undefine them!
+#include <direct.h>
+#undef max
+#undef min
 #endif
 
 // XPlaneMP 2 - Public Header Files
@@ -81,13 +85,7 @@
 #include "Map.h"
 #include "Network.h"
 #include "Remote.h"
-
-// On Windows, 'max' and 'min' are defined macros in conflict with C++ library. Let's undefine them!
-#if IBM
-#include <direct.h>
-#undef max
-#undef min
-#endif
+#include "Sound.h"
 
 //
 // MARK: Global Configurations and variables
@@ -214,6 +212,17 @@ public:
     /// Are we a sender?
     bool RemoteIsSender() const { return remoteStatus == REMOTE_SENDING || remoteStatus == REMOTE_SEND_WAITING; }
 
+    /// Config: Start Sound on startup?
+    bool bSoundOnStartup = true;
+    /// Config: Mute on Pause?
+    bool bSoundMuteOnPause = true;
+    /// Is the sound system available?
+    bool bSoundAvail = false;
+    /// Sound master volume
+    float sndMasterVol = 1.0f;
+    /// Is sound currently being auto-muted?
+    bool bSoundAutoMuted = false;
+    
     /// X-Plane's version number (XPLMGetVersions)
     int             verXPlane = -1;
     /// XPLM's SDK version number (XPLMGetVersions)
@@ -227,13 +236,17 @@ public:
     /// id of X-Plane's thread (when it is OK to use XP API calls)
     std::thread::id xpThread;
 
-#ifdef DEBUG
+    /// Current camera location, updated every flight loop
+    XPLMCameraPosition_t posCamera = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+    /// Previous camera location of about a second ago
+    XPLMCameraPosition_t prevCamera = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+    /// Camera velocity
+    float vCam_x = 0.0f, vCam_y = 0.0f, vCam_z = 0.0f;
+    /// When has `prevCamera` been updated last?
+    float prevCamera_ts = 0.0f;
+
     /// Current XP cycle number (see XPLMGetCycleNumber())
     int             xpCycleNum = 0;
-#define UPDATE_CYCLE_NUM glob.xpCycleNum=XPLMGetCycleNumber();
-#else
-#define UPDATE_CYCLE_NUM
-#endif
     
 protected:
     /// Current plane ID counter
@@ -260,6 +273,8 @@ public:
     /// Is this thread XP's main thread?
     bool IsXPThread() const { return std::this_thread::get_id() == xpThread; }
 
+    /// Update the stored camera position and velocity values
+    void UpdateCameraPos ();
 };
 
 /// The one and only global variable structure

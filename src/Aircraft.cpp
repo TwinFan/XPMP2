@@ -215,6 +215,11 @@ Aircraft::~Aircraft ()
     XPMPSendNotification(*this, xpmp_PlaneNotification_Destroyed);
     RemoteAcRemove(*this);
     
+#ifdef INCLUDE_FMOD_SOUND
+    // Remove all sound
+    SoundRemoveAll();
+#endif
+    
     // Remove the instance
     DestroyInstances();
     
@@ -289,6 +294,11 @@ void Aircraft::Create (const std::string& _icaoType,
     if (!pCSLMdl)
         ChangeModel(_icaoType, _icaoAirline, _livery);
     LOG_ASSERT(pCSLMdl);
+    
+#ifdef INCLUDE_FMOD_SOUND
+    // Setup sound for this aircraft
+    SoundSetup();
+#endif
     
     // add the aircraft to our global map and inform observers
     glob.mapAc.emplace(modeS_id,this);
@@ -398,8 +408,12 @@ int Aircraft::ChangeModel (const std::string& _icaoType,
     WakeApplyDefaults(bChangeExisting);
     
     // inform observers in case this was an actual replacement change
-    if (bChangeExisting)
+    if (bChangeExisting) {
+#ifdef INCLUDE_FMOD_SOUND
+        SoundSetup();
+#endif
         XPMPSendNotification(*this, xpmp_PlaneNotification_ModelChanged);
+    }
 
     return q;
 }
@@ -493,14 +507,13 @@ float Aircraft::FlightLoopCB(float _elapsedSinceLastCall, float, int _flCounter,
 {
     // This is a plugin entry function, so we try to catch all exceptions
     try {
-        UPDATE_CYCLE_NUM;               // DEBUG only: Store current cycle number in glob.xpCycleNum
+        glob.xpCycleNum=XPLMGetCycleNumber();       // Store current cycle number in glob.xpCycleNum
 
         // Update configuration
         glob.UpdateCfgVals();
 
         // Need the camera's position to calculate the a/c's distance to it
-        XPLMCameraPosition_t posCamera;
-        XPLMReadCameraPosition(&posCamera);
+        glob.UpdateCameraPos();
 
         // As we need the current timestamp more often we read it here once
         const float now = GetMiscNetwTime();
@@ -525,7 +538,7 @@ float Aircraft::FlightLoopCB(float _elapsedSinceLastCall, float, int _flCounter,
                         ac.ClampToGround();
                     // Update plane's distance/bearing every second only
                     if (CheckEverySoOften(ac.camTimLstUpd, 1.0f, now)) {
-                        ac.UpdateDistBearingCamera(posCamera);
+                        ac.UpdateDistBearingCamera(glob.posCamera);
                         ac.ComputeMapLabel();
                     }
                     // If required reset touch down animation
@@ -537,6 +550,10 @@ float Aircraft::FlightLoopCB(float _elapsedSinceLastCall, float, int _flCounter,
                     ac.DoMove();
                     // Feed remote connections
                     RemoteAcEnqueue(ac);
+#ifdef INCLUDE_FMOD_SOUND
+                    // Update Sound
+                    ac.SoundUpdate();
+#endif
                 }
             }
             CATCH_AC(ac)
@@ -545,12 +562,20 @@ float Aircraft::FlightLoopCB(float _elapsedSinceLastCall, float, int _flCounter,
         // Tell remote module that we are done updated a/c so it can send out last pending messages
         RemoteAcEnqueueDone();
         
+#ifdef INCLUDE_FMOD_SOUND
+        // Tell Sound module that we are done updating
+        SoundUpdatesDone();
+#endif
+        
         // Publish aircraft data on the AI/multiplayer dataRefs
         AIMultiUpdate();
     }
     catch (const std::exception& e) {
         LOG_MSG(logFATAL, ERR_EXCEPTION, e.what());
         RemoteAcEnqueueDone();          // must make sure to release a lock
+#ifdef INCLUDE_FMOD_SOUND
+        SoundUpdatesDone();
+#endif
     }
 
     // Don't call me again if there are no more aircraft,
@@ -842,6 +867,11 @@ void Aircraft::SetVisible (bool _bVisible)
         ResetTcasTargetIdx();
         DestroyInstances();
     }
+    
+#ifdef INCLUDE_FMOD_SOUND
+    // (Un)mute Sound
+    SoundMuteAll(!bVisible);
+#endif
 }
 
 // Switch rendering of the CSL model on or off

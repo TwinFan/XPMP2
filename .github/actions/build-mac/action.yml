@@ -3,18 +3,17 @@ description: Build a MacOS plugin based on a CMake setup
 author: TwinFan
 
 inputs:                       
-  pluginName:
-    description: "Plugin's name, used both as top-level folder name and as file name as required by X-Plane"
+  libName:
+    description: "Library's name, used both as top-level folder name and as file name as required by X-Plane"
     required: true
-  archFolder:
-    description: "Subfolder in which the executable is placed, is based on architecture like 'mac_x64'"
-    required: true
-    default: mac_x64
+  flags:
+    description: "Flags to be passed to CMake"
+    required: false
 
 outputs:
-  xpl-file-name:
-    description: Path to the resulting xpl file
-    value: ${{ steps.return.outputs.xpl-file-name }}
+  lib-file-name:
+    description: Path to the resulting lib file
+    value: ${{ steps.return.outputs.lib-file-name }}
 
 runs:
   using: "composite"
@@ -32,25 +31,27 @@ runs:
     run: |
       cd build-mac
       pwd
-      cmake -G Ninja ..
+      cmake -G Ninja ${{ inputs.flags }} ..
   - name: Build
     shell: bash
     run: |
       cd build-mac
       pwd
-      ninja XPMP2 XPMP2-Sample XPMP2-Remote
-  - name: Test for Target
+      ninja
+  - name: Test for and Zip Framework
     shell: bash
     env:
-      TARGET_XPL: build-mac/${{ inputs.archFolder }}/${{ inputs.pluginName }}.xpl
+      TARGET_LIB: build-mac/${{ inputs.libName }}.framework
     run: |
-      if [[ ! -f "$TARGET_XPL" ]]; then
-        echo Expected target build not found: "$TARGET_XPL"
+      if [[ ! -d "$TARGET_LIB" ]]; then
+        echo Expected target build not found: "$TARGET_LIB"
         exit 1
       fi
+      cd build-mac
+      zip -9ry ${{ inputs.libName }}.framework.zip ${{ inputs.libName }}.framework 
   - name: Return Value
     id: return
     shell: bash
     env:
-      TARGET_XPL: build-mac/${{ inputs.archFolder }}/${{ inputs.pluginName }}.xpl
-    run: echo "::set-output name=xpl-file-name::$(echo $TARGET_XPL)"
+      TARGET_ZIP: build-mac/${{ inputs.libName }}.framework.zip
+    run: echo "lib-file-name=$(echo $TARGET_ZIP)" >> $GITHUB_OUTPUT

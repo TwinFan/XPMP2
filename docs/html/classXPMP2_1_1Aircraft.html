@@ -45,9 +45,8 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-static-methods">Static Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="#friends">Friends</a> &#124;
@@ -57,7 +56,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Actual representation of all aircraft in <a class="el" href="namespaceXPMP2.html">XPMP2</a>.  
+<p>Actual representation of all aircraft in <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>.  
  <a href="classXPMP2_1_1Aircraft.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="XPMPAircraft_8h_source.html">XPMPAircraft.h</a>&gt;</code></p>
@@ -79,12 +78,34 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:structXPMP2_1_1Aircraft_1_1SndChTy"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#structXPMP2_1_1Aircraft_1_1SndChTy">SndChTy</a></td></tr>
+<tr class="memdesc:structXPMP2_1_1Aircraft_1_1SndChTy"><td class="mdescLeft">&#160;</td><td class="mdescRight">Operational values per sound channel, that is triggered by a standard sound event.  <a href="classXPMP2_1_1Aircraft.html#structXPMP2_1_1Aircraft_1_1SndChTy">More...</a><br /></td></tr>
+<tr class="separator:structXPMP2_1_1Aircraft_1_1SndChTy"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1Aircraft_1_1wakeTy.html">wakeTy</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wake dataRef support.  <a href="structXPMP2_1_1Aircraft_1_1wakeTy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a53148678cb692403b734b005fe78f336"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336">SoundEventsTy</a> { <br />
+&#160;&#160;<a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336aca3795a59824135c5e2078ba70ecff1e">SND_ENG</a> = 0
+, <a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336a9ed5836584917293bb6caf5d7dc710e2">SND_REVERSE_THRUST</a>
+, <a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336a66692a90ed70662494e2ada7defef222">SND_TIRE</a>
+, <a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336a83185475de7675ea8b200d5c528269f2">SND_GEAR</a>
+, <br />
+&#160;&#160;<a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336a3d96930abc1ecf91857b8f2b1e8464d4">SND_FLAPS</a>
+, <a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336ad77fac2238d59d130d2f38d4560f9d11">SND_NUM_EVENTS</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a53148678cb692403b734b005fe78f336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Types of sound supported directly by <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>.  <a href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336">More...</a><br /></td></tr>
+<tr class="separator:a53148678cb692403b734b005fe78f336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0adb2f6532027d67f3ce815963191ee"><td class="memItemLeft" align="right" valign="top">typedef std::list&lt; FMOD_CHANNEL * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#aa0adb2f6532027d67f3ce815963191ee">ChnListTy</a></td></tr>
+<tr class="memdesc:aa0adb2f6532027d67f3ce815963191ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of FMOD channels, also beyond sounds created for SoundEvetsTy.  <a href="classXPMP2_1_1Aircraft.html#aa0adb2f6532027d67f3ce815963191ee">More...</a><br /></td></tr>
+<tr class="separator:aa0adb2f6532027d67f3ce815963191ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr><td colspan="2"><div class="groupHeader">Construction</div></td></tr>
 <tr class="memitem:af77ba40523a9e43e4c4c3ca433210817"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#af77ba40523a9e43e4c4c3ca433210817">Aircraft</a> (const std::string &amp;_icaoType, const std::string &amp;_icaoAirline, const std::string &amp;_livery, <a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> _modeS_id=0, const std::string &amp;_cslId=&quot;&quot;)</td></tr>
 <tr class="memdesc:af77ba40523a9e43e4c4c3ca433210817"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor creates a new aircraft object, which will be managed and displayed.  <a href="classXPMP2_1_1Aircraft.html#af77ba40523a9e43e4c4c3ca433210817">More...</a><br /></td></tr>
 <tr class="separator:af77ba40523a9e43e4c4c3ca433210817"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -103,8 +124,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7ece414d098de338e22e995ba4a696df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a7ece414d098de338e22e995ba4a696df">Create</a> (const std::string &amp;_icaoType, const std::string &amp;_icaoAirline, const std::string &amp;_livery, <a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> _modeS_id=0, const std::string &amp;_cslId=&quot;&quot;, <a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a> *_pCSLModel=nullptr)</td></tr>
 <tr class="memdesc:a7ece414d098de338e22e995ba4a696df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a plane, only a valid operation if object was created using the default constructor.  <a href="classXPMP2_1_1Aircraft.html#a7ece414d098de338e22e995ba4a696df">More...</a><br /></td></tr>
 <tr class="separator:a7ece414d098de338e22e995ba4a696df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Information</div></td></tr>
 <tr class="memitem:a596bb59f5ee02709fb4cbb5acbaf9b38"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a596bb59f5ee02709fb4cbb5acbaf9b38">GetModeS_ID</a> () const</td></tr>
-<tr class="memdesc:a596bb59f5ee02709fb4cbb5acbaf9b38"><td class="mdescLeft">&#160;</td><td class="mdescRight">return the <a class="el" href="namespaceXPMP2.html">XPMP2</a> plane id  <a href="classXPMP2_1_1Aircraft.html#a596bb59f5ee02709fb4cbb5acbaf9b38">More...</a><br /></td></tr>
+<tr class="memdesc:a596bb59f5ee02709fb4cbb5acbaf9b38"><td class="mdescLeft">&#160;</td><td class="mdescRight">return the <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> plane id  <a href="classXPMP2_1_1Aircraft.html#a596bb59f5ee02709fb4cbb5acbaf9b38">More...</a><br /></td></tr>
 <tr class="separator:a596bb59f5ee02709fb4cbb5acbaf9b38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a863cef3715811241108af24fa447e78c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a863cef3715811241108af24fa447e78c">IsGroundVehicle</a> () const</td></tr>
 <tr class="memdesc:a863cef3715811241108af24fa447e78c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is this object a ground vehicle?  <a href="classXPMP2_1_1Aircraft.html#a863cef3715811241108af24fa447e78c">More...</a><br /></td></tr>
@@ -130,6 +152,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a32d0bf5cdf26b222ea1c310a07750521"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a32d0bf5cdf26b222ea1c310a07750521">GetFlightId</a> () const</td></tr>
 <tr class="memdesc:a32d0bf5cdf26b222ea1c310a07750521"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a value for dataRef .../tcas/target/flight_id.  <a href="classXPMP2_1_1Aircraft.html#a32d0bf5cdf26b222ea1c310a07750521">More...</a><br /></td></tr>
 <tr class="separator:a32d0bf5cdf26b222ea1c310a07750521"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Model Matching</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><dl class="section see"><dt>See also</dt><dd><a href="https://twinfan.github.io/XPMP2/Matching.html">https://twinfan.github.io/XPMP2/Matching.html</a> </dd></dl>
+</div></td></tr>
 <tr class="memitem:a8b79245eb13698da96e1239c010ec3bc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a8b79245eb13698da96e1239c010ec3bc">ChangeModel</a> (const std::string &amp;_icaoType, const std::string &amp;_icaoAirline, const std::string &amp;_livery)</td></tr>
 <tr class="memdesc:a8b79245eb13698da96e1239c010ec3bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">(Potentially) changes the plane's model after doing a new match attempt  <a href="classXPMP2_1_1Aircraft.html#a8b79245eb13698da96e1239c010ec3bc">More...</a><br /></td></tr>
 <tr class="separator:a8b79245eb13698da96e1239c010ec3bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -151,6 +176,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa9ec4f00f550efdf95a3f60a1a97b55e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#aa9ec4f00f550efdf95a3f60a1a97b55e">GetMatchQuality</a> () const</td></tr>
 <tr class="memdesc:aa9ec4f00f550efdf95a3f60a1a97b55e"><td class="mdescLeft">&#160;</td><td class="mdescRight">quality of the match with the CSL model  <a href="classXPMP2_1_1Aircraft.html#aa9ec4f00f550efdf95a3f60a1a97b55e">More...</a><br /></td></tr>
 <tr class="separator:aa9ec4f00f550efdf95a3f60a1a97b55e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Visualization</div></td></tr>
 <tr class="memitem:a113fc0ea358aca3033245c30f0f05a1e"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a113fc0ea358aca3033245c30f0f05a1e">GetVertOfs</a> () const</td></tr>
 <tr class="memdesc:a113fc0ea358aca3033245c30f0f05a1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vertical offset, ie. the value that needs to be added to <code>drawInfo.y</code> to make the aircraft appear on the ground.  <a href="classXPMP2_1_1Aircraft.html#a113fc0ea358aca3033245c30f0f05a1e">More...</a><br /></td></tr>
 <tr class="separator:a113fc0ea358aca3033245c30f0f05a1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -196,6 +222,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8ae240715c2746ab7b049775743c32c0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a8ae240715c2746ab7b049775743c32c0">SetOnGrnd</a> (bool on_grnd, float setTouchDownTime=NAN)</td></tr>
 <tr class="memdesc:a8ae240715c2746ab7b049775743c32c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if the aircraft is on the ground.  <a href="classXPMP2_1_1Aircraft.html#a8ae240715c2746ab7b049775743c32c0">More...</a><br /></td></tr>
 <tr class="separator:a8ae240715c2746ab7b049775743c32c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Getters and Setters for the values in Aircraft::drawInfo</div></td></tr>
 <tr class="memitem:a930ec30642a5135e88daa62f829abd44"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a930ec30642a5135e88daa62f829abd44">SetLocation</a> (double lat, double lon, double alt_ft, bool on_grnd, float setTouchDownTime=NAN)</td></tr>
 <tr class="memdesc:a930ec30642a5135e88daa62f829abd44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts world coordinates to local coordinates, writes to <a class="el" href="classXPMP2_1_1Aircraft.html#a883ea3e9a9a1cca7debe7755f066e848" title="Holds position (in local coordinates!) and orientation (pitch, heading roll) of the aircraft.">Aircraft::drawInfo</a>.  <a href="classXPMP2_1_1Aircraft.html#a930ec30642a5135e88daa62f829abd44">More...</a><br /></td></tr>
 <tr class="separator:a930ec30642a5135e88daa62f829abd44"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -229,6 +256,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac110fad29f23413ee98ecd17910fd804"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ac110fad29f23413ee98ecd17910fd804">SetRoll</a> (float _deg)</td></tr>
 <tr class="memdesc:ac110fad29f23413ee98ecd17910fd804"><td class="mdescLeft">&#160;</td><td class="mdescRight">roll [degree]  <a href="classXPMP2_1_1Aircraft.html#ac110fad29f23413ee98ecd17910fd804">More...</a><br /></td></tr>
 <tr class="separator:ac110fad29f23413ee98ecd17910fd804"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69f95e8a1c36fe5251c76ca8609f2f5d"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a69f95e8a1c36fe5251c76ca8609f2f5d">GetGS_kn</a> () const</td></tr>
+<tr class="memdesc:a69f95e8a1c36fe5251c76ca8609f2f5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rough estimate of a ground speed based on <code>v_x/z</code>  <a href="classXPMP2_1_1Aircraft.html#a69f95e8a1c36fe5251c76ca8609f2f5d">More...</a><br /></td></tr>
+<tr class="separator:a69f95e8a1c36fe5251c76ca8609f2f5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Getters and Setters for the values in the Aircraft::v array</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><dl class="section see"><dt>See also</dt><dd><a href="https://twinfan.github.io/XPMP2/CSLdataRefs.html">https://twinfan.github.io/XPMP2/CSLdataRefs.html</a> </dd></dl>
+</div></td></tr>
 <tr class="memitem:a0299706264f2b676e886a300d28c6e46"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a0299706264f2b676e886a300d28c6e46">GetGearRatio</a> () const</td></tr>
 <tr class="memdesc:a0299706264f2b676e886a300d28c6e46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gear deploy ratio.  <a href="classXPMP2_1_1Aircraft.html#a0299706264f2b676e886a300d28c6e46">More...</a><br /></td></tr>
 <tr class="separator:a0299706264f2b676e886a300d28c6e46"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -423,6 +456,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa12f2f34fdd5252b7cb3ba209dd0076a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#aa12f2f34fdd5252b7cb3ba209dd0076a">SetTouchDown</a> (bool _b)</td></tr>
 <tr class="memdesc:aa12f2f34fdd5252b7cb3ba209dd0076a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moment of touch down.  <a href="classXPMP2_1_1Aircraft.html#aa12f2f34fdd5252b7cb3ba209dd0076a">More...</a><br /></td></tr>
 <tr class="separator:aa12f2f34fdd5252b7cb3ba209dd0076a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Wake support as per X-Plane 12</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><dl class="section see"><dt>See also</dt><dd><a href="https://twinfan.github.io/XPMP2/Wake.html">https://twinfan.github.io/XPMP2/Wake.html</a> </dd>
+<dd>
+<a href="https://developer.x-plane.com/2022/02/wake-turbulence/">https://developer.x-plane.com/2022/02/wake-turbulence/</a> </dd>
+<dd>
+<a href="https://developer.x-plane.com/article/plugin-traffic-wake-turbulence/">https://developer.x-plane.com/article/plugin-traffic-wake-turbulence/</a> </dd></dl>
+</div></td></tr>
 <tr class="memitem:ad1e07742ff07168c4103baf14d53b4de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ad1e07742ff07168c4103baf14d53b4de">WakeApplyDefaults</a> (bool _bOverwriteAllFields=true)</td></tr>
 <tr class="memdesc:ad1e07742ff07168c4103baf14d53b4de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill in default wake turbulence support data based on <a class="el" href="structXPMP2_1_1Doc8643.html" title="Represents a line in the Doc8643.txt file, of which we use only classification and WTC.">Doc8643</a> wake turbulence category.  <a href="classXPMP2_1_1Aircraft.html#ad1e07742ff07168c4103baf14d53b4de">More...</a><br /></td></tr>
 <tr class="separator:ad1e07742ff07168c4103baf14d53b4de"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -451,8 +491,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ae3eafb6479522bf89ba8af210d44e9eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Angle of Attach, returns pitch (but you can override in your class)  <a href="classXPMP2_1_1Aircraft.html#ae3eafb6479522bf89ba8af210d44e9eb">More...</a><br /></td></tr>
 <tr class="separator:ae3eafb6479522bf89ba8af210d44e9eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a2e31fda6d4283ae1c5620c71642ee1"><td class="memItemLeft" align="right" valign="top">virtual float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a7a2e31fda6d4283ae1c5620c71642ee1">GetLift</a> () const</td></tr>
-<tr class="memdesc:a7a2e31fda6d4283ae1c5620c71642ee1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lift produced. You <em>should</em> override to blend in/out for take-off/landing, but <a class="el" href="namespaceXPMP2.html">XPMP2</a> has no dynamic info of your plane, not even an on-the-ground flag.  <a href="classXPMP2_1_1Aircraft.html#a7a2e31fda6d4283ae1c5620c71642ee1">More...</a><br /></td></tr>
+<tr class="memdesc:a7a2e31fda6d4283ae1c5620c71642ee1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lift produced. You <em>should</em> override to blend in/out for take-off/landing, but <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> has no dynamic info of your plane, not even an on-the-ground flag.  <a href="classXPMP2_1_1Aircraft.html#a7a2e31fda6d4283ae1c5620c71642ee1">More...</a><br /></td></tr>
 <tr class="separator:a7a2e31fda6d4283ae1c5620c71642ee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Map Support</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><dl class="section note"><dt>Note</dt><dd>Implemented in <a class="el" href="Map_8cpp.html" title="Implementation for creating the map layer.">Map.cpp</a> </dd></dl>
+</div></td></tr>
 <tr class="memitem:aa4c726e64a78c56b8507699bb8a5af67"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#aa4c726e64a78c56b8507699bb8a5af67">MapFindIcon</a> ()</td></tr>
 <tr class="memdesc:aa4c726e64a78c56b8507699bb8a5af67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine which map icon to use for this aircraft.  <a href="classXPMP2_1_1Aircraft.html#aa4c726e64a78c56b8507699bb8a5af67">More...</a><br /></td></tr>
 <tr class="separator:aa4c726e64a78c56b8507699bb8a5af67"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -465,6 +508,24 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a21cc6547b402f4bf58c2ba69edaeff41"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a21cc6547b402f4bf58c2ba69edaeff41">MapDrawLabel</a> (XPLMMapLayerID inLayer, float yOfs)</td></tr>
 <tr class="memdesc:a21cc6547b402f4bf58c2ba69edaeff41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Actually draw the map label.  <a href="classXPMP2_1_1Aircraft.html#a21cc6547b402f4bf58c2ba69edaeff41">More...</a><br /></td></tr>
 <tr class="separator:a21cc6547b402f4bf58c2ba69edaeff41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Sound Support</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><dl class="section note"><dt>Note</dt><dd>Implemented in <a class="el" href="Sound_8cpp.html" title="Sound for aircraft, based on the FMOD library.">Sound.cpp</a> only if built with <code>INCLUDE_FMOD_SOUND</code> </dd></dl>
+</div></td></tr>
+<tr class="memitem:ad19d56d9025d6fabafc1958c2badd0cc"><td class="memItemLeft" align="right" valign="top">FMOD_CHANNEL *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ad19d56d9025d6fabafc1958c2badd0cc">SoundPlay</a> (const std::string &amp;sndName, float vol=1.0f)</td></tr>
+<tr class="memdesc:ad19d56d9025d6fabafc1958c2badd0cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Play a sound; a looping sound plays until explicitely stopped.  <a href="classXPMP2_1_1Aircraft.html#ad19d56d9025d6fabafc1958c2badd0cc">More...</a><br /></td></tr>
+<tr class="separator:ad19d56d9025d6fabafc1958c2badd0cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b4a5f6fb3443ca9e53e68f66f3bc5b7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a5b4a5f6fb3443ca9e53e68f66f3bc5b7">SoundStop</a> (FMOD_CHANNEL *pChn)</td></tr>
+<tr class="memdesc:a5b4a5f6fb3443ca9e53e68f66f3bc5b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop a continuously playing sound.  <a href="classXPMP2_1_1Aircraft.html#a5b4a5f6fb3443ca9e53e68f66f3bc5b7">More...</a><br /></td></tr>
+<tr class="separator:a5b4a5f6fb3443ca9e53e68f66f3bc5b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae912e0e694c53eb742792f12da5827da"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ae912e0e694c53eb742792f12da5827da">SoundVolume</a> (FMOD_CHANNEL *pChn, float vol)</td></tr>
+<tr class="memdesc:ae912e0e694c53eb742792f12da5827da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the sound's volume (after applying master volume and Sound File's adjustments)  <a href="classXPMP2_1_1Aircraft.html#ae912e0e694c53eb742792f12da5827da">More...</a><br /></td></tr>
+<tr class="separator:ae912e0e694c53eb742792f12da5827da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8b40e27f1a74479e7f9fb1cada0d4cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#aa8b40e27f1a74479e7f9fb1cada0d4cf">SoundMuteAll</a> (bool bMute)</td></tr>
+<tr class="memdesc:aa8b40e27f1a74479e7f9fb1cada0d4cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mute/Unmute all sounds of the airplane temporarily.  <a href="classXPMP2_1_1Aircraft.html#aa8b40e27f1a74479e7f9fb1cada0d4cf">More...</a><br /></td></tr>
+<tr class="separator:aa8b40e27f1a74479e7f9fb1cada0d4cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37efba97b93d16aea2ba623bd411c9ee"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a37efba97b93d16aea2ba623bd411c9ee">SoundGetName</a> (<a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336">SoundEventsTy</a> sndEvent, float &amp;volAdj) const</td></tr>
+<tr class="memdesc:a37efba97b93d16aea2ba623bd411c9ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the name of the sound to play per event.  <a href="classXPMP2_1_1Aircraft.html#a37efba97b93d16aea2ba623bd411c9ee">More...</a><br /></td></tr>
+<tr class="separator:a37efba97b93d16aea2ba623bd411c9ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -516,9 +577,13 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a8f5bfa2ee408382168b2ccef6aafb20c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPMultiplayer_8h.html#structXPMPInfoTexts__t">XPMPInfoTexts_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a8f5bfa2ee408382168b2ccef6aafb20c">acInfoTexts</a></td></tr>
 <tr class="memdesc:a8f5bfa2ee408382168b2ccef6aafb20c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Informational texts passed on via multiplayer shared dataRefs.  <a href="classXPMP2_1_1Aircraft.html#a8f5bfa2ee408382168b2ccef6aafb20c">More...</a><br /></td></tr>
 <tr class="separator:a8f5bfa2ee408382168b2ccef6aafb20c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad74a4af3c57bda4235c2a1b09c50c241"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ad74a4af3c57bda4235c2a1b09c50c241">sndMinDist</a> = 50.0</td></tr>
+<tr class="memdesc:ad74a4af3c57bda4235c2a1b09c50c241"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimum distance in [m] to play sound in full volume, the larger the 'louder' the aircraft.  <a href="classXPMP2_1_1Aircraft.html#ad74a4af3c57bda4235c2a1b09c50c241">More...</a><br /></td></tr>
+<tr class="separator:ad74a4af3c57bda4235c2a1b09c50c241"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
+<tr><td colspan="2"><div class="groupHeader">Internal Control Functions</div></td></tr>
 <tr class="memitem:a77e0c946b09651412f069bdb90d62e2b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a77e0c946b09651412f069bdb90d62e2b">DoMove</a> ()</td></tr>
 <tr class="memdesc:a77e0c946b09651412f069bdb90d62e2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal: This puts the instance into XP's sky and makes it move.  <a href="classXPMP2_1_1Aircraft.html#a77e0c946b09651412f069bdb90d62e2b">More...</a><br /></td></tr>
 <tr class="separator:a77e0c946b09651412f069bdb90d62e2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -540,6 +605,18 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a4f50879fcaff911cee0581733fdb4d3f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a4f50879fcaff911cee0581733fdb4d3f">SetTcasTargetIdx</a> (int _idx)</td></tr>
 <tr class="memdesc:a4f50879fcaff911cee0581733fdb4d3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define the TCAS target index in use.  <a href="classXPMP2_1_1Aircraft.html#a4f50879fcaff911cee0581733fdb4d3f">More...</a><br /></td></tr>
 <tr class="separator:a4f50879fcaff911cee0581733fdb4d3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader">Sound Support (internal)</div></td></tr>
+<tr><td colspan="2"><div class="groupText"><dl class="section note"><dt>Note</dt><dd>Implemented in <a class="el" href="Sound_8cpp.html" title="Sound for aircraft, based on the FMOD library.">Sound.cpp</a> only if built with <code>INCLUDE_FMOD_SOUND</code> </dd></dl>
+</div></td></tr>
+<tr class="memitem:ac7a342fc54cf4352a5131d00cddfec02"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ac7a342fc54cf4352a5131d00cddfec02">SoundSetup</a> ()</td></tr>
+<tr class="memdesc:ac7a342fc54cf4352a5131d00cddfec02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sound-related initializations, called by <a class="el" href="classXPMP2_1_1Aircraft.html#a7ece414d098de338e22e995ba4a696df" title="Creates a plane, only a valid operation if object was created using the default constructor.">Create()</a> and <a class="el" href="classXPMP2_1_1Aircraft.html#a8b79245eb13698da96e1239c010ec3bc" title="(Potentially) changes the plane&#39;s model after doing a new match attempt">ChangeModel()</a>  <a href="classXPMP2_1_1Aircraft.html#ac7a342fc54cf4352a5131d00cddfec02">More...</a><br /></td></tr>
+<tr class="separator:ac7a342fc54cf4352a5131d00cddfec02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4cc7230858c9543a69a50e853b052f5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ae4cc7230858c9543a69a50e853b052f5">SoundUpdate</a> ()</td></tr>
+<tr class="memdesc:ae4cc7230858c9543a69a50e853b052f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update sound, like position and volume, called once per frame.  <a href="classXPMP2_1_1Aircraft.html#ae4cc7230858c9543a69a50e853b052f5">More...</a><br /></td></tr>
+<tr class="separator:ae4cc7230858c9543a69a50e853b052f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c025e1e1246650c8d208421f57fc200"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a9c025e1e1246650c8d208421f57fc200">SoundRemoveAll</a> ()</td></tr>
+<tr class="memdesc:a9c025e1e1246650c8d208421f57fc200"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove all sound, e.g. during destruction.  <a href="classXPMP2_1_1Aircraft.html#a9c025e1e1246650c8d208421f57fc200">More...</a><br /></td></tr>
+<tr class="separator:a9c025e1e1246650c8d208421f57fc200"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-methods"></a>
 Static Protected Member Functions</h2></td></tr>
@@ -579,8 +656,17 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:ac0448956bacbe80641443606cb4cc076"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ac0448956bacbe80641443606cb4cc076">prev_ts</a> = 0.0f</td></tr>
 <tr class="memdesc:ac0448956bacbe80641443606cb4cc076"><td class="mdescLeft">&#160;</td><td class="mdescRight">last update of <code>prev_x/y/z</code> in XP's network time  <a href="classXPMP2_1_1Aircraft.html#ac0448956bacbe80641443606cb4cc076">More...</a><br /></td></tr>
 <tr class="separator:ac0448956bacbe80641443606cb4cc076"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d63c2bb13d7cdf14d98783d8a4a3de7"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a8d63c2bb13d7cdf14d98783d8a4a3de7">v_x</a> = 0.0f</td></tr>
+<tr class="separator:a8d63c2bb13d7cdf14d98783d8a4a3de7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f0f87c83d97cf0785a3f7106a84bb50"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a6f0f87c83d97cf0785a3f7106a84bb50">v_y</a> = 0.0f</td></tr>
+<tr class="separator:a6f0f87c83d97cf0785a3f7106a84bb50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36c8761ee853d1838409cb6311335036"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a36c8761ee853d1838409cb6311335036">v_z</a> = 0.0f</td></tr>
+<tr class="memdesc:a36c8761ee853d1838409cb6311335036"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cartesian velocity in m/s per axis.  <a href="classXPMP2_1_1Aircraft.html#a36c8761ee853d1838409cb6311335036">More...</a><br /></td></tr>
+<tr class="separator:a36c8761ee853d1838409cb6311335036"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7086fb9ba37b9e4a88a5de9f456827d"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ab7086fb9ba37b9e4a88a5de9f456827d">gs_kn</a> = 0.0f</td></tr>
+<tr class="separator:ab7086fb9ba37b9e4a88a5de9f456827d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae9b50f311806c9c1c7d7d752e516c3bf"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ae9b50f311806c9c1c7d7d752e516c3bf">tsResetTouchDown</a> = NAN</td></tr>
-<tr class="memdesc:ae9b50f311806c9c1c7d7d752e516c3bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set by <a class="el" href="classXPMP2_1_1Aircraft.html#a8ae240715c2746ab7b049775743c32c0" title="Set if the aircraft is on the ground.">SetOnGrnd()</a> with the timestamp when to reset <a class="el" href="classXPMP2_1_1Aircraft.html#aa12f2f34fdd5252b7cb3ba209dd0076a" title="Moment of touch down.">SetTouchDown()</a>  <a href="classXPMP2_1_1Aircraft.html#ae9b50f311806c9c1c7d7d752e516c3bf">More...</a><br /></td></tr>
+<tr class="memdesc:ae9b50f311806c9c1c7d7d752e516c3bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">ground speed in [kn] based on above v_x/z  <a href="classXPMP2_1_1Aircraft.html#ae9b50f311806c9c1c7d7d752e516c3bf">More...</a><br /></td></tr>
 <tr class="separator:ae9b50f311806c9c1c7d7d752e516c3bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a690e0ac4d1446c09fa13673df04dd223"><td class="memItemLeft" align="right" valign="top">std::list&lt; XPLMInstanceRef &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a690e0ac4d1446c09fa13673df04dd223">listInst</a></td></tr>
 <tr class="memdesc:a690e0ac4d1446c09fa13673df04dd223"><td class="mdescLeft">&#160;</td><td class="mdescRight">X-Plane instance handles for all objects making up the model.  <a href="classXPMP2_1_1Aircraft.html#a690e0ac4d1446c09fa13673df04dd223">More...</a><br /></td></tr>
@@ -615,6 +701,21 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:ac4643c40c64cab40d598186048ddb607"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ac4643c40c64cab40d598186048ddb607">mapLabel</a></td></tr>
 <tr class="memdesc:ac4643c40c64cab40d598186048ddb607"><td class="mdescLeft">&#160;</td><td class="mdescRight">label for map drawing  <a href="classXPMP2_1_1Aircraft.html#ac4643c40c64cab40d598186048ddb607">More...</a><br /></td></tr>
 <tr class="separator:ac4643c40c64cab40d598186048ddb607"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a025eb202941db585d65310205b6f89fa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1Aircraft.html#structXPMP2_1_1Aircraft_1_1SndChTy">SndChTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a025eb202941db585d65310205b6f89fa">aSndCh</a> [<a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336ad77fac2238d59d130d2f38d4560f9d11">SND_NUM_EVENTS</a>]</td></tr>
+<tr class="memdesc:a025eb202941db585d65310205b6f89fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Operational values per sound channel, that is triggered by a standard sound event.  <a href="classXPMP2_1_1Aircraft.html#a025eb202941db585d65310205b6f89fa">More...</a><br /></td></tr>
+<tr class="separator:a025eb202941db585d65310205b6f89fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3befbe91af24b5b12d14cd2037ee68dc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#a3befbe91af24b5b12d14cd2037ee68dc">bChnLowPass</a> = false</td></tr>
+<tr class="memdesc:a3befbe91af24b5b12d14cd2037ee68dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is Low Pass Filter currently being active?  <a href="classXPMP2_1_1Aircraft.html#a3befbe91af24b5b12d14cd2037ee68dc">More...</a><br /></td></tr>
+<tr class="separator:a3befbe91af24b5b12d14cd2037ee68dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afba9f00ea1c6d7e488daf7bbe5c66960"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#afba9f00ea1c6d7e488daf7bbe5c66960">bChnMuted</a> = false</td></tr>
+<tr class="memdesc:afba9f00ea1c6d7e488daf7bbe5c66960"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is sound for this aircraft currently muted?  <a href="classXPMP2_1_1Aircraft.html#afba9f00ea1c6d7e488daf7bbe5c66960">More...</a><br /></td></tr>
+<tr class="separator:afba9f00ea1c6d7e488daf7bbe5c66960"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae96813e1591cc8662ebb38e1cbb7dfba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1Aircraft.html#aa0adb2f6532027d67f3ce815963191ee">ChnListTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ae96813e1591cc8662ebb38e1cbb7dfba">chnList</a></td></tr>
+<tr class="memdesc:ae96813e1591cc8662ebb38e1cbb7dfba"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of channels produced via calls to <a class="el" href="classXPMP2_1_1Aircraft.html#ad19d56d9025d6fabafc1958c2badd0cc" title="Play a sound; a looping sound plays until explicitely stopped.">SoundPlay()</a>  <a href="classXPMP2_1_1Aircraft.html#ae96813e1591cc8662ebb38e1cbb7dfba">More...</a><br /></td></tr>
+<tr class="separator:ae96813e1591cc8662ebb38e1cbb7dfba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4c71e970690123306301ee261e58451"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1Aircraft.html#ad4c71e970690123306301ee261e58451">skipCounter</a> = 0</td></tr>
+<tr class="memdesc:ad4c71e970690123306301ee261e58451"><td class="mdescLeft">&#160;</td><td class="mdescRight">Counts how often we skipped expensive computations.  <a href="classXPMP2_1_1Aircraft.html#ad4c71e970690123306301ee261e58451">More...</a><br /></td></tr>
+<tr class="separator:ad4c71e970690123306301ee261e58451"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -629,9 +730,100 @@ Friends</h2></td></tr>
 <tr class="separator:ae8593a1abc8e005fa14b1ffb791a2bb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Actual representation of all aircraft in <a class="el" href="namespaceXPMP2.html">XPMP2</a>. </p>
+<div class="textblock"><p>Actual representation of all aircraft in <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>. </p>
 <dl class="section note"><dt>Note</dt><dd>In modern implementations, this class shall be subclassed by your plugin's code. </dd></dl>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+</div><hr/><h2 class="groupheader">Class Documentation</h2>
+<a name="structXPMP2_1_1Aircraft_1_1SndChTy" id="structXPMP2_1_1Aircraft_1_1SndChTy"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structXPMP2_1_1Aircraft_1_1SndChTy">&#9670;&nbsp;</a></span>XPMP2::Aircraft::SndChTy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct XPMP2::Aircraft::SndChTy</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock"><p>Operational values per sound channel, that is triggered by a standard sound event. </p>
+</div><table class="fieldtable">
+<tr><th colspan="3">Class Members</th></tr>
+<tr><td class="fieldtype">
+<a id="addb3152c09f1da9806b272d133e8d8b5"></a>bool</td>
+<td class="fieldname">
+bAuto</td>
+<td class="fielddoc">
+Shall this sound event be handled automatically? (Set to false in your constructor or in <a class="el" href="classXPMP2_1_1Aircraft.html#ac7a342fc54cf4352a5131d00cddfec02" title="Sound-related initializations, called by Create() and ChangeModel()">Aircraft::SoundSetup()</a> if you want to control that event type yourself) </td></tr>
+<tr><td class="fieldtype">
+<a id="a0926bfe1fd880f653632dcdb235396be"></a>float</td>
+<td class="fieldname">
+lastDRVal</td>
+<td class="fielddoc">
+last observed dataRef value to see if sound is to be triggered </td></tr>
+<tr><td class="fieldtype">
+<a id="a56819f3dc6baa7b65eff91add3cd49a1"></a>FMOD_CHANNEL *</td>
+<td class="fieldname">
+pChn</td>
+<td class="fielddoc">
+channel playing the sound currently </td></tr>
+<tr><td class="fieldtype">
+<a id="ab2e792ed39e1161ce4fce4d691ca17a3"></a>float</td>
+<td class="fieldname">
+volAdj</td>
+<td class="fielddoc">
+Volume adjustment, fed from <a class="el" href="classXPMP2_1_1Aircraft.html#a37efba97b93d16aea2ba623bd411c9ee" title="Returns the name of the sound to play per event.">Aircraft::SoundGetName()</a> </td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="aa0adb2f6532027d67f3ce815963191ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0adb2f6532027d67f3ce815963191ee">&#9670;&nbsp;</a></span>ChnListTy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef std::list&lt;FMOD_CHANNEL*&gt; <a class="el" href="classXPMP2_1_1Aircraft.html#aa0adb2f6532027d67f3ce815963191ee">XPMP2::Aircraft::ChnListTy</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>List of FMOD channels, also beyond sounds created for SoundEvetsTy. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="a53148678cb692403b734b005fe78f336"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53148678cb692403b734b005fe78f336">&#9670;&nbsp;</a></span>SoundEventsTy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336">XPMP2::Aircraft::SoundEventsTy</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Types of sound supported directly by <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a53148678cb692403b734b005fe78f336aca3795a59824135c5e2078ba70ecff1e"></a>SND_ENG&#160;</td><td class="fielddoc"><p>Engine sound (continuously while engine running), bases on <a class="el" href="classXPMP2_1_1Aircraft.html#a4450075925429a563819233fd60fe1e7" title="Thrust ratio.">GetThrustRatio()</a> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a53148678cb692403b734b005fe78f336a9ed5836584917293bb6caf5d7dc710e2"></a>SND_REVERSE_THRUST&#160;</td><td class="fielddoc"><p>Engine sound while reverse thrust (continuously while reversers deployed), bases on <a class="el" href="classXPMP2_1_1Aircraft.html#a06091e3aea714d5bbcd6c6f05b2ddf96" title="Thrust reversers ratio.">GetThrustReversRatio()</a> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a53148678cb692403b734b005fe78f336a66692a90ed70662494e2ada7defef222"></a>SND_TIRE&#160;</td><td class="fielddoc"><p>Tires rolling on the ground (continuously while rolling on ground), bases on <a class="el" href="classXPMP2_1_1Aircraft.html#a3716317969197d45d11d20e9f96de608" title="Tire rotation speed [rpm].">GetTireRotRpm()</a> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a53148678cb692403b734b005fe78f336a83185475de7675ea8b200d5c528269f2"></a>SND_GEAR&#160;</td><td class="fielddoc"><p>Gear extending/retracting (once per event), bases on <a class="el" href="classXPMP2_1_1Aircraft.html#a0299706264f2b676e886a300d28c6e46" title="Gear deploy ratio.">GetGearRatio()</a> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a53148678cb692403b734b005fe78f336a3d96930abc1ecf91857b8f2b1e8464d4"></a>SND_FLAPS&#160;</td><td class="fielddoc"><p>Flaps extending/retracting (once per event), bases on <a class="el" href="classXPMP2_1_1Aircraft.html#a8d12da587ce9f79931bac8989a3c5dbe" title="Flaps deploy ratio.">GetFlapRatio()</a> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a53148678cb692403b734b005fe78f336ad77fac2238d59d130d2f38d4560f9d11"></a>SND_NUM_EVENTS&#160;</td><td class="fielddoc"><p>Number of events (always last in <code>enum</code>) </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="af77ba40523a9e43e4c4c3ca433210817"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af77ba40523a9e43e4c4c3ca433210817">&#9670;&nbsp;</a></span>Aircraft() <span class="overload">[1/3]</span></h2>
 
@@ -688,7 +880,7 @@ Friends</h2></td></tr>
     <tr><td class="paramname">_icaoType</td><td>ICAO aircraft type designator, like 'A320', 'B738', 'C172' </td></tr>
     <tr><td class="paramname">_icaoAirline</td><td>ICAO airline code, like 'BAW', 'DLH', can be an empty string </td></tr>
     <tr><td class="paramname">_livery</td><td>Special livery designator, can be an empty string </td></tr>
-    <tr><td class="paramname">_modeS_id</td><td>(optional) <b>Unique</b> identification of the plane [0x01..0xFFFFFF], e.g. the 24bit mode S transponder code. <a class="el" href="namespaceXPMP2.html">XPMP2</a> assigns an arbitrary unique number of not given </td></tr>
+    <tr><td class="paramname">_modeS_id</td><td>(optional) <b>Unique</b> identification of the plane [0x01..0xFFFFFF], e.g. the 24bit mode S transponder code. <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> assigns an arbitrary unique number of not given </td></tr>
     <tr><td class="paramname">_cslId</td><td>(optional) specific unique model id to be used (package name/short id, as defined in the <code>OBJ8_AIRCRAFT</code> line) </td></tr>
   </table>
   </dd>
@@ -971,7 +1163,7 @@ Friends</h2></td></tr>
     <tr><td class="paramname">_icaoType</td><td>ICAO aircraft type designator, like 'A320', 'B738', 'C172' </td></tr>
     <tr><td class="paramname">_icaoAirline</td><td>ICAO airline code, like 'BAW', 'DLH', can be an empty string </td></tr>
     <tr><td class="paramname">_livery</td><td>Special livery designator, can be an empty string </td></tr>
-    <tr><td class="paramname">_modeS_id</td><td>(optional) <b>Unique</b> identification of the plane [0x01..0xFFFFFF], e.g. the 24bit mode S transponder code. <a class="el" href="namespaceXPMP2.html">XPMP2</a> assigns an arbitrary unique number of not given </td></tr>
+    <tr><td class="paramname">_modeS_id</td><td>(optional) <b>Unique</b> identification of the plane [0x01..0xFFFFFF], e.g. the 24bit mode S transponder code. <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> assigns an arbitrary unique number of not given </td></tr>
     <tr><td class="paramname">_cslId</td><td>(optional) specific unique model id to be used (package name/short id, as defined in the <code>OBJ8_AIRCRAFT</code> line) </td></tr>
     <tr><td class="paramname">_pCSLModel</td><td>(optional) The actual model to use (no matching or search by <code>_cslId</code> if model is given this way) </td></tr>
   </table>
@@ -1439,6 +1631,33 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a69f95e8a1c36fe5251c76ca8609f2f5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69f95e8a1c36fe5251c76ca8609f2f5d">&#9670;&nbsp;</a></span>GetGS_kn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::GetGS_kn </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Rough estimate of a ground speed based on <code>v_x/z</code> </p>
+
+</div>
+</div>
 <a id="ac7aa783b9e639d8933b1dccdfd57640c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac7aa783b9e639d8933b1dccdfd57640c">&#9670;&nbsp;</a></span>GetHeading()</h2>
 
@@ -1489,7 +1708,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Lift produced. You <em>should</em> override to blend in/out for take-off/landing, but <a class="el" href="namespaceXPMP2.html">XPMP2</a> has no dynamic info of your plane, not even an on-the-ground flag. </p>
+<p>Lift produced. You <em>should</em> override to blend in/out for take-off/landing, but <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> has no dynamic info of your plane, not even an on-the-ground flag. </p>
 
 </div>
 </div>
@@ -1842,7 +2061,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>return the <a class="el" href="namespaceXPMP2.html">XPMP2</a> plane id </p>
+<p>return the <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> plane id </p>
 
 </div>
 </div>
@@ -4438,6 +4657,255 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a37efba97b93d16aea2ba623bd411c9ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37efba97b93d16aea2ba623bd411c9ee">&#9670;&nbsp;</a></span>SoundGetName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string XPMP2::Aircraft::SoundGetName </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336">SoundEventsTy</a>&#160;</td>
+          <td class="paramname"><em>sndEvent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float &amp;&#160;</td>
+          <td class="paramname"><em>volAdj</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the name of the sound to play per event. </p>
+<p>This standard implementation determines the engine sound via aircraft classification and returns constant names for the other sound types. </p><dl class="section note"><dt>Note</dt><dd>Override in derived class if you want to assign (some) sounds yourself </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">sndEvent</td><td>The type of sound event, like engine or gear </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">volAdj</td><td>Volume adjustment factor, allows to make sound louder (&gt;1.0) or quiter, defaults to 1.0 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Name of the sound to play </dd></dl>
+
+</div>
+</div>
+<a id="aa8b40e27f1a74479e7f9fb1cada0d4cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8b40e27f1a74479e7f9fb1cada0d4cf">&#9670;&nbsp;</a></span>SoundMuteAll()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SoundMuteAll </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>bMute</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Mute/Unmute all sounds of the airplane temporarily. </p>
+
+</div>
+</div>
+<a id="ad19d56d9025d6fabafc1958c2badd0cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad19d56d9025d6fabafc1958c2badd0cc">&#9670;&nbsp;</a></span>SoundPlay()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">FMOD_CHANNEL * XPMP2::Aircraft::SoundPlay </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>sndName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>vol</em> = <code>1.0f</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Play a sound; a looping sound plays until explicitely stopped. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sndName</td><td>One of the sounds available or registered with <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>, see <a class="el" href="XPMPMultiplayer_8h.html#a312fc6a5b8b9389386606f89eaf69d6c" title="Add a sound that can later be referenced from an XPMP2::Aircraft.">XPMPSoundAdd()</a> and <a class="el" href="XPMPMultiplayer_8h.html#a69b4a4dc625deaec2d764d3e6a4c185b" title="Enumerate all sounds, including the internal ones.">XPMPSoundEnumerate()</a> </td></tr>
+    <tr><td class="paramname">vol</td><td>[opt] Volume level. 0 = silent, 1 = full. Negative level inverts the signal. Values larger than 1 amplify the signal. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>an FMOD sound channel, or <code>nullptr</code> if unsuccessful </dd></dl>
+
+</div>
+</div>
+<a id="a9c025e1e1246650c8d208421f57fc200"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c025e1e1246650c8d208421f57fc200">&#9670;&nbsp;</a></span>SoundRemoveAll()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SoundRemoveAll </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Remove all sound, e.g. during destruction. </p>
+
+</div>
+</div>
+<a id="ac7a342fc54cf4352a5131d00cddfec02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7a342fc54cf4352a5131d00cddfec02">&#9670;&nbsp;</a></span>SoundSetup()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SoundSetup </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sound-related initializations, called by <a class="el" href="classXPMP2_1_1Aircraft.html#a7ece414d098de338e22e995ba4a696df" title="Creates a plane, only a valid operation if object was created using the default constructor.">Create()</a> and <a class="el" href="classXPMP2_1_1Aircraft.html#a8b79245eb13698da96e1239c010ec3bc" title="(Potentially) changes the plane&#39;s model after doing a new match attempt">ChangeModel()</a> </p>
+
+</div>
+</div>
+<a id="a5b4a5f6fb3443ca9e53e68f66f3bc5b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b4a5f6fb3443ca9e53e68f66f3bc5b7">&#9670;&nbsp;</a></span>SoundStop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SoundStop </td>
+          <td>(</td>
+          <td class="paramtype">FMOD_CHANNEL *&#160;</td>
+          <td class="paramname"><em>pChn</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Stop a continuously playing sound. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pChn</td><td>The channel returned by SoundLoopPlay() </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae4cc7230858c9543a69a50e853b052f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4cc7230858c9543a69a50e853b052f5">&#9670;&nbsp;</a></span>SoundUpdate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SoundUpdate </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Update sound, like position and volume, called once per frame. </p>
+
+</div>
+</div>
+<a id="ae912e0e694c53eb742792f12da5827da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae912e0e694c53eb742792f12da5827da">&#9670;&nbsp;</a></span>SoundVolume()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::Aircraft::SoundVolume </td>
+          <td>(</td>
+          <td class="paramtype">FMOD_CHANNEL *&#160;</td>
+          <td class="paramname"><em>pChn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>vol</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the sound's volume (after applying master volume and Sound File's adjustments) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pChn</td><td>The channel returned by SoundLoopPlay() </td></tr>
+    <tr><td class="paramname">vol</td><td>Volume level. 0 = silent, 1 = full. Negative level inverts the signal. Values larger than 1 amplify the signal. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a95ea1b91278beff8d55cf1d3a43d426b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a95ea1b91278beff8d55cf1d3a43d426b">&#9670;&nbsp;</a></span>UpdateDistBearingCamera()</h2>
 
@@ -4703,7 +5171,7 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Current radar status. </p>
-<dl class="section note"><dt>Note</dt><dd>Only the condition <code>mode != Standby</code> is of interest to <a class="el" href="namespaceXPMP2.html">XPMP2</a> for considering the aircraft for TCAS display </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Only the condition <code>mode != Standby</code> is of interest to <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> for considering the aircraft for TCAS display </dd></dl>
 
 </div>
 </div>
@@ -4745,6 +5213,78 @@ Friends</h2></td></tr>
 
 <p>Priority for display in one of the limited number of TCAS target slots. </p>
 <p>The lower the earlier will a plane be considered for TCAS. Increase this value if you want to make a plane less likely to occupy one of the limited TCAS slots. </p>
+
+</div>
+</div>
+<a id="a025eb202941db585d65310205b6f89fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a025eb202941db585d65310205b6f89fa">&#9670;&nbsp;</a></span>aSndCh</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classXPMP2_1_1Aircraft.html#structXPMP2_1_1Aircraft_1_1SndChTy">SndChTy</a> XPMP2::Aircraft::aSndCh[<a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336ad77fac2238d59d130d2f38d4560f9d11">SND_NUM_EVENTS</a>]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Operational values per sound channel, that is triggered by a standard sound event. </p>
+
+</div>
+</div>
+<a id="a3befbe91af24b5b12d14cd2037ee68dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3befbe91af24b5b12d14cd2037ee68dc">&#9670;&nbsp;</a></span>bChnLowPass</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::Aircraft::bChnLowPass = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Is Low Pass Filter currently being active? </p>
+
+</div>
+</div>
+<a id="afba9f00ea1c6d7e488daf7bbe5c66960"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afba9f00ea1c6d7e488daf7bbe5c66960">&#9670;&nbsp;</a></span>bChnMuted</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::Aircraft::bChnMuted = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Is sound for this aircraft currently muted? </p>
 
 </div>
 </div>
@@ -4942,6 +5482,30 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="ae96813e1591cc8662ebb38e1cbb7dfba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae96813e1591cc8662ebb38e1cbb7dfba">&#9670;&nbsp;</a></span>chnList</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classXPMP2_1_1Aircraft.html#aa0adb2f6532027d67f3ce815963191ee">ChnListTy</a> XPMP2::Aircraft::chnList</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>List of channels produced via calls to <a class="el" href="classXPMP2_1_1Aircraft.html#ad19d56d9025d6fabafc1958c2badd0cc" title="Play a sound; a looping sound plays until explicitely stopped.">SoundPlay()</a> </p>
+
+</div>
+</div>
 <a id="ad4e2066e364692d80cf83df08d522072"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad4e2066e364692d80cf83df08d522072">&#9670;&nbsp;</a></span>colLabel</h2>
 
@@ -4991,7 +5555,29 @@ Friends</h2></td></tr>
 <p>By how much of the gear deflection shall the plane's altitude be reduced? </p>
 <p>This is to keep the wheels on the ground when gear deflection is applied. Unfortunately, the exact factor is model-dependend. <code>0.5</code> seems an OK compromise.<br  />
  If you know better, then overwrite.<br  />
- If you don't want <a class="el" href="namespaceXPMP2.html">XPMP2</a> to correct for gear deflection, set <code>0.0</code>. </p>
+ If you don't want <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> to correct for gear deflection, set <code>0.0</code>. </p>
+
+</div>
+</div>
+<a id="ab7086fb9ba37b9e4a88a5de9f456827d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7086fb9ba37b9e4a88a5de9f456827d">&#9670;&nbsp;</a></span>gs_kn</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::gs_kn = 0.0f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -5342,6 +5928,47 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="ad4c71e970690123306301ee261e58451"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4c71e970690123306301ee261e58451">&#9670;&nbsp;</a></span>skipCounter</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int XPMP2::Aircraft::skipCounter = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Counts how often we skipped expensive computations. </p>
+
+</div>
+</div>
+<a id="ad74a4af3c57bda4235c2a1b09c50c241"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad74a4af3c57bda4235c2a1b09c50c241">&#9670;&nbsp;</a></span>sndMinDist</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int XPMP2::Aircraft::sndMinDist = 50.0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Minimum distance in [m] to play sound in full volume, the larger the 'louder' the aircraft. </p>
+<p>Initialized based on engine type and numbers, overwrite in your constructor if you want to control "size" of aircraft in terms of its sound volume </p>
+
+</div>
+</div>
 <a id="a7203783c05d621b8dc6206ce0bc8f2d1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7203783c05d621b8dc6206ce0bc8f2d1">&#9670;&nbsp;</a></span>tcasTargetIdx</h2>
 
@@ -5386,6 +6013,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>ground speed in [kn] based on above v_x/z </p>
 <p>Set by <a class="el" href="classXPMP2_1_1Aircraft.html#a8ae240715c2746ab7b049775743c32c0" title="Set if the aircraft is on the ground.">SetOnGrnd()</a> with the timestamp when to reset <a class="el" href="classXPMP2_1_1Aircraft.html#aa12f2f34fdd5252b7cb3ba209dd0076a" title="Moment of touch down.">SetTouchDown()</a> </p>
 
 </div>
@@ -5403,8 +6031,76 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>actual dataRef values to be provided to the CSL model </p>
-<p><a class="el" href="namespaceXPMP2.html">XPMP2</a> provides a minimum set of dataRefs and also getter/setter member functions, see below. This is the one place where current dataRef values are stored. This array is passed on <em>directly</em> to the XP instance.<br  />
+<p><a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> provides a minimum set of dataRefs and also getter/setter member functions, see below. This is the one place where current dataRef values are stored. This array is passed on <em>directly</em> to the XP instance.<br  />
  The size of the vector can increase if adding user-defined dataRefs through <a class="el" href="XPMPMultiplayer_8h.html#ae6d6422ff2e20c4c55c63ec1adb5429c" title="Add a user-defined dataRef to the list of dataRefs supported by every plane.">XPMPAddModelDataRef()</a>. </p>
+
+</div>
+</div>
+<a id="a8d63c2bb13d7cdf14d98783d8a4a3de7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d63c2bb13d7cdf14d98783d8a4a3de7">&#9670;&nbsp;</a></span>v_x</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::v_x = 0.0f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6f0f87c83d97cf0785a3f7106a84bb50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f0f87c83d97cf0785a3f7106a84bb50">&#9670;&nbsp;</a></span>v_y</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::v_y = 0.0f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a36c8761ee853d1838409cb6311335036"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36c8761ee853d1838409cb6311335036">&#9670;&nbsp;</a></span>v_z</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::Aircraft::v_z = 0.0f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Cartesian velocity in m/s per axis. </p>
 
 </div>
 </div>
@@ -5445,6 +6141,7 @@ Friends</h2></td></tr>
 <li>src/<a class="el" href="AIMultiplayer_8cpp.html">AIMultiplayer.cpp</a></li>
 <li>src/<a class="el" href="Aircraft_8cpp.html">Aircraft.cpp</a></li>
 <li>src/<a class="el" href="Map_8cpp.html">Map.cpp</a></li>
+<li>src/<a class="el" href="Sound_8cpp.html">Sound.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

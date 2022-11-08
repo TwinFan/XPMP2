@@ -197,6 +197,15 @@ void GlobVars::UpdateCfgVals ()
     else if (i < 0) remoteCfg = REMOTE_CFG_OFF;
     else            remoteCfg = REMOTE_CFG_ON;
 
+#ifdef INCLUDE_FMOD_SOUND
+    // Ask for enabling sound and mute-on-pause
+    bSoundOnStartup = prefsFuncInt(XPMP_CFG_SEC_SOUND, XPMP_CFG_ITM_ACTIVATE_SOUND, bSoundOnStartup) != 0;
+    bSoundMuteOnPause = prefsFuncInt(XPMP_CFG_SEC_SOUND, XPMP_CFG_ITM_MUTE_ON_PAUSE, bSoundMuteOnPause) != 0;
+#else
+    bSoundOnStartup = false;
+    bSoundMuteOnPause = false;
+#endif
+
     // Ask for model matching logging
     bLogMdlMatch = prefsFuncInt(XPMP_CFG_SEC_DEBUG, XPMP_CFG_ITM_MODELMATCHING, bLogMdlMatch) != 0;
     
@@ -260,6 +269,39 @@ void GlobVars::ReadVersions ()
     else
         bXPUsingModernGraphicsDriver = false;
 }
+
+
+// Update the stored camera position and velocity values
+void GlobVars::UpdateCameraPos ()
+{
+    // Always update current camera position
+    XPLMReadCameraPosition(&posCamera);
+    
+    // Compare to previous position: If we moved more than 100m
+    // (in a flight loop, so at max 1/20s) then camera position was changed manually
+    const float prev_ts = prevCamera_ts;
+    const float dx = posCamera.x - prevCamera.x;
+    const float dy = posCamera.y - prevCamera.y;
+    const float dz = posCamera.z - prevCamera.z;
+    if (sqr(dx) + sqr(dy) + sqr(dz) > 10000.0f)
+    {
+        vCam_x = 0.0f;                                  // velocity is invalid, avoid too high values causing too high Doppler effects
+        vCam_y = 0.0f;
+        vCam_z = 0.0f;
+        prevCamera_ts = 0.0f;                           // ensure new velocity is calculated next time round
+        prevCamera = posCamera;
+    }
+    // Update velocity only every second
+    else if (CheckEverySoOften(prevCamera_ts, 1.0f))
+    {
+        const float dt = prevCamera_ts - prev_ts;       // delta time (about 1s)
+        vCam_x = dx / dt;
+        vCam_y = dy / dt;
+        vCam_z = dz / dt;
+        prevCamera = posCamera;
+    }
+}
+
 
 //
 // MARK: File access helpers
@@ -651,6 +693,19 @@ const char* GetGraphicsDriverTxt ()
         return "OpenGL";
 }
 
+// X-Plane in a Pause state?
+bool IsPaused()
+{
+    static XPLMDataRef drPause = XPLMFindDataRef("sim/time/paused");
+    return XPLMGetDatai(drPause) != 0;
+}
+
+// Is current X-Plane view an external view (outside a cockpit)?
+bool IsViewExternal()
+{
+    static XPLMDataRef drExternalView = XPLMFindDataRef("sim/graphics/view/view_is_external");
+    return XPLMGetDatai(drExternalView) != 0;
+}
 
 // Convenience function to check on something at most every x seconds
 bool CheckEverySoOften (float& _lastCheck, float _interval, float _now)

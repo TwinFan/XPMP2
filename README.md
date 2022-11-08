@@ -52,9 +52,9 @@ to stay backward compatible.
 
 The XPMP2 library has been successfully tested with
 - X-Plane 11.5x under OpenGL, Vulkan, and Metal,
-- X-Plane 12 Alpha and Beta version,
-- the enclosed [XPMP2 Remote Client](#XPMP2-Remote-Client-Synchronizing-Planes-across-the-Network),
-- the enclosed sample plugin,
+- X-Plane 12 Alpha and Beta versions,
+- the [XPMP2 Remote Client](#XPMP2-Remote-Client-Synchronizing-Planes-across-the-Network),
+- the [`XPMP2-Sample` plugin](https://github.com/TwinFan/XPMP2-Remote),
 - [LiveTraffic v2.20](https://forums.x-plane.org/index.php?/files/file/49749-livetraffic/)
 - [X-Pilot 1.3](http://xpilot-project.org/)
 - X-Plane version of [IVAO Altitude](https://www.ivao.aero/softdev/beta/altitudebeta.asp)
@@ -67,6 +67,8 @@ The XPMP2 library has been successfully tested with
 - XPMP2 implements [instancing](https://developer.x-plane.com/sdk/XPLMInstance/),
   so it **requires X-Plane 11.10** or later
 - CSL models in **OBJ8 format** (ie. older OBJ7 models are no longer supported)
+- Potentially an FMOD license if built with sound support, see below in
+  [Sound Support by FMOD](#sound-support-by-fmod)
 
 ## Documentation: See [GitHub pages](https://twinfan.github.io/XPMP2/) ##
 
@@ -76,9 +78,10 @@ and more is available in the
 
 ### Sample Plugin ###
 
-This package comes with a sample plugin in the `XPMP2-Sample` folder. It is a complete
-plugin including build projects and CMake setup. It displays 3 aircraft flying circles
-in front of the user's plane. Each of the 3 aircraft is using a different technology:
+The separate _Public Template_ repository `XPMP2-Sample` provides a complete
+plugin including build projects and CMake setup and can be the basis for your plugin project.
+It displays 3 aircraft flying circles in front of the user's plane.
+Each of the 3 aircraft is using a different technology:
 the now recommended way of subclassing `XPMP2::Aircraft`, the legacy way
 of subclassing `XPCAircraft` (as used by LiveTraffic v1.x), and by calling
 standard C functions.
@@ -133,6 +136,21 @@ A plugin using XPMP2 can opt to provide its own values for even more
 precice results.
 
 Find [more details here](https://twinfan.github.io/XPMP2/Wake.html).
+
+### Sound Support by FMOD ###
+
+All displayed aircraft can produce sound in the 3D world for
+engine, reversers, taxiing, gear and flap movement.
+
+XPMP2's Audio Engine is FMOD Core API by Firelight Technologies Pty Ltd.
+Understand FMOD [licensing](https://www.fmod.com/licensing) and
+[attribution requirements](https://www.fmod.com/attribution) first,
+as they will apply to _your_ plugin if using XPMP2 with sound support.
+
+Because of the licensing requirements, XPMP2 by default is built
+**without** sound support.
+See the [Sound Support documentation](https://twinfan.github.io/XPMP2/Sound.html)
+for details how to enable sound support and how to include it into your plugin.
 
 ### Map Layer ###
 

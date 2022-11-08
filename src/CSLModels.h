@@ -200,6 +200,7 @@ public:
     const char* GetWTC () const                 { return doc8643->wtc; }///< Wake turbulence category
     char GetClassType () const                  { return doc8643->GetClassType(); }
     char GetClassNumEng () const                { return doc8643->GetClassNumEng(); }
+    int  GetNumEngines() const                  { return doc8643->GetNumEngines(); }
     char GetClassEngType () const               { return doc8643->GetClassEngType(); }
     bool HasRotor () const                      { return doc8643->HasRotor(); }
 

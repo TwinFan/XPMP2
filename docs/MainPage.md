@@ -30,6 +30,18 @@ The following header file is for use by the "XPMP2 Remote Client":
 - XPMPRemote.h - Defines network functionality and data structure
   for synchronizing planes between networked computers. 
 
+### Sound Support by FMOD
+
+XPMP2's Audio Engine is FMOD Core API by Firelight Technologies Pty Ltd.
+Understand FMOD [licensing](https://www.fmod.com/licensing) and
+[attribution requirements](https://www.fmod.com/attribution) first,
+as they will apply to _your_ plugin if using XPMP2 with sound support.
+
+Because of the licensing requirements, XPMP2 by default is built
+**without** sound support.
+See the [Sound Support documentation](https://twinfan.github.io/XPMP2/Sound.html)
+for details how to enable sound support and how to include it into your plugin.
+
 Quick Links to Detailed Documentation:
 --
 

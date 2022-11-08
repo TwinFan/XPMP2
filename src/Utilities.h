@@ -114,6 +114,12 @@ inline std::string& trim(std::string& s, const char* t = WHITESPACE)
     return ltrim(rtrim(s, t), t);
 }
 
+/// @brief Returns everything left of any of terminators
+inline std::string leftOf(const std::string& s, const std::string& terminators)
+{
+    return s.substr(0, std::min(s.find_first_of(terminators), s.size()));
+}
+
 /// separates string into tokens
 std::vector<std::string> str_tokenize (const std::string s,
                                        const std::string tokens,
@@ -190,6 +196,12 @@ std::string GetMiscNetwTimeStr (float _time = NAN);
 /// Text string for current graphics driver in use
 const char* GetGraphicsDriverTxt ();
 
+/// X-Plane in a Pause state?
+bool IsPaused ();
+
+/// Is current X-Plane view an external view (outside a cockpit)?
+bool IsViewExternal ();
+
 /// @brief Convenience function to check on something at most every x seconds
 /// @param _lastCheck Provide a float which holds the time of last check (init with `0.0f`)
 /// @param _interval [seconds] How often to perform the check?
@@ -240,7 +252,7 @@ void LogMsg ( const char* szFile, int ln, const char* szFunc, logLevelTy lvl, co
 /// @note First parameter after lvl must be the message text,
 ///       which can be a format string with its parameters following like in sprintf
 #define LOG_MSG(lvl,...)  {                                         \
-    if (lvl >= glob.logLvl)                                         \
+    if (lvl >= XPMP2::glob.logLvl)                                  \
     {LogMsg(__FILE__, __LINE__, __func__, lvl, __VA_ARGS__);}       \
 }
 
@@ -248,7 +260,7 @@ void LogMsg ( const char* szFile, int ln, const char* szFunc, logLevelTy lvl, co
 /// @note First parameter after lvl must be the message text,
 ///       which can be a format string with its parameters following like in sprintf
 #define LOG_MATCHING(lvl,...)  {                                    \
-    if (glob.bLogMdlMatch && lvl >= glob.logLvl)                                          \
+    if (XPMP2::glob.bLogMdlMatch && lvl >= glob.logLvl)             \
     {LogMsg(__FILE__, __LINE__, __func__, lvl, __VA_ARGS__);}       \
 }
 

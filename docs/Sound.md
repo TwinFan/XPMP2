@@ -1,9 +1,6 @@
 ## Sound Support by FMOD
 
 XPMP2's Audio Engine is FMOD Core API by Firelight Technologies Pty Ltd.
-Understand FMOD [licensing](https://www.fmod.com/licensing) and
-[attribution requirements](https://www.fmod.com/attribution) first,
-as they will apply to _your_ plugin if using XPMP2 with sound support.
 
 While X-Plane supports and uses FMOD, too, for aircraft-specific sounds,
 XPMP2 cannot make use of any X-Plane functionality to produce the sounds
@@ -14,7 +11,17 @@ Instead, XPMP2 creates its own fully indepent instance of the FMOD system.
 This also means that XPMP2 has to provide FMOD with all spacial information
 for each aircraft's sound to create a proper 3D sound illusion
 relative to the user's current camera position. Which opens a totally new
-are for potential bugs...
+space for potential bugs...
+
+### Register with FMOD and Download
+
+Understand FMOD [licensing](https://www.fmod.com/licensing) and
+[attribution requirements](https://www.fmod.com/attribution) first,
+as they will apply to _your_ plugin if using XPMP2 with sound support.
+
+You will need to [register a user with FMOD](https://www.fmod.com/profile/register),
+then sign in and [download the latest FMOD Core API](https://www.fmod.com/download#fmodengine)
+at least for Windows and Mac (if you ship on those platforms).
 
 ### Building XPMP2 with FMOD Sound Support
 
@@ -40,8 +47,41 @@ In your plugin, you also need to define `INCLUDE_FMOD_SOUND` _before_ including 
 #include "XPMPMultiplayer.h"
 #include "XPMPAircraft.h"
 ```
+Then link to
+- an FMOD-sound-enabled version of `XPMP2`,
+- FMOD libraries from the downloaded FMOD Core API, namely
+  - `api/core/lib/libfmod.dylib` (Mac) and
+  - `api/core/lib/x64/fmod_vc.ib` (Windows).
 
-Then certainly link with an FMOD-enabled version of the XPMP2 library.
+#### CMake
+
+When building with `CMake` you'll need something like this in your `CMakeLists.txt`:
+```
+# Need FMOD Sound Support (from XPMP2)
+set (INCLUDE_FMOD_SOUND 1)                          # tells XPMP2 to build with FMOD
+add_compile_definitions(INCLUDE_FMOD_SOUND=1)       # tells LiveTraffic compile to include FMOD from XPMP2 headers
+[...]
+# Incude building XPMP2
+add_subdirectory(Lib/XPMP2)
+add_dependencies(<your_target> XPMP2)
+target_link_libraries(<your_target> XPMP2)
+[...]
+# Link to FMOD
+if (WIN32 OR APPLE)
+    # Where you put the downloaded FMOD Core API libraries:
+    list(APPEND CMAKE_LIBRARY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/lib/fmod")  
+    find_library(FMOD_LIBRARY NAMES fmod_vc.lib libfmod.dylib REQUIRED)
+    target_link_libraries(<your_target> ${FMOD_LIBRARY})
+endif ()
+```
+This defines both the `CMake` cache entry as well as the preprocessor macro
+to build with FMOD sound support. It then, after having set `INCLUDE_FMOD_SOUND`,
+includes `XPMP2` into your build tree. Finally, it links your plugin to the FMOD library,
+but only for Windows and Apple builds. A Linux build is not specifically linked with FMOD
+(the same way it is also not linked to `XPML` or `OpenGL` libraries), because X-Plane itself
+will always load some version of the library on its startup before any plugin.
+Linux' dynamic loader will then find that already loaded library and use it also for
+your plugin.
 
 #### Avoid Crash
 
@@ -66,7 +106,7 @@ Solution: Either link to an XPMP2 build without FMOD support. Or make sure to
 
 #### FMOD Logo
 
-Not built into XPMP2 (to avoid a link-time dependency on OpenGL) but provided separately are functions to create the FMOD logo as per [attribution requirements](https://www.fmod.com/attribution). Include `FMOD_Logo.cpp` and `FMOD_Logo.h` from `XPMP2-Sample/lib/fmod/logo` into your project. Showing the FMOD logo in a Dear ImGui window is then as simple as
+Not built into XPMP2 (to avoid a link-time dependency on OpenGL) but provided separately are functions to create the FMOD logo as per [attribution requirements](https://www.fmod.com/attribution). Include `FMOD_Logo.cpp` and `FMOD_Logo.h` from `XPMP2/lib/fmod/logo` into your project. Showing the FMOD logo in a Dear ImGui window is then as simple as
 ```
 #include "FMOD_Logo.h"
 ...
@@ -78,15 +118,18 @@ if (FMODLogo::GetTexture(logoId)) {
 
 ### Ship `fmod.dll`
 
-If your plugin supports X-Plane 11 under Windows, then you need to ship
-`fmod.dll` in the `win_x64` folder. See [Deploying](Deploying.html) for details.
+If your plugin supports X-Plane 11 under Windows, then from the downloaded FMOD Core API
+you need to ship `api/core/lib/x64/fmod.dll` in the plugin's `win_x64` folder.
+See [Deploying](Deploying.html) for details.
 
 ### Default Sounds
 
 Your are **not required** to provide any sound-specific coding in your plugin.
 As a matter of fact, the XPMP2-Sample plugin has no single line of code
-that controls sound. (There is only some sample code to enumerate the loaded
-sounds into `Log.txt`, purely for my personal testing purposes.)
+that controls sound (there is only some sample code to enumerate the loaded
+sounds into `Log.txt`, purely for my personal testing purposes).
+And even the way more complex LiveTraffic only adds a Master Volume control
+and the required FMOD logo display, but no line of sound control to its aircraft class.
 
 Once built with sound support, XPMP2 provides a lot of sounds by default.
 XPMP2 distinguishes 5 sound types, see `XPMP2::Aircraft::SoundEventsTy`,

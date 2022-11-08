@@ -52,9 +52,9 @@ to stay backward compatible.
 
 The XPMP2 library has been successfully tested with
 - X-Plane 11.5x under OpenGL, Vulkan, and Metal,
-- X-Plane 12 Alpha and Beta version,
-- the enclosed [XPMP2 Remote Client](#XPMP2-Remote-Client-Synchronizing-Planes-across-the-Network),
-- the enclosed sample plugin,
+- X-Plane 12 Alpha and Beta versions,
+- the [XPMP2 Remote Client](#XPMP2-Remote-Client-Synchronizing-Planes-across-the-Network),
+- the [`XPMP2-Sample` plugin](https://github.com/TwinFan/XPMP2-Remote),
 - [LiveTraffic v2.20](https://forums.x-plane.org/index.php?/files/file/49749-livetraffic/)
 - [X-Pilot 1.3](http://xpilot-project.org/)
 - X-Plane version of [IVAO Altitude](https://www.ivao.aero/softdev/beta/altitudebeta.asp)
@@ -78,9 +78,10 @@ and more is available in the
 
 ### Sample Plugin ###
 
-This package comes with a sample plugin in the `XPMP2-Sample` folder. It is a complete
-plugin including build projects and CMake setup. It displays 3 aircraft flying circles
-in front of the user's plane. Each of the 3 aircraft is using a different technology:
+The separate _Public Template_ repository `XPMP2-Sample` provides a complete
+plugin including build projects and CMake setup and can be the basis for your plugin project.
+It displays 3 aircraft flying circles in front of the user's plane.
+Each of the 3 aircraft is using a different technology:
 the now recommended way of subclassing `XPMP2::Aircraft`, the legacy way
 of subclassing `XPCAircraft` (as used by LiveTraffic v1.x), and by calling
 standard C functions.

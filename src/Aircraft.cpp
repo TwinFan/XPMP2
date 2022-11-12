@@ -519,6 +519,11 @@ float Aircraft::FlightLoopCB(float _elapsedSinceLastCall, float, int _flCounter,
         const float now = GetMiscNetwTime();
         RemoteAcEnqueueStarts(now);            // give remote model the chance for some prep work
 
+#ifdef INCLUDE_FMOD_SOUND
+        // Tell Sound module that we are about to start updaing
+        SoundUpdatesBegin();
+#endif
+
         // Update positional and configurational values
         for (mapAcTy::value_type& pair : glob.mapAc) {
             Aircraft& ac = *pair.second;

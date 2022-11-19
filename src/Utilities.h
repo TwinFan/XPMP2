@@ -41,7 +41,6 @@ constexpr const char* RSRC_OBJ8DATAREFS = "Obj8DataRefs.txt";
 //
 
 int     PrefsFuncIntDefault     (const char *, const char *, int _default);
-float   PrefsFuncFloatDefault   (const char *, const char *, float _default);
 
 //
 // MARK: File access helpers
@@ -131,6 +130,14 @@ std::vector<std::string> str_tokenize (const std::string s,
 
 /// Pi
 constexpr double PI = 3.1415926535897932384626433832795028841971693993751;
+
+/// Epsilon, a small number
+constexpr float EPSILON_F = 0.00001f;
+
+/// Are these two float near-equal? (to avoid trying something like a == b)
+inline bool fequal (float a, float b)
+{ return ((a - EPSILON_F) < b) && ((a + EPSILON_F) > b); }
+
 
 /// Convert radians to degrees, normalized to [0..360)
 template <class T>

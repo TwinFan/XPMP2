@@ -151,12 +151,13 @@ const char *    XPMPMultiplayerInit(const char* inPluginName,
     // Get X-Plane's version numbers
     glob.ReadVersions();    
 #ifdef INCLUDE_FMOD_SOUND
-    LOG_MSG(logINFO, "XPMP2 %.2f with FMOD support initializing under X-Plane version %d/%s and XPLM version %d",
-            XPMP2_VER, glob.verXPlane, GetGraphicsDriverTxt(), glob.verXPLM);
+    const char* const sWelcome = "XPMP2 %d.%d.%d with FMOD sound support initializing under X-Plane version %d/%s and XPLM version %d";
 #else
-    LOG_MSG(logINFO, "XPMP2 %.2f initializing under X-Plane version %d/%s and XPLM version %d",
-            XPMP2_VER, glob.verXPlane, GetGraphicsDriverTxt(), glob.verXPLM);
+    const char* const sWelcome = "XPMP2 %d.%d.%d initializing under X-Plane version %d/%s and XPLM version %d";
 #endif
+    LOG_MSG(logINFO, sWelcome,
+            XPMP2_VER_MAJOR, XPMP2_VER_MINOR, XPMP2_VER_PATCH,
+            glob.verXPlane, GetGraphicsDriverTxt(), glob.verXPLM);
     
     // Read a potential global XPMP2-specific config file
     glob.ReadConfigFile();

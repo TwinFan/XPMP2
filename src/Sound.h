@@ -39,6 +39,9 @@ namespace XPMP2 {
 /// Initialize the sound module and load the sounds
 bool SoundInit ();
 
+/// Prepare for this frame's updates, which are about to start
+void SoundUpdatesBegin();
+
 /// Tell FMOD that all updates are done
 void SoundUpdatesDone ();
 

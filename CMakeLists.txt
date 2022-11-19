@@ -29,7 +29,7 @@ else()
 endif()
 
 project(XPMP2
-        VERSION 2.60
+        VERSION 3.0.0
         DESCRIPTION "Multiplayer library for X-Plane 11 and 12")
 
 # Provide compile macros from the above project version definition
@@ -37,6 +37,7 @@ add_compile_definitions(
     XPMP2_VERSION="${PROJECT_VERSION}"
     XPMP2_VER_MAJOR=${PROJECT_VERSION_MAJOR}
     XPMP2_VER_MINOR=${PROJECT_VERSION_MINOR}
+    XPMP2_VER_PATCH=${PROJECT_VERSION_PATCH}
 )
 
 message ("== Building: ${PROJECT_NAME} ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH} ==")
@@ -185,7 +186,6 @@ target_include_directories(XPMP2
 if (NOT MSVC)
     set_source_files_properties(
         src/Remote.cpp
-        src/Sound.cpp
     PROPERTIES
         COMPILE_FLAGS -Wno-float-equal)
 endif()

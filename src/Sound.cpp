@@ -456,7 +456,8 @@ FMOD_CHANNEL* Aircraft::SoundPlay (const std::string& sndName, float vol)
     // Have FMOD create the sound
     try {
         SoundFile& snd = mapSound.at(sndName);
-        FMOD_CHANNEL* pChn = snd.play();
+        // start paused to avoid cracking, will be unpaused only in the next call to Aircraft::SoundUpdate()
+        FMOD_CHANNEL* pChn = snd.play(nullptr, true);
         if (pChn) {
             chnList.push_back(pChn);                    // add to managed list of sounds
             FMOD_LOG(FMOD_Channel_Set3DMinMaxDistance(pChn, (float)sndMinDist, FMOD_3D_MAX_DIST));
@@ -468,7 +469,6 @@ FMOD_CHANNEL* Aircraft::SoundPlay (const std::string& sndName, float vol)
             if (bChnMuted) {                            // if currently muted, then mute
                 FMOD_LOG(FMOD_Channel_SetMute(pChn, true));
             }
-            FMOD_LOG(FMOD_Channel_SetPaused(pChn, false));  // un-pause
         }
         return pChn;
     }
@@ -725,6 +725,12 @@ void Aircraft::SoundUpdate ()
                         SoundFile* pSnd = SoundGetSoundFile(*iter);
                         if (pSnd && pSnd->hasConeInfo())
                             pSnd->setConeOrientation(*iter, *this);
+                    }
+                    // Unpause the channel if still paused (always starts paused to avoid cracking)
+                    FMOD_BOOL bPaused = false;
+                    FMOD_LOG(FMOD_Channel_GetPaused(*iter, &bPaused));
+                    if (bPaused) {
+                        FMOD_LOG(FMOD_Channel_SetPaused(*iter, false));
                     }
                     // Next sound channel
                     iter++;

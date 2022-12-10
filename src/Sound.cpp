@@ -98,11 +98,9 @@ constexpr int EXP_COMP_SKIP_CYCLES = 10;            ///< In how many cycles to s
 constexpr int FMOD_NUM_VIRT_CHANNELS = 1000;        ///< Number of virtual channels during initialization
 constexpr float FMOD_3D_MAX_DIST     = 10000.0f;    ///< Value used for 3D max distance, which doesn't have much of a function for the inverse roll-off model used here
 constexpr float FMOD_LOW_PASS_GAIN   = 0.2f;        ///< Gain used when activating Low Pass filter
-constexpr int FMOD_NEW_SOUNDS_PER_FRAME = 1;        ///< How many new sounds do we allow per frame (to reduce risk of cracks)?
 
 static FMOD_SYSTEM* gpFmodSystem = nullptr;         ///< FMOD system
 static unsigned int gFmodVer = 0;                   ///< FMOD version
-static int          gbFmodSoundsThisFrame = 0;      ///< How many sounds did we create this frame already?
 
 /// Use pre-v2 FMOD version structures?
 inline bool UseOldFmod() { return gFmodVer < 0x00020000; }
@@ -620,18 +618,15 @@ void Aircraft::SoundUpdate ()
                         float vol = std::clamp<float>((fVal - def.valMin) / (def.valMax - def.valMin), 0.0f, 1.0f);
                         // If there hasn't been a sound triggered do so now
                         if (!sndCh.pChn) {
-                            // Are we allowed to add more sounds?
-                            if (++gbFmodSoundsThisFrame <= FMOD_NEW_SOUNDS_PER_FRAME) {
-                                // Get Sound's name and volume adjustment
-                                const std::string sndName = SoundGetName(eSndEvent, sndCh.volAdj);
-                                if (!sndName.empty()) {
-                                    vol *= sndCh.volAdj;
-                                    sndCh.pChn = SoundPlay(sndName, vol);
-                                    if (sndCh.pChn) {
-                                        LOG_MATCHING(logINFO, "Aircraft %08X (%s): Looping sound '%s' at volume %.2f for '%s'",
-                                                     modeS_id, GetFlightId().c_str(),
-                                                     sndName.c_str(), vol, SoundEventTxt(eSndEvent));
-                                    }
+                            // Get Sound's name and volume adjustment
+                            const std::string sndName = SoundGetName(eSndEvent, sndCh.volAdj);
+                            if (!sndName.empty()) {
+                                vol *= sndCh.volAdj;
+                                sndCh.pChn = SoundPlay(sndName, vol);
+                                if (sndCh.pChn) {
+                                    LOG_MATCHING(logINFO, "Aircraft %08X (%s): Looping sound '%s' at volume %.2f for '%s'",
+                                                 modeS_id, GetFlightId().c_str(),
+                                                 sndName.c_str(), vol, SoundEventTxt(eSndEvent));
                                 }
                             }
                         } else {
@@ -661,9 +656,7 @@ void Aircraft::SoundUpdate ()
                     {
                         sndCh.lastDRVal = fVal;                         // Remember this current value 
                         // If there hasn't been a sound triggered do so now
-                        if (!sndCh.pChn &&
-                            // And we are allowed to add more this frame
-                            ++gbFmodSoundsThisFrame <= FMOD_NEW_SOUNDS_PER_FRAME)
+                        if (!sndCh.pChn)
                         {
                             const std::string sndName = SoundGetName(eSndEvent, sndCh.volAdj);
                             if (!sndName.empty()) {
@@ -818,8 +811,7 @@ bool SoundInit ()
 // Prepare for this frame's updates, which are about to start
 void SoundUpdatesBegin()
 {
-    // Reset counter of allowed new sounds
-    gbFmodSoundsThisFrame = 0;
+    // Currently, there's nothing in here
 }
 
 // Tell FMOD that all updates are done

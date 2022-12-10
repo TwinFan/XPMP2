@@ -120,13 +120,9 @@ else()
     if(MSVC)
         # Fast code, symbols into separate .pdb file, no global optimization (as it produces huge files)
         add_compile_options(/Zi /O2 /GL-)
-    elseif(APPLE)
+    else()
+        # Use position-independent code and highest optimization level
         add_compile_options(-O3 -fPIC)
-    elseif (UNIX OR MINGW)
-        # Use position-independent code and highest optimization level (FPS!).
-        add_compile_options(-O3 -fPIC)
-        # Strip symbols during linking
-        add_link_options(-s)
     endif()
 endif()
 

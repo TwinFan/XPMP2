@@ -852,7 +852,9 @@ void SoundUpdatesDone ()
     }
     catch (const FmodError& e) {
         e.LogErr();                             // log the error
-        SoundCleanup();                         // in case of errors here disable the sound system
+        // We ignore one specific error, which has been reported on some Linux configurations
+        if (e.fmodRes != FMOD_ERR_INVALID_VECTOR)
+            SoundCleanup();                         // in case of errors here disable the sound system
     }
 }
 

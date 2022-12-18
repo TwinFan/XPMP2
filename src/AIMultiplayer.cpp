@@ -738,17 +738,27 @@ int AIMultiControlPlaneCount(
 // MARK: Control Functions
 //
 
-/// Resets all actual values of the AI/multiplayer dataRefs of one plane to something initial
+/// @brief Resets all actual values of the AI/multiplayer dataRefs of one plane to something initial
+/// @note There as pending bug, filed as XPD-13332, which affects this function with XP12 on Mac.
+///       X-Plane 12 can freeze since b5 when clearing Multiplayer positions to zero.
+/// @see https://forums.x-plane.org/index.php?/forums/topic/276319-xp12-on-mac-since-b5-freeze-upon-tcas-activation/
 void AIMultiClearAIDataRefs (multiDataRefsTy& drM,
                              bool bDeactivateToZero)
 {
     // not ok dataRefs?
     if (!drM) return;
     
+#if APL
+    // Apple Workaround for XP12: Don't init position, otherwise may freeze
+    if (glob.verXPlane < 12000) {
+#endif
     // either a "far away" location or standard 0, which is, however, a valid location somewhere!
     XPLMSetDataf(drM.X, bDeactivateToZero ? 0.0f : FAR_AWAY_VAL_GL);
     XPLMSetDataf(drM.Y, bDeactivateToZero ? 0.0f : FAR_AWAY_VAL_GL);
     XPLMSetDataf(drM.Z, bDeactivateToZero ? 0.0f : FAR_AWAY_VAL_GL);
+#if APL
+    }
+#endif
 
     XPLMSetDataf(drM.v_x, 0.0f);                // zero speed
     XPLMSetDataf(drM.v_y, 0.0f);

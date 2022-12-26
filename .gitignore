@@ -14,3 +14,7 @@ xcuserdata/
 *.mode2v3
 *.perspectivev3
 *.pbxuser
+
+# X-Plane particle system auto save files
+*.pss_autosave
+*.pss~

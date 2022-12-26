@@ -80,6 +80,7 @@
 #include "RelatedDoc8643.h"
 #include "CSLModels.h"
 #include "Aircraft.h"
+#include "Contrail.h"
 #include "2D.h"
 #include "AIMultiplayer.h"
 #include "Map.h"
@@ -208,6 +209,12 @@ public:
     bool RemoteIsListener() const { return remoteStatus == REMOTE_RECEIVING || remoteStatus == REMOTE_RECV_WAITING; }
     /// Are we a sender?
     bool RemoteIsSender() const { return remoteStatus == REMOTE_SENDING || remoteStatus == REMOTE_SEND_WAITING; }
+
+    // Contrails
+    int             contrailAltMin_ft   = 25000;    ///< [ft] Auto Contrails: Minimum altitude
+    int             contrailAltMax_ft   = 45000;    ///< [ft] Auto Contrails: Maximum altitude
+    int             contrailLifeTime    = 25;       ///< [s] Contrail default time to live
+    bool            contrailMulti       = false;    ///< Auto-create multiple or just a single contrail?
 
     /// Config: Start Sound on startup?
     bool bSoundOnStartup = true;

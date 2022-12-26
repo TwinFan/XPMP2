@@ -43,9 +43,12 @@ $(function() {
 <div class="title">Sound Support by FMOD </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>'s Audio Engine is FMOD Core API by Firelight Technologies Pty Ltd. Understand FMOD <a href="https://www.fmod.com/licensing">licensing</a> and <a href="https://www.fmod.com/attribution">attribution requirements</a> first, as they will apply to <em>your</em> plugin if using <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> with sound support.</p>
+<div class="textblock"><p><a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>'s Audio Engine is FMOD Core API by Firelight Technologies Pty Ltd.</p>
 <p>While X-Plane supports and uses FMOD, too, for aircraft-specific sounds, <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> cannot make use of any X-Plane functionality to produce the sounds as X-Plane at the moment does not allow to dynamically add sounds to instanced objects.</p>
-<p>Instead, <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> creates its own fully indepent instance of the FMOD system. This also means that <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> has to provide FMOD with all spacial information for each aircraft's sound to create a proper 3D sound illusion relative to the user's current camera position. Which opens a totally new are for potential bugs...</p>
+<p>Instead, <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> creates its own fully indepent instance of the FMOD system. This also means that <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> has to provide FMOD with all spacial information for each aircraft's sound to create a proper 3D sound illusion relative to the user's current camera position. Which opens a totally new space for potential bugs...</p>
+<h2>Register with FMOD and Download</h2>
+<p>Understand FMOD <a href="https://www.fmod.com/licensing">licensing</a> and <a href="https://www.fmod.com/attribution">attribution requirements</a> first, as they will apply to <em>your</em> plugin if using <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> with sound support.</p>
+<p>You will need to <a href="https://www.fmod.com/profile/register">register a user with FMOD</a>, then sign in and <a href="https://www.fmod.com/download#fmodengine">download the latest FMOD Core API</a> at least for Windows and Mac (if you ship on those platforms).</p>
 <h2>Building <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> with FMOD Sound Support</h2>
 <p>Due to above licencing requirements, sound support is only included if <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> is consciously built with CMake cache entry <code>INCLUDE_FMOD_SOUND</code>, which in turn defines a compile-time macro by the same name, e.g. by doing </p><div class="fragment"><div class="line">cmake -G Ninja -DINCLUDE_FMOD_SOUND=1 ..</div>
 </div><!-- fragment --><p> The Docker <code>Makefile</code> allows passing CMake parameters via the <code>FLAGS</code> macro: </p><div class="fragment"><div class="line">make FLAGS=-DINCLUDE_FMOD_SOUND=1 {...platform(s)...}</div>
@@ -54,23 +57,48 @@ $(function() {
 <p>In your plugin, you also need to define <code>INCLUDE_FMOD_SOUND</code> <em>before</em> including the <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> headers: </p><div class="fragment"><div class="line">#define INCLUDE_FMOD_SOUND 1            // Include FMOD sound support</div>
 <div class="line">#include &quot;XPMPMultiplayer.h&quot;</div>
 <div class="line">#include &quot;XPMPAircraft.h&quot;</div>
-</div><!-- fragment --><p>Then certainly link with an FMOD-enabled version of the <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> library.</p>
+</div><!-- fragment --><p> Then link to</p><ul>
+<li>an FMOD-sound-enabled version of <code><a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a></code>,</li>
+<li>FMOD libraries from the downloaded FMOD Core API, namely<ul>
+<li><code>api/core/lib/libfmod.dylib</code> (Mac) and</li>
+<li><code>api/core/lib/x64/fmod_vc.ib</code> (Windows).</li>
+</ul>
+</li>
+</ul>
+<h3>CMake</h3>
+<p>When building with <code>CMake</code> you'll need something like this in your <code>CMakeLists.txt</code>: </p><div class="fragment"><div class="line"># Need FMOD Sound Support (from XPMP2)</div>
+<div class="line">set (INCLUDE_FMOD_SOUND 1)                          # tells XPMP2 to build with FMOD</div>
+<div class="line">add_compile_definitions(INCLUDE_FMOD_SOUND=1)       # tells LiveTraffic compile to include FMOD from XPMP2 headers</div>
+<div class="line">[...]</div>
+<div class="line"># Incude building XPMP2</div>
+<div class="line">add_subdirectory(Lib/XPMP2)</div>
+<div class="line">add_dependencies(&lt;your_target&gt; XPMP2)</div>
+<div class="line">target_link_libraries(&lt;your_target&gt; XPMP2)</div>
+<div class="line">[...]</div>
+<div class="line"># Link to FMOD</div>
+<div class="line">if (WIN32 OR APPLE)</div>
+<div class="line">    # Where you put the downloaded FMOD Core API libraries:</div>
+<div class="line">    list(APPEND CMAKE_LIBRARY_PATH &quot;${CMAKE_CURRENT_SOURCE_DIR}/lib/fmod&quot;)  </div>
+<div class="line">    find_library(FMOD_LIBRARY NAMES fmod_vc.lib libfmod.dylib REQUIRED)</div>
+<div class="line">    target_link_libraries(&lt;your_target&gt; ${FMOD_LIBRARY})</div>
+<div class="line">endif ()</div>
+</div><!-- fragment --><p> This defines both the <code>CMake</code> cache entry as well as the preprocessor macro to build with FMOD sound support. It then, after having set <code>INCLUDE_FMOD_SOUND</code>, includes <code><a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a></code> into your build tree. Finally, it links your plugin to the FMOD library, but only for Windows and Apple builds. A Linux build is not specifically linked with FMOD (the same way it is also not linked to <code>XPML</code> or <code>OpenGL</code> libraries), because X-Plane itself will always load some version of the library on its startup before any plugin. Linux' dynamic loader will then find that already loaded library and use it also for your plugin.</p>
 <h3>Avoid Crash</h3>
 <p>If the <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> you linked is compiled with <code>INCLUDE_FMOD_SOUND</code> but your actual plugin without, then the plugin will crash in <code><a class="el" href="classXPMP2_1_1Aircraft.html#a87623ad988fedbbf83a389ad49eaa2e1" title="Internal: Flight loop callback function controlling update and movement of all planes.">XPMP2::Aircraft::FlightLoopCB()</a></code> at the point when it tries to call <code>XPMP2::Aircraft::UpdateSound()</code>, because the <code><a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a></code> object created by your plugin is created with too short a <code>vtable</code> as it did not consider the virtual member functions for sound support.</p>
 <p>You can tell if your <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> library includes FMOD support latest from the init message in <code>Log.txt</code>, when it says:</p>
 <div class="fragment"><div class="line">...XPMPMultiplayerInit: XPMP2 2.60 with FMOD support initializing...`</div>
 </div><!-- fragment --><p>Solution: Either link to an <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> build without FMOD support. Or make sure to <code>#define INCLUDE_FMOD_SOUND 1</code> in your plugin before including the <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> headers.</p>
 <h3>FMOD Logo</h3>
-<p>Not built into <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> (to avoid a link-time dependency on OpenGL) but provided separately are functions to create the FMOD logo as per <a href="https://www.fmod.com/attribution">attribution requirements</a>. Include <code><a class="el" href="FMOD__Logo_8cpp.html" title="Compressed version of the FMOD logo with code to create a texture ID in X-Plane for display with Dear...">FMOD_Logo.cpp</a></code> and <code><a class="el" href="FMOD__Logo_8h.html" title="Compressed version of the FMOD logo with code to create a texture ID in X-Plane for display with Dear...">FMOD_Logo.h</a></code> from <code>XPMP2-Sample/lib/fmod/logo</code> into your project. Showing the FMOD logo in a Dear ImGui window is then as simple as </p><div class="fragment"><div class="line">#include &quot;FMOD_Logo.h&quot;</div>
+<p>Not built into <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> (to avoid a link-time dependency on OpenGL) but provided separately are functions to create the FMOD logo as per <a href="https://www.fmod.com/attribution">attribution requirements</a>. Include <code>FMOD_Logo.cpp</code> and <code>FMOD_Logo.h</code> from <code>XPMP2/lib/fmod/logo</code> into your project. Showing the FMOD logo in a Dear ImGui window is then as simple as </p><div class="fragment"><div class="line">#include &quot;FMOD_Logo.h&quot;</div>
 <div class="line">...</div>
 <div class="line">int logoId = 0;</div>
 <div class="line">if (FMODLogo::GetTexture(logoId)) {</div>
 <div class="line">    ImGui::Image((void*)(intptr_t)logoId, ImVec2(FMODLogo::IMG_WIDTH, FMODLogo::IMG_HEIGHT));</div>
 <div class="line">}</div>
 </div><!-- fragment --><h2>Ship <code>fmod.dll</code></h2>
-<p>If your plugin supports X-Plane 11 under Windows, then you need to ship <code>fmod.dll</code> in the <code>win_x64</code> folder. See <a href="Deploying.html">Deploying</a> for details.</p>
+<p>If your plugin supports X-Plane 11 under Windows, then from the downloaded FMOD Core API you need to ship <code>api/core/lib/x64/fmod.dll</code> in the plugin's <code>win_x64</code> folder. See <a href="Deploying.html">Deploying</a> for details.</p>
 <h2>Default Sounds</h2>
-<p>Your are <b>not required</b> to provide any sound-specific coding in your plugin. As a matter of fact, the XPMP2-Sample plugin has no single line of code that controls sound. (There is only some sample code to enumerate the loaded sounds into <code>Log.txt</code>, purely for my personal testing purposes.)</p>
+<p>Your are <b>not required</b> to provide any sound-specific coding in your plugin. As a matter of fact, the XPMP2-Sample plugin has no single line of code that controls sound (there is only some sample code to enumerate the loaded sounds into <code>Log.txt</code>, purely for my personal testing purposes). And even the way more complex LiveTraffic only adds a Master Volume control and the required FMOD logo display, but no line of sound control to its aircraft class.</p>
 <p>Once built with sound support, <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> provides a lot of sounds by default. <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> distinguishes 5 sound types, see <code><a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336" title="Types of sound supported directly by XPMP2.">XPMP2::Aircraft::SoundEventsTy</a></code>, and plays sounds that are included in any X-Plane installation's <code>Resources/sounds</code> folders based on the level of certain dataRefs:</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">

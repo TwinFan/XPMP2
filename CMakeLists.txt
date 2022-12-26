@@ -29,7 +29,7 @@ else()
 endif()
 
 project(XPMP2
-        VERSION 3.0.2
+        VERSION 3.1.0
         DESCRIPTION "Multiplayer library for X-Plane 11 and 12")
 
 # Provide compile macros from the above project version definition
@@ -149,6 +149,7 @@ add_library(XPMP2 STATIC
     src/AIMultiplayer.cpp
     src/Aircraft.h
     src/Aircraft.cpp
+    src/Contrail.cpp
     src/CSLCopy.cpp
     src/CSLModels.h
     src/CSLModels.cpp

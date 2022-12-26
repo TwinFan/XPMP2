@@ -197,6 +197,12 @@ void GlobVars::UpdateCfgVals ()
     else if (i < 0) remoteCfg = REMOTE_CFG_OFF;
     else            remoteCfg = REMOTE_CFG_ON;
 
+    // Contrails
+    contrailAltMin_ft = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_CONTR_MIN_ALT, contrailAltMin_ft);
+    contrailAltMax_ft = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_CONTR_MAX_ALT, contrailAltMax_ft);
+    contrailLifeTime  = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_CONTR_LIFE,    contrailLifeTime);
+    contrailMulti     = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_CONTR_MULTI,   contrailMulti) != 0;
+    
 #ifdef INCLUDE_FMOD_SOUND
     // Ask for enabling sound and mute-on-pause
     bSoundOnStartup = prefsFuncInt(XPMP_CFG_SEC_SOUND, XPMP_CFG_ITM_ACTIVATE_SOUND, bSoundOnStartup) != 0;
@@ -649,6 +655,28 @@ float headDiff (float head1, float head2)
     
     return head2 - head1;
 }
+
+
+// Convert heading/pitch to normalized x/y/z vector
+std::valarray<float> HeadPitch2Vec (const float head, const float pitch)
+{
+    // Subtracting 90 degress is because x coordinate is heading east,
+    // so 90 degrees is equivalent to x = 0
+    const float radHead = deg2rad(head - 90.0f);
+    const float radPitch = deg2rad(pitch);
+    // Have sinus/cosinus pre-computed and let the optimizer deal with reducing local variables
+    const float sinHead = std::sin(radHead);
+    const float cosHead = std::cos(radHead);
+    const float sinPitch = std::sin(radPitch);
+    const float cosPitch = std::cos(radPitch);
+    return std::valarray ({
+        cosHead * cosPitch,         // x
+        sinPitch,                   // y
+        sinHead * cosPitch          // z
+    });
+}
+
+
 
 //
 // MARK: Misc

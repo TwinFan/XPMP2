@@ -403,6 +403,8 @@ size_t AIUpdateTCASTargets ()
     vWakeAoA.clear();       vWakeAoA.reserve(numSlots);
     vWakeLift.clear();      vWakeLift.reserve(numSlots);
 
+    const float now = GetMiscNetwTime();
+
     // Loop over all filled slots
     size_t slot = 1;
     for (; slot < gSlots.size() && gSlots[slot] != nullptr; ++slot)
@@ -464,7 +466,6 @@ size_t AIUpdateTCASTargets ()
             // are smoother if calculated over "longer" time frames,
             // the following updates are done about every second only,
             // or if the a/c changed slot (to make sure all dataRef values are in synch)
-            const float now = GetMiscNetwTime();
             if (bSlotChanged || (now >= ac.prev_ts + 1.0f))
             {
                 // do we have any prev x/y/z values at all?

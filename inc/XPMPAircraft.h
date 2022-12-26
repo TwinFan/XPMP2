@@ -246,6 +246,12 @@ public:
     /// @note Only the condition `mode != Standby` is of interest to XPMP2 for considering the aircraft for TCAS display
     XPMPPlaneRadar_t acRadar;
     
+    /// Contrail: list of objects for contrail generation
+    std::list<XPLMInstanceRef> listContrail;
+    unsigned contrailNum = 0;               ///< number of contrails requested
+    unsigned contrailDist_m = 5;            ///< distance between several contrails and to the aircraft's centerline, in meter
+    unsigned contrailLifeTime = 25;         ///< this aircraft's contrail's life time
+    
     /// @brief Wake dataRef support
     /// @see https://developer.x-plane.com/article/plugin-traffic-wake-turbulence/
     /// @details If values aren't set during aircraft creation, ie. remain at `NAN`, then defaults will be applied
@@ -281,6 +287,9 @@ protected:
     float               prev_ts = 0.0f;     ///< last update of `prev_x/y/z` in XP's network time
     float               v_x = 0.0f, v_y = 0.0f, v_z = 0.0f; ///< Cartesian velocity in m/s per axis
     float               gs_kn = 0.0f;       /// ground speed in [kn] based on above v_x/z
+    
+    /// Reverse-engineered lat/lon/alt, updated only once per second
+    double lat1s = NAN, lon1s = NAN, alt1s_ft = NAN;
     
     /// Set by SetOnGrnd() with the timestamp when to reset SetTouchDown()
     float               tsResetTouchDown = NAN;
@@ -655,6 +664,31 @@ public:
     virtual float GetLift() const       { return GetMass() * G_EARTH; } ///< Lift produced. You _should_ override to blend in/out for take-off/landing, but XPMP2 has no dynamic info of your plane, not even an on-the-ground flag
 
     /// @}
+    /// @name Contrails
+    /// @note Implemented in Contrail.cpp
+    /// @{
+
+    /// @brief Trigger standard contrails as per plane type
+    /// @details Bases on Doc8643 data. Contrails will be created for Jets only.
+    ///          No contrails for non-jet aircraft.
+    ///          Contrails will be created as per global configuration (multi? life time),
+    ///          see `XPMP_CFG_ITM_CONTR_*` config items.
+    ///          If you want more control use ContrailRequest().
+    /// @returns Number of created contrails
+    unsigned ContrailTrigger ();
+    
+    /// @brief Request Contrails
+    /// @details They are not actually created here, that happens later in the flight loop
+    /// @param num Number of contrails. Keep performance impact in mind, 1 might be sufficient.
+    ///            Passing `0` will cause the contrails to be removed.
+    /// @param dist_m If more than one contrail is created, this is the spacing between them and the aircraft's centerline in meters. `0` means no change: use current value of `contrailDist_m`, which in turn is initialized to `5`
+    /// @param lifeTime is the time to live in seconds for each contrail puff, indirectly determining its length; `0` means no change: use current value of `contrailLifeTime`, which in turn is initialized from global configuration item `XPMP_CFG_ITM_CONTR_LIFE`
+    void ContrailRequest (unsigned num, unsigned dist_m = 0, unsigned lifeTime = 0);
+
+    /// Remove all contrail objects
+    void ContrailRemove ();
+    
+    /// @}
     /// @name Map Support
     /// @note Implemented in Map.cpp
     /// @{
@@ -716,6 +750,12 @@ protected:
 
     /// Internal: This puts the instance into XP's sky and makes it move
     void DoMove ();
+    /// Internal: Processes once every second only stuff that doesn't require being computed every flight loop
+    void DoEverySecondUpdates (float now);
+    /// Internal: Create/move contrails, implemented in Contrail.cpp
+    void ContrailMove ();
+    /// Internal: (Re)Assess if contrails are to be created
+    void ContrailAutoUpdate ();
     /// Internal: Update the plane's distance/bearing from the camera location
     void UpdateDistBearingCamera (const XPLMCameraPosition_t& posCam);
     /// Clamp to ground: Make sure the plane is not below ground, corrects Aircraft::drawInfo if needed.

@@ -213,6 +213,18 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a1ca0ffcdbdb639bcc5d3a222ec8dbeba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceXPMP2.html#a79adca5f1eba1fbafa63e30a2c9af8e7">RemoteStatusTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a1ca0ffcdbdb639bcc5d3a222ec8dbeba">remoteStatus</a> = <a class="el" href="namespaceXPMP2.html#a79adca5f1eba1fbafa63e30a2c9af8e7a5ef10b1d928df8e76abd8e0acd4d889b">REMOTE_OFF</a></td></tr>
 <tr class="memdesc:a1ca0ffcdbdb639bcc5d3a222ec8dbeba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Status of remote connections to networked clients.  <a href="structXPMP2_1_1GlobVars.html#a1ca0ffcdbdb639bcc5d3a222ec8dbeba">More...</a><br /></td></tr>
 <tr class="separator:a1ca0ffcdbdb639bcc5d3a222ec8dbeba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62a3876a544f33595cff6ecda687b520"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a62a3876a544f33595cff6ecda687b520">contrailAltMin_ft</a> = 25000</td></tr>
+<tr class="memdesc:a62a3876a544f33595cff6ecda687b520"><td class="mdescLeft">&#160;</td><td class="mdescRight">[ft] Auto Contrails: Minimum altitude  <a href="structXPMP2_1_1GlobVars.html#a62a3876a544f33595cff6ecda687b520">More...</a><br /></td></tr>
+<tr class="separator:a62a3876a544f33595cff6ecda687b520"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ff7d5166af11e7e233e555c66855d4a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a2ff7d5166af11e7e233e555c66855d4a">contrailAltMax_ft</a> = 45000</td></tr>
+<tr class="memdesc:a2ff7d5166af11e7e233e555c66855d4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">[ft] Auto Contrails: Maximum altitude  <a href="structXPMP2_1_1GlobVars.html#a2ff7d5166af11e7e233e555c66855d4a">More...</a><br /></td></tr>
+<tr class="separator:a2ff7d5166af11e7e233e555c66855d4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3cca6faa3c493a3c4228f157b534e4e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#af3cca6faa3c493a3c4228f157b534e4e">contrailLifeTime</a> = 25</td></tr>
+<tr class="memdesc:af3cca6faa3c493a3c4228f157b534e4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">[s] Contrail default time to live  <a href="structXPMP2_1_1GlobVars.html#af3cca6faa3c493a3c4228f157b534e4e">More...</a><br /></td></tr>
+<tr class="separator:af3cca6faa3c493a3c4228f157b534e4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab912defc971c0a2b8e5e2a9907ace726"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#ab912defc971c0a2b8e5e2a9907ace726">contrailMulti</a> = false</td></tr>
+<tr class="memdesc:ab912defc971c0a2b8e5e2a9907ace726"><td class="mdescLeft">&#160;</td><td class="mdescRight">Auto-create multiple or just a single contrail?  <a href="structXPMP2_1_1GlobVars.html#ab912defc971c0a2b8e5e2a9907ace726">More...</a><br /></td></tr>
+<tr class="separator:ab912defc971c0a2b8e5e2a9907ace726"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa1244c793476d7e32d636410a222608"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#afa1244c793476d7e32d636410a222608">bSoundOnStartup</a> = true</td></tr>
 <tr class="memdesc:afa1244c793476d7e32d636410a222608"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config: Start Sound on startup?  <a href="structXPMP2_1_1GlobVars.html#afa1244c793476d7e32d636410a222608">More...</a><br /></td></tr>
 <tr class="separator:afa1244c793476d7e32d636410a222608"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -817,6 +829,70 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Ground vehicle type identifier (map decides icon based on this) </p>
+
+</div>
+</div>
+<a id="a2ff7d5166af11e7e233e555c66855d4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ff7d5166af11e7e233e555c66855d4a">&#9670;&nbsp;</a></span>contrailAltMax_ft</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int XPMP2::GlobVars::contrailAltMax_ft = 45000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[ft] Auto Contrails: Maximum altitude </p>
+
+</div>
+</div>
+<a id="a62a3876a544f33595cff6ecda687b520"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62a3876a544f33595cff6ecda687b520">&#9670;&nbsp;</a></span>contrailAltMin_ft</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int XPMP2::GlobVars::contrailAltMin_ft = 25000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[ft] Auto Contrails: Minimum altitude </p>
+
+</div>
+</div>
+<a id="af3cca6faa3c493a3c4228f157b534e4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3cca6faa3c493a3c4228f157b534e4e">&#9670;&nbsp;</a></span>contrailLifeTime</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int XPMP2::GlobVars::contrailLifeTime = 25</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[s] Contrail default time to live </p>
+
+</div>
+</div>
+<a id="ab912defc971c0a2b8e5e2a9907ace726"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab912defc971c0a2b8e5e2a9907ace726">&#9670;&nbsp;</a></span>contrailMulti</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::GlobVars::contrailMulti = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Auto-create multiple or just a single contrail? </p>
 
 </div>
 </div>
@@ -1483,7 +1559,7 @@ Protected Attributes</h2></td></tr>
 </div>
 <hr/>The documentation for this struct was generated from the following files:<ul>
 <li>src/<a class="el" href="XPMP2_8h_source.html">XPMP2.h</a></li>
-<li>src/<a class="el" href="src_2Utilities_8cpp.html">Utilities.cpp</a></li>
+<li>src/<a class="el" href="Utilities_8cpp.html">Utilities.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

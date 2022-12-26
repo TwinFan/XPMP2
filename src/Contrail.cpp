@@ -123,8 +123,8 @@ void Aircraft::ContrailRemove ()
 // Internal: Create/move contrails
 void Aircraft::ContrailMove ()
 {
-    // Contrail module initialization latest now
-    if (!ContrailInit()) return;
+    // Contrail module initialization latest now if needed
+    if ((contrailNum > 0) && !ContrailInit()) return;
     
     // --- Have the correct number of contrail objects ready ---
     if (size_t(contrailNum) != listContrail.size()) {
@@ -215,7 +215,7 @@ void Aircraft::ContrailAutoUpdate ()
             ContrailTrigger();
         else if (!bInContrailAlt && contrailNum > 0)    // not in contrail altitiude but have contrails?
             ContrailRemove();
-    }    
+    }
 }
 
 //

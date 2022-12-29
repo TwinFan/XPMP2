@@ -204,7 +204,7 @@ struct RemoteAcDetailTy {
     bool            bRender : 1;        ///< Shall the CSL model be drawn in 3D world?
     bool            bDrawLabel : 1;     ///< Draw the label of the aircraft? (new with v2)
     bool            bOnGrnd : 1;        ///< Is the aircraft on the ground?
-    unsigned        contrailNum : 3;    ///< number of contrails requested
+    std::uint8_t    contrailNum : 3;    ///< number of contrails requested
 
     // selectively taken from XPMPInfoTexts_t and packed:
     char            tailNum[10];        ///< registration, tail number

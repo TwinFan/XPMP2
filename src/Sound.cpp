@@ -819,7 +819,28 @@ void SoundUpdatesDone ()
         const FMOD_VECTOR normForw  = FmodHeadPitch2Vec(glob.posCamera.heading, glob.posCamera.pitch);
         const FMOD_VECTOR normUpw   = FmodHeadPitch2Vec(glob.posCamera.heading + 90.0f * std::sin(camRollRad),
                                                         glob.posCamera.pitch   + 90.0f * std::cos(camRollRad));
-        FMOD_TEST(FMOD_System_Set3DListenerAttributes(gpFmodSystem, 0, &posCam, &velocity, &normForw, &normUpw));
+        
+        // The following call sometimes returns error FMOD_ERR_INVALID_VECTOR,
+        // but I don't know yet why or when, so we log one detailed error per 5 minutes,
+        // but avoid spamming the log with repeated error messages
+        gFmodRes = FMOD_System_Set3DListenerAttributes(gpFmodSystem, 0, &posCam, &velocity, &normForw, &normUpw);
+        if (gFmodRes != FMOD_OK) {
+            if (gFmodRes != FMOD_ERR_INVALID_VECTOR)
+                throw FmodError("FMOD_System_Set3DListenerAttributes", gFmodRes, __LINE__, __func__);
+            else
+            {
+                static float lastInvVecErrMsgTS = -500.0f;
+                if (GetMiscNetwTime() >= lastInvVecErrMsgTS + 300.0f) {
+                    lastInvVecErrMsgTS = GetMiscNetwTime();
+                    FmodError("FMOD_System_Set3DListenerAttributes", gFmodRes, __LINE__, __func__).LogErr();
+                    LOG_MSG(logERR, "Please report the following details as a reply to https://bit.ly/LTSound36");
+                    LOG_MSG(logERR, "Camera   roll=%.3f, heading=%.3f, pitch=%.3f",
+                            glob.posCamera.roll, glob.posCamera.pitch, glob.posCamera.heading);
+                    LOG_MSG(logERR, "normForw x=%.6f, y=%.6f, z=%.6f", normForw.x, normForw.y, normForw.z);
+                    LOG_MSG(logERR, "normUpw  x=%.6f, y=%.6f, z=%.6f", normUpw.x, normUpw.y, normUpw.z);
+                }
+            }
+        }
         
         // Mute-on-Pause
         if (glob.bSoundMuteOnPause) {                           // shall act automatically on Pause?

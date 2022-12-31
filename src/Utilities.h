@@ -189,6 +189,13 @@ numT headNormalize (numT _head)
     return _head;
 }
 
+/// @brief Convert heading/pitch to normalized x/y/z vector
+/// @note Given all the trigonometric functions this is probably expensive,
+///       so use with care and avoid in flight loop callback when unnecessary.
+/// @returns a `valarray` with 3 values, x, y, and z
+std::valarray<float> HeadPitch2Vec (const float head, const float pitch);
+
+
 //
 // MARK: Misc
 //

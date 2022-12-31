@@ -62,17 +62,20 @@ $(function() {
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keywordtype">bool</span> <a class="code" href="namespaceXPMP2.html#a0b7f11ea031b0b223defbcbafce60bd5">SoundInit</a> ();</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceXPMP2.html#ae3cc76f2c5bde40b9f048eeafddabb2e">SoundUpdatesDone</a> ();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceXPMP2.html#a92b5780fa4888daf5d6add300f5a0238">SoundUpdatesBegin</a>();</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceXPMP2.html#aef750c9760f73d3569e147a03167bcf8">SoundCleanup</a> ();</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceXPMP2.html#ae3cc76f2c5bde40b9f048eeafddabb2e">SoundUpdatesDone</a> ();</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// INCLUDE_FMOD_SOUND</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keywordtype">void</span> <a class="code" href="namespaceXPMP2.html#aef750c9760f73d3569e147a03167bcf8">SoundCleanup</a> ();</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// INCLUDE_FMOD_SOUND</span></div>
 <div class="ttc" id="anamespaceXPMP2_html"><div class="ttname"><a href="namespaceXPMP2.html">XPMP2</a></div><div class="ttdoc">Defined by FMOD.</div><div class="ttdef"><b>Definition:</b> XPMPAircraft.h:73</div></div>
-<div class="ttc" id="anamespaceXPMP2_html_a0b7f11ea031b0b223defbcbafce60bd5"><div class="ttname"><a href="namespaceXPMP2.html#a0b7f11ea031b0b223defbcbafce60bd5">XPMP2::SoundInit</a></div><div class="ttdeci">bool SoundInit()</div><div class="ttdoc">Initialize the sound module and load the sounds.</div><div class="ttdef"><b>Definition:</b> Sound.cpp:739</div></div>
-<div class="ttc" id="anamespaceXPMP2_html_ae3cc76f2c5bde40b9f048eeafddabb2e"><div class="ttname"><a href="namespaceXPMP2.html#ae3cc76f2c5bde40b9f048eeafddabb2e">XPMP2::SoundUpdatesDone</a></div><div class="ttdeci">void SoundUpdatesDone()</div><div class="ttdoc">Tell FMOD that all updates are done.</div><div class="ttdef"><b>Definition:</b> Sound.cpp:790</div></div>
-<div class="ttc" id="anamespaceXPMP2_html_aef750c9760f73d3569e147a03167bcf8"><div class="ttname"><a href="namespaceXPMP2.html#aef750c9760f73d3569e147a03167bcf8">XPMP2::SoundCleanup</a></div><div class="ttdeci">void SoundCleanup()</div><div class="ttdoc">Graceful shoutdown.</div><div class="ttdef"><b>Definition:</b> Sound.cpp:832</div></div>
+<div class="ttc" id="anamespaceXPMP2_html_a0b7f11ea031b0b223defbcbafce60bd5"><div class="ttname"><a href="namespaceXPMP2.html#a0b7f11ea031b0b223defbcbafce60bd5">XPMP2::SoundInit</a></div><div class="ttdeci">bool SoundInit()</div><div class="ttdoc">Initialize the sound module and load the sounds.</div><div class="ttdef"><b>Definition:</b> Sound.cpp:750</div></div>
+<div class="ttc" id="anamespaceXPMP2_html_a92b5780fa4888daf5d6add300f5a0238"><div class="ttname"><a href="namespaceXPMP2.html#a92b5780fa4888daf5d6add300f5a0238">XPMP2::SoundUpdatesBegin</a></div><div class="ttdeci">void SoundUpdatesBegin()</div><div class="ttdoc">Prepare for this frame's updates, which are about to start.</div><div class="ttdef"><b>Definition:</b> Sound.cpp:801</div></div>
+<div class="ttc" id="anamespaceXPMP2_html_ae3cc76f2c5bde40b9f048eeafddabb2e"><div class="ttname"><a href="namespaceXPMP2.html#ae3cc76f2c5bde40b9f048eeafddabb2e">XPMP2::SoundUpdatesDone</a></div><div class="ttdeci">void SoundUpdatesDone()</div><div class="ttdoc">Tell FMOD that all updates are done.</div><div class="ttdef"><b>Definition:</b> Sound.cpp:807</div></div>
+<div class="ttc" id="anamespaceXPMP2_html_aef750c9760f73d3569e147a03167bcf8"><div class="ttname"><a href="namespaceXPMP2.html#aef750c9760f73d3569e147a03167bcf8">XPMP2::SoundCleanup</a></div><div class="ttdeci">void SoundCleanup()</div><div class="ttdoc">Graceful shoutdown.</div><div class="ttdef"><b>Definition:</b> Sound.cpp:872</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

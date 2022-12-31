@@ -51,7 +51,7 @@
 
 namespace XPMP2 {
 
-FMOD_VECTOR HeadPitch2Vec (const float head, const float pitch);
+FMOD_VECTOR FmodHeadPitch2Vec (const float head, const float pitch);
 
 //
 // MARK: FMOD Old version Structures
@@ -322,8 +322,8 @@ public:
     {
         if (!hasConeInfo()) return;
         const float coneDirRad = deg2rad(coneDir);
-        FMOD_VECTOR coneVec = HeadPitch2Vec(ac.GetHeading() + coneDir,
-                                            std::cos(coneDirRad)*ac.GetPitch() - std::sin(coneDirRad)*ac.GetRoll() + conePitch);
+        FMOD_VECTOR coneVec = FmodHeadPitch2Vec(ac.GetHeading() + coneDir,
+                                                std::cos(coneDirRad)*ac.GetPitch() - std::sin(coneDirRad)*ac.GetRoll() + conePitch);
         FMOD_LOG(FMOD_Channel_Set3DConeOrientation(pChn, &coneVec));
     }
 
@@ -426,22 +426,11 @@ const char* SoundEventTxt (Aircraft::SoundEventsTy e)
 /// @brief Convert heading/pitch to normalized x/y/z vector
 /// @note Given all the trigonometric functions this is probably expensive,
 ///       so use with care and avoid in flight loop callback when unnecessary.
-FMOD_VECTOR HeadPitch2Vec (const float head, const float pitch)
+FMOD_VECTOR FmodHeadPitch2Vec (const float head, const float pitch)
 {
-    // Subtracting 90 degress is because x coordinate is heading east,
-    // so 90 degrees is equivalent to x = 0
-    const float radHead = deg2rad(head - 90.0f);
-    const float radPitch = deg2rad(pitch);
-    // Have sinus/cosinus pre-computed and let the optimizer deal with reducing local variables
-    const float sinHead = std::sin(radHead);
-    const float cosHead = std::cos(radHead);
-    const float sinPitch = std::sin(radPitch);
-    const float cosPitch = std::cos(radPitch);
-    return FMOD_VECTOR {
-        cosHead * cosPitch,         // x
-        sinPitch,                   // y
-        sinHead * cosPitch          // z
-    };
+    const std::valarray<float> v = HeadPitch2Vec(head, pitch);
+    assert(v.size() == 3);
+    return FMOD_VECTOR { v[0], v[1], v[2] };
 }
 
 //
@@ -827,10 +816,31 @@ void SoundUpdatesDone ()
         const FMOD_VECTOR velocity  = { glob.vCam_x, glob.vCam_y, glob.vCam_z };
         // The forward direction takes heading, pitch, and roll into account
         const float camRollRad = deg2rad(glob.posCamera.roll);
-        const FMOD_VECTOR normForw  = HeadPitch2Vec(glob.posCamera.heading, glob.posCamera.pitch);
-        const FMOD_VECTOR normUpw   = HeadPitch2Vec(glob.posCamera.heading + 90.0f * std::sin(camRollRad),
-                                                    glob.posCamera.pitch   + 90.0f * std::cos(camRollRad));
-        FMOD_TEST(FMOD_System_Set3DListenerAttributes(gpFmodSystem, 0, &posCam, &velocity, &normForw, &normUpw));
+        const FMOD_VECTOR normForw  = FmodHeadPitch2Vec(glob.posCamera.heading, glob.posCamera.pitch);
+        const FMOD_VECTOR normUpw   = FmodHeadPitch2Vec(glob.posCamera.heading + 90.0f * std::sin(camRollRad),
+                                                        glob.posCamera.pitch   + 90.0f * std::cos(camRollRad));
+        
+        // The following call sometimes returns error FMOD_ERR_INVALID_VECTOR,
+        // but I don't know yet why or when, so we log one detailed error per 5 minutes,
+        // but avoid spamming the log with repeated error messages
+        gFmodRes = FMOD_System_Set3DListenerAttributes(gpFmodSystem, 0, &posCam, &velocity, &normForw, &normUpw);
+        if (gFmodRes != FMOD_OK) {
+            if (gFmodRes != FMOD_ERR_INVALID_VECTOR)
+                throw FmodError("FMOD_System_Set3DListenerAttributes", gFmodRes, __LINE__, __func__);
+            else
+            {
+                static float lastInvVecErrMsgTS = -500.0f;
+                if (GetMiscNetwTime() >= lastInvVecErrMsgTS + 300.0f) {
+                    lastInvVecErrMsgTS = GetMiscNetwTime();
+                    FmodError("FMOD_System_Set3DListenerAttributes", gFmodRes, __LINE__, __func__).LogErr();
+                    LOG_MSG(logERR, "Please report the following details as a reply to https://bit.ly/LTSound36");
+                    LOG_MSG(logERR, "Camera   roll=%.3f, heading=%.3f, pitch=%.3f",
+                            glob.posCamera.roll, glob.posCamera.pitch, glob.posCamera.heading);
+                    LOG_MSG(logERR, "normForw x=%.6f, y=%.6f, z=%.6f", normForw.x, normForw.y, normForw.z);
+                    LOG_MSG(logERR, "normUpw  x=%.6f, y=%.6f, z=%.6f", normUpw.x, normUpw.y, normUpw.z);
+                }
+            }
+        }
         
         // Mute-on-Pause
         if (glob.bSoundMuteOnPause) {                           // shall act automatically on Pause?

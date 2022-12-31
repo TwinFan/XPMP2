@@ -217,6 +217,7 @@ void RemoteAcDetailTy::CopyFrom (const Aircraft& _ac,
     // Labels are only to be drawn if both individually (per a/c) and globally they shall:
     bDrawLabel  = _ac.ShallDrawLabel() && XPMPDrawingAircraftLabels();
     bOnGrnd     = _ac.IsOnGrnd();
+    contrailNum = std::min<unsigned>(8,_ac.contrailNum);
     
     // Info texts
 #define memcpy_min(to,from) std::memcpy(to,from,std::min(sizeof(from),sizeof(to)))
@@ -228,6 +229,9 @@ void RemoteAcDetailTy::CopyFrom (const Aircraft& _ac,
     memcpy_min(aptFrom,         _ac.acInfoTexts.aptFrom);
     memcpy_min(aptTo,           _ac.acInfoTexts.aptTo);
 
+    contrailDist_m = (std::uint8_t)std::min<unsigned>(255,_ac.contrailDist_m);
+    contrailLifeTime = (std::uint8_t)std::min<unsigned>(255,_ac.contrailLifeTime);
+    
     // dataRef Animation values converted to uint8
     for (size_t i = 0; i < XPMP2::V_COUNT; ++i)
         v[i] = REMOTE_DR_DEF[i].pack(_ac.v[i]);
@@ -880,8 +884,8 @@ void RmtRecvMain()
                             
                         // Full A/C Details
                         case RMT_MSG_AC_DETAILED:
-                            // v1 and v2 have same size, but v2 has bDrawLabel
-                            if ((hdr.msgVer == RMT_VER_AC_DETAIL || hdr.msgVer == RMT_VER_AC_DETAIL_1) &&
+                            // v1, v2, and v3 have same size with more and more fields populated
+                            if ((hdr.msgVer == RMT_VER_AC_DETAIL || hdr.msgVer == RMT_VER_AC_DETAIL_2 || hdr.msgVer == RMT_VER_AC_DETAIL_1) &&
                                 recvSize >= sizeof(RemoteMsgAcDetailTy))
                             {
                                 if (gRmtCBFcts.pfMsgACDetails) {
@@ -892,6 +896,16 @@ void RmtRecvMain()
                                         const size_t n = s.NumElem(recvSize);
                                         for (size_t i = 0; i < n; ++i)
                                             s.arr[i].bDrawLabel = true;
+                                    }
+                                    
+                                    // v2 has no contrail fields, ensure they are defaulted to not show contrails
+                                    if (hdr.msgVer <= RMT_VER_AC_DETAIL_2) {
+                                        const size_t n = s.NumElem(recvSize);
+                                        for (size_t i = 0; i < n; ++i) {
+                                            s.arr[i].contrailNum = 0;
+                                            s.arr[i].contrailDist_m = 0;
+                                            s.arr[i].contrailLifeTime = 0;
+                                        }
                                     }
                                     
                                     gRmtCBFcts.pfMsgACDetails(from.addr, recvSize, s);
@@ -909,7 +923,7 @@ void RmtRecvMain()
                                 }
                             } else {
                                 if (CheckEverySoOften(lastVerErrMsg, 600.0f))
-                                    LOG_MSG(logWARN, "Cannot process A/C Details message: %lu bytes, version %u, from %s",
+                                    LOG_MSG(logWARN, "Cannot process A/C Details message: %lu bytes, version %u, from %s\nCheck for an updated version on X-Plane.org",
                                             (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
                             }
                             break;
@@ -924,7 +938,7 @@ void RmtRecvMain()
                                 }
                             } else {
                                 if (CheckEverySoOften(lastVerErrMsg, 600.0f))
-                                    LOG_MSG(logWARN, "Cannot process A/C Pos Update message: %lu bytes, version %u, from %s",
+                                    LOG_MSG(logWARN, "Cannot process A/C Pos Update message: %lu bytes, version %u, from %s\nCheck for an updated version on X-Plane.org",
                                             (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
                             }
                             break;
@@ -939,7 +953,7 @@ void RmtRecvMain()
                                 }
                             } else {
                                 if (CheckEverySoOften(lastVerErrMsg, 600.0f))
-                                    LOG_MSG(logWARN, "Cannot process A/C Animations message: %lu bytes, version %u, from %s",
+                                    LOG_MSG(logWARN, "Cannot process A/C Animations message: %lu bytes, version %u, from %s\nCheck for an updated version on X-Plane.org",
                                             (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
                             }
                             break;
@@ -954,7 +968,7 @@ void RmtRecvMain()
                                 }
                             } else {
                                 if (CheckEverySoOften(lastVerErrMsg, 600.0f))
-                                    LOG_MSG(logWARN, "Cannot process A/C Remove message: %lu bytes, version %u, from %s",
+                                    LOG_MSG(logWARN, "Cannot process A/C Remove message: %lu bytes, version %u, from %s\nCheck for an updated version on X-Plane.org",
                                             (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
                             }
                             break;

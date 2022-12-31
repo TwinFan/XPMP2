@@ -34,6 +34,7 @@
 		25EC1C4223BF6DFA000940BB /* CSLModels.h in Headers */ = {isa = PBXBuildFile; fileRef = 25EC1C4123BF6DFA000940BB /* CSLModels.h */; };
 		25EC1C4723BF7569000940BB /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 25EC1C4523BF7569000940BB /* Utilities.cpp */; };
 		25EC1C4823BF7569000940BB /* Utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 25EC1C4623BF7569000940BB /* Utilities.h */; };
+		25F070792956406100065969 /* Contrail.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 25F070782956406100065969 /* Contrail.cpp */; };
 		25FF33FE23BFF250001B0AB4 /* Aircraft.h in Headers */ = {isa = PBXBuildFile; fileRef = 25FF33FD23BFF250001B0AB4 /* Aircraft.h */; };
 /* End PBXBuildFile section */
 
@@ -95,6 +96,8 @@
 		25EC1C4123BF6DFA000940BB /* CSLModels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSLModels.h; sourceTree = "<group>"; };
 		25EC1C4523BF7569000940BB /* Utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utilities.cpp; sourceTree = "<group>"; };
 		25EC1C4623BF7569000940BB /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
+		25F070782956406100065969 /* Contrail.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Contrail.cpp; sourceTree = "<group>"; };
+		25F0707B29564E5800065969 /* Contrail.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Contrail.h; sourceTree = "<group>"; };
 		25FF33FD23BFF250001B0AB4 /* Aircraft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Aircraft.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -181,6 +184,8 @@
 				252C01F323E62040007C231F /* AIMultiplayer.h */,
 				2599B91823BF636E00F92BB5 /* Aircraft.cpp */,
 				25FF33FD23BFF250001B0AB4 /* Aircraft.h */,
+				25F070782956406100065969 /* Contrail.cpp */,
+				25F0707B29564E5800065969 /* Contrail.h */,
 				256DC2F624F3141500C1595C /* CSLCopy.cpp */,
 				25EC1C3F23BF6DF1000940BB /* CSLModels.cpp */,
 				25EC1C4123BF6DFA000940BB /* CSLModels.h */,
@@ -345,6 +350,7 @@
 				252C01F423E62040007C231F /* AIMultiplayer.cpp in Sources */,
 				2575F45523EDFC5E00747524 /* Map.cpp in Sources */,
 				25338211253A39060090E0B3 /* Network.cpp in Sources */,
+				25F070792956406100065969 /* Contrail.cpp in Sources */,
 				2599B91923BF636E00F92BB5 /* Aircraft.cpp in Sources */,
 				255EC99228E3871100F99F93 /* Sound.cpp in Sources */,
 			);
@@ -451,8 +457,8 @@
 					lib/fmod/inc,
 				);
 				XPMP2_VER_MAJOR = 3;
-				XPMP2_VER_MINOR = 0;
-				XPMP2_VER_PATCH = 2;
+				XPMP2_VER_MINOR = 1;
+				XPMP2_VER_PATCH = 0;
 				XPSDK_ROOT = lib/SDK;
 			};
 			name = Debug;
@@ -552,8 +558,8 @@
 					lib/fmod/inc,
 				);
 				XPMP2_VER_MAJOR = 3;
-				XPMP2_VER_MINOR = 0;
-				XPMP2_VER_PATCH = 2;
+				XPMP2_VER_MINOR = 1;
+				XPMP2_VER_PATCH = 0;
 				XPSDK_ROOT = lib/SDK;
 			};
 			name = Release;

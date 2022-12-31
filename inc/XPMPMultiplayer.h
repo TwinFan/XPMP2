@@ -278,6 +278,10 @@ constexpr XPMPPlaneID MAX_MODE_S_ID = 0x00FFFFFF;
 #define XPMP_CFG_ITM_CLAMPALL        "clamp_all_to_ground"  ///< Config key: Ensure no plane sinks below ground, no matter of XPMP2::Aircraft::bClampToGround
 #define XPMP_CFG_ITM_HANDLE_DUP_ID   "handle_dup_id"        ///< Config key: Boolean: If XPMP2::Aircraft::modeS_id already exists then assign a new unique one, overwrites XPMP2::Aircraft::modeS_id
 #define XPMP_CFG_ITM_SUPPORT_REMOTE  "support_remote"       ///< Config key: Support remote connections? `<0` force off, `0` default: on if in a networked or multiplayer setup, `>0` force on
+#define XPMP_CFG_ITM_CONTR_MIN_ALT   "contrail_min_alt"     ///< Config key: Minimum altitude in feet for automatic contrail generation
+#define XPMP_CFG_ITM_CONTR_MAX_ALT   "contrail_max_alt"     ///< Config key: Maximum altitude in feet for automatic contrail generation, set both min and max altitude to `0` to switch off automatic contrails
+#define XPMP_CFG_ITM_CONTR_LIFE      "contrail_life_time"   ///< Config key: Default maximum lifetime of contrail puffs in seconds, determines contrail length
+#define XPMP_CFG_ITM_CONTR_MULTI     "contrail_multiple"    ///< Config key: Boolean: Shall multiple contrails be auto-created (one per engine), or just one (to safe FPS)?
 #define XPMP_CFG_ITM_ACTIVATE_SOUND  "activate_sound"       ///< Config key: Activate Sound upon initial startup? (No effect later)
 #define XPMP_CFG_ITM_MUTE_ON_PAUSE   "mute_on_pause"        ///< Config key: Mute all sound temporarily while X-Plane is in a paused state?
 #define XPMP_CFG_ITM_LOGLEVEL        "log_level"            ///< Config key: General level of logging into `Log.txt` (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)
@@ -295,6 +299,10 @@ constexpr XPMPPlaneID MAX_MODE_S_ID = 0x00FFFFFF;
 /// `planes  | clamp_all_to_ground | int  |    1    | Ensure no plane sinks below ground, no matter of XPMP2::Aircraft::bClampToGround`\n
 /// `planes  | handle_dup_id       | int  |    0    | Boolean: If XPMP2::Aircraft::modeS_id already exists then assign a new unique one, overwrites XPMP2::Aircraft::modeS_id`\n
 /// `planes  | support_remote      | int  |    0    | 3-state integer: Support remote connections? <0 force off, 0 default: on if in a networked or multiplayer setup, >0 force on`\n
+/// `planes  | contrail_min_alt    | int  |  25000  | Minimum altitude in feet for automatic contrail generation`\n
+/// `planes  | contrail_max_alt    | int  |  45000  | Maximum altitude in feet for automatic contrail generation, set both min and max altitude to 0 to switch off automatic contrails`\n
+/// `planes  | contrail_life_time  | int  |   25    | Default maximum lifetime of contrail puffs in seconds, determines contrail length`\n
+/// `planes  | contrail_multiple   | int  |    0    | Boolean: Shall multiple contrails be auto-created (one per engine), or just one (to safe FPS)?`\n
 /// `sound   | activate_sound      | int  |    1    | Activate Sound upon initial startup? (No effect later)`\n
 /// `sound   | mute_on_pause       | int  |    1    | Mute all sound temporarily while X-Plane is in a paused state?`\n
 /// `debug   | log_level           | int  |    2    | General level of logging into Log.txt (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)`\n
@@ -353,6 +361,16 @@ void XPMPSetPluginName (const char* inPluginName,
 ///          cleanup of resources used by XPMP2.
 void XPMPMultiplayerCleanup();
 
+
+/// @brief Are automatic Contrails enabled?
+/// @details Configured in a consistent way to automatically show contrails? (Max Altitude > Min Altitude)
+///          If off, use XPMP2::Aircraft::ContrailTrigger() or XPMP2::Aircraft::ContrailRequest().
+bool XPMPContrailsAutoEnabled ();
+
+/// @brief Are Contrails available?
+/// @details Could return `false` e.g. if `Resources/Contrail/Contrail.obj`
+///          could not be found or loaded.
+bool XPMPContrailsAvailable ();
 
 /// @brief Used to set the light textures for old OBJ7 models.
 /// @note  Unsupported with XPMP2, will always return "OBJ7 format is no longer supported"

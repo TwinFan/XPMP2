@@ -176,7 +176,8 @@ struct RemoteMsgSettingsTy : public RemoteMsgBaseTy {
 //
 
 /// A/C detail message version number
-constexpr std::uint8_t RMT_VER_AC_DETAIL = 2;
+constexpr std::uint8_t RMT_VER_AC_DETAIL = 3;
+constexpr std::uint8_t RMT_VER_AC_DETAIL_2 = 2;
 constexpr std::uint8_t RMT_VER_AC_DETAIL_1 = 1;
 constexpr std::uint8_t RMT_VER_AC_DETAIL_0 = 0;
 /// A/C details, packed into an array message
@@ -203,7 +204,8 @@ struct RemoteAcDetailTy {
     bool            bRender : 1;        ///< Shall the CSL model be drawn in 3D world?
     bool            bDrawLabel : 1;     ///< Draw the label of the aircraft? (new with v2)
     bool            bOnGrnd : 1;        ///< Is the aircraft on the ground?
-    
+    std::uint8_t    contrailNum : 3;    ///< number of contrails requested
+
     // selectively taken from XPMPInfoTexts_t and packed:
     char            tailNum[10];        ///< registration, tail number
     char            manufacturer[40];   ///< a/c manufacturer, human readable
@@ -213,7 +215,9 @@ struct RemoteAcDetailTy {
     char            aptFrom [5];        ///< Origin airport (ICAO)
     char            aptTo [5];          ///< Destination airport (ICAO)
     
-    std::uint8_t    filler[5];          ///< yet unused
+    std::uint8_t    contrailDist_m;     ///< distance between several contrails and to the aircraft's centerline, in meter
+    std::uint8_t    contrailLifeTime;   ///< this aircraft's contrail's life time
+    std::uint8_t    filler[3];          ///< yet unused
     
     ///< Array of _packed_ dataRef values for CSL model animation
     std::uint8_t    v[XPMP2::V_COUNT];    // 42

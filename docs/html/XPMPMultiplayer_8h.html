@@ -123,6 +123,18 @@ Macros</h2></td></tr>
 <tr class="memitem:a709505c583bc11c37250a6f3516ce97c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a709505c583bc11c37250a6f3516ce97c">XPMP_CFG_ITM_SUPPORT_REMOTE</a>&#160;&#160;&#160;&quot;support_remote&quot;</td></tr>
 <tr class="memdesc:a709505c583bc11c37250a6f3516ce97c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config key: Support remote connections? <code>&lt;0</code> force off, <code>0</code> default: on if in a networked or multiplayer setup, <code>&gt;0</code> force on.  <a href="XPMPMultiplayer_8h.html#a709505c583bc11c37250a6f3516ce97c">More...</a><br /></td></tr>
 <tr class="separator:a709505c583bc11c37250a6f3516ce97c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbbf19b7ad1575747a1350256799d066"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#adbbf19b7ad1575747a1350256799d066">XPMP_CFG_ITM_CONTR_MIN_ALT</a>&#160;&#160;&#160;&quot;contrail_min_alt&quot;</td></tr>
+<tr class="memdesc:adbbf19b7ad1575747a1350256799d066"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config key: Minimum altitude in feet for automatic contrail generation.  <a href="XPMPMultiplayer_8h.html#adbbf19b7ad1575747a1350256799d066">More...</a><br /></td></tr>
+<tr class="separator:adbbf19b7ad1575747a1350256799d066"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5edc4d337c2a0d26f46235c7df575bda"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a5edc4d337c2a0d26f46235c7df575bda">XPMP_CFG_ITM_CONTR_MAX_ALT</a>&#160;&#160;&#160;&quot;contrail_max_alt&quot;</td></tr>
+<tr class="memdesc:a5edc4d337c2a0d26f46235c7df575bda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config key: Maximum altitude in feet for automatic contrail generation, set both min and max altitude to <code>0</code> to switch off automatic contrails.  <a href="XPMPMultiplayer_8h.html#a5edc4d337c2a0d26f46235c7df575bda">More...</a><br /></td></tr>
+<tr class="separator:a5edc4d337c2a0d26f46235c7df575bda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7193318b2bef7631019fbd6c43f564a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#ad7193318b2bef7631019fbd6c43f564a">XPMP_CFG_ITM_CONTR_LIFE</a>&#160;&#160;&#160;&quot;contrail_life_time&quot;</td></tr>
+<tr class="memdesc:ad7193318b2bef7631019fbd6c43f564a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config key: Default maximum lifetime of contrail puffs in seconds, determines contrail length.  <a href="XPMPMultiplayer_8h.html#ad7193318b2bef7631019fbd6c43f564a">More...</a><br /></td></tr>
+<tr class="separator:ad7193318b2bef7631019fbd6c43f564a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe51ab3da27510b3c422b8658152650a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#afe51ab3da27510b3c422b8658152650a">XPMP_CFG_ITM_CONTR_MULTI</a>&#160;&#160;&#160;&quot;contrail_multiple&quot;</td></tr>
+<tr class="memdesc:afe51ab3da27510b3c422b8658152650a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config key: Boolean: Shall multiple contrails be auto-created (one per engine), or just one (to safe FPS)?  <a href="XPMPMultiplayer_8h.html#afe51ab3da27510b3c422b8658152650a">More...</a><br /></td></tr>
+<tr class="separator:afe51ab3da27510b3c422b8658152650a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeecdbccddbe9f644074eea0917632b3c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#aeecdbccddbe9f644074eea0917632b3c">XPMP_CFG_ITM_ACTIVATE_SOUND</a>&#160;&#160;&#160;&quot;activate_sound&quot;</td></tr>
 <tr class="memdesc:aeecdbccddbe9f644074eea0917632b3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Config key: Activate Sound upon initial startup? (No effect later)  <a href="XPMPMultiplayer_8h.html#aeecdbccddbe9f644074eea0917632b3c">More...</a><br /></td></tr>
 <tr class="separator:aeecdbccddbe9f644074eea0917632b3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -232,6 +244,12 @@ Functions</h2></td></tr>
 <tr class="memitem:acc451b7b8df8f182f74cf5d306286443"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#acc451b7b8df8f182f74cf5d306286443">XPMPMultiplayerCleanup</a> ()</td></tr>
 <tr class="memdesc:acc451b7b8df8f182f74cf5d306286443"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clean up the multiplayer library.  <a href="XPMPMultiplayer_8h.html#acc451b7b8df8f182f74cf5d306286443">More...</a><br /></td></tr>
 <tr class="separator:acc451b7b8df8f182f74cf5d306286443"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abede567d78446528d8b1ed729a853dd7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#abede567d78446528d8b1ed729a853dd7">XPMPContrailsAutoEnabled</a> ()</td></tr>
+<tr class="memdesc:abede567d78446528d8b1ed729a853dd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Are automatic Contrails enabled?  <a href="XPMPMultiplayer_8h.html#abede567d78446528d8b1ed729a853dd7">More...</a><br /></td></tr>
+<tr class="separator:abede567d78446528d8b1ed729a853dd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13f6e52aceef7a515790b29c005b7a7d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a13f6e52aceef7a515790b29c005b7a7d">XPMPContrailsAvailable</a> ()</td></tr>
+<tr class="memdesc:a13f6e52aceef7a515790b29c005b7a7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Are Contrails available?  <a href="XPMPMultiplayer_8h.html#a13f6e52aceef7a515790b29c005b7a7d">More...</a><br /></td></tr>
+<tr class="separator:a13f6e52aceef7a515790b29c005b7a7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97c569d747524f3ac82b11dde227fad3"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="XPMPMultiplayer_8h.html#a97c569d747524f3ac82b11dde227fad3">XPMPMultiplayerOBJ7SupportEnable</a> (const char *inTexturePath)</td></tr>
 <tr class="memdesc:a97c569d747524f3ac82b11dde227fad3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to set the light textures for old OBJ7 models.  <a href="XPMPMultiplayer_8h.html#a97c569d747524f3ac82b11dde227fad3">More...</a><br /></td></tr>
 <tr class="separator:a97c569d747524f3ac82b11dde227fad3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1020,6 +1038,70 @@ time offset to avoid lights across planes blink in sync (unused in <a class="el"
 
 </div>
 </div>
+<a id="ad7193318b2bef7631019fbd6c43f564a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7193318b2bef7631019fbd6c43f564a">&#9670;&nbsp;</a></span>XPMP_CFG_ITM_CONTR_LIFE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define XPMP_CFG_ITM_CONTR_LIFE&#160;&#160;&#160;&quot;contrail_life_time&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Config key: Default maximum lifetime of contrail puffs in seconds, determines contrail length. </p>
+
+</div>
+</div>
+<a id="a5edc4d337c2a0d26f46235c7df575bda"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5edc4d337c2a0d26f46235c7df575bda">&#9670;&nbsp;</a></span>XPMP_CFG_ITM_CONTR_MAX_ALT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define XPMP_CFG_ITM_CONTR_MAX_ALT&#160;&#160;&#160;&quot;contrail_max_alt&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Config key: Maximum altitude in feet for automatic contrail generation, set both min and max altitude to <code>0</code> to switch off automatic contrails. </p>
+
+</div>
+</div>
+<a id="adbbf19b7ad1575747a1350256799d066"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbbf19b7ad1575747a1350256799d066">&#9670;&nbsp;</a></span>XPMP_CFG_ITM_CONTR_MIN_ALT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define XPMP_CFG_ITM_CONTR_MIN_ALT&#160;&#160;&#160;&quot;contrail_min_alt&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Config key: Minimum altitude in feet for automatic contrail generation. </p>
+
+</div>
+</div>
+<a id="afe51ab3da27510b3c422b8658152650a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe51ab3da27510b3c422b8658152650a">&#9670;&nbsp;</a></span>XPMP_CFG_ITM_CONTR_MULTI</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define XPMP_CFG_ITM_CONTR_MULTI&#160;&#160;&#160;&quot;contrail_multiple&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Config key: Boolean: Shall multiple contrails be auto-created (one per engine), or just one (to safe FPS)? </p>
+
+</div>
+</div>
 <a id="a7506ca78ff2e29601c08e935d82a5b44"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7506ca78ff2e29601c08e935d82a5b44">&#9670;&nbsp;</a></span>XPMP_CFG_ITM_HANDLE_DUP_ID</h2>
 
@@ -1219,6 +1301,10 @@ time offset to avoid lights across planes blink in sync (unused in <a class="el"
 <code>planes&#160; | clamp_all_to_ground | int&#160; | &#160;&#160;&#160;1&#160;&#160;&#160; | Ensure no plane sinks below ground, no matter of <a class="el" href="classXPMP2_1_1Aircraft.html#a963880325120e921f0564a97e32e440c" title="Shall this plane be clamped to ground (ie. never sink below ground)?">XPMP2::Aircraft::bClampToGround</a></code><br  />
 <code>planes&#160; | handle_dup_id&#160;&#160;&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;0&#160;&#160;&#160; | Boolean: If <a class="el" href="classXPMP2_1_1Aircraft.html#a7180fb04f2307508345fd80201f0709f" title="A plane is uniquely identified by a 24bit number [0x01..0xFFFFFF].">XPMP2::Aircraft::modeS_id</a> already exists then assign a new unique one, overwrites <a class="el" href="classXPMP2_1_1Aircraft.html#a7180fb04f2307508345fd80201f0709f" title="A plane is uniquely identified by a 24bit number [0x01..0xFFFFFF].">XPMP2::Aircraft::modeS_id</a></code><br  />
 <code>planes&#160; | support_remote&#160;&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;0&#160;&#160;&#160; | 3-state integer: Support remote connections? &lt;0 force off, 0 default: on if in a networked or multiplayer setup, &gt;0 force on</code><br  />
+<code>planes&#160; | contrail_min_alt&#160;&#160;&#160;&#160;| int&#160; | &#160;25000&#160; | Minimum altitude in feet for automatic contrail generation</code><br  />
+<code>planes&#160; | contrail_max_alt&#160;&#160;&#160;&#160;| int&#160; | &#160;45000&#160; | Maximum altitude in feet for automatic contrail generation, set both min and max altitude to 0 to switch off automatic contrails</code><br  />
+<code>planes&#160; | contrail_life_time&#160;&#160;| int&#160; | &#160;&#160;25&#160;&#160;&#160; | Default maximum lifetime of contrail puffs in seconds, determines contrail length</code><br  />
+<code>planes&#160; | contrail_multiple&#160;&#160;&#160;| int&#160; | &#160;&#160; 0&#160;&#160;&#160; | Boolean: Shall multiple contrails be auto-created (one per engine), or just one (to safe FPS)?</code><br  />
 <code>sound&#160;&#160; | activate_sound&#160;&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;1&#160;&#160;&#160; | Activate Sound upon initial startup? (No effect later)</code><br  />
 <code>sound&#160;&#160; | mute_on_pause&#160;&#160;&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;1&#160;&#160;&#160; | Mute all sound temporarily while X-Plane is in a paused state?</code><br  />
 <code>debug&#160;&#160; | log_level&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; | int&#160; | &#160;&#160;&#160;2&#160;&#160;&#160; | General level of logging into Log.txt (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)</code><br  />
@@ -1548,6 +1634,46 @@ User-defined dataRefs are <em>not</em> transfered to the <a class="el" href="nam
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Match quality, the lower the better / -1 if <code>inPlaneID</code> is invalid </dd></dl>
+
+</div>
+</div>
+<a id="abede567d78446528d8b1ed729a853dd7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abede567d78446528d8b1ed729a853dd7">&#9670;&nbsp;</a></span>XPMPContrailsAutoEnabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMPContrailsAutoEnabled </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Are automatic Contrails enabled? </p>
+<p>Configured in a consistent way to automatically show contrails? (Max Altitude &gt; Min Altitude) If off, use <a class="el" href="classXPMP2_1_1Aircraft.html#aba63a9bda2f8bb49d3e1a90a3fd27bf9" title="Trigger standard contrails as per plane type.">XPMP2::Aircraft::ContrailTrigger()</a> or <a class="el" href="classXPMP2_1_1Aircraft.html#a967a12a22ee838e439909669c71be592" title="Request Contrails.">XPMP2::Aircraft::ContrailRequest()</a>. </p>
+
+</div>
+</div>
+<a id="a13f6e52aceef7a515790b29c005b7a7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13f6e52aceef7a515790b29c005b7a7d">&#9670;&nbsp;</a></span>XPMPContrailsAvailable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMPContrailsAvailable </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Are Contrails available? </p>
+<p>Could return <code>false</code> e.g. if <code>Resources/Contrail/Contrail.obj</code> could not be found or loaded. </p>
 
 </div>
 </div>
@@ -2720,7 +2846,7 @@ User-defined dataRefs are <em>not</em> transfered to the <a class="el" href="nam
 </div><div class="memdoc">
 
 <p>Overrides the plugin's name to be used in Log output. </p>
-<p>The same as providing a plugin name with <a class="el" href="XPMPMultiplayer_8h.html#a2dc9cac25ba883b352fd77c6cbd10460" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a>. If no name is provided, it defaults to the plugin's name as set in <a class="el" href="XPMP2-Remote_8cpp.html#a3d7458933ac3c2c1c404fe5bfa8a83f1">XPluginStart()</a>. </p><dl class="section note"><dt>Note</dt><dd>Replaces the compile-time macro <code>XPMP_CLIENT_LONGNAME</code> needed in <code>libxplanemp</code>. </dd></dl>
+<p>The same as providing a plugin name with <a class="el" href="XPMPMultiplayer_8h.html#a2dc9cac25ba883b352fd77c6cbd10460" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a>. If no name is provided, it defaults to the plugin's name as set in XPluginStart(). </p><dl class="section note"><dt>Note</dt><dd>Replaces the compile-time macro <code>XPMP_CLIENT_LONGNAME</code> needed in <code>libxplanemp</code>. </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">inPluginName</td><td>Your plugin's name, used as map layer name, and as folder name under <code>Aircraft</code> </td></tr>

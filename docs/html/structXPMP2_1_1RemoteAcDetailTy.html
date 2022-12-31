@@ -162,6 +162,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a53c8feb6c603a76615ae6a5a0dcef850"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteAcDetailTy.html#a53c8feb6c603a76615ae6a5a0dcef850">bOnGrnd</a>: 1</td></tr>
 <tr class="memdesc:a53c8feb6c603a76615ae6a5a0dcef850"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the aircraft on the ground?  <a href="structXPMP2_1_1RemoteAcDetailTy.html#a53c8feb6c603a76615ae6a5a0dcef850">More...</a><br /></td></tr>
 <tr class="separator:a53c8feb6c603a76615ae6a5a0dcef850"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeeeb73cb86fe5b99495638aa3f7bb876"><td class="memItemLeft" align="right" valign="top">std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteAcDetailTy.html#aeeeb73cb86fe5b99495638aa3f7bb876">contrailNum</a>: 3</td></tr>
+<tr class="memdesc:aeeeb73cb86fe5b99495638aa3f7bb876"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of contrails requested  <a href="structXPMP2_1_1RemoteAcDetailTy.html#aeeeb73cb86fe5b99495638aa3f7bb876">More...</a><br /></td></tr>
+<tr class="separator:aeeeb73cb86fe5b99495638aa3f7bb876"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a87e567c6a65f0484897ffd1b4bf56f9f"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteAcDetailTy.html#a87e567c6a65f0484897ffd1b4bf56f9f">tailNum</a> [10]</td></tr>
 <tr class="memdesc:a87e567c6a65f0484897ffd1b4bf56f9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">registration, tail number  <a href="structXPMP2_1_1RemoteAcDetailTy.html#a87e567c6a65f0484897ffd1b4bf56f9f">More...</a><br /></td></tr>
 <tr class="separator:a87e567c6a65f0484897ffd1b4bf56f9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -183,9 +186,15 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:ad2e19afe097d5719df435eccbcd95331"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteAcDetailTy.html#ad2e19afe097d5719df435eccbcd95331">aptTo</a> [5]</td></tr>
 <tr class="memdesc:ad2e19afe097d5719df435eccbcd95331"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destination airport (ICAO)  <a href="structXPMP2_1_1RemoteAcDetailTy.html#ad2e19afe097d5719df435eccbcd95331">More...</a><br /></td></tr>
 <tr class="separator:ad2e19afe097d5719df435eccbcd95331"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a910bfc5d548fbfdb2d7b929ed14288af"><td class="memItemLeft" align="right" valign="top">std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteAcDetailTy.html#a910bfc5d548fbfdb2d7b929ed14288af">filler</a> [5]</td></tr>
-<tr class="memdesc:a910bfc5d548fbfdb2d7b929ed14288af"><td class="mdescLeft">&#160;</td><td class="mdescRight">yet unused  <a href="structXPMP2_1_1RemoteAcDetailTy.html#a910bfc5d548fbfdb2d7b929ed14288af">More...</a><br /></td></tr>
-<tr class="separator:a910bfc5d548fbfdb2d7b929ed14288af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4d0cc8533334218c6fbcd790665f4dc"><td class="memItemLeft" align="right" valign="top">std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteAcDetailTy.html#ac4d0cc8533334218c6fbcd790665f4dc">contrailDist_m</a></td></tr>
+<tr class="memdesc:ac4d0cc8533334218c6fbcd790665f4dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">distance between several contrails and to the aircraft's centerline, in meter  <a href="structXPMP2_1_1RemoteAcDetailTy.html#ac4d0cc8533334218c6fbcd790665f4dc">More...</a><br /></td></tr>
+<tr class="separator:ac4d0cc8533334218c6fbcd790665f4dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd0801ad9d193f04015897189fffa323"><td class="memItemLeft" align="right" valign="top">std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteAcDetailTy.html#acd0801ad9d193f04015897189fffa323">contrailLifeTime</a></td></tr>
+<tr class="memdesc:acd0801ad9d193f04015897189fffa323"><td class="mdescLeft">&#160;</td><td class="mdescRight">this aircraft's contrail's life time  <a href="structXPMP2_1_1RemoteAcDetailTy.html#acd0801ad9d193f04015897189fffa323">More...</a><br /></td></tr>
+<tr class="separator:acd0801ad9d193f04015897189fffa323"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c89bf8ce98c5d0b5190cecdaefe867d"><td class="memItemLeft" align="right" valign="top">std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteAcDetailTy.html#a2c89bf8ce98c5d0b5190cecdaefe867d">filler</a> [3]</td></tr>
+<tr class="memdesc:a2c89bf8ce98c5d0b5190cecdaefe867d"><td class="mdescLeft">&#160;</td><td class="mdescRight">yet unused  <a href="structXPMP2_1_1RemoteAcDetailTy.html#a2c89bf8ce98c5d0b5190cecdaefe867d">More...</a><br /></td></tr>
+<tr class="separator:a2c89bf8ce98c5d0b5190cecdaefe867d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaff0d46195fd40268bc68066bc2b54ca"><td class="memItemLeft" align="right" valign="top">std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1RemoteAcDetailTy.html#aaff0d46195fd40268bc68066bc2b54ca">v</a> [<a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6fa3efd8e40f4308bc421015776084f580b">XPMP2::V_COUNT</a>]</td></tr>
 <tr class="separator:aaff0d46195fd40268bc68066bc2b54ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -694,6 +703,54 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ac4d0cc8533334218c6fbcd790665f4dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4d0cc8533334218c6fbcd790665f4dc">&#9670;&nbsp;</a></span>contrailDist_m</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint8_t XPMP2::RemoteAcDetailTy::contrailDist_m</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>distance between several contrails and to the aircraft's centerline, in meter </p>
+
+</div>
+</div>
+<a id="acd0801ad9d193f04015897189fffa323"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd0801ad9d193f04015897189fffa323">&#9670;&nbsp;</a></span>contrailLifeTime</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint8_t XPMP2::RemoteAcDetailTy::contrailLifeTime</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>this aircraft's contrail's life time </p>
+
+</div>
+</div>
+<a id="aeeeb73cb86fe5b99495638aa3f7bb876"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeeeb73cb86fe5b99495638aa3f7bb876">&#9670;&nbsp;</a></span>contrailNum</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint8_t XPMP2::RemoteAcDetailTy::contrailNum</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>number of contrails requested </p>
+
+</div>
+</div>
 <a id="ae8663233a30ee088ca608d91a3ccf3eb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae8663233a30ee088ca608d91a3ccf3eb">&#9670;&nbsp;</a></span>dTime</h2>
 
@@ -710,14 +767,14 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a910bfc5d548fbfdb2d7b929ed14288af"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a910bfc5d548fbfdb2d7b929ed14288af">&#9670;&nbsp;</a></span>filler</h2>
+<a id="a2c89bf8ce98c5d0b5190cecdaefe867d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c89bf8ce98c5d0b5190cecdaefe867d">&#9670;&nbsp;</a></span>filler</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::uint8_t XPMP2::RemoteAcDetailTy::filler[5]</td>
+          <td class="memname">std::uint8_t XPMP2::RemoteAcDetailTy::filler[3]</td>
         </tr>
       </table>
 </div><div class="memdoc">

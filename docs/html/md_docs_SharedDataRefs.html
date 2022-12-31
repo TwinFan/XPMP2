@@ -45,7 +45,7 @@ $(function() {
 <div class="contents">
 <div class="textblock"><p>Textual aircraft and flight information is provided via <a href="https://developer.x-plane.com/sdk/XPLMDataAccess/#XPLMShareData">shared dataRefs</a> of type <code>xplmType_Data</code> as suggested by FSTramp. This information is offered to 3rd party plugins, which want to show (information of) AI planes like camera or map plugins.</p>
 <p><a href="https://developer.x-plane.com/tools/datarefeditor/">DRE</a> and <a href="https://forums.x-plane.org/index.php?/forums/topic/82960-datareftool-is-an-improved-datarefeditor-open-source-better-search-change-detection/">DRT</a> are informed about these dataRef names as soon as the first aircraft is created. So you can use either to have a peek.</p>
-<h1><a class="anchor" id="autotoc_md36"></a>
+<h1><a class="anchor" id="autotoc_md37"></a>
 Information offered by XPMP2-based Plugin</h1>
 <p>The names of the shared dataRefs follow the naming conventions known from pre-XP11.50 times when there were just 19 multiplayer planes support with similarly named dataRefs for position and configuration information. For each plane there is a set of dataRefs, each dataRef contains up to 40 byte data to be interpreted as a zero-terminated C string.</p>
 <p><a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> creates and maintains up to 63 sets of these dataRefs, starting at <code>sim/multiplayer/position/plane1_tailnum</code> and ending at <code>sim/multiplayer/position/plane63_apt_to</code>.</p>
@@ -75,7 +75,7 @@ Information offered by XPMP2-based Plugin</h1>
 <td class="markdownTableBodyNone"><code>plane#_cslModel</code>   </td><td class="markdownTableBodyNone">n/a   </td><td class="markdownTableBodyNone">CSL Model name *)   </td></tr>
 </table>
 <p>*) <code>_cslModel</code> differs from the others in that it is <em>not</em> related to live flight information but to the way the plane is rendered by the XPMP2-based plugin. It returns the CSL model used as returned by <code><a class="el" href="classXPMP2_1_1Aircraft.html#a949dfd46424c25be22d8a7822baf12ba" title="return the name of the CSL model in use">XPMP2::Aircraft::GetModelName()</a></code>, that is: last folder name plus model id.</p>
-<h1><a class="anchor" id="autotoc_md37"></a>
+<h1><a class="anchor" id="autotoc_md38"></a>
 Usage by 3rd-Party Plugins</h1>
 <p>A plugin that wants to use this data</p>
 <ul>
@@ -87,7 +87,7 @@ Usage by 3rd-Party Plugins</h1>
 </li>
 <li>can then query current information via <a href="https://developer.x-plane.com/sdk/XPLMDataAccess/#XPLMGetDatab"><code>XPLMGetDatab</code></a> as usual. Provide at least a 40 character buffer to be on the safe side.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md38"></a>
+<h1><a class="anchor" id="autotoc_md39"></a>
 Additional links</h1>
 <ul>
 <li><a href="https://forums.x-plane.org/index.php?/search/&amp;q=FSTrampFree&amp;type=downloads_file&amp;search_and_or=and&amp;search_in=titles&amp;sortby=relevancy">Download page for "FSTrampFree"</a> where the above shared dataRefs were originally suggested for implementation</li>

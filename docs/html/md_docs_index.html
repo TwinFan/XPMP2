@@ -72,18 +72,18 @@ $(function() {
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md22"></a>
+<h1><a class="anchor" id="autotoc_md23"></a>
 Requirements</h1>
 <ul>
 <li><a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> implements <a href="https://developer.x-plane.com/sdk/XPLMInstance/">instancing</a>, so it <b>requires X-Plane 11.10</b> or later</li>
 <li>CSL models in <b>OBJ8 format</b> (ie. older OBJ7 models are no longer supported)</li>
 <li>Potentially an FMOD license if built with sound support, see below in <a href="#sound-support-by-fmod">Sound Support by FMOD</a></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md23"></a>
+<h1><a class="anchor" id="autotoc_md24"></a>
 Coding, Building, Deployment</h1>
 <p>These aspects are relevant for developers using <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> in their own plugin:</p>
 <h2>Building <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a></h2>
-<p>XCode projects, Visual Studio solutions, and a Docker environment for Linux and Mac OS builds are provided. The details are <a href="Building.html">documented here</a>.</p>
+<p><a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> can be included into your projects as GitHub submodule, and into a CMake build plan via <code>add_subdirectory</code>. XCode projects, Visual Studio solutions, and a Docker environment for Linux and Mac OS builds are provided. The details are <a href="Building.html">documented here</a>.</p>
 <h2>How to Use <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a></h2>
 <p>This part will probably need more attention, but find some <a href="HowTo.html">first information here</a> and study the working sample plugin in the <code>XPMP2-Sample</code> folder.</p>
 <h2>API and Code Documentation</h2>
@@ -97,7 +97,7 @@ Coding, Building, Deployment</h1>
 <p>If you are familiar with the original <code>libxplanemp</code> and are using it already in your plugins, then you will find <a class="el" href="md_docs_BackwardsCompatibility.html">these information on backward compatibility</a> useful, which explain how you can replace <code>libxplanemp</code> with <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> with limited effort.</p>
 <h2>Deploying Your Plugin</h2>
 <p>Apart from the binaries that you build you will need to ship the files provided here in the 'Resources' folder. Also, users will need to install CSL models. Find <a href="Deploying.html">more details here</a>.</p>
-<h1><a class="anchor" id="autotoc_md24"></a>
+<h1><a class="anchor" id="autotoc_md25"></a>
 CSL Models and Packages</h1>
 <p>These aspects are relevant for CSL model developers and package providers:</p>
 <h2><code>xsb_aircraft.txt</code> File Format</h2>
@@ -106,7 +106,7 @@ CSL Models and Packages</h1>
 <p>To drive CSL models' <a href="https://developer.x-plane.com/article/obj8-file-format-specification/#ANIMATION_COMMANDS">ANIMations</a>, a long list of dataRefs is provided by <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>. See its <a href="CSLdataRefs.html">documentation here</a>.</p>
 <h2>Copying <code>.obj</code> files on load</h2>
 <p>CSL packages come in different flavours. Popular ones for general use are the Bluebell and the X-CSL packages. Both come with different history. For <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> to use all their features it needs to change their <code>.obj</code> files. Performing these changes is built into <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>. <a href="CopyingObjFiles.html">See here for details.</a></p>
-<h1><a class="anchor" id="autotoc_md25"></a>
+<h1><a class="anchor" id="autotoc_md26"></a>
 Links to outside locations</h1>
 <h2>TCAS Override</h2>
 <p>The <a href="https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/">TCAS Override approach</a> explains how TCAS information is provided, the classic multiplayer dataRefs are maintained and how 3rd party plugins can access this information. <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> publishes data via the <code>sim/cockpit2/tcas/targets</code> dataRefs.</p>

@@ -12,6 +12,7 @@ Content and availability status:
   - [ ] Additional map layer
   - [X] [Wake Turbulence Support](Wake.html)
   - [X] [Sound Support by FMOD](Sound.html)
+  - [X] [Contrails](Contrails.html)
   - [X] [Shared dataRefs](SharedDataRefs.html) providing textual aircraft / flight information to interested 3rd party plugins
   - [X] [XPMP2 Remote](Remote.html) functionality
 - [ ] Coding, Building, Deployment

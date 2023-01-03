@@ -433,6 +433,41 @@ FMOD_VECTOR FmodHeadPitch2Vec (const float head, const float pitch)
     return FMOD_VECTOR { v[0], v[1], v[2] };
 }
 
+/// @brief Convert heading/pitch to normal x/y/z vector
+/// @note Given all the trigonometric functions this is probably expensive,
+///       so use with care and avoid in flight loop callback when unnecessary.
+void FmodHeadPitchRoll2Normal(const float head, const float pitch, const float roll,
+                              FMOD_VECTOR& vecDir, FMOD_VECTOR& vecNorm)
+{
+    const std::valarray<float> v = HeadPitchRoll2Normal(head, pitch, roll);
+    assert(v.size() == 6);
+    vecDir.x  = v[0];
+    vecDir.y  = v[1];
+    vecDir.z  = v[2];
+    vecNorm.x = v[3];
+    vecNorm.y = v[4];
+    vecNorm.z = v[5];
+}
+
+/// @brief Normalize Pitch/Heading
+/// @details Heading: [0; 360), Pitch: [-90; 90]
+void FmodNormalizeHeadingPitch(float& head, float& pitch)
+{
+    // pitch "over the top"
+    if (pitch > 90.0f) {
+        pitch = 180.0f - pitch;
+        head += 180.0f;
+    }
+    if (pitch < -90.0f) {
+        pitch = -180.0f - pitch;
+        head += 180.0f;
+    }
+
+    // normalize heading
+    while (head >= 360.0f) head -= 360.0f;
+    while (head < 0.0f) head += 360.0f;
+}
+
 //
 // MARK: Public Aircraft member functions
 //
@@ -814,11 +849,12 @@ void SoundUpdatesDone ()
             glob.posCamera.z
         };
         const FMOD_VECTOR velocity  = { glob.vCam_x, glob.vCam_y, glob.vCam_z };
+
         // The forward direction takes heading, pitch, and roll into account
-        const float camRollRad = deg2rad(glob.posCamera.roll);
-        const FMOD_VECTOR normForw  = FmodHeadPitch2Vec(glob.posCamera.heading, glob.posCamera.pitch);
-        const FMOD_VECTOR normUpw   = FmodHeadPitch2Vec(glob.posCamera.heading + 90.0f * std::sin(camRollRad),
-                                                        glob.posCamera.pitch   + 90.0f * std::cos(camRollRad));
+        FmodNormalizeHeadingPitch(glob.posCamera.heading, glob.posCamera.pitch);
+        FMOD_VECTOR normForw;
+        FMOD_VECTOR normUpw;
+        FmodHeadPitchRoll2Normal(glob.posCamera.heading, glob.posCamera.pitch, glob.posCamera.roll, normForw, normUpw);
         
         // The following call sometimes returns error FMOD_ERR_INVALID_VECTOR,
         // but I don't know yet why or when, so we log one detailed error per 5 minutes,

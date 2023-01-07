@@ -856,9 +856,8 @@ void SoundUpdatesDone ()
         FMOD_VECTOR normUpw;
         FmodHeadPitchRoll2Normal(glob.posCamera.heading, glob.posCamera.pitch, glob.posCamera.roll, normForw, normUpw);
         
-        // The following call sometimes returns error FMOD_ERR_INVALID_VECTOR,
-        // but I don't know yet why or when, so we log one detailed error per 5 minutes,
-        // but avoid spamming the log with repeated error messages
+        // FMOD_ERR_INVALID_VECTOR used to be a problem, but should be no longer
+        // Still, just in case it comes back, we log more details
         gFmodRes = FMOD_System_Set3DListenerAttributes(gpFmodSystem, 0, &posCam, &velocity, &normForw, &normUpw);
         if (gFmodRes != FMOD_OK) {
             if (gFmodRes != FMOD_ERR_INVALID_VECTOR)
@@ -866,9 +865,9 @@ void SoundUpdatesDone ()
             else
             {
                 static float lastInvVecErrMsgTS = -500.0f;
+                FmodError("FMOD_System_Set3DListenerAttributes", gFmodRes, __LINE__, __func__).LogErr();
                 if (GetMiscNetwTime() >= lastInvVecErrMsgTS + 300.0f) {
                     lastInvVecErrMsgTS = GetMiscNetwTime();
-                    FmodError("FMOD_System_Set3DListenerAttributes", gFmodRes, __LINE__, __func__).LogErr();
                     LOG_MSG(logERR, "Please report the following details as a reply to https://bit.ly/LTSound36");
                     LOG_MSG(logERR, "Camera   roll=%.3f, heading=%.3f, pitch=%.3f",
                             glob.posCamera.roll, glob.posCamera.pitch, glob.posCamera.heading);

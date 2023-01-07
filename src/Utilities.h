@@ -195,6 +195,8 @@ numT headNormalize (numT _head)
 /// @returns a `valarray` with 3 values, x, y, and z
 std::valarray<float> HeadPitch2Vec (const float head, const float pitch);
 
+/// Convert heading/pitch/roll to unit and normal vector, ie. returns 6 values, first 3 like HeadPitch2Vec, second three the normal vector (pointing "up")
+std::valarray<float> HeadPitchRoll2Normal(const float head, const float pitch, const float roll);
 
 //
 // MARK: Misc

@@ -657,7 +657,7 @@ float headDiff (float head1, float head2)
 }
 
 
-// Convert heading/pitch to normalized x/y/z vector
+// Convert heading/pitch to x/y/z unit vector
 std::valarray<float> HeadPitch2Vec (const float head, const float pitch)
 {
     // Subtracting 90 degress is because x coordinate is heading east,
@@ -674,6 +674,35 @@ std::valarray<float> HeadPitch2Vec (const float head, const float pitch)
         sinPitch,                   // y
         sinHead * cosPitch          // z
     });
+}
+
+
+// Convert heading/pitch/roll to unit normal vector
+/// @see https://math.stackexchange.com/a/1637853, however with different order of values (x = 2nd row, y = 3rd row, z = 1st row of vectors) as X-Plane is using a different coordinate system
+std::valarray<float> HeadPitchRoll2Normal(const float head, const float pitch, const float roll)
+{
+    // Subtracting 90 degress is because x coordinate is heading east,
+    // so 90 degrees is equivalent to x = 0
+    const float radHead = deg2rad(head - 90.0f);
+    const float radPitch = deg2rad(pitch);
+    const float radRoll  = deg2rad(roll);
+    // Have sinus/cosinus pre-computed and let the optimizer deal with reducing local variables
+    const float sinHead = std::sin(radHead);
+    const float cosHead = std::cos(radHead);
+    const float sinPitch = std::sin(radPitch);
+    const float cosPitch = std::cos(radPitch);
+    const float sinRoll = std::sin(radRoll);
+    const float cosRoll = std::cos(radRoll);
+    return std::valarray({
+        // directional vector, same as HeadPitch2Vec
+        cosHead* cosPitch,                                  // x
+        sinPitch,                                           // y
+        sinHead* cosPitch,                                  // z
+        // normal vector
+         sinRoll * sinHead - cosRoll * sinPitch * cosHead,  // x
+         cosRoll * cosPitch,                                // y
+        -sinRoll * cosHead - cosRoll * sinPitch * sinHead   // z
+        });
 }
 
 

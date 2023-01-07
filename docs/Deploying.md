@@ -40,6 +40,10 @@ You should ship all the files provided in the `Resources` folder:
   It defines dataRef replacements.
   You don't need to ship this file if you do not enable that functionality
   in your plugin.
+- `Contrail` folder with 3 files, `Contrail.obj/.png/.pss`;
+  this is needed for drawing contrails. If missing, contrails aren't
+  available. The folder is not needed if you
+  [disable contrails](Contrails.html#disable).
 
 These files have all to be installed in the same folder.
 It is good practice to install these files in a folder named `Resources` in

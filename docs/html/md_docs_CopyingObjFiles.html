@@ -60,7 +60,7 @@ $(function() {
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">models&#160;   </td><td class="markdownTableBodyNone">replace_texture&#160;&#160;&#160;&#160;   </td><td class="markdownTableBodyNone">int&#160;   </td><td class="markdownTableBodyNone">&#160;&#160;&#160;1&#160;&#160;&#160;   </td><td class="markdownTableBodyNone">Replace textures in OBJ8 files upon load if needed (specified on the OBJ8 line in xsb_aircraft.txt), creating new OBJ8 files   </td></tr>
 </table>
-<h1><a class="anchor" id="autotoc_md8"></a>
+<h1><a class="anchor" id="autotoc_md9"></a>
 General Notes on Copied Files</h1>
 <p>If copying takes place, then a new <code>.obj</code> file is written into the same folder next to the original one. The file name of the copy is as follows:</p><ul>
 <li>If the file is created for a specific texture, then the texture's file name (without extension) is added to the file name before the extension.</li>
@@ -77,13 +77,13 @@ General Notes on Copied Files</h1>
 <li><code>A320fCFM.DLH.xpmp2.obj</code> as a copy for the fuselage, referencing the <code>DLH.png</code> and <code>A320fCFM_LIT.png</code> textures.</li>
 </ul>
 <p>Each copied file includes a comment in line 4 stating its origin: </p><div class="fragment"><div class="line"># Created by &lt;PluginLogAcronym&gt;/XPMP2 based on Resources/plugins/LiveTraffic/Resources/X-CSL/A320/A320fCFMfan.obj</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md9"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md10"></a>
 Replacing dataRefs</h1>
 <p>This is <b>off by default</b>, because well curated packages won't need it. To enable it return 1 when called for configuration item <code>XPMP_CFG_ITM_REPLDATAREFS</code>.</p>
 <p>When enabled, a copy for each <code>.obj</code> file will be created just before it is to be loaded. In each copy, dataRefs are replaced based on the definition in <code>&lt;resourceDir&gt;/Obj8DataRefs.txt</code>. That file just lists dataRef names to be replaced with the replacement dataRef like this: </p><div class="fragment"><div class="line">cjs/world_traffic/engine_rotation_angle1        libxplanemp/engines/engine_rotation_angle_deg1</div>
 <div class="line">cjs/world_traffic/main_gear_deflection          libxplanemp/gear/tire_vertical_deflection_mtr</div>
 </div><!-- fragment --><p> The <code>Obj8DataRefs.txt</code> file available with <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> defines a number of replacements to unlock more features in the Bluebell CSL models. The simple text format allows you to add/change replacement definitions easily and ship your version with your plugin.</p>
-<h1><a class="anchor" id="autotoc_md10"></a>
+<h1><a class="anchor" id="autotoc_md11"></a>
 Replacing Texture</h1>
 <p>This is <b>on by default</b>. You could switch it off by returning <code>0</code> when asked for configuration item <code>XPMP_CFG_ITM_REPLTEXTURE</code>.</p>
 <p>A copy will only be initiated if additional textures are defined as 4th (and optionally 5th) parameter with the <code>OBJ8</code> command in <code>xsb_aircraft.txt</code>.</p>

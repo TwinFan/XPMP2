@@ -44,7 +44,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><b>This page probably requires more attention...</b> but there is a working sample plugin available in the <code>XPMP2-Sample</code> folder for you to study:</p>
-<h1><a class="anchor" id="autotoc_md18"></a>
+<h1><a class="anchor" id="autotoc_md19"></a>
 Sample Plugin</h1>
 <p>This package comes with a sample plugin in the <code>XPMP2-Sample</code> folder. It is a complete plugin including build projects and CMake setup. It displays 3 aircraft flying circles in front of the user's plane. Each of the 3 aircraft is using a different technology: the now recommended way of subclassing <code><a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a></code>, the legacy way of subclassing <code><a class="el" href="classXPCAircraft.html" title="Legacy wrapper class as provided by original libxplanemp.">XPCAircraft</a></code> (as used by LiveTraffic v1.x), and by calling standard C functions.</p>
 <p>For the sample plugin to work you need to follow instruction in <a href="Deploying.html">Deploying XPMP2-based Plugins</a> for</p>
@@ -66,10 +66,10 @@ Sample Plugin</h1>
 <div class="line">      Obj8DataRefs.txt</div>
 <div class="line">      related.txt</div>
 <div class="line">  win_x64/XPMP2-Sample.xpl</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md19"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md20"></a>
 Binaries and Header Files</h1>
 <p>You don't need to build the library yourself if you don't want. Archives with headers and release/debug builds are available in the <a href="https://github.com/TwinFan/XPMP2/releases">Release section</a> here on GitHub.</p>
-<h1><a class="anchor" id="autotoc_md20"></a>
+<h1><a class="anchor" id="autotoc_md21"></a>
 Anatomy of Your Plugin using XPMP2</h1>
 <p>Generically you should probably use <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> as follows:</p>
 <ul>
@@ -91,7 +91,7 @@ Anatomy of Your Plugin using XPMP2</h1>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md21"></a>
+<h1><a class="anchor" id="autotoc_md22"></a>
 Subclass &lt;tt&gt;XPMP2::Aircraft&lt;/tt&gt;</h1>
 <p>New plugin implementations are strongly advised to directly sub-class from the new class <code><a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a></code>, which is the actual aircraft representation.</p>
 <p>See the <code>SampleAircraft</code> class defined in <code>XPMP2-Sample/XPMP2-Sample.cpp</code> for an example implementation.</p>

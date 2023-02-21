@@ -37,7 +37,7 @@ namespace XPMP2 {
 //
 
 /// Initialize the sound module and load the sounds
-bool SoundInit ();
+void SoundInit (bool bAllowDelayedStart);
 
 /// Prepare for this frame's updates, which are about to start
 void SoundUpdatesBegin();

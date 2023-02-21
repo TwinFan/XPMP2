@@ -16,6 +16,10 @@
 ///             but 3D positioning was unstable when used via SoundGroup,
 ///             and the cone functionality did not work at all,
 ///             so this file handles all sound channels individually.
+/// @details    As of X-Plane 12.04, X-Plane's SDK offers an interface into
+///             X-Plane's FMOD system. If available this function is loaded
+///             dynamically (to stay compatible to XP11) and used to
+///             retrieve the FMOD system instead of creating our own.
 /// @note       If  linking to the logging version of the FMOD API library
 ///             (the one ending in `L`) and specifying a
 ///             config item `log_level` of `0 = Debug`
@@ -101,6 +105,7 @@ constexpr float FMOD_LOW_PASS_GAIN   = 0.2f;        ///< Gain used when activati
 
 static FMOD_SYSTEM* gpFmodSystem = nullptr;         ///< FMOD system
 static unsigned int gFmodVer = 0;                   ///< FMOD version
+static FMOD_CHANNELGROUP* gpXPMPChnGrp = nullptr;   ///< XPMP2's main channel group, can be the system's master or a group specifically created
 
 /// Use pre-v2 FMOD version structures?
 inline bool UseOldFmod() { return gFmodVer < 0x00020000; }
@@ -205,6 +210,75 @@ void SoundLogEnable (bool bEnable = true)
     {
         FmodError("FMOD_Debug_Initialize", gFmodRes, __LINE__, __func__);
     }
+}
+
+//
+// MARK: X-Plane 12 SDK 400 functions to be loaded dynaimcally
+//
+
+// In SDK400, these are defined in XPLMSound.h:
+enum {
+    xplm_AudioExteriorAircraft               = 4,                               ///< reference one of XP12's busses
+};
+typedef int XPLMAudioBus;
+typedef XPLM_API FMOD_CHANNELGROUP* (f_XPLMGetFMODChannelGroup)(XPLMAudioBus);  ///< Function type the retrieves one of XP12's busses
+static f_XPLMGetFMODChannelGroup* gpXPLMGetFMODChannelGroup = nullptr;          ///< pointer to XP12's XPLMGetFMODChannelGroup function
+static FMOD_CHANNELGROUP* gpXPChnGrp = nullptr;                                 ///< pointer to XP12's channel group to use for our sound
+static FMOD_SYSTEM* gpXPFmodSystem = nullptr;                                   ///< X-Plane's FMOD system
+
+/// Found XP's modern sound system, but not yet the channel group (too early start)?
+bool FmodDelayedXPSoundStartup() { return !gpXPChnGrp && gpXPLMGetFMODChannelGroup; }
+/// Are we using XP12's sound system?
+bool FmodUsingXP() { return gpXPFmodSystem != nullptr; }
+
+/// @brief Try to find XP12 Sound function and then its Fmod system
+/// @param bAllowDelayedStart indicates if a failure during finding XP's channel group is allowed...and hence if returning here later is possible
+FMOD_SYSTEM* FmodFindXPSystem (bool bAllowDelayedStart)
+{
+    // Is the new SDK function available?
+    gpXPLMGetFMODChannelGroup = (f_XPLMGetFMODChannelGroup*)XPLMFindSymbol ("XPLMGetFMODChannelGroup");
+    if (!gpXPLMGetFMODChannelGroup) {
+        LOG_MSG(logDEBUG, "SDK function 'XPLMGetFMODChannelGroup' not available (pre XP12.04?), will use separate FMOD system");
+        return nullptr;
+    }
+    
+    // Call it to get one specific channel group
+    gpXPChnGrp = gpXPLMGetFMODChannelGroup(xplm_AudioExteriorAircraft);
+    if (!gpXPChnGrp) {
+        // We don't get that channel if we call too early, like during XPluginStart()
+        // If that's OK we just return without noise, but if not we've got an issue
+        if (!bAllowDelayedStart) {
+            LOG_MSG(logWARN, "XP did not return a value for channel group 'xplm_AudioExteriorAircraft', will use separate FMOD system");
+            gpXPLMGetFMODChannelGroup = nullptr;
+        } else {
+            LOG_MSG(logDEBUG, "XP did not yet return a value for channel group 'xplm_AudioExteriorAircraft', delaying FMOD init to when the first aircraft is created");
+        }
+        return nullptr;
+    }
+    
+    try {
+        // Get the FMOD_SYSTEM from the channel group
+        gpXPFmodSystem = nullptr;
+        FMOD_TEST(FMOD_ChannelGroup_GetSystemObject(gpXPChnGrp, &gpXPFmodSystem));
+        FMOD_TEST(FMOD_System_GetVersion(gpXPFmodSystem, &gFmodVer));
+
+        // Create our specific channel group for XPMP2, so we get things like volume under control
+        FMOD_TEST(FMOD_System_CreateChannelGroup(gpXPFmodSystem, glob.logAcronym.c_str(), &gpXPMPChnGrp));
+        FMOD_TEST(FMOD_ChannelGroup_AddGroup(gpXPChnGrp, gpXPMPChnGrp, false, nullptr));
+    }
+    FMOD_CATCH;
+    
+    // If we did not eventually get an XP sound system also reset the other variable so we don't accidently use them anywhere
+    if (!gpXPFmodSystem) {
+        gpXPChnGrp = nullptr;
+        gpXPLMGetFMODChannelGroup = nullptr;
+    } else {
+        LOG_MSG(logINFO, "Using X-Plane's FMOD system, version %u.%u.%u",
+                gFmodVer >> 16, (gFmodVer & 0x0000ff00) >> 8,
+                gFmodVer & 0x000000ff);
+    }
+    
+    return gpXPFmodSystem;
 }
 
 //
@@ -364,15 +438,6 @@ static mapSoundTy mapSound;
 // MARK: Local Functions
 //
 
-/// Get the FMOD system's master channel group, or `nullptr`
-FMOD_CHANNELGROUP* SoundGetMasterChn()
-{
-    FMOD_CHANNELGROUP* pMstChnGrp = nullptr;
-    if (!gpFmodSystem) return nullptr;
-    FMOD_LOG(FMOD_System_GetMasterChannelGroup(gpFmodSystem, &pMstChnGrp));
-    return pMstChnGrp;
-}
-
 /// Get pointer to Sound File that created the channel
 SoundFile* SoundGetSoundFile (FMOD_CHANNEL* pChn)
 {
@@ -479,7 +544,7 @@ FMOD_CHANNEL* Aircraft::SoundPlay (const std::string& sndName, float vol)
     try {
         SoundFile& snd = mapSound.at(sndName);
         // start paused to avoid cracking, will be unpaused only in the next call to Aircraft::SoundUpdate()
-        FMOD_CHANNEL* pChn = snd.play(nullptr, true);
+        FMOD_CHANNEL* pChn = snd.play(gpXPMPChnGrp, true);
         if (pChn) {
             chnList.push_back(pChn);                    // add to managed list of sounds
             FMOD_LOG(FMOD_Channel_Set3DMinMaxDistance(pChn, (float)sndMinDist, FMOD_3D_MAX_DIST));
@@ -781,8 +846,18 @@ void Aircraft::SoundRemoveAll ()
 // MARK: Global Functions
 //
 
+/// One Time callback, used on first flight loop, to initialize XP's sound system
+static float SoundOneTimeCB(float, float, int, void*)
+{
+    // In case Sound init is delayed, now it's the time!
+    if (FmodDelayedXPSoundStartup())
+        SoundInit(false);
+    // don't call me again
+    return 0.0f;
+}
+
 // Initialize the sound module and load the sounds
-bool SoundInit ()
+void SoundInit (bool bAllowDelayedStart)
 {
     try {
         if (!gpFmodSystem) {
@@ -790,30 +865,46 @@ bool SoundInit ()
             if (glob.logLvl == logDEBUG)
                 SoundLogEnable(true);
 
-            // Create FMOD system and first of all determine its version,
-            // which depends a bit if run under XP11 or XP12 and the OS we are on.
-            // There are subtle difference in settings.
-            FMOD_TEST(FMOD_System_Create(&gpFmodSystem, FMOD_VERSION));
-            FMOD_TEST(FMOD_System_GetVersion(gpFmodSystem, &gFmodVer));
-            LOG_MSG(logINFO, "Initializing FMOD version %u.%u.%u",
-                    gFmodVer >> 16, (gFmodVer & 0x0000ff00) >> 8,
-                    gFmodVer & 0x000000ff);
-            FMOD_TEST(FMOD_System_Init(gpFmodSystem, FMOD_NUM_VIRT_CHANNELS,
-                                       FMOD_INIT_3D_RIGHTHANDED | FMOD_INIT_CHANNEL_LOWPASS | FMOD_INIT_VOL0_BECOMES_VIRTUAL, nullptr));
-            
-            // Set advanced settings, which are version-dependend
-            if (UseOldFmod()) {
-                FMOD_10830_ADVANCEDSETTINGS oldAdvSet;
-                SoundSetFmodSettings(oldAdvSet);
-            } else {
-                FMOD_ADVANCEDSETTINGS advSet;
-                SoundSetFmodSettings(advSet);
+            // Try to link into XP12's internal FMOD system
+            gpFmodSystem = FmodFindXPSystem (bAllowDelayedStart);
+            // Initialized too early, need to come back later?
+            if (bAllowDelayedStart && FmodDelayedXPSoundStartup()) {
+                // Come back at the first flight loop
+                XPLMRegisterFlightLoopCallback(SoundOneTimeCB, -1.0f, nullptr);
+                return;                     // We come back later
+            }
+
+            // Will _not_ use XP's sound system, so we will create our own
+            if (!FmodUsingXP())
+            {
+                // Create FMOD system and first of all determine its version,
+                // which depends a bit if run under XP11 or XP12 and the OS we are on.
+                // There are subtle difference in settings.
+                FMOD_TEST(FMOD_System_Create(&gpFmodSystem, FMOD_VERSION));
+                FMOD_TEST(FMOD_System_GetVersion(gpFmodSystem, &gFmodVer));
+                LOG_MSG(logINFO, "Initializing FMOD version %u.%u.%u",
+                        gFmodVer >> 16, (gFmodVer & 0x0000ff00) >> 8,
+                        gFmodVer & 0x000000ff);
+                FMOD_TEST(FMOD_System_Init(gpFmodSystem, FMOD_NUM_VIRT_CHANNELS,
+                                           FMOD_INIT_3D_RIGHTHANDED | FMOD_INIT_CHANNEL_LOWPASS | FMOD_INIT_VOL0_BECOMES_VIRTUAL, nullptr));
+                
+                // Set advanced settings, which are version-dependend
+                if (UseOldFmod()) {
+                    FMOD_10830_ADVANCEDSETTINGS oldAdvSet;
+                    SoundSetFmodSettings(oldAdvSet);
+                } else {
+                    FMOD_ADVANCEDSETTINGS advSet;
+                    SoundSetFmodSettings(advSet);
+                }
+                
+                // XPMP's main channel is this system's master
+                FMOD_LOG(FMOD_System_GetMasterChannelGroup(gpFmodSystem, &gpXPMPChnGrp));
             }
             
             // Load the default sounds
             if (!SoundFile::LoadXPSounds()) {
                 LOG_MSG(logERR, "No standard sounds successfully loaded, sound system currently inactive!");
-                return false;
+                return;
             }
 
             // Set master volume
@@ -823,12 +914,10 @@ bool SoundInit ()
             SoundUpdatesDone();
         }
         glob.bSoundAvail = true;
-        return true;
     }
     catch (const FmodError& e) {
         e.LogErr();                             // log the error
         SoundCleanup();                         // cleanup
-        return false;
     }
 }
 
@@ -842,41 +931,6 @@ void SoundUpdatesBegin()
 void SoundUpdatesDone ()
 {
     if (gpFmodSystem) try {
-        // Update the listener position and orientation
-        const FMOD_VECTOR posCam   = {
-            glob.posCamera.x,
-            glob.posCamera.y,
-            glob.posCamera.z
-        };
-        const FMOD_VECTOR velocity  = { glob.vCam_x, glob.vCam_y, glob.vCam_z };
-
-        // The forward direction takes heading, pitch, and roll into account
-        FmodNormalizeHeadingPitch(glob.posCamera.heading, glob.posCamera.pitch);
-        FMOD_VECTOR normForw;
-        FMOD_VECTOR normUpw;
-        FmodHeadPitchRoll2Normal(glob.posCamera.heading, glob.posCamera.pitch, glob.posCamera.roll, normForw, normUpw);
-        
-        // FMOD_ERR_INVALID_VECTOR used to be a problem, but should be no longer
-        // Still, just in case it comes back, we log more details
-        gFmodRes = FMOD_System_Set3DListenerAttributes(gpFmodSystem, 0, &posCam, &velocity, &normForw, &normUpw);
-        if (gFmodRes != FMOD_OK) {
-            if (gFmodRes != FMOD_ERR_INVALID_VECTOR)
-                throw FmodError("FMOD_System_Set3DListenerAttributes", gFmodRes, __LINE__, __func__);
-            else
-            {
-                static float lastInvVecErrMsgTS = -500.0f;
-                FmodError("FMOD_System_Set3DListenerAttributes", gFmodRes, __LINE__, __func__).LogErr();
-                if (GetMiscNetwTime() >= lastInvVecErrMsgTS + 300.0f) {
-                    lastInvVecErrMsgTS = GetMiscNetwTime();
-                    LOG_MSG(logERR, "Please report the following details as a reply to https://bit.ly/LTSound36");
-                    LOG_MSG(logERR, "Camera   roll=%.3f, heading=%.3f, pitch=%.3f",
-                            glob.posCamera.roll, glob.posCamera.pitch, glob.posCamera.heading);
-                    LOG_MSG(logERR, "normForw x=%.6f, y=%.6f, z=%.6f", normForw.x, normForw.y, normForw.z);
-                    LOG_MSG(logERR, "normUpw  x=%.6f, y=%.6f, z=%.6f", normUpw.x, normUpw.y, normUpw.z);
-                }
-            }
-        }
-        
         // Mute-on-Pause
         if (glob.bSoundMuteOnPause) {                           // shall act automatically on Pause?
             if (IsPaused()) {                                   // XP is paused?
@@ -892,8 +946,47 @@ void SoundUpdatesDone ()
             }
         }
 
-        // Tell FMOD we're done
-        FMOD_TEST(FMOD_System_Update(gpFmodSystem));
+        // If we run our own sound system we need to update our own listener position
+        if (!FmodUsingXP())
+        {
+            // Update the listener position and orientation
+            const FMOD_VECTOR posCam   = {
+                glob.posCamera.x,
+                glob.posCamera.y,
+                glob.posCamera.z
+            };
+            const FMOD_VECTOR velocity  = { glob.vCam_x, glob.vCam_y, glob.vCam_z };
+            
+            // The forward direction takes heading, pitch, and roll into account
+            FmodNormalizeHeadingPitch(glob.posCamera.heading, glob.posCamera.pitch);
+            FMOD_VECTOR normForw;
+            FMOD_VECTOR normUpw;
+            FmodHeadPitchRoll2Normal(glob.posCamera.heading, glob.posCamera.pitch, glob.posCamera.roll, normForw, normUpw);
+            
+            // FMOD_ERR_INVALID_VECTOR used to be a problem, but should be no longer
+            // Still, just in case it comes back, we log more details
+            gFmodRes = FMOD_System_Set3DListenerAttributes(gpFmodSystem, 0, &posCam, &velocity, &normForw, &normUpw);
+            if (gFmodRes != FMOD_OK) {
+                if (gFmodRes != FMOD_ERR_INVALID_VECTOR)
+                    throw FmodError("FMOD_System_Set3DListenerAttributes", gFmodRes, __LINE__, __func__);
+                else
+                {
+                    static float lastInvVecErrMsgTS = -500.0f;
+                    FmodError("FMOD_System_Set3DListenerAttributes", gFmodRes, __LINE__, __func__).LogErr();
+                    if (GetMiscNetwTime() >= lastInvVecErrMsgTS + 300.0f) {
+                        lastInvVecErrMsgTS = GetMiscNetwTime();
+                        LOG_MSG(logERR, "Please report the following details as a reply to https://bit.ly/LTSound36");
+                        LOG_MSG(logERR, "Camera   roll=%.3f, heading=%.3f, pitch=%.3f",
+                                glob.posCamera.roll, glob.posCamera.pitch, glob.posCamera.heading);
+                        LOG_MSG(logERR, "normForw x=%.6f, y=%.6f, z=%.6f", normForw.x, normForw.y, normForw.z);
+                        LOG_MSG(logERR, "normUpw  x=%.6f, y=%.6f, z=%.6f", normUpw.x, normUpw.y, normUpw.z);
+                    }
+                }
+            }
+            
+            // Tell FMOD we're done
+            FMOD_TEST(FMOD_System_Update(gpFmodSystem));
+        }
     }
     catch (const FmodError& e) {
         e.LogErr();                             // log the error
@@ -907,10 +1000,19 @@ void SoundUpdatesDone ()
 void SoundCleanup ()
 {
     mapSound.clear();               // cleanup the sounds
-
-    if (gpFmodSystem)
-        FMOD_System_Release(gpFmodSystem);
-    gpFmodSystem = nullptr;
+    
+    // Clean up some global resournces
+    if (FmodUsingXP()) {
+        FMOD_LOG(FMOD_ChannelGroup_Release(gpXPMPChnGrp));
+    } else {
+        // Release the sound system (if not using XP one's)
+        if (gpFmodSystem)
+            FMOD_System_Release(gpFmodSystem);
+    }
+    
+    gpXPMPChnGrp = gpXPChnGrp = nullptr;
+    gpFmodSystem = gpXPFmodSystem = nullptr;
+    gpXPLMGetFMODChannelGroup = nullptr;
     gFmodVer = 0;
     glob.bSoundAvail = false;
     LOG_MSG(logDEBUG, "Sound system shut down");
@@ -932,11 +1034,19 @@ bool XPMPSoundEnable (bool bEnable)
     {
         // Enable or disable?
         if (bEnable)
-            XPMP2::SoundInit();
+            XPMP2::SoundInit(true);     // we allow for a delayed startup
         else
             XPMP2::SoundCleanup();
     }
     return XPMPSoundIsEnabled();
+}
+
+// Under XP12, when using XP's sound system, we cannot link into it
+// during XPluginStart. Then, XPMP2 will try to reinit later once the
+// first aircraft is created.
+bool XPMPSoundInitDelayed ()
+{
+    return XPMP2::FmodDelayedXPSoundStartup();
 }
 
 // Is Sound enabled?
@@ -949,17 +1059,15 @@ bool XPMPSoundIsEnabled ()
 void XPMPSoundSetMasterVolume (float fVol)
 {
     XPMP2::glob.sndMasterVol = fVol;
-    FMOD_CHANNELGROUP* pMstChnGrp = XPMP2::SoundGetMasterChn();
-    if (!pMstChnGrp) return;
-    FMOD_LOG(FMOD_ChannelGroup_SetVolume(pMstChnGrp, XPMP2::glob.sndMasterVol));
+    if (!XPMP2::gpXPMPChnGrp) return;
+    FMOD_LOG(FMOD_ChannelGroup_SetVolume(XPMP2::gpXPMPChnGrp, XPMP2::glob.sndMasterVol));
 }
 
 // Mute all sounds (temporarily)
 void XPMPSoundMute(bool bMute)
 {
-    FMOD_CHANNELGROUP* pMstChnGrp = XPMP2::SoundGetMasterChn();
-    if (!pMstChnGrp) return;
-    FMOD_LOG(FMOD_ChannelGroup_SetMute(pMstChnGrp, bMute));
+    if (!XPMP2::gpXPMPChnGrp) return;
+    FMOD_LOG(FMOD_ChannelGroup_SetMute(XPMP2::gpXPMPChnGrp, bMute));
     LOG_MSG(XPMP2::logDEBUG, "All sounds %s", bMute ? "muted" : "unmuted");
 }
 

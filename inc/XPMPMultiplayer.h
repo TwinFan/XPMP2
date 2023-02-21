@@ -395,8 +395,14 @@ const char * XPMPMultiplayerOBJ7SupportEnable(const char * inTexturePath);
 ///          The default on startup is controlled by the configuration item
 ///          `sound / activate_sound`, which in turn defaults to `1`.
 /// @returns Is sound now available? (Could still be `false` even in case
-///          of activation if there was a problem during sound initialization)
+///          of activation if there was a problem during sound initialization
+///          or if it was too early too link into XP's sound system)
 bool XPMPSoundEnable (bool bEnable = true);
+
+/// @brief Under XP12, when using XP's sound system, we cannot link into it
+///        during XPluginStart. Then, XPMP2 will try to reinit later
+///        in the first flight loop callback.
+bool XPMPSoundInitDelayed ();
 
 /// @brief Is Sound enabled?
 bool XPMPSoundIsEnabled ();

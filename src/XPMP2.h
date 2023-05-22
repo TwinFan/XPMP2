@@ -218,6 +218,8 @@ public:
 
     /// Config: Start Sound on startup?
     bool bSoundOnStartup = true;
+    /// Config: Force own FMOD instance?
+    bool bSoundForceFmodInstance = false;
     /// Config: Mute on Pause?
     bool bSoundMuteOnPause = true;
     /// Is the sound system available?

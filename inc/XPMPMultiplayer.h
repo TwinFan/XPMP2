@@ -283,6 +283,7 @@ constexpr XPMPPlaneID MAX_MODE_S_ID = 0x00FFFFFF;
 #define XPMP_CFG_ITM_CONTR_LIFE      "contrail_life_time"   ///< Config key: Default maximum lifetime of contrail puffs in seconds, determines contrail length
 #define XPMP_CFG_ITM_CONTR_MULTI     "contrail_multiple"    ///< Config key: Boolean: Shall multiple contrails be auto-created (one per engine), or just one (to safe FPS)?
 #define XPMP_CFG_ITM_ACTIVATE_SOUND  "activate_sound"       ///< Config key: Activate Sound upon initial startup? (No effect later)
+#define XPMP_CFG_ITM_FMOD_INSTANCE   "force_fmod_instance"  ///< Config key: Never use XP's FMOD instance, always create our own
 #define XPMP_CFG_ITM_MUTE_ON_PAUSE   "mute_on_pause"        ///< Config key: Mute all sound temporarily while X-Plane is in a paused state?
 #define XPMP_CFG_ITM_LOGLEVEL        "log_level"            ///< Config key: General level of logging into `Log.txt` (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)
 #define XPMP_CFG_ITM_MODELMATCHING   "model_matching"       ///< Config key: Write information on model matching and sound selection into `Log.txt`
@@ -304,6 +305,7 @@ constexpr XPMPPlaneID MAX_MODE_S_ID = 0x00FFFFFF;
 /// `planes  | contrail_life_time  | int  |   25    | Default maximum lifetime of contrail puffs in seconds, determines contrail length`\n
 /// `planes  | contrail_multiple   | int  |    0    | Boolean: Shall multiple contrails be auto-created (one per engine), or just one (to safe FPS)?`\n
 /// `sound   | activate_sound      | int  |    1    | Activate Sound upon initial startup? (No effect later)`\n
+/// `sound   | force_fmod_instance | int  |    0    | Never use XP's FMOD instance, always create our own`\n
 /// `sound   | mute_on_pause       | int  |    1    | Mute all sound temporarily while X-Plane is in a paused state?`\n
 /// `debug   | log_level           | int  |    2    | General level of logging into Log.txt (0 = Debug, 1 = Info, 2 = Warning, 3 = Error, 4 = Fatal)`\n
 /// `debug   | model_matching      | int  |    0    | Write information on model matching and sound selection into Log.txt`\n

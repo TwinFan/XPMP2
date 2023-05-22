@@ -458,7 +458,7 @@
 				);
 				XPMP2_VER_MAJOR = 3;
 				XPMP2_VER_MINOR = 2;
-				XPMP2_VER_PATCH = 0;
+				XPMP2_VER_PATCH = 1;
 				XPSDK_ROOT = lib/SDK;
 			};
 			name = Debug;
@@ -559,7 +559,7 @@
 				);
 				XPMP2_VER_MAJOR = 3;
 				XPMP2_VER_MINOR = 2;
-				XPMP2_VER_PATCH = 0;
+				XPMP2_VER_PATCH = 1;
 				XPSDK_ROOT = lib/SDK;
 			};
 			name = Release;

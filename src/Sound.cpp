@@ -865,13 +865,15 @@ void SoundInit (bool bAllowDelayedStart)
             if (glob.logLvl == logDEBUG)
                 SoundLogEnable(true);
 
-            // Try to link into XP12's internal FMOD system
-            gpFmodSystem = FmodFindXPSystem (bAllowDelayedStart);
-            // Initialized too early, need to come back later?
-            if (bAllowDelayedStart && FmodDelayedXPSoundStartup()) {
-                // Come back at the first flight loop
-                XPLMRegisterFlightLoopCallback(SoundOneTimeCB, -1.0f, nullptr);
-                return;                     // We come back later
+            // Try to link into XP12's internal FMOD system, if allowed
+            if (!glob.bSoundForceFmodInstance) {
+                gpFmodSystem = FmodFindXPSystem (bAllowDelayedStart);
+                // Initialized too early, need to come back later?
+                if (bAllowDelayedStart && FmodDelayedXPSoundStartup()) {
+                    // Come back at the first flight loop
+                    XPLMRegisterFlightLoopCallback(SoundOneTimeCB, -1.0f, nullptr);
+                    return;                     // We come back later
+                }
             }
 
             // Will _not_ use XP's sound system, so we will create our own

@@ -67,8 +67,10 @@
 // MARK: XPMP2 New Definitions
 //
 
+#ifdef INCLUDE_FMOD_SOUND
 struct FMOD_CHANNELGROUP;                       ///< Defined by FMOD
 struct FMOD_CHANNEL;                            ///< Defined by FMOD
+#endif
 
 namespace XPMP2 {
 

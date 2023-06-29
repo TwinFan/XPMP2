@@ -1,31 +1,12 @@
 /// @file       Sound.cpp
-/// @brief      Sound for aircraft, based on the FMOD library
+/// @brief      Sound for aircraft
 ///
-/// @note       Audio Engine is FMOD Core API by Firelight Technologies Pty Ltd.
-///             Understand FMOD [licensing](https://www.fmod.com/licensing) and
-///             [attribution requirements](https://www.fmod.com/attribution) first!\n
-///             Sound support is only included if built with CMake cache entry `INCLUDE_FMOD_SOUND`.\n
-///
-/// @see        FMOD Core API Guide
-///             https://fmod.com/docs/2.02/api/core-guide.html
-/// @details    FMOD's C interface is used exclusively (and not the C++ ABI).
-///             This is to ease handling of dynamic libaries between versions
-///             (XP11 is using FMOD 1.x while XP12 has upgraded to 2.x)
-///             and allows compiling with MingW.
-/// @details    Some functionality looks like immitating FMOD's SoundGroup,
-///             but 3D positioning was unstable when used via SoundGroup,
-///             and the cone functionality did not work at all,
-///             so this file handles all sound channels individually.
 /// @details    As of X-Plane 12.04, X-Plane's SDK offers an interface into
-///             X-Plane's FMOD system. If available this function is loaded
-///             dynamically (to stay compatible to XP11) and used to
-///             retrieve the FMOD system instead of creating our own.
-/// @note       If  linking to the logging version of the FMOD API library
-///             (the one ending in `L`) and specifying a
-///             config item `log_level` of `0 = Debug`
-///             (see ::XPMPIntPrefsFuncTy) while initializing sound,
-///             ie. typically during the first call to XPMPMultiplayerInit(),
-///             then FMOD logging output is added to X-Plane's `Log.txt`.
+///             X-Plane's FMOD system. If available these functions are loaded
+///             dynamically (to stay compatible to XP11).
+///             If not available then either FMOD can be used directly if
+///             built including FMOD (see SoundFMOD.cpp) or no sound is available.
+///
 /// @author     Birger Hoppe
 /// @copyright  (c) 2022 Birger Hoppe
 /// @copyright  Permission is hereby granted, free of charge, to any person obtaining a
@@ -46,69 +27,23 @@
 
 #include "XPMP2.h"
 
-// Only if we want Sound Support
-#ifdef INCLUDE_FMOD_SOUND
-
-// FMOD header files only here in this module!
-// This one includes everything
-#include "fmod_errors.h"
-
 namespace XPMP2 {
 
 FMOD_VECTOR FmodHeadPitch2Vec (const float head, const float pitch);
 
 //
-// MARK: FMOD Old version Structures
-//
-
-/// FMOD 1.08.30 version of FMOD_ADVANCEDSETTINGS
-struct FMOD_10830_ADVANCEDSETTINGS
-{
-    int                 cbSize;                     /* [w]   Size of this structure.  Use sizeof(FMOD_ADVANCEDSETTINGS)  NOTE: This must be set before calling System::getAdvancedSettings or System::setAdvancedSettings! */
-    int                 maxMPEGCodecs;              /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  MPEG   codecs consume 22,216 bytes per instance and this number will determine how many MPEG   channels can be played simultaneously. Default = 32. */
-    int                 maxADPCMCodecs;             /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  ADPCM  codecs consume  2,480 bytes per instance and this number will determine how many ADPCM  channels can be played simultaneously. Default = 32. */
-    int                 maxXMACodecs;               /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  XMA    codecs consume  6,263 bytes per instance and this number will determine how many XMA    channels can be played simultaneously. Default = 32. */
-    int                 maxVorbisCodecs;            /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  Vorbis codecs consume 16,512 bytes per instance and this number will determine how many Vorbis channels can be played simultaneously. Default = 32. */
-    int                 maxAT9Codecs;               /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  AT9    codecs consume 20,664 bytes per instance and this number will determine how many AT9    channels can be played simultaneously. Default = 32. */
-    int                 maxFADPCMCodecs;            /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  FADPCM codecs consume  2,232 bytes per instance and this number will determine how many FADPCM channels can be played simultaneously. Default = 32. */
-    int                 maxPCMCodecs;               /* [r/w] Optional. Specify 0 to ignore. For use with PS3 only.                          PCM    codecs consume  2,536 bytes per instance and this number will determine how many streams and PCM voices can be played simultaneously. Default = 32. */
-    int                 ASIONumChannels;            /* [r/w] Optional. Specify 0 to ignore. Number of channels available on the ASIO device. */
-    char              **ASIOChannelList;            /* [r/w] Optional. Specify 0 to ignore. Pointer to an array of strings (number of entries defined by ASIONumChannels) with ASIO channel names. */
-    FMOD_SPEAKER       *ASIOSpeakerList;            /* [r/w] Optional. Specify 0 to ignore. Pointer to a list of speakers that the ASIO channels map to.  This can be called after System::init to remap ASIO output. */
-    float               HRTFMinAngle;               /* [r/w] Optional.                      For use with FMOD_INIT_HRTF_LOWPASS.  The angle range (0-360) of a 3D sound in relation to the listener, at which the HRTF function begins to have an effect. 0 = in front of the listener. 180 = from 90 degrees to the left of the listener to 90 degrees to the right. 360 = behind the listener. Default = 180.0. */
-    float               HRTFMaxAngle;               /* [r/w] Optional.                      For use with FMOD_INIT_HRTF_LOWPASS.  The angle range (0-360) of a 3D sound in relation to the listener, at which the HRTF function has maximum effect. 0 = front of the listener. 180 = from 90 degrees to the left of the listener to 90 degrees to the right. 360 = behind the listener. Default = 360.0. */
-    float               HRTFFreq;                   /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_INIT_HRTF_LOWPASS.  The cutoff frequency of the HRTF's lowpass filter function when at maximum effect. (i.e. at HRTFMaxAngle).  Default = 4000.0. */
-    float               vol0virtualvol;             /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_INIT_VOL0_BECOMES_VIRTUAL.  If this flag is used, and the volume is below this, then the sound will become virtual.  Use this value to raise the threshold to a different point where a sound goes virtual. */
-    unsigned int        defaultDecodeBufferSize;    /* [r/w] Optional. Specify 0 to ignore. For streams. This determines the default size of the double buffer (in milliseconds) that a stream uses.  Default = 400ms */
-    unsigned short      profilePort;                /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_INIT_PROFILE_ENABLE.  Specify the port to listen on for connections by the profiler application. */
-    unsigned int        geometryMaxFadeTime;        /* [r/w] Optional. Specify 0 to ignore. The maximum time in miliseconds it takes for a channel to fade to the new level when its occlusion changes. */
-    float               distanceFilterCenterFreq;   /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_INIT_DISTANCE_FILTERING.  The default center frequency in Hz for the distance filtering effect. Default = 1500.0. */
-    int                 reverb3Dinstance;           /* [r/w] Optional. Specify 0 to ignore. Out of 0 to 3, 3d reverb spheres will create a phyical reverb unit on this instance slot.  See FMOD_REVERB_PROPERTIES. */
-    int                 DSPBufferPoolSize;          /* [r/w] Optional. Specify 0 to ignore. Number of buffers in DSP buffer pool.  Each buffer will be DSPBlockSize * sizeof(float) * SpeakerModeChannelCount.  ie 7.1 @ 1024 DSP block size = 8 * 1024 * 4 = 32kb.  Default = 8. */
-    unsigned int        stackSizeStream;            /* [r/w] Optional. Specify 0 to ignore. Specify the stack size for the FMOD Stream thread in bytes.  Useful for custom codecs that use excess stack.  Default 49,152 (48kb) */
-    unsigned int        stackSizeNonBlocking;       /* [r/w] Optional. Specify 0 to ignore. Specify the stack size for the FMOD_NONBLOCKING loading thread.  Useful for custom codecs that use excess stack.  Default 65,536 (64kb) */
-    unsigned int        stackSizeMixer;             /* [r/w] Optional. Specify 0 to ignore. Specify the stack size for the FMOD mixer thread.  Useful for custom dsps that use excess stack.  Default 49,152 (48kb) */
-    FMOD_DSP_RESAMPLER  resamplerMethod;            /* [r/w] Optional. Specify 0 to ignore. Resampling method used with fmod's software mixer.  See FMOD_DSP_RESAMPLER for details on methods. */
-    unsigned int        commandQueueSize;           /* [r/w] Optional. Specify 0 to ignore. Specify the command queue size for thread safe processing.  Default 2048 (2kb) */
-    unsigned int        randomSeed;                 /* [r/w] Optional. Specify 0 to ignore. Seed value that FMOD will use to initialize its internal random number generators. */
-};
-
-
-//
 // MARK: Global Variables and Types
 //
 
-constexpr int EXP_COMP_SKIP_CYCLES = 10;            ///< In how many cycles to skip expensive computations?
-constexpr int FMOD_NUM_VIRT_CHANNELS = 1000;        ///< Number of virtual channels during initialization
-constexpr float FMOD_3D_MAX_DIST     = 10000.0f;    ///< Value used for 3D max distance, which doesn't have much of a function for the inverse roll-off model used here
+/// The sound system in use
+SoundSystem* gpSndSys = nullptr;
+
+/// last FMOD result code, needed by the following macro, better don't rely on anywhere else
+FMOD_RESULT gFmodRes = FMOD_OK;
+
+constexpr float FMOD_3D_MAX_DIST    = 10000.0f;     ///< Value used for 3D max distance, which doesn't have much of a function for the inverse roll-off model used here
 constexpr float FMOD_LOW_PASS_GAIN   = 0.2f;        ///< Gain used when activating Low Pass filter
-
-static FMOD_SYSTEM* gpFmodSystem = nullptr;         ///< FMOD system
-static unsigned int gFmodVer = 0;                   ///< FMOD version
-static FMOD_CHANNELGROUP* gpXPMPChnGrp = nullptr;   ///< XPMP2's main channel group, can be the system's master or a group specifically created
-
-/// Use pre-v2 FMOD version structures?
-inline bool UseOldFmod() { return gFmodVer < 0x00020000; }
+constexpr int EXP_COMP_SKIP_CYCLES  = 10;           ///< In how many cycles to skip expensive computations?
 
 /// Definition of how sound is handled based on dataRef values (type)
 struct SoundDefTy {
@@ -127,352 +62,538 @@ static SoundDefTy gaSoundDef[Aircraft::SND_NUM_EVENTS] = {
     { &Aircraft::GetFlapRatio,          false, NAN, NAN },      // SND_FLAPS
 };
 
-
-//
-// MARK: FMOD Error Handling
-//
-
-/// Exception class to pass on error information
-class FmodError : public std::runtime_error
-{
-public:
-    FMOD_RESULT fmodRes;        ///< the actual FMOD result code
-    int ln;                     ///< line number here in the code
-    std::string sFunc;          ///< name of the function the error occurred in
-public:
-    /// Constructor taking on a descriptive string and the `FMOD_RESULT`
-    FmodError (const std::string& _what, FMOD_RESULT _r,
-               int _ln, const std::string& _sFunc) :
-    std::runtime_error(leftOf(_what,"( ")),     // takes over the name of the function called, but not all the parameter string
-    fmodRes(_r), ln(_ln), sFunc(_sFunc)
-    {}
-    
-    /// Log myself to Log.txt as an error
-    void LogErr () const {
-        LogMsg(__FILE__, ln, sFunc.c_str(), logERR,
-               "FMOD Error %d - '%s' in %s", fmodRes,
-               FMOD_ErrorString(fmodRes),
-               what());
-    }
-};
-
-/// last FMOD result code, needed by the following macro, better don't rely on anywhere else
-static FMOD_RESULT gFmodRes = FMOD_OK;
-
-/// @brief Log an error if `fmodRes` is not `FMOD_OK`
-#define FMOD_TEST(fmodCall)  {                                              \
-    if ((gFmodRes = (fmodCall)) != FMOD_OK)                                 \
-        throw FmodError(#fmodCall, gFmodRes, __LINE__, __func__);           \
-}
-
-/// @brief Standard catch clause to handle FmodError exceptions by just logging them
-#define FMOD_CATCH catch (const FmodError& e) { e.LogErr(); }
-
-/// Just log an error without raising an exception
-#define FMOD_LOG(fmodCall)  {                                                      \
-    if ((XPMP2::gFmodRes = (fmodCall)) != FMOD_OK)                                 \
-        XPMP2::FmodError(#fmodCall, XPMP2::gFmodRes, __LINE__, __func__).LogErr(); \
-}
-
-//
-// MARK: FMOD Logging
-//
-
-/// @brief Callback function called by FMOD for logging purposes
-/// @note FMOD warns this can be called from any thread,
-///       so strictly speaking we must not call `XPLMDebugString()`,
-///       but so far it didn't hurt, and it should be debug builds only anyway.
-FMOD_RESULT F_CALLBACK SoundLogCB(FMOD_DEBUG_FLAGS flags,
-                                  const char * file,
-                                  int line,
-                                  const char * func,
-                                  const char *message)
-{
-    // Basically convert it to our standard log output
-    LogMsg(file, line, func,
-           flags & FMOD_DEBUG_LEVEL_ERROR   ? logERR  :
-           flags & FMOD_DEBUG_LEVEL_WARNING ? logWARN : logINFO,
-           "FMOD_LOG: %s", message);
-    return FMOD_OK;
-}
-
-/// @brief Enables/disables FMOD logging
-/// @note FMOD Logging only works if linked to the `L` versions of the FMOD library
-void SoundLogEnable (bool bEnable = true)
-{
-    gFmodRes = FMOD_Debug_Initialize(bEnable ? FMOD_DEBUG_LEVEL_LOG : FMOD_DEBUG_LEVEL_NONE,
-                                     FMOD_DEBUG_MODE_CALLBACK, SoundLogCB, nullptr);
-    if (gFmodRes == FMOD_OK) {
-        LOG_MSG(logDEBUG, "FMOD logging has been %s.", bEnable ? "enabled" : "disabled");
-    }
-    // FMOD_ERR_UNSUPPORTED just means: not linked to fmodL, ie. "normal"
-    else if (gFmodRes != FMOD_ERR_UNSUPPORTED)
-    {
-        FmodError("FMOD_Debug_Initialize", gFmodRes, __LINE__, __func__);
-    }
-}
-
 //
 // MARK: X-Plane 12 SDK 400 functions to be loaded dynaimcally
 //
 
 // In SDK400, these are defined in XPLMSound.h:
-enum {
-    xplm_AudioExteriorAircraft               = 4,                               ///< reference one of XP12's busses
-};
-typedef int XPLMAudioBus;
-typedef XPLM_API FMOD_CHANNELGROUP* (f_XPLMGetFMODChannelGroup)(XPLMAudioBus);  ///< Function type the retrieves one of XP12's busses
-static f_XPLMGetFMODChannelGroup* gpXPLMGetFMODChannelGroup = nullptr;          ///< pointer to XP12's XPLMGetFMODChannelGroup function
-static FMOD_CHANNELGROUP* gpXPChnGrp = nullptr;                                 ///< pointer to XP12's channel group to use for our sound
-static FMOD_SYSTEM* gpXPFmodSystem = nullptr;                                   ///< X-Plane's FMOD system
+typedef XPLM_API FMOD_CHANNEL* (f_XPLMPlayPCMOnBus)(
+                                void *               audioBuffer,
+                                uint32_t             bufferSize,
+                                FMOD_SOUND_FORMAT    soundFormat,
+                                int                  freqHz,
+                                int                  numChannels,
+                                int                  loop,
+                                XPLMAudioBus         audioType,
+                                XPLMPCMComplete_f    inCallback,
+                                void *               inRefcon);
+typedef XPLM_API FMOD_RESULT (f_XPLMStopAudio)(
+                                FMOD_CHANNEL*        fmod_channel);
+typedef XPLM_API FMOD_RESULT (f_XPLMSetAudioPosition)(
+                                FMOD_CHANNEL*        fmod_channel,
+                                FMOD_VECTOR*         position,
+                                FMOD_VECTOR*         velocity);
+typedef XPLM_API FMOD_RESULT (f_XPLMSetAudioFadeDistance)(
+                                FMOD_CHANNEL*        fmod_channel,
+                                float                min_fade_distance,
+                                float                max_fade_distance);
+typedef XPLM_API FMOD_RESULT (f_XPLMSetAudioVolume)(
+                                FMOD_CHANNEL*        fmod_channel,
+                                float                source_volume);
+typedef XPLM_API FMOD_RESULT (f_XPLMSetAudioCone)(
+                                FMOD_CHANNEL*        fmod_channel,
+                                float                inside_angle,
+                                float                outside_angle,
+                                float                outside_volume,
+                                FMOD_VECTOR*         orientation);
 
-/// Found XP's modern sound system, but not yet the channel group (too early start)?
-bool FmodDelayedXPSoundStartup() { return !gpXPChnGrp && gpXPLMGetFMODChannelGroup; }
-/// Are we using XP12's sound system?
-bool FmodUsingXP() { return gpXPFmodSystem != nullptr; }
+f_XPLMPlayPCMOnBus*         gpXPLMPlayPCMOnBus          = nullptr;
+f_XPLMStopAudio*            gpXPLMStopAudio             = nullptr;
+f_XPLMSetAudioPosition*     gpXPLMSetAudioPosition      = nullptr;
+f_XPLMSetAudioFadeDistance* gpXPLMSetAudioFadeDistance  = nullptr;
+f_XPLMSetAudioVolume*       gpXPLMSetAudioVolume        = nullptr;
+f_XPLMSetAudioCone*         gpXPLMSetAudioCone          = nullptr;
 
-/// @brief Try to find XP12 Sound function and then its Fmod system
-/// @param bAllowDelayedStart indicates if a failure during finding XP's channel group is allowed...and hence if returning here later is possible
-FMOD_SYSTEM* FmodFindXPSystem (bool bAllowDelayedStart)
+/// Are XP12 sound functions available?
+inline bool XPSoundIsAvail () { return gpXPLMSetAudioCone != nullptr; }
+
+/// Tries to find all the new XP12 sound functions, available as of XP12.04
+bool XPSoundLoadFctPtr ()
 {
-    // Is the new SDK function available?
-    gpXPLMGetFMODChannelGroup = (f_XPLMGetFMODChannelGroup*)XPLMFindSymbol ("XPLMGetFMODChannelGroup");
-    if (!gpXPLMGetFMODChannelGroup) {
-        LOG_MSG(logDEBUG, "SDK function 'XPLMGetFMODChannelGroup' not available (pre XP12.04?), will use separate FMOD system");
-        return nullptr;
-    }
+#define LOAD_XP_FUNC(FCT)                               \
+    gp ## FCT = (f_ ## FCT*) XPLMFindSymbol (#FCT);     \
+    if (!gp ## FCT) return false;
     
-    // Call it to get one specific channel group
-    gpXPChnGrp = gpXPLMGetFMODChannelGroup(xplm_AudioExteriorAircraft);
-    if (!gpXPChnGrp) {
-        // We don't get that channel if we call too early, like during XPluginStart()
-        // If that's OK we just return without noise, but if not we've got an issue
-        if (!bAllowDelayedStart) {
-            LOG_MSG(logWARN, "XP did not return a value for channel group 'xplm_AudioExteriorAircraft', will use separate FMOD system");
-            gpXPLMGetFMODChannelGroup = nullptr;
-        } else {
-            LOG_MSG(logDEBUG, "XP did not yet return a value for channel group 'xplm_AudioExteriorAircraft', delaying FMOD init to when the first aircraft is created");
-        }
-        return nullptr;
-    }
-    
-    try {
-        // Get the FMOD_SYSTEM from the channel group
-        gpXPFmodSystem = nullptr;
-        FMOD_TEST(FMOD_ChannelGroup_GetSystemObject(gpXPChnGrp, &gpXPFmodSystem));
-        FMOD_TEST(FMOD_System_GetVersion(gpXPFmodSystem, &gFmodVer));
-
-        // Create our specific channel group for XPMP2, so we get things like volume under control
-        FMOD_TEST(FMOD_System_CreateChannelGroup(gpXPFmodSystem, glob.logAcronym.c_str(), &gpXPMPChnGrp));
-        FMOD_TEST(FMOD_ChannelGroup_AddGroup(gpXPChnGrp, gpXPMPChnGrp, false, nullptr));
-    }
-    FMOD_CATCH;
-    
-    // If we did not eventually get an XP sound system also reset the other variable so we don't accidently use them anywhere
-    if (!gpXPFmodSystem) {
-        gpXPChnGrp = nullptr;
-        gpXPLMGetFMODChannelGroup = nullptr;
-    } else {
-        LOG_MSG(logINFO, "Using X-Plane's FMOD system, version %u.%u.%u",
-                gFmodVer >> 16, (gFmodVer & 0x0000ff00) >> 8,
-                gFmodVer & 0x000000ff);
-    }
-    
-    return gpXPFmodSystem;
+    LOAD_XP_FUNC(XPLMPlayPCMOnBus);
+    LOAD_XP_FUNC(XPLMStopAudio);
+    LOAD_XP_FUNC(XPLMSetAudioPosition);
+    LOAD_XP_FUNC(XPLMSetAudioFadeDistance);
+    LOAD_XP_FUNC(XPLMSetAudioVolume);
+    LOAD_XP_FUNC(XPLMSetAudioCone);         // do XPLMSetAudioCone last, this is used in `XPSoundIsAvail`
+    LOG_MSG(logINFO, "X-Plane's FMOD system available");
+    return true;
 }
 
 //
 // MARK: Sound Files
 //
 
-/// @brief Represents a sound file
-/// @see For 3D cones also see https://www.fmod.com/docs/2.01/api/core-api-channelcontrol.html#channelcontrol_set3dconesettings
-class SoundFile {
-public:
-    std::string filePath;           ///< File path to sound file
-    bool bLoop = true;              ///< sound to be played in a loop?
-    
-    // 3D Cone information, to be applied to the channel later when playing the sound
-    float coneDir = NAN;            ///< Which direction relative to plane's heading does the cone point to? (180 would be typical for jet engines)
-    float conePitch = NAN;          ///< Which pitch does the cone point to (up/down)? (0 would be typical, ie. level with the plane)
-    float coneInAngle = NAN;        ///< Inside cone angle. This is the angle spread within which the sound is unattenuated.
-    float coneOutAngle = NAN;       ///< Outside cone angle. This is the angle spread outside of which the sound is attenuated to its SoundFile::coneOutVol.
-    float coneOutVol = NAN;         ///< Cone outside volume.
-
-protected:
-    unsigned len_ms = 0;            ///< Sound length in ms
-    FMOD_SOUND* pSound = nullptr;   ///< FMOD sound object
-    bool bLoaded = false;           ///< cached version of the sound's `openstate`
-
-public:
-    /// @brief Construct a sound object from a file name and have it loaded asynchonously
-    /// @throws FmodError in case of errors during `CreateSound`
-    SoundFile (const std::string& _filePath, bool _bLoop,
-               float _coneDir, float _conePitch,
-               float _coneInAngle, float _coneOutAngle, float _coneOutVol) :
-    filePath(_filePath), bLoop(_bLoop),
+SoundFile::SoundFile (SoundSystem* _pSndSys,
+                      const std::string& _filePath, bool _bLoop,
+                      float _coneDir, float _conePitch,
+                      float _coneInAngle, float _coneOutAngle, float _coneOutVol) :
+    pSndSys(_pSndSys), filePath(_filePath), bLoop(_bLoop),
     coneDir(_coneDir), conePitch(_conePitch),
     coneInAngle(_coneInAngle), coneOutAngle(_coneOutAngle), coneOutVol(_coneOutVol)
-    {
-        FMOD_TEST(FMOD_System_CreateSound(gpFmodSystem, filePath.c_str(),
-                                          (bLoop ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF) |
-                                          FMOD_3D | FMOD_3D_WORLDRELATIVE | FMOD_3D_INVERSEROLLOFF |
-                                          FMOD_CREATECOMPRESSEDSAMPLE | FMOD_NONBLOCKING,
-                                          nullptr, &pSound));
-        LOG_ASSERT(pSound);
-    }
+{}
     
-    /// Copying is not permitted
-    SoundFile (const SoundFile& o) = delete;
-    
-    /// Destructor removes the sound object
-    ~SoundFile()
-    {
-        if (pSound)
-            FMOD_Sound_Release(pSound);
-        pSound = nullptr;
-        bLoaded = false;
-    }
-    
-    /// Called the first time the sound is played after loading has finished
-    void firstTimeInit ()
-    {
-        FMOD_LOG(FMOD_Sound_GetLength(pSound, &len_ms, FMOD_TIMEUNIT_MS));
-    }
-    
-    /// Has loading the sound sample finished?
-    bool isReady ()
-    {
-        // Cached values
-        if (!pSound) return false;
-        if (bLoaded) return true;
-        // Otherwise query FMOD
-        FMOD_OPENSTATE state = FMOD_OPENSTATE_LOADING;
-        if ((FMOD_Sound_GetOpenState(pSound, &state, nullptr, nullptr, nullptr) == FMOD_OK) &&
-            (state == FMOD_OPENSTATE_READY))
-        {
-            firstTimeInit();
-            return bLoaded = true;
-        }
-        return false;
-    }
-    
-    /// Has full cone information?
-    bool hasConeInfo () const
-    {
-        return
-            !std::isnan(coneDir) &&
-            !std::isnan(conePitch) &&
-            !std::isnan(coneInAngle) &&
-            !std::isnan(coneOutAngle) &&
-            !std::isnan(coneOutVol);
-    }
-    
-    /// @brief Play the sound
-    /// @param pChGrp [opt] The channel group this sound is to be added to, can be `nullptr`
-    /// @param bPaused [opt] Shall channel stay paused after creation?
-    /// @return `nullptr` in case of failure
-    FMOD_CHANNEL* play (FMOD_CHANNELGROUP* pChGrp = nullptr,
-                        bool bPaused = false)
-    {
-        FMOD_CHANNEL* pChn = nullptr;
-        if (isReady()) {
-            FMOD_LOG(FMOD_System_PlaySound(gpFmodSystem, pSound, pChGrp, bPaused, &pChn));
-            if (!pChn) return nullptr;
-            FMOD_LOG(FMOD_Channel_SetUserData(pChn, this));     // save pointer to this SoundFile as user data to the channel
-            if (hasConeInfo()) {
-                FMOD_LOG(FMOD_Channel_Set3DConeSettings(pChn, coneInAngle, coneOutAngle, coneOutVol));
-            }
-        } else {
-            LOG_MSG(logDEBUG, "Sound '%s' isn't ready yet, won't play now", filePath.c_str());
-        }
-        return pChn;
-    }
-    
-    /// @brief Set the channel's sound cone relative to the aircraft's orientation in space and the cone configuration of the SoundFile
-    /// @param pChn The channel, which is to be modified
-    /// @param ac Aircraft
-    void setConeOrientation (FMOD_CHANNEL* pChn, const Aircraft& ac)
-    {
-        if (!hasConeInfo()) return;
-        const float coneDirRad = deg2rad(coneDir);
-        FMOD_VECTOR coneVec = FmodHeadPitch2Vec(ac.GetHeading() + coneDir,
-                                                std::cos(coneDirRad)*ac.GetPitch() - std::sin(coneDirRad)*ac.GetRoll() + conePitch);
-        FMOD_LOG(FMOD_Channel_Set3DConeOrientation(pChn, &coneVec));
-    }
+// Constructor, will load immediately and throw an exception if loading is unsuccessful
+SoundWAV::SoundWAV (SoundSystem* _pSndSys,
+                    const std::string& _filePath, bool _bLoop,
+                    float _coneDir, float _conePitch,
+                    float _coneInAngle, float _coneOutAngle, float _coneOutVol) :
+SoundFile(_pSndSys, _filePath, _bLoop, _coneDir, _conePitch,
+          _coneInAngle, _coneOutAngle, _coneOutVol)
+{
+    // Directly try to read the WAV file, will throw exceptions if it doesn't work
+    WavRead();
+}
 
-    /// @brief Load fixed set of X-Plane-internal sounds
-    /// @returns Number of loaded sounds
-    static int LoadXPSounds ()
+// Destructor frees up the memory of the PCM16 data
+SoundWAV::~SoundWAV()
+{
+    if (pBuf) {
+        free(pBuf);
+        pBuf = nullptr;
+    }
+}
+
+// Reads a WAV file into a PCM16 memory buffer, throws exceptions in case of errors
+void SoundWAV::WavRead ()
+{
+    // Header of a WAV file
+    struct WavHeaderTy {
+        uint32_t ChunkID;           // "RIFF"
+        uint32_t ChunkSize;
+        uint32_t Format;            // "WAVE"
+    } wavHdr;
+    
+    // Structure of the 'fmt' chunk
+    struct WavFmtTy {
+        uint16_t AudioFormat;
+        uint16_t NumChannels;
+        uint32_t SampleRate;
+        uint32_t ByteRate;
+        uint16_t BlockAlign;
+        uint16_t BitsPerSample;
+    } wavFmt;
+    
+    // Beginning of a chunk
+    struct WavChunkTy {
+        uint32_t id;
+        uint32_t size;
+    } wavChnk;
+    
+    // Encapsulate the file just to properly close on any exit
+    struct FileTy {
+        FILE* f = nullptr;
+        ~FileTy () {
+            if (f) fclose(f);
+        }
+    } f;
+    
+    // Open the file in binary mode for reading
+    f.f = fopen(filePath.c_str(), "rb");
+    if (!f.f) throw std::runtime_error(std::strerror(errno));
+    
+    // Verify Header signatures
+    if (fread(&wavHdr, sizeof(wavHdr), 1, f.f) != 1)
+        throw std::runtime_error("Couldn't read WAV header");
+    // Should be a RIFF/WAV file
+    if (wavHdr.ChunkID       != htonl(0x52494646) ||    // "RIFF"
+        wavHdr.Format        != htonl(0x57415645))      // "WAVE"
+        throw std::runtime_error("File does not appear to have WAV format");
+    
+    // Skip over any non-fmt chunks to reach the 'fmt' chunk
+    while(1) {
+        if (fread(&wavChnk, sizeof(wavChnk), 1, f.f) != 1)
+            throw std::runtime_error("Couldn't find 'fmt' chunk");
+        if (wavChnk.id == htonl(0x666d7420))            // "fmt "
+            break;
+        if (fseek(f.f, long(wavChnk.size), SEEK_CUR) != 0)
+            throw std::runtime_error("Couldn't skip over non-fmt chunk, fseek failed");
+    }
+    
+    // read the 'fmt' chunk
+    if (fread(&wavFmt, sizeof(wavFmt), 1, f.f) != 1)
+        throw std::runtime_error("Couldn't read 'fmt' chunk");
+    // If the "fmt" chunk wasn't the expected 16 bytes we need to skip over the additional ones
+    if (wavChnk.size > 16) {
+        if (fseek(f.f, long(wavChnk.size - 16), SEEK_CUR) != 0)
+            throw std::runtime_error("Couldn't skip over additional 'fmt' data, fseek failed");
+    }
+    
+    // Save some header attributes
+    freqHz      = (int)wavFmt.SampleRate;
+    numChannels = (int)wavFmt.NumChannels;
+    
+    // Loop over all following chunks, skipping everything that is not "data"
+    int numDataChunks = 0;
+    while (!feof(f.f) && !ferror(f.f))
     {
-        int n = 0;
+        if (fread(&wavChnk, sizeof(wavChnk), 1, f.f) != 1) {
+            // Just end-of-file after we read data? That's perfectly OK!
+            if (feof(f.f) && numDataChunks)
+                return;
+            // Otherwise...not good
+            throw std::runtime_error("Couldn't read subsequent chunk header");
+        }
+        
+        // Skip over non-data chunks
+        if (wavChnk.id != htonl(0x64617461)) {          // "data"
+            if (fseek(f.f, long(wavChnk.size), SEEK_CUR) != 0)
+                throw std::runtime_error("Couldn't skip over non-data chunk, fseek failed");
+            continue;
+        }
+        
+        // -- Process data chunk --
+
+        // How many samples will we have? (across all channels)
+        const uint32_t numSamples = wavChnk.size / (wavFmt.BitsPerSample/8);
+        // Add to already existing buffer or create a new one?
+        int16_t* pWritePos = nullptr;
+        if (pBuf) {
+            const uint32_t oldNumSamples = bufferSize / sizeof(int16_t);
+            bufferSize += numSamples * sizeof(int16_t);
+            pBuf = (int16_t*)realloc(pBuf, bufferSize);
+            pWritePos = pBuf + oldNumSamples;
+        }
+        else {
+            // Create a buffer of the required size
+            bufferSize = numSamples * sizeof(int16_t);
+            pWritePos = pBuf = (int16_t*)malloc(bufferSize);
+        }
+        if (!pBuf || !pWritePos) throw std::runtime_error("Could not allocate memory for WAV data");
+        // If the WAV file is originally in PCM16 data, then read directly to the target buffer
+        if (wavFmt.AudioFormat == 1 && wavFmt.BitsPerSample == 16) {
+            size_t numRead = fread(pWritePos, sizeof(int16_t), numSamples, f.f);
+            if (numRead != numSamples)
+                throw std::runtime_error("Less PCM16 samples than expected");
+        }
+        // Convert IEEE32
+        else if (wavFmt.AudioFormat == 3 && wavFmt.BitsPerSample == 32) {
+            float fVal;
+            for (uint32_t i = 0; i < numSamples; ++i) {
+                if (fread(&fVal, sizeof(fVal), 1, f.f) != 1)
+                    throw std::runtime_error("Less IEEE32 samples than expected");
+                pWritePos[i] = (int16_t)std::lroundf(fVal * INT16_MAX);
+            }
+        }
+        // Unknown
+        else {
+            LOG_MSG(logERR, "Unknown WAV sample format: Audio Format = %u, Bits per Sample = %u, in %s",
+                    wavFmt.AudioFormat, wavFmt.BitsPerSample, filePath.c_str());
+            throw std::runtime_error("Unknown WAV sample format");
+        }
+        ++numDataChunks;                        // loaded (one more) 'data' chunk successfully
+    }
+    
+    // if we get here then we didn't read data!
+    throw std::runtime_error("Unknown error occured before reading WAV data");
+}
+
+
+/// @brief Load fixed set of X-Plane-internal sounds
+/// @returns Number of loaded sounds
+int SoundLoadXPSounds ()
+{
+    int n = 0;
 #define ADD_SND(s,f,l) if (!XPMPSoundAdd(s,f,l)[0]) ++n;
 #define ADD_CONE(s,f,l,cd,cp,cia,coa,cov) if (!XPMPSoundAdd(s,f,l,cd,cp,cia,coa,cov)[0]) ++n;
-        // Engine sounds
-        ADD_SND(XP_SOUND_ELECTRIC,          "Resources/sounds/engine/ENGINE_ELECTRIC_out.wav",          true);
-        // The two jet sounds define a sound cone: 180 degrees heading (ie. backwards), no pitch, with 30 degree inner angle (full sound), and 60 degree outer angle (reduced sound), with sound reduction to 50% outside the outer angle:
-        ADD_CONE(XP_SOUND_HIBYPASSJET,      "Resources/sounds/engine/ENGINE_HI_BYPASS_JET_out.wav",     true, 180.0f, 0.0f, 30.0f, 60.0f, 0.5f);
-        ADD_CONE(XP_SOUND_LOBYPASSJET,      "Resources/sounds/engine/ENGINE_LO_BYPASS_JET_out.wav",     true, 180.0f, 0.0f, 30.0f, 60.0f, 0.5f);
-        ADD_SND(XP_SOUND_TURBOPROP,         "Resources/sounds/engine/ENGINE_TURBOPROP_out.wav",         true);
-        ADD_SND(XP_SOUND_PROP_AIRPLANE,     "Resources/sounds/engine/PROPELLER_OF_AIRPLANE_out.wav",    true);
-        ADD_SND(XP_SOUND_PROP_HELI,         "Resources/sounds/engine/PROPELLER_OF_HELO_out.wav",        true);
-        ADD_SND(XP_SOUND_REVERSE_THRUST,    "Resources/sounds/engine/REVERSE_THRUST_out.wav",           true);
-        
-        // Rolling on the ground
-        ADD_SND(XP_SOUND_ROLL_RUNWAY,       "Resources/sounds/contact/roll_runway.wav",                 true);
-        
-        // One-time sounds
-        ADD_SND(XP_SOUND_FLAP,              "Resources/sounds/systems/flap.wav",                        false);
-        ADD_SND(XP_SOUND_GEAR,              "Resources/sounds/systems/gear.wav",                        false);
-        return n;
+    // Engine sounds
+    ADD_SND(XP_SOUND_ELECTRIC,          "Resources/sounds/engine/ENGINE_ELECTRIC_out.wav",          true);
+    // The two jet sounds define a sound cone: 180 degrees heading (ie. backwards), no pitch, with 30 degree inner angle (full sound), and 60 degree outer angle (reduced sound), with sound reduction to 50% outside the outer angle:
+    ADD_CONE(XP_SOUND_HIBYPASSJET,      "Resources/sounds/engine/ENGINE_HI_BYPASS_JET_out.wav",     true, 180.0f, 0.0f, 30.0f, 60.0f, 0.5f);
+    ADD_CONE(XP_SOUND_LOBYPASSJET,      "Resources/sounds/engine/ENGINE_LO_BYPASS_JET_out.wav",     true, 180.0f, 0.0f, 30.0f, 60.0f, 0.5f);
+    ADD_SND(XP_SOUND_TURBOPROP,         "Resources/sounds/engine/ENGINE_TURBOPROP_out.wav",         true);
+    ADD_SND(XP_SOUND_PROP_AIRPLANE,     "Resources/sounds/engine/PROPELLER_OF_AIRPLANE_out.wav",    true);
+    ADD_SND(XP_SOUND_PROP_HELI,         "Resources/sounds/engine/PROPELLER_OF_HELO_out.wav",        true);
+    ADD_SND(XP_SOUND_REVERSE_THRUST,    "Resources/sounds/engine/REVERSE_THRUST_out.wav",           true);
+    
+    // Rolling on the ground
+    ADD_SND(XP_SOUND_ROLL_RUNWAY,       "Resources/sounds/contact/roll_runway.wav",                 true);
+    
+    // One-time sounds
+    ADD_SND(XP_SOUND_FLAP,              "Resources/sounds/systems/flap.wav",                        false);
+    ADD_SND(XP_SOUND_GEAR,              "Resources/sounds/systems/gear.wav",                        false);
+    return n;
+}
+
+//
+// MARK: Sound System
+//
+
+// Enumerate all loaded sounds
+const char* SoundSystem::EnumerateSounds (const char* prevName, const char** ppFilePath)
+{
+    if (ppFilePath) *ppFilePath = nullptr;
+
+    // No sounds available at all?
+    if (mapSounds.empty())
+        return nullptr;
+    
+    auto sndIter = mapSounds.end();
+    // Return first sound?
+    if (!prevName || !prevName[0])
+        sndIter = mapSounds.begin();
+    else {
+        // Try finding the given `prevName` sound, then return next
+        sndIter = mapSounds.find(prevName);
+        if (sndIter != mapSounds.end())
+            sndIter++;
     }
-};
+    
+    // Not found anything anymore?
+    if (sndIter == mapSounds.end()) {
+        return nullptr;
+    } else {
+        // Return the found element
+        if (ppFilePath && sndIter->second)
+            *ppFilePath = sndIter->second->filePath.c_str();
+        return sndIter->first.c_str();
+    }
+}
 
-/// Map of all sounds, indexed by a sound name (type)
-typedef std::map<std::string,SoundFile> mapSoundTy;
+// Is the sound id available?
+bool SoundSystem::IsValid (uint64_t sndId)
+{
+    return mapChn.find(sndId) != mapChn.end();
+}
 
-/// Map of all sounds, indexed by a sound name
-static mapSoundTy mapSound;
+// Add one more channel, returning the newly created id
+std::pair<uint64_t,SoundChannel*> SoundSystem::AddChn (SoundFile* pSnd, float vol, FMOD_CHANNEL* pChn)
+{
+    ++uNxtId;
+    auto i = mapChn.emplace(std::piecewise_construct,
+                            std::forward_as_tuple(uNxtId),
+                            std::forward_as_tuple(pChn, pSnd, vol));
+    return std::make_pair(uNxtId, &i.first->second);
+}
+
+// Return the SoundChannel object for a given id, or `nullptr` if not found
+SoundChannel* SoundSystem::GetChn (uint64_t sndId)
+{
+    auto i = mapChn.find(sndId);
+    if (i != mapChn.end())
+        return &i->second;
+    else
+        return nullptr;
+}
+
+// Remove a channel from out tracking
+void SoundSystem::RemoveChn (uint64_t sndId)
+{
+    mapChn.erase(sndId);
+}
+
+
+
+
+
+// Constructor, throws exception if XP sound system unavailable (prior to XP12.04)
+SoundSystemXP::SoundSystemXP()
+{
+    // find pointers to XP12's sound functions
+    if (!XPSoundLoadFctPtr())
+        throw std::runtime_error("X-Plane Sound functions unavailable (not XP12.04 or higher?)");
+}
+
+/// Loads a sound file so it becomes ready to play
+bool SoundSystemXP::LoadSoundFile (const std::string& _sndName,
+                                   const std::string& _filePath, bool _bLoop,
+                                   float _coneDir, float _conePitch,
+                                   float _coneInAngle,
+                                   float _coneOutAngle, float _coneOutVol)
+{
+    try {
+        // Create the sound file object, loading the file into memory
+        SoundFilePtr p = std::make_unique<SoundWAV>(this, _filePath, _bLoop,
+                                                    _coneDir, _conePitch,
+                                                    _coneInAngle,
+                                                    _coneOutAngle, _coneOutVol);
+        // Have the sound file object managed by our map of sounds
+        mapSounds[_sndName] = std::move(p);
+        LOG_MSG(logDEBUG, "Added%ssound '%s' from file '%s'",
+                _bLoop ? " looping " : " ", _sndName.c_str(), _filePath.c_str());
+        return true;
+    }
+    catch (const std::runtime_error& e) {
+        LOG_MSG(logERR, "Could not load sound '%s' from file '%s': %s",
+                _sndName.c_str(), _filePath.c_str(), e.what());
+    }
+    catch (...) {
+        LOG_MSG(logERR, "Could not load sound '%s' from file '%s'",
+                _sndName.c_str(), _filePath.c_str());
+    }
+    return false;
+}
+
+
+/// Play a new sound
+uint64_t SoundSystemXP::Play (const std::string& sndName, float vol, const Aircraft& ac)
+{
+    // Safety checks
+    if (!XPSoundIsAvail()) return 0;
+    
+    try {
+        // find the sound, may throw if not found, return if sound isn't ready yet
+        SoundFilePtr& pSnd = mapSounds.at(sndName);
+        if (!pSnd->isReady()) throw std::runtime_error("Sound not yet ready");
+        SoundWAV* pSndWav = dynamic_cast<SoundWAV*>(pSnd.get());
+        if (!pSndWav) throw std::runtime_error("Sound does not have WAV format");
+
+        // We must keep track of the sounds we produce so we can clean up after us
+        uint64_t sndId = 0;
+        SoundChannel* pChn = nullptr;
+        std::tie(sndId, pChn) = AddChn(pSndWav, vol);
+        if (!pChn) throw std::runtime_error("pChn is NULL");
+        
+        // Actually play the sound
+        pChn->pChn = gpXPLMPlayPCMOnBus(pSndWav->pBuf, pSndWav->bufferSize,
+                                        FMOD_SOUND_FORMAT_PCM16,
+                                        pSndWav->freqHz, pSndWav->numChannels,
+                                        pSndWav->bLoop,
+                                        xplm_AudioExteriorEnvironment,
+                                        PlayCallback, (void*)sndId);
+        if (!pChn->pChn) throw std::runtime_error("XPLMPlayPCMOnBus return NULL");
+        
+        // Set a few more parameters to the sound
+        FMOD_LOG(gpXPLMSetAudioFadeDistance(pChn->pChn, (float)ac.sndMinDist, FMOD_3D_MAX_DIST));
+        SetPosOrientation(sndId, ac, true);
+        ChnSetVol(*pChn);
+        
+        return sndId;
+    }
+    catch (const std::runtime_error& e) {
+        LOG_MSG(logERR, "Could not play sound '%s': %s",
+                sndName.c_str(), e.what());
+    }
+    return 0;
+}
+
+
+// Callback required by XPLMPlayPCMOnBus
+void SoundSystemXP::PlayCallback (void*         inRefcon,
+                                  FMOD_RESULT   status)
+{
+    // Sanity checks
+    SoundSystemXP* me = dynamic_cast<SoundSystemXP*>(gpSndSys);
+    if (!me) {
+        LOG_MSG(logERR, "No XP Sound system in use!");
+        return;
+    }
+    
+    // Log any issue there might have been
+    uint64_t sndId = uint64_t(inRefcon);
+    if (status != FMOD_OK) {
+        const SoundChannel* pChn = me->GetChn(sndId);
+        LOG_MSG(logERR, "XPLMPlayPCMOnBus for sound %llu/'%s' caused FMOD error %d",
+                sndId,
+                pChn && pChn->pSnd ? pChn->pSnd->filePath.c_str() : "<NULL>",
+                status);
+    }
+    
+    // Playback has ended, remove the sound channel entry
+    me->RemoveChn(sndId);
+}
+
+
+// Stop the sound
+void SoundSystemXP::Stop (uint64_t sndId)
+{
+    SoundChannel* pChn = GetChn(sndId);
+    if (!gpXPLMStopAudio || !pChn || !pChn->pChn) return;
+    
+    // Stop the channel (callback will be called and will remove tracking)
+    FMOD_LOG(gpXPLMStopAudio(pChn->pChn));
+}
+
+// Update sound's position
+void SoundSystemXP::SetPosOrientation (uint64_t sndId, const Aircraft& ac, bool bDoOrientation)
+{
+    SoundChannel* pChn = GetChn(sndId);
+    if (!XPSoundIsAvail() || !pChn || !pChn->pChn || !pChn->pSnd ) return;
+    
+    // Aircraft position and velocity
+    FMOD_VECTOR fmodPos {                           // Copy of the aircraft's 3D location
+        ac.drawInfo.x,
+        ac.drawInfo.y,
+        ac.drawInfo.z,
+    };
+    FMOD_VECTOR fmodVel { ac.v_x, ac.v_y, ac.v_z }; // Copy of the aircraft's relative speed
+    FMOD_LOG(gpXPLMSetAudioPosition(pChn->pChn, &fmodPos, &fmodVel));
+    
+    // Do the (computationally more expensive) orientation stuff?
+    if (!bDoOrientation ||
+        !pChn->pSnd->hasConeInfo()) return;
+    
+    // Calculate current cone orientation based on standard orientation and aircraft orientation
+    const float coneDirRad = deg2rad(pChn->pSnd->coneDir);
+    FMOD_VECTOR coneVec = FmodHeadPitch2Vec(ac.GetHeading() + pChn->pSnd->coneDir,
+                                            std::cos(coneDirRad)*ac.GetPitch() - std::sin(coneDirRad)*ac.GetRoll() + pChn->pSnd->conePitch);
+
+    // Set cone info and orientation
+    FMOD_LOG(gpXPLMSetAudioCone(pChn->pChn,
+                                pChn->pSnd->coneInAngle,
+                                pChn->pSnd->coneOutAngle,
+                                pChn->pSnd->coneOutVol,
+                                &coneVec));
+}
+
+// Set sound's volume
+void SoundSystemXP::SetVolume (uint64_t sndId, float vol)
+{
+    SoundChannel* pChn = GetChn(sndId);
+    if (!gpXPLMSetAudioVolume || !pChn || !pChn->pChn) return;
+    
+    pChn->vol = vol;                        // Save its volume
+    ChnSetVol(*pChn);                       // Set the channel's volume
+}
+
+// Mute the sound (temporarily)
+void SoundSystemXP::SetMute (uint64_t sndId, bool bMute)
+{
+    SoundChannel* pChn = GetChn(sndId);
+    if (!gpXPLMSetAudioVolume || !pChn || !pChn->pChn) return;
+
+    pChn->bMuted = bMute;                   // Save its mute status
+    ChnSetVol(*pChn);                       // Set the channel's volume
+}
+
+/// Set Master Volume, effectively a multiplicator to SetVolume()
+void SoundSystemXP::SetMasterVolume (float v)
+{
+    volMaster = v;                          // save master volume internally
+    if (bAllMuted) return;                  // no need to touch volume if currently muted
+    AllChnSetVol();                         // Otherwise update all channels
+}
+
+// Mute all sounds (temporarily)
+void SoundSystemXP::SetAllMute (bool bMute)
+{
+    bAllMuted = bMute;                      // save the global mute status
+    AllChnSetVol();                         // update all channels
+}
+
+// Update an individual channel's volume
+void SoundSystemXP::ChnSetVol (const SoundChannel& chn)
+{
+    if (!chn.pChn) return;
+    FMOD_LOG(gpXPLMSetAudioVolume(chn.pChn,
+                                  chn.bMuted || bAllMuted ? 0.0f : (chn.vol * volMaster)));
+}
+
+// Update all channels' volume
+void SoundSystemXP::AllChnSetVol ()
+{
+    for (const auto& i: mapChn)
+        ChnSetVol(i.second);
+}
+
 
 //
 // MARK: Local Functions
 //
-
-/// Get pointer to Sound File that created the channel
-SoundFile* SoundGetSoundFile (FMOD_CHANNEL* pChn)
-{
-    if (!pChn) return nullptr;
-    SoundFile* pSnd = nullptr;
-    FMOD_Channel_GetUserData(pChn, (void**)&pSnd);
-    return pSnd;
-}
-
-/// Is the channel still playing / is it valid?
-bool SoundIsChnValid (FMOD_CHANNEL* pChn)
-{
-    if (!pChn) return false;
-    try {
-        FMOD_BOOL bPlaying = false;
-        FMOD_TEST(FMOD_Channel_IsPlaying(pChn, &bPlaying));
-        return bPlaying;
-    }
-    catch (...) {
-        return false;
-    }
-}
-
-/// @brief Helper functon to set FMOD settings
-/// @details Implement as template function so it works with both
-///          `FMOD_ADVANCEDSETTINGS` and `FMOD_10830_ADVANCEDSETTINGS`
-///          for backwards compatibility with v1.8 of FMOD as used in XP11.
-template<class T_ADVSET>
-void SoundSetFmodSettings(T_ADVSET& advSet)
-{
-    memset(&advSet, 0, sizeof(advSet));
-    advSet.cbSize = sizeof(advSet);
-    advSet.vol0virtualvol = 0.01f;     // set some low volume for fading to 0
-    FMOD_TEST(FMOD_System_SetAdvancedSettings(gpFmodSystem, (FMOD_ADVANCEDSETTINGS*)&advSet));
-}
 
 /// Return a text for the values of Aircraft::SoundEventsTy
 const char* SoundEventTxt (Aircraft::SoundEventsTy e)
@@ -488,9 +609,7 @@ const char* SoundEventTxt (Aircraft::SoundEventsTy e)
     }
 }
 
-/// @brief Convert heading/pitch to normalized x/y/z vector
-/// @note Given all the trigonometric functions this is probably expensive,
-///       so use with care and avoid in flight loop callback when unnecessary.
+// Convert heading/pitch to normalized x/y/z vector
 FMOD_VECTOR FmodHeadPitch2Vec (const float head, const float pitch)
 {
     const std::valarray<float> v = HeadPitch2Vec(head, pitch);
@@ -498,9 +617,7 @@ FMOD_VECTOR FmodHeadPitch2Vec (const float head, const float pitch)
     return FMOD_VECTOR { v[0], v[1], v[2] };
 }
 
-/// @brief Convert heading/pitch to normal x/y/z vector
-/// @note Given all the trigonometric functions this is probably expensive,
-///       so use with care and avoid in flight loop callback when unnecessary.
+// Convert heading/pitch to normal x/y/z vector
 void FmodHeadPitchRoll2Normal(const float head, const float pitch, const float roll,
                               FMOD_VECTOR& vecDir, FMOD_VECTOR& vecNorm)
 {
@@ -514,8 +631,7 @@ void FmodHeadPitchRoll2Normal(const float head, const float pitch, const float r
     vecNorm.z = v[5];
 }
 
-/// @brief Normalize Pitch/Heading
-/// @details Heading: [0; 360), Pitch: [-90; 90]
+// Normalize Pitch/Heading
 void FmodNormalizeHeadingPitch(float& head, float& pitch)
 {
     // pitch "over the top"
@@ -538,54 +654,48 @@ void FmodNormalizeHeadingPitch(float& head, float& pitch)
 //
 
 // Play a sound; a looping sound plays until explicitely stopped
-FMOD_CHANNEL* Aircraft::SoundPlay (const std::string& sndName, float vol)
+uint64_t Aircraft::SoundPlay (const std::string& sndName, float vol)
 {
-    // Have FMOD create the sound
-    try {
-        SoundFile& snd = mapSound.at(sndName);
-        // start paused to avoid cracking, will be unpaused only in the next call to Aircraft::SoundUpdate()
-        FMOD_CHANNEL* pChn = snd.play(gpXPMPChnGrp, true);
-        if (pChn) {
-            chnList.push_back(pChn);                    // add to managed list of sounds
-            FMOD_LOG(FMOD_Channel_Set3DMinMaxDistance(pChn, (float)sndMinDist, FMOD_3D_MAX_DIST));
-            snd.setConeOrientation(pChn, *this);        // set cone orientation if there is one defined
-            SoundVolume(pChn, vol);                     // Set volume
-            if (bChnLowPass) {                          // if currently active, also activate low pass filter on this new channel
-                FMOD_LOG(FMOD_Channel_SetLowPassGain(pChn, FMOD_LOW_PASS_GAIN));
-            }
-            if (bChnMuted) {                            // if currently muted, then mute
-                FMOD_LOG(FMOD_Channel_SetMute(pChn, true));
-            }
-        }
-        return pChn;
+    if (!gpSndSys) return 0;
+    uint64_t sndId = gpSndSys->Play(sndName, vol, *this);
+    if (!sndId) {
+        LOG_MSG(logDEBUG, "Aircraft %08X (%s): Sound '%s' couldn't be played!",
+                modeS_id, GetFlightId().c_str(), sndName.c_str());
+        return 0;
     }
-    // Raised by map.at if not finding the key
-    catch (const std::out_of_range& e) {
-        LOG_MSG(logERR, "Didn't find a sound named '%s': %s", sndName.c_str(), e.what());
-        return nullptr;
-    }
+    chnList.push_back(sndId);               // save to list of sounds the aircraft is making
+    if (bChnMuted)                          // if aircraft currently muted then mute this new sound, too
+        gpSndSys->SetMute(sndId, true);
+    LOG_MATCHING(logDEBUG, "Aircraft %08X (%s): Sound '%s' playing%s as id %llu",
+                 modeS_id, GetFlightId().c_str(), sndName.c_str(),
+                 bChnMuted ? " (muted)" : "", sndId);
+    return sndId;
 }
 
 // Stop a continuously playing sound
-void Aircraft::SoundStop (FMOD_CHANNEL* pChn)
+void Aircraft::SoundStop (uint64_t sndId)
 {
-    FMOD_Channel_Stop(pChn);
-    chnList.remove(pChn);
+    if (!gpSndSys) return;
+    gpSndSys->Stop(sndId);
+    chnList.remove(sndId);
+    LOG_MATCHING(logDEBUG, "Aircraft %08X (%s): Sound id %llu stopped",
+                 modeS_id, GetFlightId().c_str(), sndId);
 }
 
 // Sets the sound's volume
-void Aircraft::SoundVolume (FMOD_CHANNEL* pChn, float vol)
+void Aircraft::SoundVolume (uint64_t sndId, float vol)
 {
-    // Just set the volume
-    FMOD_LOG(FMOD_Channel_SetVolume(pChn, vol));
+    if (!gpSndSys) return;
+    gpSndSys->SetVolume(sndId, vol);
 }
 
 // Mute/Unmute all sounds of the airplane temporarily
 void Aircraft::SoundMuteAll (bool bMute)
 {
-    for (FMOD_CHANNEL* pChn: chnList)
-        FMOD_Channel_SetMute(pChn, bMute);
-    bChnMuted = bMute;
+    if (!gpSndSys) return;
+    for (uint64_t sndId: chnList)               // mute all channels of the aircraft
+        gpSndSys->SetMute(sndId, bMute);
+    bChnMuted = bMute;                          // aircraft muted?
     if (!chnList.empty()) {
         LOG_MATCHING(logDEBUG, "Aircraft %08X (%s): Sound %s",
                      modeS_id, GetFlightId().c_str(),
@@ -667,178 +777,143 @@ void Aircraft::SoundSetup ()
 void Aircraft::SoundUpdate ()
 {
     // If we don't want sound we don't get sound
-    if (!gpFmodSystem) return;
+    if (!gpSndSys) return;
 
-    try {
-        // Decide here already if we need to activate or inactivate the Low Pass filter
-        enum { LP_NoAction = 0, LP_Enable, LP_Disable } eLP = LP_NoAction;
-        if (IsViewExternal()) {
-            if (bChnLowPass) { eLP = LP_Disable; bChnLowPass = false; }
-        } else {
-            if (!bChnLowPass) { eLP = LP_Enable; bChnLowPass = true; }
-        }
+    // Decide here already if we need to activate or inactivate the Low Pass filter
+    enum { LP_NoAction = 0, LP_Enable, LP_Disable } eLP = LP_NoAction;
+    if (IsViewExternal()) {
+        if (bChnLowPass) { eLP = LP_Disable; bChnLowPass = false; }
+    } else {
+        if (!bChnLowPass) { eLP = LP_Enable; bChnLowPass = true; }
+    }
 
-        // --- Loop all Sound Definitions ---
-        for (SoundEventsTy eSndEvent = SoundEventsTy(0);
-             eSndEvent < SND_NUM_EVENTS;
-             eSndEvent = SoundEventsTy(eSndEvent + 1))
+    // --- Loop all Sound Definitions ---
+    for (SoundEventsTy eSndEvent = SoundEventsTy(0);
+         eSndEvent < SND_NUM_EVENTS;
+         eSndEvent = SoundEventsTy(eSndEvent + 1))
+    {
+        // Simpler access to values indexed by the sound event:
+        const SoundDefTy    &def        = gaSoundDef[eSndEvent];
+        SndChTy             &sndCh      = aSndCh[eSndEvent];
+
+        // Channel is no longer playing?
+        if (!gpSndSys->IsValid(sndCh.chnId))
+            sndCh.chnId = 0;
+
+        // Automatic Handling of this event?
+        if (sndCh.bAuto)
         {
-            // Simpler access to values indexed by the sound event:
-            const SoundDefTy    &def        = gaSoundDef[eSndEvent];
-            SndChTy             &sndCh      = aSndCh[eSndEvent];
-
-            // Channel is no longer playing?
-            if (!SoundIsChnValid(sndCh.pChn))
-                sndCh.pChn = nullptr;
-
-            // Automatic Handling of this event?
-            if (sndCh.bAuto)
+            assert(def.pVal);
+            const float fVal = (this->*def.pVal)();     // get the current (dataRef) value
+            // --- Looping sound? ---
+            if (def.bSndLoop)
             {
-                assert(def.pVal);
-                const float fVal = (this->*def.pVal)();     // get the current (dataRef) value
-                // --- Looping sound? ---
-                if (def.bSndLoop)
-                {
-                    assert(def.valMax > def.valMin);
-                    
-                    // Looping sound: Should there be sound?
-                    if (fVal > def.valMin) {
-                        // Set volume based on val (between min and max)
-                        float vol = std::clamp<float>((fVal - def.valMin) / (def.valMax - def.valMin), 0.0f, 1.0f);
-                        // If there hasn't been a sound triggered do so now
-                        if (!sndCh.pChn) {
-                            // Get Sound's name and volume adjustment
-                            const std::string sndName = SoundGetName(eSndEvent, sndCh.volAdj);
-                            if (!sndName.empty()) {
-                                vol *= sndCh.volAdj;
-                                sndCh.pChn = SoundPlay(sndName, vol);
-                                if (sndCh.pChn) {
-                                    LOG_MATCHING(logINFO, "Aircraft %08X (%s): Looping sound '%s' at volume %.2f for '%s'",
-                                                 modeS_id, GetFlightId().c_str(),
-                                                 sndName.c_str(), vol, SoundEventTxt(eSndEvent));
-                                }
-                            }
-                        } else {
-                            // Update the volume as it can change any time
-                            SoundVolume(sndCh.pChn, vol * sndCh.volAdj);
+                assert(def.valMax > def.valMin);
+                
+                // Looping sound: Should there be sound?
+                if (fVal > def.valMin) {
+                    // Set volume based on val (between min and max)
+                    float vol = std::clamp<float>((fVal - def.valMin) / (def.valMax - def.valMin), 0.0f, 1.0f);
+                    // If there hasn't been a sound triggered do so now
+                    if (!sndCh.chnId) {
+                        // Get Sound's name and volume adjustment
+                        const std::string sndName = SoundGetName(eSndEvent, sndCh.volAdj);
+                        if (!sndName.empty()) {
+                            vol *= sndCh.volAdj;
+                            sndCh.chnId = SoundPlay(sndName, vol);
                         }
                     } else {
-                        // There should be no sound, remove it if there was one
-                        if (sndCh.pChn) {
-                            SoundStop(sndCh.pChn);
-                            LOG_MATCHING(logINFO, "Aircraft %08X (%s): Stopped sound for '%s'",
-                                         modeS_id, GetFlightId().c_str(),
-                                         SoundEventTxt(eSndEvent));
-                            sndCh.pChn = nullptr;
-                        }
+                        // Update the volume as it can change any time
+                        SoundVolume(sndCh.chnId, vol * sndCh.volAdj);
                     }
-                }
-                // --- One-time event ---
-                else
-                {
-                    // Fresh object, don't even know a 'last value'?
-                    if (std::isnan(sndCh.lastDRVal)) {
-                        sndCh.lastDRVal = fVal;                         // Remember the initial value 
+                } else {
+                    // There should be no sound, remove it if there was one
+                    if (sndCh.chnId) {
+                        SoundStop(sndCh.chnId);
+                        sndCh.chnId = 0;
                     }
-                    // Should there be sound because the value changed?
-                    else if (std::fabs(sndCh.lastDRVal - fVal) > 0.01f)
-                    {
-                        sndCh.lastDRVal = fVal;                         // Remember this current value 
-                        // If there hasn't been a sound triggered do so now
-                        if (!sndCh.pChn)
-                        {
-                            const std::string sndName = SoundGetName(eSndEvent, sndCh.volAdj);
-                            if (!sndName.empty()) {
-                                sndCh.pChn = SoundPlay(sndName, sndCh.volAdj);
-                                LOG_MATCHING(logINFO, "Aircraft %08X (%s): Playing sound '%s' once for '%s'",
-                                             modeS_id, GetFlightId().c_str(),
-                                             sndName.c_str(), SoundEventTxt(eSndEvent));
-                            }
-                        }
-                    }
-                    // No more significant value change: Clear pointer to sound once sound has ended
-                    else if (sndCh.pChn && !SoundIsChnValid(sndCh.pChn)) {
-                        sndCh.pChn = nullptr;
-                    }
-                }
-                
-                // --- Low pass filter in case we're inside a cockpit ---
-                if (sndCh.pChn && eLP) {
-                    FMOD_LOG(FMOD_Channel_SetLowPassGain(sndCh.pChn,
-                                                         eLP == LP_Enable ? FMOD_LOW_PASS_GAIN : 1.0f));
                 }
             }
-            // No automatic handling of this event
+            // --- One-time event ---
             else
             {
-                // So if there currently is a channel, remove it
-                if (sndCh.pChn) {
-                    SoundStop(sndCh.pChn);
-                    sndCh.pChn = nullptr;
+                // Fresh object, don't even know a 'last value'?
+                if (std::isnan(sndCh.lastDRVal)) {
+                    sndCh.lastDRVal = fVal;                         // Remember the initial value
                 }
+                // Should there be sound because the value changed?
+                else if (std::fabs(sndCh.lastDRVal - fVal) > 0.01f)
+                {
+                    sndCh.lastDRVal = fVal;                         // Remember this current value
+                    // If there hasn't been a sound triggered do so now
+                    if (!sndCh.chnId)
+                    {
+                        const std::string sndName = SoundGetName(eSndEvent, sndCh.volAdj);
+                        if (!sndName.empty())
+                            sndCh.chnId = SoundPlay(sndName, sndCh.volAdj);
+                    }
+                }
+                // No more significant value change: Clear pointer to sound once sound has ended
+                else if (sndCh.chnId && !gpSndSys->IsValid(sndCh.chnId)) {
+                    sndCh.chnId = 0;
+                }
+            }
+            
+            // --- Low pass filter in case we're inside a cockpit ---
+            if (sndCh.chnId && eLP) {
+                gpSndSys->SetLowPassGain(sndCh.chnId,
+                                         eLP == LP_Enable ? FMOD_LOW_PASS_GAIN : 1.0f);
             }
         }
-        
-        // --- Update all channels' 3D position
+        // No automatic handling of this event
+        else
         {
-            // Decide here already if this time we do expensive computations (like sound cone orientation)
-            bool bDoExpensiveComp = false;
-            if (++skipCounter > EXP_COMP_SKIP_CYCLES) {
-                skipCounter = 0;
-                bDoExpensiveComp = true;
-            }
-            
-            // Aircraft position and velocity
-            FMOD_VECTOR fmodPos {                   // Copy of the aircraft's 3D location
-                drawInfo.x,
-                drawInfo.y,
-                drawInfo.z,
-            };
-            FMOD_VECTOR fmodVel { v_x, v_y, v_z };  // Copy of the aircraft's relative speed
-            
-            for (auto iter = chnList.begin(); iter != chnList.end(); )
-            {
-                // Set location
-                gFmodRes = FMOD_Channel_Set3DAttributes(*iter, &fmodPos, &fmodVel);
-                if (gFmodRes == FMOD_OK) {
-                    // --- Expensive Compuations: Cone Orientation ---
-                    if (bDoExpensiveComp)
-                    {
-                        SoundFile* pSnd = SoundGetSoundFile(*iter);
-                        if (pSnd && pSnd->hasConeInfo())
-                            pSnd->setConeOrientation(*iter, *this);
-                    }
-                    // Unpause the channel if still paused (always starts paused to avoid cracking)
-                    FMOD_BOOL bPaused = false;
-                    FMOD_LOG(FMOD_Channel_GetPaused(*iter, &bPaused));
-                    if (bPaused) {
-                        FMOD_LOG(FMOD_Channel_SetPaused(*iter, false));
-                    }
-                    // Next sound channel
-                    iter++;
-                }
-                else
-                    // Channels might have become invalid along the way, e.g. if a non-looping sound has ended
-                    iter = chnList.erase(iter);
+            // So if there currently is a channel, remove it
+            if (sndCh.chnId) {
+                SoundStop(sndCh.chnId);
+                sndCh.chnId = 0;
             }
         }
     }
-    FMOD_CATCH;
+    
+    // --- Update all channels' 3D position
+
+    // Decide here already if this time we do expensive computations (like sound cone orientation)
+    bool bDoExpensiveComp = false;
+    if (++skipCounter > EXP_COMP_SKIP_CYCLES) {
+        skipCounter = 0;
+        bDoExpensiveComp = true;
+    }
+    
+    for (auto iter = chnList.begin(); iter != chnList.end(); )
+    {
+        // Still valid?
+        const uint64_t sndId = *iter;
+        if (gpSndSys->IsValid(sndId)) {
+            gpSndSys->SetPosOrientation(sndId, *this, bDoExpensiveComp);
+            iter++;
+        } else {
+            // Channels might have become invalid along the way, e.g. if a non-looping sound has ended
+            iter = chnList.erase(iter);
+        }
+    }
 }
 
 // Remove all sound, e.g. during destruction
 void Aircraft::SoundRemoveAll ()
 {
+    if (!gpSndSys) return;
+
     // Log a message only if there actually is anything to stop
     if (!chnList.empty()) {
         LOG_MATCHING(logDEBUG, "Aircraft %08X (%s): Removed all sounds",
                      modeS_id, GetFlightId().c_str());
     }
+
     // All channels now to be stopped
-    for (FMOD_CHANNEL* pChn: chnList)
-        FMOD_Channel_Stop(pChn);
-    for (SndChTy &sndChn: aSndCh)
-        sndChn.pChn = nullptr;
+    for (uint64_t sndId: chnList) gpSndSys->Stop(sndId);
+    chnList.clear();
+    for (SndChTy &sndChn: aSndCh) sndChn.chnId = 0;
 }
 
 
@@ -846,81 +921,50 @@ void Aircraft::SoundRemoveAll ()
 // MARK: Global Functions
 //
 
-/// One Time callback, used on first flight loop, to initialize XP's sound system
-static float SoundOneTimeCB(float, float, int, void*)
-{
-    // In case Sound init is delayed, now it's the time!
-    if (FmodDelayedXPSoundStartup())
-        SoundInit(false);
-    // don't call me again
-    return 0.0f;
-}
-
 // Initialize the sound module and load the sounds
-void SoundInit (bool bAllowDelayedStart)
+void SoundInit ()
 {
+    // Don't init twice!
+    if (gpSndSys) return;
+    
+    glob.bSoundAvail = false;
+    
+#if INCLUDE_FMOD_SOUND + 0 >= 1
+    // Try the XP12 system first, if not ruled out by configuration
+    if (glob.bSoundForceFmodInstance) try {
+        gpSndSys = new SoundSystemXP();
+    }
+    catch (const std::runtime_error& e) {
+        LOG_MSG(logDEBUG, "Could not attach to the XP sound system: %s", e.what());
+    }
+    catch (...) {}
+
+    // Otherwise create an FMOD instance
     try {
-        if (!gpFmodSystem) {
-            // Enable FMOD logging
-            if (glob.logLvl == logDEBUG)
-                SoundLogEnable(true);
-
-            // Try to link into XP12's internal FMOD system, if allowed
-            if (!glob.bSoundForceFmodInstance) {
-                gpFmodSystem = FmodFindXPSystem (bAllowDelayedStart);
-                // Initialized too early, need to come back later?
-                if (bAllowDelayedStart && FmodDelayedXPSoundStartup()) {
-                    // Come back at the first flight loop
-                    XPLMRegisterFlightLoopCallback(SoundOneTimeCB, -1.0f, nullptr);
-                    return;                     // We come back later
-                }
-            }
-
-            // Will _not_ use XP's sound system, so we will create our own
-            if (!FmodUsingXP())
-            {
-                // Create FMOD system and first of all determine its version,
-                // which depends a bit if run under XP11 or XP12 and the OS we are on.
-                // There are subtle difference in settings.
-                FMOD_TEST(FMOD_System_Create(&gpFmodSystem, FMOD_VERSION));
-                FMOD_TEST(FMOD_System_GetVersion(gpFmodSystem, &gFmodVer));
-                LOG_MSG(logINFO, "Initializing FMOD version %u.%u.%u",
-                        gFmodVer >> 16, (gFmodVer & 0x0000ff00) >> 8,
-                        gFmodVer & 0x000000ff);
-                FMOD_TEST(FMOD_System_Init(gpFmodSystem, FMOD_NUM_VIRT_CHANNELS,
-                                           FMOD_INIT_3D_RIGHTHANDED | FMOD_INIT_CHANNEL_LOWPASS | FMOD_INIT_VOL0_BECOMES_VIRTUAL, nullptr));
-                
-                // Set advanced settings, which are version-dependend
-                if (UseOldFmod()) {
-                    FMOD_10830_ADVANCEDSETTINGS oldAdvSet;
-                    SoundSetFmodSettings(oldAdvSet);
-                } else {
-                    FMOD_ADVANCEDSETTINGS advSet;
-                    SoundSetFmodSettings(advSet);
-                }
-                
-                // XPMP's main channel is this system's master
-                FMOD_LOG(FMOD_System_GetMasterChannelGroup(gpFmodSystem, &gpXPMPChnGrp));
-            }
-            
-            // Load the default sounds
-            if (!SoundFile::LoadXPSounds()) {
-                LOG_MSG(logERR, "No standard sounds successfully loaded, sound system currently inactive!");
-                return;
-            }
-
-            // Set master volume
-            XPMPSoundSetMasterVolume(glob.sndMasterVol);
-            
-            // Ensure updates are done once and a proper listener location is set
-            SoundUpdatesDone();
-        }
-        glob.bSoundAvail = true;
+        gpSndSys = new SoundSystemFMOD();
     }
-    catch (const FmodError& e) {
-        e.LogErr();                             // log the error
-        SoundCleanup();                         // cleanup
+    catch (const std::runtime_error& e) {
+        LOG_MSG(logERR, "Could not attach to/create any sound system: %s", e.what());
     }
+    catch(...) {}
+#else
+    // Try the XP12 system only
+    try {
+        gpSndSys = new SoundSystemXP();
+    }
+    catch (const std::runtime_error& e) {
+        LOG_MSG(logERR, "Could not attach to the XP sound system: %s", e.what());
+    }
+    catch(...) {}
+#endif
+
+    // Still don't have a sound system now? -> bail
+    if (!gpSndSys) return;
+
+    // Some more initializations
+    glob.bSoundAvail = true;
+    gpSndSys->SetMasterVolume(glob.sndMasterVol);
+    SoundLoadXPSounds();
 }
 
 // Prepare for this frame's updates, which are about to start
@@ -932,97 +976,40 @@ void SoundUpdatesBegin()
 // Tell FMOD that all updates are done
 void SoundUpdatesDone ()
 {
-    if (gpFmodSystem) try {
-        // Mute-on-Pause
-        if (glob.bSoundMuteOnPause) {                           // shall act automatically on Pause?
-            if (IsPaused()) {                                   // XP is paused?
-                if (!glob.bSoundAutoMuted) {                    // ...but not yet muted?
-                    XPMPSoundMute(true);                        //    -> do mute
-                    glob.bSoundAutoMuted = true;
-                }
-            } else {                                            // XP is not paused
-                if (glob.bSoundAutoMuted) {                     // ...but sound is auto-muted?
-                    XPMPSoundMute(false);                       //    -> unmute
-                    glob.bSoundAutoMuted = false;
-                }
-            }
-        }
+    if (!gpSndSys) return;
 
-        // If we run our own sound system we need to update our own listener position
-        if (!FmodUsingXP())
-        {
-            // Update the listener position and orientation
-            const FMOD_VECTOR posCam   = {
-                glob.posCamera.x,
-                glob.posCamera.y,
-                glob.posCamera.z
-            };
-            const FMOD_VECTOR velocity  = { glob.vCam_x, glob.vCam_y, glob.vCam_z };
-            
-            // The forward direction takes heading, pitch, and roll into account
-            FmodNormalizeHeadingPitch(glob.posCamera.heading, glob.posCamera.pitch);
-            FMOD_VECTOR normForw;
-            FMOD_VECTOR normUpw;
-            FmodHeadPitchRoll2Normal(glob.posCamera.heading, glob.posCamera.pitch, glob.posCamera.roll, normForw, normUpw);
-            
-            // FMOD_ERR_INVALID_VECTOR used to be a problem, but should be no longer
-            // Still, just in case it comes back, we log more details
-            gFmodRes = FMOD_System_Set3DListenerAttributes(gpFmodSystem, 0, &posCam, &velocity, &normForw, &normUpw);
-            if (gFmodRes != FMOD_OK) {
-                if (gFmodRes != FMOD_ERR_INVALID_VECTOR)
-                    throw FmodError("FMOD_System_Set3DListenerAttributes", gFmodRes, __LINE__, __func__);
-                else
-                {
-                    static float lastInvVecErrMsgTS = -500.0f;
-                    FmodError("FMOD_System_Set3DListenerAttributes", gFmodRes, __LINE__, __func__).LogErr();
-                    if (GetMiscNetwTime() >= lastInvVecErrMsgTS + 300.0f) {
-                        lastInvVecErrMsgTS = GetMiscNetwTime();
-                        LOG_MSG(logERR, "Please report the following details as a reply to https://bit.ly/LTSound36");
-                        LOG_MSG(logERR, "Camera   roll=%.3f, heading=%.3f, pitch=%.3f",
-                                glob.posCamera.roll, glob.posCamera.pitch, glob.posCamera.heading);
-                        LOG_MSG(logERR, "normForw x=%.6f, y=%.6f, z=%.6f", normForw.x, normForw.y, normForw.z);
-                        LOG_MSG(logERR, "normUpw  x=%.6f, y=%.6f, z=%.6f", normUpw.x, normUpw.y, normUpw.z);
-                    }
-                }
+    // Mute-on-Pause
+    if (glob.bSoundMuteOnPause) {                           // shall act automatically on Pause?
+        if (IsPaused()) {                                   // XP is paused?
+            if (!glob.bSoundAutoMuted) {                    // ...but not yet muted?
+                XPMPSoundMute(true);                        //    -> do mute
+                glob.bSoundAutoMuted = true;
             }
-            
-            // Tell FMOD we're done
-            FMOD_TEST(FMOD_System_Update(gpFmodSystem));
+        } else {                                            // XP is not paused
+            if (glob.bSoundAutoMuted) {                     // ...but sound is auto-muted?
+                XPMPSoundMute(false);                       //    -> unmute
+                glob.bSoundAutoMuted = false;
+            }
         }
     }
-    catch (const FmodError& e) {
-        e.LogErr();                             // log the error
-        // We ignore one specific error, which has been reported on some Linux configurations
-        if (e.fmodRes != FMOD_ERR_INVALID_VECTOR)
-            SoundCleanup();                         // in case of errors here disable the sound system
-    }
+
+    // Have sound system do some last updates
+    gpSndSys->Update();
 }
 
 // Graceful shoutdown
 void SoundCleanup ()
 {
-    mapSound.clear();               // cleanup the sounds
-    
-    // Clean up some global resournces
-    if (FmodUsingXP()) {
-        FMOD_LOG(FMOD_ChannelGroup_Release(gpXPMPChnGrp));
-    } else {
-        // Release the sound system (if not using XP one's)
-        if (gpFmodSystem)
-            FMOD_System_Release(gpFmodSystem);
+    // Remove the sound system
+    if (gpSndSys) {
+        delete gpSndSys;
+        gpSndSys = nullptr;
+        LOG_MSG(logDEBUG, "Sound system shut down");
     }
-    
-    gpXPMPChnGrp = gpXPChnGrp = nullptr;
-    gpFmodSystem = gpXPFmodSystem = nullptr;
-    gpXPLMGetFMODChannelGroup = nullptr;
-    gFmodVer = 0;
     glob.bSoundAvail = false;
-    LOG_MSG(logDEBUG, "Sound system shut down");
-    // Disable FMOD logging
-    SoundLogEnable(false);
 }
 
-}
+} // XPMP2 namespace
 
 //
 // MARK: Public functions outside XPMP2 namespace
@@ -1036,19 +1023,11 @@ bool XPMPSoundEnable (bool bEnable)
     {
         // Enable or disable?
         if (bEnable)
-            XPMP2::SoundInit(true);     // we allow for a delayed startup
+            XPMP2::SoundInit();
         else
             XPMP2::SoundCleanup();
     }
     return XPMPSoundIsEnabled();
-}
-
-// Under XP12, when using XP's sound system, we cannot link into it
-// during XPluginStart. Then, XPMP2 will try to reinit later once the
-// first aircraft is created.
-bool XPMPSoundInitDelayed ()
-{
-    return XPMP2::FmodDelayedXPSoundStartup();
 }
 
 // Is Sound enabled?
@@ -1061,15 +1040,15 @@ bool XPMPSoundIsEnabled ()
 void XPMPSoundSetMasterVolume (float fVol)
 {
     XPMP2::glob.sndMasterVol = fVol;
-    if (!XPMP2::gpXPMPChnGrp) return;
-    FMOD_LOG(FMOD_ChannelGroup_SetVolume(XPMP2::gpXPMPChnGrp, XPMP2::glob.sndMasterVol));
+    if (XPMP2::gpSndSys)
+        XPMP2::gpSndSys->SetMasterVolume(fVol);
 }
 
 // Mute all sounds (temporarily)
 void XPMPSoundMute(bool bMute)
 {
-    if (!XPMP2::gpXPMPChnGrp) return;
-    FMOD_LOG(FMOD_ChannelGroup_SetMute(XPMP2::gpXPMPChnGrp, bMute));
+    if (!XPMP2::gpSndSys) return;
+    XPMP2::gpSndSys->SetAllMute(bMute);
     LOG_MSG(XPMP2::logDEBUG, "All sounds %s", bMute ? "muted" : "unmuted");
 }
 
@@ -1086,21 +1065,14 @@ const char* XPMPSoundAdd (const char* sName,
         LOG_MSG(XPMP2::logERR, "Sound file not found: %s", filePath)
         return "Sound File not found";
     }
+    // No sound system yet available?
+    if (!XPMP2::gpSndSys)
+        return "No sound system available";
     // Load the sound and add it to the map
-    try {
-        XPMP2::mapSound.emplace(std::piecewise_construct,
-                                std::forward_as_tuple(sName),
-                                std::forward_as_tuple(filePath,bLoop,
-                                                      coneDir, conePitch,
-                                                      coneInAngle, coneOutAngle,
-                                                      coneOutVol));
-        LOG_MSG(XPMP2::logDEBUG, "Added%ssound '%s' from file '%s'",
-                bLoop ? " looping " : " ", sName, filePath);
-    }
-    catch (const XPMP2::FmodError& e) {
-        e.LogErr();                             // log the error
-        return FMOD_ErrorString(e.fmodRes);     // return the text
-    }
+    if (!XPMP2::gpSndSys->LoadSoundFile(sName, filePath, bLoop,
+                                       coneDir, conePitch, coneInAngle,
+                                       coneOutAngle, coneOutVol))
+        return "Failed loading the sound file";
     
     // All good
     return "";
@@ -1109,30 +1081,10 @@ const char* XPMPSoundAdd (const char* sName,
 // Enumerate all sounds, including the internal ones
 const char* XPMPSoundEnumerate (const char* prevName, const char** ppFilePath)
 {
-    // No sounds available at all?
-    if (XPMP2::mapSound.empty())
-        return nullptr;
-    
-    auto sndIter = XPMP2::mapSound.end();
-    // Return first sound?
-    if (!prevName || !prevName[0])
-        sndIter = XPMP2::mapSound.begin();
-    else {
-        // Try finding the given `prevName` sound, then return next
-        sndIter = XPMP2::mapSound.find(prevName);
-        if (sndIter != XPMP2::mapSound.end())
-            sndIter++;
-    }
-    
-    // Not found anything anymore?
-    if (sndIter == XPMP2::mapSound.end()) {
+    if (XPMP2::gpSndSys) {
+        return XPMP2::gpSndSys->EnumerateSounds(prevName, ppFilePath);
+    } else {
         if (ppFilePath) *ppFilePath = nullptr;
         return nullptr;
-    } else {
-        // Return the found element
-        if (ppFilePath) *ppFilePath = sndIter->second.filePath.c_str();
-        return sndIter->first.c_str();
     }
 }
-
-#endif // INCLUDE_FMOD_SOUND

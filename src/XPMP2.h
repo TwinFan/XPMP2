@@ -64,7 +64,7 @@
 #include <bitset>
 
 // FMOD Sound, must be included before XPLMSound.h
-#ifdef INCLUDE_FMOD_SOUND
+#if INCLUDE_FMOD_SOUND + 0 >= 1
 #include "fmod_errors.h"            // This one includes everything for the CORE API
 #include "fmod_studio.h"
 #endif
@@ -94,6 +94,9 @@
 #include "Network.h"
 #include "Remote.h"
 #include "Sound.h"
+#if INCLUDE_FMOD_SOUND + 0 >= 1
+#include "SoundFMOD.h"
+#endif
 
 //
 // MARK: Global Configurations and variables

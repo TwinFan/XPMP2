@@ -29,7 +29,7 @@ else()
 endif()
 
 project(XPMP2
-        VERSION 3.2.2
+        VERSION 3.3.0
         DESCRIPTION "Multiplayer library for X-Plane 11 and 12")
 
 # Provide compile macros from the above project version definition
@@ -162,6 +162,8 @@ add_library(XPMP2 STATIC
     src/RelatedDoc8643.cpp
     src/Remote.h
     src/Remote.cpp
+    src/Sound.h
+    src/Sound.cpp
     src/Utilities.h
     src/Utilities.cpp
     src/XPMP2.h
@@ -176,6 +178,7 @@ target_include_directories(XPMP2
 	PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/inc
     PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/lib/fmod/inc
 		${CMAKE_CURRENT_SOURCE_DIR}/lib/SDK/CHeaders/XPLM
 		${CMAKE_CURRENT_SOURCE_DIR}/src
 )
@@ -198,10 +201,9 @@ endif()
 if(INCLUDE_FMOD_SOUND)
     # Compile options
     add_compile_definitions(INCLUDE_FMOD_SOUND)
-    target_include_directories(XPMP2 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lib/fmod/inc)
     target_sources(XPMP2 PRIVATE
-        src/Sound.h
-        src/Sound.cpp
+        src/SoundFMOD.h
+        src/SoundFMOD.cpp
     )
 endif()
 

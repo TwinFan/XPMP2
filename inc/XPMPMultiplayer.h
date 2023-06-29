@@ -35,10 +35,10 @@
 /// @see        For a list of ICAO airline/operator codes see
 ///             https://en.wikipedia.org/wiki/List_of_airline_codes
 ///
-/// @note       Audio Engine is FMOD Core API by Firelight Technologies Pty Ltd.
+/// @note       If built with `INCLUDE_FMOD_SOUND=1` then
+///             Audio Engine is FMOD Core API by Firelight Technologies Pty Ltd.
 ///             Understand FMOD [licensing](https://www.fmod.com/licensing) and
-///             [attribution requirements](https://www.fmod.com/attribution) first!\n
-///             Sound support is only included if built with CMake cache entry `INCLUDE_FMOD_SOUND`.\n
+///             [attribution requirements](https://www.fmod.com/attribution) first!
 ///
 /// @author     Ben Supnik and Chris Serio
 /// @copyright  Copyright (c) 2004, Ben Supnik and Chris Serio.
@@ -385,11 +385,7 @@ const char * XPMPMultiplayerOBJ7SupportEnable(const char * inTexturePath);
 * MARK: Sound
 ************************************************************************************/
 
-// Only included if specified. Understand FMOD licensing and attribution first!
-#ifdef INCLUDE_FMOD_SOUND
-
 /// @name Sound
-/// @note Only included if built with `INCLUDE_FMOD_SOUND`
 /// @{
 
 /// @brief Enable/Disable Sound
@@ -400,11 +396,6 @@ const char * XPMPMultiplayerOBJ7SupportEnable(const char * inTexturePath);
 ///          of activation if there was a problem during sound initialization
 ///          or if it was too early too link into XP's sound system)
 bool XPMPSoundEnable (bool bEnable = true);
-
-/// @brief Under XP12, when using XP's sound system, we cannot link into it
-///        during XPluginStart. Then, XPMP2 will try to reinit later
-///        in the first flight loop callback.
-bool XPMPSoundInitDelayed ();
 
 /// @brief Is Sound enabled?
 bool XPMPSoundIsEnabled ();
@@ -463,8 +454,6 @@ const char* XPMPSoundEnumerate (const char* prevName, const char** ppFilePath = 
 #define XP_SOUND_GEAR           "Gear"
 
 /// @}
-
-#endif // INCLUDE_FMOD_SOUND
 
 /************************************************************************************
 * MARK: AI / Multiplayer plane control

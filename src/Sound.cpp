@@ -487,8 +487,8 @@ void SoundSystemXP::PlayCallback (void*         inRefcon,
     uint64_t sndId = uint64_t(inRefcon);
     if (status != FMOD_OK) {
         const SoundChannel* pChn = me->GetChn(sndId);
-        LOG_MSG(logERR, "XPLMPlayPCMOnBus for sound %llu/'%s' caused FMOD error %d",
-                sndId,
+        LOG_MSG(logERR, "XPLMPlayPCMOnBus for sound %lu/'%s' caused FMOD error %d",
+                (unsigned long)sndId,
                 pChn && pChn->pSnd ? pChn->pSnd->filePath.c_str() : "<NULL>",
                 status);
     }
@@ -666,9 +666,9 @@ uint64_t Aircraft::SoundPlay (const std::string& sndName, float vol)
     chnList.push_back(sndId);               // save to list of sounds the aircraft is making
     if (bChnMuted)                          // if aircraft currently muted then mute this new sound, too
         gpSndSys->SetMute(sndId, true);
-    LOG_MATCHING(logDEBUG, "Aircraft %08X (%s): Sound '%s' playing%s as id %llu",
+    LOG_MATCHING(logDEBUG, "Aircraft %08X (%s): Sound '%s' playing%s as id %lu",
                  modeS_id, GetFlightId().c_str(), sndName.c_str(),
-                 bChnMuted ? " (muted)" : "", sndId);
+                 bChnMuted ? " (muted)" : "", (unsigned long)sndId);
     return sndId;
 }
 
@@ -678,8 +678,8 @@ void Aircraft::SoundStop (uint64_t sndId)
     if (!gpSndSys) return;
     gpSndSys->Stop(sndId);
     chnList.remove(sndId);
-    LOG_MATCHING(logDEBUG, "Aircraft %08X (%s): Sound id %llu stopped",
-                 modeS_id, GetFlightId().c_str(), sndId);
+    LOG_MATCHING(logDEBUG, "Aircraft %08X (%s): Sound id %lu stopped",
+                 modeS_id, GetFlightId().c_str(), (unsigned long)sndId);
 }
 
 // Sets the sound's volume

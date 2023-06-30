@@ -82,7 +82,7 @@ set_property(GLOBAL PROPERTY CXX_STANDARD 17)
 ################################################################################
 
 # Enable all X-Plane SDK APIs up to the newest version.
-add_compile_definitions(XPLM200=1 XPLM210=1 XPLM300=1 XPLM301=1 XPLM303=1)
+add_compile_definitions(XPLM200=1 XPLM210=1 XPLM300=1 XPLM301=1 XPLM303=1 XPLM400=1)
 
 # Define platform macros.
 add_compile_definitions(APL=$<BOOL:${APPLE}> IBM=$<BOOL:${WIN32}> LIN=$<AND:$<BOOL:${UNIX}>,$<NOT:$<BOOL:${APPLE}>>>)

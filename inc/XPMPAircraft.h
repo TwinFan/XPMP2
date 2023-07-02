@@ -344,8 +344,6 @@ public:
 protected:
     /// Operational values per sound channel, that is triggered by a standard sound event
     SndChTy aSndCh[SND_NUM_EVENTS];
-    /// Is Low Pass Filter currently being active?
-    bool                bChnLowPass = false;
     /// Is sound for this aircraft currently muted?
     bool                bChnMuted = false;
     /// List of channels produced via calls to SoundPlay()
@@ -722,6 +720,8 @@ public:
     
     /// @brief Mute/Unmute all sounds of the airplane temporarily
     void SoundMuteAll (bool bMute);
+    /// @brief Are all sounds currently muted?
+    bool SoundIsMuted() const { return bChnMuted; }
     
     /// @brief Returns the name of the sound to play per event
     /// @details This standard implementation determines the engine sound via

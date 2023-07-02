@@ -200,7 +200,7 @@ endif()
 # (The actual FMOD lib is not included here, that needs to be done by the plugin target)
 if(INCLUDE_FMOD_SOUND)
     # Compile options
-    add_compile_definitions(INCLUDE_FMOD_SOUND)
+    add_compile_definitions(INCLUDE_FMOD_SOUND=1)
     target_sources(XPMP2 PRIVATE
         src/SoundFMOD.h
         src/SoundFMOD.cpp

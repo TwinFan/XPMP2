@@ -54,6 +54,8 @@ $(function() {
 
 <p>Exception class to pass on error information.  
  <a href="classXPMP2_1_1FmodError.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="Sound_8h_source.html">Sound.h</a>&gt;</code></p>
 <div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for XPMP2::FmodError:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -65,9 +67,9 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a2f47e760292d8c3674b806abd240ec02"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1FmodError.html#a2f47e760292d8c3674b806abd240ec02">FmodError</a> (const std::string &amp;_what, FMOD_RESULT _r, int _ln, const std::string &amp;_sFunc)</td></tr>
-<tr class="memdesc:a2f47e760292d8c3674b806abd240ec02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor taking on a descriptive string and the <code>FMOD_RESULT</code>  <a href="classXPMP2_1_1FmodError.html#a2f47e760292d8c3674b806abd240ec02">More...</a><br /></td></tr>
-<tr class="separator:a2f47e760292d8c3674b806abd240ec02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8012c1d8eb654d185878bcec08685b9d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1FmodError.html#a8012c1d8eb654d185878bcec08685b9d">FmodError</a> (const std::string &amp;_what, FMOD_RESULT _r, const std::string &amp;_file, int _ln, const std::string &amp;_sFunc)</td></tr>
+<tr class="memdesc:a8012c1d8eb654d185878bcec08685b9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor taking on a descriptive string and the <code>FMOD_RESULT</code>  <a href="classXPMP2_1_1FmodError.html#a8012c1d8eb654d185878bcec08685b9d">More...</a><br /></td></tr>
+<tr class="separator:a8012c1d8eb654d185878bcec08685b9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5fe4a6758f72df23c698f77bbdf07b5d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1FmodError.html#a5fe4a6758f72df23c698f77bbdf07b5d">LogErr</a> () const</td></tr>
 <tr class="memdesc:a5fe4a6758f72df23c698f77bbdf07b5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log myself to Log.txt as an error.  <a href="classXPMP2_1_1FmodError.html#a5fe4a6758f72df23c698f77bbdf07b5d">More...</a><br /></td></tr>
 <tr class="separator:a5fe4a6758f72df23c698f77bbdf07b5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -77,6 +79,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a755664cf537991bced539e7abf3aafed"><td class="memItemLeft" align="right" valign="top">FMOD_RESULT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1FmodError.html#a755664cf537991bced539e7abf3aafed">fmodRes</a></td></tr>
 <tr class="memdesc:a755664cf537991bced539e7abf3aafed"><td class="mdescLeft">&#160;</td><td class="mdescRight">the actual FMOD result code  <a href="classXPMP2_1_1FmodError.html#a755664cf537991bced539e7abf3aafed">More...</a><br /></td></tr>
 <tr class="separator:a755664cf537991bced539e7abf3aafed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af49897ac80dae5d2a6e988575448b95f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1FmodError.html#af49897ac80dae5d2a6e988575448b95f">sFile</a></td></tr>
+<tr class="memdesc:af49897ac80dae5d2a6e988575448b95f"><td class="mdescLeft">&#160;</td><td class="mdescRight">file path of code file  <a href="classXPMP2_1_1FmodError.html#af49897ac80dae5d2a6e988575448b95f">More...</a><br /></td></tr>
+<tr class="separator:af49897ac80dae5d2a6e988575448b95f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3758e4f73edd3eb625a8eb57ecfa1496"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1FmodError.html#a3758e4f73edd3eb625a8eb57ecfa1496">ln</a></td></tr>
 <tr class="memdesc:a3758e4f73edd3eb625a8eb57ecfa1496"><td class="mdescLeft">&#160;</td><td class="mdescRight">line number here in the code  <a href="classXPMP2_1_1FmodError.html#a3758e4f73edd3eb625a8eb57ecfa1496">More...</a><br /></td></tr>
 <tr class="separator:a3758e4f73edd3eb625a8eb57ecfa1496"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -87,8 +92,8 @@ Public Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Exception class to pass on error information. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a2f47e760292d8c3674b806abd240ec02"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f47e760292d8c3674b806abd240ec02">&#9670;&nbsp;</a></span>FmodError()</h2>
+<a id="a8012c1d8eb654d185878bcec08685b9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8012c1d8eb654d185878bcec08685b9d">&#9670;&nbsp;</a></span>FmodError()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -107,6 +112,12 @@ Public Attributes</h2></td></tr>
           <td></td>
           <td class="paramtype">FMOD_RESULT&#160;</td>
           <td class="paramname"><em>_r</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>_file</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -198,6 +209,22 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="af49897ac80dae5d2a6e988575448b95f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af49897ac80dae5d2a6e988575448b95f">&#9670;&nbsp;</a></span>sFile</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string XPMP2::FmodError::sFile</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>file path of code file </p>
+
+</div>
+</div>
 <a id="acbdfb5bd31877857d2cc7cb7520bb542"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acbdfb5bd31877857d2cc7cb7520bb542">&#9670;&nbsp;</a></span>sFunc</h2>
 
@@ -215,7 +242,7 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/<a class="el" href="Sound_8cpp.html">Sound.cpp</a></li>
+<li>src/<a class="el" href="Sound_8h_source.html">Sound.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

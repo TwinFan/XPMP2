@@ -87,6 +87,12 @@
 		2599B92123BF63F600F92BB5 /* XPMP2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPMP2.h; sourceTree = "<group>"; };
 		25AE8CB323E376E1000BE21E /* 2D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = 2D.cpp; sourceTree = "<group>"; };
 		25AE8CB423E376E2000BE21E /* 2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = 2D.h; sourceTree = "<group>"; };
+		25B8D14A2A50CF2A00D8DAE9 /* SharedDataRefs.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SharedDataRefs.md; sourceTree = "<group>"; };
+		25B8D14B2A50CF2A00D8DAE9 /* Wake.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Wake.md; sourceTree = "<group>"; };
+		25B8D14C2A50CF2A00D8DAE9 /* Contrails.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Contrails.md; sourceTree = "<group>"; };
+		25B8D14D2A50CF2B00D8DAE9 /* CopyingObjFiles.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CopyingObjFiles.md; sourceTree = "<group>"; };
+		25B8D14E2A50CF2B00D8DAE9 /* Sound.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Sound.md; sourceTree = "<group>"; };
+		25B8D14F2A50CF2B00D8DAE9 /* Remote.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Remote.md; sourceTree = "<group>"; };
 		25D1D25523C9285300D20D58 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		25D680B123BE936B00C83CC5 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		25D680B623BE95FB00C83CC5 /* XPCAircraft.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = XPCAircraft.h; sourceTree = "<group>"; };
@@ -220,6 +226,8 @@
 			children = (
 				25019BCB24919A1500355472 /* BackwardsCompatibility.md */,
 				25019BC924919A1500355472 /* Building.md */,
+				25B8D14C2A50CF2A00D8DAE9 /* Contrails.md */,
+				25B8D14D2A50CF2B00D8DAE9 /* CopyingObjFiles.md */,
 				25019BC724919A1500355472 /* CSLdataRefs.md */,
 				25019BCA24919A1500355472 /* Deploying.md */,
 				25019BC624919A1500355472 /* HowTo.md */,
@@ -227,7 +235,11 @@
 				2574E00424578419000E8156 /* index.md */,
 				25D680BF23BE9BB900C83CC5 /* MainPage.md */,
 				25019BCC24919A1600355472 /* Matching.md */,
+				25B8D14F2A50CF2B00D8DAE9 /* Remote.md */,
+				25B8D14A2A50CF2A00D8DAE9 /* SharedDataRefs.md */,
+				25B8D14E2A50CF2B00D8DAE9 /* Sound.md */,
 				25019BC824919A1500355472 /* TCAS.md */,
+				25B8D14B2A50CF2A00D8DAE9 /* Wake.md */,
 				25D680BE23BE9BB900C83CC5 /* XPMP2.doxygen */,
 				25997FB62476A33E00F36447 /* XSBAircraftFormat.md */,
 			);
@@ -424,7 +436,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
-					"INCLUDE_FMOD_SOUND=0",
+					"INCLUDE_FMOD_SOUND=1",
 					"APL=1",
 					"IBM=0",
 					"LIN=0",
@@ -527,7 +539,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"NDEBUG=1",
-					"INCLUDE_FMOD_SOUND=0",
+					"INCLUDE_FMOD_SOUND=1",
 					"APL=1",
 					"IBM=0",
 					"LIN=0",

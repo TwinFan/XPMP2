@@ -42,7 +42,6 @@ SoundSystem* gpSndSys = nullptr;
 FMOD_RESULT gFmodRes = FMOD_OK;
 
 constexpr float FMOD_3D_MAX_DIST    = 10000.0f;     ///< Value used for 3D max distance, which doesn't have much of a function for the inverse roll-off model used here
-constexpr float FMOD_LOW_PASS_GAIN   = 0.2f;        ///< Gain used when activating Low Pass filter
 constexpr int EXP_COMP_SKIP_CYCLES  = 10;           ///< In how many cycles to skip expensive computations?
 
 /// Definition of how sound is handled based on dataRef values (type)
@@ -398,7 +397,7 @@ SoundSystemXP::SoundSystemXP()
         throw std::runtime_error("X-Plane Sound functions unavailable (not XP12.04 or higher?)");
 }
 
-/// Loads a sound file so it becomes ready to play
+// Loads a sound file so it becomes ready to play
 bool SoundSystemXP::LoadSoundFile (const std::string& _sndName,
                                    const std::string& _filePath, bool _bLoop,
                                    float _coneDir, float _conePitch,
@@ -429,7 +428,7 @@ bool SoundSystemXP::LoadSoundFile (const std::string& _sndName,
 }
 
 
-/// Play a new sound
+// Play a new sound
 uint64_t SoundSystemXP::Play (const std::string& sndName, float vol, const Aircraft& ac)
 {
     // Safety checks
@@ -503,9 +502,14 @@ void SoundSystemXP::Stop (uint64_t sndId)
 {
     SoundChannel* pChn = GetChn(sndId);
     if (!gpXPLMStopAudio || !pChn || !pChn->pChn) return;
-    
+    if (!pChn) return;
+
     // Stop the channel (callback will be called and will remove tracking)
-    FMOD_LOG(gpXPLMStopAudio(pChn->pChn));
+    if (gpXPLMStopAudio && pChn->pChn) {
+        FMOD_LOG(gpXPLMStopAudio(pChn->pChn))
+    } else {
+        RemoveChn(sndId);
+    }
 }
 
 // Update sound's position
@@ -560,7 +564,7 @@ void SoundSystemXP::SetMute (uint64_t sndId, bool bMute)
     ChnSetVol(*pChn);                       // Set the channel's volume
 }
 
-/// Set Master Volume, effectively a multiplicator to SetVolume()
+// Set Master Volume, effectively a multiplicator to SetVolume()
 void SoundSystemXP::SetMasterVolume (float v)
 {
     volMaster = v;                          // save master volume internally
@@ -779,14 +783,6 @@ void Aircraft::SoundUpdate ()
     // If we don't want sound we don't get sound
     if (!gpSndSys) return;
 
-    // Decide here already if we need to activate or inactivate the Low Pass filter
-    enum { LP_NoAction = 0, LP_Enable, LP_Disable } eLP = LP_NoAction;
-    if (IsViewExternal()) {
-        if (bChnLowPass) { eLP = LP_Disable; bChnLowPass = false; }
-    } else {
-        if (!bChnLowPass) { eLP = LP_Enable; bChnLowPass = true; }
-    }
-
     // --- Loop all Sound Definitions ---
     for (SoundEventsTy eSndEvent = SoundEventsTy(0);
          eSndEvent < SND_NUM_EVENTS;
@@ -858,12 +854,6 @@ void Aircraft::SoundUpdate ()
                     sndCh.chnId = 0;
                 }
             }
-            
-            // --- Low pass filter in case we're inside a cockpit ---
-            if (sndCh.chnId && eLP) {
-                gpSndSys->SetLowPassGain(sndCh.chnId,
-                                         eLP == LP_Enable ? FMOD_LOW_PASS_GAIN : 1.0f);
-            }
         }
         // No automatic handling of this event
         else
@@ -931,7 +921,7 @@ void SoundInit ()
     
 #if INCLUDE_FMOD_SOUND + 0 >= 1
     // Try the XP12 system first, if not ruled out by configuration
-    if (glob.bSoundForceFmodInstance) try {
+    if (!glob.bSoundForceFmodInstance) try {
         gpSndSys = new SoundSystemXP();
     }
     catch (const std::runtime_error& e) {
@@ -940,9 +930,10 @@ void SoundInit ()
     catch (...) {}
 
     // Otherwise create an FMOD instance
-    try {
+    if (!gpSndSys) try {
         gpSndSys = new SoundSystemFMOD();
     }
+    FMOD_CATCH
     catch (const std::runtime_error& e) {
         LOG_MSG(logERR, "Could not attach to/create any sound system: %s", e.what());
     }

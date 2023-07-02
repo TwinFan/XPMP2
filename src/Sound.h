@@ -32,19 +32,21 @@ class FmodError : public std::runtime_error
 {
 public:
     FMOD_RESULT fmodRes;        ///< the actual FMOD result code
+    std::string sFile;          ///< file path of code file
     int ln;                     ///< line number here in the code
     std::string sFunc;          ///< name of the function the error occurred in
 public:
     /// Constructor taking on a descriptive string and the `FMOD_RESULT`
     FmodError (const std::string& _what, FMOD_RESULT _r,
+               const std::string& _file,
                int _ln, const std::string& _sFunc) :
     std::runtime_error(leftOf(_what,"( ")),     // takes over the name of the function called, but not all the parameter string
-    fmodRes(_r), ln(_ln), sFunc(_sFunc)
+    fmodRes(_r), sFile(_file), ln(_ln), sFunc(_sFunc)
     {}
     
     /// Log myself to Log.txt as an error
     void LogErr () const {
-        LogMsg(__FILE__, ln, sFunc.c_str(), logERR,
+        LogMsg(sFile.c_str(), ln, sFunc.c_str(), logERR,
 #if INCLUDE_FMOD_SOUND + 0 >= 1
                "FMOD Error %d - '%s' in %s", fmodRes,
                FMOD_ErrorString(fmodRes),
@@ -61,16 +63,16 @@ extern FMOD_RESULT gFmodRes;
 /// @brief Log an error if `fmodRes` is not `FMOD_OK`
 #define FMOD_TEST(fmodCall)  {                                              \
     if ((gFmodRes = (fmodCall)) != FMOD_OK)                                 \
-        throw FmodError(#fmodCall, gFmodRes, __LINE__, __func__);           \
+        throw FmodError(#fmodCall, gFmodRes, __FILE__, __LINE__, __func__); \
 }
 
 /// @brief Standard catch clause to handle FmodError exceptions by just logging them
 #define FMOD_CATCH catch (const FmodError& e) { e.LogErr(); }
 
 /// Just log an error without raising an exception
-#define FMOD_LOG(fmodCall)  {                                                      \
-    if ((XPMP2::gFmodRes = (fmodCall)) != FMOD_OK)                                 \
-        XPMP2::FmodError(#fmodCall, XPMP2::gFmodRes, __LINE__, __func__).LogErr(); \
+#define FMOD_LOG(fmodCall)  {                                                                \
+    if ((XPMP2::gFmodRes = (fmodCall)) != FMOD_OK)                                           \
+        XPMP2::FmodError(#fmodCall, XPMP2::gFmodRes, __FILE__, __LINE__, __func__).LogErr(); \
 }
 
 //
@@ -232,8 +234,6 @@ public:
     virtual void SetMasterVolume (float volMaster) = 0;
     /// Mute all sounds (temporarily)
     virtual void SetAllMute (bool bMute) = 0;
-    /// Set low pass gain
-    virtual void SetLowPassGain (uint64_t sndId, float gain) = 0;
     
     /// Is the sound id available?
     virtual bool IsValid (uint64_t sndId);
@@ -290,8 +290,6 @@ public:
     void SetMasterVolume (float volMaster) override;
     /// Mute all sounds (temporarily)
     void SetAllMute (bool bMute) override;
-    /// Set low pass gain (don't have in XP, relying on 'exterior' channel to be handled correctly)
-    void SetLowPassGain (uint64_t, float) override {}
 
 protected:
     /// Callback required by XPLMPlayPCMOnBus

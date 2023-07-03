@@ -23,9 +23,6 @@ of the library outdated...it is basically replaced by one line of code calling
 Concepts like the syntax of the `xsb_aircraft.txt` file or certainly the idea of an
 multi-pass matching to find a good model are retained, though re-implemented.
 
-Added is support for synchronizing planes across the network with the remote
-machines running the included [**XPMP2 Remote Client**](#XPMP2-Remote-Client-Synchronizing-Planes-across-the-Network).
-
 XPMP2 does no longer call any OpenGL function and hence does not require
 to be linked to an OpenGL library. The included XPMP2 Remote Client and
 XPMP2-Sample applications do not link to OpenGL.
@@ -52,11 +49,11 @@ to stay backward compatible.
 
 The XPMP2 library has been successfully tested with
 - X-Plane 11.5x under OpenGL, Vulkan, and Metal,
-- X-Plane 12 Alpha and Beta versions,
+- X-Plane 12,
 - the [XPMP2 Remote Client](#XPMP2-Remote-Client-Synchronizing-Planes-across-the-Network),
 - the [`XPMP2-Sample` plugin](https://github.com/TwinFan/XPMP2-Remote),
-- [LiveTraffic v2.20](https://forums.x-plane.org/index.php?/files/file/49749-livetraffic/)
-- [X-Pilot 1.3](http://xpilot-project.org/)
+- [LiveTraffic](https://forums.x-plane.org/index.php?/files/file/49749-livetraffic/)
+- [X-Pilot](http://xpilot-project.org/)
 - X-Plane version of [IVAO Altitude](https://www.ivao.aero/softdev/beta/altitudebeta.asp)
 - on Mac OS,
 - Windows, and
@@ -67,8 +64,8 @@ The XPMP2 library has been successfully tested with
 - XPMP2 implements [instancing](https://developer.x-plane.com/sdk/XPLMInstance/),
   so it **requires X-Plane 11.10** or later
 - CSL models in **OBJ8 format** (ie. older OBJ7 models are no longer supported)
-- Potentially an FMOD license if built with sound support, see below in
-  [Sound Support by FMOD](#sound-support-by-fmod)
+- Potentially an FMOD license if built with FMOD sound support, see 
+  [Sound Support](#sound-support)
 
 ## Documentation: See [GitHub pages](https://twinfan.github.io/XPMP2/) ##
 
@@ -137,18 +134,27 @@ precice results.
 
 Find [more details here](https://twinfan.github.io/XPMP2/Wake.html).
 
-### Sound Support by FMOD ###
+### Sound Support ###
 
 All displayed aircraft can produce sound in the 3D world for
 engine, reversers, taxiing, gear and flap movement.
 
-XPMP2's Audio Engine is FMOD Core API by Firelight Technologies Pty Ltd.
-Understand FMOD [licensing](https://www.fmod.com/licensing) and
-[attribution requirements](https://www.fmod.com/attribution) first,
-as they will apply to _your_ plugin if using XPMP2 with sound support.
+There are 2 options:
+- As of X-Plane 12.04, XPMP2 can use X-Plane's new
+  [Sound API](https://developer.x-plane.com/sdk/XPLMSound/) and hence
+  integrate sounds with X-Plane's own FMOD instance; this does not
+  need linking and licensing your plugin with FMOD, but is restricted
+  to rather simple forms of `.WAV` sound file formats.
+- When building with FMOD support directly, then XPMP2's Audio Engine is
+  FMOD Core API by Firelight Technologies Pty Ltd.
+  Understand FMOD [licensing](https://www.fmod.com/licensing) and
+  [attribution requirements](https://www.fmod.com/attribution) first,
+  as they will apply to _your_ plugin if using XPMP2 with sound support.
 
-Because of the licensing requirements, XPMP2 by default is built
-**without** sound support.
+Because of the FMOD licensing requirements, XPMP2 by default is built
+without FMOD library support, but always supports X-Plane 12's
+internal Sound API out of the box.
+
 See the [Sound Support documentation](https://twinfan.github.io/XPMP2/Sound.html)
 for details how to enable sound support and how to include it into your plugin.
 

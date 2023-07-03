@@ -1,17 +1,46 @@
+## Sound Support by X-Plane 12
+
+As of X-Plane 12.04, X-Plane support a new
+[Sound API](https://developer.x-plane.com/sdk/XPLMSound/),
+which allows to have sounds played integrated with X-Plane's sound environment,
+utilizing X-Plane's FMOD instance. Sounds created by XPMP2
+are part of X-Plane's "Environment" set of sounds. Hence, sound volume
+is controlled by the "Environment" slider in X-Plane's
+[Sound settings](https://x-plane.com/manuals/desktop/#configuringthesound).
+
+### XP11 compatibility maintained
+
+XPMP2 [dynamically finds and loads the symbols](https://developer.x-plane.com/sdk/XPLMUtilities/#XPLMFindSymbol)
+to the Sound API functions. This way binary compatibility with XP11 is maintained.
+Although XPMP2 builds with `XPLM400` defined, the resulting binaries
+work in both XP11 and XP12. Certainly, sound is only available in XP12,
+in XP11 planes are shown but emit no sound.
+If you want to support sound in XP11, too, you can link with FMOD directly,
+[see below](#sound-support-by-fmod).
+
+### `WAV` with INT16 or IEEE32 only
+
+X-Plane's Sound API is rather simple. The biggest drawback is that it requires
+the caller to prepare PCM16 data in memory before playing. That means
+XPMP2 needs to read sound files and unpack data into memory.
+So far, XPMP2 implemented only support for `.WAV` files
+containing INT16 or IEEE32 (Float) data. This is sufficient to read
+X-Plane-provided files for the standard sounds XPMP2 supports immediately.
+
 ## Sound Support by FMOD
 
+Alternatively, XPMP2 also supports being linked with the FMOD library directly,
+this way making sound possible also under XP11. Even in XP12, usage
+of its own FMOD instance can be forced via
+configuration key `XPMP_CFG_ITM_FMOD_INSTANCE`.
+
+if built with FMOD library support, then
 XPMP2's Audio Engine is FMOD Core API by Firelight Technologies Pty Ltd.
 
-While X-Plane supports and uses FMOD, too, for aircraft-specific sounds,
-XPMP2 cannot make use of any X-Plane functionality to produce the sounds
-as X-Plane at the moment does not allow to dynamically add sounds
-to instanced objects.
-
-Instead, XPMP2 creates its own fully indepent instance of the FMOD system.
+This way, XPMP2 creates its own fully indepent instance of the FMOD system.
 This also means that XPMP2 has to provide FMOD with all spacial information
 for each aircraft's sound to create a proper 3D sound illusion
-relative to the user's current camera position. Which opens a totally new
-space for potential bugs...
+relative to the user's current camera position.
 
 ### Register with FMOD and Download
 
@@ -25,8 +54,8 @@ at least for Windows and Mac (if you ship on those platforms).
 
 ### Building XPMP2 with FMOD Sound Support
 
-Due to above licencing requirements,
-sound support is only included if XPMP2 is consciously built with
+Due to above licencing requirements, FMOD sound library support
+is only included if XPMP2 is consciously built with
 CMake cache entry `INCLUDE_FMOD_SOUND`, which in turn defines a
 compile-time macro by the same name, e.g. by doing
 ```
@@ -122,7 +151,7 @@ If your plugin supports X-Plane 11 under Windows, then from the downloaded FMOD 
 you need to ship `api/core/lib/x64/fmod.dll` in the plugin's `win_x64` folder.
 See [Deploying](Deploying.html) for details.
 
-### Default Sounds
+## Default Sounds
 
 Your are **not required** to provide any sound-specific coding in your plugin.
 As a matter of fact, the XPMP2-Sample plugin has no single line of code
@@ -162,22 +191,22 @@ The sounds' volume additionally depends on the number of engines,
 which while obvious for the engine sounds is generally an ok indicator
 for the plane's size and hence volume.
 
-### Controlling Sound
+## Controlling Sound
 
 Here are your options to influence sound.
 
-#### Enable/Disable
+### Enable/Disable
 
 Beside using `XPMPSoundEnable()` directly, you can also provides values
 for configuration items `XPMP_CFG_ITM_ACTIVATE_SOUND` and
 `XPMP_CFG_ITM_MUTE_ON_PAUSE` in your configuration callback.
 
-#### General Volume
+### General Volume
 
 `XPMPSoundSetMasterVolume()` and `XPMPSoundMute()` allow controlling
 the volume of XPMP2's sounds generally across all aircraft.
 
-#### Add your own Sounds
+### Add your own Sounds
 
 `XPMPSoundAdd()` allows you to add your own sounds.
 Sounds can be looping (like engine sounds, which play continuously)
@@ -194,7 +223,7 @@ the actual aircraft orientation. The other three cone-specific
 parameters are passed through to FMOD
 (see [set3DConeSettings](https://www.fmod.com/docs/api/core-api-sound.html#sound_set3dconesettings)).
 
-#### Override virtual `Aircraft` member functions
+### Override virtual `Aircraft` member functions
 
 For more control over the sounds your aircraft emit you can override
 `Aircraft`'s virtual member functions:

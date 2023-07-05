@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>XPMP2: Sound Support by FMOD</title>
+<title>XPMP2: Sound Support by X-Plane 12</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -40,17 +40,24 @@ $(function() {
 </div><!-- top -->
 <div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">Sound Support by FMOD </div>  </div>
+<div class="title">Sound Support by X-Plane 12 </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="el" href="namespaceXPMP2.html">XPMP2</a>'s Audio Engine is FMOD Core API by Firelight Technologies Pty Ltd.</p>
-<p>While X-Plane supports and uses FMOD, too, for aircraft-specific sounds, <a class="el" href="namespaceXPMP2.html">XPMP2</a> cannot make use of any X-Plane functionality to produce the sounds as X-Plane at the moment does not allow to dynamically add sounds to instanced objects.</p>
-<p>Instead, <a class="el" href="namespaceXPMP2.html">XPMP2</a> creates its own fully indepent instance of the FMOD system. This also means that <a class="el" href="namespaceXPMP2.html">XPMP2</a> has to provide FMOD with all spacial information for each aircraft's sound to create a proper 3D sound illusion relative to the user's current camera position. Which opens a totally new space for potential bugs...</p>
+<div class="textblock"><p>As of X-Plane 12.04, X-Plane support a new <a href="https://developer.x-plane.com/sdk/XPLMSound/">Sound API</a>, which allows to have sounds played integrated with X-Plane's sound environment, utilizing X-Plane's FMOD instance. Sounds created by <a class="el" href="namespaceXPMP2.html">XPMP2</a> are part of X-Plane's "Environment" set of sounds. Hence, sound volume is controlled by the "Environment" slider in X-Plane's <a href="https://x-plane.com/manuals/desktop/#configuringthesound">Sound settings</a>.</p>
+<h2>XP11 compatibility maintained</h2>
+<p><a class="el" href="namespaceXPMP2.html">XPMP2</a> <a href="https://developer.x-plane.com/sdk/XPLMUtilities/#XPLMFindSymbol">dynamically finds and loads the symbols</a> to the Sound API functions. This way binary compatibility with XP11 is maintained. Although <a class="el" href="namespaceXPMP2.html">XPMP2</a> builds with <code>XPLM400</code> defined, the resulting binaries work in both XP11 and XP12. Certainly, sound is only available in XP12, in XP11 planes are shown but emit no sound. If you want to support sound in XP11, too, you can link with FMOD directly, <a href="#sound-support-by-fmod">see below</a>.</p>
+<h2><code>WAV</code> with certain sample formats only</h2>
+<p>X-Plane's Sound API is rather simple. The biggest drawback is that it requires the caller to prepare PCM16 data in memory before playing. That means <a class="el" href="namespaceXPMP2.html">XPMP2</a> needs to read sound files and unpack data into memory. So far, <a class="el" href="namespaceXPMP2.html">XPMP2</a> implemented only support for <code>WAV</code> files containing INT8, INT16, IEEE32 (Float), or IEEE64 (Double) sample data for a maximum 2 channels (ie. mono or stereo). These are rather common <code>WAV</code> formats, though. They are sufficient to read X-Plane-provided files from <code>X-Plane/Resources/sounds</code> for the standard sounds <a class="el" href="namespaceXPMP2.html">XPMP2</a> supports immediately.</p>
+<h1><a class="anchor" id="autotoc_md42"></a>
+Sound Support by FMOD</h1>
+<p>Alternatively, <a class="el" href="namespaceXPMP2.html">XPMP2</a> also supports being linked with the FMOD library directly, this way making sound possible also under XP11. Even in XP12, usage of its own FMOD instance can be forced via configuration key <code>XPMP_CFG_ITM_FMOD_INSTANCE</code>.</p>
+<p>if built with FMOD library support, then <a class="el" href="namespaceXPMP2.html">XPMP2</a>'s Audio Engine is FMOD Core API by Firelight Technologies Pty Ltd.</p>
+<p>This way, <a class="el" href="namespaceXPMP2.html">XPMP2</a> creates its own fully indepent instance of the FMOD system. This also means that <a class="el" href="namespaceXPMP2.html">XPMP2</a> has to provide FMOD with all spacial information for each aircraft's sound to create a proper 3D sound illusion relative to the user's current camera position.</p>
 <h2>Register with FMOD and Download</h2>
 <p>Understand FMOD <a href="https://www.fmod.com/licensing">licensing</a> and <a href="https://www.fmod.com/attribution">attribution requirements</a> first, as they will apply to <em>your</em> plugin if using <a class="el" href="namespaceXPMP2.html">XPMP2</a> with sound support.</p>
 <p>You will need to <a href="https://www.fmod.com/profile/register">register a user with FMOD</a>, then sign in and <a href="https://www.fmod.com/download#fmodengine">download the latest FMOD Core API</a> at least for Windows and Mac (if you ship on those platforms).</p>
 <h2>Building <a class="el" href="namespaceXPMP2.html">XPMP2</a> with FMOD Sound Support</h2>
-<p>Due to above licencing requirements, sound support is only included if <a class="el" href="namespaceXPMP2.html">XPMP2</a> is consciously built with CMake cache entry <code>INCLUDE_FMOD_SOUND</code>, which in turn defines a compile-time macro by the same name, e.g. by doing </p><div class="fragment"><div class="line">cmake -G Ninja -DINCLUDE_FMOD_SOUND=1 ..</div>
+<p>Due to above licencing requirements, FMOD sound library support is only included if <a class="el" href="namespaceXPMP2.html">XPMP2</a> is consciously built with CMake cache entry <code>INCLUDE_FMOD_SOUND</code>, which in turn defines a compile-time macro by the same name, e.g. by doing </p><div class="fragment"><div class="line">cmake -G Ninja -DINCLUDE_FMOD_SOUND=1 ..</div>
 </div><!-- fragment --><p> The Docker <code>Makefile</code> allows passing CMake parameters via the <code>FLAGS</code> macro: </p><div class="fragment"><div class="line">make FLAGS=-DINCLUDE_FMOD_SOUND=1 {...platform(s)...}</div>
 </div><!-- fragment --><p> The GitHub Actions triggered by default are building without FMOD support, too. Running "Build all Platforms" manually, though, allows to specify <code>FLAGS</code>.</p>
 <h2>Including FMOD Sound Support in Your Plugin</h2>
@@ -97,7 +104,8 @@ $(function() {
 <div class="line">}</div>
 </div><!-- fragment --><h2>Ship <code>fmod.dll</code></h2>
 <p>If your plugin supports X-Plane 11 under Windows, then from the downloaded FMOD Core API you need to ship <code>api/core/lib/x64/fmod.dll</code> in the plugin's <code>win_x64</code> folder. See <a href="Deploying.html">Deploying</a> for details.</p>
-<h2>Default Sounds</h2>
+<h1><a class="anchor" id="autotoc_md43"></a>
+Default Sounds</h1>
 <p>Your are <b>not required</b> to provide any sound-specific coding in your plugin. As a matter of fact, the XPMP2-Sample plugin has no single line of code that controls sound (there is only some sample code to enumerate the loaded sounds into <code>Log.txt</code>, purely for my personal testing purposes). And even the way more complex LiveTraffic only adds a Master Volume control and the required FMOD logo display, but no line of sound control to its aircraft class.</p>
 <p>Once built with sound support, <a class="el" href="namespaceXPMP2.html">XPMP2</a> provides a lot of sounds by default. <a class="el" href="namespaceXPMP2.html">XPMP2</a> distinguishes 5 sound types, see <code><a class="el" href="classXPMP2_1_1Aircraft.html#a53148678cb692403b734b005fe78f336" title="Types of sound supported directly by XPMP2.">XPMP2::Aircraft::SoundEventsTy</a></code>, and plays sounds that are included in any X-Plane installation's <code>Resources/sounds</code> folders based on the level of certain dataRefs:</p>
 <table class="markdownTable">
@@ -134,16 +142,17 @@ $(function() {
 <td class="markdownTableBodyNone"><code>T??</code>   </td><td class="markdownTableBodyNone">Turboprop   </td><td class="markdownTableBodyNone"><code>XP_SOUND_TURBOPROP</code>   </td></tr>
 </table>
 <p>The sounds' volume additionally depends on the number of engines, which while obvious for the engine sounds is generally an ok indicator for the plane's size and hence volume.</p>
-<h2>Controlling Sound</h2>
+<h1><a class="anchor" id="autotoc_md44"></a>
+Controlling Sound</h1>
 <p>Here are your options to influence sound.</p>
-<h3>Enable/Disable</h3>
+<h2>Enable/Disable</h2>
 <p>Beside using <code><a class="el" href="XPMPMultiplayer_8h.html#ada05d290bf58a20dd3d5eb6df9ec63b2" title="Enable/Disable Sound.">XPMPSoundEnable()</a></code> directly, you can also provides values for configuration items <code>XPMP_CFG_ITM_ACTIVATE_SOUND</code> and <code>XPMP_CFG_ITM_MUTE_ON_PAUSE</code> in your configuration callback.</p>
-<h3>General Volume</h3>
+<h2>General Volume</h2>
 <p><code><a class="el" href="XPMPMultiplayer_8h.html#a280d1a336529b2515b74d0d1684f0647" title="Set Master Volume.">XPMPSoundSetMasterVolume()</a></code> and <code><a class="el" href="XPMPMultiplayer_8h.html#a4bd3405ad71d776c058df6aaac6c0e52" title="Mute all sounds (temporarily)">XPMPSoundMute()</a></code> allow controlling the volume of <a class="el" href="namespaceXPMP2.html">XPMP2</a>'s sounds generally across all aircraft.</p>
-<h3>Add your own Sounds</h3>
+<h2>Add your own Sounds</h2>
 <p><code><a class="el" href="XPMPMultiplayer_8h.html#a312fc6a5b8b9389386606f89eaf69d6c" title="Add a sound that can later be referenced from an XPMP2::Aircraft.">XPMPSoundAdd()</a></code> allows you to add your own sounds. Sounds can be looping (like engine sounds, which play continuously) or one-time sounds.</p>
 <p>The function optionally also allows to define <b>sound cone</b> parameters. A sound cone basically is a cone-shaped area, in which the sound is heared with full volume, while outside of it the sound is reduced (attenuated) to a lower volume. The default sounds use that for the jet eingine sounds, which are louder <em>behind</em> the aircraft. <code>coneDir</code> and <code>conePitch</code> are defined relative to the aircraft's heading. <a class="el" href="namespaceXPMP2.html">XPMP2</a> takes care of orientating the actual sound cone dynamically with the actual aircraft orientation. The other three cone-specific parameters are passed through to FMOD (see <a href="https://www.fmod.com/docs/api/core-api-sound.html#sound_set3dconesettings">set3DConeSettings</a>).</p>
-<h3>Override virtual <code>Aircraft</code> member functions</h3>
+<h2>Override virtual <code>Aircraft</code> member functions</h2>
 <p>For more control over the sounds your aircraft emit you can override <code>Aircraft</code>'s virtual member functions:</p>
 <ul>
 <li><code>Aircraft::SoundSetup()</code> is called after aircraft creation once the CSL model to use is determined; called again after CSL model changes. Use to define/override some defaults. Is a good place to set <code>aSndCh[SoundEventsTy].bAuto = false</code> in case you want to have full control over any of the pre-defined sound types.</li>

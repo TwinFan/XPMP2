@@ -262,22 +262,47 @@ void SoundWAV::WavRead ()
             bufferSize = numSamples * sizeof(int16_t);
             pWritePos = pBuf = (int16_t*)malloc(bufferSize);
         }
-        if (!pBuf || !pWritePos) throw std::runtime_error("Could not allocate memory for WAV data");
+        if (!pBuf || !pWritePos) throw std::runtime_error("Could not allocate memory for PCM16 data");
+        
         // If the WAV file is originally in PCM16 data, then read directly to the target buffer
         if (wavFmt.AudioFormat == 1 && wavFmt.BitsPerSample == 16) {
             size_t numRead = fread(pWritePos, sizeof(int16_t), numSamples, f.f);
             if (numRead != numSamples)
                 throw std::runtime_error("Less PCM16 samples than expected");
         }
-        // Convert IEEE32
+
+        // Convert PCM8 data (seem to be unsigned data with 0x80 = 0)
+        else if (wavFmt.AudioFormat == 1 && wavFmt.BitsPerSample == 8) {
+            uint8_t iVal;
+            for (uint32_t i = 0; i < numSamples; ++i) {
+                if (fread(&iVal, sizeof(iVal), 1, f.f) != 1)
+                    throw std::runtime_error("Less PCM8 samples than expected");
+                pWritePos[i] = (int16_t(iVal) - 0x0080) * 0x0100;
+            }
+        }
+
+        // Convert IEEE32 (float)
         else if (wavFmt.AudioFormat == 3 && wavFmt.BitsPerSample == 32) {
             float fVal;
+            static_assert(sizeof(float) == 4, "'float' isn't 32bits");
             for (uint32_t i = 0; i < numSamples; ++i) {
                 if (fread(&fVal, sizeof(fVal), 1, f.f) != 1)
                     throw std::runtime_error("Less IEEE32 samples than expected");
                 pWritePos[i] = (int16_t)std::lroundf(fVal * INT16_MAX);
             }
         }
+
+        // Convert IEEE64 (double)
+        else if (wavFmt.AudioFormat == 3 && wavFmt.BitsPerSample == 64) {
+            double dVal;
+            static_assert(sizeof(double) == 8, "'double' isn't 64bits");
+            for (uint32_t i = 0; i < numSamples; ++i) {
+                if (fread(&dVal, sizeof(dVal), 1, f.f) != 1)
+                    throw std::runtime_error("Less IEEE64 samples than expected");
+                pWritePos[i] = (int16_t)std::lround(dVal * INT16_MAX);
+            }
+        }
+
         // Unknown
         else {
             LOG_MSG(logERR, "Unknown WAV sample format: Audio Format = %u, Bits per Sample = %u, in %s",
@@ -462,6 +487,10 @@ uint64_t SoundSystemXP::Play (const std::string& sndName, float vol, const Aircr
         ChnSetVol(*pChn);
         
         return sndId;
+    }
+    catch (const std::out_of_range& e) {
+        LOG_MSG(logERR, "Sound '%s' not found, cannot play",
+                sndName.c_str());
     }
     catch (const std::runtime_error& e) {
         LOG_MSG(logERR, "Could not play sound '%s': %s",

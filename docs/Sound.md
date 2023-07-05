@@ -18,14 +18,17 @@ in XP11 planes are shown but emit no sound.
 If you want to support sound in XP11, too, you can link with FMOD directly,
 [see below](#sound-support-by-fmod).
 
-### `WAV` with INT16 or IEEE32 only
+### `WAV` with certain sample formats only
 
 X-Plane's Sound API is rather simple. The biggest drawback is that it requires
 the caller to prepare PCM16 data in memory before playing. That means
 XPMP2 needs to read sound files and unpack data into memory.
-So far, XPMP2 implemented only support for `.WAV` files
-containing INT16 or IEEE32 (Float) data. This is sufficient to read
-X-Plane-provided files for the standard sounds XPMP2 supports immediately.
+So far, XPMP2 implemented only support for `WAV` files
+containing INT8, INT16, IEEE32 (Float), or IEEE64 (Double) sample data
+for a maximum 2 channels (ie. mono or stereo).
+These are rather common `WAV` formats, though. They are sufficient
+to read X-Plane-provided files from `X-Plane/Resources/sounds` for the
+standard sounds XPMP2 supports immediately.
 
 ## Sound Support by FMOD
 

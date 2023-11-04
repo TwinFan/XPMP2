@@ -67,9 +67,6 @@
 // MARK: XPMP2 New Definitions
 //
 
-struct FMOD_CHANNELGROUP;                       ///< Defined by FMOD
-struct FMOD_CHANNEL;                            ///< Defined by FMOD
-
 namespace XPMP2 {
 
 class CSLModel;                                 ///< Defined by XPMP2 internally
@@ -202,6 +199,9 @@ public:
     ///          GetVertOfs() for accurate placement on the ground
     XPLMDrawInfo_t drawInfo;
     
+    /// Cartesian velocity in m/s per axis, updated at least once per second
+    float               v_x = 0.0f, v_y = 0.0f, v_z = 0.0f;
+
     /// Is the aircraft on the ground?
     bool        bOnGrnd = false;
 
@@ -285,7 +285,6 @@ protected:
     // this is data from about a second ago to calculate cartesian velocities
     float               prev_x = 0.0f, prev_y = 0.0f, prev_z = 0.0f;
     float               prev_ts = 0.0f;     ///< last update of `prev_x/y/z` in XP's network time
-    float               v_x = 0.0f, v_y = 0.0f, v_z = 0.0f; ///< Cartesian velocity in m/s per axis
     float               gs_kn = 0.0f;       /// ground speed in [kn] based on above v_x/z
     
     /// Reverse-engineered lat/lon/alt, updated only once per second
@@ -316,7 +315,6 @@ protected:
     float               mapY = 0.0f;        ///< temporary: map coordinates (NAN = not to be drawn)
     std::string         mapLabel;           ///< label for map drawing
     
-#ifdef INCLUDE_FMOD_SOUND
     // *** Sound support ***
 public:
     /// Types of sound supported directly by XPMP2
@@ -328,13 +326,13 @@ public:
         SND_FLAPS,                          ///< Flaps extending/retracting (once per event), bases on GetFlapRatio()
         SND_NUM_EVENTS                      ///< Number of events (always last in `enum`)
     };
-    /// List of FMOD channels, also beyond sounds created for SoundEvetsTy
-    typedef std::list<FMOD_CHANNEL*> ChnListTy;
+    /// List of sound channel ids, also beyond sounds created for SoundEventsTy
+    typedef std::list<uint64_t> ChnListTy;
     
     /// Operational values per sound channel, that is triggered by a standard sound event
     struct SndChTy {
         bool bAuto = true;                  ///< Shall this sound event be handled automatically? (Set to false in your constructor or in Aircraft::SoundSetup() if you want to control that event type yourself)
-        FMOD_CHANNEL* pChn = nullptr;       ///< channel playing the sound currently
+        uint64_t chnId = 0;                 ///< id of channel playing the sound currently
         float lastDRVal = NAN;              ///< last observed dataRef value to see if sound is to be triggered
         float volAdj = 1.0f;                ///< Volume adjustment, fed from Aircraft::SoundGetName()
     };
@@ -346,15 +344,12 @@ public:
 protected:
     /// Operational values per sound channel, that is triggered by a standard sound event
     SndChTy aSndCh[SND_NUM_EVENTS];
-    /// Is Low Pass Filter currently being active?
-    bool                bChnLowPass = false;
     /// Is sound for this aircraft currently muted?
     bool                bChnMuted = false;
     /// List of channels produced via calls to SoundPlay()
     ChnListTy           chnList;
     /// Counts how often we skipped expensive computations
     int                 skipCounter = 0;
-#endif // INCLUDE_FMOD_SOUND
     
 private:
     bool bDestroyInst           = false;    ///< Instance to be destroyed in next flight loop callback?
@@ -703,29 +698,30 @@ public:
     /// Actually draw the map label
     void MapDrawLabel (XPLMMapLayerID inLayer, float yOfs);
     
-#ifdef INCLUDE_FMOD_SOUND
     /// @}
     /// @name Sound Support
-    /// @note Implemented in Sound.cpp only if built with `INCLUDE_FMOD_SOUND`
+    /// @note Implemented in Sound.cpp
     /// @{
 
     /// @brief Play a sound; a looping sound plays until explicitely stopped
     /// @param sndName One of the sounds available or registered with XPMP2, see XPMPSoundAdd() and XPMPSoundEnumerate()
     /// @param vol [opt] Volume level. 0 = silent, 1 = full. Negative level inverts the signal. Values larger than 1 amplify the signal.
-    /// @returns an FMOD sound channel, or `nullptr` if unsuccessful
-    FMOD_CHANNEL* SoundPlay (const std::string& sndName, float vol = 1.0f);
+    /// @returns an internal id for the sound channel, or `0` if unsuccessful
+    uint64_t SoundPlay (const std::string& sndName, float vol = 1.0f);
     
     /// @brief Stop a continuously playing sound
-    /// @param pChn The channel returned by SoundLoopPlay()
-    void SoundStop (FMOD_CHANNEL* pChn);
+    /// @param chnId The channel's id returned by SoundPlay()
+    void SoundStop (uint64_t chnId);
     
     /// @brief Sets the sound's volume (after applying master volume and Sound File's adjustments)
-    /// @param pChn The channel returned by SoundLoopPlay()
+    /// @param chnId The channel's id returned by SoundPlay()
     /// @param vol Volume level. 0 = silent, 1 = full. Negative level inverts the signal. Values larger than 1 amplify the signal.
-    void SoundVolume (FMOD_CHANNEL* pChn, float vol);
+    void SoundVolume (uint64_t chnId, float vol);
     
     /// @brief Mute/Unmute all sounds of the airplane temporarily
     void SoundMuteAll (bool bMute);
+    /// @brief Are all sounds currently muted?
+    bool SoundIsMuted() const { return bChnMuted; }
     
     /// @brief Returns the name of the sound to play per event
     /// @details This standard implementation determines the engine sound via
@@ -736,7 +732,6 @@ public:
     /// @param[out] volAdj Volume adjustment factor, allows to make sound louder (>1.0) or quiter, defaults to 1.0
     /// @returns Name of the sound to play, empty string if no sound shall play
     virtual std::string SoundGetName (SoundEventsTy sndEvent, float& volAdj) const;
-#endif
 
 protected:
 
@@ -780,9 +775,8 @@ protected:
     friend size_t AIUpdateTCASTargets ();
     friend size_t AIUpdateMultiplayerDataRefs ();
     
-#ifdef INCLUDE_FMOD_SOUND
     /// @name Sound Support (internal)
-    /// @note Implemented in Sound.cpp only if built with `INCLUDE_FMOD_SOUND`
+    /// @note Implemented in Sound.cpp
     /// @{
 
     /// Sound-related initializations, called by Create() and ChangeModel()
@@ -793,7 +787,6 @@ protected:
     virtual void SoundRemoveAll ();
     
     /// @}
-#endif
 };
 
 /// Find aircraft by its plane ID, can return nullptr

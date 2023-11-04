@@ -11,12 +11,12 @@ Content and availability status:
   - [X] [TCAS Target and AI/multiplayer support](TCAS.html)
   - [ ] Additional map layer
   - [X] [Wake Turbulence Support](Wake.html)
-  - [X] [Sound Support by FMOD](Sound.html)
+  - [X] [Sound Support](Sound.html), by X-Plane 12 or via FMOD sound library
   - [X] [Contrails](Contrails.html)
   - [X] [Shared dataRefs](SharedDataRefs.html) providing textual aircraft / flight information to interested 3rd party plugins
   - [X] [XPMP2 Remote](Remote.html) functionality
 - [ ] Coding, Building, Deployment
-  - [X] [Building](Building.html) XPMP2, the XPMP2 Remote Client, and the Sample plugin
+  - [X] [Building](Building.html) XPMP2, and the Sample plugin
   - [X] Brief ["HowTo" guide](HowTo.html)
   - [X] Doxgen-generated [code documentation](html/index.html)
   - [ ] Provide some general "how it works" background, can base on kuronekos wiki (but shorter) and on some of [my additions](https://github.com/TwinFan/libxplanemp/wiki#changes-to-multiplayeraitcas-handling)
@@ -31,8 +31,8 @@ Content and availability status:
 - XPMP2 implements [instancing](https://developer.x-plane.com/sdk/XPLMInstance/),
   so it **requires X-Plane 11.10** or later
 - CSL models in **OBJ8 format** (ie. older OBJ7 models are no longer supported)
-- Potentially an FMOD license if built with sound support, see below in
-  [Sound Support by FMOD](#sound-support-by-fmod)
+- Potentially an FMOD license if built with FMOD sound support, see
+  [Sound Support](Sound.html)
 
 ## Coding, Building, Deployment
 

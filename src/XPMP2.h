@@ -63,6 +63,12 @@
 #include <regex>
 #include <bitset>
 
+// FMOD Sound, must be included before XPLMSound.h
+#if INCLUDE_FMOD_SOUND + 0 >= 1
+#include "fmod_errors.h"            // This one includes everything for the CORE API
+#include "fmod_studio.h"
+#endif
+
 // X-Plane SDK
 #include "XPLMUtilities.h"
 #include "XPLMScenery.h"
@@ -74,6 +80,7 @@
 #include "XPLMCamera.h"
 #include "XPLMPlanes.h"
 #include "XPLMMap.h"
+#include "XPLMSound.h"
 
 // XPlaneMP 2 - Internal Header Files
 #include "Utilities.h"
@@ -87,6 +94,9 @@
 #include "Network.h"
 #include "Remote.h"
 #include "Sound.h"
+#if INCLUDE_FMOD_SOUND + 0 >= 1
+#include "SoundFMOD.h"
+#endif
 
 //
 // MARK: Global Configurations and variables

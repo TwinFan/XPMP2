@@ -54,14 +54,13 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a> represents an aircraft as managed by <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>.  
+<p><a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a> represents an aircraft as managed by <a class="el" href="namespaceXPMP2.html">XPMP2</a>.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="XPMP2_8h_source.html">XPMP2.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespaceXPMP2"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html">XPMP2</a></td></tr>
-<tr class="memdesc:namespaceXPMP2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defined by FMOD. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
@@ -139,8 +138,8 @@ Variables</h2></td></tr>
 <tr class="separator:a3d657a6d1c1d533195c3c526f25a762e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a> represents an aircraft as managed by <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>. </p>
-<dl class="section note"><dt>Note</dt><dd>This class bases on and is compatible to the <a class="el" href="classXPCAircraft.html" title="Legacy wrapper class as provided by original libxplanemp.">XPCAircraft</a> wrapper class provided with the original libxplanemp. In <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>, however, this class is not a wrapper but the actual means of managing aircraft. Hence, it includes a lot more members. </dd></dl>
+<div class="textblock"><p><a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a> represents an aircraft as managed by <a class="el" href="namespaceXPMP2.html">XPMP2</a>. </p>
+<dl class="section note"><dt>Note</dt><dd>This class bases on and is compatible to the <a class="el" href="classXPCAircraft.html" title="Legacy wrapper class as provided by original libxplanemp.">XPCAircraft</a> wrapper class provided with the original libxplanemp. In <a class="el" href="namespaceXPMP2.html">XPMP2</a>, however, this class is not a wrapper but the actual means of managing aircraft. Hence, it includes a lot more members. </dd></dl>
 <dl class="section author"><dt>Author</dt><dd>Birger Hoppe </dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>The original <a class="el" href="XPCAircraft_8h.html" title="XPMP2::Aircraft / XPCAircraft represent an aircraft as managed by XPMP2.">XPCAircraft.h</a> file in libxplanemp had no copyright note. </dd>
 <dd>
@@ -392,14 +391,14 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 </div><div class="memdoc">
 
 <p>Add a user-defined dataRef to the list of dataRefs supported by every plane. </p>
-<p>All planes created by <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> define the same set of dataRefs. See <a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6f" title="The dataRefs provided by XPMP2 to the CSL models.">XPMP2::DR_VALS</a> for the definitions that come pre-defined with <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>. Here you can add more dataRefs that you want to set in your <a class="el" href="classXPMP2_1_1Aircraft.html#a021df5cf849d0bfc7468b84d2ba731e6" title="Called right before updating the aircraft&#39;s placement in the world.">XPMP2::Aircraft::UpdatePosition()</a> implementation. </p><dl class="section return"><dt>Returns</dt><dd>The functions returns the array index you need to use in the <a class="el" href="classXPMP2_1_1Aircraft.html#a8c2ccee83b592cd2a7064a380c660c5b" title="actual dataRef values to be provided to the CSL model">XPMP2::Aircraft::v</a> array to provide the actual value. Or <code>0</code> when an error occured. </dd></dl>
+<p>All planes created by <a class="el" href="namespaceXPMP2.html">XPMP2</a> define the same set of dataRefs. See <a class="el" href="namespaceXPMP2.html#ad6d6ee38cd64999ab35363f200e08a6f" title="The dataRefs provided by XPMP2 to the CSL models.">XPMP2::DR_VALS</a> for the definitions that come pre-defined with <a class="el" href="namespaceXPMP2.html">XPMP2</a>. Here you can add more dataRefs that you want to set in your <a class="el" href="classXPMP2_1_1Aircraft.html#a021df5cf849d0bfc7468b84d2ba731e6" title="Called right before updating the aircraft&#39;s placement in the world.">XPMP2::Aircraft::UpdatePosition()</a> implementation. </p><dl class="section return"><dt>Returns</dt><dd>The functions returns the array index you need to use in the <a class="el" href="classXPMP2_1_1Aircraft.html#a8c2ccee83b592cd2a7064a380c660c5b" title="actual dataRef values to be provided to the CSL model">XPMP2::Aircraft::v</a> array to provide the actual value. Or <code>0</code> when an error occured. </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>There is a duplication check: Adding an already existing dataRef, no matter if XPMP2-predefined or by the plugin will return the already existing index. </dd>
 <dd>
 Can only be called while no plane exists as it influence the size of important data arrays. Returns <code>0</code> if called while planes exist. </dd>
 <dd>
 Can only be called from XP's main thread as XPLM SDK functions are called. Returns <code>0</code> if called from a worker thread. </dd>
 <dd>
-User-defined dataRefs are <em>not</em> transfered to the <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> Remote Client for display on network-connected X-Plane instances. </dd></dl>
+User-defined dataRefs are <em>not</em> transfered to the <a class="el" href="namespaceXPMP2.html">XPMP2</a> Remote Client for display on network-connected X-Plane instances. </dd></dl>
 
 </div>
 </div>

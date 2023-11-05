@@ -150,7 +150,7 @@ const char *    XPMPMultiplayerInit(const char* inPluginName,
 
     // Get X-Plane's version numbers
     glob.ReadVersions();    
-#ifdef INCLUDE_FMOD_SOUND
+#if INCLUDE_FMOD_SOUND + 0 >= 1
     const char* const sWelcome = "XPMP2 %d.%d.%d with FMOD sound support initializing under X-Plane version %d/%s and XPLM version %d";
 #else
     const char* const sWelcome = "XPMP2 %d.%d.%d initializing under X-Plane version %d/%s and XPLM version %d";
@@ -179,10 +179,8 @@ const char *    XPMPMultiplayerInit(const char* inPluginName,
     AIMultiInit();
     MapInit();
     RemoteInit();
-#ifdef INCLUDE_FMOD_SOUND
     if (glob.bSoundOnStartup)
         XPMPSoundEnable(true);
-#endif
     
     // Load related.txt
     ret = RelatedLoad(glob.pathRelated);
@@ -217,9 +215,7 @@ void XPMPMultiplayerCleanup()
     LOG_MSG(logINFO, "XPMP2 cleaning up...")
 
     // Cleanup all modules in revers order of initialization
-#ifdef INCLUDE_FMOD_SOUND
     SoundCleanup();
-#endif
     RemoteCleanup();
     MapCleanup();
     AIMultiCleanup();

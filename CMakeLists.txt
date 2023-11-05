@@ -29,7 +29,7 @@ else()
 endif()
 
 project(XPMP2
-        VERSION 3.1.1
+        VERSION 3.3.0
         DESCRIPTION "Multiplayer library for X-Plane 11 and 12")
 
 # Provide compile macros from the above project version definition
@@ -63,9 +63,10 @@ if (WIN32)
         set(ENV{platform} "win")
     endif()
 elseif(APPLE)
-    set(CMAKE_OSX_DEPLOYMENT_TARGET 11.0)
-    add_compile_options(-mmacosx-version-min=11.0)
-    add_link_options(-mmacosx-version-min=11.0)
+    # MacOS 10.15 is minimum system requirement for X-Plane 12
+    set(CMAKE_OSX_DEPLOYMENT_TARGET 10.15)
+    add_compile_options(-mmacosx-version-min=10.15)
+    add_link_options(-mmacosx-version-min=10.15)
 endif()
 
 ################################################################################
@@ -81,7 +82,7 @@ set_property(GLOBAL PROPERTY CXX_STANDARD 17)
 ################################################################################
 
 # Enable all X-Plane SDK APIs up to the newest version.
-add_compile_definitions(XPLM200=1 XPLM210=1 XPLM300=1 XPLM301=1 XPLM303=1)
+add_compile_definitions(XPLM200=1 XPLM210=1 XPLM300=1 XPLM301=1 XPLM303=1 XPLM400=1)
 
 # Define platform macros.
 add_compile_definitions(APL=$<BOOL:${APPLE}> IBM=$<BOOL:${WIN32}> LIN=$<AND:$<BOOL:${UNIX}>,$<NOT:$<BOOL:${APPLE}>>>)
@@ -161,6 +162,8 @@ add_library(XPMP2 STATIC
     src/RelatedDoc8643.cpp
     src/Remote.h
     src/Remote.cpp
+    src/Sound.h
+    src/Sound.cpp
     src/Utilities.h
     src/Utilities.cpp
     src/XPMP2.h
@@ -175,6 +178,7 @@ target_include_directories(XPMP2
 	PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/inc
     PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/lib/fmod/inc
 		${CMAKE_CURRENT_SOURCE_DIR}/lib/SDK/CHeaders/XPLM
 		${CMAKE_CURRENT_SOURCE_DIR}/src
 )
@@ -196,11 +200,10 @@ endif()
 # (The actual FMOD lib is not included here, that needs to be done by the plugin target)
 if(INCLUDE_FMOD_SOUND)
     # Compile options
-    add_compile_definitions(INCLUDE_FMOD_SOUND)
-    target_include_directories(XPMP2 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lib/fmod/inc)
+    add_compile_definitions(INCLUDE_FMOD_SOUND=1)
     target_sources(XPMP2 PRIVATE
-        src/Sound.h
-        src/Sound.cpp
+        src/SoundFMOD.h
+        src/SoundFMOD.cpp
     )
 endif()
 

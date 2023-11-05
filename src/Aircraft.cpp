@@ -290,10 +290,9 @@ void Aircraft::Create (const std::string& _icaoType,
         ChangeModel(_icaoType, _icaoAirline, _livery);
     LOG_ASSERT(pCSLMdl);
     
-#ifdef INCLUDE_FMOD_SOUND
     // Setup sound for this aircraft
     SoundSetup();
-#endif
+
     // Initialize contrail life time from global config
     contrailLifeTime = unsigned(glob.contrailLifeTime);
 
@@ -406,9 +405,7 @@ int Aircraft::ChangeModel (const std::string& _icaoType,
     
     // inform observers in case this was an actual replacement change
     if (bChangeExisting) {
-#ifdef INCLUDE_FMOD_SOUND
         SoundSetup();
-#endif
         XPMPSendNotification(*this, xpmp_PlaneNotification_ModelChanged);
     }
 
@@ -516,10 +513,8 @@ float Aircraft::FlightLoopCB(float _elapsedSinceLastCall, float, int _flCounter,
         const float now = GetMiscNetwTime();
         RemoteAcEnqueueStarts(now);            // give remote model the chance for some prep work
 
-#ifdef INCLUDE_FMOD_SOUND
         // Tell Sound module that we are about to start updaing
         SoundUpdatesBegin();
-#endif
 
         // Update positional and configurational values
         for (mapAcTy::value_type& pair : glob.mapAc) {
@@ -557,10 +552,8 @@ float Aircraft::FlightLoopCB(float _elapsedSinceLastCall, float, int _flCounter,
         // Tell remote module that we are done updated a/c so it can send out last pending messages
         RemoteAcEnqueueDone();
         
-#ifdef INCLUDE_FMOD_SOUND
         // Tell Sound module that we are done updating
         SoundUpdatesDone();
-#endif
         
         // Publish aircraft data on the AI/multiplayer dataRefs
         AIMultiUpdate();
@@ -568,9 +561,7 @@ float Aircraft::FlightLoopCB(float _elapsedSinceLastCall, float, int _flCounter,
     catch (const std::exception& e) {
         LOG_MSG(logFATAL, ERR_EXCEPTION, e.what());
         RemoteAcEnqueueDone();          // must make sure to release a lock
-#ifdef INCLUDE_FMOD_SOUND
         SoundUpdatesDone();
-#endif
     }
 
     // Don't call me again if there are no more aircraft,
@@ -597,10 +588,8 @@ void Aircraft::DoMove ()
                  XPLMInstanceSetPosition(hInst, &drawInfo, v.data());
             // Move/create contrails
             ContrailMove();
-#ifdef INCLUDE_FMOD_SOUND
             // Update Sound
             SoundUpdate();
-#endif
         }
     }
 }
@@ -707,10 +696,8 @@ void Aircraft::DestroyInstances ()
         return;
     }
     
-#ifdef INCLUDE_FMOD_SOUND
     // Remove all sound
     SoundRemoveAll();
-#endif
     
     // Remove Contrails
     ContrailRemove();

@@ -203,14 +203,10 @@ void GlobVars::UpdateCfgVals ()
     contrailLifeTime  = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_CONTR_LIFE,    contrailLifeTime);
     contrailMulti     = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_CONTR_MULTI,   contrailMulti) != 0;
     
-#ifdef INCLUDE_FMOD_SOUND
     // Ask for enabling sound and mute-on-pause
     bSoundOnStartup = prefsFuncInt(XPMP_CFG_SEC_SOUND, XPMP_CFG_ITM_ACTIVATE_SOUND, bSoundOnStartup) != 0;
+    bSoundForceFmodInstance = prefsFuncInt(XPMP_CFG_SEC_SOUND, XPMP_CFG_ITM_FMOD_INSTANCE, bSoundForceFmodInstance) != 0;
     bSoundMuteOnPause = prefsFuncInt(XPMP_CFG_SEC_SOUND, XPMP_CFG_ITM_MUTE_ON_PAUSE, bSoundMuteOnPause) != 0;
-#else
-    bSoundOnStartup = false;
-    bSoundMuteOnPause = false;
-#endif
 
     // Ask for model matching logging
     bLogMdlMatch = prefsFuncInt(XPMP_CFG_SEC_DEBUG, XPMP_CFG_ITM_MODELMATCHING, bLogMdlMatch) != 0;

@@ -40,12 +40,12 @@ $(function() {
 </div><!-- top -->
 <div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">Building <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> and the Sample Plugin </div>  </div>
+<div class="title">Building <a class="el" href="namespaceXPMP2.html">XPMP2</a> and the Sample Plugin </div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>The <a href="https://github.com/TwinFan/XPMP2">XPMP2 Library</a> and the [XPMP2-Sample plugin]/https://github.com/TwinFan/XPMP2-Sample) are now two separate GitHub repositories.</p>
-<p>It is recommended that you include <code><a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a></code> as a submodule in your project.</p>
-<p>The <code>XPMP2-Sample</code> repo is configured as a <em>Public Template</em>, so you can immediately <a href="https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template">base your own project on it</a>. Please note that <code>XPMP2-Sample</code> includes <code><a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a></code> as a submodule, so you need to checkout those, too, e.g. on the command line by doing </p><div class="fragment"><div class="line">git clone --recurse-submodules https://github.com/TwinFan/XPMP2-Sample</div>
+<p>It is recommended that you include <code><a class="el" href="namespaceXPMP2.html">XPMP2</a></code> as a submodule in your project.</p>
+<p>The <code>XPMP2-Sample</code> repo is configured as a <em>Public Template</em>, so you can immediately <a href="https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template">base your own project on it</a>. Please note that <code>XPMP2-Sample</code> includes <code><a class="el" href="namespaceXPMP2.html">XPMP2</a></code> as a submodule, so you need to checkout those, too, e.g. on the command line by doing </p><div class="fragment"><div class="line">git clone --recurse-submodules https://github.com/TwinFan/XPMP2-Sample</div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md2"></a>
 Build options</h1>
 <p>Both repositories share many similarities when it comes to building. There are four options to build from sources:</p>
@@ -73,13 +73,13 @@ Using an IDE</h1>
 <p>Results are in <code>build-win</code>.</p>
 <h2>MacOS</h2>
 <p>My development environment is Mac OS, so expect the XCode environment to be maintained best. Open <code>XPMP2.xcodeproj</code> resp. <code>XPMP2-Sample.xcodeproj</code> in XCode.</p>
-<p>In the <code>XPMP2-Sample</code> XCode Build Settings you may want to change the definition of the User-Defined build macro <code>XPLANE11_ROOT</code>: Put in the path to your X-Plane 11 installation's root path, then the <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> binaries will be installed right there in the appropriate <code>Resources/plugins</code> sub-folder structure.</p>
+<p>In the <code>XPMP2-Sample</code> XCode Build Settings you may want to change the definition of the User-Defined build macro <code>XPLANE11_ROOT</code>: Put in the path to your X-Plane 11 installation's root path, then the <a class="el" href="namespaceXPMP2.html">XPMP2</a> binaries will be installed right there in the appropriate <code>Resources/plugins</code> sub-folder structure.</p>
 <h1><a class="anchor" id="autotoc_md4"></a>
 Using Docker</h1>
 <p>Docker environments based on Ubuntu 20.04 and 18.04 are used, which can build all 3 platforms, Linux even in two flavors.</p>
 <ul>
 <li>Install <a href="https://www.docker.com/products/docker-desktop">Docker Desktop</a> and start it.</li>
-<li><code>cd</code> to the project's <code>docker</code> folder, and enter <code>make</code> for all <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> library targets on all platforms.</li>
+<li><code>cd</code> to the project's <code>docker</code> folder, and enter <code>make</code> for all <a class="el" href="namespaceXPMP2.html">XPMP2</a> library targets on all platforms.</li>
 </ul>
 <p>The following <code>make</code> targets are available:</p>
 <ul>
@@ -94,7 +94,7 @@ Using Docker</h1>
 <li><code>doc</code> builds the documentation based on Doxygen, will probably only work on a Mac with Doxygen provided in <code>Applications/Doxygen.app</code></li>
 <li><code>clean</code> removes all <code>build-&lt;platform&gt;</code> folders</li>
 </ul>
-<p>Find results in the respective <code>build-&lt;platform&gt;</code> folder, the <code><a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a></code> library right there, the Sample plugins in their proper <code>&lt;platform&gt;_x64</code> subfolder.</p>
+<p>Find results in the respective <code>build-&lt;platform&gt;</code> folder, the <code><a class="el" href="namespaceXPMP2.html">XPMP2</a></code> library right there, the Sample plugins in their proper <code>&lt;platform&gt;_x64</code> subfolder.</p>
 <p>For more details and background information on the provided Docker environments see the <code>docker/README.md</code>.</p>
 <h1><a class="anchor" id="autotoc_md5"></a>
 Using CMake</h1>
@@ -118,13 +118,13 @@ Using Gitub Actions</h1>
 </ul>
 <h1><a class="anchor" id="autotoc_md7"></a>
 Including XPMP2 directly in GitHub project and CMake builds</h1>
-<p>You can avoid separate builds and instead include <code><a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a></code> directly into your project. Recommended steps are:</p>
+<p>You can avoid separate builds and instead include <code><a class="el" href="namespaceXPMP2.html">XPMP2</a></code> directly into your project. Recommended steps are:</p>
 <ol type="1">
-<li>Include <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> as a Github Submodule into your Github project, using something like ``&lsquo; git submodule add --name <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> '<a href="https://github.com/TwinFan/XPMP2&rsquo;">https://github.com/TwinFan/XPMP2&amp;rsquo;</a> lib/XPMP2 ``` To update your local version with changes from the <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> repository run something like ``` git submodule update &ndash;remote ``<code></code></li>
-<li><code>In your</code>CMakeLists.txt` file include <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> using something like the following in appropriate places:<ol type="a">
+<li>Include <a class="el" href="namespaceXPMP2.html">XPMP2</a> as a Github Submodule into your Github project, using something like ``&lsquo; git submodule add --name <a class="el" href="namespaceXPMP2.html">XPMP2</a> '<a href="https://github.com/TwinFan/XPMP2&rsquo;">https://github.com/TwinFan/XPMP2&amp;rsquo;</a> lib/XPMP2 ``` To update your local version with changes from the <a class="el" href="namespaceXPMP2.html">XPMP2</a> repository run something like ``` git submodule update &ndash;remote ``<code></code></li>
+<li><code>In your</code>CMakeLists.txt` file include <a class="el" href="namespaceXPMP2.html">XPMP2</a> using something like the following in appropriate places:<ol type="a">
 <li>If needing FMOD sound support first define ``` set (INCLUDE_FMOD_SOUND 1) <br  />
  add_compile_definitions(INCLUDE_FMOD_SOUND=1) include_directories("${CMAKE_CURRENT_SOURCE_DIR}/lib/XPMP2/lib/fmod/logo") target_sources(${CMAKE_PROJECT_NAME} lib/XPMP2/lib/fmod/logo/FMOD_Logo.cpp) ```</li>
-<li>Including building <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> as follows: ``` include_directories("${CMAKE_CURRENT_SOURCE_DIR}/lib/XPMP2/inc") add_subdirectory(lib/XPMP2) add_dependencies(${CMAKE_PROJECT_NAME} <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>) target_link_libraries(${CMAKE_PROJECT_NAME} <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>) ``` </li>
+<li>Including building <a class="el" href="namespaceXPMP2.html">XPMP2</a> as follows: ``` include_directories("${CMAKE_CURRENT_SOURCE_DIR}/lib/XPMP2/inc") add_subdirectory(lib/XPMP2) add_dependencies(${CMAKE_PROJECT_NAME} <a class="el" href="namespaceXPMP2.html">XPMP2</a>) target_link_libraries(${CMAKE_PROJECT_NAME} <a class="el" href="namespaceXPMP2.html">XPMP2</a>) ``` </li>
 </ol>
 </li>
 </ol>

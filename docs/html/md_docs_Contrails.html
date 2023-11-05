@@ -43,7 +43,7 @@ $(function() {
 <div class="title">Contrails </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> can add contrails to planes. This is achieved by instantiating one additional object per contrail at the same position as the actual plane. This object <code>Resources/Contrail/Contrail.obj</code> has no tris, but only holds a reference to a particle system file, <code>Contrail.pss</code>. The contrail is then created through X-Plane's <a href="https://developer.x-plane.com/article/x-plane-11-particle-system/">particle system</a>.</p>
+<div class="textblock"><p><a class="el" href="namespaceXPMP2.html">XPMP2</a> can add contrails to planes. This is achieved by instantiating one additional object per contrail at the same position as the actual plane. This object <code>Resources/Contrail/Contrail.obj</code> has no tris, but only holds a reference to a particle system file, <code>Contrail.pss</code>. The contrail is then created through X-Plane's <a href="https://developer.x-plane.com/article/x-plane-11-particle-system/">particle system</a>.</p>
 <h2>Disable</h2>
 <p>If you don't want contrails at all, you need to return <code>0</code> for the two config items <code>XPMP_CFG_ITM_CONTR_MIN_ALT</code> and <code>XPMP_CFG_ITM_CONTR_MAX_ALT</code>. In that case you don't even need to provide the <code>Resources/Contrail</code> folder with your deployment.</p>
 <h2>Deployment</h2>
@@ -51,7 +51,7 @@ $(function() {
 <h2>Default</h2>
 <p>By default, ie. without any provision in code, a single contrail will be generated for jet aircraft flying in an altitude between 25,000 and 45,000 ft.</p>
 <h2>Configuration of Automatic Contrails</h2>
-<p><a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> asks for four contrail-related configuration items, with which you can fine-tune how <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> automatically generates contrails. This should be sufficient for most usages, even complex plugins like LiveTraffic only provide pass-through configuration options for these four parameters, but no self-development implementation.</p>
+<p><a class="el" href="namespaceXPMP2.html">XPMP2</a> asks for four contrail-related configuration items, with which you can fine-tune how <a class="el" href="namespaceXPMP2.html">XPMP2</a> automatically generates contrails. This should be sufficient for most usages, even complex plugins like LiveTraffic only provide pass-through configuration options for these four parameters, but no self-development implementation.</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Config item   </th><th class="markdownTableHeadNone">Default   </th><th class="markdownTableHeadNone">Description    </th></tr>
@@ -68,7 +68,7 @@ $(function() {
 <h2>More Control</h2>
 <p>If you need more control and want to direct yourself when how many contrails are shown, you should switch off the auto-generation by returning <code>0</code> to both <code>XPMP_CFG_ITM_CONTR_MIN_ALT</code> and <code>XPMP_CFG_ITM_CONTR_MAX_ALT</code>, and then call either of the following two member functions of <code><a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a></code>:</p>
 <ul>
-<li><code>ContrailTrigger()</code> tells <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> to check the plane's engine type, and if it is jet then a contrail (or even multiple, depending on config <code>XPMP_CFG_ITM_CONTR_MULTI</code>) are created. This is the function internally used by the auto-generation mechanism once a plane is in the right altitude.</li>
+<li><code>ContrailTrigger()</code> tells <a class="el" href="namespaceXPMP2.html">XPMP2</a> to check the plane's engine type, and if it is jet then a contrail (or even multiple, depending on config <code>XPMP_CFG_ITM_CONTR_MULTI</code>) are created. This is the function internally used by the auto-generation mechanism once a plane is in the right altitude.</li>
 <li><code>ContrailRequest (unsigned num, unsigned dist_m = 0, unsigned lifeTime = 0)</code> allows even more control by specifying the number of contrails, its spacing, and the life time.</li>
 </ul>
 <p>Last but not least, there's <code>ContrailRemove()</code> to remove contrails. </p>

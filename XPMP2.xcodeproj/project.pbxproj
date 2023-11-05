@@ -17,6 +17,8 @@
 		2541FA4E253CDD6700AEA532 /* Remote.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2541FA4C253CDD6700AEA532 /* Remote.cpp */; };
 		255EC99228E3871100F99F93 /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 255EC99028E3871100F99F93 /* Sound.cpp */; };
 		255EC99328E3871100F99F93 /* Sound.h in Headers */ = {isa = PBXBuildFile; fileRef = 255EC99128E3871100F99F93 /* Sound.h */; };
+		256C7F0D2A40E2820095A0B4 /* SoundFMOD.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 256C7F0B2A40E2820095A0B4 /* SoundFMOD.cpp */; };
+		256C7F0E2A40E2820095A0B4 /* SoundFMOD.h in Headers */ = {isa = PBXBuildFile; fileRef = 256C7F0C2A40E2820095A0B4 /* SoundFMOD.h */; };
 		256DC2F724F3141500C1595C /* CSLCopy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 256DC2F624F3141500C1595C /* CSLCopy.cpp */; };
 		2575F45423EDFC5E00747524 /* Map.h in Headers */ = {isa = PBXBuildFile; fileRef = 2575F45223EDFC5E00747524 /* Map.h */; };
 		2575F45523EDFC5E00747524 /* Map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2575F45323EDFC5E00747524 /* Map.cpp */; };
@@ -62,6 +64,9 @@
 		255EC99028E3871100F99F93 /* Sound.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Sound.cpp; sourceTree = "<group>"; };
 		255EC99128E3871100F99F93 /* Sound.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Sound.h; sourceTree = "<group>"; };
 		256C287925B4E6270033007D /* Toolchain-ubuntu-osxcross.cmake */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Toolchain-ubuntu-osxcross.cmake"; sourceTree = "<group>"; };
+		256C7F0B2A40E2820095A0B4 /* SoundFMOD.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundFMOD.cpp; sourceTree = "<group>"; };
+		256C7F0C2A40E2820095A0B4 /* SoundFMOD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundFMOD.h; sourceTree = "<group>"; };
+		256C7F0F2A40E7970095A0B4 /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; path = lib; sourceTree = "<group>"; };
 		256DC2F524F3090B00C1595C /* Obj8DataRefs.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Obj8DataRefs.txt; sourceTree = "<group>"; };
 		256DC2F624F3141500C1595C /* CSLCopy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSLCopy.cpp; sourceTree = "<group>"; };
 		256F4687255C9A6A00FBE18A /* XPMP2.example.prf */ = {isa = PBXFileReference; lastKnownFileType = text; path = XPMP2.example.prf; sourceTree = "<group>"; };
@@ -82,6 +87,12 @@
 		2599B92123BF63F600F92BB5 /* XPMP2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPMP2.h; sourceTree = "<group>"; };
 		25AE8CB323E376E1000BE21E /* 2D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = 2D.cpp; sourceTree = "<group>"; };
 		25AE8CB423E376E2000BE21E /* 2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = 2D.h; sourceTree = "<group>"; };
+		25B8D14A2A50CF2A00D8DAE9 /* SharedDataRefs.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SharedDataRefs.md; sourceTree = "<group>"; };
+		25B8D14B2A50CF2A00D8DAE9 /* Wake.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Wake.md; sourceTree = "<group>"; };
+		25B8D14C2A50CF2A00D8DAE9 /* Contrails.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Contrails.md; sourceTree = "<group>"; };
+		25B8D14D2A50CF2B00D8DAE9 /* CopyingObjFiles.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CopyingObjFiles.md; sourceTree = "<group>"; };
+		25B8D14E2A50CF2B00D8DAE9 /* Sound.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Sound.md; sourceTree = "<group>"; };
+		25B8D14F2A50CF2B00D8DAE9 /* Remote.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Remote.md; sourceTree = "<group>"; };
 		25D1D25523C9285300D20D58 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		25D680B123BE936B00C83CC5 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		25D680B623BE95FB00C83CC5 /* XPCAircraft.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = XPCAircraft.h; sourceTree = "<group>"; };
@@ -122,8 +133,9 @@
 				252C01F723E6D64F007C231F /* docker */,
 				25D680BD23BE9B7900C83CC5 /* docs */,
 				25D680B523BE95FB00C83CC5 /* inc */,
-				2596FD462447226700C6A41E /* Resources */,
 				25D680BC23BE9B5700C83CC5 /* src */,
+				256C7F0F2A40E7970095A0B4 /* lib */,
+				2596FD462447226700C6A41E /* Resources */,
 				25D86CC6253E285E00424494 /* Frameworks */,
 				2502C16923BE3CFC00578919 /* Products */,
 			);
@@ -199,6 +211,8 @@
 				2541FA4B253CDD6700AEA532 /* Remote.h */,
 				255EC99028E3871100F99F93 /* Sound.cpp */,
 				255EC99128E3871100F99F93 /* Sound.h */,
+				256C7F0B2A40E2820095A0B4 /* SoundFMOD.cpp */,
+				256C7F0C2A40E2820095A0B4 /* SoundFMOD.h */,
 				25EC1C4523BF7569000940BB /* Utilities.cpp */,
 				25EC1C4623BF7569000940BB /* Utilities.h */,
 				2599B92123BF63F600F92BB5 /* XPMP2.h */,
@@ -212,6 +226,8 @@
 			children = (
 				25019BCB24919A1500355472 /* BackwardsCompatibility.md */,
 				25019BC924919A1500355472 /* Building.md */,
+				25B8D14C2A50CF2A00D8DAE9 /* Contrails.md */,
+				25B8D14D2A50CF2B00D8DAE9 /* CopyingObjFiles.md */,
 				25019BC724919A1500355472 /* CSLdataRefs.md */,
 				25019BCA24919A1500355472 /* Deploying.md */,
 				25019BC624919A1500355472 /* HowTo.md */,
@@ -219,7 +235,11 @@
 				2574E00424578419000E8156 /* index.md */,
 				25D680BF23BE9BB900C83CC5 /* MainPage.md */,
 				25019BCC24919A1600355472 /* Matching.md */,
+				25B8D14F2A50CF2B00D8DAE9 /* Remote.md */,
+				25B8D14A2A50CF2A00D8DAE9 /* SharedDataRefs.md */,
+				25B8D14E2A50CF2B00D8DAE9 /* Sound.md */,
 				25019BC824919A1500355472 /* TCAS.md */,
+				25B8D14B2A50CF2A00D8DAE9 /* Wake.md */,
 				25D680BE23BE9BB900C83CC5 /* XPMP2.doxygen */,
 				25997FB62476A33E00F36447 /* XSBAircraftFormat.md */,
 			);
@@ -251,6 +271,7 @@
 				25D680B923BE95FB00C83CC5 /* XPCAircraft.h in Headers */,
 				255EC99328E3871100F99F93 /* Sound.h in Headers */,
 				252C01F523E62040007C231F /* AIMultiplayer.h in Headers */,
+				256C7F0E2A40E2820095A0B4 /* SoundFMOD.h in Headers */,
 				25338212253A39060090E0B3 /* Network.h in Headers */,
 				2541FA4D253CDD6700AEA532 /* Remote.h in Headers */,
 				2541FA46253C902200AEA532 /* XPMPRemote.h in Headers */,
@@ -351,6 +372,7 @@
 				2575F45523EDFC5E00747524 /* Map.cpp in Sources */,
 				25338211253A39060090E0B3 /* Network.cpp in Sources */,
 				25F070792956406100065969 /* Contrail.cpp in Sources */,
+				256C7F0D2A40E2820095A0B4 /* SoundFMOD.cpp in Sources */,
 				2599B91923BF636E00F92BB5 /* Aircraft.cpp in Sources */,
 				255EC99228E3871100F99F93 /* Sound.cpp in Sources */,
 			);
@@ -423,6 +445,7 @@
 					"XPLM300=1",
 					"XPLM301=1",
 					"XPLM303=1",
+					"XPLM400=1",
 					"XPMP2_VER_MAJOR=${XPMP2_VER_MAJOR}",
 					"XPMP2_VER_MINOR=${XPMP2_VER_MINOR}",
 					"XPMP2_VER_PATCH=${XPMP2_VER_PATCH}",
@@ -446,7 +469,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = inc;
 				INFOPLIST_FILE = Info.plist;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.twinfan.XPMP2;
 				PRODUCT_NAME = XPMP2;
@@ -457,7 +480,7 @@
 					lib/fmod/inc,
 				);
 				XPMP2_VER_MAJOR = 3;
-				XPMP2_VER_MINOR = 1;
+				XPMP2_VER_MINOR = 3;
 				XPMP2_VER_PATCH = 0;
 				XPSDK_ROOT = lib/SDK;
 			};
@@ -525,6 +548,7 @@
 					"XPLM300=1",
 					"XPLM301=1",
 					"XPLM303=1",
+					"XPLM400=1",
 					"XPMP2_VER_MAJOR=${XPMP2_VER_MAJOR}",
 					"XPMP2_VER_MINOR=${XPMP2_VER_MINOR}",
 					"XPMP2_VER_PATCH=${XPMP2_VER_PATCH}",
@@ -548,7 +572,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = inc;
 				INFOPLIST_FILE = Info.plist;
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.twinfan.XPMP2;
 				PRODUCT_NAME = XPMP2;
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -558,7 +582,7 @@
 					lib/fmod/inc,
 				);
 				XPMP2_VER_MAJOR = 3;
-				XPMP2_VER_MINOR = 1;
+				XPMP2_VER_MINOR = 3;
 				XPMP2_VER_PATCH = 0;
 				XPSDK_ROOT = lib/SDK;
 			};

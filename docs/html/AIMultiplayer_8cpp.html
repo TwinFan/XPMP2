@@ -76,7 +76,6 @@ Classes</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespaceXPMP2"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html">XPMP2</a></td></tr>
-<tr class="memdesc:namespaceXPMP2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defined by FMOD. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
@@ -162,7 +161,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:ad7b23c9aba24f6a20c764e1131c7149f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release TCAS targets control.  <a href="AIMultiplayer_8cpp.html#ad7b23c9aba24f6a20c764e1131c7149f">More...</a><br /></td></tr>
 <tr class="separator:ad7b23c9aba24f6a20c764e1131c7149f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7681ca8a217b2e52da0f23073cf3a87d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AIMultiplayer_8cpp.html#a7681ca8a217b2e52da0f23073cf3a87d">XPMPHasControlOfAIAircraft</a> ()</td></tr>
-<tr class="memdesc:a7681ca8a217b2e52da0f23073cf3a87d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Has <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> control of TCAS targets?  <a href="AIMultiplayer_8cpp.html#a7681ca8a217b2e52da0f23073cf3a87d">More...</a><br /></td></tr>
+<tr class="memdesc:a7681ca8a217b2e52da0f23073cf3a87d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Has <a class="el" href="namespaceXPMP2.html">XPMP2</a> control of TCAS targets?  <a href="AIMultiplayer_8cpp.html#a7681ca8a217b2e52da0f23073cf3a87d">More...</a><br /></td></tr>
 <tr class="separator:a7681ca8a217b2e52da0f23073cf3a87d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
@@ -194,7 +193,7 @@ Variables</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Implementation of serving TCAS target dataRef updates. </p>
 <p>Updates the up to 63 slots of X-Plane's defined TCAS targets, which are in turn synced with the 19 "legacy" multiplayer slots, which in turn many other plugins (like TCAS implementations or map tools) read to learn about any multiplayer aircraft.<br  />
- Also serves shared dataRefs for publishing text information, which is not X-Plane standard but originally suggested by FSTramp. However, the post and file, in which he suggested this addition, is no longer available on forums.x-plane.org. Still, <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> fullfills the earlier definition. </p><dl class="section see"><dt>See also</dt><dd>X-Plane 11.50 Beta 8 introduced a new way of informing X-Plane of TCAS targets, see here a blog entry for details: <a href="https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/">https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/</a> </dd></dl>
+ Also serves shared dataRefs for publishing text information, which is not X-Plane standard but originally suggested by FSTramp. However, the post and file, in which he suggested this addition, is no longer available on forums.x-plane.org. Still, <a class="el" href="namespaceXPMP2.html">XPMP2</a> fullfills the earlier definition. </p><dl class="section see"><dt>See also</dt><dd>X-Plane 11.50 Beta 8 introduced a new way of informing X-Plane of TCAS targets, see here a blog entry for details: <a href="https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/">https://developer.x-plane.com/article/overriding-tcas-and-providing-traffic-information/</a> </dd></dl>
 <dl class="section author"><dt>Author</dt><dd>Birger Hoppe </dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>(c) 2020 Birger Hoppe </dd>
 <dd>
@@ -537,7 +536,7 @@ Taxi lights. </td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Has <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a> control of TCAS targets? </p>
+<p>Has <a class="el" href="namespaceXPMP2.html">XPMP2</a> control of TCAS targets? </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="XPMPMultiplayer_8h.html#a0bae495f352ec020088503013d95874f" title="Tries to grab control of TCAS targets (formerly known as AI/multiplayer) from X-Plane.">XPMPMultiplayerEnable()</a> </dd></dl>
 
 </div>
@@ -558,7 +557,7 @@ Taxi lights. </td></tr>
 </div><div class="memdoc">
 
 <p>Release TCAS targets control. </p>
-<p>Afterwards, <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>'s aircraft will no longer appear on TCAS or on 3rd-party plugins relying on TCAS targets dataRefs.<br  />
+<p>Afterwards, <a class="el" href="namespaceXPMP2.html">XPMP2</a>'s aircraft will no longer appear on TCAS or on 3rd-party plugins relying on TCAS targets dataRefs.<br  />
  Is called during <a class="el" href="XPMPMultiplayer_8h.html#acc451b7b8df8f182f74cf5d306286443" title="Clean up the multiplayer library.">XPMPMultiplayerCleanup()</a> automatically. </p>
 
 </div>
@@ -591,7 +590,7 @@ Taxi lights. </td></tr>
 
 <p>Tries to grab control of TCAS targets (formerly known as AI/multiplayer) from X-Plane. </p>
 <p>Only one plugin can have TCAS targets control at any one time. So be prepared to properly handle an non-empty response that indicates that you did not get control now. The returned message includes the name of the plugin currently having control.<br  />
- If successful, <a class="el" href="namespaceXPMP2.html" title="Defined by FMOD.">XPMP2</a>'s aircraft will appear on TCAS and are available to 3rd-party plugins relying on TCAS tagrtes or multiplayer dataRefs.<br  />
+ If successful, <a class="el" href="namespaceXPMP2.html">XPMP2</a>'s aircraft will appear on TCAS and are available to 3rd-party plugins relying on TCAS tagrtes or multiplayer dataRefs.<br  />
  Typically, a plugin calls this function just before the first aircraft are created. But it could also be bound to a menu item, for example. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">_callback</td><td>(optional) You can provide a callback function, which is called directly by X-Plane when control of TCAS targets is not successful now but becomes available later. </td></tr>

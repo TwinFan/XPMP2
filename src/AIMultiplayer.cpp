@@ -250,7 +250,7 @@ size_t AIUpdateMultiplayerDataRefs()
         Aircraft& ac = *gSlots[slot];
         
         try {
-            // Has to slot for this plane changed?
+            // Has the slot for this plane changed?
             const bool bSlotChanged = ac.GetTcasTargetIdx() != (int)slot;
             if (bSlotChanged)
                 ac.SetTcasTargetIdx((int)slot);
@@ -412,7 +412,7 @@ size_t AIUpdateTCASTargets ()
         Aircraft& ac = *gSlots[slot];
         
         try {
-            // Has to slot for this plane changed?
+            // Has the slot for this plane changed?
             const bool bSlotChanged = ac.GetTcasTargetIdx() != (int)slot;
             if (bSlotChanged)
                 ac.SetTcasTargetIdx((int)slot);
@@ -594,12 +594,18 @@ void AIAssignSlots (size_t fromSlot, size_t toSlot)
 #ifdef DEBUG
     // it is expected that the range of slots is exactly filled
     // and all planes are used!
-    LOG_ASSERT(std::all_of(gSlots.begin()+(long)fromSlot,
+    if (!(std::all_of(gSlots.begin()+(long)fromSlot,
                            gSlots.begin()+(long)toSlot,
-                           [](const Aircraft* pAc){return pAc!=nullptr;}));
-    LOG_ASSERT(std::all_of(vAcByDist.begin()+(long)fromSlot-1,
+                           [](const Aircraft* pAc){return pAc!=nullptr;})))
+    {
+        LOG_MSG(logDEBUG, "Not all gSlots continuously assigned!");
+    }
+    if (!(std::all_of(vAcByDist.begin()+(long)fromSlot-1,
                            vAcByDist.begin()+(long)toSlot-1,
-                           [](const Aircraft* pAc){return pAc==nullptr;}));
+                           [](const Aircraft* pAc){return pAc==nullptr;})))
+    {
+        LOG_MSG(logDEBUG, "Not all vAcByDist used!");
+    }
 #endif
 }
 
@@ -623,14 +629,17 @@ void AIMultiUpdate ()
     {
         // Sort all planes by prioritized distance
         gMapAcByDist.clear();
-        for (const auto& pair: glob.mapAc) {
-            const Aircraft& ac = *pair.second;
+        for (auto& pair: glob.mapAc) {
+            Aircraft& ac = *pair.second;
             // only consider planes that require being shown as AI aircraft
             // (these excludes invisible planes and those with transponder off)
             if (ac.ShowAsAIPlane())
                 // Priority distance means that we add artificial distance for higher-numbered AI priorities
                 gMapAcByDist.emplace(ac.GetCameraDist() + ac.aiPrio * AI_PRIO_MULTIPLIER,
                                      ac.GetModeS_ID());
+            else
+                // for non-shown aircraft make sure no slot is remembered
+                ac.ResetTcasTargetIdx();
         }
     }
     
@@ -646,16 +655,16 @@ void AIMultiUpdate ()
             !iterAc->second->ShowAsAIPlane())   // or no longer to be shown on TCAS?
         {
             tLastSlotSwitching = 0.0f;          // ensure we reinit the map next time
+            if (iterAc != glob.mapAc.end())     // Clear the TCAS index of no longer to be displayed ac
+                iterAc->second->ResetTcasTargetIdx();
         } else {
             // Plane exists!
             // If there's still room: add it to the list
             if (vAcByDist.size() < numSlots)
                 vAcByDist.push_back(iterAc->second);
-            else {
-                // else reset the TCAS target index of the plane is it will not be shown
-                if (iterAc->second->IsCurrentlyShownAsTcasTarget())
-                    iterAc->second->SetTcasTargetIdx(-1);
-            }
+            else
+                // else reset the TCAS target index
+                iterAc->second->ResetTcasTargetIdx();
         }
     }
     const size_t numAcToShow = vAcByDist.size();

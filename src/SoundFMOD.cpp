@@ -290,7 +290,8 @@ uint64_t SoundSystemFMOD::Play (const std::string& sndName, float vol, const Air
         SoundFMOD* pSndFmod = dynamic_cast<SoundFMOD*>(pSnd.get());
         if (!pSndFmod) throw std::runtime_error("Sound has not been loaded for FMOD system");
 
-        FMOD_TEST(FMOD_System_PlaySound(pFmodSystem, pSndFmod->GetSnd(), pChnGrp, ac.SoundIsMuted(), &pFmodChn));
+        // Start playing the sound, but in a paused state to avoid crackling
+        FMOD_TEST(FMOD_System_PlaySound(pFmodSystem, pSndFmod->GetSnd(), pChnGrp, true, &pFmodChn));
         if (!pFmodChn) throw std::runtime_error("FMOD_System_PlaySound returned NULL channel");
         
         // We must keep track of the sounds we produce so we can clean up after us
@@ -310,6 +311,7 @@ uint64_t SoundSystemFMOD::Play (const std::string& sndName, float vol, const Air
         }
         SetPosOrientation(sndId, ac, true);
         FMOD_LOG(FMOD_Channel_SetVolume(pFmodChn, vol));
+        FMOD_LOG(FMOD_Channel_SetMute(pFmodChn, ac.SoundIsMuted()));
         if (bLowPass) {
             FMOD_LOG(FMOD_Channel_SetLowPassGain(pFmodChn, FMOD_LOW_PASS_GAIN));
         }
@@ -328,6 +330,17 @@ uint64_t SoundSystemFMOD::Play (const std::string& sndName, float vol, const Air
         RemoveChn(sndId);
     
     return 0;
+}
+
+// Unpause a sound, which got started in a paused state to avoid crackling
+void SoundSystemFMOD::Unpause (uint64_t sndId)
+{
+    SoundChannel* pChn = GetChn(sndId);
+    if (!pChn || !pChn->pChn) return;
+
+    if (pChn->ShallUnpause()) {
+        FMOD_LOG(FMOD_Channel_SetPaused(pChn->pChn, false));
+    }
 }
     
 // Stop the sound

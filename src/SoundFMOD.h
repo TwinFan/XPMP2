@@ -92,6 +92,8 @@ public:
 
     /// Play a new sound, returns an id for that sound
     uint64_t Play (const std::string& sndName, float vol, const Aircraft& ac) override;
+    /// Unpause a sound, which got started in a paused state to avoid crackling
+    void Unpause (uint64_t sndId) override;
     /// Stop the sound
     void Stop (uint64_t sndId) override;
     /// Update sound's position and orientation

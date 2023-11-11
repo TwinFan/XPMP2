@@ -182,6 +182,7 @@ public:
     SoundFile*      pSnd    = nullptr;      ///< the sound file the sound was created from
     float           vol     = 1.0f;         ///< volume (if not muted)
     bool            bMuted  = false;        ///< currently muted?
+    int             nPauseCountdown = 2;    ///< frame till unpause this sound (starts paused to avoid crackling)
 public:
     /// Default Constructor creates an invalid object
     SoundChannel () {}
@@ -189,6 +190,8 @@ public:
     SoundChannel (FMOD_CHANNEL* c, SoundFile* s, float v) : pChn(c), pSnd(s), vol(v) {}
     /// Has valid pointers? (Doesn't say if actual objects are valid any longer)
     operator bool () const { return pChn && pSnd; }
+    /// Need to unpause now? (returns `true` only once when countdown reaches zero)
+    bool ShallUnpause () { return nPauseCountdown > 0 ? (--nPauseCountdown == 0) : false;  }
 };
 
 /// Base class for sound systems, practically empty
@@ -201,6 +204,9 @@ protected:
 private:
     /// Next sound channel id
     uint64_t uNxtId = 0;
+    /// Cache to avoid re-lookup of repeatedly same sound id
+    uint64_t cacheSndId = 0;
+    SoundChannel* pCacheChn = nullptr;
     
 public:
     /// Construtor
@@ -218,6 +224,8 @@ public:
 
     /// Play a new sound, returns an id for that sound
     virtual uint64_t Play (const std::string& sndName, float vol, const Aircraft& ac) = 0;
+    /// Unpause a sound, which got started in a paused state to avoid crackling
+    virtual void Unpause (uint64_t sndId) = 0;
     /// Stop the sound
     virtual void Stop (uint64_t sndId) = 0;
     /// Update sound's position and orientation
@@ -274,6 +282,8 @@ public:
 
     /// Play a new sound, returns an id for that sound
     uint64_t Play (const std::string& sndName, float vol, const Aircraft& ac) override;
+    /// Unpause a sound, which got started in a paused state to avoid crackling
+    void Unpause (uint64_t sndId) override;
     /// Stop the sound
     void Stop (uint64_t sndId) override;
     /// Update sound's position and orientation

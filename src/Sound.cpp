@@ -397,9 +397,15 @@ std::pair<uint64_t,SoundChannel*> SoundSystem::AddChn (SoundFile* pSnd, float vo
 // Return the SoundChannel object for a given id, or `nullptr` if not found
 SoundChannel* SoundSystem::GetChn (uint64_t sndId)
 {
+    // check cached value first
+    if (cacheSndId == sndId && pCacheChn)
+        return pCacheChn;
+    // search in map of channels
     auto i = mapChn.find(sndId);
-    if (i != mapChn.end())
-        return &i->second;
+    if (i != mapChn.end()) {
+        cacheSndId = sndId;                 // fill cache
+        return pCacheChn = &i->second;
+    }
     else
         return nullptr;
 }
@@ -407,6 +413,8 @@ SoundChannel* SoundSystem::GetChn (uint64_t sndId)
 // Remove a channel from out tracking
 void SoundSystem::RemoveChn (uint64_t sndId)
 {
+    if (cacheSndId == sndId)                // clear cache
+        pCacheChn = nullptr;
     mapChn.erase(sndId);
 }
 
@@ -480,7 +488,13 @@ uint64_t SoundSystemXP::Play (const std::string& sndName, float vol, const Aircr
                                         xplm_AudioExteriorEnvironment,
                                         PlayCallback, (void*)sndId);
         if (!pChn->pChn) throw std::runtime_error("XPLMPlayPCMOnBus return NULL");
-        
+#if INCLUDE_FMOD_SOUND + 0 >= 1
+        // if we have FMOD available then start in a paused state to avoid crackling
+        FMOD_LOG(FMOD_Channel_SetPaused(pChn->pChn, true));
+#else
+        pChn->nPauseCountdown = 0;
+#endif
+
         // Set a few more parameters to the sound
         FMOD_LOG(gpXPLMSetAudioFadeDistance(pChn->pChn, (float)ac.sndMinDist, FMOD_3D_MAX_DIST));
         SetPosOrientation(sndId, ac, true);
@@ -525,6 +539,20 @@ void SoundSystemXP::PlayCallback (void*         inRefcon,
     me->RemoveChn(sndId);
 }
 
+// Unpause a sound, which got started in a paused state to avoid crackling
+/// @note Only available if built with FMOD library
+void SoundSystemXP::Unpause (uint64_t sndId)
+{
+#if INCLUDE_FMOD_SOUND + 0 >= 1
+    SoundChannel* pChn = GetChn(sndId);
+    if (!pChn || !pChn->pChn) return;
+
+    if (pChn->ShallUnpause()) {
+        FMOD_LOG(FMOD_Channel_SetPaused(pChn->pChn, false));
+    }
+#endif
+}
+    
 
 // Stop the sound
 void SoundSystemXP::Stop (uint64_t sndId)
@@ -895,7 +923,7 @@ void Aircraft::SoundUpdate ()
         }
     }
     
-    // --- Update all channels' 3D position
+    // --- Unpause and Update all channels' 3D position
 
     // Decide here already if this time we do expensive computations (like sound cone orientation)
     bool bDoExpensiveComp = false;
@@ -909,6 +937,7 @@ void Aircraft::SoundUpdate ()
         // Still valid?
         const uint64_t sndId = *iter;
         if (gpSndSys->IsValid(sndId)) {
+            gpSndSys->Unpause(sndId);
             gpSndSys->SetPosOrientation(sndId, *this, bDoExpensiveComp);
             iter++;
         } else {

@@ -198,4 +198,4 @@ A109 A119 A129 A139 A149 A169 A189 A2RT A600 AC31 AC33 ALH ALO2 ALO3 ANST AS32 A
 ; ***************
 ; Ground Vehicles
 ; ***************
-ZZZC -GND
+ZZZC -GND TWR

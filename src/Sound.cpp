@@ -502,7 +502,7 @@ uint64_t SoundSystemXP::Play (const std::string& sndName, float vol, const Aircr
         
         return sndId;
     }
-    catch (const std::out_of_range& e) {
+    catch (const std::out_of_range&) {
         LOG_MSG(logERR, "Sound '%s' not found, cannot play",
                 sndName.c_str());
     }

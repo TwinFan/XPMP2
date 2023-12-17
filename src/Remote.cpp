@@ -110,7 +110,9 @@ RmtAcCacheTy::RmtAcCacheTy (const Aircraft& ac,
                             double _lat, double _lon, double _alt_ft) :
 fullUpdGrp(++gNxtFullUpdGrpToAssign), ts(gNow),
 lat(_lat), lon(_lon), alt_ft(_alt_ft),
-drawInfo(ac.drawInfo), v(ac.v)
+drawInfo(ac.drawInfo), v(ac.v),
+bValid(ac.IsValid()), bVisible(ac.IsVisible()), bRender(ac.IsRendered()),
+pCSLMdl(ac.GetModel())
 {
     // roll over on the next-to-assign group
     if (gNxtFullUpdGrpToAssign >= unsigned(REMOTE_SEND_AC_DETAILS_INTVL))

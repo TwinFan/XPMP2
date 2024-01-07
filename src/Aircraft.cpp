@@ -334,7 +334,8 @@ bool Aircraft::IsRelatedTo(const std::string& _icaoType) const
         return true;
     if (!acRelGrp)                                  // this a/c is not in any related group
         return false;
-    return acRelGrp == RelatedGet(_icaoType);       // compare related group to passed-in type
+    // compare related group to passed-in type
+    return acRelGrp == RelatedGet(REL_TXT_DESIGNATOR, _icaoType);
 }
 
 
@@ -391,7 +392,7 @@ int Aircraft::ChangeModel (const std::string& _icaoType,
     acIcaoType      = _icaoType;
     acIcaoAirline   = _icaoAirline;
     acLivery        = _livery;
-    acRelGrp        = RelatedGet(acIcaoType);
+    acRelGrp        = RelatedGet(REL_TXT_DESIGNATOR, acIcaoType);
 
     // Increase the reference counter of the CSL model to track that the object is being used
     if (pCSLMdl)
@@ -443,7 +444,7 @@ bool Aircraft::AssignModel (const std::string& _cslId,
     acIcaoType      = pCSLMdl->GetIcaoType();
     acIcaoAirline   = pCSLMdl->GetIcaoAirline();
     acLivery        = pCSLMdl->GetLivery();
-    acRelGrp = RelatedGet(acIcaoType);
+    acRelGrp        = RelatedGet(REL_TXT_DESIGNATOR, acIcaoType);
 
     // Increase the reference counter of the CSL model to track that the object is being used
     pCSLMdl->IncRefCnt();

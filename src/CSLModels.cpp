@@ -400,7 +400,7 @@ void CSLModel::AddMatchCriteria (const std::string& _type,
     else if (icaoType.empty()) {
         icaoType = _type;
         doc8643 = & Doc8643Get(_type);
-        related = RelatedGet(_type);
+        related = RelatedGet(REL_TXT_DESIGNATOR, _type);
     }
     
     // See if we need to add the other match criterion
@@ -1231,7 +1231,7 @@ bool CSLFindMatch (const std::string& _type,
     
     // The related group depends on the ICAO aircraft type and can be zero
     // (zero = not part of any related-group)
-    const int related = RelatedGet(_type);
+    const int related = RelatedGet(REL_TXT_DESIGNATOR, _type);
     
     LOG_MATCHING(logINFO, DEBUG_MATCH_INPUT,
                  _type.c_str(),

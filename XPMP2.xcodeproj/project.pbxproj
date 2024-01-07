@@ -480,8 +480,8 @@
 					lib/fmod/inc,
 				);
 				XPMP2_VER_MAJOR = 3;
-				XPMP2_VER_MINOR = 3;
-				XPMP2_VER_PATCH = 1;
+				XPMP2_VER_MINOR = 4;
+				XPMP2_VER_PATCH = 0;
 				XPSDK_ROOT = lib/SDK;
 			};
 			name = Debug;
@@ -582,8 +582,8 @@
 					lib/fmod/inc,
 				);
 				XPMP2_VER_MAJOR = 3;
-				XPMP2_VER_MINOR = 3;
-				XPMP2_VER_PATCH = 1;
+				XPMP2_VER_MINOR = 4;
+				XPMP2_VER_PATCH = 0;
 				XPSDK_ROOT = lib/SDK;
 			};
 			name = Release;

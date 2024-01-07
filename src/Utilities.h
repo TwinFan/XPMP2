@@ -32,6 +32,7 @@ namespace XPMP2 {
 
 // Required supplemental files
 constexpr const char* RSRC_RELATED      = "related.txt";
+constexpr const char* RSRC_REL_OP       = "relOp.txt";
 constexpr const char* RSRC_DOC8643      = "Doc8643.txt";
 constexpr const char* RSRC_MAP_ICONS    = "MapIcons.png";
 constexpr const char* RSRC_OBJ8DATAREFS = "Obj8DataRefs.txt";

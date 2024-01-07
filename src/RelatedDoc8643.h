@@ -1,16 +1,21 @@
 /// @file       RelatedDoc8643.h
-/// @brief      Handling the `related.txt` file for creating groups of similar looking aircraft types,
-///             and Doc8643, the official list of ICAO aircraft type codes.
+/// @brief      Reading of supporting text files:
+///             - `related.txt` for creating groups of similar looking aircraft types;
+///             - `relOp.txt` for creating groups of similar looking operator (liveries)
+///             - `Doc8643.txt`, the official list of ICAO aircraft type codes;
+///             - `Obj8DataRefs.txt`, a mapping list for replacing dataRefs in `.obj` files.
 /// @details    A related group is declared simply by a line of ICAO a/c type codes read from the file.
 ///             Internally, the group is just identified by its line number in `related.txt`.
 ///             So the group "44" might be "A306 A30B A310", the Airbus A300 series.
+///             Similarly, a group of operators is typically a group of mother/subsidiary
+///             companies using the same or very similar liveries.
 /// @details    Doc8643 is a list of information maintained by the ICAO
 ///             to list all registered aircraft types. Each type designator can appear multiple times
 ///             in the dataset for slightly differing models, but the classification und the WTC
 ///             will be the same in all those listing.\n
 ///             XPMP2 is only interested in type designator, classification, and WTC.
 /// @author     Birger Hoppe
-/// @copyright  (c) 2020 Birger Hoppe
+/// @copyright  (c) 2020-2024 Birger Hoppe
 /// @copyright  Permission is hereby granted, free of charge, to any person obtaining a
 ///             copy of this software and associated documentation files (the "Software"),
 ///             to deal in the Software without restriction, including without limitation
@@ -33,17 +38,28 @@
 namespace XPMP2 {
 
 //
-// MARK: related.txt
+// MARK: related.txt and relOp.txt
 //
+
+enum RelTxtTy : size_t {
+    REL_TXT_DESIGNATOR = 0,         ///< related file for plane type (designator), `related.txt`
+    REL_TXT_OP,                     ///< related file for operators, `relOp.txt`
+    REL_TXT_NUM                     ///< always last: number of "related" files
+};
 
 /// Map of group membership: ICAO a/c type maps to line in related.txt
 typedef std::map<std::string, int> mapRelatedTy;
 
-/// Read the `related.txt` file, full path passed in
-const char* RelatedLoad (const std::string& _path);
+/// @brief Read the `related.txt` file, full path passed in
+/// @return Empty string on success, otherwise error message
+const char* RelatedLoad (RelTxtTy relType, const std::string& _path);
 
-/// Find the related group for an ICAO a/c type, 0 if none
-int RelatedGet (const std::string& _acType);
+/// @brief Load all related files
+/// @note Non-existing files are skipped with warning in log, but don't return an error
+const char* RelatedLoad (const std::string _paths[], size_t _num);
+
+/// Find the related group for a given key, `0` if none
+int RelatedGet (RelTxtTy relType, const std::string& _key);
 
 //
 // MARK: Doc843.txt

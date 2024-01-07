@@ -159,10 +159,10 @@ public:
     std::string     pathDoc8643;
     /// Content of `Doc8643.txt` file
     mapDoc8643Ty    mapDoc8643;
-    /// Path to related.txt file
-    std::string     pathRelated;
-    /// Content of `related.txt` file as a map of type codes to group id
-    mapRelatedTy    mapRelated;
+    /// Paths to related.txt, relOp.txt... files
+    std::array<std::string,REL_TXT_NUM> pathRelated = {};
+    /// Content of `related.txt` and similar files as a map of keys to group id
+    std::array<mapRelatedTy,REL_TXT_NUM> mapRelated = {};
 
     /// Global map of all CSL Packages, indexed by `xsb_aircraft.txt::EXPORT_NAME`
     mapCSLPackageTy mapCSLPkgs;

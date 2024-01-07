@@ -35,6 +35,8 @@ You should ship all the files provided in the `Resources` folder:
 - `related.txt` defines "similar looking" aircraft types, so that an
   A320 model could be used if no exact match for the A319 at hand is found.
   Without that file this "related" matching cannot take place.
+- `relOp.txt` similarly defines "similar looking" airlines,
+  often subsidaries of mother airlines, which share the same livery.
 - `Obj8DataRefs.txt` is only required for the
   ["Copying .OBJ Files" functionality](CopyingObjFiles.html):
   It defines dataRef replacements.

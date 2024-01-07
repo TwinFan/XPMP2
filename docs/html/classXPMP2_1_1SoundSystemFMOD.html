@@ -97,6 +97,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a33b6ab44b328a120cf1454f889a75cc8"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1SoundSystemFMOD.html#a33b6ab44b328a120cf1454f889a75cc8">Play</a> (const std::string &amp;sndName, float vol, const <a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> &amp;ac) override</td></tr>
 <tr class="memdesc:a33b6ab44b328a120cf1454f889a75cc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Play a new sound, returns an id for that sound.  <a href="classXPMP2_1_1SoundSystemFMOD.html#a33b6ab44b328a120cf1454f889a75cc8">More...</a><br /></td></tr>
 <tr class="separator:a33b6ab44b328a120cf1454f889a75cc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20de34fc7bbd6293c1028eb232391456"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1SoundSystemFMOD.html#a20de34fc7bbd6293c1028eb232391456">Unpause</a> (uint64_t sndId) override</td></tr>
+<tr class="memdesc:a20de34fc7bbd6293c1028eb232391456"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unpause a sound, which got started in a paused state to avoid crackling.  <a href="classXPMP2_1_1SoundSystemFMOD.html#a20de34fc7bbd6293c1028eb232391456">More...</a><br /></td></tr>
+<tr class="separator:a20de34fc7bbd6293c1028eb232391456"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c2b58f71840897cc588cf80b0ff818e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1SoundSystemFMOD.html#a0c2b58f71840897cc588cf80b0ff818e">Stop</a> (uint64_t sndId) override</td></tr>
 <tr class="memdesc:a0c2b58f71840897cc588cf80b0ff818e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop the sound.  <a href="classXPMP2_1_1SoundSystemFMOD.html#a0c2b58f71840897cc588cf80b0ff818e">More...</a><br /></td></tr>
 <tr class="separator:a0c2b58f71840897cc588cf80b0ff818e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -884,6 +887,36 @@ template&lt;class T_ADVSET &gt; </div>
 <p>Stop the sound. </p>
 
 <p>Implements <a class="el" href="classXPMP2_1_1SoundSystem.html#adc26aa2f232277e00f568f8c854496d8">XPMP2::SoundSystem</a>.</p>
+
+</div>
+</div>
+<a id="a20de34fc7bbd6293c1028eb232391456"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20de34fc7bbd6293c1028eb232391456">&#9670;&nbsp;</a></span>Unpause()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::SoundSystemFMOD::Unpause </td>
+          <td>(</td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>sndId</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Unpause a sound, which got started in a paused state to avoid crackling. </p>
+
+<p>Implements <a class="el" href="classXPMP2_1_1SoundSystem.html#a5d7a7b6b3d1b63bf65955128dd3f0944">XPMP2::SoundSystem</a>.</p>
 
 </div>
 </div>

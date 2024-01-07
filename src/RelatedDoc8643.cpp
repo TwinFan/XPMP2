@@ -36,7 +36,7 @@
 
 namespace XPMP2 {
 
-#define DEBUG_READ_RELATED      "Readng from '%s'"
+#define DEBUG_READ_RELATED      "Reading from '%s'"
 #define ERR_RELATED_NOT_FOUND   "Could not open the file for reading"
 #define WARN_DUP_RELATED_ENTRY  "%s: Duplicate entry for '%s' in line %d"
 

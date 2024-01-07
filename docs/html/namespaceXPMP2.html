@@ -116,7 +116,7 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">One <code>.obj</code> file of a CSL model (of which it can have multiple)  <a href="classXPMP2_1_1CSLObj.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represetns a CSL model as it is saved on disk.  <a href="classXPMP2_1_1CSLModel.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a CSL model as it is saved on disk.  <a href="classXPMP2_1_1CSLModel.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1NetRuntimeError.html">NetRuntimeError</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception raised by <a class="el" href="classXPMP2_1_1SocketNetworking.html" title="Base class for any socket-based networking.">XPMP2::SocketNetworking</a> objects.  <a href="classXPMP2_1_1NetRuntimeError.html#details">More...</a><br /></td></tr>
@@ -378,6 +378,11 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a8bb5e2fcaa8bb9cbc05e43039054ddd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">State of the X-Plane object: Is it being loaded or available?  <a href="namespaceXPMP2.html#a8bb5e2fcaa8bb9cbc05e43039054ddd6">More...</a><br /></td></tr>
 <tr class="separator:a8bb5e2fcaa8bb9cbc05e43039054ddd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af774c4c796e073f027752d16e437eb8f"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#af774c4c796e073f027752d16e437eb8f">RelTxtTy</a> : size_t { <a class="el" href="namespaceXPMP2.html#af774c4c796e073f027752d16e437eb8fa737944d0d4e46be152f872dc910a5a3e">REL_TXT_DESIGNATOR</a> = 0
+, <a class="el" href="namespaceXPMP2.html#af774c4c796e073f027752d16e437eb8faea055d78067a1546d3b956db4b06ecb6">REL_TXT_OP</a>
+, <a class="el" href="namespaceXPMP2.html#af774c4c796e073f027752d16e437eb8fa711c8257b5d361a0291e920ee19b2b65">REL_TXT_NUM</a>
+ }</td></tr>
+<tr class="separator:af774c4c796e073f027752d16e437eb8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a73060b65abbe807b35555676346059a8"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8">RemoteCfgTy</a> : int { <a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8aaf330e648f54f093dcf4fa1926a61c5f">REMOTE_CFG_OFF</a> = -1
 , <a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8ab8d962a27d1a09e12344172f6d2a0aee">REMOTE_CFG_AUTO</a> = 0
 , <a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8aac3dbe5290f2ad92ea72f134d265064b">REMOTE_CFG_ON</a> = 1
@@ -502,12 +507,13 @@ Functions</h2></td></tr>
 <tr class="memdesc:a23d382004172e29e11c70c4c2cde2258"><td class="mdescLeft">&#160;</td><td class="mdescRight">Graceful shutdown.  <a href="namespaceXPMP2.html#a23d382004172e29e11c70c4c2cde2258">More...</a><br /></td></tr>
 <tr class="separator:a23d382004172e29e11c70c4c2cde2258"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc89d808ddbead928b337610cc656926"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#acc89d808ddbead928b337610cc656926">CSLModelGetKeyStr</a> (int _related, const std::string &amp;_type, const std::string &amp;_id)</td></tr>
+<tr class="memdesc:acc89d808ddbead928b337610cc656926"><td class="mdescLeft">&#160;</td><td class="mdescRight">compiles the string used as key in the CSL model map  <a href="namespaceXPMP2.html#acc89d808ddbead928b337610cc656926">More...</a><br /></td></tr>
 <tr class="separator:acc89d808ddbead928b337610cc656926"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d4506a797fa27c8c1eb5ed8a9e0b5d0"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a2d4506a797fa27c8c1eb5ed8a9e0b5d0">CSLModelsConvPackagePath</a> (const std::string &amp;pkgPath, int lnNr, bool bPkgOptional=false)</td></tr>
 <tr class="memdesc:a2d4506a797fa27c8c1eb5ed8a9e0b5d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn a relative package path into a full path.  <a href="namespaceXPMP2.html#a2d4506a797fa27c8c1eb5ed8a9e0b5d0">More...</a><br /></td></tr>
 <tr class="separator:a2d4506a797fa27c8c1eb5ed8a9e0b5d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3a0cb4f8ef4c3acab3c9f31b85fee7f2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a3a0cb4f8ef4c3acab3c9f31b85fee7f2">CSLModelsAdd</a> (<a class="el" href="classXPMP2_1_1CSLModel.html">CSLModel</a> &amp;_csl)</td></tr>
-<tr class="memdesc:a3a0cb4f8ef4c3acab3c9f31b85fee7f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a readily defined CSL model to all the necessary maps, resets passed-in reference.  <a href="namespaceXPMP2.html#a3a0cb4f8ef4c3acab3c9f31b85fee7f2">More...</a><br /></td></tr>
+<tr class="memdesc:a3a0cb4f8ef4c3acab3c9f31b85fee7f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a readily defined CSL model to all the necessary maps.  <a href="namespaceXPMP2.html#a3a0cb4f8ef4c3acab3c9f31b85fee7f2">More...</a><br /></td></tr>
 <tr class="separator:a3a0cb4f8ef4c3acab3c9f31b85fee7f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a0b363e5af0ee636d5b389bbe6ec105"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a5a0b363e5af0ee636d5b389bbe6ec105">CSLModelsReadPkgId</a> (const std::string &amp;path)</td></tr>
 <tr class="memdesc:a5a0b363e5af0ee636d5b389bbe6ec105"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scans an <code>xsb_aircraft.txt</code> file for <code>EXPORT_NAME</code> entries to fill the list of packages.  <a href="namespaceXPMP2.html#a5a0b363e5af0ee636d5b389bbe6ec105">More...</a><br /></td></tr>
@@ -607,12 +613,15 @@ Functions</h2></td></tr>
 <tr class="memitem:ac15c8cdfda4e8b72e30e4b766bd61846"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ac15c8cdfda4e8b72e30e4b766bd61846">NetwIsLocalAddr</a> (const sockaddr *sa)</td></tr>
 <tr class="memdesc:ac15c8cdfda4e8b72e30e4b766bd61846"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is given address a local one?  <a href="namespaceXPMP2.html#ac15c8cdfda4e8b72e30e4b766bd61846">More...</a><br /></td></tr>
 <tr class="separator:ac15c8cdfda4e8b72e30e4b766bd61846"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af089a656af12cee35113ed3c7f4b1846"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#af089a656af12cee35113ed3c7f4b1846">RelatedLoad</a> (const std::string &amp;_path)</td></tr>
-<tr class="memdesc:af089a656af12cee35113ed3c7f4b1846"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the <code>related.txt</code> file, full path passed in.  <a href="namespaceXPMP2.html#af089a656af12cee35113ed3c7f4b1846">More...</a><br /></td></tr>
-<tr class="separator:af089a656af12cee35113ed3c7f4b1846"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae67c9d5e25f13d150e85a46a1b05c1a2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ae67c9d5e25f13d150e85a46a1b05c1a2">RelatedGet</a> (const std::string &amp;_acType)</td></tr>
-<tr class="memdesc:ae67c9d5e25f13d150e85a46a1b05c1a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the related group for an ICAO a/c type, 0 if none.  <a href="namespaceXPMP2.html#ae67c9d5e25f13d150e85a46a1b05c1a2">More...</a><br /></td></tr>
-<tr class="separator:ae67c9d5e25f13d150e85a46a1b05c1a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a137f43d21d764500f65367ae80f263da"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a137f43d21d764500f65367ae80f263da">RelatedLoad</a> (<a class="el" href="namespaceXPMP2.html#af774c4c796e073f027752d16e437eb8f">RelTxtTy</a> relType, const std::string &amp;_path)</td></tr>
+<tr class="memdesc:a137f43d21d764500f65367ae80f263da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the <code>related.txt</code> file, full path passed in.  <a href="namespaceXPMP2.html#a137f43d21d764500f65367ae80f263da">More...</a><br /></td></tr>
+<tr class="separator:a137f43d21d764500f65367ae80f263da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96a110faaf8d3a81164bed35a00b6d28"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a96a110faaf8d3a81164bed35a00b6d28">RelatedLoad</a> (const std::string _paths[], size_t _num)</td></tr>
+<tr class="memdesc:a96a110faaf8d3a81164bed35a00b6d28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load all related files.  <a href="namespaceXPMP2.html#a96a110faaf8d3a81164bed35a00b6d28">More...</a><br /></td></tr>
+<tr class="separator:a96a110faaf8d3a81164bed35a00b6d28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd9654af7a0f2c6783527ac63d891a47"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#abd9654af7a0f2c6783527ac63d891a47">RelatedGet</a> (<a class="el" href="namespaceXPMP2.html#af774c4c796e073f027752d16e437eb8f">RelTxtTy</a> relType, const std::string &amp;_key)</td></tr>
+<tr class="memdesc:abd9654af7a0f2c6783527ac63d891a47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the related group for a given key, <code>0</code> if none.  <a href="namespaceXPMP2.html#abd9654af7a0f2c6783527ac63d891a47">More...</a><br /></td></tr>
+<tr class="separator:abd9654af7a0f2c6783527ac63d891a47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae28e9951c63d09a88498c70cf41affad"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ae28e9951c63d09a88498c70cf41affad">Doc8643Load</a> (const std::string &amp;_path)</td></tr>
 <tr class="memdesc:ae28e9951c63d09a88498c70cf41affad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load the content of the provided <code>Doc8643.txt</code> file.  <a href="namespaceXPMP2.html#ae28e9951c63d09a88498c70cf41affad">More...</a><br /></td></tr>
 <tr class="separator:ae28e9951c63d09a88498c70cf41affad"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1089,6 +1098,8 @@ Variables</h2></td></tr>
 <tr class="separator:a561ac1a3a5b1e667ec224d4fc88e0dd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6039e202d33d94341faf242efd9053bd"><td class="memItemLeft" align="right" valign="top">constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a6039e202d33d94341faf242efd9053bd">RSRC_RELATED</a> = &quot;related.txt&quot;</td></tr>
 <tr class="separator:a6039e202d33d94341faf242efd9053bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab27114a6143ee879f47bef50be21a168"><td class="memItemLeft" align="right" valign="top">constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ab27114a6143ee879f47bef50be21a168">RSRC_REL_OP</a> = &quot;relOp.txt&quot;</td></tr>
+<tr class="separator:ab27114a6143ee879f47bef50be21a168"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad07d8c1ea5845223824a5115493586be"><td class="memItemLeft" align="right" valign="top">constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ad07d8c1ea5845223824a5115493586be">RSRC_DOC8643</a> = &quot;Doc8643.txt&quot;</td></tr>
 <tr class="separator:ad07d8c1ea5845223824a5115493586be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d26c8e7fb2e64af57faaea569f906af"><td class="memItemLeft" align="right" valign="top">constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a8d26c8e7fb2e64af57faaea569f906af">RSRC_MAP_ICONS</a> = &quot;MapIcons.png&quot;</td></tr>
@@ -1803,6 +1814,28 @@ The animation dataRef values element. </td></tr>
 
 </div>
 </div>
+<a id="af774c4c796e073f027752d16e437eb8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af774c4c796e073f027752d16e437eb8f">&#9670;&nbsp;</a></span>RelTxtTy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespaceXPMP2.html#af774c4c796e073f027752d16e437eb8f">XPMP2::RelTxtTy</a> : size_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="af774c4c796e073f027752d16e437eb8fa737944d0d4e46be152f872dc910a5a3e"></a>REL_TXT_DESIGNATOR&#160;</td><td class="fielddoc"><p>related file for plane type (designator), <code>related.txt</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af774c4c796e073f027752d16e437eb8faea055d78067a1546d3b956db4b06ecb6"></a>REL_TXT_OP&#160;</td><td class="fielddoc"><p>related file for operators, <code>relOp.txt</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af774c4c796e073f027752d16e437eb8fa711c8257b5d361a0291e920ee19b2b65"></a>REL_TXT_NUM&#160;</td><td class="fielddoc"><p>always last: number of "related" files </p>
+</td></tr>
+</table>
+
+</div>
+</div>
 <a id="a73060b65abbe807b35555676346059a8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a73060b65abbe807b35555676346059a8">&#9670;&nbsp;</a></span>RemoteCfgTy</h2>
 
@@ -2310,8 +2343,10 @@ The animation dataRef values element. </td></tr>
 </div><div class="memdoc">
 
 <p>Resets all actual values of the AI/multiplayer dataRefs of one plane to something initial. </p>
-<dl class="section note"><dt>Note</dt><dd>There as pending bug, filed as XPD-13332, which affects this function with XP12 on Mac. X-Plane 12 can freeze since b5 when clearing Multiplayer positions to zero. </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a href="https://forums.x-plane.org/index.php?/forums/topic/276319-xp12-on-mac-since-b5-freeze-upon-tcas-activation/">https://forums.x-plane.org/index.php?/forums/topic/276319-xp12-on-mac-since-b5-freeze-upon-tcas-activation/</a> </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>There as pending bug, filed as XPD-13332, which affects this function with XP12. X-Plane 12 can freeze since b5 when clearing Multiplayer positions to zero. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a href="https://forums.x-plane.org/index.php?/forums/topic/276319-xp12-on-mac-since-b5-freeze-upon-tcas-activation/">https://forums.x-plane.org/index.php?/forums/topic/276319-xp12-on-mac-since-b5-freeze-upon-tcas-activation/</a> </dd>
+<dd>
+also <a href="https://forums.x-plane.org/index.php?/forums/topic/296584-livetraffic-freezes-xp-1208beta1-on-taking-over-tcas/">https://forums.x-plane.org/index.php?/forums/topic/296584-livetraffic-freezes-xp-1208beta1-on-taking-over-tcas/</a> reporting the same issue for Linux, so we switch initializing off completely. </dd></dl>
 
 </div>
 </div>
@@ -3059,6 +3094,8 @@ template&lt;class T &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>compiles the string used as key in the CSL model map </p>
+
 </div>
 </div>
 <a id="a0058c014facdd6861c25a3fb6742a497"></a>
@@ -3131,7 +3168,7 @@ template&lt;class T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Adds a readily defined CSL model to all the necessary maps, resets passed-in reference. </p>
+<p>Adds a readily defined CSL model to all the necessary maps. </p>
 
 </div>
 </div>
@@ -4850,8 +4887,8 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a id="ae67c9d5e25f13d150e85a46a1b05c1a2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae67c9d5e25f13d150e85a46a1b05c1a2">&#9670;&nbsp;</a></span>RelatedGet()</h2>
+<a id="abd9654af7a0f2c6783527ac63d891a47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd9654af7a0f2c6783527ac63d891a47">&#9670;&nbsp;</a></span>RelatedGet()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4859,19 +4896,29 @@ template&lt;class T &gt; </div>
         <tr>
           <td class="memname">int XPMP2::RelatedGet </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>_acType</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="namespaceXPMP2.html#af774c4c796e073f027752d16e437eb8f">RelTxtTy</a>&#160;</td>
+          <td class="paramname"><em>relType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>_acType</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Find the related group for an ICAO a/c type, 0 if none. </p>
+<p>Find the related group for a given key, <code>0</code> if none. </p>
 
 </div>
 </div>
-<a id="af089a656af12cee35113ed3c7f4b1846"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af089a656af12cee35113ed3c7f4b1846">&#9670;&nbsp;</a></span>RelatedLoad()</h2>
+<a id="a96a110faaf8d3a81164bed35a00b6d28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96a110faaf8d3a81164bed35a00b6d28">&#9670;&nbsp;</a></span>RelatedLoad() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4879,14 +4926,56 @@ template&lt;class T &gt; </div>
         <tr>
           <td class="memname">const char * XPMP2::RelatedLoad </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>_path</em></td><td>)</td>
+          <td class="paramtype">const std::string&#160;</td>
+          <td class="paramname"><em>_paths</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>_num</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Load all related files. </p>
+<dl class="section note"><dt>Note</dt><dd>Non-existing files are skipped with warning in log, but don't return an error </dd></dl>
+
+</div>
+</div>
+<a id="a137f43d21d764500f65367ae80f263da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a137f43d21d764500f65367ae80f263da">&#9670;&nbsp;</a></span>RelatedLoad() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * XPMP2::RelatedLoad </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceXPMP2.html#af774c4c796e073f027752d16e437eb8f">RelTxtTy</a>&#160;</td>
+          <td class="paramname"><em>relType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>_path</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Read the <code>related.txt</code> file, full path passed in. </p>
+<dl class="section return"><dt>Returns</dt><dd>Empty string on success, otherwise error message </dd></dl>
 
 </div>
 </div>
@@ -7650,6 +7739,28 @@ template&lt;class T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">constexpr const char* XPMP2::RSRC_OBJ8DATAREFS = &quot;Obj8DataRefs.txt&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab27114a6143ee879f47bef50be21a168"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab27114a6143ee879f47bef50be21a168">&#9670;&nbsp;</a></span>RSRC_REL_OP</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr const char* XPMP2::RSRC_REL_OP = &quot;relOp.txt&quot;</td>
         </tr>
       </table>
   </td>

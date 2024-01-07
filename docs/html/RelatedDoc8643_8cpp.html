@@ -64,11 +64,11 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:ad8f959409aa76f69395cefe783b3767f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RelatedDoc8643_8cpp.html#ad8f959409aa76f69395cefe783b3767f">DEBUG_READ_RELATED</a>&#160;&#160;&#160;&quot;related.txt: Trying to read from '%s'&quot;</td></tr>
+<tr class="memitem:ad8f959409aa76f69395cefe783b3767f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RelatedDoc8643_8cpp.html#ad8f959409aa76f69395cefe783b3767f">DEBUG_READ_RELATED</a>&#160;&#160;&#160;&quot;Reading from '%s'&quot;</td></tr>
 <tr class="separator:ad8f959409aa76f69395cefe783b3767f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f6bd2a10e7782b94b816d12f93875ad"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RelatedDoc8643_8cpp.html#a4f6bd2a10e7782b94b816d12f93875ad">ERR_RELATED_NOT_FOUND</a>&#160;&#160;&#160;&quot;related.txt: Could not open the file for reading&quot;</td></tr>
+<tr class="memitem:a4f6bd2a10e7782b94b816d12f93875ad"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RelatedDoc8643_8cpp.html#a4f6bd2a10e7782b94b816d12f93875ad">ERR_RELATED_NOT_FOUND</a>&#160;&#160;&#160;&quot;Could not open the file for reading&quot;</td></tr>
 <tr class="separator:a4f6bd2a10e7782b94b816d12f93875ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a816f2f9bfb55b514e28f9090972217bf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RelatedDoc8643_8cpp.html#a816f2f9bfb55b514e28f9090972217bf">WARN_DUP_RELATED_ENTRY</a>&#160;&#160;&#160;&quot;related.txt: Duplicate entry for '%s' in line %d&quot;</td></tr>
+<tr class="memitem:a816f2f9bfb55b514e28f9090972217bf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RelatedDoc8643_8cpp.html#a816f2f9bfb55b514e28f9090972217bf">WARN_DUP_RELATED_ENTRY</a>&#160;&#160;&#160;&quot;%s: Duplicate entry for '%s' in line %d&quot;</td></tr>
 <tr class="separator:a816f2f9bfb55b514e28f9090972217bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9dd0b11840c227dd586f5765a0423d2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="RelatedDoc8643_8cpp.html#ab9dd0b11840c227dd586f5765a0423d2">DEBUG_READ_DOC8643</a>&#160;&#160;&#160;&quot;doc8643.txt: Reading from '%s'&quot;</td></tr>
 <tr class="separator:ab9dd0b11840c227dd586f5765a0423d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -87,12 +87,15 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:af089a656af12cee35113ed3c7f4b1846"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#af089a656af12cee35113ed3c7f4b1846">XPMP2::RelatedLoad</a> (const std::string &amp;_path)</td></tr>
-<tr class="memdesc:af089a656af12cee35113ed3c7f4b1846"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the <code>related.txt</code> file, full path passed in.  <a href="namespaceXPMP2.html#af089a656af12cee35113ed3c7f4b1846">More...</a><br /></td></tr>
-<tr class="separator:af089a656af12cee35113ed3c7f4b1846"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae67c9d5e25f13d150e85a46a1b05c1a2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ae67c9d5e25f13d150e85a46a1b05c1a2">XPMP2::RelatedGet</a> (const std::string &amp;_acType)</td></tr>
-<tr class="memdesc:ae67c9d5e25f13d150e85a46a1b05c1a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the related group for an ICAO a/c type, 0 if none.  <a href="namespaceXPMP2.html#ae67c9d5e25f13d150e85a46a1b05c1a2">More...</a><br /></td></tr>
-<tr class="separator:ae67c9d5e25f13d150e85a46a1b05c1a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a137f43d21d764500f65367ae80f263da"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a137f43d21d764500f65367ae80f263da">XPMP2::RelatedLoad</a> (RelTxtTy relType, const std::string &amp;_path)</td></tr>
+<tr class="memdesc:a137f43d21d764500f65367ae80f263da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the <code>related.txt</code> file, full path passed in.  <a href="namespaceXPMP2.html#a137f43d21d764500f65367ae80f263da">More...</a><br /></td></tr>
+<tr class="separator:a137f43d21d764500f65367ae80f263da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96a110faaf8d3a81164bed35a00b6d28"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a96a110faaf8d3a81164bed35a00b6d28">XPMP2::RelatedLoad</a> (const std::string _paths[], size_t _num)</td></tr>
+<tr class="memdesc:a96a110faaf8d3a81164bed35a00b6d28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load all related files.  <a href="namespaceXPMP2.html#a96a110faaf8d3a81164bed35a00b6d28">More...</a><br /></td></tr>
+<tr class="separator:a96a110faaf8d3a81164bed35a00b6d28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd9654af7a0f2c6783527ac63d891a47"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#abd9654af7a0f2c6783527ac63d891a47">XPMP2::RelatedGet</a> (RelTxtTy relType, const std::string &amp;_key)</td></tr>
+<tr class="memdesc:abd9654af7a0f2c6783527ac63d891a47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the related group for a given key, <code>0</code> if none.  <a href="namespaceXPMP2.html#abd9654af7a0f2c6783527ac63d891a47">More...</a><br /></td></tr>
+<tr class="separator:abd9654af7a0f2c6783527ac63d891a47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae28e9951c63d09a88498c70cf41affad"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ae28e9951c63d09a88498c70cf41affad">XPMP2::Doc8643Load</a> (const std::string &amp;_path)</td></tr>
 <tr class="memdesc:ae28e9951c63d09a88498c70cf41affad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load the content of the provided <code>Doc8643.txt</code> file.  <a href="namespaceXPMP2.html#ae28e9951c63d09a88498c70cf41affad">More...</a><br /></td></tr>
 <tr class="separator:ae28e9951c63d09a88498c70cf41affad"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -118,10 +121,13 @@ Variables</h2></td></tr>
 <div class="textblock"><p>Reading of supporting text files: </p>
 <ul>
 <li><code>related.txt</code> for creating groups of similar looking aircraft types;</li>
+<li><code>relOp.txt</code> for creating groups of similar looking operator (liveries)</li>
 <li><code>Doc8643.txt</code>, the official list of ICAO aircraft type codes;</li>
 <li><p class="startli"><code>Obj8DataRefs.txt</code>, a mapping list for replacing dataRefs in <code>.obj</code> files.</p>
-<p class="startli">A related group is declared simply by a line of ICAO a/c type codes read from the file. Internally, the group is just identified by its line number in <code>related.txt</code>. So the group "44" might be "A306 A30B A310", the Airbus A300 series. </p><dl class="section author"><dt>Author</dt><dd>Birger Hoppe </dd></dl>
-<dl class="section copyright"><dt>Copyright</dt><dd>(c) 2020 Birger Hoppe </dd>
+<p class="startli">A related group is declared simply by a line of ICAO a/c type codes read from the file. Internally, the group is just identified by its line number in <code>related.txt</code>. So the group "44" might be "A306 A30B A310", the Airbus A300 series. Similarly, a group of operators is typically a group of mother/subsidiary companies using the same or very similar liveries.</p>
+<p class="startli">Doc8643 is a list of information maintained by the ICAO to list all registered aircraft types. Each type designator can appear multiple times in the dataset for slightly differing models, but the classification und the WTC will be the same in all those listing.<br  />
+ <a class="el" href="namespaceXPMP2.html">XPMP2</a> is only interested in type designator, classification, and WTC. </p><dl class="section author"><dt>Author</dt><dd>Birger Hoppe </dd></dl>
+<dl class="section copyright"><dt>Copyright</dt><dd>(c) 2020-2024 Birger Hoppe </dd>
 <dd>
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br  />
  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.<br  />
@@ -164,7 +170,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define DEBUG_READ_RELATED&#160;&#160;&#160;&quot;related.txt: Trying to read from '%s'&quot;</td>
+          <td class="memname">#define DEBUG_READ_RELATED&#160;&#160;&#160;&quot;Reading from '%s'&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -248,7 +254,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define ERR_RELATED_NOT_FOUND&#160;&#160;&#160;&quot;related.txt: Could not open the file for reading&quot;</td>
+          <td class="memname">#define ERR_RELATED_NOT_FOUND&#160;&#160;&#160;&quot;Could not open the file for reading&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -262,7 +268,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define WARN_DUP_RELATED_ENTRY&#160;&#160;&#160;&quot;related.txt: Duplicate entry for '%s' in line %d&quot;</td>
+          <td class="memname">#define WARN_DUP_RELATED_ENTRY&#160;&#160;&#160;&quot;%s: Duplicate entry for '%s' in line %d&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">

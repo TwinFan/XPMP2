@@ -660,7 +660,8 @@ void RmtSendMain()
 {
     // This is a thread main function, set thread's name
     SET_THREAD_NAME("XPMP2_Send");
-    
+    LOG_MSG(logDEBUG, "Sender thread started");
+
     try {
         LOG_ASSERT(gpMc != nullptr);
         
@@ -710,10 +711,13 @@ void RmtSendMain()
                 // We aren't actually interested in the data as such,
                 // the fact that there was _any_ traffic already means:
                 // there is someone out there interested in our data.
-                // We just read received multicast to clear out the buffers.
+                // We just read received multicast to clear out the buffers
+                // and switch the sending interface to the interface we received from.
                 std::string from;
-                gpMc->RecvMC(&from);
+                SockAddrTy sa;
+                gpMc->RecvMC(&from, &sa);
                 LOG_MSG(logINFO, INFO_MC_SEND_RCVD, from.c_str());
+                gpMc->SendToAddr(sa);
 
                 // Set global status to: we are about to send data, also exits listening loop
                 glob.remoteStatus = REMOTE_SENDING;
@@ -757,6 +761,7 @@ void RmtSendMain()
     // make sure the end of the thread is recognized and joined
     glob.remoteStatus = REMOTE_OFF;
     gbStopMCThread = true;
+    LOG_MSG(logDEBUG, "Sender thread stopping");
 }
 
 //
@@ -792,6 +797,7 @@ void RmtRecvMain()
 #else
     SET_THREAD_NAME((glob.logAcronym + "_Recv").c_str());
 #endif
+    LOG_MSG(logDEBUG, "Receiver thread started");
     
     try {
         LOG_ASSERT(gpMc != nullptr);
@@ -811,6 +817,7 @@ void RmtRecvMain()
 #endif
         
         // Send out a first Interest Beacon
+        gpMc->SendToAll();
         RmtSendBeacon();
         
         // *** Main listening loop ***
@@ -849,12 +856,12 @@ void RmtRecvMain()
             else if (retval > 0 && FD_ISSET(gpMc->getSocket(), &sRead))
             {
                 // Receive the data (if we are still waiting then we're interested in the sender's address purely for logging purposes)
-                sockaddr saFrom;
+                SockAddrTy saFrom;
                 const size_t recvSize = gpMc->RecvMC(nullptr, &saFrom);
                 if (recvSize >= sizeof(RemoteMsgBaseTy))
                 {
                     static float lastVerErrMsg = 0.0f;          // last time we issued a msg version warning
-                    const InetAddrTy from(&saFrom);           // extract the numerical address
+                    const InetAddrTy from(saFrom);              // extract the numerical address
                     RemoteMsgBaseTy& hdr = *(RemoteMsgBaseTy*)gpMc->getBuf();
                     hdr.bLocalSender = NetwIsLocalAddr(from);
                     switch (hdr.msgTy) {
@@ -866,7 +873,7 @@ void RmtRecvMain()
                         case RMT_MSG_SETTINGS:
                             if (hdr.msgVer == RMT_VER_SETTINGS && recvSize == sizeof(RemoteMsgSettingsTy))
                             {
-                                const std::string sFrom = SocketNetworking::GetAddrString(&saFrom);
+                                const std::string sFrom = SocketNetworking::GetAddrString(saFrom);
                                 const RemoteMsgSettingsTy& s = *(RemoteMsgSettingsTy*)gpMc->getBuf();
                                 // Is this the first set of settings we received? Then we switch status!
                                 if (glob.remoteStatus == REMOTE_RECV_WAITING) {
@@ -880,7 +887,7 @@ void RmtRecvMain()
                                     gRmtCBFcts.pfMsgSettings(from.addr, sFrom, s);
                             } else {
                                 LOG_MSG(logWARN, "Cannot process Settings message: %lu bytes, version %u, from %s",
-                                        (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
+                                        (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(saFrom).c_str());
                             }
                             break;
                             
@@ -926,7 +933,7 @@ void RmtRecvMain()
                             } else {
                                 if (CheckEverySoOften(lastVerErrMsg, 600.0f))
                                     LOG_MSG(logWARN, "Cannot process A/C Details message: %lu bytes, version %u, from %s\nCheck for an updated version on X-Plane.org",
-                                            (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
+                                            (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(saFrom).c_str());
                             }
                             break;
 
@@ -941,7 +948,7 @@ void RmtRecvMain()
                             } else {
                                 if (CheckEverySoOften(lastVerErrMsg, 600.0f))
                                     LOG_MSG(logWARN, "Cannot process A/C Pos Update message: %lu bytes, version %u, from %s\nCheck for an updated version on X-Plane.org",
-                                            (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
+                                            (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(saFrom).c_str());
                             }
                             break;
 
@@ -956,7 +963,7 @@ void RmtRecvMain()
                             } else {
                                 if (CheckEverySoOften(lastVerErrMsg, 600.0f))
                                     LOG_MSG(logWARN, "Cannot process A/C Animations message: %lu bytes, version %u, from %s\nCheck for an updated version on X-Plane.org",
-                                            (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
+                                            (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(saFrom).c_str());
                             }
                             break;
 
@@ -971,7 +978,7 @@ void RmtRecvMain()
                             } else {
                                 if (CheckEverySoOften(lastVerErrMsg, 600.0f))
                                     LOG_MSG(logWARN, "Cannot process A/C Remove message: %lu bytes, version %u, from %s\nCheck for an updated version on X-Plane.org",
-                                            (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(&saFrom).c_str());
+                                            (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(saFrom).c_str());
                             }
                             break;
 
@@ -1011,6 +1018,7 @@ void RmtRecvMain()
     // make sure the end of the thread is recognized and joined
     glob.remoteStatus = REMOTE_OFF;
     gbStopMCThread = true;
+    LOG_MSG(logDEBUG, "Receiver thread stopping");
 }
 
 //

@@ -7,7 +7,7 @@
 ///             XPMP2::UDPMulticast: sends and receives multicast UDP datagrams\n
 ///             XPMP2::TCPConnection: receives incoming TCP connection\n
 /// @author     Birger Hoppe
-/// @copyright  (c) 2019-2020 Birger Hoppe
+/// @copyright  (c) 2019-2024 Birger Hoppe
 /// @copyright  Permission is hereby granted, free of charge, to any person obtaining a
 ///             copy of this software and associated documentation files (the "Software"),
 ///             to deal in the Software without restriction, including without limitation
@@ -35,6 +35,7 @@ typedef SSIZE_T ssize_t;
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <fcntl.h>
+#include <net/if.h>
 #endif
 
 namespace XPMP2 {
@@ -48,6 +49,33 @@ typedef int socklen_t;              // in Winsock, an int is passed as length ar
 #endif
 
 constexpr int SERR_LEN = 100;                   // size of buffer for IO error texts (strerror_s)
+
+/// List of local IP addresses
+std::vector<InetAddrTy> gaddrLocal;
+/// List of IPv4 multicast-enabled interface addresses (one address per interface)
+std::vector<struct in_addr> gIp4IntfAddr;
+/// Map of IPv6 multicast-enabled interface indexes to potentially several addresses
+std::multimap<uint32_t,struct in6_addr> gIp6IntfIdx;
+
+
+// Constructor copies given socket info
+SockAddrTy::SockAddrTy (const sockaddr* pSa)
+{
+    memset(this, 0, sizeof(SockAddrTy));
+    if (pSa) {
+        switch (pSa->sa_family) {
+            case AF_INET:
+                memcpy(&sa_in, pSa, sizeof(sa_in));
+                break;
+            case AF_INET6:
+                memcpy(&sa_in6, pSa, sizeof(sa_in6));
+                break;
+            default:
+                memcpy(&sa, pSa, sizeof(sa));
+        }
+    }
+}
+
 
 //
 // MARK: SocketNetworking
@@ -416,34 +444,25 @@ bool SocketNetworking::broadcast (const char* msg)
 
 
 // return a string for a IPv4 and IPv6 address
-std::string SocketNetworking::GetAddrString (const struct sockaddr* addr)
+std::string SocketNetworking::GetAddrString (const SockAddrTy& sa, bool withPort)
 {
     std::string ret;
-    char s[INET6_ADDRSTRLEN];
+    char host[INET6_ADDRSTRLEN] = "", service[NI_MAXSERV] = "";
     
-    switch(addr->sa_family) {
-        case AF_INET: {
-            struct sockaddr_in *addr_in = (struct sockaddr_in *)addr;
-            inet_ntop(AF_INET, &(addr_in->sin_addr), s, sizeof(s));
-            ret = s;
-            if (addr_in->sin_port > 0) {
-                ret += ':';
-                ret += std::to_string(addr_in->sin_port);
-            }
-            break;
-        }
-        case AF_INET6: {
-            struct sockaddr_in6 *addr_in6 = (struct sockaddr_in6 *)addr;
-            inet_ntop(AF_INET6, &(addr_in6->sin6_addr), s, sizeof(s));
-            ret = s;
-            if (addr_in6->sin6_port > 0) {
-                ret += ':';
-                ret += std::to_string(addr_in6->sin6_port);
-            }
-            break;
-        }
-        default:
-            ret = "<unknown protocol family>";
+    int gai_err = getnameinfo(&sa.sa, sa.size(),
+                              host, sizeof(host),
+                              service, sizeof(service), NI_NUMERICSERV | NI_NUMERICHOST);
+    if (gai_err)
+        throw std::runtime_error(gai_strerror(gai_err));
+
+    // combine host and service as requested
+    if (withPort) {
+        ret = '[';
+        ret += host;
+        ret += "]:";
+        ret += service;
+    } else {
+        ret = host;
     }
     return ret;
 }
@@ -508,7 +527,7 @@ void UDPMulticast::Join (const std::string& _multicastAddr, int _port, int _ttl,
     
     // open the socket
     Open("", _port, _bufSize, _timeOut_ms);
-    
+
     // Have address info ready for the "any" interface
     struct addrinfo* pAnyAddrInfo = nullptr;
     hints.ai_flags |= AI_PASSIVE;
@@ -517,104 +536,184 @@ void UDPMulticast::Join (const std::string& _multicastAddr, int _port, int _ttl,
 
     
     // Actually join the multicast group
-    struct ip_mreq      mreqv4;
-    struct ipv6_mreq    mreqv6;
-    char*               optval = NULL;
-    const int           optlevel = pMCAddr->ai_family == AF_INET ? IPPROTO_IP : IPPROTO_IPV6;
-    int                 option=0;
-    socklen_t           optlen=0;
-    if (pMCAddr->ai_family == AF_INET)
+    if (IsIPv4())
     {
         // Setup the v4 option values and ip_mreq structure
-        option = IP_ADD_MEMBERSHIP;
-        optval = (char*)&mreqv4;
-        optlen = sizeof(mreqv4);
+        ip_mreq mreqv4 = {};
         mreqv4.imr_multiaddr.s_addr = ((sockaddr_in*)pMCAddr->ai_addr)->sin_addr.s_addr;
-        mreqv4.imr_interface.s_addr = ((sockaddr_in*)pAnyAddrInfo->ai_addr)->sin_addr.s_addr;;
+        mreqv4.imr_interface.s_addr = in_addr{INADDR_ANY}.s_addr;
+        if (setsockopt(f_socket, IPPROTO_IP, IP_ADD_MEMBERSHIP, (const char*) &mreqv4, sizeof(mreqv4)) < 0)
+            throw NetRuntimeError ("setsockopt(IP_ADD_MEMBERSHIP/IPV6_JOIN_GROUP) failed");
+        if (setsockopt(f_socket, IPPROTO_IP, IP_MULTICAST_TTL, (char*)&_ttl, sizeof(_ttl)) < 0)
+            throw NetRuntimeError ("setsockopt(IP_MULTICAST_TTL) failed");
     }
     else    // AF_INET6
     {
+        int on = 1;
+        setsockopt(f_socket, IPPROTO_IPV6, IPV6_MULTICAST_LOOP, (const char*) &on, sizeof(on));
+        if (setsockopt(f_socket, IPPROTO_IPV6, IPV6_MULTICAST_HOPS, (char*)&_ttl, sizeof(_ttl)) < 0)
+            throw NetRuntimeError ("setsockopt(IPV6_MULTICAST_HOPS) failed");
+
         // Setup the v6 option values and ipv6_mreq structure
-        option = IP_ADD_MEMBERSHIP;
-        optval = (char*)&mreqv6;
-        optlen = sizeof(mreqv6);
+        ipv6_mreq mreqv6 = {};
         mreqv6.ipv6mr_multiaddr = ((sockaddr_in6*)pMCAddr->ai_addr)->sin6_addr;
-        mreqv6.ipv6mr_interface = ((sockaddr_in6*)pAnyAddrInfo->ai_addr)->sin6_scope_id;
+        
+        // Need to join for all interface separately
+        NetwGetLocalAddresses();                            // find all addresses, populates gIp6IntfIdx
+        int cntSucces = 0;
+        mreqv6.ipv6mr_interface = 0;
+        for (const auto& p: gIp6IntfIdx) {
+            if (p.first != mreqv6.ipv6mr_interface) {
+                mreqv6.ipv6mr_interface = p.first;
+                if (setsockopt(f_socket, IPPROTO_IPV6, IPV6_JOIN_GROUP, (const char*) &mreqv6, sizeof(mreqv6)) < 0) {
+                    char sErr[SERR_LEN];
+                    strerror_s(sErr, sizeof(sErr), errno);
+                    LOG_MSG(logWARN, "MC %s: setsockopt(IPV6_JOIN_GROUP) failed for intf idx %u: %d - %s",
+                            multicastAddr.c_str(), mreqv6.ipv6mr_interface,
+                            errno, sErr);
+                } else {
+                    ++cntSucces;
+                }
+            }
+        }
+        // not a single interface accepted me?
+        if (!cntSucces)
+            throw NetRuntimeError ("setsockopt(IPV6_JOIN_GROUP) failed for all interfaces!");
     }
-    if (setsockopt(f_socket, optlevel, option, optval, optlen) < 0)
-        throw NetRuntimeError ("setsockopt(IP_ADD_MEMBERSHIP) failed");
     
-    // Set the send interface
-    if (pMCAddr->ai_family == AF_INET)
-    {
-        // Setup the v4 option values
-        option = IP_MULTICAST_IF;
-        optval = (char*)&((sockaddr_in*)pAnyAddrInfo->ai_addr)->sin_addr.s_addr;
-        optlen = sizeof(((sockaddr_in*)pAnyAddrInfo->ai_addr)->sin_addr.s_addr);
-    }
-    else    // AF_INET6
-    {
-        // Setup the v6 option values
-        option = IPV6_MULTICAST_IF;
-        optval = (char*)&((sockaddr_in6*)pAnyAddrInfo->ai_addr)->sin6_scope_id;
-        optlen = sizeof(((sockaddr_in6*)pAnyAddrInfo->ai_addr)->sin6_scope_id);
-    }
-    if (setsockopt(f_socket, optlevel, option, optval, optlen) < 0)
-        throw NetRuntimeError ("setsockopt(IP_MULTICAST_IF) failed");
-    
-    // Set the TTL
-    if (pMCAddr->ai_family == AF_INET)
-        option = IP_MULTICAST_TTL;
-    else    // AF_INET6
-        option = IPV6_MULTICAST_HOPS;
-    if (setsockopt(f_socket, optlevel, option, (char*)&_ttl, sizeof(_ttl)) < 0)
-        throw NetRuntimeError ("setsockopt(IP_MULTICAST_TTL) failed");
+    // Set the send interface to default
+    SendToDefault();
 
     // free local address info
     freeaddrinfo(pAnyAddrInfo);
 }
 
+// Send future datagrams on default interfaces only (default)
+void UDPMulticast::SendToDefault ()
+{
+    aIf4.clear();
+    aIf6.clear();
+    
+    if (!pMCAddr) throw NetRuntimeError("Multicast address not yet defined");
+    
+    // Set the send interface to default
+    if (IsIPv4())                                   // IPv4
+        SetSendInterface(in_addr{INADDR_ANY});
+    else  {                                         // IPv6 doesn't allow assigning `0` generally, so we pick the first from our list
+        if (!gIp6IntfIdx.empty())
+            SetSendInterface(gIp6IntfIdx.begin()->first);
+    }
+    
+    LOG_MSG(logDEBUG, "MC %s: Sending via default interface",
+            multicastAddr.c_str());
+}
+
+// Send future datagrams on _all_ interfaces
+void UDPMulticast::SendToAll ()
+{
+    aIf4.clear();
+    aIf6.clear();
+    
+    NetwGetLocalAddresses ();               // makes sure lists of multicast interfaces are filled, too
+    
+    aIf4 = gIp4IntfAddr;                    // copy all IPv4 interface addresses
+    
+    uint32_t prevIdx = 0;                   // copy all IPv6 interfaces idx, but each only once
+    for(const auto& p: gIp6IntfIdx)
+        if (p.first != prevIdx)
+            aIf6.push_back(prevIdx = p.first);
+    
+    LOG_MSG(logDEBUG, "MC %s: Sending on ALL %lu interfaces",
+            multicastAddr.c_str(),
+            !pMCAddr || (pMCAddr->ai_family == AF_INET) ? (long unsigned)aIf4.size() : (long unsigned)aIf6.size());
+}
+
+// Send future datagrams on this particular interface only
+void UDPMulticast::SendToAddr (const SockAddrTy& sa)
+{
+    if (!pMCAddr) throw NetRuntimeError("Multicast address not yet defined");
+    if (sa.family() != pMCAddr->ai_family)
+        throw NetRuntimeError("Send Address' family differs from MC's family");
+    
+    // indicates 'no looping' to SendMC()
+    aIf4.clear();
+    aIf6.clear();
+
+    // Set the send interface as requested
+    // IPv4
+    if (sa.isIp4()) {
+        // TODO: This will probably not work...this is not the address of the receiving interface but the address of the sender...
+        SetSendInterface(sa.sa_in.sin_addr);
+        LOG_MSG(logINFO, "MC %s: Sending via interface %s only",
+                multicastAddr.c_str(),
+                GetAddrString(sa, false).c_str());
+    }
+    // IPv6
+    else if (sa.isIp6())
+    {
+        SetSendInterface(sa.sa_in6.sin6_scope_id);
+    }
+}
+
+
 // Send a multicast
 size_t UDPMulticast::SendMC (const void* _bufSend, size_t _bufSendSize)
 {
+    ssize_t bytesSent = 0;
     if (!pMCAddr || !isOpen())
         throw NetRuntimeError("SendMC: Multicast socket not open");
     
-    ssize_t bytesSent =
-#if IBM
-    (ssize_t)sendto(f_socket, (const char*)_bufSend, (int)_bufSendSize, 0, pMCAddr->ai_addr, (int)pMCAddr->ai_addrlen);
-#else
-    sendto(f_socket, _bufSend, _bufSendSize, 0, pMCAddr->ai_addr, pMCAddr->ai_addrlen);
-#endif
-    if (bytesSent < 0)
-        throw NetRuntimeError("SendMC: sendto failed to send " + std::to_string(_bufSendSize) + " bytes");
+    // We want one loop only, but we need to loop over two different types of vectors (IPv4 vs IPv6)
+    // or over nothing in case the vectors have zero size
+    size_t count = IsIPv4() ? aIf4.size() : aIf6.size();
+    if (!count) count = 1;                          // we need to send at least once
+    for (size_t i = 0; i < count; ++i) {
+        // Set the sending interface if we are looping over all interfaces
+        if (IsIPv4() && i < aIf4.size())
+            SetSendInterface(aIf4[i]);
+        else if (IsIPv6() && i < aIf6.size())
+            SetSendInterface(aIf6[i]);
+        
+        // Do the actual sending
+        bytesSent =
+    #if IBM
+        (ssize_t)sendto(f_socket, (const char*)_bufSend, (int)_bufSendSize, 0, pMCAddr->ai_addr, (int)pMCAddr->ai_addrlen);
+    #else
+        sendto(f_socket, _bufSend, _bufSendSize, 0, pMCAddr->ai_addr, pMCAddr->ai_addrlen);
+    #endif
+        if (bytesSent < 0)
+            throw NetRuntimeError("SendMC: sendto failed to send " + std::to_string(_bufSendSize) + " bytes");
+    }
+    
     return size_t(bytesSent);
 }
 
 // @brief Receive a multicast
-size_t UDPMulticast::RecvMC (std::string* _pFromAddr, sockaddr* _pFromSockAddr)
+size_t UDPMulticast::RecvMC (std::string* _pFromAddr, SockAddrTy* _pFromSockAddr)
 {
-    sockaddr    safrom;
-    socklen_t   fromlen = sizeof(safrom);
 
     if (!pMCAddr || !buf || !isOpen())
         throw NetRuntimeError("RecvMC: Multicast socket not initialized");
+    
+    SockAddrTy sa;
+    sa.sa.sa_family = (decltype(sa.sa.sa_family))pMCAddr->ai_family;
+    socklen_t fromlen = sa.size();
 
     memset(buf, 0, bufSize);
     ssize_t bytesRcvd =
 #if IBM
-    (ssize_t) recvfrom(f_socket, buf, (int)bufSize, 0, &safrom, &fromlen);
+    (ssize_t) recvfrom(f_socket, buf, (int)bufSize, 0, &sa.sa, &fromlen);
 #else
-    recvfrom(f_socket, buf, bufSize, 0, &safrom, &fromlen);
+    recvfrom(f_socket, buf, bufSize, 0, &sa.sa, &fromlen);
 #endif
     if (bytesRcvd < 0)
         throw NetRuntimeError("RecvMC: recvfrom failed");
 
     // Sender address wanted?
     if (_pFromAddr)
-        *_pFromAddr = GetAddrString(&safrom);
+        *_pFromAddr = GetAddrString(sa);
     if (_pFromSockAddr)
-        memcpy(_pFromSockAddr, &safrom, sizeof(safrom));
+        *_pFromSockAddr = sa;
     
     return size_t(bytesRcvd);
 }
@@ -640,6 +739,23 @@ void UDPMulticast::GetAddrHints (struct addrinfo& hints)
     hints.ai_socktype = pMCAddr->ai_socktype;
     hints.ai_protocol = pMCAddr->ai_protocol;
 }
+
+// Set multicast send interface (IPv4)
+void UDPMulticast::SetSendInterface (const in_addr& addr)
+{
+    if (setsockopt(f_socket, IPPROTO_IP, IP_MULTICAST_IF,
+                   (const char*) &addr, sizeof(addr)) < 0)
+        throw NetRuntimeError ("setsockopt(IP_MULTICAST_IF) failed");
+}
+
+// Set multicast send interface (IPv6)
+void UDPMulticast::SetSendInterface (uint32_t ifIdx)
+{
+    if (setsockopt(f_socket, IPPROTO_IPV6, IPV6_MULTICAST_IF,
+                   (const char*) &ifIdx, sizeof(ifIdx)) < 0)
+        throw NetRuntimeError ("setsockopt(IPV6_MULTICAST_IF) failed");
+}
+
 
 //
 // MARK: TCPConnection
@@ -789,23 +905,18 @@ void TCPConnection::GetAddrHints (struct addrinfo& hints)
 // MARK: IP address helpers
 //
 
-/// List of local IP addresses
-std::vector<InetAddrTy> gaddrLocal;
-
 /// Extracts the numerical address and puts it into addr for generic address use
-void InetAddrTy::CopyFrom (const sockaddr* sa)
+void InetAddrTy::CopyFrom (const SockAddrTy& sa)
 {
-    switch (sa->sa_family) {
+    switch (sa.family()) {
         case AF_INET: {
-            const sockaddr_in* sa4 = (sockaddr_in*)sa;
-            addr[0] = sa4->sin_addr.s_addr;
+            addr[0] = sa.sa_in.sin_addr.s_addr;
             addr[1] = addr[2] = addr[3] = 0;
             break;
         }
             
         case AF_INET6: {
-            const sockaddr_in6* sa6 = (sockaddr_in6*)sa;
-            memcpy(addr, sa6->sin6_addr.s6_addr, sizeof(addr));
+            memcpy(addr, sa.sa_in6.sin6_addr.s6_addr, sizeof(addr));
             break;
         }
             
@@ -837,6 +948,7 @@ const std::vector<InetAddrTy>& NetwGetLocalAddresses ()
             ret = GetAdaptersAddresses(AF_UNSPEC, 0, NULL, pAddresses, &bufLen);
             switch (ret) {
             case ERROR_NO_DATA:                 // no addresses found (?)
+                free(pAddresses);
                 return gaddrLocal;
             case ERROR_BUFFER_OVERFLOW:         // buffer too small, but bufLen has the required size now, try again
                 free(pAddresses);
@@ -846,6 +958,7 @@ const std::vector<InetAddrTy>& NetwGetLocalAddresses ()
                 break;
             default:
                 LOG_MSG(logERR, "GetAdaptersAddresses failed with error: %ld", ret);
+                free(pAddresses);
                 return gaddrLocal;
             }
         } while (ret == ERROR_BUFFER_OVERFLOW);
@@ -856,11 +969,28 @@ const std::vector<InetAddrTy>& NetwGetLocalAddresses ()
              pAddr = pAddr->Next)
         {
             // Walk the list of unicast addresses
+            bool bNeedIp4Addr = pAddr->Ipv4Enabled && !pAddr->NoMulticast;
+            const bool bNeedIp6Addr = pAddr->Ipv6Enabled && !pAddr->NoMulticast;
             for (const IP_ADAPTER_UNICAST_ADDRESS* pUni = pAddr->FirstUnicastAddress;
                  pUni;
                  pUni = pUni->Next)
             {
-                gaddrLocal.emplace_back(pUni->Address.lpSockaddr);
+                const sockaddr* pSAddr = pUni->Address.lpSockaddr;
+                if (!pSAddr) continue;
+                gaddrLocal.emplace_back(pSAddr);
+                
+                // Store one and only one IP4 address for use with multicast sending
+                if (bNeedIp4Addr && pSAddr->sa_family == AF_INET) {
+                    const sockaddr_in* pSInAddr = reinterpret_cast<const sockaddr_in*>(pSAddr);
+                    gIp4IntfAddr.push_back(pSInAddr->sin_addr);
+                    bNeedIp4Addr = false;
+                }
+                
+                // For IPv6 store all interfaces addresses with their interface idx
+                if (bNeedIp6Addr && pSAddr->sa_family == AF_INET6) {
+                    const sockaddr_in6* pSaIn6 = reinterpret_cast<const sockaddr_in6*>(pSAddr);
+                    gIp6IntfIdx.emplace(pAddr->Ipv6IfIndex,pSaIn6->sin6_addr);
+                }
             }
         }
 
@@ -868,6 +998,11 @@ const std::vector<InetAddrTy>& NetwGetLocalAddresses ()
         free(pAddresses);
         pAddresses = NULL;
 #else
+        // List of IPv4 multicast-enabled interface indexes
+        std::set<uint32_t> ip4IntfIdx;
+        gIp4IntfAddr.clear();
+        gIp6IntfIdx.clear();
+
         // Fetch all local interface addresses
         struct ifaddrs *ifaddr = nullptr;
         if (getifaddrs(&ifaddr) == -1) {
@@ -881,11 +1016,32 @@ const std::vector<InetAddrTy>& NetwGetLocalAddresses ()
             // ignore empty addresses and everything that is not IP
             if (ifa->ifa_addr == NULL)
                 continue;
+            
+            const struct sockaddr& sa = *ifa->ifa_addr;
             if (ifa->ifa_addr->sa_family != AF_INET &&
-                ifa->ifa_addr->sa_family != AF_INET6)
+                sa.sa_family != AF_INET6)
                 continue;
             // the others add to our list of local addresses
             gaddrLocal.emplace_back(ifa->ifa_addr);
+            
+            // If multicast-enabled add to our list of multicast interfaces
+            if ((ifa->ifa_flags & (IFF_UP | IFF_RUNNING | IFF_MULTICAST)) == (IFF_UP | IFF_RUNNING | IFF_MULTICAST))
+            {
+                // interface index
+                const uint32_t idx = if_nametoindex(ifa->ifa_name);
+                // IP4
+                if (sa.sa_family == AF_INET) {
+                    if (idx && ip4IntfIdx.insert(idx).second)  {    // not yet added an address of this interface
+                        const sockaddr_in* pSaIn = reinterpret_cast<const sockaddr_in*>(ifa->ifa_addr);
+                        gIp4IntfAddr.push_back(pSaIn->sin_addr);
+                    }
+                }
+                // IP6
+                else {
+                    const sockaddr_in6* pSaIn6 = reinterpret_cast<const sockaddr_in6*>(ifa->ifa_addr);
+                    gIp6IntfIdx.emplace(idx,pSaIn6->sin6_addr);                        // std::set will insert each index once only
+                }
+            }
         }
         
         // free the return list

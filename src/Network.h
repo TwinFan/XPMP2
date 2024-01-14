@@ -7,7 +7,7 @@
 ///             XPMP2::UDPMulticast: sends and receives multicast UDP datagrams\n
 ///             XPMP2::TCPConnection: receives incoming TCP connection\n
 /// @author     Birger Hoppe
-/// @copyright  (c) 2019-2020 Birger Hoppe
+/// @copyright  (c) 2019-2024 Birger Hoppe
 /// @copyright  Permission is hereby granted, free of charge, to any person obtaining a
 ///             copy of this software and associated documentation files (the "Software"),
 ///             to deal in the Software without restriction, including without limitation
@@ -45,6 +45,29 @@ namespace XPMP2 {
 typedef int SOCKET;             ///< Windows defines SOCKET, so we define it for non-Windows manually
 constexpr SOCKET INVALID_SOCKET = -1;
 #endif
+
+/// Helper definition for all these IPv4/6 differences
+struct SockAddrTy
+{
+    union {
+        sockaddr        sa;             // unspecific
+        sockaddr_in     sa_in;          // AF_INET  / IPv4
+        sockaddr_in6    sa_in6;         // AF_INET6 / IPv6
+    };
+    
+    /// Constructor zeroes out everying
+    SockAddrTy() { memset(this, 0, sizeof(SockAddrTy)); }
+    /// Constructor copies given socket info
+    SockAddrTy (const sockaddr* pSa);
+    
+    decltype(sa.sa_family) family() const { return sa.sa_family; }      ///< return the protocol famaily
+    bool isIp4() const { return family() == AF_INET; }                  ///< is this an IPv4 address?
+    bool isIp6() const { return family() == AF_INET6; }                 ///< is this an IPv6 address?
+    socklen_t size () const                                             ///< expected structure size as per protocol family
+    { return
+        sa.sa_family == AF_INET     ? sizeof(sa_in) :
+        sa.sa_family == AF_INET6    ? sizeof(sa_in6) : sizeof(sa); }
+};
 
 /// @brief Exception raised by XPMP2::SocketNetworking objects
 /// @details This exception is raised when the address
@@ -114,7 +137,7 @@ public:
     bool broadcast (const char* msg);
     
     /// Convert addresses to string
-    static std::string GetAddrString (const struct sockaddr* addr);
+    static std::string GetAddrString (const SockAddrTy& sa, bool withPort = true);
     
 protected:
     /// Subclass to tell which addresses to look for
@@ -146,6 +169,10 @@ class UDPMulticast : public SocketNetworking
 protected:
     std::string multicastAddr;          ///< the multicast address
     struct addrinfo* pMCAddr = nullptr; ///< the multicast address
+    // Technically, multicast is send out via a single interface only.
+    // The class supports repeating the datagram on all interfaces.
+    std::vector<in_addr>  aIf4;         ///< list of IP4 interfaces to send to, empty if default
+    std::vector<uint32_t> aIf6;         ///< list of IP6 interfaces indexes to send to, empty if default
 public:
     /// Default constructor is not doing anything
     UDPMulticast() : SocketNetworking() {}
@@ -160,6 +187,20 @@ public:
     void Join (const std::string& _multicastAddr, int _port, int _ttl=8,
                size_t _bufSize = 512, unsigned _timeOut_ms = 0);
     
+    /// IPv4?
+    bool IsIPv4 () const
+    { return pMCAddr && pMCAddr->ai_family == AF_INET; }
+    /// IPv6?
+    bool IsIPv6 () const
+    { return pMCAddr && pMCAddr->ai_family == AF_INET6; }
+    
+    /// Send future datagrams on default interfaces only (default)
+    void SendToDefault ();
+    /// Send future datagrams on _all_ interfaces
+    void SendToAll ();
+    /// Send future datagrams on this particular interface only
+    void SendToAddr (const SockAddrTy& sa);
+
     /// @brief Send a multicast
     /// @param _bufSend Data to send
     /// @param _bufSendSize Size of the provided buffer
@@ -171,12 +212,16 @@ public:
     /// @param[out] _pFromSockAddr If given then the sender adress is written into this string
     /// @return Number of bytes received
     size_t RecvMC (std::string* _pFromAddr  = nullptr,
-                   sockaddr* _pFromSockAddr = nullptr);
+                   SockAddrTy* _pFromSockAddr = nullptr);
 
 protected:
     void Cleanup ();                    ///< frees pMCAddr
     /// returns information from `*pMCAddr`
     void GetAddrHints (struct addrinfo& hints) override;
+    /// Set multicast send interface (IPv4)
+    void SetSendInterface (const in_addr& addr);
+    /// Set multicast send interface (IPv6)
+    void SetSendInterface (uint32_t ifIdx);
 };
 
 
@@ -224,10 +269,12 @@ struct InetAddrTy {
     /// Default does nothing
     InetAddrTy () {}
     /// Take over from structure
-    InetAddrTy (const sockaddr* sa) { CopyFrom(sa); }
-    
+    InetAddrTy (const SockAddrTy& sa) { CopyFrom(sa); }
+    /// Take over from structure
+    InetAddrTy (const sockaddr* pSa) { CopyFrom(SockAddrTy(pSa)); }
+
     /// Take over address from structure
-    void CopyFrom (const sockaddr* sa);
+    void CopyFrom (const SockAddrTy& sa);
 
     /// Equality means: all elements are equal
     bool operator==(const InetAddrTy& o) const
@@ -245,7 +292,7 @@ const std::vector<InetAddrTy>& NetwGetLocalAddresses ();
 /// Is given address a local one?
 bool NetwIsLocalAddr (const InetAddrTy& addr);
 /// Is given address a local one?
-inline bool NetwIsLocalAddr (const sockaddr* sa)
+inline bool NetwIsLocalAddr (const SockAddrTy& sa)
 { return NetwIsLocalAddr(InetAddrTy(sa)); }
 
 

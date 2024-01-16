@@ -201,7 +201,7 @@ public:
     
     /// @brief The multicast group that we use, which is the same X-Plane is using itself for its BEACON
     /// @see <X-Plane>/Instructions/Exchanging Data with X-Plane.rtfd, chapter "DISCOVER X-PLANE BY A BEACON"
-    std::string     remoteMCGroup = "FF02::1"; //  "239.255.1.1";    // for IPv6 try "FF02::1"
+    std::string     remoteMCGroup = "239.255.1.1";    // for IPv6 try "FF02::1"
     /// The port we use is _different_ from the port the X-Plane BEACON uses, so we don't get into conflict
     int             remotePort      = 49788;
     /// Time-to-live, or mumber of hops for a multicast message

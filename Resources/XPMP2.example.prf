@@ -1,6 +1,6 @@
 # XPMP2.example.prf
 #
-# (c) 2020 Birger Hoppe
+# (c) 2020-2024 Birger Hoppe
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
 # to deal in the Software without restriction, including without limitation
@@ -81,7 +81,8 @@ remoteSupport auto
 #########################################################
 
 # Multicast group used for communication between XPMP2 masters and the Remote Client.
-# By default this is the same as used by X-Plane for its networked setup communication.
+# By default this is the same as used by X-Plane for its networked setup communication (239.255.1.1)
+# If you want to enable IPv6 multicast try FF02::1
 remoteMCGroup 239.255.1.1
 
 # Port used for communication between XPMP2 masters and the Remote Client.

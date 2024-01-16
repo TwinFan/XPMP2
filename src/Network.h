@@ -32,7 +32,10 @@
 #include <winsock2.h>
 #include <ws2ipdef.h>           // required for sockaddr_in6 (?)
 #include <iphlpapi.h>           // for GetAdaptersAddresses
+#include <MSWSock.h>            // for LPFN_WSARECVMSG 
 #else
+#define __APPLE_USE_RFC_3542    // both required for newer constants like IPV6_RECVPKTINFO
+#define _GNU_SOURCE
 #include <sys/socket.h>
 #include <netdb.h>
 #include <ifaddrs.h>
@@ -60,7 +63,7 @@ struct SockAddrTy
     /// Constructor copies given socket info
     SockAddrTy (const sockaddr* pSa);
     
-    decltype(sa.sa_family) family() const { return sa.sa_family; }      ///< return the protocol famaily
+    uint8_t family() const { return (uint8_t) sa.sa_family; }      ///< return the protocol famaily
     bool isIp4() const { return family() == AF_INET; }                  ///< is this an IPv4 address?
     bool isIp6() const { return family() == AF_INET6; }                 ///< is this an IPv6 address?
     socklen_t size () const                                             ///< expected structure size as per protocol family
@@ -96,6 +99,10 @@ protected:
     char*               buf             = NULL;
     size_t              bufSize         = 512;
 
+#if IBM
+    /// Pointer to WSARecvMsg function of Winsock2        
+    LPFN_WSARECVMSG     pWSARecvMsg     = nullptr;
+#endif
 public:
     /// Default constructor is not doing anything
     SocketNetworking() {}
@@ -142,6 +149,16 @@ public:
 protected:
     /// Subclass to tell which addresses to look for
     virtual void GetAddrHints (struct addrinfo& hints) = 0;
+#if IBM
+    /// @brief Wrapper around Windows' weird way of hiding WSAREcvMsg: Finds the pointer to the function, then calls it
+    /// @see https://learn.microsoft.com/en-us/windows/win32/api/mswsock/nc-mswsock-lpfn_wsarecvmsg
+    /// @see https://stackoverflow.com/a/37334943
+    int WSARecvMsg(
+        LPWSAMSG lpMsg,
+        LPDWORD lpdwNumberOfBytesRecvd,
+        LPWSAOVERLAPPED lpOverlapped,
+        LPWSAOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine);
+#endif
 };
 
 
@@ -169,10 +186,10 @@ class UDPMulticast : public SocketNetworking
 protected:
     std::string multicastAddr;          ///< the multicast address
     struct addrinfo* pMCAddr = nullptr; ///< the multicast address
-    // Technically, multicast is send out via a single interface only.
-    // The class supports repeating the datagram on all interfaces.
-    std::vector<in_addr>  aIf4;         ///< list of IP4 interfaces to send to, empty if default
-    std::vector<uint32_t> aIf6;         ///< list of IP6 interfaces indexes to send to, empty if default
+    
+    bool bSendToAll = true;             ///< Send out multicast datagrams to all interfaces
+    uint32_t oneIntfIdx = 0;            ///< When sending to one interface only, which one?
+
 public:
     /// Default constructor is not doing anything
     UDPMulticast() : SocketNetworking() {}
@@ -187,19 +204,17 @@ public:
     void Join (const std::string& _multicastAddr, int _port, int _ttl=8,
                size_t _bufSize = 512, unsigned _timeOut_ms = 0);
     
-    /// IPv4?
-    bool IsIPv4 () const
-    { return pMCAddr && pMCAddr->ai_family == AF_INET; }
-    /// IPv6?
-    bool IsIPv6 () const
-    { return pMCAddr && pMCAddr->ai_family == AF_INET6; }
+    /// Protocol family
+    uint8_t GetFamily () const { return pMCAddr ? (uint8_t)pMCAddr->ai_family : AF_UNSPEC; }
+    bool IsIPv4 () const { return GetFamily() == AF_INET; }     ///< IPv4?
+    bool IsIPv6 () const { return GetFamily() == AF_INET6; }    ///< IPv6?
     
     /// Send future datagrams on default interfaces only (default)
     void SendToDefault ();
     /// Send future datagrams on _all_ interfaces
     void SendToAll ();
     /// Send future datagrams on this particular interface only
-    void SendToAddr (const SockAddrTy& sa);
+    void SendToIntf (uint32_t idx);
 
     /// @brief Send a multicast
     /// @param _bufSend Data to send
@@ -208,19 +223,21 @@ public:
     size_t SendMC (const void* _bufSend, size_t _bufSendSize);
     
     /// @brief Receive a multicast, received message is in XPMP2::SocketNetworking::GetBuf()
+    /// @param bSwitchToRecvIntf Shall all future datagrams be _send_ out on the same interface as we received this message on?
     /// @param[out] _pFromAddr If given then the sender adress is written into this string
     /// @param[out] _pFromSockAddr If given then the sender adress is written into this string
     /// @return Number of bytes received
-    size_t RecvMC (std::string* _pFromAddr  = nullptr,
+    size_t RecvMC (bool bSwitchToRecvIntf,
+                   std::string* _pFromAddr  = nullptr,
                    SockAddrTy* _pFromSockAddr = nullptr);
 
 protected:
     void Cleanup ();                    ///< frees pMCAddr
     /// returns information from `*pMCAddr`
     void GetAddrHints (struct addrinfo& hints) override;
-    /// Set multicast send interface (IPv4)
+    /// Set multicast send interface (IPv4 only)
     void SetSendInterface (const in_addr& addr);
-    /// Set multicast send interface (IPv6)
+    /// Set multicast send interface
     void SetSendInterface (uint32_t ifIdx);
 };
 
@@ -264,7 +281,11 @@ protected:
 
 /// Numerical IP address, used for both ipv4 and ipv6, for ease of handling
 struct InetAddrTy {
-    std::uint32_t   addr[4] = {0,0,0,0};
+    union {
+        std::uint32_t   addr[4] = {0,0,0,0};
+        struct in_addr  in_addr;
+        struct in6_addr in6_addr;
+    };
     
     /// Default does nothing
     InetAddrTy () {}
@@ -286,14 +307,14 @@ struct InetAddrTy {
 
 };
 
-/// Return all local addresses (also cached locally)
-const std::vector<InetAddrTy>& NetwGetLocalAddresses ();
-
 /// Is given address a local one?
 bool NetwIsLocalAddr (const InetAddrTy& addr);
 /// Is given address a local one?
 inline bool NetwIsLocalAddr (const SockAddrTy& sa)
 { return NetwIsLocalAddr(InetAddrTy(sa)); }
+/// Is given address a local one?
+inline bool NetwIsLocalAddr (const sockaddr* pSa)
+{ return NetwIsLocalAddr(InetAddrTy(pSa)); }
 
 
 } // namespace XPMP2

@@ -634,6 +634,7 @@ void RmtSendLoop ()
     
     do
     {
+        // TODO: Check for _received_ data, which would tell us to change sending interface
         // Do we need to send out our settings?
         if (tpSendSettings <= std::chrono::steady_clock::now()) {
             tpSendSettings = std::chrono::steady_clock::now() +
@@ -714,10 +715,8 @@ void RmtSendMain()
                 // We just read received multicast to clear out the buffers
                 // and switch the sending interface to the interface we received from.
                 std::string from;
-                SockAddrTy sa;
-                gpMc->RecvMC(&from, &sa);
+                gpMc->RecvMC(true, &from);
                 LOG_MSG(logINFO, INFO_MC_SEND_RCVD, from.c_str());
-                gpMc->SendToAddr(sa);
 
                 // Set global status to: we are about to send data, also exits listening loop
                 glob.remoteStatus = REMOTE_SENDING;
@@ -857,7 +856,7 @@ void RmtRecvMain()
             {
                 // Receive the data (if we are still waiting then we're interested in the sender's address purely for logging purposes)
                 SockAddrTy saFrom;
-                const size_t recvSize = gpMc->RecvMC(nullptr, &saFrom);
+                const size_t recvSize = gpMc->RecvMC(false, nullptr, &saFrom);
                 if (recvSize >= sizeof(RemoteMsgBaseTy))
                 {
                     static float lastVerErrMsg = 0.0f;          // last time we issued a msg version warning

@@ -82,8 +82,9 @@ remoteSupport auto
 
 # Multicast group used for communication between XPMP2 masters and the Remote Client.
 # By default this is the same as used by X-Plane for its networked setup communication (239.255.1.1)
-# If you want to enable IPv6 multicast try FF02::1
+# If you want to enable IPv6 multicast try ff03::49:707
 remoteMCGroup 239.255.1.1
+# remoteMCGroup ff03::49:707
 
 # Port used for communication between XPMP2 masters and the Remote Client.
 remotePort 49788

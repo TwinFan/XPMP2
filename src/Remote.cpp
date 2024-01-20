@@ -392,7 +392,7 @@ void RemoteAcPosUpdateTy::SetHeading (float _h)
 // MARK: SENDING Remote Data (Worker Thread)
 //
 
-#define INFO_MC_SEND_WAIT   "Listening to %s:%d, waiting for someone interested in our data..."
+#define INFO_MC_SEND_WAIT   "Listening to %s, waiting for someone being interested in our data..."
 #define INFO_MC_SEND_RCVD   "Received word from %s, will start sending aircraft data"
 
 #define ERR_MC_THREAD       "Exception in multicast handling: %s"
@@ -402,7 +402,7 @@ constexpr int MC_MAX_ERR=5;             ///< after this many errors we no longer
 std::thread gThrMC;                     ///< remote listening/sending thread
 UDPMulticast* gpMc = nullptr;           ///< multicast socket for listening/sending (destructor uses locks, which don't work during module shutdown, so can't create a global object due to its exit-time destructor)
 volatile bool gbStopMCThread = false;   ///< Shall the network thread stop?
-int gCntMCErr = 0;                      ///< error counter for network thread
+bool gbRemoteGaveUp = false;            ///< No longer try remote functionality, have seen to many errors
 
 #if APL == 1 || LIN == 1
 /// the self-pipe to shut down the APRS thread gracefully
@@ -682,7 +682,8 @@ void RmtSendMain()
     // This is a thread main function, set thread's name
     SET_THREAD_NAME("XPMP2_Send");
     LOG_MSG(logDEBUG, "Sender thread started");
-
+    int cntMCErr = 0;                       ///< error counter for network thread
+    
     do {
         try {
             LOG_ASSERT(gpMc != nullptr);
@@ -703,7 +704,7 @@ void RmtSendMain()
             
             // *** Main listening loop ***
             
-            LOG_MSG(logINFO, INFO_MC_SEND_WAIT, glob.remoteMCGroup.c_str(), glob.remotePort);
+            LOG_MSG(logINFO, INFO_MC_SEND_WAIT, gpMc->GetMCAddr().c_str());
             
             while (RmtSendContinue())
             {
@@ -754,7 +755,7 @@ void RmtSendMain()
                 RmtSendLoop();
         }
         catch (std::exception& e) {
-            ++gCntMCErr;
+            ++cntMCErr;
             LOG_MSG(logERR, ERR_MC_THREAD, e.what());
             
 #if APL == 1 || LIN == 1
@@ -771,11 +772,12 @@ void RmtSendMain()
             gpMc->Close();
         
         // Error count too high?
-        if (gCntMCErr >= MC_MAX_ERR) {
+        if (cntMCErr >= MC_MAX_ERR) {
             LOG_MSG(logFATAL, ERR_MC_MAX);
+            gbRemoteGaveUp = true;          // the SENDER gives up after too many errors
         }
     }
-    while (RmtSendContinue() && gCntMCErr < MC_MAX_ERR);
+    while (!gbStopMCThread && cntMCErr < MC_MAX_ERR);
         
     // make sure the end of the thread is recognized and joined
     glob.remoteStatus = REMOTE_OFF;
@@ -787,8 +789,7 @@ void RmtSendMain()
 // MARK: RECEIVING Remote Data (Worker Thread)
 //
 
-#define DEBUG_MC_RECV_BEGIN "Receiver started listening to %s:%d"
-#define INFO_MC_RECV_BEGIN  "Receiver started listening on the network..."
+#define INFO_MC_RECV_BEGIN  "Receiver started listening to %s"
 #define INFO_MC_RECV_RCVD   "Receiver received data from %.*s on %s, will start message processing"
 
 /// The callback function pointers the remote client plugin provided
@@ -819,222 +820,239 @@ void RmtRecvMain()
     SET_THREAD_NAME((glob.logAcronym + "_Recv").c_str());
 #endif
     LOG_MSG(logDEBUG, "Receiver thread started");
+    int cntMCErr = 0;                      ///< error counter for network thread
+
+    do {
+        // We count how often we send beacons.
+        // Once we sent 3 beacons without having received reasonable data
+        // we re-setup the entire multicast socket. After changes to interfaces
+        // it appears that the multicast is not received from newly available
+        // interfaces or even no longer from originally available but not
+        // previously actively used interfaces.
+        constexpr int MAX_BEACONS = 3;
+        int nCountBeacons = 0;
     
-    try {
-        LOG_ASSERT(gpMc != nullptr);
-        
-        // Set global status to: we are "waiting" for data, but will send the interest beacon every once in a while
-        glob.remoteStatus = REMOTE_RECV_WAITING;
-
-        // Create a multicast socket
-        gpMc->Join(glob.remoteMCGroup, glob.remotePort, glob.remoteTTL,glob.remoteBufSize);
-        int maxSock = (int)gpMc->getSocket() + 1;
-#if APL == 1 || LIN == 1
-        // the self-pipe to shut down the TCP socket gracefully
-        if (pipe(gSelfPipe) < 0)
-            throw NetRuntimeError("Couldn't create self-pipe");
-        fcntl(gSelfPipe[0], F_SETFL, O_NONBLOCK);
-        maxSock = std::max(maxSock, gSelfPipe[0]+1);
-#endif
-        
-        // Send out a first Interest Beacon
-        gpMc->SendToAll();
-        RmtSendBeacon();
-        
-        // *** Main listening loop ***
-        
-        if (glob.logLvl == logDEBUG)
-            LOG_MSG(logDEBUG, DEBUG_MC_RECV_BEGIN, glob.remoteMCGroup.c_str(), glob.remotePort)
-        else
-            LOG_MSG(logINFO, INFO_MC_RECV_BEGIN)
-        
-        while (RmtRecvContinue())
-        {
-            // wait for some data on either socket (multicast or self-pipe)
-            fd_set sRead;
-            FD_ZERO(&sRead);
-            FD_SET(gpMc->getSocket(), &sRead);      // check our socket
-#if APL == 1 || LIN == 1
-            FD_SET(gSelfPipe[0], &sRead);        // check the self-pipe
-#endif
-            // Timeout is 15s, ie. we listen for 15 seconds, then send a beacon, then listen again
-            struct timeval timeout = { REMOTE_RECV_BEACON_INTVL, 0 };
-            int retval = select(maxSock, &sRead, NULL, NULL, &timeout);
-
-            // short-cut if we are to shut down (return from 'select' due to closed socket)
-            if (!RmtRecvContinue())
-                break;
-
-            // select call failed???
-            if (retval == -1)
-                throw NetRuntimeError("'select' failed");
+        try {
+            LOG_ASSERT(gpMc != nullptr);
             
-            // Timeout? Then send (another) interest beacon...maybe sometimes someone responds
-            else if (retval == 0)
-                RmtSendBeacon();
-
-            // select successful - there is multicast data!
-            else if (retval > 0 && FD_ISSET(gpMc->getSocket(), &sRead))
+            // Set global status to: we are "waiting" for data, but will send the interest beacon every once in a while
+            glob.remoteStatus = REMOTE_RECV_WAITING;
+            
+            // Create a multicast socket
+            gpMc->Join(glob.remoteMCGroup, glob.remotePort, glob.remoteTTL,glob.remoteBufSize);
+            int maxSock = (int)gpMc->getSocket() + 1;
+#if APL == 1 || LIN == 1
+            // the self-pipe to shut down the TCP socket gracefully
+            if (pipe(gSelfPipe) < 0)
+                throw NetRuntimeError("Couldn't create self-pipe");
+            fcntl(gSelfPipe[0], F_SETFL, O_NONBLOCK);
+            maxSock = std::max(maxSock, gSelfPipe[0]+1);
+#endif
+            
+            // Send out a first Interest Beacon
+            gpMc->SendToAll();
+            RmtSendBeacon();
+            
+            // *** Main listening loop ***
+            LOG_MSG(logINFO, INFO_MC_RECV_BEGIN, gpMc->GetMCAddr().c_str());
+            while (RmtRecvContinue() &&
+                   nCountBeacons < MAX_BEACONS &&
+                   cntMCErr < MC_MAX_ERR)
             {
-                // Receive the data (if we are still waiting then we're interested in the sender's address purely for logging purposes)
-                SockAddrTy saFrom;
-                const size_t recvSize = gpMc->RecvMC(false, nullptr, &saFrom);
-                if (recvSize >= sizeof(RemoteMsgBaseTy))
+                // wait for some data on either socket (multicast or self-pipe)
+                fd_set sRead;
+                FD_ZERO(&sRead);
+                FD_SET(gpMc->getSocket(), &sRead);      // check our socket
+#if APL == 1 || LIN == 1
+                FD_SET(gSelfPipe[0], &sRead);        // check the self-pipe
+#endif
+                // Timeout is 15s, ie. we listen for 15 seconds, then send a beacon, then listen again
+                struct timeval timeout = { REMOTE_RECV_BEACON_INTVL, 0 };
+                int retval = select(maxSock, &sRead, NULL, NULL, &timeout);
+                
+                // short-cut if we are to shut down (return from 'select' due to closed socket)
+                if (!RmtRecvContinue())
+                    break;
+                
+                // select call failed???
+                if (retval == -1)
+                    throw NetRuntimeError("'select' failed");
+                
+                // Timeout? Then send (another) interest beacon...maybe sometimes someone responds
+                else if (retval == 0) {
+                    RmtSendBeacon();
+                    ++nCountBeacons;
+                }
+                
+                // select successful - there is multicast data!
+                else if (retval > 0 && FD_ISSET(gpMc->getSocket(), &sRead))
                 {
-                    static float lastVerErrMsg = 0.0f;          // last time we issued a msg version warning
-                    const InetAddrTy from(saFrom);              // extract the numerical address
-                    RemoteMsgBaseTy& hdr = *(RemoteMsgBaseTy*)gpMc->getBuf();
-                    hdr.bLocalSender = NetwIsLocalAddr(from);
-                    switch (hdr.msgTy) {
-                        // just ignore any interest beacons
-                        case RMT_MSG_INTEREST_BEACON:
-                            break;
-                            
-                        // Settings
-                        case RMT_MSG_SETTINGS:
-                            if (hdr.msgVer == RMT_VER_SETTINGS && recvSize == sizeof(RemoteMsgSettingsTy))
-                            {
-                                const std::string sFrom = SocketNetworking::GetAddrString(saFrom);
-                                const RemoteMsgSettingsTy& s = *(RemoteMsgSettingsTy*)gpMc->getBuf();
-                                // Is this the first set of settings we received? Then we switch status!
-                                if (glob.remoteStatus == REMOTE_RECV_WAITING) {
-                                    glob.remoteStatus = REMOTE_RECEIVING;
-                                    LOG_MSG(logINFO, INFO_MC_RECV_RCVD,
-                                            (int)sizeof(s.name), s.name,
-                                            sFrom.c_str());
-                                }
-                                // Let the plugin process this message
-                                if (gRmtCBFcts.pfMsgSettings)
-                                    gRmtCBFcts.pfMsgSettings(from.addr, sFrom, s);
-                            } else {
-                                LOG_MSG(logWARN, "Cannot process Settings message: %lu bytes, version %u, from %s",
-                                        (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(saFrom).c_str());
-                            }
-                            break;
-                            
-                        // Full A/C Details
-                        case RMT_MSG_AC_DETAILED:
-                            // v1, v2, and v3 have same size with more and more fields populated
-                            if ((hdr.msgVer == RMT_VER_AC_DETAIL || hdr.msgVer == RMT_VER_AC_DETAIL_2 || hdr.msgVer == RMT_VER_AC_DETAIL_1) &&
-                                recvSize >= sizeof(RemoteMsgAcDetailTy))
-                            {
-                                if (gRmtCBFcts.pfMsgACDetails) {
-                                    RemoteMsgAcDetailTy& s = *(RemoteMsgAcDetailTy*)gpMc->getBuf();
-                                    
-                                    // v1: Default was "Draw Labels"
-                                    if (hdr.msgVer == RMT_VER_AC_DETAIL_1) {
-                                        const size_t n = s.NumElem(recvSize);
-                                        for (size_t i = 0; i < n; ++i)
-                                            s.arr[i].bDrawLabel = true;
+                    // Receive the data (if we are still waiting then we're interested in the sender's address purely for logging purposes)
+                    SockAddrTy saFrom;
+                    const size_t recvSize = gpMc->RecvMC(false, nullptr, &saFrom);
+                    if (recvSize >= sizeof(RemoteMsgBaseTy))
+                    {
+                        static float lastVerErrMsg = 0.0f;          // last time we issued a msg version warning
+                        const InetAddrTy from(saFrom);              // extract the numerical address
+                        RemoteMsgBaseTy& hdr = *(RemoteMsgBaseTy*)gpMc->getBuf();
+                        hdr.bLocalSender = NetwIsLocalAddr(from);
+                        
+                        if (hdr.msgTy > RMT_MSG_INTEREST_BEACON)    // if we have proper data
+                            nCountBeacons = 0;                      // we don't need to reset the multicast socket
+                        
+                        switch (hdr.msgTy) {
+                                // just ignore any interest beacons
+                            case RMT_MSG_INTEREST_BEACON:
+                                break;
+                                
+                                // Settings
+                            case RMT_MSG_SETTINGS:
+                                if (hdr.msgVer == RMT_VER_SETTINGS && recvSize == sizeof(RemoteMsgSettingsTy))
+                                {
+                                    const std::string sFrom = SocketNetworking::GetAddrString(saFrom);
+                                    const RemoteMsgSettingsTy& s = *(RemoteMsgSettingsTy*)gpMc->getBuf();
+                                    // Is this the first set of settings we received? Then we switch status!
+                                    if (glob.remoteStatus == REMOTE_RECV_WAITING) {
+                                        glob.remoteStatus = REMOTE_RECEIVING;
+                                        LOG_MSG(logINFO, INFO_MC_RECV_RCVD,
+                                                (int)sizeof(s.name), s.name,
+                                                sFrom.c_str());
                                     }
-                                    
-                                    // v2 has no contrail fields, ensure they are defaulted to not show contrails
-                                    if (hdr.msgVer <= RMT_VER_AC_DETAIL_2) {
-                                        const size_t n = s.NumElem(recvSize);
-                                        for (size_t i = 0; i < n; ++i) {
-                                            s.arr[i].contrailNum = 0;
-                                            s.arr[i].contrailDist_m = 0;
-                                            s.arr[i].contrailLifeTime = 0;
+                                    // Let the plugin process this message
+                                    if (gRmtCBFcts.pfMsgSettings)
+                                        gRmtCBFcts.pfMsgSettings(from.addr, sFrom, s);
+                                } else {
+                                    LOG_MSG(logWARN, "Cannot process Settings message: %lu bytes, version %u, from %s",
+                                            (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(saFrom).c_str());
+                                }
+                                break;
+                                
+                                // Full A/C Details
+                            case RMT_MSG_AC_DETAILED:
+                                // v1, v2, and v3 have same size with more and more fields populated
+                                if ((hdr.msgVer == RMT_VER_AC_DETAIL || hdr.msgVer == RMT_VER_AC_DETAIL_2 || hdr.msgVer == RMT_VER_AC_DETAIL_1) &&
+                                    recvSize >= sizeof(RemoteMsgAcDetailTy))
+                                {
+                                    if (gRmtCBFcts.pfMsgACDetails) {
+                                        RemoteMsgAcDetailTy& s = *(RemoteMsgAcDetailTy*)gpMc->getBuf();
+                                        
+                                        // v1: Default was "Draw Labels"
+                                        if (hdr.msgVer == RMT_VER_AC_DETAIL_1) {
+                                            const size_t n = s.NumElem(recvSize);
+                                            for (size_t i = 0; i < n; ++i)
+                                                s.arr[i].bDrawLabel = true;
                                         }
+                                        
+                                        // v2 has no contrail fields, ensure they are defaulted to not show contrails
+                                        if (hdr.msgVer <= RMT_VER_AC_DETAIL_2) {
+                                            const size_t n = s.NumElem(recvSize);
+                                            for (size_t i = 0; i < n; ++i) {
+                                                s.arr[i].contrailNum = 0;
+                                                s.arr[i].contrailDist_m = 0;
+                                                s.arr[i].contrailLifeTime = 0;
+                                            }
+                                        }
+                                        
+                                        gRmtCBFcts.pfMsgACDetails(from.addr, recvSize, s);
                                     }
-                                    
-                                    gRmtCBFcts.pfMsgACDetails(from.addr, recvSize, s);
                                 }
-                            }
-                            // Convert a v0 msg, then process
-                            else if (hdr.msgVer == RMT_VER_AC_DETAIL_0 && recvSize >= sizeof(RemoteMsgAcDetailTy_v0))
-                            {
-                                if (gRmtCBFcts.pfMsgACDetails) {
-                                    const RemoteMsgAcDetailTy_v0& s = *(RemoteMsgAcDetailTy_v0*)gpMc->getBuf();
-                                    size_t msgLen = 0;
-                                    RemoteMsgAcDetailTy* pMsg = s.convert(recvSize, msgLen);
-                                    gRmtCBFcts.pfMsgACDetails(from.addr, msgLen, *pMsg);
-                                    std::free(pMsg);
+                                // Convert a v0 msg, then process
+                                else if (hdr.msgVer == RMT_VER_AC_DETAIL_0 && recvSize >= sizeof(RemoteMsgAcDetailTy_v0))
+                                {
+                                    if (gRmtCBFcts.pfMsgACDetails) {
+                                        const RemoteMsgAcDetailTy_v0& s = *(RemoteMsgAcDetailTy_v0*)gpMc->getBuf();
+                                        size_t msgLen = 0;
+                                        RemoteMsgAcDetailTy* pMsg = s.convert(recvSize, msgLen);
+                                        gRmtCBFcts.pfMsgACDetails(from.addr, msgLen, *pMsg);
+                                        std::free(pMsg);
+                                    }
+                                } else {
+                                    if (CheckEverySoOften(lastVerErrMsg, 600.0f))
+                                        LOG_MSG(logWARN, "Cannot process A/C Details message: %lu bytes, version %u, from %s\nCheck for an updated version on X-Plane.org",
+                                                (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(saFrom).c_str());
                                 }
-                            } else {
-                                if (CheckEverySoOften(lastVerErrMsg, 600.0f))
-                                    LOG_MSG(logWARN, "Cannot process A/C Details message: %lu bytes, version %u, from %s\nCheck for an updated version on X-Plane.org",
-                                            (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(saFrom).c_str());
-                            }
-                            break;
-
-                        // A/C Position Update
-                        case RMT_MSG_AC_POS_UPDATE:
-                            if (hdr.msgVer == RMT_VER_AC_POS_UPDATE && recvSize >= sizeof(RemoteMsgAcPosUpdateTy))
-                            {
-                                if (gRmtCBFcts.pfMsgACPosUpdate) {
-                                    const RemoteMsgAcPosUpdateTy& s = *(RemoteMsgAcPosUpdateTy*)gpMc->getBuf();
-                                    gRmtCBFcts.pfMsgACPosUpdate(from.addr, recvSize, s);
+                                break;
+                                
+                                // A/C Position Update
+                            case RMT_MSG_AC_POS_UPDATE:
+                                if (hdr.msgVer == RMT_VER_AC_POS_UPDATE && recvSize >= sizeof(RemoteMsgAcPosUpdateTy))
+                                {
+                                    if (gRmtCBFcts.pfMsgACPosUpdate) {
+                                        const RemoteMsgAcPosUpdateTy& s = *(RemoteMsgAcPosUpdateTy*)gpMc->getBuf();
+                                        gRmtCBFcts.pfMsgACPosUpdate(from.addr, recvSize, s);
+                                    }
+                                } else {
+                                    if (CheckEverySoOften(lastVerErrMsg, 600.0f))
+                                        LOG_MSG(logWARN, "Cannot process A/C Pos Update message: %lu bytes, version %u, from %s\nCheck for an updated version on X-Plane.org",
+                                                (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(saFrom).c_str());
                                 }
-                            } else {
-                                if (CheckEverySoOften(lastVerErrMsg, 600.0f))
-                                    LOG_MSG(logWARN, "Cannot process A/C Pos Update message: %lu bytes, version %u, from %s\nCheck for an updated version on X-Plane.org",
-                                            (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(saFrom).c_str());
-                            }
-                            break;
-
-                        // A/C Animdation dataRefs
-                        case RMT_MSG_AC_ANIM:
-                            if (hdr.msgVer == RMT_VER_AC_ANIM && recvSize >= sizeof(RemoteMsgAcAnimTy))
-                            {
-                                if (gRmtCBFcts.pfMsgACAnim) {
-                                    const RemoteMsgAcAnimTy& s = *(RemoteMsgAcAnimTy*)gpMc->getBuf();
-                                    gRmtCBFcts.pfMsgACAnim(from.addr, recvSize, s);
+                                break;
+                                
+                                // A/C Animdation dataRefs
+                            case RMT_MSG_AC_ANIM:
+                                if (hdr.msgVer == RMT_VER_AC_ANIM && recvSize >= sizeof(RemoteMsgAcAnimTy))
+                                {
+                                    if (gRmtCBFcts.pfMsgACAnim) {
+                                        const RemoteMsgAcAnimTy& s = *(RemoteMsgAcAnimTy*)gpMc->getBuf();
+                                        gRmtCBFcts.pfMsgACAnim(from.addr, recvSize, s);
+                                    }
+                                } else {
+                                    if (CheckEverySoOften(lastVerErrMsg, 600.0f))
+                                        LOG_MSG(logWARN, "Cannot process A/C Animations message: %lu bytes, version %u, from %s\nCheck for an updated version on X-Plane.org",
+                                                (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(saFrom).c_str());
                                 }
-                            } else {
-                                if (CheckEverySoOften(lastVerErrMsg, 600.0f))
-                                    LOG_MSG(logWARN, "Cannot process A/C Animations message: %lu bytes, version %u, from %s\nCheck for an updated version on X-Plane.org",
-                                            (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(saFrom).c_str());
-                            }
-                            break;
-
-                        // A/C Removal
-                        case RMT_MSG_AC_REMOVE:
-                            if (hdr.msgVer == RMT_VER_AC_REMOVE && recvSize >= sizeof(RemoteMsgAcRemoveTy))
-                            {
-                                if (gRmtCBFcts.pfMsgACRemove) {
-                                    const RemoteMsgAcRemoveTy& s = *(RemoteMsgAcRemoveTy*)gpMc->getBuf();
-                                    gRmtCBFcts.pfMsgACRemove(from.addr, recvSize, s);
+                                break;
+                                
+                                // A/C Removal
+                            case RMT_MSG_AC_REMOVE:
+                                if (hdr.msgVer == RMT_VER_AC_REMOVE && recvSize >= sizeof(RemoteMsgAcRemoveTy))
+                                {
+                                    if (gRmtCBFcts.pfMsgACRemove) {
+                                        const RemoteMsgAcRemoveTy& s = *(RemoteMsgAcRemoveTy*)gpMc->getBuf();
+                                        gRmtCBFcts.pfMsgACRemove(from.addr, recvSize, s);
+                                    }
+                                } else {
+                                    if (CheckEverySoOften(lastVerErrMsg, 600.0f))
+                                        LOG_MSG(logWARN, "Cannot process A/C Remove message: %lu bytes, version %u, from %s\nCheck for an updated version on X-Plane.org",
+                                                (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(saFrom).c_str());
                                 }
-                            } else {
-                                if (CheckEverySoOften(lastVerErrMsg, 600.0f))
-                                    LOG_MSG(logWARN, "Cannot process A/C Remove message: %lu bytes, version %u, from %s\nCheck for an updated version on X-Plane.org",
-                                            (unsigned long)recvSize, hdr.msgVer, SocketNetworking::GetAddrString(saFrom).c_str());
-                            }
-                            break;
-
-                        // This type is not expected to happen (because it is a marker for the sender queue only)
-                        case RMT_MSG_SEND:
-                            LOG_MSG(logWARN, "Received unexpected message type RMT_MSG_SEND");
-                            break;
+                                break;
+                                
+                                // This type is not expected to happen (because it is a marker for the sender queue only)
+                            case RMT_MSG_SEND:
+                                LOG_MSG(logWARN, "Received unexpected message type RMT_MSG_SEND");
+                                break;
+                        }
+                        
+                    } else {
+                        LOG_MSG(logWARN, "Received too small message with just %lu bytes", (unsigned long)recvSize);
                     }
-                    
-                } else {
-                    LOG_MSG(logWARN, "Received too small message with just %lu bytes", (unsigned long)recvSize);
                 }
             }
         }
-    }
-    catch (std::exception& e) {
-        ++gCntMCErr;
-        LOG_MSG(logERR, ERR_MC_THREAD, e.what());
-    }
-    
-    // close the multicast socket
-    gpMc->Close();
-
+        catch (std::exception& e) {
+            ++cntMCErr;
+            LOG_MSG(logERR, ERR_MC_THREAD, e.what());
+        }
+        
+        // close the multicast socket
+        gpMc->Close();
+        
 #if APL == 1 || LIN == 1
-    // close the self-pipe sockets
-    for (SOCKET &s: gSelfPipe) {
-        if (s != INVALID_SOCKET) close(s);
-        s = INVALID_SOCKET;
-    }
+        // close the self-pipe sockets
+        for (SOCKET &s: gSelfPipe) {
+            if (s != INVALID_SOCKET) close(s);
+            s = INVALID_SOCKET;
+        }
 #endif
-    
-    // Error count too high?
-    if (gCntMCErr >= MC_MAX_ERR) {
-        LOG_MSG(logFATAL, ERR_MC_MAX);
+        
+        // Error count too high?
+        if (cntMCErr >= MC_MAX_ERR) {
+            LOG_MSG(logFATAL, ERR_MC_MAX);
+        }
     }
+    while (!gbStopMCThread &&
+           cntMCErr < MC_MAX_ERR);
     
     // make sure the end of the thread is recognized and joined
     glob.remoteStatus = REMOTE_OFF;
@@ -1062,7 +1080,7 @@ void RmtStartMCThread(bool bSender)
     }
     
     // seen too many errors already?
-    if (gCntMCErr >= MC_MAX_ERR)
+    if (gbRemoteGaveUp)
         return;
     
     // Start the thread
@@ -1103,6 +1121,7 @@ void RmtStopAll()
 void RemoteInit ()
 {
     // Create the global multicast object
+    gbRemoteGaveUp = false;
     if (!gpMc)
         gpMc = new UDPMulticast();
 }

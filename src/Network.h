@@ -63,6 +63,13 @@ struct SockAddrTy
     /// Constructor copies given socket info
     SockAddrTy (const sockaddr* pSa);
     
+    /// Comparison bases solely on memory compare, order isn't important, just that there is order
+    bool operator< (const SockAddrTy& o) const
+    { return std::memcmp(this, &o, sizeof(*this)) < 0; }
+    /// Comparison bases solely on memory compare, order isn't important, just that there is order
+    bool operator== (const SockAddrTy& o) const
+    { return std::memcmp(this, &o, sizeof(*this)) == 0; }
+
     uint8_t family() const { return (uint8_t) sa.sa_family; }      ///< return the protocol famaily
     bool isIp4() const { return family() == AF_INET; }                  ///< is this an IPv4 address?
     bool isIp6() const { return family() == AF_INET6; }                 ///< is this an IPv6 address?
@@ -192,6 +199,9 @@ protected:
     
     bool bSendToAll = true;             ///< Send out multicast datagrams to all interfaces
     uint32_t oneIntfIdx = 0;            ///< When sending to one interface only, which one?
+    
+    /// Keep a list of sources we received data from to be able to identify new sources
+    std::map<SockAddrTy,std::chrono::time_point<std::chrono::steady_clock> > mapSender;
 
 public:
     /// Default constructor is not doing anything

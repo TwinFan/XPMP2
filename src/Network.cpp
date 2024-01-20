@@ -1068,6 +1068,14 @@ size_t UDPMulticast::RecvMC (bool bSwitchToRecvIntf,
     }
 #endif
     
+    // Was that packet send from someplace we didn't hear yet or in some time?
+    if (bSwitchToRecvIntf) {
+        std::chrono::time_point<std::chrono::steady_clock> &lastRcvd = mapSender[sa];
+        if (std::chrono::steady_clock::now() - lastRcvd < std::chrono::seconds(180))
+            ifIdx = 0;                      // we know that sender and have heard from it in past 3 minutes, don't switch interface because of it
+        lastRcvd = std::chrono::steady_clock::now();
+    }
+    
     // If requested, set outgoing interface (quick exit if no change)
     if (bSwitchToRecvIntf && ifIdx && ifIdx != oneIntfIdx) {
         SendToIntf(ifIdx);

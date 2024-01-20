@@ -135,6 +135,9 @@ public:
     /// return the buffer
     const char* getBuf () const  { return buf ? buf : ""; }
     
+    /// @brief Set blocking mode
+    void setBlocking (bool bBlock);
+    
     /// Waits to receive a message, ensures zero-termination in the buffer
     long                recv();
     /// Waits to receive a message with timeout, ensures zero-termination in the buffer
@@ -199,6 +202,9 @@ public:
     /// makes sure pMCAddr is cleared up
     virtual ~UDPMulticast();
     
+    /// Return formatted multicast address, including port
+    const std::string& GetMCAddr() const { return multicastAddr; }
+    
     /// @brief Connect to the multicast group
     /// @exception XPMP2::NetRuntimeError in case of any errors
     void Join (const std::string& _multicastAddr, int _port, int _ttl=8,
@@ -226,10 +232,12 @@ public:
     /// @param bSwitchToRecvIntf Shall all future datagrams be _send_ out on the same interface as we received this message on?
     /// @param[out] _pFromAddr If given then the sender adress is written into this string
     /// @param[out] _pFromSockAddr If given then the sender adress is written into this string
-    /// @return Number of bytes received
+    /// @param[out] _pbIntfChanged is set to `true` if the sending interface has been changed based on the received datagram
+    /// @return Number of bytes received, `0` in case no data was waiting
     size_t RecvMC (bool bSwitchToRecvIntf,
                    std::string* _pFromAddr  = nullptr,
-                   SockAddrTy* _pFromSockAddr = nullptr);
+                   SockAddrTy* _pFromSockAddr = nullptr,
+                   bool* _pbIntfChanged = nullptr);
 
 protected:
     void Cleanup ();                    ///< frees pMCAddr

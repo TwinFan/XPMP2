@@ -392,8 +392,7 @@ void RemoteAcPosUpdateTy::SetHeading (float _h)
 // MARK: SENDING Remote Data (Worker Thread)
 //
 
-#define DEBUG_MC_SEND_WAIT  "Listening to %s:%d, waiting for someone interested in our data..."
-#define INFO_MC_SEND_WAIT   "Listening on the network, waiting for someone interested in our data..."
+#define INFO_MC_SEND_WAIT   "Listening to %s:%d, waiting for someone interested in our data..."
 #define INFO_MC_SEND_RCVD   "Received word from %s, will start sending aircraft data"
 
 #define ERR_MC_THREAD       "Exception in multicast handling: %s"
@@ -627,14 +626,35 @@ void RmtSendSettings ()
 void RmtSendLoop ()
 {
     // when shall settings be sent next? (1st time: right now!)
-    std::chrono::time_point<std::chrono::steady_clock> tpSendSettings =
-    std::chrono::steady_clock::now();
+    std::chrono::time_point<std::chrono::steady_clock> tpSendSettings;
+    // time when we last switched interfaces, we don't do that too often, assume we just did
+    std::chrono::time_point<std::chrono::steady_clock> tpIntfSwitch = std::chrono::steady_clock::now();
     // lock to use for the condition variable
     std::unique_lock<std::mutex> lkRmtData(gmutexRmtData, std::defer_lock);
     
+    // We set the multicast socket to non-blocking so we can easily check on received data
+    gpMc->setBlocking(false);
+    
     do
     {
-        // TODO: Check for _received_ data, which would tell us to change sending interface
+        // Check if any received data is waiting
+        // (call is non-blocking as we set the socket so earlier)
+        bool bChangeIntf = std::chrono::steady_clock::now() - tpIntfSwitch > std::chrono::seconds(REMOTE_RECV_BEACON_INTVL/2);
+        bool bIntfChanged = false;
+        std::string from;
+        // Loop makes sure we read everything, maybe there's a new interface in there somewhere
+        while (gpMc->RecvMC(bChangeIntf, &from, nullptr, &bIntfChanged) > 0)
+        {
+            if (bIntfChanged) {
+                LOG_MSG(logINFO, INFO_MC_SEND_RCVD, from.c_str());
+                // don't change the interface again soon
+                bChangeIntf = false;
+                tpIntfSwitch = std::chrono::steady_clock::now();
+                // Send settings immediately so the new client can start processing
+                tpSendSettings = std::chrono::time_point<std::chrono::steady_clock>();
+            }
+        }
+        
         // Do we need to send out our settings?
         if (tpSendSettings <= std::chrono::steady_clock::now()) {
             tpSendSettings = std::chrono::steady_clock::now() +
@@ -663,100 +683,100 @@ void RmtSendMain()
     SET_THREAD_NAME("XPMP2_Send");
     LOG_MSG(logDEBUG, "Sender thread started");
 
-    try {
-        LOG_ASSERT(gpMc != nullptr);
-        
-        // Set global status to: we are "waiting" for some action on the multicast group
-        glob.remoteStatus = REMOTE_SEND_WAITING;
-
-        // Create a multicast socket and listen if there is any traffic in our multicast group
-        gpMc->Join(glob.remoteMCGroup, glob.remotePort, glob.remoteTTL,glob.remoteBufSize);
-        int maxSock = (int)gpMc->getSocket() + 1;
+    do {
+        try {
+            LOG_ASSERT(gpMc != nullptr);
+            
+            // Set global status to: we are "waiting" for some action on the multicast group
+            glob.remoteStatus = REMOTE_SEND_WAITING;
+            
+            // Create a multicast socket and listen if there is any traffic in our multicast group
+            gpMc->Join(glob.remoteMCGroup, glob.remotePort, glob.remoteTTL,glob.remoteBufSize);
+            int maxSock = (int)gpMc->getSocket() + 1;
 #if APL == 1 || LIN == 1
-        // the self-pipe to shut down the TCP socket gracefully
-        if (pipe(gSelfPipe) < 0)
-            throw NetRuntimeError("Couldn't create self-pipe");
-        fcntl(gSelfPipe[0], F_SETFL, O_NONBLOCK);
-        maxSock = std::max(maxSock, gSelfPipe[0]+1);
+            // the self-pipe to shut down the TCP socket gracefully
+            if (pipe(gSelfPipe) < 0)
+                throw NetRuntimeError("Couldn't create self-pipe");
+            fcntl(gSelfPipe[0], F_SETFL, O_NONBLOCK);
+            maxSock = std::max(maxSock, gSelfPipe[0]+1);
 #endif
-        
-        // *** Main listening loop ***
-        
-        if (glob.logLvl == logDEBUG)
-            LOG_MSG(logDEBUG, DEBUG_MC_SEND_WAIT, glob.remoteMCGroup.c_str(), glob.remotePort)
-        else
-            LOG_MSG(logINFO, INFO_MC_SEND_WAIT)
-        
-        while (RmtSendContinue())
-        {
-            // wait for some signal on either socket (multicast or self-pipe)
-            fd_set sRead;
-            FD_ZERO(&sRead);
-            FD_SET(gpMc->getSocket(), &sRead);      // check our socket
-#if APL == 1 || LIN == 1
-            FD_SET(gSelfPipe[0], &sRead);        // check the self-pipe
-#endif
-            int retval = select(maxSock, &sRead, NULL, NULL, NULL);
-
-            // short-cut if we are to shut down (return from 'select' due to closed socket)
-            if (!RmtSendContinue())
-                break;
-
-            // select call failed???
-            if (retval == -1)
-                throw NetRuntimeError("'select' failed");
-
-            // select successful - there is multicast data!
-            if (retval > 0 && FD_ISSET(gpMc->getSocket(), &sRead))
+            
+            // *** Main listening loop ***
+            
+            LOG_MSG(logINFO, INFO_MC_SEND_WAIT, glob.remoteMCGroup.c_str(), glob.remotePort);
+            
+            while (RmtSendContinue())
             {
-                // We aren't actually interested in the data as such,
-                // the fact that there was _any_ traffic already means:
-                // there is someone out there interested in our data.
-                // We just read received multicast to clear out the buffers
-                // and switch the sending interface to the interface we received from.
-                std::string from;
-                gpMc->RecvMC(true, &from);
-                LOG_MSG(logINFO, INFO_MC_SEND_RCVD, from.c_str());
-
-                // Set global status to: we are about to send data, also exits listening loop
-                glob.remoteStatus = REMOTE_SENDING;
-                break;
+                // wait for some signal on either socket (multicast or self-pipe)
+                fd_set sRead;
+                FD_ZERO(&sRead);
+                FD_SET(gpMc->getSocket(), &sRead);      // check our socket
+#if APL == 1 || LIN == 1
+                FD_SET(gSelfPipe[0], &sRead);        // check the self-pipe
+#endif
+                int retval = select(maxSock, &sRead, NULL, NULL, NULL);
+                
+                // short-cut if we are to shut down (return from 'select' due to closed socket)
+                if (!RmtSendContinue())
+                    break;
+                
+                // select call failed???
+                if (retval == -1)
+                    throw NetRuntimeError("'select' failed");
+                
+                // select successful - there is multicast data!
+                if (retval > 0 && FD_ISSET(gpMc->getSocket(), &sRead))
+                {
+                    // We aren't actually interested in the data as such,
+                    // the fact that there was _any_ traffic already means:
+                    // there is someone out there interested in our data.
+                    // We just read received multicast to clear out the buffers
+                    // and switch the sending interface to the interface we received from.
+                    std::string from;
+                    gpMc->RecvMC(true, &from);
+                    LOG_MSG(logINFO, INFO_MC_SEND_RCVD, from.c_str());
+                    
+                    // Set global status to: we are about to send data, also exits listening loop
+                    glob.remoteStatus = REMOTE_SENDING;
+                    break;
+                }
             }
+            
+#if APL == 1 || LIN == 1
+            // close the self-pipe sockets
+            for (SOCKET &s: gSelfPipe) {
+                if (s != INVALID_SOCKET) close(s);
+                s = INVALID_SOCKET;
+            }
+#endif
+            // Continue? Then send data!
+            if (RmtSendContinue())
+                RmtSendLoop();
+        }
+        catch (std::exception& e) {
+            ++gCntMCErr;
+            LOG_MSG(logERR, ERR_MC_THREAD, e.what());
+            
+#if APL == 1 || LIN == 1
+            // close the self-pipe sockets
+            for (SOCKET &s: gSelfPipe) {
+                if (s != INVALID_SOCKET) close(s);
+                s = INVALID_SOCKET;
+            }
+#endif
         }
         
-#if APL == 1 || LIN == 1
-        // close the self-pipe sockets
-        for (SOCKET &s: gSelfPipe) {
-            if (s != INVALID_SOCKET) close(s);
-            s = INVALID_SOCKET;
+        // close the multicast socket
+        if (gpMc)
+            gpMc->Close();
+        
+        // Error count too high?
+        if (gCntMCErr >= MC_MAX_ERR) {
+            LOG_MSG(logFATAL, ERR_MC_MAX);
         }
-#endif
-        // Continue? Then send data!
-        if (RmtSendContinue())
-            RmtSendLoop();
     }
-    catch (std::exception& e) {
-        ++gCntMCErr;
-        LOG_MSG(logERR, ERR_MC_THREAD, e.what());
-
-#if APL == 1 || LIN == 1
-        // close the self-pipe sockets
-        for (SOCKET &s: gSelfPipe) {
-            if (s != INVALID_SOCKET) close(s);
-            s = INVALID_SOCKET;
-        }
-#endif
-    }
-    
-    // close the multicast socket
-    if (gpMc)
-        gpMc->Close();
-    
-    // Error count too high?
-    if (gCntMCErr >= MC_MAX_ERR) {
-        LOG_MSG(logFATAL, ERR_MC_MAX);
-    }
-    
+    while (RmtSendContinue() && gCntMCErr < MC_MAX_ERR);
+        
     // make sure the end of the thread is recognized and joined
     glob.remoteStatus = REMOTE_OFF;
     gbStopMCThread = true;
@@ -780,6 +800,8 @@ void RmtSendBeacon()
     RemoteMsgBeaconTy msgBeacon;
     if (gpMc->SendMC(&msgBeacon, sizeof(msgBeacon)) != sizeof(msgBeacon))
         throw NetRuntimeError("Could not send Interest Beacon multicast");
+    LOG_MSG(logDEBUG, "Sent beacon to MC %s",
+            gpMc->GetMCAddr().c_str());
 }
 
 /// Conditions for continued receive operation

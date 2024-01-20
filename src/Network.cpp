@@ -101,10 +101,14 @@ typedef std::set<LocalIntfAddrTy> SetLocalIntfAddrTy;
 
 /// Set of local IP interface addresses
 SetLocalIntfAddrTy gAddrLocal;
+/// Mutex to safeguard access to `gAddrLocal`
+std::recursive_mutex mtxAddrLocal;
 
 /// Get an interface's name
 std::string _NetwGetIntfName (uint32_t idx, uint8_t family)
 {
+    std::lock_guard<std::recursive_mutex> lock(mtxAddrLocal);
+    
     // First search our own list of interfaces.
     // On Windows, that can stores differing intfIdx for IPv4 vs IPv6.
     // And it might be faster than going back to the OS
@@ -124,102 +128,115 @@ std::string _NetwGetIntfName (uint32_t idx, uint8_t family)
 }
 
 /// Fetch all local addresses and cache locally
-void _NetwGetLocalAddresses ()
+void _NetwGetLocalAddresses (bool bForceRefresh = false)
 {
-    // Need to fill the cache?
-    if (gAddrLocal.empty()) {
-#if IBM
-        // Fetch all local interface addresses
-        ULONG ret = NO_ERROR;
-        ULONG bufLen = 15000;
-        std::unique_ptr<IP_ADAPTER_ADDRESSES, decltype(&free)> pAddresses(nullptr, &free);
-        do {
-            // allocate a return buffer
-            pAddresses.reset((IP_ADAPTER_ADDRESSES*)malloc(bufLen));
-            if (!pAddresses) {
-                LOG_MSG(logERR, "malloc failed for %lu bytes", bufLen);
-                return;
-            }
-            // try fetching all local addresses
-            ret = GetAdaptersAddresses(AF_UNSPEC, 0, NULL, pAddresses.get(), &bufLen);
-            switch (ret) {
-            case ERROR_NO_DATA:                 // no addresses found (?)
-                return;
-            case ERROR_BUFFER_OVERFLOW:         // buffer too small, but bufLen has the required size now, try again
-                break;
-            case NO_ERROR:                      // success
-                break;
-            default:
-                LOG_MSG(logERR, "GetAdaptersAddresses failed with error: %ld", ret);
-                return;
-            }
-        } while (ret == ERROR_BUFFER_OVERFLOW);
-
-        // Walk the list of addresses and add to our own vector
-        for (const IP_ADAPTER_ADDRESSES* pAddr = pAddresses.get();
-             pAddr;
-             pAddr = pAddr->Next)
-        {
-            // Only interested in IPv4/6 enabled, operative interfaces
-            if (!pAddr->Ipv4Enabled && !pAddr->Ipv6Enabled)
-                continue;
-            if (pAddr->OperStatus != IfOperStatusUp)
-                continue;
-
-            // Convert the friendly name from wchar to char
-            char ifName[26] = { 0 };                                        // zero init and passing in sizeof-1 guarantees zero-termination
-            std::wcstombs(ifName, pAddr->FriendlyName, sizeof(ifName)-1);
-            
-            // Compiler some flags in Unix style
-            uint32_t flags = IFF_UP | IFF_BROADCAST;            // We just _assume_ it's broadcast-enabled...can't find a flag here that would tell us
-            if (!pAddr->NoMulticast) flags |= IFF_MULTICAST;
-            if (pAddr->IfType == IF_TYPE_SOFTWARE_LOOPBACK) flags |= IFF_LOOPBACK;
-                
-            // Walk the list of unicast addresses
-            for (const IP_ADAPTER_UNICAST_ADDRESS* pUni = pAddr->FirstUnicastAddress;
-                 pUni;
-                 pUni = pUni->Next)
-            {
-                const sockaddr* pSAddr = pUni->Address.lpSockaddr;
-                if (!pSAddr) continue;
-
-                gAddrLocal.emplace(
-                    ifName,
-                    uint32_t(pSAddr->sa_family == AF_INET6 ? pAddr->Ipv6IfIndex : pAddr->IfIndex),
-                    pSAddr,
-                    flags);
-            }
-        }
-#else
-        // Fetch all local interface addresses
-        struct ifaddrs *ifaddr = nullptr;
-        if (getifaddrs(&ifaddr) == -1)
-            throw NetRuntimeError("getifaddrs failed");
-
-        // add valid addresses to our local cache array
-        for (struct ifaddrs *ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next) {
-            // ignore empty addresses and everything that is not IP
-            if (ifa->ifa_addr == NULL)
-                continue;
-            
-            // We are only interested in up&running interfaces
-            if ((ifa->ifa_flags & (IFF_UP | IFF_RUNNING)) != (IFF_UP | IFF_RUNNING))
-                continue;
-            // We are interested in IPv4 and IPv6 interfaces only
-            if (ifa->ifa_addr->sa_family != AF_INET &&
-                ifa->ifa_addr->sa_family != AF_INET6)
-                continue;
-
-            // the others add to our list of local addresses
-            gAddrLocal.emplace(ifa->ifa_name,
-                               ifa->ifa_addr,
-                               ifa->ifa_flags);
-        }
+    // Every once in a while we enforce the refresh
+    static std::chrono::time_point<std::chrono::steady_clock> tpLastRefresh;
+    if (std::chrono::steady_clock::now() - tpLastRefresh > std::chrono::seconds(30))
+        bForceRefresh = true;
+    
+    // Quick exit
+    if (!gAddrLocal.empty() && !bForceRefresh)
+        return;
         
-        // free the return list
-        freeifaddrs(ifaddr);
-#endif
+    std::lock_guard<std::recursive_mutex> lock(mtxAddrLocal);
+    if (bForceRefresh)
+        gAddrLocal.clear();
+    
+#if IBM
+    // Fetch all local interface addresses
+    ULONG ret = NO_ERROR;
+    ULONG bufLen = 15000;
+    std::unique_ptr<IP_ADAPTER_ADDRESSES, decltype(&free)> pAddresses(nullptr, &free);
+    do {
+        // allocate a return buffer
+        pAddresses.reset((IP_ADAPTER_ADDRESSES*)malloc(bufLen));
+        if (!pAddresses) {
+            LOG_MSG(logERR, "malloc failed for %lu bytes", bufLen);
+            return;
+        }
+        // try fetching all local addresses
+        ret = GetAdaptersAddresses(AF_UNSPEC, 0, NULL, pAddresses.get(), &bufLen);
+        switch (ret) {
+        case ERROR_NO_DATA:                 // no addresses found (?)
+            return;
+        case ERROR_BUFFER_OVERFLOW:         // buffer too small, but bufLen has the required size now, try again
+            break;
+        case NO_ERROR:                      // success
+            break;
+        default:
+            LOG_MSG(logERR, "GetAdaptersAddresses failed with error: %ld", ret);
+            return;
+        }
+    } while (ret == ERROR_BUFFER_OVERFLOW);
+
+    // Walk the list of addresses and add to our own vector
+    for (const IP_ADAPTER_ADDRESSES* pAddr = pAddresses.get();
+         pAddr;
+         pAddr = pAddr->Next)
+    {
+        // Only interested in IPv4/6 enabled, operative interfaces
+        if (!pAddr->Ipv4Enabled && !pAddr->Ipv6Enabled)
+            continue;
+        if (pAddr->OperStatus != IfOperStatusUp)
+            continue;
+
+        // Convert the friendly name from wchar to char
+        char ifName[26] = { 0 };                                        // zero init and passing in sizeof-1 guarantees zero-termination
+        std::wcstombs(ifName, pAddr->FriendlyName, sizeof(ifName)-1);
+        
+        // Compiler some flags in Unix style
+        uint32_t flags = IFF_UP | IFF_BROADCAST;                        // We just _assume_ it's broadcast-enabled...can't find a flag here that would tell us
+        if (!pAddr->NoMulticast) flags |= IFF_MULTICAST;
+        if (pAddr->IfType == IF_TYPE_SOFTWARE_LOOPBACK) flags |= IFF_LOOPBACK;
+            
+        // Walk the list of unicast addresses
+        for (const IP_ADAPTER_UNICAST_ADDRESS* pUni = pAddr->FirstUnicastAddress;
+             pUni;
+             pUni = pUni->Next)
+        {
+            const sockaddr* pSAddr = pUni->Address.lpSockaddr;
+            if (!pSAddr) continue;
+
+            gAddrLocal.emplace(
+                ifName,
+                uint32_t(pSAddr->sa_family == AF_INET6 ? pAddr->Ipv6IfIndex : pAddr->IfIndex),
+                pSAddr,
+                flags);
+        }
     }
+#else
+    // Fetch all local interface addresses
+    struct ifaddrs *ifaddr = nullptr;
+    if (getifaddrs(&ifaddr) == -1)
+        throw NetRuntimeError("getifaddrs failed");
+
+    // add valid addresses to our local cache array
+    for (struct ifaddrs *ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next) {
+        // ignore empty addresses and everything that is not IP
+        if (ifa->ifa_addr == NULL)
+            continue;
+        
+        // We are only interested in up&running interfaces
+        if ((ifa->ifa_flags & (IFF_UP | IFF_RUNNING)) != (IFF_UP | IFF_RUNNING))
+            continue;
+        // We are interested in IPv4 and IPv6 interfaces only
+        if (ifa->ifa_addr->sa_family != AF_INET &&
+            ifa->ifa_addr->sa_family != AF_INET6)
+            continue;
+
+        // the others add to our list of local addresses
+        gAddrLocal.emplace(ifa->ifa_name,
+                           ifa->ifa_addr,
+                           ifa->ifa_flags);
+    }
+    
+    // free the return list
+    freeifaddrs(ifaddr);
+#endif
+    
+    // Next refresh may waitr
+    tpLastRefresh = std::chrono::steady_clock::now();
 }
 
 
@@ -241,6 +258,7 @@ uint32_t _GetIntfNext (const uint32_t prevIdx, SetLocalIntfAddrTy::const_iterato
 uint32_t GetIntfFirst (SetLocalIntfAddrTy::const_iterator& i, uint8_t family,
                        uint32_t fMust, uint32_t fSkip = 0)
 {
+    std::lock_guard<std::recursive_mutex> lock(mtxAddrLocal);
     return _GetIntfNext(0, i = gAddrLocal.begin(), family, fMust, fSkip);
 }
 
@@ -248,6 +266,7 @@ uint32_t GetIntfFirst (SetLocalIntfAddrTy::const_iterator& i, uint8_t family,
 uint32_t GetIntfNext (SetLocalIntfAddrTy::const_iterator& i, uint8_t family,
                       uint32_t fMust, uint32_t fSkip = 0)
 {
+    std::lock_guard<std::recursive_mutex> lock(mtxAddrLocal);
     if (i == gAddrLocal.end()) return 0;                        // safeguard
     const uint32_t idx = i->intfIdx;                            // index we point to _now_ (before increment)
     return _GetIntfNext(idx, ++i, family, fMust, fSkip);        // increment already to next entry in list
@@ -516,6 +535,25 @@ std::string SocketNetworking::GetLastErr()
     return std::string(sErr);
 }
 
+// Set blocking mode
+/// @see https://stackoverflow.com/a/1549344
+void SocketNetworking::setBlocking (bool bBlock)
+{
+    LOG_ASSERT(f_socket != INVALID_SOCKET);
+
+ #if IBM
+    unsigned long mode = bBlock ? 0 : 1;
+    if (ioctlsocket(f_socket, FIONBIO, &mode) == SOCKET_ERROR)
+        throw NetRuntimeError("ioctlsocket failed to set blocking flag");
+ #else
+    int flags = fcntl(f_socket, F_GETFL, 0);
+    if (flags == -1)
+        throw NetRuntimeError("fcntl failed to get flags");
+    flags = bBlock ? (flags & ~O_NONBLOCK) : (flags | O_NONBLOCK);
+    if (fcntl(f_socket, F_SETFL, flags) < 0)
+        throw NetRuntimeError("fcntl failed to set blocking flag");
+ #endif
+}
 
 /** \brief Wait on a message.
  *
@@ -653,9 +691,9 @@ std::string SocketNetworking::GetAddrString (const SockAddrTy& sa, bool withPort
 
     // combine host and service as requested
     if (withPort) {
-        ret = '[';
+        if (sa.isIp6()) ret = '[';
         ret += host;
-        ret += "]:";
+        if (sa.isIp6()) ret += "]:"; else ret += ':';
         ret += service;
     } else {
         ret = host;
@@ -726,7 +764,6 @@ void UDPMulticast::Join (const std::string& _multicastAddr, int _port, int _ttl,
         Close();
     
     // save all values
-    multicastAddr = _multicastAddr;
     f_port = _port;
     const std::string decimal_port(std::to_string(f_port));
     
@@ -736,16 +773,19 @@ void UDPMulticast::Join (const std::string& _multicastAddr, int _port, int _ttl,
     memset(&hints, 0, sizeof(hints));
     hints.ai_socktype = SOCK_DGRAM;
     hints.ai_protocol = IPPROTO_UDP;
-    if (getaddrinfo(multicastAddr.c_str(), decimal_port.c_str(), &hints, &pMCAddr) != 0)
-        throw NetRuntimeError ("getaddrinfo failed for " + multicastAddr);
+    if (getaddrinfo(_multicastAddr.c_str(), decimal_port.c_str(), &hints, &pMCAddr) != 0)
+        throw NetRuntimeError ("getaddrinfo failed for " + _multicastAddr);
     if (pMCAddr == nullptr)
-        throw NetRuntimeError ("No address info found for " + multicastAddr);
+        throw NetRuntimeError ("No address info found for " + _multicastAddr);
     if (pMCAddr->ai_family != AF_INET && pMCAddr->ai_family != AF_INET6)
-        throw NetRuntimeError ("Multicast address " + multicastAddr + " was not resolved as IPv4 or IPv6 address but as " + std::to_string(pMCAddr->ai_family));
+        throw NetRuntimeError ("Multicast address " + _multicastAddr + " was not resolved as IPv4 or IPv6 address but as " + std::to_string(pMCAddr->ai_family));
     hints.ai_family = pMCAddr->ai_family;
-    
+
+    // fill our string with a nicely formatted string
+    multicastAddr = GetAddrString(pMCAddr->ai_addr);
+
     // Make sure all local addresses are known, are needed during the MC send process
-    _NetwGetLocalAddresses();
+    _NetwGetLocalAddresses(true);
     
     // open the socket
     Open("", _port, _bufSize, _timeOut_ms);
@@ -766,7 +806,7 @@ void UDPMulticast::Join (const std::string& _multicastAddr, int _port, int _ttl,
         mreqv4.imr_multiaddr.s_addr = ((sockaddr_in*)pMCAddr->ai_addr)->sin_addr.s_addr;
         mreqv4.imr_interface.s_addr = in_addr{INADDR_ANY}.s_addr;
         if (setsockopt(f_socket, IPPROTO_IP, IP_ADD_MEMBERSHIP, (const char*) &mreqv4, sizeof(mreqv4)) < 0)
-            throw NetRuntimeError ("setsockopt(IP_ADD_MEMBERSHIP/IPV6_JOIN_GROUP) failed");
+            throw NetRuntimeError ("setsockopt(IP_ADD_MEMBERSHIP) failed");
         if (setsockopt(f_socket, IPPROTO_IP, IP_MULTICAST_TTL, (char*)&_ttl, sizeof(_ttl)) < 0)
             throw NetRuntimeError ("setsockopt(IP_MULTICAST_TTL) failed");
         if (setsockopt(f_socket, IPPROTO_IP, IP_PKTINFO, (char*)&on, sizeof(on)) < 0)
@@ -871,8 +911,13 @@ size_t UDPMulticast::SendMC (const void* _bufSend, size_t _bufSendSize)
     ssize_t bytesSent = 0;
     if (!pMCAddr || !isOpen())
         throw NetRuntimeError("SendMC: Multicast socket not open");
+    
+    // If sending to all we want to update the list of interfaces every once in a while
+    if (bSendToAll)
+        _NetwGetLocalAddresses();
 
     // We start a loop over all broadcast interfaces, exit early in case of !bSendToAll
+    int numIntfSent = 0;
     SetLocalIntfAddrTy::const_iterator i;
     for (uint32_t idx = bSendToAll ? GetIntfFirst(i, GetFamily(), IFF_MULTICAST) : 1;
          idx > 0;
@@ -880,10 +925,16 @@ size_t UDPMulticast::SendMC (const void* _bufSend, size_t _bufSendSize)
     {
         // Set the sending interface if we are looping over all interfaces
         if (bSendToAll) {
-            if (IsIPv4())
-                SetSendInterface(i->addr.in_addr);
-            else
-                SetSendInterface(idx);
+            try {
+                if (IsIPv4())
+                    SetSendInterface(i->addr.in_addr);
+                else
+                    SetSendInterface(idx);
+            }
+            catch (const NetRuntimeError&) {
+                // We ignore network errors, but just try the net interface
+                continue;
+            }
         }
         
         // Do the actual sending
@@ -896,10 +947,17 @@ size_t UDPMulticast::SendMC (const void* _bufSend, size_t _bufSendSize)
         if (bytesSent < 0)
             throw NetRuntimeError("SendMC: sendto failed to send " + std::to_string(_bufSendSize) + " bytes");
         
+        // Sent to one more interface
+        ++numIntfSent;
+        
         // exit early if we were to send to one interface only
         if (!bSendToAll)
             break;
     }
+    
+    // Did not send our data anywhere?
+    if (!numIntfSent)
+        throw NetRuntimeError("SendMC could not send to any interface");
     
     return size_t(bytesSent);
 }
@@ -907,7 +965,8 @@ size_t UDPMulticast::SendMC (const void* _bufSend, size_t _bufSendSize)
 // @brief Receive a multicast
 size_t UDPMulticast::RecvMC (bool bSwitchToRecvIntf,
                              std::string* _pFromAddr,
-                             SockAddrTy* _pFromSockAddr)
+                             SockAddrTy* _pFromSockAddr,
+                             bool* _pbIntfChanged)
 {
 
     if (!pMCAddr || !buf || !isOpen())
@@ -939,12 +998,14 @@ size_t UDPMulticast::RecvMC (bool bSwitchToRecvIntf,
     };
 
     // Receive the message, fill the control info
-    if (WSARecvMsg(&msg, &br, nullptr, nullptr) < 0)
-        throw NetRuntimeError("RecvMC: WSARecvMsg failed");
+    if (WSARecvMsg(&msg, &br, nullptr, nullptr) < 0) {
+        if (errno != WSAEWOULDBLOCK)            // we ignore no-data events
+            throw NetRuntimeError("RecvMC: WSARecvMsg failed");
+    }
     bytesRcvd = (ssize_t)br;
 
     // loop the control headers to find which interface the msg was received on
-    if (bSwitchToRecvIntf) {
+    if (bytesRcvd > 0 && bSwitchToRecvIntf) {
         for (WSACMSGHDR* cmsg = WSA_CMSG_FIRSTHDR(&msg);
              cmsg;
              cmsg = WSA_CMSG_NXTHDR(&msg, cmsg))
@@ -981,11 +1042,14 @@ size_t UDPMulticast::RecvMC (bool bSwitchToRecvIntf,
 
     // Receive the message, fill the control info
     bytesRcvd = recvmsg(f_socket, &msg, 0);
+    // We don't treat EAGAIN as an error...that just means we received nothing
+    if (bytesRcvd < 0 && errno == EAGAIN)
+        bytesRcvd = 0;
     if (bytesRcvd < 0)
         throw NetRuntimeError("RecvMC: recvfrom failed");
 
     // loop the control headers to find which interface the msg was received on
-    if (bSwitchToRecvIntf) {
+    if (bytesRcvd > 0 && bSwitchToRecvIntf) {
         for (struct cmsghdr* cmsg = CMSG_FIRSTHDR(&msg); cmsg != 0; cmsg = CMSG_NXTHDR(&msg, cmsg))
         {
             if (sa.isIp4() && cmsg->cmsg_level == IPPROTO_IP && cmsg->cmsg_type == IP_PKTINFO)
@@ -1005,8 +1069,13 @@ size_t UDPMulticast::RecvMC (bool bSwitchToRecvIntf,
 #endif
     
     // If requested, set outgoing interface (quick exit if no change)
-    if (bSwitchToRecvIntf && ifIdx)
+    if (bSwitchToRecvIntf && ifIdx && ifIdx != oneIntfIdx) {
         SendToIntf(ifIdx);
+        if (_pbIntfChanged) *_pbIntfChanged = true;
+    }
+    else
+        if (_pbIntfChanged) *_pbIntfChanged = false;
+        
 
     // Sender address wanted?
     if (_pFromAddr)
@@ -1053,6 +1122,7 @@ void UDPMulticast::SetSendInterface (uint32_t ifIdx)
 {
     // In case of IPv4 we need to translate the index to an address
     if (IsIPv4()) {
+        std::unique_lock<std::recursive_mutex> lock(mtxAddrLocal);
         SetLocalIntfAddrTy::const_iterator i =
         std::find_if(gAddrLocal.begin(), gAddrLocal.end(),
                      [ifIdx](const LocalIntfAddrTy& a)
@@ -1061,6 +1131,7 @@ void UDPMulticast::SetSendInterface (uint32_t ifIdx)
             LOG_MSG(logERR, "Found no IPv4 address for interface index %u", ifIdx);
             throw NetRuntimeError("No IPv4 address found for requested interface");
         }
+        lock.unlock();
         SetSendInterface(i->addr.in_addr);
     }
     else if (IsIPv6()) {
@@ -1245,6 +1316,7 @@ void InetAddrTy::CopyFrom (const SockAddrTy& sa)
 /// Is given address a local one?
 bool NetwIsLocalAddr (const InetAddrTy& addr)
 {
+    std::lock_guard<std::recursive_mutex> lock(mtxAddrLocal);
     _NetwGetLocalAddresses();
     return std::find(gAddrLocal.begin(), gAddrLocal.end(), addr) != gAddrLocal.end();
 }

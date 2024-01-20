@@ -1071,9 +1071,9 @@ Variables</h2></td></tr>
 <tr class="memitem:aa6805757957d11672b0af727f312ffb2"><td class="memItemLeft" align="right" valign="top">volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aa6805757957d11672b0af727f312ffb2">gbStopMCThread</a> = false</td></tr>
 <tr class="memdesc:aa6805757957d11672b0af727f312ffb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shall the network thread stop?  <a href="namespaceXPMP2.html#aa6805757957d11672b0af727f312ffb2">More...</a><br /></td></tr>
 <tr class="separator:aa6805757957d11672b0af727f312ffb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa396514f7d7cac9a9410ee58ee125f9f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aa396514f7d7cac9a9410ee58ee125f9f">gCntMCErr</a> = 0</td></tr>
-<tr class="memdesc:aa396514f7d7cac9a9410ee58ee125f9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">error counter for network thread  <a href="namespaceXPMP2.html#aa396514f7d7cac9a9410ee58ee125f9f">More...</a><br /></td></tr>
-<tr class="separator:aa396514f7d7cac9a9410ee58ee125f9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b6cc69bf3400d7ff4dc7be6c7bd6c00"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a6b6cc69bf3400d7ff4dc7be6c7bd6c00">gbRemoteGaveUp</a> = false</td></tr>
+<tr class="memdesc:a6b6cc69bf3400d7ff4dc7be6c7bd6c00"><td class="mdescLeft">&#160;</td><td class="mdescRight">No longer try remote functionality, have seen to many errors.  <a href="namespaceXPMP2.html#a6b6cc69bf3400d7ff4dc7be6c7bd6c00">More...</a><br /></td></tr>
+<tr class="separator:a6b6cc69bf3400d7ff4dc7be6c7bd6c00"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad596511dffdcf37e7e182730f3d34071"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ad596511dffdcf37e7e182730f3d34071">gSendSettingsLast</a> = 0.0f</td></tr>
 <tr class="memdesc:ad596511dffdcf37e7e182730f3d34071"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timestamp when we sent our settings the last time.  <a href="namespaceXPMP2.html#ad596511dffdcf37e7e182730f3d34071">More...</a><br /></td></tr>
 <tr class="separator:ad596511dffdcf37e7e182730f3d34071"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -5563,6 +5563,7 @@ template&lt;class T &gt; </div>
 </div><div class="memdoc">
 
 <p>Thread main function for the receiver. </p>
+<p>&lt; error counter for network thread</p>
 
 </div>
 </div>
@@ -5647,6 +5648,7 @@ template&lt;class T &gt; </div>
 </div><div class="memdoc">
 
 <p>Thread main function for the sender. </p>
+<p>&lt; error counter for network thread</p>
 
 </div>
 </div>
@@ -6715,6 +6717,22 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
+<a id="a6b6cc69bf3400d7ff4dc7be6c7bd6c00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b6cc69bf3400d7ff4dc7be6c7bd6c00">&#9670;&nbsp;</a></span>gbRemoteGaveUp</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::gbRemoteGaveUp = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>No longer try remote functionality, have seen to many errors. </p>
+
+</div>
+</div>
 <a id="aa6805757957d11672b0af727f312ffb2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa6805757957d11672b0af727f312ffb2">&#9670;&nbsp;</a></span>gbStopMCThread</h2>
 
@@ -6728,22 +6746,6 @@ template&lt;class T &gt; </div>
 </div><div class="memdoc">
 
 <p>Shall the network thread stop? </p>
-
-</div>
-</div>
-<a id="aa396514f7d7cac9a9410ee58ee125f9f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa396514f7d7cac9a9410ee58ee125f9f">&#9670;&nbsp;</a></span>gCntMCErr</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int XPMP2::gCntMCErr = 0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>error counter for network thread </p>
 
 </div>
 </div>

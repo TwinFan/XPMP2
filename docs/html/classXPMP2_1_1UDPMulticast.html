@@ -188,6 +188,9 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a61f4e251eee581e4588967561f2b0190"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1UDPMulticast.html#a61f4e251eee581e4588967561f2b0190">oneIntfIdx</a> = 0</td></tr>
 <tr class="memdesc:a61f4e251eee581e4588967561f2b0190"><td class="mdescLeft">&#160;</td><td class="mdescRight">When sending to one interface only, which one?  <a href="classXPMP2_1_1UDPMulticast.html#a61f4e251eee581e4588967561f2b0190">More...</a><br /></td></tr>
 <tr class="separator:a61f4e251eee581e4588967561f2b0190"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a806f94713332245a2307c81c6d9ae3d6"><td class="memItemLeft" align="right" valign="top">std::map&lt; <a class="el" href="structXPMP2_1_1SockAddrTy.html">SockAddrTy</a>, std::chrono::time_point&lt; std::chrono::steady_clock &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1UDPMulticast.html#a806f94713332245a2307c81c6d9ae3d6">mapSender</a></td></tr>
+<tr class="memdesc:a806f94713332245a2307c81c6d9ae3d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Keep a list of sources we received data from to be able to identify new sources.  <a href="classXPMP2_1_1UDPMulticast.html#a806f94713332245a2307c81c6d9ae3d6">More...</a><br /></td></tr>
+<tr class="separator:a806f94713332245a2307c81c6d9ae3d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classXPMP2_1_1SocketNetworking"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classXPMP2_1_1SocketNetworking')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classXPMP2_1_1SocketNetworking.html">XPMP2::SocketNetworking</a></td></tr>
 <tr class="memitem:a4ff89b35686c219b94bd13fb039be7b9 inherit pro_attribs_classXPMP2_1_1SocketNetworking"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceXPMP2.html#ac759ac14a3ef63581d8f4c364d5736d0">SOCKET</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1SocketNetworking.html#a4ff89b35686c219b94bd13fb039be7b9">f_socket</a> = <a class="el" href="namespaceXPMP2.html#a667edc6ebcf449eec1b9def9d5d54895">INVALID_SOCKET</a></td></tr>
 <tr class="separator:a4ff89b35686c219b94bd13fb039be7b9 inherit pro_attribs_classXPMP2_1_1SocketNetworking"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -588,7 +591,7 @@ Additional Inherited Members</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Number of bytes received </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Number of bytes received, <code>0</code> in case no data was waiting </dd></dl>
 
 </div>
 </div>
@@ -766,6 +769,30 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Send out multicast datagrams to all interfaces. </p>
+
+</div>
+</div>
+<a id="a806f94713332245a2307c81c6d9ae3d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a806f94713332245a2307c81c6d9ae3d6">&#9670;&nbsp;</a></span>mapSender</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt;<a class="el" href="structXPMP2_1_1SockAddrTy.html">SockAddrTy</a>,std::chrono::time_point&lt;std::chrono::steady_clock&gt; &gt; XPMP2::UDPMulticast::mapSender</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Keep a list of sources we received data from to be able to identify new sources. </p>
 
 </div>
 </div>

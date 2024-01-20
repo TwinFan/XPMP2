@@ -65,6 +65,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa22f2be59edf940efed25fa6bfa5ea3e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1SockAddrTy.html#aa22f2be59edf940efed25fa6bfa5ea3e">SockAddrTy</a> (const sockaddr *pSa)</td></tr>
 <tr class="memdesc:aa22f2be59edf940efed25fa6bfa5ea3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor copies given socket info.  <a href="structXPMP2_1_1SockAddrTy.html#aa22f2be59edf940efed25fa6bfa5ea3e">More...</a><br /></td></tr>
 <tr class="separator:aa22f2be59edf940efed25fa6bfa5ea3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a155385b5b8538c1945444282ad38b135"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1SockAddrTy.html#a155385b5b8538c1945444282ad38b135">operator&lt;</a> (const <a class="el" href="structXPMP2_1_1SockAddrTy.html">SockAddrTy</a> &amp;o) const</td></tr>
+<tr class="memdesc:a155385b5b8538c1945444282ad38b135"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comparison bases solely on memory compare, order isn't important, just that there is order.  <a href="structXPMP2_1_1SockAddrTy.html#a155385b5b8538c1945444282ad38b135">More...</a><br /></td></tr>
+<tr class="separator:a155385b5b8538c1945444282ad38b135"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bf20fb89a664033084e271eacc2b7ad"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1SockAddrTy.html#a7bf20fb89a664033084e271eacc2b7ad">operator==</a> (const <a class="el" href="structXPMP2_1_1SockAddrTy.html">SockAddrTy</a> &amp;o) const</td></tr>
+<tr class="memdesc:a7bf20fb89a664033084e271eacc2b7ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comparison bases solely on memory compare, order isn't important, just that there is order.  <a href="structXPMP2_1_1SockAddrTy.html#a7bf20fb89a664033084e271eacc2b7ad">More...</a><br /></td></tr>
+<tr class="separator:a7bf20fb89a664033084e271eacc2b7ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5ce6c6f781ca66b11e2b21e134550cf"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1SockAddrTy.html#ab5ce6c6f781ca66b11e2b21e134550cf">family</a> () const</td></tr>
 <tr class="memdesc:ab5ce6c6f781ca66b11e2b21e134550cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">return the protocol famaily  <a href="structXPMP2_1_1SockAddrTy.html#ab5ce6c6f781ca66b11e2b21e134550cf">More...</a><br /></td></tr>
 <tr class="separator:ab5ce6c6f781ca66b11e2b21e134550cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -219,6 +225,62 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>is this an IPv6 address? </p>
+
+</div>
+</div>
+<a id="a155385b5b8538c1945444282ad38b135"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a155385b5b8538c1945444282ad38b135">&#9670;&nbsp;</a></span>operator&lt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::SockAddrTy::operator&lt; </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structXPMP2_1_1SockAddrTy.html">SockAddrTy</a> &amp;&#160;</td>
+          <td class="paramname"><em>o</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Comparison bases solely on memory compare, order isn't important, just that there is order. </p>
+
+</div>
+</div>
+<a id="a7bf20fb89a664033084e271eacc2b7ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bf20fb89a664033084e271eacc2b7ad">&#9670;&nbsp;</a></span>operator==()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::SockAddrTy::operator== </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structXPMP2_1_1SockAddrTy.html">SockAddrTy</a> &amp;&#160;</td>
+          <td class="paramname"><em>o</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Comparison bases solely on memory compare, order isn't important, just that there is order. </p>
 
 </div>
 </div>

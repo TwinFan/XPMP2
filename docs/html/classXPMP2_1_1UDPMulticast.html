@@ -74,18 +74,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab5ca8c46fc603f76b2839e98a7990c9f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1UDPMulticast.html#ab5ca8c46fc603f76b2839e98a7990c9f">UDPMulticast</a> ()</td></tr>
 <tr class="memdesc:ab5ca8c46fc603f76b2839e98a7990c9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor is not doing anything.  <a href="classXPMP2_1_1UDPMulticast.html#ab5ca8c46fc603f76b2839e98a7990c9f">More...</a><br /></td></tr>
 <tr class="separator:ab5ca8c46fc603f76b2839e98a7990c9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf27cd81df85dc5b603a8ce1e9ce015f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1UDPMulticast.html#adf27cd81df85dc5b603a8ce1e9ce015f">UDPMulticast</a> (const std::string &amp;_multicastAddr, int _port, int _ttl=8, size_t _bufSize=512, unsigned _timeOut_ms=0)</td></tr>
-<tr class="memdesc:adf27cd81df85dc5b603a8ce1e9ce015f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor creates a socket and binds it to INADDR_ANY and connects to the given multicast address.  <a href="classXPMP2_1_1UDPMulticast.html#adf27cd81df85dc5b603a8ce1e9ce015f">More...</a><br /></td></tr>
-<tr class="separator:adf27cd81df85dc5b603a8ce1e9ce015f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefa00b611b809a97a9c7d527aab7aa6c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1UDPMulticast.html#aefa00b611b809a97a9c7d527aab7aa6c">UDPMulticast</a> (const std::string &amp;_multicastAddr, int _port, const std::string &amp;_sendIntf, int _ttl=8, size_t _bufSize=512, unsigned _timeOut_ms=0)</td></tr>
+<tr class="memdesc:aefa00b611b809a97a9c7d527aab7aa6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor creates a socket and binds it to INADDR_ANY and connects to the given multicast address.  <a href="classXPMP2_1_1UDPMulticast.html#aefa00b611b809a97a9c7d527aab7aa6c">More...</a><br /></td></tr>
+<tr class="separator:aefa00b611b809a97a9c7d527aab7aa6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae19c33a252689ce8842e3b4a3826dbc6"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1UDPMulticast.html#ae19c33a252689ce8842e3b4a3826dbc6">~UDPMulticast</a> ()</td></tr>
 <tr class="memdesc:ae19c33a252689ce8842e3b4a3826dbc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">makes sure pMCAddr is cleared up  <a href="classXPMP2_1_1UDPMulticast.html#ae19c33a252689ce8842e3b4a3826dbc6">More...</a><br /></td></tr>
 <tr class="separator:ae19c33a252689ce8842e3b4a3826dbc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09eca56e0a9427be826205157619156e"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1UDPMulticast.html#a09eca56e0a9427be826205157619156e">GetMCAddr</a> () const</td></tr>
 <tr class="memdesc:a09eca56e0a9427be826205157619156e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return formatted multicast address, including port.  <a href="classXPMP2_1_1UDPMulticast.html#a09eca56e0a9427be826205157619156e">More...</a><br /></td></tr>
 <tr class="separator:a09eca56e0a9427be826205157619156e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf19e43eea97fdc5ba1bb93cda555adf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1UDPMulticast.html#adf19e43eea97fdc5ba1bb93cda555adf">Join</a> (const std::string &amp;_multicastAddr, int _port, int _ttl=8, size_t _bufSize=512, unsigned _timeOut_ms=0)</td></tr>
-<tr class="memdesc:adf19e43eea97fdc5ba1bb93cda555adf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connect to the multicast group.  <a href="classXPMP2_1_1UDPMulticast.html#adf19e43eea97fdc5ba1bb93cda555adf">More...</a><br /></td></tr>
-<tr class="separator:adf19e43eea97fdc5ba1bb93cda555adf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d508752e757a177ff05c4e2c27a5489"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1UDPMulticast.html#a0d508752e757a177ff05c4e2c27a5489">Join</a> (const std::string &amp;_multicastAddr, int _port, const std::string &amp;_sendIntf, int _ttl=8, size_t _bufSize=512, unsigned _timeOut_ms=0)</td></tr>
+<tr class="memdesc:a0d508752e757a177ff05c4e2c27a5489"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connect to the multicast group.  <a href="classXPMP2_1_1UDPMulticast.html#a0d508752e757a177ff05c4e2c27a5489">More...</a><br /></td></tr>
+<tr class="separator:a0d508752e757a177ff05c4e2c27a5489"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe3c5c7a4f0aaac69b9130b6a2100c8d"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1UDPMulticast.html#abe3c5c7a4f0aaac69b9130b6a2100c8d">GetFamily</a> () const</td></tr>
 <tr class="memdesc:abe3c5c7a4f0aaac69b9130b6a2100c8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Protocol family.  <a href="classXPMP2_1_1UDPMulticast.html#abe3c5c7a4f0aaac69b9130b6a2100c8d">More...</a><br /></td></tr>
 <tr class="separator:abe3c5c7a4f0aaac69b9130b6a2100c8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -249,8 +249,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="adf27cd81df85dc5b603a8ce1e9ce015f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf27cd81df85dc5b603a8ce1e9ce015f">&#9670;&nbsp;</a></span>UDPMulticast() <span class="overload">[2/2]</span></h2>
+<a id="aefa00b611b809a97a9c7d527aab7aa6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aefa00b611b809a97a9c7d527aab7aa6c">&#9670;&nbsp;</a></span>UDPMulticast() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -266,6 +266,12 @@ Additional Inherited Members</h2></td></tr>
           <td></td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>_port</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>_sendIntf</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -489,8 +495,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="adf19e43eea97fdc5ba1bb93cda555adf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf19e43eea97fdc5ba1bb93cda555adf">&#9670;&nbsp;</a></span>Join()</h2>
+<a id="a0d508752e757a177ff05c4e2c27a5489"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d508752e757a177ff05c4e2c27a5489">&#9670;&nbsp;</a></span>Join()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -506,6 +512,12 @@ Additional Inherited Members</h2></td></tr>
           <td></td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>_port</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>_sendIntf</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

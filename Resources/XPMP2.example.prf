@@ -89,6 +89,15 @@ remoteMCGroup 239.255.1.1
 # Port used for communication between XPMP2 masters and the Remote Client.
 remotePort 49788
 
+# Interface to _send_ multicast on.
+# Auto-discovery is used if option is not defined (commented out).
+# Define an interface by numeric interface index or its interface name.
+# If the defined interface name cannot be resolved you'll find a list
+# of available interface names output to Log.txt after the respective ERROR line.
+# Examples:
+# remoteSendIntf Ethernet
+# remoteSendIntf en0
+
 # TTL (Time-to-live) for multicast packets, ie. max number of hops they across routers they take
 remoteTTL 8
 

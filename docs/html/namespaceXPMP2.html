@@ -620,6 +620,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a5bc2150c8a418db3765c898fee6e70ba"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a5bc2150c8a418db3765c898fee6e70ba">_NetwGetIntfName</a> (uint32_t idx, uint8_t family)</td></tr>
 <tr class="memdesc:a5bc2150c8a418db3765c898fee6e70ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an interface's name.  <a href="namespaceXPMP2.html#a5bc2150c8a418db3765c898fee6e70ba">More...</a><br /></td></tr>
 <tr class="separator:a5bc2150c8a418db3765c898fee6e70ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8884e645593114d4fd5abd2439775c6d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structXPMP2_1_1LocalIntfAddrTy.html">LocalIntfAddrTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a8884e645593114d4fd5abd2439775c6d">_NetwFindLocalIntf</a> (const std::string &amp;intf, uint8_t family)</td></tr>
+<tr class="memdesc:a8884e645593114d4fd5abd2439775c6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find a matching local interface based on name and family.  <a href="namespaceXPMP2.html#a8884e645593114d4fd5abd2439775c6d">More...</a><br /></td></tr>
+<tr class="separator:a8884e645593114d4fd5abd2439775c6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adaf0dc741efd65dca1616de73ce34e84"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#adaf0dc741efd65dca1616de73ce34e84">_NetwGetInterfaceNames</a> (uint8_t family)</td></tr>
+<tr class="memdesc:adaf0dc741efd65dca1616de73ce34e84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return list of interface names of given family.  <a href="namespaceXPMP2.html#adaf0dc741efd65dca1616de73ce34e84">More...</a><br /></td></tr>
+<tr class="separator:adaf0dc741efd65dca1616de73ce34e84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a00a6d1fd3d9f01603d08db17cbedf22f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a00a6d1fd3d9f01603d08db17cbedf22f">_NetwGetLocalAddresses</a> (bool bForceRefresh=false)</td></tr>
 <tr class="memdesc:a00a6d1fd3d9f01603d08db17cbedf22f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fetch all local addresses and cache locally.  <a href="namespaceXPMP2.html#a00a6d1fd3d9f01603d08db17cbedf22f">More...</a><br /></td></tr>
 <tr class="separator:a00a6d1fd3d9f01603d08db17cbedf22f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2083,6 +2089,56 @@ The animation dataRef values element. </td></tr>
 </div><div class="memdoc">
 
 <p>Internal: Returns the <em>next</em> interface index of a broadcast interface for the given protocol family. </p>
+
+</div>
+</div>
+<a id="a8884e645593114d4fd5abd2439775c6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8884e645593114d4fd5abd2439775c6d">&#9670;&nbsp;</a></span>_NetwFindLocalIntf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structXPMP2_1_1LocalIntfAddrTy.html">LocalIntfAddrTy</a> XPMP2::_NetwFindLocalIntf </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>intf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>family</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Find a matching local interface based on name and family. </p>
+
+</div>
+</div>
+<a id="adaf0dc741efd65dca1616de73ce34e84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adaf0dc741efd65dca1616de73ce34e84">&#9670;&nbsp;</a></span>_NetwGetInterfaceNames()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string XPMP2::_NetwGetInterfaceNames </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>family</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return list of interface names of given family. </p>
 
 </div>
 </div>

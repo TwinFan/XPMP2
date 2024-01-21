@@ -60,6 +60,9 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a71652a991b3ce20ef5e2412a9be85ae3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a71652a991b3ce20ef5e2412a9be85ae3">remoteAutoDiscovery</a> () const</td></tr>
+<tr class="memdesc:a71652a991b3ce20ef5e2412a9be85ae3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use auto-discovery for the MC send interface?  <a href="structXPMP2_1_1GlobVars.html#a71652a991b3ce20ef5e2412a9be85ae3">More...</a><br /></td></tr>
+<tr class="separator:a71652a991b3ce20ef5e2412a9be85ae3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abaa1a384347a39123c1a94cae71f5ad3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#abaa1a384347a39123c1a94cae71f5ad3">RemoteIsListener</a> () const</td></tr>
 <tr class="memdesc:abaa1a384347a39123c1a94cae71f5ad3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Are we a listener?  <a href="structXPMP2_1_1GlobVars.html#abaa1a384347a39123c1a94cae71f5ad3">More...</a><br /></td></tr>
 <tr class="separator:abaa1a384347a39123c1a94cae71f5ad3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -195,6 +198,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a32651e4547bded0cb0c239d2f2f6fd4c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#a32651e4547bded0cb0c239d2f2f6fd4c">remotePort</a> = 49788</td></tr>
 <tr class="memdesc:a32651e4547bded0cb0c239d2f2f6fd4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The port we use is <em>different</em> from the port the X-Plane BEACON uses, so we don't get into conflict.  <a href="structXPMP2_1_1GlobVars.html#a32651e4547bded0cb0c239d2f2f6fd4c">More...</a><br /></td></tr>
 <tr class="separator:a32651e4547bded0cb0c239d2f2f6fd4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace17f94c82cdfacf86c99e5d6b653176"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#ace17f94c82cdfacf86c99e5d6b653176">remoteSendIntf</a></td></tr>
+<tr class="memdesc:ace17f94c82cdfacf86c99e5d6b653176"><td class="mdescLeft">&#160;</td><td class="mdescRight">The interface used to send multicast on. (Empty == auto-discovery)  <a href="structXPMP2_1_1GlobVars.html#ace17f94c82cdfacf86c99e5d6b653176">More...</a><br /></td></tr>
+<tr class="separator:ace17f94c82cdfacf86c99e5d6b653176"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd9219b93b74ef6721c60c9f42d4c79c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1GlobVars.html#afd9219b93b74ef6721c60c9f42d4c79c">remoteTTL</a> = 8</td></tr>
 <tr class="memdesc:afd9219b93b74ef6721c60c9f42d4c79c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Time-to-live, or mumber of hops for a multicast message.  <a href="structXPMP2_1_1GlobVars.html#afd9219b93b74ef6721c60c9f42d4c79c">More...</a><br /></td></tr>
 <tr class="separator:afd9219b93b74ef6721c60c9f42d4c79c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -413,6 +419,33 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Read version numbers into verXplane/verXPLM. </p>
+
+</div>
+</div>
+<a id="a71652a991b3ce20ef5e2412a9be85ae3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71652a991b3ce20ef5e2412a9be85ae3">&#9670;&nbsp;</a></span>remoteAutoDiscovery()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::GlobVars::remoteAutoDiscovery </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Use auto-discovery for the MC send interface? </p>
 
 </div>
 </div>
@@ -1385,6 +1418,22 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>The port we use is <em>different</em> from the port the X-Plane BEACON uses, so we don't get into conflict. </p>
+
+</div>
+</div>
+<a id="ace17f94c82cdfacf86c99e5d6b653176"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace17f94c82cdfacf86c99e5d6b653176">&#9670;&nbsp;</a></span>remoteSendIntf</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string XPMP2::GlobVars::remoteSendIntf</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The interface used to send multicast on. (Empty == auto-discovery) </p>
 
 </div>
 </div>

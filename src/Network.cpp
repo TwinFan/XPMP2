@@ -64,6 +64,9 @@ struct LocalIntfAddrTy
     InetAddrTy          addr;                   ///< address, internally this is in_addr or in6_addr
     uint8_t             family = 0;             ///< either `AF_INET` or `AF_INET6`
     uint32_t            flags = 0;              ///< stuff like `IFF_MULTICAST`, `IFF_LOOPBACK`, `IFF_BROADCAST`...
+
+    /// Standard constructor keeps all empty/invalid
+    LocalIntfAddrTy () {}
     
     /// Constructor looks up interface idx from its name
     LocalIntfAddrTy (const char* _intfName,
@@ -125,6 +128,46 @@ std::string _NetwGetIntfName (uint32_t idx, uint8_t family)
         return "";
     }
     return intfName;
+}
+
+/// Find a matching local interface based on name and family
+LocalIntfAddrTy _NetwFindLocalIntf (const std::string& intf, uint8_t family)
+{
+    if (!intf.empty()) {
+        // a string full of digits? -> use as index
+        uint32_t idx = 0;
+        if (std::all_of(intf.begin(), intf.end(), ::isdigit))
+            idx = (uint32_t)std::stol(intf);
+        
+        // Search our list of interfaces either by intf idx or by its name
+        // On Windows, that can stores differing intfIdx for IPv4 vs IPv6.
+        std::lock_guard<std::recursive_mutex> lock(mtxAddrLocal);
+        SetLocalIntfAddrTy::const_iterator i =
+        std::find_if(gAddrLocal.begin(), gAddrLocal.end(),
+                     [intf,idx,family](const LocalIntfAddrTy& a)
+                     { return a.family == family && (idx ? a.intfIdx == idx : a.intfName == intf); });
+        if (i != gAddrLocal.end())
+            return *i;
+    }
+    
+    return LocalIntfAddrTy();
+}
+
+/// Return list of interface names of given family
+std::string _NetwGetInterfaceNames (uint8_t family)
+{
+    std::string ret, prev;
+    ret.reserve(gAddrLocal.size() * 15);            // Windows can use rather lengthy names...
+    
+    std::lock_guard<std::recursive_mutex> lock(mtxAddrLocal);
+    for (const LocalIntfAddrTy& a: gAddrLocal)
+    {
+        if (a.family != family) continue;           // skip wrong family
+        if (a.intfName == prev) continue;           // same interface may appear several times, add only once
+        if (!ret.empty()) ret += ',';
+        ret += (prev = a.intfName);
+    }
+    return ret;
 }
 
 /// Fetch all local addresses and cache locally
@@ -276,7 +319,7 @@ uint32_t GetIntfNext (SetLocalIntfAddrTy::const_iterator& i, uint8_t family,
 // Constructor copies given socket info
 SockAddrTy::SockAddrTy (const sockaddr* pSa)
 {
-    memset(this, 0, sizeof(SockAddrTy));
+    memset((void*)this, 0, sizeof(SockAddrTy));
     if (pSa) {
         switch (pSa->sa_family) {
             case AF_INET:
@@ -742,11 +785,12 @@ void UDPReceiver::GetAddrHints (struct addrinfo& hints)
 //
 
 // Constructor
-UDPMulticast::UDPMulticast(const std::string& _multicastAddr, int _port, int _ttl,
-                           size_t _bufSize, unsigned _timeOut_ms) :
+UDPMulticast::UDPMulticast(const std::string& _multicastAddr, int _port,
+                           const std::string& _sendIntf,
+                           int _ttl, size_t _bufSize, unsigned _timeOut_ms) :
     SocketNetworking()
 {
-    Join(_multicastAddr, _port, _ttl, _bufSize, _timeOut_ms);
+    Join(_multicastAddr, _port, _sendIntf, _ttl, _bufSize, _timeOut_ms);
 }
 
 // makes sure pMCAddr is cleared up
@@ -756,8 +800,9 @@ UDPMulticast::~UDPMulticast()
 }
 
 // Connect to the multicast group
-void UDPMulticast::Join (const std::string& _multicastAddr, int _port, int _ttl,
-                         size_t _bufSize, unsigned _timeOut_ms)
+void UDPMulticast::Join (const std::string& _multicastAddr, int _port,
+                         const std::string& _sendIntf,
+                         int _ttl, size_t _bufSize, unsigned _timeOut_ms)
 {
     // Already connected? -> disconnect first
     if (isOpen())
@@ -779,24 +824,23 @@ void UDPMulticast::Join (const std::string& _multicastAddr, int _port, int _ttl,
         throw NetRuntimeError ("No address info found for " + _multicastAddr);
     if (pMCAddr->ai_family != AF_INET && pMCAddr->ai_family != AF_INET6)
         throw NetRuntimeError ("Multicast address " + _multicastAddr + " was not resolved as IPv4 or IPv6 address but as " + std::to_string(pMCAddr->ai_family));
-    hints.ai_family = pMCAddr->ai_family;
 
     // fill our string with a nicely formatted string
     multicastAddr = GetAddrString(pMCAddr->ai_addr);
 
     // Make sure all local addresses are known, are needed during the MC send process
+    std::lock_guard<std::recursive_mutex> lock(mtxAddrLocal);
     _NetwGetLocalAddresses(true);
+    // If configured, lookup a specific interface (address) to send from and join only
+    const LocalIntfAddrTy sendIntf = _NetwFindLocalIntf(_sendIntf, GetFamily());
+    if (!_sendIntf.empty() && !sendIntf.intfIdx) {
+        LOG_MSG(logERR, "MC %s: Configured remoteSendIntf '%s' not found! Available interfaces are: %s",
+                GetMCAddr().c_str(), _sendIntf.c_str(), _NetwGetInterfaceNames(GetFamily()).c_str());
+    }
     
     // open the socket
     Open("", _port, _bufSize, _timeOut_ms);
 
-    // Have address info ready for the "any" interface
-    struct addrinfo* pAnyAddrInfo = nullptr;
-    hints.ai_flags |= AI_PASSIVE;
-    if (getaddrinfo(nullptr, "0", &hints, &pAnyAddrInfo) != 0)
-        throw NetRuntimeError ("getaddrinfo failed for NULL address");
-
-    
     // Actually join the multicast group
     if (IsIPv4())
     {
@@ -804,7 +848,12 @@ void UDPMulticast::Join (const std::string& _multicastAddr, int _port, int _ttl,
         const int on = 1;
         ip_mreq mreqv4 = {};
         mreqv4.imr_multiaddr.s_addr = ((sockaddr_in*)pMCAddr->ai_addr)->sin_addr.s_addr;
-        mreqv4.imr_interface.s_addr = in_addr{INADDR_ANY}.s_addr;
+        
+        if (sendIntf.intfIdx)                   // if specific interface given then only read from there
+            mreqv4.imr_interface.s_addr = sendIntf.addr.in_addr.s_addr;
+        else                                    // otherwise read from any
+            mreqv4.imr_interface.s_addr = in_addr{INADDR_ANY}.s_addr;
+        
         if (setsockopt(f_socket, IPPROTO_IP, IP_ADD_MEMBERSHIP, (const char*) &mreqv4, sizeof(mreqv4)) < 0)
             throw NetRuntimeError ("setsockopt(IP_ADD_MEMBERSHIP) failed");
         if (setsockopt(f_socket, IPPROTO_IP, IP_MULTICAST_TTL, (char*)&_ttl, sizeof(_ttl)) < 0)
@@ -832,6 +881,10 @@ void UDPMulticast::Join (const std::string& _multicastAddr, int _port, int _ttl,
              mreqv6.ipv6mr_interface > 0;
              mreqv6.ipv6mr_interface = GetIntfNext(i, AF_INET6, IFF_MULTICAST))
         {
+            // If a single interface is configured then we only joing on that interface
+            if (sendIntf.intfIdx && sendIntf.intfIdx != mreqv6.ipv6mr_interface)
+                continue;
+            
             if (setsockopt(f_socket, IPPROTO_IPV6, IPV6_JOIN_GROUP, (const char*) &mreqv6, sizeof(mreqv6)) < 0) {
                 char sErr[SERR_LEN];
                 strerror_s(sErr, sizeof(sErr), errno);
@@ -847,8 +900,9 @@ void UDPMulticast::Join (const std::string& _multicastAddr, int _port, int _ttl,
             throw NetRuntimeError ("setsockopt(IPV6_JOIN_GROUP) failed for all interfaces!");
     }
 
-    // free local address info
-    freeaddrinfo(pAnyAddrInfo);
+    // If a sending interface is given let's set it
+    if (sendIntf.intfIdx)
+        SendToIntf(sendIntf.intfIdx);
 }
 
 // Send future datagrams on default interfaces only (default)

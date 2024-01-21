@@ -204,6 +204,10 @@ public:
     std::string     remoteMCGroup = "239.255.1.1";    // for IPv6 try "FF02::1"
     /// The port we use is _different_ from the port the X-Plane BEACON uses, so we don't get into conflict
     int             remotePort      = 49788;
+    /// The interface used to send multicast on. (Empty == auto-discovery)
+    std::string     remoteSendIntf;
+    /// Use auto-discovery for the MC send interface?
+    bool            remoteAutoDiscovery() const { return remoteSendIntf.empty(); }
     /// Time-to-live, or mumber of hops for a multicast message
     int             remoteTTL       = 8;
     /// Buffer size, ie. max message length we send over multicast

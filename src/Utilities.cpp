@@ -126,6 +126,7 @@ void GlobVars::ReadConfigFile ()
         }
         else if (ln[0] == "remoteMCGroup")  remoteMCGroup = ln[1];
         else if (ln[0] == "remotePort")     remotePort = iVal;
+        else if (ln[0] == "remoteSendIntf") remoteSendIntf = ln[1];
         else if (ln[0] == "remoteTTL")      remoteTTL = iVal;
         else if (ln[0] == "remoteBufSize")  remoteBufSize = (size_t)iVal;
         else if (ln[0] == "remoteTxfFrequ") remoteTxfFrequ = iVal;

@@ -642,6 +642,7 @@ void RmtSendLoop ()
         bool bChangeIntf = std::chrono::steady_clock::now() - tpIntfSwitch > std::chrono::seconds(REMOTE_RECV_BEACON_INTVL/2);
         bool bIntfChanged = false;
         std::string from;
+        if (glob.remoteAutoDiscovery()) bChangeIntf = false;
         // Loop makes sure we read everything, maybe there's a new interface in there somewhere
         while (gpMc->RecvMC(bChangeIntf, &from, nullptr, &bIntfChanged) > 0)
         {
@@ -692,7 +693,8 @@ void RmtSendMain()
             glob.remoteStatus = REMOTE_SEND_WAITING;
             
             // Create a multicast socket and listen if there is any traffic in our multicast group
-            gpMc->Join(glob.remoteMCGroup, glob.remotePort, glob.remoteTTL,glob.remoteBufSize);
+            gpMc->Join(glob.remoteMCGroup, glob.remotePort, glob.remoteSendIntf,
+                       glob.remoteTTL, glob.remoteBufSize);
             int maxSock = (int)gpMc->getSocket() + 1;
 #if APL == 1 || LIN == 1
             // the self-pipe to shut down the TCP socket gracefully
@@ -839,7 +841,8 @@ void RmtRecvMain()
             glob.remoteStatus = REMOTE_RECV_WAITING;
             
             // Create a multicast socket
-            gpMc->Join(glob.remoteMCGroup, glob.remotePort, glob.remoteTTL,glob.remoteBufSize);
+            gpMc->Join(glob.remoteMCGroup, glob.remotePort, glob.remoteSendIntf,
+                       glob.remoteTTL, glob.remoteBufSize);
             int maxSock = (int)gpMc->getSocket() + 1;
 #if APL == 1 || LIN == 1
             // the self-pipe to shut down the TCP socket gracefully
@@ -850,7 +853,6 @@ void RmtRecvMain()
 #endif
             
             // Send out a first Interest Beacon
-            gpMc->SendToAll();
             RmtSendBeacon();
             
             // *** Main listening loop ***

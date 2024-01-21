@@ -59,7 +59,7 @@ struct SockAddrTy
     };
     
     /// Constructor zeroes out everying
-    SockAddrTy() { memset(this, 0, sizeof(SockAddrTy)); }
+    SockAddrTy() { memset((void*)this, 0, sizeof(SockAddrTy)); }
     /// Constructor copies given socket info
     SockAddrTy (const sockaddr* pSa);
     
@@ -207,8 +207,9 @@ public:
     /// Default constructor is not doing anything
     UDPMulticast() : SocketNetworking() {}
     /// @brief Constructor creates a socket and binds it to INADDR_ANY and connects to the given multicast address
-    UDPMulticast(const std::string& _multicastAddr, int _port, int _ttl=8,
-                 size_t _bufSize = 512, unsigned _timeOut_ms = 0);
+    UDPMulticast(const std::string& _multicastAddr, int _port,
+                 const std::string& _sendIntf,
+                 int _ttl=8, size_t _bufSize = 512, unsigned _timeOut_ms = 0);
     /// makes sure pMCAddr is cleared up
     virtual ~UDPMulticast();
     
@@ -217,8 +218,9 @@ public:
     
     /// @brief Connect to the multicast group
     /// @exception XPMP2::NetRuntimeError in case of any errors
-    void Join (const std::string& _multicastAddr, int _port, int _ttl=8,
-               size_t _bufSize = 512, unsigned _timeOut_ms = 0);
+    void Join (const std::string& _multicastAddr, int _port,
+               const std::string& _sendIntf,
+               int _ttl=8, size_t _bufSize = 512, unsigned _timeOut_ms = 0);
     
     /// Protocol family
     uint8_t GetFamily () const { return pMCAddr ? (uint8_t)pMCAddr->ai_family : AF_UNSPEC; }

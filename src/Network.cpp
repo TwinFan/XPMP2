@@ -47,7 +47,6 @@ namespace XPMP2 {
 #define errno WSAGetLastError()     // https://docs.microsoft.com/en-us/windows/desktop/WinSock/error-codes-errno-h-errno-and-wsagetlasterror-2
 #define close closesocket
 typedef USHORT in_port_t;
-typedef int socklen_t;              // in Winsock, an int is passed as length argument
 #endif
 
 constexpr int SERR_LEN = 100;                   // size of buffer for IO error texts (strerror_s)

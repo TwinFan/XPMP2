@@ -39,15 +39,13 @@
 #include <sys/socket.h>
 #include <netdb.h>
 #include <ifaddrs.h>
-#endif
-#include <stdexcept>
-
-namespace XPMP2 {
-
-#if IBM != 1
 typedef int SOCKET;             ///< Windows defines SOCKET, so we define it for non-Windows manually
 constexpr SOCKET INVALID_SOCKET = -1;
 #endif
+
+#include <stdexcept>
+
+namespace XPMP2 {
 
 /// Helper definition for all these IPv4/6 differences
 struct SockAddrTy

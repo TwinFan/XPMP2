@@ -859,6 +859,12 @@ void UDPMulticast::Join (const std::string& _multicastAddr, int _port,
             throw NetRuntimeError ("setsockopt(IP_MULTICAST_TTL) failed");
         if (setsockopt(f_socket, IPPROTO_IP, IP_PKTINFO, (char*)&on, sizeof(on)) < 0)
             throw NetRuntimeError ("setsockopt(IP_PKTINFO) failed");
+        
+        if (!sendIntf.intfIdx) {
+            LOG_MSG(logDEBUG, "MC %s: Joined INADDR_ANY, known interfaces: %s",
+                    multicastAddr.c_str(),
+                    _NetwGetInterfaceNames(GetFamily()).c_str());
+        }
     }
     else    // AF_INET6
     {
@@ -897,6 +903,12 @@ void UDPMulticast::Join (const std::string& _multicastAddr, int _port,
         // not a single interface accepted me?
         if (!cntSucces)
             throw NetRuntimeError ("setsockopt(IPV6_JOIN_GROUP) failed for all interfaces!");
+
+        if (!sendIntf.intfIdx) {
+            LOG_MSG(logDEBUG, "MC %s: Joined on interfaces %s",
+                    multicastAddr.c_str(),
+                    _NetwGetInterfaceNames(GetFamily()).c_str());
+        }
     }
 
     // If a sending interface is given let's set it
@@ -933,8 +945,8 @@ void UDPMulticast::SendToAll ()
     _NetwGetLocalAddresses ();              // makes sure lists of multicast interfaces are filled, too
     if ((bSendToAll = !gAddrLocal.empty())) {
         oneIntfIdx = 0;
-        LOG_MSG(logINFO, "MC %s: Sending on ALL interfaces",
-                multicastAddr.c_str());
+        LOG_MSG(logINFO, "MC %s: Sending on ALL interfaces: %s",
+                multicastAddr.c_str(), _NetwGetInterfaceNames(GetFamily()).c_str());
     }
 }
 

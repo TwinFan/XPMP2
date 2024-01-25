@@ -845,26 +845,47 @@ void UDPMulticast::Join (const std::string& _multicastAddr, int _port,
     {
         // Setup the v4 option values and ip_mreq structure
         const int on = 1;
-        ip_mreq mreqv4 = {};
-        mreqv4.imr_multiaddr.s_addr = ((sockaddr_in*)pMCAddr->ai_addr)->sin_addr.s_addr;
-        
-        if (sendIntf.intfIdx)                   // if specific interface given then only read from there
-            mreqv4.imr_interface.s_addr = sendIntf.addr.in_addr.s_addr;
-        else                                    // otherwise read from any
-            mreqv4.imr_interface.s_addr = in_addr{INADDR_ANY}.s_addr;
-        
-        if (setsockopt(f_socket, IPPROTO_IP, IP_ADD_MEMBERSHIP, (const char*) &mreqv4, sizeof(mreqv4)) < 0)
-            throw NetRuntimeError ("setsockopt(IP_ADD_MEMBERSHIP) failed");
         if (setsockopt(f_socket, IPPROTO_IP, IP_MULTICAST_TTL, (char*)&_ttl, sizeof(_ttl)) < 0)
             throw NetRuntimeError ("setsockopt(IP_MULTICAST_TTL) failed");
         if (setsockopt(f_socket, IPPROTO_IP, IP_PKTINFO, (char*)&on, sizeof(on)) < 0)
             throw NetRuntimeError ("setsockopt(IP_PKTINFO) failed");
         
-        if (!sendIntf.intfIdx) {
-            LOG_MSG(logDEBUG, "MC %s: Joined INADDR_ANY, known interfaces: %s",
-                    multicastAddr.c_str(),
-                    _NetwGetInterfaceNames(GetFamily()).c_str());
+        // Join multicast on all interfaces separately
+        // (Theoretically joining once with INADDR_ANY is sufficient,
+        //  but tests show that specifically joining all interfaces is more reliable.)
+        ip_mreq mreqv4 = {};
+        mreqv4.imr_multiaddr.s_addr = ((sockaddr_in*)pMCAddr->ai_addr)->sin_addr.s_addr;
+
+        std::string sIntfJoined;
+        SetLocalIntfAddrTy::const_iterator i;
+        for (GetIntfFirst(i, AF_INET, IFF_MULTICAST);
+             i != gAddrLocal.end();
+             GetIntfNext(i, AF_INET, IFF_MULTICAST))
+        {
+            // If a single interface is configured then we only join on that interface
+            if (sendIntf.intfIdx && sendIntf.intfIdx != i->intfIdx)
+                continue;
+            
+            // Set the interface's address and join
+            mreqv4.imr_interface.s_addr = i->addr.in_addr.s_addr;
+            if (setsockopt(f_socket, IPPROTO_IP, IP_ADD_MEMBERSHIP, (const char*) &mreqv4, sizeof(mreqv4)) < 0) {
+                char sErr[SERR_LEN];
+                strerror_s(sErr, sizeof(sErr), errno);
+                LOG_MSG(logWARN, "MC %s: setsockopt(IP_ADD_MEMBERSHIP) failed for intf %s: %d - %s",
+                        multicastAddr.c_str(), i->intfName.c_str(),
+                        errno, sErr);
+            } else {
+                // Success:
+                if (!sIntfJoined.empty()) sIntfJoined += ',';
+                sIntfJoined += i->intfName;
+            }
         }
+        // not a single interface accepted me?
+        if (sIntfJoined.empty())
+            throw NetRuntimeError ("setsockopt(IP_ADD_MEMBERSHIP) failed for all interfaces!");
+        
+        LOG_MSG(logDEBUG, "MC %s: Joined on interfaces %s",
+                multicastAddr.c_str(), sIntfJoined.c_str());
     }
     else    // AF_INET6
     {
@@ -880,7 +901,7 @@ void UDPMulticast::Join (const std::string& _multicastAddr, int _port,
         mreqv6.ipv6mr_multiaddr = ((sockaddr_in6*)pMCAddr->ai_addr)->sin6_addr;
         
         // Need to join for all interface separately
-        int cntSucces = 0;
+        std::string sIntfJoined;
         SetLocalIntfAddrTy::const_iterator i;
         for (mreqv6.ipv6mr_interface = GetIntfFirst(i, AF_INET6, IFF_MULTICAST);
              mreqv6.ipv6mr_interface > 0;
@@ -893,22 +914,21 @@ void UDPMulticast::Join (const std::string& _multicastAddr, int _port,
             if (setsockopt(f_socket, IPPROTO_IPV6, IPV6_JOIN_GROUP, (const char*) &mreqv6, sizeof(mreqv6)) < 0) {
                 char sErr[SERR_LEN];
                 strerror_s(sErr, sizeof(sErr), errno);
-                LOG_MSG(logWARN, "MC %s: setsockopt(IPV6_JOIN_GROUP) failed for intf idx %u: %d - %s",
-                        multicastAddr.c_str(), mreqv6.ipv6mr_interface,
+                LOG_MSG(logWARN, "MC %s: setsockopt(IPV6_JOIN_GROUP) failed for intf %s: %d - %s",
+                        multicastAddr.c_str(), i->intfName.c_str(),
                         errno, sErr);
             } else {
-                ++cntSucces;
+                // Success:
+                if (!sIntfJoined.empty()) sIntfJoined += ',';
+                sIntfJoined += i->intfName;
             }
         }
         // not a single interface accepted me?
-        if (!cntSucces)
+        if (sIntfJoined.empty())
             throw NetRuntimeError ("setsockopt(IPV6_JOIN_GROUP) failed for all interfaces!");
-
-        if (!sendIntf.intfIdx) {
-            LOG_MSG(logDEBUG, "MC %s: Joined on interfaces %s",
-                    multicastAddr.c_str(),
-                    _NetwGetInterfaceNames(GetFamily()).c_str());
-        }
+        
+        LOG_MSG(logDEBUG, "MC %s: Joined on interfaces %s",
+                multicastAddr.c_str(), sIntfJoined.c_str());
     }
 
     // If a sending interface is given let's set it

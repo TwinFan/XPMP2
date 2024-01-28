@@ -152,23 +152,6 @@ LocalIntfAddrTy _NetwFindLocalIntf (const std::string& intf, uint8_t family)
     return LocalIntfAddrTy();
 }
 
-/// Return list of interface names of given family
-std::string _NetwGetInterfaceNames (uint8_t family)
-{
-    std::string ret, prev;
-    ret.reserve(gAddrLocal.size() * 15);            // Windows can use rather lengthy names...
-    
-    std::lock_guard<std::recursive_mutex> lock(mtxAddrLocal);
-    for (const LocalIntfAddrTy& a: gAddrLocal)
-    {
-        if (a.family != family) continue;           // skip wrong family
-        if (a.intfName == prev) continue;           // same interface may appear several times, add only once
-        if (!ret.empty()) ret += ',';
-        ret += (prev = a.intfName);
-    }
-    return ret;
-}
-
 /// Fetch all local addresses and cache locally
 void _NetwGetLocalAddresses (bool bForceRefresh = false)
 {
@@ -312,6 +295,32 @@ uint32_t GetIntfNext (SetLocalIntfAddrTy::const_iterator& i, uint8_t family,
     if (i == gAddrLocal.end()) return 0;                        // safeguard
     const uint32_t idx = i->intfIdx;                            // index we point to _now_ (before increment)
     return _GetIntfNext(idx, ++i, family, fMust, fSkip);        // increment already to next entry in list
+}
+
+// Return list of known local interfaces
+std::vector<std::string> NetwGetInterfaces (uint8_t family, uint32_t fMust, uint32_t fSkip)
+{
+    std::vector<std::string> vIntf;
+    SetLocalIntfAddrTy::const_iterator i;
+    for (GetIntfFirst(i, family, fMust, fSkip);
+         i != gAddrLocal.end();
+         GetIntfNext(i, family, fMust, fSkip))
+    {
+        vIntf.push_back(i->intfName);
+    }
+    return vIntf;
+}
+
+// Return comma-separated string will all known local interfaces, calls NetwGetInterfaces()
+std::string NetwGetInterfaceNames (uint8_t family, uint32_t fMust, uint32_t fSkip)
+{
+    std::string ret;
+    const std::vector<std::string> vIntf = NetwGetInterfaces(family, fMust, fSkip);
+    for (const std::string& intf: vIntf) {
+        if (!ret.empty()) ret += ',';
+        ret += intf;
+    }
+    return ret;
 }
 
 
@@ -834,7 +843,7 @@ void UDPMulticast::Join (const std::string& _multicastAddr, int _port,
     const LocalIntfAddrTy sendIntf = _NetwFindLocalIntf(_sendIntf, GetFamily());
     if (!_sendIntf.empty() && !sendIntf.intfIdx) {
         LOG_MSG(logERR, "MC %s: Configured remoteSendIntf '%s' not found! Available interfaces are: %s",
-                GetMCAddr().c_str(), _sendIntf.c_str(), _NetwGetInterfaceNames(GetFamily()).c_str());
+                GetMCAddr().c_str(), _sendIntf.c_str(), NetwGetInterfaceNames(GetFamily(), IFF_MULTICAST).c_str());
     }
     
     // open the socket
@@ -966,7 +975,7 @@ void UDPMulticast::SendToAll ()
     if ((bSendToAll = !gAddrLocal.empty())) {
         oneIntfIdx = 0;
         LOG_MSG(logINFO, "MC %s: Sending on ALL interfaces: %s",
-                multicastAddr.c_str(), _NetwGetInterfaceNames(GetFamily()).c_str());
+                multicastAddr.c_str(), NetwGetInterfaceNames(GetFamily(), IFF_MULTICAST).c_str());
     }
 }
 

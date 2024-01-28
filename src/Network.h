@@ -335,6 +335,14 @@ inline bool NetwIsLocalAddr (const SockAddrTy& sa)
 inline bool NetwIsLocalAddr (const sockaddr* pSa)
 { return NetwIsLocalAddr(InetAddrTy(pSa)); }
 
+/// @brief Return list of known local interfaces
+/// @param family `AF_INET` or `AF_INET6`
+/// @param fMust Return only interfaces having these interface flags like `IFF_MULTICAST`, `IFF_BROADCAST`
+/// @param fSkip Skipt interfaces having these interface flags like `IFF_LOOPBACK`
+/// @return A vector of strings of interface names
+std::vector<std::string> NetwGetInterfaces (uint8_t family, uint32_t fMust = 0, uint32_t fSkip = 0);
+/// Return comma-separated string will all known local interfaces, calls NetwGetInterfaces()
+std::string NetwGetInterfaceNames (uint8_t family, uint32_t fMust = 0, uint32_t fSkip = 0);
 
 } // namespace XPMP2
 

@@ -107,9 +107,9 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:ac759ac14a3ef63581d8f4c364d5736d0"><td class="memItemLeft" align="right" valign="top">typedef int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ac759ac14a3ef63581d8f4c364d5736d0">XPMP2::SOCKET</a></td></tr>
-<tr class="memdesc:ac759ac14a3ef63581d8f4c364d5736d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Windows defines SOCKET, so we define it for non-Windows manually.  <a href="namespaceXPMP2.html#ac759ac14a3ef63581d8f4c364d5736d0">More...</a><br /></td></tr>
-<tr class="separator:ac759ac14a3ef63581d8f4c364d5736d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8dc8083897335125630f1af5dafd5831"><td class="memItemLeft" align="right" valign="top">typedef int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Network_8h.html#a8dc8083897335125630f1af5dafd5831">SOCKET</a></td></tr>
+<tr class="memdesc:a8dc8083897335125630f1af5dafd5831"><td class="mdescLeft">&#160;</td><td class="mdescRight">Windows defines SOCKET, so we define it for non-Windows manually.  <a href="Network_8h.html#a8dc8083897335125630f1af5dafd5831">More...</a><br /></td></tr>
+<tr class="separator:a8dc8083897335125630f1af5dafd5831"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -122,11 +122,17 @@ Functions</h2></td></tr>
 <tr class="memitem:a023e679ce5ab2360255264bb8eb69167"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a023e679ce5ab2360255264bb8eb69167">XPMP2::NetwIsLocalAddr</a> (const sockaddr *pSa)</td></tr>
 <tr class="memdesc:a023e679ce5ab2360255264bb8eb69167"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is given address a local one?  <a href="namespaceXPMP2.html#a023e679ce5ab2360255264bb8eb69167">More...</a><br /></td></tr>
 <tr class="separator:a023e679ce5ab2360255264bb8eb69167"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84b7b260c538378b5555c748ea7fb8e6"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a84b7b260c538378b5555c748ea7fb8e6">XPMP2::NetwGetInterfaces</a> (uint8_t family, uint32_t fMust=0, uint32_t fSkip=0)</td></tr>
+<tr class="memdesc:a84b7b260c538378b5555c748ea7fb8e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return list of known local interfaces.  <a href="namespaceXPMP2.html#a84b7b260c538378b5555c748ea7fb8e6">More...</a><br /></td></tr>
+<tr class="separator:a84b7b260c538378b5555c748ea7fb8e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86c2561751fb38da1f17e2fb86f6ddf8"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a86c2561751fb38da1f17e2fb86f6ddf8">XPMP2::NetwGetInterfaceNames</a> (uint8_t family, uint32_t fMust=0, uint32_t fSkip=0)</td></tr>
+<tr class="memdesc:a86c2561751fb38da1f17e2fb86f6ddf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return comma-separated string will all known local interfaces, calls <a class="el" href="namespaceXPMP2.html#a84b7b260c538378b5555c748ea7fb8e6" title="Return list of known local interfaces.">NetwGetInterfaces()</a>  <a href="namespaceXPMP2.html#a86c2561751fb38da1f17e2fb86f6ddf8">More...</a><br /></td></tr>
+<tr class="separator:a86c2561751fb38da1f17e2fb86f6ddf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a667edc6ebcf449eec1b9def9d5d54895"><td class="memItemLeft" align="right" valign="top">constexpr SOCKET&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a667edc6ebcf449eec1b9def9d5d54895">XPMP2::INVALID_SOCKET</a> = -1</td></tr>
-<tr class="separator:a667edc6ebcf449eec1b9def9d5d54895"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47217f9ecaf202a0e18783fab5138399"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="Network_8h.html#a8dc8083897335125630f1af5dafd5831">SOCKET</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Network_8h.html#a47217f9ecaf202a0e18783fab5138399">INVALID_SOCKET</a> = -1</td></tr>
+<tr class="separator:a47217f9ecaf202a0e18783fab5138399"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Low-level network communications, especially for TCP/UDP. </p>
@@ -237,6 +243,46 @@ in_addr</td>
           <td class="memname">#define _GNU_SOURCE</td>
         </tr>
       </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a8dc8083897335125630f1af5dafd5831"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8dc8083897335125630f1af5dafd5831">&#9670;&nbsp;</a></span>SOCKET</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef int <a class="el" href="Network_8h.html#a8dc8083897335125630f1af5dafd5831">SOCKET</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Windows defines SOCKET, so we define it for non-Windows manually. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a47217f9ecaf202a0e18783fab5138399"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47217f9ecaf202a0e18783fab5138399">&#9670;&nbsp;</a></span>INVALID_SOCKET</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="Network_8h.html#a8dc8083897335125630f1af5dafd5831">SOCKET</a> INVALID_SOCKET = -1</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>

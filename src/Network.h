@@ -76,6 +76,17 @@ struct SockAddrTy
     { return
         sa.sa_family == AF_INET     ? sizeof(sa_in) :
         sa.sa_family == AF_INET6    ? sizeof(sa_in6) : sizeof(sa); }
+    
+    /// Get the port number
+    uint16_t port () const {
+        return ntohs(isIp4() ? sa_in.sin_port :
+                     isIp6() ? sa_in6.sin6_port : 0);
+    }
+    /// Set the port number
+    void setPort (uint16_t port) {
+        if (isIp4())        sa_in.sin_port      = htons(port);
+        else if (isIp6())   sa_in6.sin6_port    = htons(port);
+    }
 };
 
 /// @brief Exception raised by XPMP2::SocketNetworking objects
@@ -144,11 +155,24 @@ public:
     /// @brief Set blocking mode
     void setBlocking (bool bBlock);
     
-    /// Waits to receive a message, ensures zero-termination in the buffer
-    long                recv();
-    /// Waits to receive a message with timeout, ensures zero-termination in the buffer
-    long                timedRecv(int max_wait_ms);
+    /// @brief Waits to receive a message, ensures zero-termination in the buffer
+    /// @param[out] _pFromAddr Address of sender as a string, including port
+    /// @param[out] _pFromSockAddr Address of sender as a socket address
+    /// @return The number of bytes read or `-1` if an error occurs.
+    long                recv(std::string* _pFromAddr = nullptr,
+                             SockAddrTy* _pFromSockAddr = nullptr);
+    /// @brief Waits to receive a message with timeout, ensures zero-termination in the buffer
+    /// @param max_wait_ms Timeout in milliseconds
+    /// @param[out] _pFromAddr Address of sender as a string, including port
+    /// @param[out] _pFromSockAddr Address of sender as a socket address
+    /// @return -1 if an error occurs or the function timed out, the number of bytes received otherwise. `errno` is set to `EAGAIN`/`WSAEWOULDBLOCK` in case of a timeout.
+    long                timedRecv(int max_wait_ms,
+                                  std::string* _pFromAddr = nullptr,
+                                  SockAddrTy* _pFromSockAddr = nullptr);
     
+    /// send messages on session connection
+    virtual bool send(const char* msg);
+
     /// Sends a broadcast message
     bool broadcast (const char* msg);
     
@@ -184,7 +208,7 @@ public:
     
 protected:
     /// Sets flags to AI_PASSIVE, AF_INET, SOCK_DGRAM, IPPROTO_UDP
-    virtual void GetAddrHints (struct addrinfo& hints);
+    void GetAddrHints (struct addrinfo& hints) override;
 };
 
 
@@ -210,7 +234,7 @@ public:
                  const std::string& _sendIntf,
                  int _ttl=8, size_t _bufSize = 512, unsigned _timeOut_ms = 0);
     /// makes sure pMCAddr is cleared up
-    virtual ~UDPMulticast();
+    ~UDPMulticast() override;
     
     /// Return formatted multicast address, including port
     const std::string& GetMCAddr() const { return multicastAddr; }
@@ -280,8 +304,8 @@ public:
                   unsigned _timeOut_ms = 0) :
         SocketNetworking(_addr,_port,_bufSize,_timeOut_ms) {}
     
-    virtual void Close();       ///< also close session connection
-    void CloseListenerOnly();   ///< only closes the listening socket, but not a connected session
+    void Close() override;                      ///< also close session connection
+    void CloseListenerOnly();                   ///< only closes the listening socket, but not a connected session
 
     void listen (int numConnections = 1);       ///< listen for incoming connections
     bool accept (bool bUnlisten = false);       ///< accept an incoming connections, optinally stop listening
@@ -291,10 +315,10 @@ public:
     bool IsConnected () const { return f_session_socket != INVALID_SOCKET; };
     
     /// send messages on session connection
-    bool send(const char* msg);
+    bool send(const char* msg) override;
 
 protected:
-    virtual void GetAddrHints (struct addrinfo& hints);
+    void GetAddrHints (struct addrinfo& hints) override;
 };
 
 

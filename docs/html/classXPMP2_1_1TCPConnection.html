@@ -77,9 +77,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a957468d8b65195e3beb4e33443d2b685"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1TCPConnection.html#a957468d8b65195e3beb4e33443d2b685">TCPConnection</a> (const std::string &amp;_addr, int _port, size_t _bufSize=512, unsigned _timeOut_ms=0)</td></tr>
 <tr class="memdesc:a957468d8b65195e3beb4e33443d2b685"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor creates a socket and binds it to the given address.  <a href="classXPMP2_1_1TCPConnection.html#a957468d8b65195e3beb4e33443d2b685">More...</a><br /></td></tr>
 <tr class="separator:a957468d8b65195e3beb4e33443d2b685"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1136227a9044dff6cf4b7b601445e51e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1TCPConnection.html#a1136227a9044dff6cf4b7b601445e51e">Close</a> ()</td></tr>
-<tr class="memdesc:a1136227a9044dff6cf4b7b601445e51e"><td class="mdescLeft">&#160;</td><td class="mdescRight">also close session connection  <a href="classXPMP2_1_1TCPConnection.html#a1136227a9044dff6cf4b7b601445e51e">More...</a><br /></td></tr>
-<tr class="separator:a1136227a9044dff6cf4b7b601445e51e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e8ff9fcf30de6bc1b0ba84384b8b6eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1TCPConnection.html#a1e8ff9fcf30de6bc1b0ba84384b8b6eb">Close</a> () override</td></tr>
+<tr class="memdesc:a1e8ff9fcf30de6bc1b0ba84384b8b6eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">also close session connection  <a href="classXPMP2_1_1TCPConnection.html#a1e8ff9fcf30de6bc1b0ba84384b8b6eb">More...</a><br /></td></tr>
+<tr class="separator:a1e8ff9fcf30de6bc1b0ba84384b8b6eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d03725975dbbaf7c8e4e193fd2ae19c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1TCPConnection.html#a7d03725975dbbaf7c8e4e193fd2ae19c">CloseListenerOnly</a> ()</td></tr>
 <tr class="memdesc:a7d03725975dbbaf7c8e4e193fd2ae19c"><td class="mdescLeft">&#160;</td><td class="mdescRight">only closes the listening socket, but not a connected session  <a href="classXPMP2_1_1TCPConnection.html#a7d03725975dbbaf7c8e4e193fd2ae19c">More...</a><br /></td></tr>
 <tr class="separator:a7d03725975dbbaf7c8e4e193fd2ae19c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -95,9 +95,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a00eb5f35e8a3f6a8a5685cb9a55c7ada"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1TCPConnection.html#a00eb5f35e8a3f6a8a5685cb9a55c7ada">IsConnected</a> () const</td></tr>
 <tr class="memdesc:a00eb5f35e8a3f6a8a5685cb9a55c7ada"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connected to a counterparty?  <a href="classXPMP2_1_1TCPConnection.html#a00eb5f35e8a3f6a8a5685cb9a55c7ada">More...</a><br /></td></tr>
 <tr class="separator:a00eb5f35e8a3f6a8a5685cb9a55c7ada"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42d93dc69930d2ea14ac555b446d15fb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1TCPConnection.html#a42d93dc69930d2ea14ac555b446d15fb">send</a> (const char *msg)</td></tr>
-<tr class="memdesc:a42d93dc69930d2ea14ac555b446d15fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">send messages on session connection  <a href="classXPMP2_1_1TCPConnection.html#a42d93dc69930d2ea14ac555b446d15fb">More...</a><br /></td></tr>
-<tr class="separator:a42d93dc69930d2ea14ac555b446d15fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90d36b1a1b2d04b4017766d36096547c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1TCPConnection.html#a90d36b1a1b2d04b4017766d36096547c">send</a> (const char *msg) override</td></tr>
+<tr class="memdesc:a90d36b1a1b2d04b4017766d36096547c"><td class="mdescLeft">&#160;</td><td class="mdescRight">send messages on session connection  <a href="classXPMP2_1_1TCPConnection.html#a90d36b1a1b2d04b4017766d36096547c">More...</a><br /></td></tr>
+<tr class="separator:a90d36b1a1b2d04b4017766d36096547c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classXPMP2_1_1SocketNetworking"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classXPMP2_1_1SocketNetworking')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classXPMP2_1_1SocketNetworking.html">XPMP2::SocketNetworking</a></td></tr>
 <tr class="memitem:a83ba14b84721e3a47ee51db2721052b0 inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1SocketNetworking.html#a83ba14b84721e3a47ee51db2721052b0">SocketNetworking</a> ()</td></tr>
 <tr class="memdesc:a83ba14b84721e3a47ee51db2721052b0 inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor is not doing anything.  <a href="classXPMP2_1_1SocketNetworking.html#a83ba14b84721e3a47ee51db2721052b0">More...</a><br /></td></tr>
@@ -120,7 +120,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8b0275fbc44f0329c5b7fdb3a26c41b5 inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1SocketNetworking.html#a8b0275fbc44f0329c5b7fdb3a26c41b5">SetBufSize</a> (size_t _bufSize)</td></tr>
 <tr class="memdesc:a8b0275fbc44f0329c5b7fdb3a26c41b5 inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="mdescLeft">&#160;</td><td class="mdescRight">(Re)Sets the buffer size (or clears it if <code>_bufSize==0</code>)  <a href="classXPMP2_1_1SocketNetworking.html#a8b0275fbc44f0329c5b7fdb3a26c41b5">More...</a><br /></td></tr>
 <tr class="separator:a8b0275fbc44f0329c5b7fdb3a26c41b5 inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b192375eb5e47e1b3ae5eac35c971c3 inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceXPMP2.html#ac759ac14a3ef63581d8f4c364d5736d0">SOCKET</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1SocketNetworking.html#a0b192375eb5e47e1b3ae5eac35c971c3">getSocket</a> () const</td></tr>
+<tr class="memitem:a0b192375eb5e47e1b3ae5eac35c971c3 inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Network_8h.html#a8dc8083897335125630f1af5dafd5831">SOCKET</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1SocketNetworking.html#a0b192375eb5e47e1b3ae5eac35c971c3">getSocket</a> () const</td></tr>
 <tr class="memdesc:a0b192375eb5e47e1b3ae5eac35c971c3 inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="mdescLeft">&#160;</td><td class="mdescRight">the socket  <a href="classXPMP2_1_1SocketNetworking.html#a0b192375eb5e47e1b3ae5eac35c971c3">More...</a><br /></td></tr>
 <tr class="separator:a0b192375eb5e47e1b3ae5eac35c971c3 inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af784826fecd0098f4762887d18a729b3 inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1SocketNetworking.html#af784826fecd0098f4762887d18a729b3">getPort</a> () const</td></tr>
@@ -135,32 +135,32 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac0436c9ad8156c7ed73d3831e7c5526e inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1SocketNetworking.html#ac0436c9ad8156c7ed73d3831e7c5526e">setBlocking</a> (bool bBlock)</td></tr>
 <tr class="memdesc:ac0436c9ad8156c7ed73d3831e7c5526e inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set blocking mode.  <a href="classXPMP2_1_1SocketNetworking.html#ac0436c9ad8156c7ed73d3831e7c5526e">More...</a><br /></td></tr>
 <tr class="separator:ac0436c9ad8156c7ed73d3831e7c5526e inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e05de61eeeb9997a68bfdb1f970c353 inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1SocketNetworking.html#a8e05de61eeeb9997a68bfdb1f970c353">recv</a> ()</td></tr>
-<tr class="memdesc:a8e05de61eeeb9997a68bfdb1f970c353 inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="mdescLeft">&#160;</td><td class="mdescRight">Waits to receive a message, ensures zero-termination in the buffer.  <a href="classXPMP2_1_1SocketNetworking.html#a8e05de61eeeb9997a68bfdb1f970c353">More...</a><br /></td></tr>
-<tr class="separator:a8e05de61eeeb9997a68bfdb1f970c353 inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee7f2809f9e33d8509bfa9931152b3cb inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1SocketNetworking.html#aee7f2809f9e33d8509bfa9931152b3cb">timedRecv</a> (int max_wait_ms)</td></tr>
-<tr class="memdesc:aee7f2809f9e33d8509bfa9931152b3cb inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="mdescLeft">&#160;</td><td class="mdescRight">Waits to receive a message with timeout, ensures zero-termination in the buffer.  <a href="classXPMP2_1_1SocketNetworking.html#aee7f2809f9e33d8509bfa9931152b3cb">More...</a><br /></td></tr>
-<tr class="separator:aee7f2809f9e33d8509bfa9931152b3cb inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada91266a3c3514136086283b61aa8e42 inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1SocketNetworking.html#ada91266a3c3514136086283b61aa8e42">recv</a> (std::string *_pFromAddr=nullptr, <a class="el" href="structXPMP2_1_1SockAddrTy.html">SockAddrTy</a> *_pFromSockAddr=nullptr)</td></tr>
+<tr class="memdesc:ada91266a3c3514136086283b61aa8e42 inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="mdescLeft">&#160;</td><td class="mdescRight">Waits to receive a message, ensures zero-termination in the buffer.  <a href="classXPMP2_1_1SocketNetworking.html#ada91266a3c3514136086283b61aa8e42">More...</a><br /></td></tr>
+<tr class="separator:ada91266a3c3514136086283b61aa8e42 inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a875085f56a1eb48670db3f813e03e224 inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1SocketNetworking.html#a875085f56a1eb48670db3f813e03e224">timedRecv</a> (int max_wait_ms, std::string *_pFromAddr=nullptr, <a class="el" href="structXPMP2_1_1SockAddrTy.html">SockAddrTy</a> *_pFromSockAddr=nullptr)</td></tr>
+<tr class="memdesc:a875085f56a1eb48670db3f813e03e224 inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="mdescLeft">&#160;</td><td class="mdescRight">Waits to receive a message with timeout, ensures zero-termination in the buffer.  <a href="classXPMP2_1_1SocketNetworking.html#a875085f56a1eb48670db3f813e03e224">More...</a><br /></td></tr>
+<tr class="separator:a875085f56a1eb48670db3f813e03e224 inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae9260976d6868753a46a457ba1d50aaa inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1SocketNetworking.html#ae9260976d6868753a46a457ba1d50aaa">broadcast</a> (const char *msg)</td></tr>
 <tr class="memdesc:ae9260976d6868753a46a457ba1d50aaa inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends a broadcast message.  <a href="classXPMP2_1_1SocketNetworking.html#ae9260976d6868753a46a457ba1d50aaa">More...</a><br /></td></tr>
 <tr class="separator:ae9260976d6868753a46a457ba1d50aaa inherit pub_methods_classXPMP2_1_1SocketNetworking"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a6484920cbbfb2f6af384ab07c2104856"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1TCPConnection.html#a6484920cbbfb2f6af384ab07c2104856">GetAddrHints</a> (struct addrinfo &amp;hints)</td></tr>
-<tr class="memdesc:a6484920cbbfb2f6af384ab07c2104856"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subclass to tell which addresses to look for.  <a href="classXPMP2_1_1TCPConnection.html#a6484920cbbfb2f6af384ab07c2104856">More...</a><br /></td></tr>
-<tr class="separator:a6484920cbbfb2f6af384ab07c2104856"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a566f51329e4523bc383d8637800f34bf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1TCPConnection.html#a566f51329e4523bc383d8637800f34bf">GetAddrHints</a> (struct addrinfo &amp;hints) override</td></tr>
+<tr class="memdesc:a566f51329e4523bc383d8637800f34bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subclass to tell which addresses to look for.  <a href="classXPMP2_1_1TCPConnection.html#a566f51329e4523bc383d8637800f34bf">More...</a><br /></td></tr>
+<tr class="separator:a566f51329e4523bc383d8637800f34bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:aa413d9f37459add54b363c8ca15a5212"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceXPMP2.html#ac759ac14a3ef63581d8f4c364d5736d0">SOCKET</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1TCPConnection.html#aa413d9f37459add54b363c8ca15a5212">f_session_socket</a> = <a class="el" href="namespaceXPMP2.html#a667edc6ebcf449eec1b9def9d5d54895">INVALID_SOCKET</a></td></tr>
+<tr class="memitem:aa413d9f37459add54b363c8ca15a5212"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Network_8h.html#a8dc8083897335125630f1af5dafd5831">SOCKET</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1TCPConnection.html#aa413d9f37459add54b363c8ca15a5212">f_session_socket</a> = <a class="el" href="Network_8h.html#a47217f9ecaf202a0e18783fab5138399">INVALID_SOCKET</a></td></tr>
 <tr class="memdesc:aa413d9f37459add54b363c8ca15a5212"><td class="mdescLeft">&#160;</td><td class="mdescRight">session socket, ie. the socket opened when a counterparty connects  <a href="classXPMP2_1_1TCPConnection.html#aa413d9f37459add54b363c8ca15a5212">More...</a><br /></td></tr>
 <tr class="separator:aa413d9f37459add54b363c8ca15a5212"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc5cb6569345b3f2651d81dd6ed16b77"><td class="memItemLeft" align="right" valign="top">struct sockaddr_in&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1TCPConnection.html#acc5cb6569345b3f2651d81dd6ed16b77">f_session_addr</a> = {}</td></tr>
 <tr class="memdesc:acc5cb6569345b3f2651d81dd6ed16b77"><td class="mdescLeft">&#160;</td><td class="mdescRight">address of the connecting counterparty  <a href="classXPMP2_1_1TCPConnection.html#acc5cb6569345b3f2651d81dd6ed16b77">More...</a><br /></td></tr>
 <tr class="separator:acc5cb6569345b3f2651d81dd6ed16b77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classXPMP2_1_1SocketNetworking"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classXPMP2_1_1SocketNetworking')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classXPMP2_1_1SocketNetworking.html">XPMP2::SocketNetworking</a></td></tr>
-<tr class="memitem:a4ff89b35686c219b94bd13fb039be7b9 inherit pro_attribs_classXPMP2_1_1SocketNetworking"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceXPMP2.html#ac759ac14a3ef63581d8f4c364d5736d0">SOCKET</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1SocketNetworking.html#a4ff89b35686c219b94bd13fb039be7b9">f_socket</a> = <a class="el" href="namespaceXPMP2.html#a667edc6ebcf449eec1b9def9d5d54895">INVALID_SOCKET</a></td></tr>
+<tr class="memitem:a4ff89b35686c219b94bd13fb039be7b9 inherit pro_attribs_classXPMP2_1_1SocketNetworking"><td class="memItemLeft" align="right" valign="top"><a class="el" href="Network_8h.html#a8dc8083897335125630f1af5dafd5831">SOCKET</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1SocketNetworking.html#a4ff89b35686c219b94bd13fb039be7b9">f_socket</a> = <a class="el" href="Network_8h.html#a47217f9ecaf202a0e18783fab5138399">INVALID_SOCKET</a></td></tr>
 <tr class="separator:a4ff89b35686c219b94bd13fb039be7b9 inherit pro_attribs_classXPMP2_1_1SocketNetworking"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8731c1d5ad64285caf5f589070f7a2da inherit pro_attribs_classXPMP2_1_1SocketNetworking"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1SocketNetworking.html#a8731c1d5ad64285caf5f589070f7a2da">f_port</a> = 0</td></tr>
 <tr class="separator:a8731c1d5ad64285caf5f589070f7a2da inherit pro_attribs_classXPMP2_1_1SocketNetworking"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -282,8 +282,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a1136227a9044dff6cf4b7b601445e51e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1136227a9044dff6cf4b7b601445e51e">&#9670;&nbsp;</a></span>Close()</h2>
+<a id="a1e8ff9fcf30de6bc1b0ba84384b8b6eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e8ff9fcf30de6bc1b0ba84384b8b6eb">&#9670;&nbsp;</a></span>Close()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -300,7 +300,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -330,8 +330,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a6484920cbbfb2f6af384ab07c2104856"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6484920cbbfb2f6af384ab07c2104856">&#9670;&nbsp;</a></span>GetAddrHints()</h2>
+<a id="a566f51329e4523bc383d8637800f34bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a566f51329e4523bc383d8637800f34bf">&#9670;&nbsp;</a></span>GetAddrHints()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -349,7 +349,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -427,11 +427,14 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a42d93dc69930d2ea14ac555b446d15fb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a42d93dc69930d2ea14ac555b446d15fb">&#9670;&nbsp;</a></span>send()</h2>
+<a id="a90d36b1a1b2d04b4017766d36096547c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90d36b1a1b2d04b4017766d36096547c">&#9670;&nbsp;</a></span>send()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool XPMP2::TCPConnection::send </td>
@@ -441,9 +444,16 @@ Additional Inherited Members</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>send messages on session connection </p>
+
+<p>Reimplemented from <a class="el" href="classXPMP2_1_1SocketNetworking.html#a7bda238006543bc1740f732a47756c3e">XPMP2::SocketNetworking</a>.</p>
 
 </div>
 </div>
@@ -482,7 +492,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespaceXPMP2.html#ac759ac14a3ef63581d8f4c364d5736d0">SOCKET</a> XPMP2::TCPConnection::f_session_socket = <a class="el" href="namespaceXPMP2.html#a667edc6ebcf449eec1b9def9d5d54895">INVALID_SOCKET</a></td>
+          <td class="memname"><a class="el" href="Network_8h.html#a8dc8083897335125630f1af5dafd5831">SOCKET</a> XPMP2::TCPConnection::f_session_socket = <a class="el" href="Network_8h.html#a47217f9ecaf202a0e18783fab5138399">INVALID_SOCKET</a></td>
         </tr>
       </table>
   </td>

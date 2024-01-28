@@ -606,7 +606,7 @@ void SocketNetworking::setBlocking (bool bBlock)
  #endif
 }
 
-/** \brief Wait on a message.
+/** \brief Waits to receive a message, ensures zero-termination in the buffer
  *
  * This function waits until a message is received on this UDP server.
  * There are no means to return from this function except by receiving
@@ -615,13 +615,12 @@ void SocketNetworking::setBlocking (bool bBlock)
  * and thus it continues to wait forever.
  *
  * Note that you may change the type of socket by making it non-blocking
- * (use the get_socket() to retrieve the socket identifier) in which
+ * (use the `get_socket()` to retrieve the socket identifier) in which
  * case this function will not block if no message is available. Instead
  * it returns immediately.
- *
- * \return The number of bytes read or -1 if an error occurs.
  */
-long SocketNetworking::recv()
+long SocketNetworking::recv(std::string* _pFromAddr,
+                            SockAddrTy* _pFromSockAddr)
 {
     if (!buf) {
 #if IBM
@@ -632,33 +631,46 @@ long SocketNetworking::recv()
         return -1;
     }
     
-    long ret = ::recv(f_socket, buf, (socklen_t)bufSize-1, 0);
+    SockAddrTy  safrom;
+    socklen_t   fromlen = sizeof(safrom);
+    long ret =
+#if IBM
+    (long) recvfrom(f_socket, buf, (int)bufSize, 0, &safrom.sa, &fromlen);
+#else
+    recvfrom(f_socket, buf, bufSize, 0, &safrom.sa, &fromlen);
+#endif
     if (ret >= 0)  {                    // we did receive something
         buf[ret] = 0;                   // zero-termination
     } else {
         buf[0] = 0;                     // empty string
     }
+    
+    // Sender address wanted?
+    if (_pFromAddr)
+        *_pFromAddr = GetAddrString(safrom);
+    if (_pFromSockAddr)
+        *_pFromSockAddr = safrom;
+    
     return ret;
 }
 
-/** \brief Wait for data to come in.
+/** \brief Waits to receive a message with timeout, ensures zero-termination in the buffer
  *
  * This function waits for a given amount of time for data to come in. If
- * no data comes in after max_wait_ms, the function returns with -1 and
- * errno set to EAGAIN.
+ * no data comes in after `max_wait_ms`, the function returns with `-1` and
+ * `errno` set to `EAGAIN`.
  *
  * The socket is expected to be a blocking socket (the default,) although
  * it is possible to setup the socket as non-blocking if necessary for
  * some other reason.
  *
  * This function blocks for a maximum amount of time as defined by
- * max_wait_ms. It may return sooner with an error or a message.
+ * `max_wait_ms`. It may return sooner with an error or a message.
  *
- * \param[in] max_wait_ms  The maximum number of milliseconds to wait for a message.
- *
- * \return -1 if an error occurs or the function timed out, the number of bytes received otherwise.
  */
-long SocketNetworking::timedRecv(int max_wait_ms)
+long SocketNetworking::timedRecv(int max_wait_ms,
+                                 std::string* _pFromAddr,
+                                 SockAddrTy* _pFromSockAddr)
 {
     fd_set sRead, sErr;
     struct timeval timeout;
@@ -686,7 +698,7 @@ long SocketNetworking::timedRecv(int max_wait_ms)
         
         // our socket has data
         if (FD_ISSET(f_socket, &sRead))
-            return recv();
+            return recv(_pFromAddr, _pFromSockAddr);
     }
     
     // our socket has no data
@@ -697,6 +709,29 @@ long SocketNetworking::timedRecv(int max_wait_ms)
     errno = EAGAIN;
 #endif
     return -1;
+}
+
+// write a message out
+bool SocketNetworking::send(const char* msg)
+{
+    if (f_socket == INVALID_SOCKET)
+        throw ("send: Undefined Socket");
+
+    // Loop to send the message in potentially several pieces
+    int index=0;
+    int length = (int)strlen(msg);
+    while (index<length) {
+        int count = (int)::send(f_socket, msg + index, (socklen_t)(length - index), 0);
+        if (count<0) {
+            if (errno==EINTR) continue;
+            LOG_MSG(logERR, "send to %s failed: %s",
+                    f_addr.c_str(), GetLastErr().c_str());
+            return false;
+        } else {
+            index+=count;
+        }
+    }
+    return true;
 }
 
 // sends the message as a broadcast

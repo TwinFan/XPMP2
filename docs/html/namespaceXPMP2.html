@@ -242,9 +242,6 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a9f3a7d3798f3f2f5dcc00be517993736"><td class="memItemLeft" align="right" valign="top">typedef std::set&lt; <a class="el" href="structXPMP2_1_1LocalIntfAddrTy.html">LocalIntfAddrTy</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a9f3a7d3798f3f2f5dcc00be517993736">SetLocalIntfAddrTy</a></td></tr>
 <tr class="memdesc:a9f3a7d3798f3f2f5dcc00be517993736"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set of local IP interface addresses.  <a href="namespaceXPMP2.html#a9f3a7d3798f3f2f5dcc00be517993736">More...</a><br /></td></tr>
 <tr class="separator:a9f3a7d3798f3f2f5dcc00be517993736"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac759ac14a3ef63581d8f4c364d5736d0"><td class="memItemLeft" align="right" valign="top">typedef int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ac759ac14a3ef63581d8f4c364d5736d0">SOCKET</a></td></tr>
-<tr class="memdesc:ac759ac14a3ef63581d8f4c364d5736d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Windows defines SOCKET, so we define it for non-Windows manually.  <a href="namespaceXPMP2.html#ac759ac14a3ef63581d8f4c364d5736d0">More...</a><br /></td></tr>
-<tr class="separator:ac759ac14a3ef63581d8f4c364d5736d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6acdb5b57ca57154789e8a242e2856bb"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; std::string, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a6acdb5b57ca57154789e8a242e2856bb">mapRelatedTy</a></td></tr>
 <tr class="memdesc:a6acdb5b57ca57154789e8a242e2856bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map of group membership: ICAO a/c type maps to line in related.txt.  <a href="namespaceXPMP2.html#a6acdb5b57ca57154789e8a242e2856bb">More...</a><br /></td></tr>
 <tr class="separator:a6acdb5b57ca57154789e8a242e2856bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -623,9 +620,6 @@ Functions</h2></td></tr>
 <tr class="memitem:a8884e645593114d4fd5abd2439775c6d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structXPMP2_1_1LocalIntfAddrTy.html">LocalIntfAddrTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a8884e645593114d4fd5abd2439775c6d">_NetwFindLocalIntf</a> (const std::string &amp;intf, uint8_t family)</td></tr>
 <tr class="memdesc:a8884e645593114d4fd5abd2439775c6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find a matching local interface based on name and family.  <a href="namespaceXPMP2.html#a8884e645593114d4fd5abd2439775c6d">More...</a><br /></td></tr>
 <tr class="separator:a8884e645593114d4fd5abd2439775c6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adaf0dc741efd65dca1616de73ce34e84"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#adaf0dc741efd65dca1616de73ce34e84">_NetwGetInterfaceNames</a> (uint8_t family)</td></tr>
-<tr class="memdesc:adaf0dc741efd65dca1616de73ce34e84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return list of interface names of given family.  <a href="namespaceXPMP2.html#adaf0dc741efd65dca1616de73ce34e84">More...</a><br /></td></tr>
-<tr class="separator:adaf0dc741efd65dca1616de73ce34e84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a00a6d1fd3d9f01603d08db17cbedf22f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a00a6d1fd3d9f01603d08db17cbedf22f">_NetwGetLocalAddresses</a> (bool bForceRefresh=false)</td></tr>
 <tr class="memdesc:a00a6d1fd3d9f01603d08db17cbedf22f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fetch all local addresses and cache locally.  <a href="namespaceXPMP2.html#a00a6d1fd3d9f01603d08db17cbedf22f">More...</a><br /></td></tr>
 <tr class="separator:a00a6d1fd3d9f01603d08db17cbedf22f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -638,6 +632,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a045fec6933c3f33536f815561b047957"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a045fec6933c3f33536f815561b047957">GetIntfNext</a> (SetLocalIntfAddrTy::const_iterator &amp;i, uint8_t family, uint32_t fMust, uint32_t fSkip=0)</td></tr>
 <tr class="memdesc:a045fec6933c3f33536f815561b047957"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <em>next</em> interface index of a broadcast interface for the given protocol family.  <a href="namespaceXPMP2.html#a045fec6933c3f33536f815561b047957">More...</a><br /></td></tr>
 <tr class="separator:a045fec6933c3f33536f815561b047957"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84b7b260c538378b5555c748ea7fb8e6"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a84b7b260c538378b5555c748ea7fb8e6">NetwGetInterfaces</a> (uint8_t family, uint32_t fMust=0, uint32_t fSkip=0)</td></tr>
+<tr class="memdesc:a84b7b260c538378b5555c748ea7fb8e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return list of known local interfaces.  <a href="namespaceXPMP2.html#a84b7b260c538378b5555c748ea7fb8e6">More...</a><br /></td></tr>
+<tr class="separator:a84b7b260c538378b5555c748ea7fb8e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86c2561751fb38da1f17e2fb86f6ddf8"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a86c2561751fb38da1f17e2fb86f6ddf8">NetwGetInterfaceNames</a> (uint8_t family, uint32_t fMust=0, uint32_t fSkip=0)</td></tr>
+<tr class="memdesc:a86c2561751fb38da1f17e2fb86f6ddf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return comma-separated string will all known local interfaces, calls <a class="el" href="namespaceXPMP2.html#a84b7b260c538378b5555c748ea7fb8e6" title="Return list of known local interfaces.">NetwGetInterfaces()</a>  <a href="namespaceXPMP2.html#a86c2561751fb38da1f17e2fb86f6ddf8">More...</a><br /></td></tr>
+<tr class="separator:a86c2561751fb38da1f17e2fb86f6ddf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3798b0e785d88d7aa07545f0a6428492"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a3798b0e785d88d7aa07545f0a6428492">NetwIsLocalAddr</a> (const <a class="el" href="structXPMP2_1_1InetAddrTy.html">InetAddrTy</a> &amp;addr)</td></tr>
 <tr class="memdesc:a3798b0e785d88d7aa07545f0a6428492"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is given address a local one?  <a href="namespaceXPMP2.html#a3798b0e785d88d7aa07545f0a6428492">More...</a><br /></td></tr>
 <tr class="separator:a3798b0e785d88d7aa07545f0a6428492"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1026,8 +1026,6 @@ Variables</h2></td></tr>
 <tr class="memitem:a2da5aa0ec780763ab9349f887f0cdad2"><td class="memItemLeft" align="right" valign="top">std::recursive_mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a2da5aa0ec780763ab9349f887f0cdad2">mtxSocketClose</a></td></tr>
 <tr class="memdesc:a2da5aa0ec780763ab9349f887f0cdad2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mutex to ensure closing is done in one thread only to avoid race conditions on deleting the buffer.  <a href="namespaceXPMP2.html#a2da5aa0ec780763ab9349f887f0cdad2">More...</a><br /></td></tr>
 <tr class="separator:a2da5aa0ec780763ab9349f887f0cdad2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a667edc6ebcf449eec1b9def9d5d54895"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="namespaceXPMP2.html#ac759ac14a3ef63581d8f4c364d5736d0">SOCKET</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a667edc6ebcf449eec1b9def9d5d54895">INVALID_SOCKET</a> = -1</td></tr>
-<tr class="separator:a667edc6ebcf449eec1b9def9d5d54895"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb629d885c8cea43378488025fdde921"><td class="memItemLeft" align="right" valign="top">constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#afb629d885c8cea43378488025fdde921">ERR_CFG_FILE_MAXWARN</a> = 5</td></tr>
 <tr class="memdesc:afb629d885c8cea43378488025fdde921"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum number of warnings during file read before bailing.  <a href="namespaceXPMP2.html#afb629d885c8cea43378488025fdde921">More...</a><br /></td></tr>
 <tr class="separator:afb629d885c8cea43378488025fdde921"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1728,22 +1726,6 @@ The animation dataRef values element. </td></tr>
 
 </div>
 </div>
-<a id="ac759ac14a3ef63581d8f4c364d5736d0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac759ac14a3ef63581d8f4c364d5736d0">&#9670;&nbsp;</a></span>SOCKET</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef int <a class="el" href="namespaceXPMP2.html#ac759ac14a3ef63581d8f4c364d5736d0">XPMP2::SOCKET</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Windows defines SOCKET, so we define it for non-Windows manually. </p>
-
-</div>
-</div>
 <a id="ab9ffd1ceff240a0dc28f56855bb5509b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab9ffd1ceff240a0dc28f56855bb5509b">&#9670;&nbsp;</a></span>SoundFilePtr</h2>
 
@@ -2119,26 +2101,6 @@ The animation dataRef values element. </td></tr>
 </div><div class="memdoc">
 
 <p>Find a matching local interface based on name and family. </p>
-
-</div>
-</div>
-<a id="adaf0dc741efd65dca1616de73ce34e84"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adaf0dc741efd65dca1616de73ce34e84">&#9670;&nbsp;</a></span>_NetwGetInterfaceNames()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string XPMP2::_NetwGetInterfaceNames </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>family</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Return list of interface names of given family. </p>
 
 </div>
 </div>
@@ -5006,6 +4968,87 @@ template&lt;class IteratorT &gt; </div>
 
 </div>
 </div>
+<a id="a86c2561751fb38da1f17e2fb86f6ddf8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86c2561751fb38da1f17e2fb86f6ddf8">&#9670;&nbsp;</a></span>NetwGetInterfaceNames()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string XPMP2::NetwGetInterfaceNames </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>family</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>fMust</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>fSkip</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return comma-separated string will all known local interfaces, calls <a class="el" href="namespaceXPMP2.html#a84b7b260c538378b5555c748ea7fb8e6" title="Return list of known local interfaces.">NetwGetInterfaces()</a> </p>
+
+</div>
+</div>
+<a id="a84b7b260c538378b5555c748ea7fb8e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84b7b260c538378b5555c748ea7fb8e6">&#9670;&nbsp;</a></span>NetwGetInterfaces()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; XPMP2::NetwGetInterfaces </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>family</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>fMust</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>fSkip</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return list of known local interfaces. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">family</td><td><code>AF_INET</code> or <code>AF_INET6</code> </td></tr>
+    <tr><td class="paramname">fMust</td><td>Return only interfaces having these interface flags like <code>IFF_MULTICAST</code>, <code>IFF_BROADCAST</code> </td></tr>
+    <tr><td class="paramname">fSkip</td><td>Skipt interfaces having these interface flags like <code>IFF_LOOPBACK</code> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A vector of strings of interface names </dd></dl>
+
+</div>
+</div>
 <a id="a3798b0e785d88d7aa07545f0a6428492"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3798b0e785d88d7aa07545f0a6428492">&#9670;&nbsp;</a></span>NetwIsLocalAddr() <span class="overload">[1/3]</span></h2>
 
@@ -7269,28 +7312,6 @@ template&lt;class T &gt; </div>
 </div><div class="memdoc">
 
 <p>remote listening/sending thread </p>
-
-</div>
-</div>
-<a id="a667edc6ebcf449eec1b9def9d5d54895"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a667edc6ebcf449eec1b9def9d5d54895">&#9670;&nbsp;</a></span>INVALID_SOCKET</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr <a class="el" href="namespaceXPMP2.html#ac759ac14a3ef63581d8f4c364d5736d0">SOCKET</a> XPMP2::INVALID_SOCKET = -1</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
 
 </div>
 </div>

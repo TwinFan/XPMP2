@@ -123,9 +123,6 @@ protected:
 public:
     /// Default constructor is not doing anything
     SocketNetworking() {}
-    /// Constructor creates a socket and binds it to the given address
-    SocketNetworking(const std::string& _addr, int _port, size_t _bufSize = 512,
-                     unsigned _timeOut_ms = 0, bool _bBroadcast = false);
     /// Destructor makes sure the socket is closed
     virtual ~SocketNetworking();
 
@@ -201,11 +198,7 @@ class UDPReceiver : public SocketNetworking
 public:
     /// Default constructor is not doing anything
     UDPReceiver() : SocketNetworking() {}
-    /// Constructor creates a socket and binds it to the given address
-    UDPReceiver(const std::string& _addr, int _port, size_t _bufSize = 512,
-                unsigned _timeOut_ms = 0) :
-        SocketNetworking(_addr,_port,_bufSize,_timeOut_ms) {}
-    
+
 protected:
     /// Sets flags to AI_PASSIVE, AF_INET, SOCK_DGRAM, IPPROTO_UDP
     void GetAddrHints (struct addrinfo& hints) override;
@@ -299,10 +292,6 @@ protected:
 public:
     /// Default constructor is not doing anything
     TCPConnection() : SocketNetworking() {}
-    /// Constructor creates a socket and binds it to the given address
-    TCPConnection(const std::string& _addr, int _port, size_t _bufSize = 512,
-                  unsigned _timeOut_ms = 0) :
-        SocketNetworking(_addr,_port,_bufSize,_timeOut_ms) {}
     
     void Close() override;                      ///< also close session connection
     void CloseListenerOnly();                   ///< only closes the listening socket, but not a connected session

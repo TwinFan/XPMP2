@@ -50,12 +50,28 @@ XPMPPlaneID GlobVars::NextPlaneId ()
     return planeId;
 }
 
+/// Convert strings `on`, `auto`, `off` to enums of type `ThreeWaySwitchTy`
+ThreeWaySwitchTy Read3WaySwitch (std::string& sVal,
+                                 const std::string& sKey,
+                                 const std::string& cfgFileName,
+                                 ThreeWaySwitchTy defVal)
+{
+    str_tolower(sVal);
+    if (sVal == "on")              return SWITCH_CFG_ON;
+    else if (sVal == "auto")       return SWITCH_CFG_AUTO;
+    else if (sVal == "off")        return SWITCH_CFG_OFF;
+    else {
+        LOG_MSG(logWARN, "Ignored unknown value '%s' for '%s' in file '%s'",
+                sVal.c_str(), sKey.c_str(), cfgFileName.c_str());
+    }
+    return defVal;
+}
 
 // Read from a generic `XPMP2.prf` or `XPMP2.<logAcronym>.prf` config file
 /// @details Goal is to provide some few configuration options independend
 ///          of the plugin using XPMP2. This is useful e.g. when configuring
 ///          non-standard network settings for remote connections.\n
-///          For even greate flexibility the function will try a plugin-specific
+///          For even greater flexibility the function will try a plugin-specific
 ///          file first, named "XPMP2.<logAcronym>.prf" (with spaces replaced
 ///          with underscores) and if that is not found
 ///          it tries the generic file "XPMP2.prf".\n
@@ -87,7 +103,6 @@ void GlobVars::ReadConfigFile ()
     }
     
     // Read from the file
-    std::vector<std::string> ln;
     std::string lnBuf;
     int errCnt = 0;
     while (fIn && errCnt <= 3) {
@@ -96,42 +111,45 @@ void GlobVars::ReadConfigFile ()
             lnBuf[0] == '#')
             continue;
 
-        // otherwise should be 2 tokens
-        ln = str_tokenize(lnBuf, " ");
-        if (ln.size() != 2) {
-            // wrong number of words in that line
-            LOG_MSG(logWARN,"Expected two words (key, value) in config file '%s', line '%s' -> ignored",
-                    cfgFileName.c_str(), lnBuf.c_str());
+        // otherwise should be 2 tokens, separated by the first space
+        size_t spcPos = lnBuf.find(" ");
+        if (spcPos == std::string::npos || spcPos == 0 || spcPos == lnBuf.length()-1) {
+            // Too few words in that line
+            LOG_MSG(logWARN, "Expected at least two words (key, value) in config file '%s', line '%s' -> ignored",
+                cfgFileName.c_str(), lnBuf.c_str());
             errCnt++;
             continue;
         }
+        const std::string sKey = lnBuf.substr(0, spcPos);
+        std::string sVal = lnBuf.substr(spcPos + 1);
 
         // *** Process actual configuration entries ***
         
         int iVal = 0;
-        try {iVal = (int) std::stol(ln[1]); }
+        try {iVal = (int) std::stol(sVal); }
         catch (...) { iVal = 0; }
-        if (ln[0] == "logLvl")              logLvl = (logLevelTy) clamp<int>(iVal, int(logDEBUG), int(logFATAL));
-        else if (ln[0] == "defaultICAO")    defaultICAO = ln[1];
-        else if (ln[0] == "carIcaoType")    carIcaoType = ln[1];
-        else if (ln[0] == "remoteSupport") {
-            str_tolower(ln[1]);
-            if (ln[1] == "on")              glob.remoteCfg = glob.remoteCfgFromIni = REMOTE_CFG_ON;
-            else if (ln[1] == "auto")       glob.remoteCfg = glob.remoteCfgFromIni = REMOTE_CFG_AUTO;
-            else if (ln[1] == "off")        glob.remoteCfg = glob.remoteCfgFromIni = REMOTE_CFG_OFF;
-            else {
-                LOG_MSG(logWARN, "Ignored unknown value '%s' for 'remoteSupport' in file '%s'",
-                        ln[1].c_str(), cfgFileName.c_str());
+        if (sKey == "logLvl")              logLvl = (logLevelTy) clamp<int>(iVal, int(logDEBUG), int(logFATAL));
+        else if (sKey == "defaultICAO")    defaultICAO = sVal;
+        else if (sKey == "carIcaoType")    carIcaoType = sVal;
+        else if (sKey == "overrideLabelsDraw")
+            switch (glob.eLabelOverride = Read3WaySwitch(sVal, sKey, cfgFileName, glob.eLabelOverride)) {
+                case SWITCH_CFG_ON:     glob.bDrawLabels = true; break;
+                case SWITCH_CFG_OFF:    glob.bDrawLabels = false; break;
+                case SWITCH_CFG_AUTO:   break;
             }
-        }
-        else if (ln[0] == "remoteMCGroup")  remoteMCGroup = ln[1];
-        else if (ln[0] == "remotePort")     remotePort = iVal;
-        else if (ln[0] == "remoteTTL")      remoteTTL = iVal;
-        else if (ln[0] == "remoteBufSize")  remoteBufSize = (size_t)iVal;
-        else if (ln[0] == "remoteTxfFrequ") remoteTxfFrequ = iVal;
+        else if (sKey == "overrideTCAS_Control")
+            glob.eAIOverride = Read3WaySwitch(sVal, sKey, cfgFileName, glob.eAIOverride);
+        else if (sKey == "remoteSupport")
+            glob.remoteCfg = glob.remoteCfgFromIni = Read3WaySwitch(sVal, sKey, cfgFileName, glob.remoteCfg);
+        else if (sKey == "remoteMCGroup")  remoteMCGroup = sVal;
+        else if (sKey == "remotePort")     remotePort = iVal;
+        else if (sKey == "remoteSendIntf") remoteSendIntf = sVal;
+        else if (sKey == "remoteTTL")      remoteTTL = iVal;
+        else if (sKey == "remoteBufSize")  remoteBufSize = (size_t)iVal;
+        else if (sKey == "remoteTxfFrequ") remoteTxfFrequ = iVal;
         else {
             LOG_MSG(logWARN, "Ignored unknown config item '%s' from file '%s'",
-                    ln[0].c_str(), cfgFileName.c_str());
+                    sKey.c_str(), cfgFileName.c_str());
         }
     }
 
@@ -194,8 +212,8 @@ void GlobVars::UpdateCfgVals ()
     // Ask for remote support
     i = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_SUPPORT_REMOTE, remoteCfg);
     if (i == 0)     remoteCfg = remoteCfgFromIni;       // if plugin says "AUTO", then use config file's value
-    else if (i < 0) remoteCfg = REMOTE_CFG_OFF;
-    else            remoteCfg = REMOTE_CFG_ON;
+    else if (i < 0) remoteCfg = SWITCH_CFG_OFF;
+    else            remoteCfg = SWITCH_CFG_ON;
 
     // Contrails
     contrailAltMin_ft = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_CONTR_MIN_ALT, contrailAltMin_ft);

@@ -76,9 +76,7 @@ Namespaces</h2></td></tr>
 Macros</h2></td></tr>
 <tr class="memitem:a40e8460a0a12a773f049f76b56caba83"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Remote_8cpp.html#a40e8460a0a12a773f049f76b56caba83">memcpy_min</a>(to,  from)&#160;&#160;&#160;std::memcpy(to,from,std::min(sizeof(from),sizeof(to)))</td></tr>
 <tr class="separator:a40e8460a0a12a773f049f76b56caba83"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a33efbf28579c18b8c9292d323f8688f4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Remote_8cpp.html#a33efbf28579c18b8c9292d323f8688f4">DEBUG_MC_SEND_WAIT</a>&#160;&#160;&#160;&quot;Listening to %s:%d, waiting for someone interested in our data...&quot;</td></tr>
-<tr class="separator:a33efbf28579c18b8c9292d323f8688f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a11582dc02ea125984f359e528add98b0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Remote_8cpp.html#a11582dc02ea125984f359e528add98b0">INFO_MC_SEND_WAIT</a>&#160;&#160;&#160;&quot;Listening on the network, waiting for someone interested in our data...&quot;</td></tr>
+<tr class="memitem:a11582dc02ea125984f359e528add98b0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Remote_8cpp.html#a11582dc02ea125984f359e528add98b0">INFO_MC_SEND_WAIT</a>&#160;&#160;&#160;&quot;Listening to %s, waiting for someone being interested in our data...&quot;</td></tr>
 <tr class="separator:a11582dc02ea125984f359e528add98b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2bb7acc27f26b08eef6037a917a32cbf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Remote_8cpp.html#a2bb7acc27f26b08eef6037a917a32cbf">INFO_MC_SEND_RCVD</a>&#160;&#160;&#160;&quot;Received word from %s, will start sending aircraft data&quot;</td></tr>
 <tr class="separator:a2bb7acc27f26b08eef6037a917a32cbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -86,9 +84,7 @@ Macros</h2></td></tr>
 <tr class="separator:a49ca31024e546b85dc4f1fcc4a7b4343"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaaebc791e7bd73109232510cbf7dd8da"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Remote_8cpp.html#aaaebc791e7bd73109232510cbf7dd8da">ERR_MC_MAX</a>&#160;&#160;&#160;&quot;Too many errors, I give up on remote functionality!&quot;</td></tr>
 <tr class="separator:aaaebc791e7bd73109232510cbf7dd8da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec22e1ac01a8d9f30536117c53e77b3b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Remote_8cpp.html#aec22e1ac01a8d9f30536117c53e77b3b">DEBUG_MC_RECV_BEGIN</a>&#160;&#160;&#160;&quot;Receiver started listening to %s:%d&quot;</td></tr>
-<tr class="separator:aec22e1ac01a8d9f30536117c53e77b3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17b5872f3d1dd8e881367d9af49aad09"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Remote_8cpp.html#a17b5872f3d1dd8e881367d9af49aad09">INFO_MC_RECV_BEGIN</a>&#160;&#160;&#160;&quot;Receiver started listening on the network...&quot;</td></tr>
+<tr class="memitem:a17b5872f3d1dd8e881367d9af49aad09"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Remote_8cpp.html#a17b5872f3d1dd8e881367d9af49aad09">INFO_MC_RECV_BEGIN</a>&#160;&#160;&#160;&quot;Receiver started listening to %s&quot;</td></tr>
 <tr class="separator:a17b5872f3d1dd8e881367d9af49aad09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7cd6b4fb92795c693da9a83389a78412"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Remote_8cpp.html#a7cd6b4fb92795c693da9a83389a78412">INFO_MC_RECV_RCVD</a>&#160;&#160;&#160;&quot;Receiver received data from %.*s on %s, will start message processing&quot;</td></tr>
 <tr class="separator:a7cd6b4fb92795c693da9a83389a78412"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -207,9 +203,9 @@ Variables</h2></td></tr>
 <tr class="memitem:aa6805757957d11672b0af727f312ffb2"><td class="memItemLeft" align="right" valign="top">volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aa6805757957d11672b0af727f312ffb2">XPMP2::gbStopMCThread</a> = false</td></tr>
 <tr class="memdesc:aa6805757957d11672b0af727f312ffb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shall the network thread stop?  <a href="namespaceXPMP2.html#aa6805757957d11672b0af727f312ffb2">More...</a><br /></td></tr>
 <tr class="separator:aa6805757957d11672b0af727f312ffb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa396514f7d7cac9a9410ee58ee125f9f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#aa396514f7d7cac9a9410ee58ee125f9f">XPMP2::gCntMCErr</a> = 0</td></tr>
-<tr class="memdesc:aa396514f7d7cac9a9410ee58ee125f9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">error counter for network thread  <a href="namespaceXPMP2.html#aa396514f7d7cac9a9410ee58ee125f9f">More...</a><br /></td></tr>
-<tr class="separator:aa396514f7d7cac9a9410ee58ee125f9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b6cc69bf3400d7ff4dc7be6c7bd6c00"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a6b6cc69bf3400d7ff4dc7be6c7bd6c00">XPMP2::gbRemoteGaveUp</a> = false</td></tr>
+<tr class="memdesc:a6b6cc69bf3400d7ff4dc7be6c7bd6c00"><td class="mdescLeft">&#160;</td><td class="mdescRight">No longer try remote functionality, have seen to many errors.  <a href="namespaceXPMP2.html#a6b6cc69bf3400d7ff4dc7be6c7bd6c00">More...</a><br /></td></tr>
+<tr class="separator:a6b6cc69bf3400d7ff4dc7be6c7bd6c00"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad596511dffdcf37e7e182730f3d34071"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ad596511dffdcf37e7e182730f3d34071">XPMP2::gSendSettingsLast</a> = 0.0f</td></tr>
 <tr class="memdesc:ad596511dffdcf37e7e182730f3d34071"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timestamp when we sent our settings the last time.  <a href="namespaceXPMP2.html#ad596511dffdcf37e7e182730f3d34071">More...</a><br /></td></tr>
 <tr class="separator:ad596511dffdcf37e7e182730f3d34071"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -238,34 +234,6 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.<br  />
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </dd></dl>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="aec22e1ac01a8d9f30536117c53e77b3b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aec22e1ac01a8d9f30536117c53e77b3b">&#9670;&nbsp;</a></span>DEBUG_MC_RECV_BEGIN</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DEBUG_MC_RECV_BEGIN&#160;&#160;&#160;&quot;Receiver started listening to %s:%d&quot;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a33efbf28579c18b8c9292d323f8688f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a33efbf28579c18b8c9292d323f8688f4">&#9670;&nbsp;</a></span>DEBUG_MC_SEND_WAIT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define DEBUG_MC_SEND_WAIT&#160;&#160;&#160;&quot;Listening to %s:%d, waiting for someone interested in our data...&quot;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="aaaebc791e7bd73109232510cbf7dd8da"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aaaebc791e7bd73109232510cbf7dd8da">&#9670;&nbsp;</a></span>ERR_MC_MAX</h2>
 
@@ -301,7 +269,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define INFO_MC_RECV_BEGIN&#160;&#160;&#160;&quot;Receiver started listening on the network...&quot;</td>
+          <td class="memname">#define INFO_MC_RECV_BEGIN&#160;&#160;&#160;&quot;Receiver started listening to %s&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -343,7 +311,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define INFO_MC_SEND_WAIT&#160;&#160;&#160;&quot;Listening on the network, waiting for someone interested in our data...&quot;</td>
+          <td class="memname">#define INFO_MC_SEND_WAIT&#160;&#160;&#160;&quot;Listening to %s, waiting for someone being interested in our data...&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">

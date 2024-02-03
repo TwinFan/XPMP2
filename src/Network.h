@@ -7,7 +7,7 @@
 ///             XPMP2::UDPMulticast: sends and receives multicast UDP datagrams\n
 ///             XPMP2::TCPConnection: receives incoming TCP connection\n
 /// @author     Birger Hoppe
-/// @copyright  (c) 2019-2020 Birger Hoppe
+/// @copyright  (c) 2019-2024 Birger Hoppe
 /// @copyright  Permission is hereby granted, free of charge, to any person obtaining a
 ///             copy of this software and associated documentation files (the "Software"),
 ///             to deal in the Software without restriction, including without limitation
@@ -32,19 +32,62 @@
 #include <winsock2.h>
 #include <ws2ipdef.h>           // required for sockaddr_in6 (?)
 #include <iphlpapi.h>           // for GetAdaptersAddresses
+#include <WS2tcpip.h>           // for socklen_t
+#include <MSWSock.h>            // for LPFN_WSARECVMSG 
 #else
+#define __APPLE_USE_RFC_3542    // both required for newer constants like IPV6_RECVPKTINFO
+#define _GNU_SOURCE
 #include <sys/socket.h>
 #include <netdb.h>
 #include <ifaddrs.h>
+typedef int SOCKET;             ///< Windows defines SOCKET, so we define it for non-Windows manually
+constexpr SOCKET INVALID_SOCKET = -1;
 #endif
+
 #include <stdexcept>
 
 namespace XPMP2 {
 
-#if IBM != 1
-typedef int SOCKET;             ///< Windows defines SOCKET, so we define it for non-Windows manually
-constexpr SOCKET INVALID_SOCKET = -1;
-#endif
+/// Helper definition for all these IPv4/6 differences
+struct SockAddrTy
+{
+    union {
+        sockaddr        sa;             // unspecific
+        sockaddr_in     sa_in;          // AF_INET  / IPv4
+        sockaddr_in6    sa_in6;         // AF_INET6 / IPv6
+    };
+    
+    /// Constructor zeroes out everying
+    SockAddrTy() { memset((void*)this, 0, sizeof(SockAddrTy)); }
+    /// Constructor copies given socket info
+    SockAddrTy (const sockaddr* pSa);
+    
+    /// Comparison bases solely on memory compare, order isn't important, just that there is order
+    bool operator< (const SockAddrTy& o) const
+    { return std::memcmp(this, &o, sizeof(*this)) < 0; }
+    /// Comparison bases solely on memory compare, order isn't important, just that there is order
+    bool operator== (const SockAddrTy& o) const
+    { return std::memcmp(this, &o, sizeof(*this)) == 0; }
+
+    uint8_t family() const { return (uint8_t) sa.sa_family; }      ///< return the protocol famaily
+    bool isIp4() const { return family() == AF_INET; }                  ///< is this an IPv4 address?
+    bool isIp6() const { return family() == AF_INET6; }                 ///< is this an IPv6 address?
+    socklen_t size () const                                             ///< expected structure size as per protocol family
+    { return
+        sa.sa_family == AF_INET     ? sizeof(sa_in) :
+        sa.sa_family == AF_INET6    ? sizeof(sa_in6) : sizeof(sa); }
+    
+    /// Get the port number
+    uint16_t port () const {
+        return ntohs(isIp4() ? sa_in.sin_port :
+                     isIp6() ? sa_in6.sin6_port : 0);
+    }
+    /// Set the port number
+    void setPort (uint16_t port) {
+        if (isIp4())        sa_in.sin_port      = htons(port);
+        else if (isIp6())   sa_in6.sin6_port    = htons(port);
+    }
+};
 
 /// @brief Exception raised by XPMP2::SocketNetworking objects
 /// @details This exception is raised when the address
@@ -73,12 +116,13 @@ protected:
     char*               buf             = NULL;
     size_t              bufSize         = 512;
 
+#if IBM
+    /// Pointer to WSARecvMsg function of Winsock2        
+    LPFN_WSARECVMSG     pWSARecvMsg     = nullptr;
+#endif
 public:
     /// Default constructor is not doing anything
     SocketNetworking() {}
-    /// Constructor creates a socket and binds it to the given address
-    SocketNetworking(const std::string& _addr, int _port, size_t _bufSize = 512,
-                     unsigned _timeOut_ms = 0, bool _bBroadcast = false);
     /// Destructor makes sure the socket is closed
     virtual ~SocketNetworking();
 
@@ -105,20 +149,46 @@ public:
     /// return the buffer
     const char* getBuf () const  { return buf ? buf : ""; }
     
-    /// Waits to receive a message, ensures zero-termination in the buffer
-    long                recv();
-    /// Waits to receive a message with timeout, ensures zero-termination in the buffer
-    long                timedRecv(int max_wait_ms);
+    /// @brief Set blocking mode
+    void setBlocking (bool bBlock);
     
+    /// @brief Waits to receive a message, ensures zero-termination in the buffer
+    /// @param[out] _pFromAddr Address of sender as a string, including port
+    /// @param[out] _pFromSockAddr Address of sender as a socket address
+    /// @return The number of bytes read or `-1` if an error occurs.
+    long                recv(std::string* _pFromAddr = nullptr,
+                             SockAddrTy* _pFromSockAddr = nullptr);
+    /// @brief Waits to receive a message with timeout, ensures zero-termination in the buffer
+    /// @param max_wait_ms Timeout in milliseconds
+    /// @param[out] _pFromAddr Address of sender as a string, including port
+    /// @param[out] _pFromSockAddr Address of sender as a socket address
+    /// @return -1 if an error occurs or the function timed out, the number of bytes received otherwise. `errno` is set to `EAGAIN`/`WSAEWOULDBLOCK` in case of a timeout.
+    long                timedRecv(int max_wait_ms,
+                                  std::string* _pFromAddr = nullptr,
+                                  SockAddrTy* _pFromSockAddr = nullptr);
+    
+    /// send messages on session connection
+    virtual bool send(const char* msg);
+
     /// Sends a broadcast message
     bool broadcast (const char* msg);
     
     /// Convert addresses to string
-    static std::string GetAddrString (const struct sockaddr* addr);
+    static std::string GetAddrString (const SockAddrTy& sa, bool withPort = true);
     
 protected:
     /// Subclass to tell which addresses to look for
     virtual void GetAddrHints (struct addrinfo& hints) = 0;
+#if IBM
+    /// @brief Wrapper around Windows' weird way of hiding WSAREcvMsg: Finds the pointer to the function, then calls it
+    /// @see https://learn.microsoft.com/en-us/windows/win32/api/mswsock/nc-mswsock-lpfn_wsarecvmsg
+    /// @see https://stackoverflow.com/a/37334943
+    int WSARecvMsg(
+        LPWSAMSG lpMsg,
+        LPDWORD lpdwNumberOfBytesRecvd,
+        LPWSAOVERLAPPED lpOverlapped,
+        LPWSAOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine);
+#endif
 };
 
 
@@ -128,14 +198,10 @@ class UDPReceiver : public SocketNetworking
 public:
     /// Default constructor is not doing anything
     UDPReceiver() : SocketNetworking() {}
-    /// Constructor creates a socket and binds it to the given address
-    UDPReceiver(const std::string& _addr, int _port, size_t _bufSize = 512,
-                unsigned _timeOut_ms = 0) :
-        SocketNetworking(_addr,_port,_bufSize,_timeOut_ms) {}
-    
+
 protected:
     /// Sets flags to AI_PASSIVE, AF_INET, SOCK_DGRAM, IPPROTO_UDP
-    virtual void GetAddrHints (struct addrinfo& hints);
+    void GetAddrHints (struct addrinfo& hints) override;
 };
 
 
@@ -146,20 +212,44 @@ class UDPMulticast : public SocketNetworking
 protected:
     std::string multicastAddr;          ///< the multicast address
     struct addrinfo* pMCAddr = nullptr; ///< the multicast address
+    
+    bool bSendToAll = true;             ///< Send out multicast datagrams to all interfaces
+    uint32_t oneIntfIdx = 0;            ///< When sending to one interface only, which one?
+    
+    /// Keep a list of sources we received data from to be able to identify new sources
+    std::map<SockAddrTy,std::chrono::time_point<std::chrono::steady_clock> > mapSender;
+
 public:
     /// Default constructor is not doing anything
     UDPMulticast() : SocketNetworking() {}
     /// @brief Constructor creates a socket and binds it to INADDR_ANY and connects to the given multicast address
-    UDPMulticast(const std::string& _multicastAddr, int _port, int _ttl=8,
-                 size_t _bufSize = 512, unsigned _timeOut_ms = 0);
+    UDPMulticast(const std::string& _multicastAddr, int _port,
+                 const std::string& _sendIntf,
+                 int _ttl=8, size_t _bufSize = 512, unsigned _timeOut_ms = 0);
     /// makes sure pMCAddr is cleared up
-    virtual ~UDPMulticast();
+    ~UDPMulticast() override;
+    
+    /// Return formatted multicast address, including port
+    const std::string& GetMCAddr() const { return multicastAddr; }
     
     /// @brief Connect to the multicast group
     /// @exception XPMP2::NetRuntimeError in case of any errors
-    void Join (const std::string& _multicastAddr, int _port, int _ttl=8,
-               size_t _bufSize = 512, unsigned _timeOut_ms = 0);
+    void Join (const std::string& _multicastAddr, int _port,
+               const std::string& _sendIntf,
+               int _ttl=8, size_t _bufSize = 512, unsigned _timeOut_ms = 0);
     
+    /// Protocol family
+    uint8_t GetFamily () const { return pMCAddr ? (uint8_t)pMCAddr->ai_family : AF_UNSPEC; }
+    bool IsIPv4 () const { return GetFamily() == AF_INET; }     ///< IPv4?
+    bool IsIPv6 () const { return GetFamily() == AF_INET6; }    ///< IPv6?
+    
+    /// Send future datagrams on default interfaces only (default)
+    void SendToDefault ();
+    /// Send future datagrams on _all_ interfaces
+    void SendToAll ();
+    /// Send future datagrams on this particular interface only
+    void SendToIntf (uint32_t idx);
+
     /// @brief Send a multicast
     /// @param _bufSend Data to send
     /// @param _bufSendSize Size of the provided buffer
@@ -167,16 +257,24 @@ public:
     size_t SendMC (const void* _bufSend, size_t _bufSendSize);
     
     /// @brief Receive a multicast, received message is in XPMP2::SocketNetworking::GetBuf()
+    /// @param bSwitchToRecvIntf Shall all future datagrams be _send_ out on the same interface as we received this message on?
     /// @param[out] _pFromAddr If given then the sender adress is written into this string
     /// @param[out] _pFromSockAddr If given then the sender adress is written into this string
-    /// @return Number of bytes received
-    size_t RecvMC (std::string* _pFromAddr  = nullptr,
-                   sockaddr* _pFromSockAddr = nullptr);
+    /// @param[out] _pbIntfChanged is set to `true` if the sending interface has been changed based on the received datagram
+    /// @return Number of bytes received, `0` in case no data was waiting
+    size_t RecvMC (bool bSwitchToRecvIntf,
+                   std::string* _pFromAddr  = nullptr,
+                   SockAddrTy* _pFromSockAddr = nullptr,
+                   bool* _pbIntfChanged = nullptr);
 
 protected:
     void Cleanup ();                    ///< frees pMCAddr
     /// returns information from `*pMCAddr`
     void GetAddrHints (struct addrinfo& hints) override;
+    /// Set multicast send interface (IPv4 only)
+    void SetSendInterface (const in_addr& addr);
+    /// Set multicast send interface
+    void SetSendInterface (uint32_t ifIdx);
 };
 
 
@@ -185,7 +283,7 @@ class TCPConnection : public SocketNetworking
 {
 protected:
     SOCKET              f_session_socket = INVALID_SOCKET;  ///< session socket, ie. the socket opened when a counterparty connects
-    struct sockaddr_in  f_session_addr;                     ///< address of the connecting counterparty
+    struct sockaddr_in  f_session_addr = {};                ///< address of the connecting counterparty
 #if APL == 1 || LIN == 1
     /// the self-pipe to shut down the TCP listener gracefully
     SOCKET selfPipe[2] = { INVALID_SOCKET, INVALID_SOCKET };
@@ -194,13 +292,9 @@ protected:
 public:
     /// Default constructor is not doing anything
     TCPConnection() : SocketNetworking() {}
-    /// Constructor creates a socket and binds it to the given address
-    TCPConnection(const std::string& _addr, int _port, size_t _bufSize = 512,
-                  unsigned _timeOut_ms = 0) :
-        SocketNetworking(_addr,_port,_bufSize,_timeOut_ms) {}
     
-    virtual void Close();       ///< also close session connection
-    void CloseListenerOnly();   ///< only closes the listening socket, but not a connected session
+    void Close() override;                      ///< also close session connection
+    void CloseListenerOnly();                   ///< only closes the listening socket, but not a connected session
 
     void listen (int numConnections = 1);       ///< listen for incoming connections
     bool accept (bool bUnlisten = false);       ///< accept an incoming connections, optinally stop listening
@@ -210,24 +304,30 @@ public:
     bool IsConnected () const { return f_session_socket != INVALID_SOCKET; };
     
     /// send messages on session connection
-    bool send(const char* msg);
+    bool send(const char* msg) override;
 
 protected:
-    virtual void GetAddrHints (struct addrinfo& hints);
+    void GetAddrHints (struct addrinfo& hints) override;
 };
 
 
 /// Numerical IP address, used for both ipv4 and ipv6, for ease of handling
 struct InetAddrTy {
-    std::uint32_t   addr[4] = {0,0,0,0};
+    union {
+        std::uint32_t   addr[4] = {0,0,0,0};
+        struct in_addr  in_addr;
+        struct in6_addr in6_addr;
+    };
     
     /// Default does nothing
     InetAddrTy () {}
     /// Take over from structure
-    InetAddrTy (const sockaddr* sa) { CopyFrom(sa); }
-    
+    InetAddrTy (const SockAddrTy& sa) { CopyFrom(sa); }
+    /// Take over from structure
+    InetAddrTy (const sockaddr* pSa) { CopyFrom(SockAddrTy(pSa)); }
+
     /// Take over address from structure
-    void CopyFrom (const sockaddr* sa);
+    void CopyFrom (const SockAddrTy& sa);
 
     /// Equality means: all elements are equal
     bool operator==(const InetAddrTy& o) const
@@ -239,15 +339,23 @@ struct InetAddrTy {
 
 };
 
-/// Return all local addresses (also cached locally)
-const std::vector<InetAddrTy>& NetwGetLocalAddresses ();
-
 /// Is given address a local one?
 bool NetwIsLocalAddr (const InetAddrTy& addr);
 /// Is given address a local one?
-inline bool NetwIsLocalAddr (const sockaddr* sa)
+inline bool NetwIsLocalAddr (const SockAddrTy& sa)
 { return NetwIsLocalAddr(InetAddrTy(sa)); }
+/// Is given address a local one?
+inline bool NetwIsLocalAddr (const sockaddr* pSa)
+{ return NetwIsLocalAddr(InetAddrTy(pSa)); }
 
+/// @brief Return list of known local interfaces
+/// @param family `AF_INET` or `AF_INET6`
+/// @param fMust Return only interfaces having these interface flags like `IFF_MULTICAST`, `IFF_BROADCAST`
+/// @param fSkip Skipt interfaces having these interface flags like `IFF_LOOPBACK`
+/// @return A vector of strings of interface names
+std::vector<std::string> NetwGetInterfaces (uint8_t family, uint32_t fMust = 0, uint32_t fSkip = 0);
+/// Return comma-separated string will all known local interfaces, calls NetwGetInterfaces()
+std::string NetwGetInterfaceNames (uint8_t family, uint32_t fMust = 0, uint32_t fSkip = 0);
 
 } // namespace XPMP2
 

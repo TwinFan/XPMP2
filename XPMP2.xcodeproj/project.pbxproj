@@ -103,6 +103,7 @@
 		25D680C023BE9D3200C83CC5 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		25D680C423BE9DBD00C83CC5 /* XPMPMultiplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XPMPMultiplayer.cpp; sourceTree = "<group>"; };
 		25D86CC7253E285E00424494 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		25E207C42B4B471E00AF839D /* relOp.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = relOp.txt; sourceTree = "<group>"; };
 		25EC1C3F23BF6DF1000940BB /* CSLModels.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CSLModels.cpp; sourceTree = "<group>"; };
 		25EC1C4123BF6DFA000940BB /* CSLModels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSLModels.h; sourceTree = "<group>"; };
 		25EC1C4523BF7569000940BB /* Utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utilities.cpp; sourceTree = "<group>"; };
@@ -166,10 +167,11 @@
 		2596FD462447226700C6A41E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				256DC2F524F3090B00C1595C /* Obj8DataRefs.txt */,
 				2596FD482447226700C6A41E /* Doc8643.txt */,
 				2596FD592447226700C6A41E /* MapIcons.png */,
+				256DC2F524F3090B00C1595C /* Obj8DataRefs.txt */,
 				2596FD5A2447226700C6A41E /* related.txt */,
+				25E207C42B4B471E00AF839D /* relOp.txt */,
 				256F4687255C9A6A00FBE18A /* XPMP2.example.prf */,
 			);
 			path = Resources;
@@ -480,8 +482,8 @@
 					lib/fmod/inc,
 				);
 				XPMP2_VER_MAJOR = 3;
-				XPMP2_VER_MINOR = 3;
-				XPMP2_VER_PATCH = 1;
+				XPMP2_VER_MINOR = 4;
+				XPMP2_VER_PATCH = 0;
 				XPSDK_ROOT = lib/SDK;
 			};
 			name = Debug;
@@ -582,8 +584,8 @@
 					lib/fmod/inc,
 				);
 				XPMP2_VER_MAJOR = 3;
-				XPMP2_VER_MINOR = 3;
-				XPMP2_VER_PATCH = 1;
+				XPMP2_VER_MINOR = 4;
+				XPMP2_VER_PATCH = 0;
 				XPSDK_ROOT = lib/SDK;
 			};
 			name = Release;

@@ -502,7 +502,7 @@ uint64_t SoundSystemXP::Play (const std::string& sndName, float vol, const Aircr
         
         return sndId;
     }
-    catch (const std::out_of_range& e) {
+    catch (const std::out_of_range&) {
         LOG_MSG(logERR, "Sound '%s' not found, cannot play",
                 sndName.c_str());
     }
@@ -541,7 +541,7 @@ void SoundSystemXP::PlayCallback (void*         inRefcon,
 
 // Unpause a sound, which got started in a paused state to avoid crackling
 /// @note Only available if built with FMOD library
-void SoundSystemXP::Unpause (uint64_t sndId)
+void SoundSystemXP::Unpause ([[maybe_unused]] uint64_t sndId)
 {
 #if INCLUDE_FMOD_SOUND + 0 >= 1
     SoundChannel* pChn = GetChn(sndId);

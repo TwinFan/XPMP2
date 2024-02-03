@@ -22,13 +22,21 @@ Matching is based on 3 input parameters:
 
 All parameters are optional. Pass an empty string if you can't provide details.
 
-Internally, a fourth parameter named **related group** is added,
-derived from the ICAO aircraft type designator:
-There are many similar looking aircraft models in the world...just think of
-A319, A320, A321. The `related.txt` files combines all similar looking models
-into one line, which make up such a group. Each aircraft type is allowed to
-appear at maximum once in the entire file.
-The idea is to use a A320 model if a necessary A319 model is not available.
+Internally, two more parameters are added:
+- A parameter named **related group**,
+  derived from the ICAO aircraft type designator:
+  There are many similar looking aircraft models in the world...just think of
+  A319, A320, A321. The `related.txt` files combines all similar looking models
+  into one line, which make up such a group. Each aircraft type is allowed to
+  appear at maximum once in the entire file.
+  The idea is to use a A320 model if a necessary A319 model is not available.
+- A parameter named **related operator group**,
+  derived from the ICAO airline code:
+  There are airlines identified by differing airline codes (and call signs),
+  which still share the same liveries or even actual planes,
+  like subsidaries of mother airlines. The idea is that EUK (Aer Lingus UK)
+  can use the same liveries as EIN (Air Lingus Ireland) if
+  no EUK-specific livery is available.
 
 Aircraft / airline / livery combinations available for the user are listed in the
 `xsb_aircraft.txt` files in the user's CSL model folders.
@@ -38,7 +46,7 @@ XPMP2 reads all of these files into a cache when your plugin calls
 Procedure
 --
 
-Model Matching now compares 10 attributes between the parameters you pass
+Model Matching performs 12 comparisons between the parameters you pass
 during aircraft creation and the available models. They are rated
 according to the following priority from broad to fine-grained attributes:
 
@@ -51,9 +59,13 @@ according to the following priority from broad to fine-grained attributes:
 7. ICAO airline / operator and related group together match
    (this means that a "related" model with matching livery is preferred over an
    exactly matching aircraft with wrong livery)
-8. ICAO aircraft type designator - like A320, A388, B738, B741, C172, MD82, ..
-9. ICAO airline / operator - like AAL, AFR, BAW, DLH, SWA, WJA, ...
-10. Special Livery
+8. Related operator group and related group together match
+   (this means that a "related" model with a matching group livery is preferred over an
+   exactly matching aircraft with wrong livery)
+9.  ICAO aircraft type designator - like A320, A388, B738, B741, C172, MD82, ..
+10. Related operator group - see above, groups similar-looking airlines like EIN for EUK
+11. ICAO airline / operator - like AAL, AFR, BAW, DLH, SWA, WJA, ...
+12. Special Livery
 
 The better a potential CSL model matches with the passed-in parameters
 the more of the above attributes match, the higher is the "match quality".

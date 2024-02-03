@@ -29,7 +29,7 @@ else()
 endif()
 
 project(XPMP2
-        VERSION 3.3.1
+        VERSION 3.4.0
         DESCRIPTION "Multiplayer library for X-Plane 11 and 12")
 
 # Provide compile macros from the above project version definition

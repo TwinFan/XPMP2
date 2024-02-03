@@ -120,7 +120,7 @@ void TwoDDrawLabels ()
     XPLMCameraPosition_t posCamera;
     
     // short-cut if label-writing is completely switched off
-    if (!glob.bDrawLabels) return;
+    if (!glob.bDrawLabels || glob.eLabelOverride == SWITCH_CFG_OFF) return;
     
     // Set up required matrices once
     read_matrices();
@@ -138,7 +138,8 @@ void TwoDDrawLabels ()
         Aircraft& ac = *p.second;
         try {
             // skip if a/c is not rendered or label not to be drawn
-            if (!ac.IsRendered() || !ac.ShallDrawLabel())
+            if (!ac.IsRendered() ||
+                !(ac.ShallDrawLabel() || glob.eLabelOverride == SWITCH_CFG_ON))
                 continue;
         
             // Exit if aircraft is father away from camera than we would draw labels for
@@ -259,6 +260,20 @@ using namespace XPMP2;
 // Enable/Disable/Query drawing of labels
 void XPMPEnableAircraftLabels (bool _enable)
 {
+    // Label drawing overriden in global config?
+    switch (glob.eLabelOverride) {
+        case XPMP2::SWITCH_CFG_ON:
+            LOG_MSG(logDEBUG, "Label drawing enforced ON in an XPMP2.prf config file");
+            _enable = true;
+            break;
+        case XPMP2::SWITCH_CFG_OFF:
+            LOG_MSG(logDEBUG, "Label drawing enforced OFF in an XPMP2.prf config file");
+            _enable = false;
+            break;
+        case XPMP2::SWITCH_CFG_AUTO:
+            break;
+    }
+    
     // Only do anything if this actually is a change to prevent log spamming
     if (glob.bDrawLabels != _enable) {
         LOG_MSG(logDEBUG, DEBUG_ENABLE_AC_LABELS, _enable ? "enabled" : "disabled");

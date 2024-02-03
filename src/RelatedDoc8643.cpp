@@ -1,13 +1,21 @@
 /// @file       RelatedDoc8643.cpp
 /// @brief      Reading of supporting text files:
 ///             - `related.txt` for creating groups of similar looking aircraft types;
+///             - `relOp.txt` for creating groups of similar looking operator (liveries)
 ///             - `Doc8643.txt`, the official list of ICAO aircraft type codes;
 ///             - `Obj8DataRefs.txt`, a mapping list for replacing dataRefs in `.obj` files.
 /// @details    A related group is declared simply by a line of ICAO a/c type codes read from the file.
 ///             Internally, the group is just identified by its line number in `related.txt`.
 ///             So the group "44" might be "A306 A30B A310", the Airbus A300 series.
+///             Similarly, a group of operators is typically a group of mother/subsidiary
+///             companies using the same or very similar liveries.
+/// @details    Doc8643 is a list of information maintained by the ICAO
+///             to list all registered aircraft types. Each type designator can appear multiple times
+///             in the dataset for slightly differing models, but the classification und the WTC
+///             will be the same in all those listing.\n
+///             XPMP2 is only interested in type designator, classification, and WTC.
 /// @author     Birger Hoppe
-/// @copyright  (c) 2020 Birger Hoppe
+/// @copyright  (c) 2020-2024 Birger Hoppe
 /// @copyright  Permission is hereby granted, free of charge, to any person obtaining a
 ///             copy of this software and associated documentation files (the "Software"),
 ///             to deal in the Software without restriction, including without limitation
@@ -28,9 +36,9 @@
 
 namespace XPMP2 {
 
-#define DEBUG_READ_RELATED      "related.txt: Trying to read from '%s'"
-#define ERR_RELATED_NOT_FOUND   "related.txt: Could not open the file for reading"
-#define WARN_DUP_RELATED_ENTRY  "related.txt: Duplicate entry for '%s' in line %d"
+#define DEBUG_READ_RELATED      "Reading from '%s'"
+#define ERR_RELATED_NOT_FOUND   "Could not open the file for reading"
+#define WARN_DUP_RELATED_ENTRY  "%s: Duplicate entry for '%s' in line %d"
 
 #define DEBUG_READ_DOC8643      "doc8643.txt: Reading from '%s'"
 #define ERR_DOC8643_NOT_FOUND   "doc8643.txt: Could not open the file for reading"
@@ -52,14 +60,16 @@ constexpr size_t SERR_LEN = 255;
 //
 
 // Read the `related.txt` file, full path passed in
-const char* RelatedLoad (const std::string& _path)
+const char* RelatedLoad (RelTxtTy relType, const std::string& _path)
 {
     // No need to read more than once
-    if (!glob.mapRelated.empty())
+    mapRelatedTy& mapRel = glob.mapRelated[relType];
+    if (!mapRel.empty())
         return "";
     
     // Open the related.txt file
-    LOG_MSG(logDEBUG, DEBUG_READ_RELATED, StripXPSysDir(_path).c_str());
+    const std::string pathStripped = StripXPSysDir(_path);
+    LOG_MSG(logDEBUG, DEBUG_READ_RELATED, pathStripped.c_str());
     std::ifstream fRelated (_path);
     if (!fRelated || !fRelated.is_open())
         return ERR_RELATED_NOT_FOUND;
@@ -83,17 +93,18 @@ const char* RelatedLoad (const std::string& _path)
         //  it increases flexibility if we allow to group non-official codes,
         //  e.g. one could group MD81 (non-official but offen mistakenly used)
         //  with MD80 (the officiel code) and both would be found)
-        for (const std::string& icao: tokens) {
+        for (const std::string& key: tokens) {
             // We warn about duplicate entries
             if (glob.logLvl <= logWARN) {
-                const auto it = glob.mapRelated.find(icao);
-                if (it != glob.mapRelated.cend()) {
+                const auto it = mapRel.find(key);
+                if (it != mapRel.cend()) {
                     LOG_MSG(logWARN, WARN_DUP_RELATED_ENTRY,
-                            icao.c_str(), lnNr);
+                            pathStripped.c_str(),
+                            key.c_str(), lnNr);
                 }
             }
             // But we use all entries - may the last one win
-            glob.mapRelated[icao] = lnNr;
+            mapRel[key] = lnNr;
         }
     }
     
@@ -104,10 +115,37 @@ const char* RelatedLoad (const std::string& _path)
     return "";
 }
 
-// Find the related group for an ICAO a/c type, 0 if none
-int RelatedGet (const std::string& _acType)
+// Load all related files
+const char* RelatedLoad (const std::string _paths[], size_t _num)
 {
-    try { return glob.mapRelated.at(_acType); }
+    // outer loop: max as many runs as there are related files or paths
+    for (size_t relType = 0;
+         relType < REL_TXT_NUM && relType < _num;
+         ++relType)
+    {
+        // Perform the loading
+        const std::string& path = _paths[relType];
+        if (!path.empty()) {
+            if (ExistsFile(path)) {
+                const char* s = RelatedLoad(RelTxtTy(relType), path);
+                if (s && s[0]) {
+                    LOG_MSG(logERR, "%s: %s",
+                            StripXPSysDir(path).c_str(), s);
+                    return s;
+                }
+            } else {
+                LOG_MSG(logWARN, "'%s' does not exist, skipped",
+                        StripXPSysDir(path).c_str());
+            }
+        }
+    }
+    return "";
+}
+
+// Find the related group for an ICAO a/c type, 0 if none
+int RelatedGet (RelTxtTy relType, const std::string& _acType)
+{
+    try { return glob.mapRelated[relType].at(_acType); }
     catch (const std::out_of_range&) { return 0; }
 }
 

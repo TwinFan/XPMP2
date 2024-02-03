@@ -108,16 +108,26 @@ typedef std::list<CSLObj> listCSLObjTy;
 
 typedef std::pair<std::string,std::string> pairOfStrTy;
 
-/// Represetns a CSL model as it is saved on disk
+/// Represents a CSL model as it is saved on disk
 class CSLModel
 {
 public:
     /// Combines match-relevant fields (beside ICAO a/c type)
     struct MatchCritTy {
+    protected:
         /// ICAO Airline code this model represents: `xsb_aircraft.txt::AIRLINE`
         std::string         icaoAirline;
+        int                 relOp = 0;      ///< 'related' group of the airline, if it exists, otherwise `0`
+    public:
         /// Livery code this model represents: `xsb_aircraft.txt::LIVERY`
         std::string         livery;
+        
+        /// Sets airline (operator) and looks up its 'related' group
+        void setAirline (const std::string& _icaoOp)
+        { relOp = RelatedGet(REL_TXT_OP, icaoAirline = _icaoOp); }
+        
+        const std::string& getAirline () const { return icaoAirline; }  ///< ICAO Airline code / operator
+        int getRelOp () const { return relOp; }                         ///< 'Related' group of operator, if any, otherwise `0`
         
         /// @brief Decide which criteria is better and keep that
         /// @return Did we cover o in some way? (false: needs to be treated separately)
@@ -190,7 +200,7 @@ public:
     const std::string& GetId () const           { return cslId; }       ///< full id: package name / shortId, expected to be unique
     const std::string& GetModelName () const    { return modelName; }   ///< name, formed by last part of path plus id (human readable, but not guaranteed to be unique)
     const std::string& GetIcaoType () const     { return icaoType; }    ///< ICAO aircraft type this model represents: `xsb_aircraft.txt::ICAO`
-    const std::string& GetIcaoAirline () const  { return vecMatchCrit.at(0).icaoAirline; } ///< ICAO Airline code this model represents: `xsb_aircraft.txt::AIRLINE`
+    const std::string& GetIcaoAirline () const  { return vecMatchCrit.at(0).getAirline(); }///< ICAO Airline code this model represents: `xsb_aircraft.txt::AIRLINE`
     const std::string& GetLivery () const       { return vecMatchCrit.at(0).livery; }      ///< Livery code this model represents: `xsb_aircraft.txt::LIVERY`
     int GetRelatedGrp () const                  { return related; }     ///< "related" group for this model (a group of alike plane models), or 0
     std::string GetKeyString () const;          ///< compiles the string used as key in the CSL model map

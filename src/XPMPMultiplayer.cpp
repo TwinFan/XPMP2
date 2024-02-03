@@ -78,8 +78,11 @@ const char* XPMPValidateResourceFiles (const char* resourceDir)
     glob.resourceDir += PATH_DELIM_STD;
     
     // Validate and save a few files
-    if (!FindResFile(RSRC_RELATED, glob.pathRelated))
+    if (!FindResFile(RSRC_RELATED, glob.pathRelated[REL_TXT_DESIGNATOR]))
         return "related.txt not found in resource directory";
+    if (!FindResFile(RSRC_REL_OP, glob.pathRelated[REL_TXT_OP], false)) {
+        LOG_MSG(logWARN, "Optional file relOp.txt not available in resource directory");
+    }
     if (!FindResFile(RSRC_DOC8643, glob.pathDoc8643))
         return "Doc8643.txt not found in resource directory";
     if (!FindResFile(RSRC_MAP_ICONS, glob.pathMapIcons))
@@ -183,7 +186,7 @@ const char *    XPMPMultiplayerInit(const char* inPluginName,
         XPMPSoundEnable(true);
     
     // Load related.txt
-    ret = RelatedLoad(glob.pathRelated);
+    ret = RelatedLoad(glob.pathRelated.data(), glob.pathRelated.size());
     if (ret[0]) return ret;
 
     // Load Doc8643.txt

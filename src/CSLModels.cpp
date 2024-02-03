@@ -53,8 +53,8 @@ namespace XPMP2 {
 #define WARN_OBJ8_ONLY_VERTOFS  "Version is '%s', unsupported for reading vertical offset, file %s"
 
 #define ERR_MATCH_NO_MODELS     "MATCH ABORTED - There is not any single CSL model available!"
-#define DEBUG_MATCH_INPUT       "MATCH INPUT: Type=%s (WTC=%s,Class=%s,Related=%d), Airline=%s, Livery=%s"
-#define DEBUG_MATCH_FOUND       "MATCH FOUND: Type=%s (WTC=%s,Class=%s,Related=%d), Airline=%s, Livery=%s / Quality = %d -> %s"
+#define DEBUG_MATCH_INPUT       "MATCH INPUT: Type=%s (WTC=%s,Class=%s,Related=%d), Airline=%s (relOp=%d), Livery=%s"
+#define DEBUG_MATCH_FOUND       "MATCH FOUND: Type=%s (WTC=%s,Class=%s,Related=%d), Airline=%s (relOp=%d), Livery=%s / Quality = %d -> %s"
 #define DEBUG_MATCH_NOTFOUND    "MATCH ERROR: Using a RANDOM model: %s %s %s - model %s"
 
 /// The ids of our garbage collection flight loop callback
@@ -81,7 +81,7 @@ CSLModelInfo_t::CSLModelInfo_t(const CSLModel& csl) :
 {
     // copy all match criteria
     for (const CSLModel::MatchCritTy& crit : csl.vecMatchCrit)
-        vecMatchCrit.emplace_back(CSLModelInfo_t::MatchCrit_t{crit.icaoAirline, crit.livery});
+        vecMatchCrit.emplace_back(CSLModelInfo_t::MatchCrit_t{crit.getAirline(), crit.livery});
 }
 
 //
@@ -329,13 +329,16 @@ bool CSLModel::MatchCritTy::merge (const MatchCritTy& o)
         return false;
     
     // Otherwise, we take over the respective non-empty values
-    if (icaoAirline.empty())
+    if (icaoAirline.empty()) {
         icaoAirline = o.icaoAirline;
+        relOp       = o.relOp;
+    }
     if (livery.empty())
         livery = o.livery;
     return true;
 }
 
+/// compiles the string used as key in the CSL model map
 std::string CSLModelGetKeyStr (int _related,
                                const std::string& _type,
                                const std::string& _id)
@@ -400,7 +403,7 @@ void CSLModel::AddMatchCriteria (const std::string& _type,
     else if (icaoType.empty()) {
         icaoType = _type;
         doc8643 = & Doc8643Get(_type);
-        related = RelatedGet(_type);
+        related = RelatedGet(REL_TXT_DESIGNATOR, _type);
     }
     
     // See if we need to add the other match criterion
@@ -606,7 +609,7 @@ std::string CSLModelsConvPackagePath (const std::string& pkgPath,
 }
 
 
-/// Adds a readily defined CSL model to all the necessary maps, resets passed-in reference
+/// Adds a readily defined CSL model to all the necessary maps
 void CSLModelsAdd (CSLModel& _csl)
 {
     // the main map, which actually "owns" the object, indexed by key
@@ -621,9 +624,6 @@ void CSLModelsAdd (CSLModel& _csl)
         for (CSLObj& obj : p.first->second.listObj)
             obj.cslKey = cslKey;
     }
-
-    // in all cases properly reset the passed-in reference
-    _csl = CSLModel();
 }
 
 
@@ -745,6 +745,8 @@ void AcTxtLine_OBJ8_AIRCRAFT (CSLModel& csl,
     // First of all, save the previously read aircraft
     if (csl.IsValid())
         CSLModelsAdd(csl);
+    // properly reset the passed-in CSLModel reference
+    csl = CSLModel();
     
     // Properly set the xsb_aircraft.txt location
     csl.xsbAircraftPath = xsbAircraftPath;
@@ -778,6 +780,8 @@ void AcTxtLine_OBJECT_AIRCRAFT (CSLModel& csl,
     // First of all, save the previously read aircraft
     if (csl.IsValid())
         CSLModelsAdd(csl);
+    // properly reset the passed-in CSLModel reference
+    csl = CSLModel();
 
     // Then add a warning into the log as we will NOT support this model
     // Could be too many and clog up the log - LOG_MSG(logWARN, WARN_OBJ8_ONLY, lnNr, ln.c_str());
@@ -851,7 +855,7 @@ void AcTxtLine_MATCHES (CSLModel& csl,
         // Add match criteria to the CSL model
         CSLModel::MatchCritTy mc;
         if (tokens.size() >= 3 && tokens[2] != "-")     // if given: airline
-            mc.icaoAirline = tokens[2];
+            mc.setAirline(tokens[2]);
         if (tokens.size() >= 4 && tokens[3] != "-")     // if given: livery
             mc.livery = tokens[3];
         // Set/Add all match criteria
@@ -1216,7 +1220,7 @@ bool CSLFindMatch (const std::string& _type,
                    CSLModel* &pModel)
 {
     // How many parameters will we compare?
-    constexpr unsigned DOC8643_MATCH_PARAMS = 10;
+    constexpr unsigned DOC8643_MATCH_PARAMS = 12;
     constexpr unsigned DOC8643_MATCH_WORST_QUAL = 2 << DOC8643_MATCH_PARAMS;
     
     // if there aren't any models we won't find any either
@@ -1231,12 +1235,13 @@ bool CSLFindMatch (const std::string& _type,
     
     // The related group depends on the ICAO aircraft type and can be zero
     // (zero = not part of any related-group)
-    const int related = RelatedGet(_type);
+    const int related = RelatedGet(REL_TXT_DESIGNATOR, _type);
+    const int relOp   = RelatedGet(REL_TXT_OP, _airline);
     
     LOG_MATCHING(logINFO, DEBUG_MATCH_INPUT,
                  _type.c_str(),
                  doc8643.wtc, doc8643.classification, related,
-                 _airline.c_str(),
+                 _airline.c_str(), relOp,
                  _livery.c_str());
     
     // A string copy makes comparisons easier later on
@@ -1288,19 +1293,23 @@ bool CSLFindMatch (const std::string& _type,
             std::bitset<DOC8643_MATCH_PARAMS> matchQual;
             // Lower part matches on very detailed parameters
             matchQual.set(0, _livery.empty()    || mc.livery         != _livery);
-            matchQual.set(1, _airline.empty()   || mc.icaoAirline    != _airline);
-            matchQual.set(2, _type.empty()      || mdl.GetIcaoType() != _type);
-            matchQual.set(3,                    // this matches if airline _and_ related group match (so we value a matching livery in a "related" model higher than an exact model with improper livery)
+            matchQual.set(1, _airline.empty()   || mc.getAirline()   != _airline);
+            matchQual.set(2, relOp == 0         || mc.getRelOp()     != relOp);
+            matchQual.set(3, _type.empty()      || mdl.GetIcaoType() != _type);
+            matchQual.set(4,                    // this matches if airline _and_ related group match (so we value a matching livery in a "related" model higher than an exact model with improper livery)
                           _airline.empty() || related == 0 ||
-                          mc.icaoAirline != _airline || mdl.GetRelatedGrp()  != related);
-            matchQual.set(4, related == 0       || mdl.GetRelatedGrp()  != related);
+                          mc.getAirline() != _airline || mdl.GetRelatedGrp()  != related);
+            matchQual.set(5,                    // this matches if related operators group _and_ related group match (so we value a matching group livery in a "related" model higher than an exact model with improper livery)
+                          relOp == 0       || related == 0 ||
+                          mc.getRelOp()   != relOp    || mdl.GetRelatedGrp()  != related);
+            matchQual.set(6, related == 0       || mdl.GetRelatedGrp()  != related);
             // Upper part matches on generic "size/type of aircraft" parameters,
             // which are expected to match anyway if the above (like group/ICAO type) match
-            matchQual.set(5, bDocEmpty          || mdl.GetClassEngType()!= doc8643.GetClassEngType());
-            matchQual.set(6, bDocEmpty          || mdl.GetClassNumEng() != doc8643.GetClassNumEng());
-            matchQual.set(7, bDocEmpty          || mdl.GetWTC()         != wtc);
-            matchQual.set(8, bDocEmpty          || mdl.GetClassType()   != doc8643.GetClassType());
-            matchQual.set(9, bDocEmpty          || mdl.HasRotor()       != doc8643.HasRotor());
+            matchQual.set(7, bDocEmpty          || mdl.GetClassEngType()!= doc8643.GetClassEngType());
+            matchQual.set(8, bDocEmpty          || mdl.GetClassNumEng() != doc8643.GetClassNumEng());
+            matchQual.set(9, bDocEmpty          || mdl.GetWTC()         != wtc);
+            matchQual.set(10,bDocEmpty          || mdl.GetClassType()   != doc8643.GetClassType());
+            matchQual.set(11,bDocEmpty          || mdl.HasRotor()       != doc8643.HasRotor());
             
             // If we are to ignore the doc8643 matches (in case of no doc8643 found)
             // then we completely ignore models which don't match at all
@@ -1340,7 +1349,8 @@ bool CSLFindMatch (const std::string& _type,
                  pModel->GetWTC(),
                  pModel->GetDoc8643().classification,
                  pModel->GetRelatedGrp(),
-                 selected.second->icaoAirline.c_str(),
+                 selected.second->getAirline().c_str(),
+                 selected.second->getRelOp(),
                  selected.second->livery.c_str(),
                  quality,
                  pModel->GetModelName().c_str());

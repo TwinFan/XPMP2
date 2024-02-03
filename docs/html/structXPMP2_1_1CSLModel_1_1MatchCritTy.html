@@ -46,6 +46,7 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="structXPMP2_1_1CSLModel_1_1MatchCritTy-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">XPMP2::CSLModel::MatchCritTy Struct Reference</div>  </div>
@@ -59,22 +60,91 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:af4dbc34b75811cb00ce68927a729a1ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1CSLModel_1_1MatchCritTy.html#af4dbc34b75811cb00ce68927a729a1ad">setAirline</a> (const std::string &amp;_icaoOp)</td></tr>
+<tr class="memdesc:af4dbc34b75811cb00ce68927a729a1ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets airline (operator) and looks up its 'related' group.  <a href="structXPMP2_1_1CSLModel_1_1MatchCritTy.html#af4dbc34b75811cb00ce68927a729a1ad">More...</a><br /></td></tr>
+<tr class="separator:af4dbc34b75811cb00ce68927a729a1ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3eb834d665d23d0f1a7b5b1ada83eb42"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1CSLModel_1_1MatchCritTy.html#a3eb834d665d23d0f1a7b5b1ada83eb42">getAirline</a> () const</td></tr>
+<tr class="memdesc:a3eb834d665d23d0f1a7b5b1ada83eb42"><td class="mdescLeft">&#160;</td><td class="mdescRight">ICAO Airline code / operator.  <a href="structXPMP2_1_1CSLModel_1_1MatchCritTy.html#a3eb834d665d23d0f1a7b5b1ada83eb42">More...</a><br /></td></tr>
+<tr class="separator:a3eb834d665d23d0f1a7b5b1ada83eb42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f2075e850ae864c8da24b9b876f8791"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1CSLModel_1_1MatchCritTy.html#a9f2075e850ae864c8da24b9b876f8791">getRelOp</a> () const</td></tr>
+<tr class="memdesc:a9f2075e850ae864c8da24b9b876f8791"><td class="mdescLeft">&#160;</td><td class="mdescRight">'Related' group of operator, if any, otherwise <code>0</code>  <a href="structXPMP2_1_1CSLModel_1_1MatchCritTy.html#a9f2075e850ae864c8da24b9b876f8791">More...</a><br /></td></tr>
+<tr class="separator:a9f2075e850ae864c8da24b9b876f8791"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a95ab8c617a21e04484cf2b441b8b59fd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1CSLModel_1_1MatchCritTy.html#a95ab8c617a21e04484cf2b441b8b59fd">merge</a> (const <a class="el" href="structXPMP2_1_1CSLModel_1_1MatchCritTy.html">MatchCritTy</a> &amp;o)</td></tr>
 <tr class="memdesc:a95ab8c617a21e04484cf2b441b8b59fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decide which criteria is better and keep that.  <a href="structXPMP2_1_1CSLModel_1_1MatchCritTy.html#a95ab8c617a21e04484cf2b441b8b59fd">More...</a><br /></td></tr>
 <tr class="separator:a95ab8c617a21e04484cf2b441b8b59fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ad935870fcd03e99aa8d1afff5823916d"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1CSLModel_1_1MatchCritTy.html#ad935870fcd03e99aa8d1afff5823916d">icaoAirline</a></td></tr>
-<tr class="memdesc:ad935870fcd03e99aa8d1afff5823916d"><td class="mdescLeft">&#160;</td><td class="mdescRight">ICAO Airline code this model represents: <code>xsb_aircraft.txt::AIRLINE</code>  <a href="structXPMP2_1_1CSLModel_1_1MatchCritTy.html#ad935870fcd03e99aa8d1afff5823916d">More...</a><br /></td></tr>
-<tr class="separator:ad935870fcd03e99aa8d1afff5823916d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2817f974303e4840111a0d7b9d5815d5"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1CSLModel_1_1MatchCritTy.html#a2817f974303e4840111a0d7b9d5815d5">livery</a></td></tr>
 <tr class="memdesc:a2817f974303e4840111a0d7b9d5815d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Livery code this model represents: <code>xsb_aircraft.txt::LIVERY</code>  <a href="structXPMP2_1_1CSLModel_1_1MatchCritTy.html#a2817f974303e4840111a0d7b9d5815d5">More...</a><br /></td></tr>
 <tr class="separator:a2817f974303e4840111a0d7b9d5815d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:ad935870fcd03e99aa8d1afff5823916d"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1CSLModel_1_1MatchCritTy.html#ad935870fcd03e99aa8d1afff5823916d">icaoAirline</a></td></tr>
+<tr class="memdesc:ad935870fcd03e99aa8d1afff5823916d"><td class="mdescLeft">&#160;</td><td class="mdescRight">ICAO Airline code this model represents: <code>xsb_aircraft.txt::AIRLINE</code>  <a href="structXPMP2_1_1CSLModel_1_1MatchCritTy.html#ad935870fcd03e99aa8d1afff5823916d">More...</a><br /></td></tr>
+<tr class="separator:ad935870fcd03e99aa8d1afff5823916d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71aecedaa1e11097c72e0e999c2eb8dd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structXPMP2_1_1CSLModel_1_1MatchCritTy.html#a71aecedaa1e11097c72e0e999c2eb8dd">relOp</a> = 0</td></tr>
+<tr class="memdesc:a71aecedaa1e11097c72e0e999c2eb8dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">'related' group of the airline, if it exists, otherwise <code>0</code>  <a href="structXPMP2_1_1CSLModel_1_1MatchCritTy.html#a71aecedaa1e11097c72e0e999c2eb8dd">More...</a><br /></td></tr>
+<tr class="separator:a71aecedaa1e11097c72e0e999c2eb8dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Combines match-relevant fields (beside ICAO a/c type) </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a3eb834d665d23d0f1a7b5b1ada83eb42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3eb834d665d23d0f1a7b5b1ada83eb42">&#9670;&nbsp;</a></span>getAirline()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string&amp; XPMP2::CSLModel::MatchCritTy::getAirline </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>ICAO Airline code / operator. </p>
+
+</div>
+</div>
+<a id="a9f2075e850ae864c8da24b9b876f8791"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f2075e850ae864c8da24b9b876f8791">&#9670;&nbsp;</a></span>getRelOp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int XPMP2::CSLModel::MatchCritTy::getRelOp </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>'Related' group of operator, if any, otherwise <code>0</code> </p>
+
+</div>
+</div>
 <a id="a95ab8c617a21e04484cf2b441b8b59fd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a95ab8c617a21e04484cf2b441b8b59fd">&#9670;&nbsp;</a></span>merge()</h2>
 
@@ -96,17 +166,53 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="af4dbc34b75811cb00ce68927a729a1ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4dbc34b75811cb00ce68927a729a1ad">&#9670;&nbsp;</a></span>setAirline()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::CSLModel::MatchCritTy::setAirline </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>_icaoOp</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets airline (operator) and looks up its 'related' group. </p>
+
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a id="ad935870fcd03e99aa8d1afff5823916d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad935870fcd03e99aa8d1afff5823916d">&#9670;&nbsp;</a></span>icaoAirline</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">std::string XPMP2::CSLModel::MatchCritTy::icaoAirline</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>ICAO Airline code this model represents: <code>xsb_aircraft.txt::AIRLINE</code> </p>
@@ -126,6 +232,30 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Livery code this model represents: <code>xsb_aircraft.txt::LIVERY</code> </p>
+
+</div>
+</div>
+<a id="a71aecedaa1e11097c72e0e999c2eb8dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71aecedaa1e11097c72e0e999c2eb8dd">&#9670;&nbsp;</a></span>relOp</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int XPMP2::CSLModel::MatchCritTy::relOp = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>'related' group of the airline, if it exists, otherwise <code>0</code> </p>
 
 </div>
 </div>

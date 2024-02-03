@@ -56,11 +56,14 @@ Input</h1>
 <li>a text to identify a <b>special livery</b>.</li>
 </ul>
 <p>All parameters are optional. Pass an empty string if you can't provide details.</p>
-<p>Internally, a fourth parameter named <b>related group</b> is added, derived from the ICAO aircraft type designator: There are many similar looking aircraft models in the world...just think of A319, A320, A321. The <code>related.txt</code> files combines all similar looking models into one line, which make up such a group. Each aircraft type is allowed to appear at maximum once in the entire file. The idea is to use a A320 model if a necessary A319 model is not available.</p>
+<p>Internally, two more parameters are added:</p><ul>
+<li>A parameter named <b>related group</b>, derived from the ICAO aircraft type designator: There are many similar looking aircraft models in the world...just think of A319, A320, A321. The <code>related.txt</code> files combines all similar looking models into one line, which make up such a group. Each aircraft type is allowed to appear at maximum once in the entire file. The idea is to use a A320 model if a necessary A319 model is not available.</li>
+<li>A parameter named <b>related operator group</b>, derived from the ICAO airline code: There are airlines identified by differing airline codes (and call signs), which still share the same liveries or even actual planes, like subsidaries of mother airlines. The idea is that EUK (Aer Lingus UK) can use the same liveries as EIN (Air Lingus Ireland) if no EUK-specific livery is available.</li>
+</ul>
 <p>Aircraft / airline / livery combinations available for the user are listed in the <code>xsb_aircraft.txt</code> files in the user's CSL model folders. <a class="el" href="namespaceXPMP2.html">XPMP2</a> reads all of these files into a cache when your plugin calls <code>XPMPLoadCSLPackage</code>, i.e. typically at startup.</p>
 <h1><a class="anchor" id="autotoc_md31"></a>
 Procedure</h1>
-<p>Model Matching now compares 10 attributes between the parameters you pass during aircraft creation and the available models. They are rated according to the following priority from broad to fine-grained attributes:</p>
+<p>Model Matching performs 12 comparisons between the parameters you pass during aircraft creation and the available models. They are rated according to the following priority from broad to fine-grained attributes:</p>
 <ol type="1">
 <li>"has rotor" - this avoids picking a winged model for a helicopter</li>
 <li>ICAO aircraft class type - landplane, seaplane, helicopter, ...</li>
@@ -69,7 +72,9 @@ Procedure</h1>
 <li>Engine type - jet, turbo, piston</li>
 <li>Related group - see above, groups similar-looking models like A319, A320, A321</li>
 <li>ICAO airline / operator and related group together match (this means that a "related" model with matching livery is preferred over an exactly matching aircraft with wrong livery)</li>
+<li>Related operator group and related group together match (this means that a "related" model with a matching group livery is preferred over an exactly matching aircraft with wrong livery)</li>
 <li>ICAO aircraft type designator - like A320, A388, B738, B741, C172, MD82, ..</li>
+<li>Related operator group - see above, groups similar-looking airlines like EIN for EUK</li>
 <li>ICAO airline / operator - like AAL, AFR, BAW, DLH, SWA, WJA, ...</li>
 <li>Special Livery</li>
 </ol>

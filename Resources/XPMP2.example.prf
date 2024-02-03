@@ -1,6 +1,6 @@
 # XPMP2.example.prf
 #
-# (c) 2020 Birger Hoppe
+# (c) 2020-2024 Birger Hoppe
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
 # to deal in the Software without restriction, including without limitation
@@ -69,10 +69,24 @@ defaultICAO A320
 # type used to find CSL models for ground vehicles
 carIcaoType ZZZC
 
+# Override Label drawing configuration of the plugin
+# on   - Enables drawing of labels independent of the plugin's configuration
+# auto - (default) Have the plugin control the configuration
+# off  - Enforces labels off
+overrideLabelsDraw auto
+
+# Override TCAS/AI control configuration of the plugin
+# on   - Enables TCAS/AI control independent of the plugin's configuration
+# auto - (default) Have the plugin control the configuration
+# off  - Enforces TCAS/AI control off
+overrideTCAS_Control auto
+
 # MAIN SWITCH for supporting sending plane data to XPMP2 Remote Clients in the network
-# off / auto / on
-# with "auto" meaning: "on" if a networked X-Plane setup (display master/slave
-# or network multiplay) is detected.
+# on   - Remote functionality is enabled, any XPMP2-based plugin waits for a
+#        remote client to become available on the network, will then send data
+# auto - (default) Remote functionality is enabled if X-Plane is configured for a networked setup:
+#        display master/slave or network multiplayer
+# off  - Remote functionality is disabled
 remoteSupport auto
 
 #
@@ -81,11 +95,22 @@ remoteSupport auto
 #########################################################
 
 # Multicast group used for communication between XPMP2 masters and the Remote Client.
-# By default this is the same as used by X-Plane for its networked setup communication.
+# By default this is the same as used by X-Plane for its networked setup communication (239.255.1.1)
+# If you want to enable IPv6 multicast try ff03::49:707
 remoteMCGroup 239.255.1.1
+# remoteMCGroup ff03::49:707
 
 # Port used for communication between XPMP2 masters and the Remote Client.
 remotePort 49788
+
+# Interface to _send_ multicast on.
+# Auto-discovery is used if option is not defined (commented out).
+# Define an interface by numeric interface index or its interface name.
+# If the defined interface name cannot be resolved you'll find a list
+# of available interface names output to Log.txt after the respective ERROR line.
+# Examples:
+# remoteSendIntf Ethernet
+# remoteSendIntf en0
 
 # TTL (Time-to-live) for multicast packets, ie. max number of hops they across routers they take
 remoteTTL 8

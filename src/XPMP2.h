@@ -50,6 +50,7 @@
 #include <string>
 #include <list>
 #include <map>
+#include <set>
 #include <array>
 #include <vector>
 #include <queue>
@@ -106,6 +107,13 @@
 
 namespace XPMP2 {
 
+/// 3-way switch type
+enum ThreeWaySwitchTy : int {
+    SWITCH_CFG_OFF = -1,            ///< config: force off
+    SWITCH_CFG_AUTO = 0,            ///< config: automatic or default
+    SWITCH_CFG_ON = 1,              ///< config: force on
+};
+
 /// Stores the function and refcon pointer for plane creation/destrcution notifications
 struct XPMPPlaneNotifierTy {
     XPMPPlaneNotifier_f func    = nullptr;
@@ -159,10 +167,10 @@ public:
     std::string     pathDoc8643;
     /// Content of `Doc8643.txt` file
     mapDoc8643Ty    mapDoc8643;
-    /// Path to related.txt file
-    std::string     pathRelated;
-    /// Content of `related.txt` file as a map of type codes to group id
-    mapRelatedTy    mapRelated;
+    /// Paths to related.txt, relOp.txt... files
+    std::array<std::string,REL_TXT_NUM> pathRelated = {};
+    /// Content of `related.txt` and similar files as a map of keys to group id
+    std::array<mapRelatedTy,REL_TXT_NUM> mapRelated = {};
 
     /// Global map of all CSL Packages, indexed by `xsb_aircraft.txt::EXPORT_NAME`
     mapCSLPackageTy mapCSLPkgs;
@@ -179,6 +187,8 @@ public:
     mapAcTy         mapAc;
     /// Shall we draw aircraft labels?
     bool            bDrawLabels = true;
+    /// Label drawing overriden in `XPMP2.prf`?
+    ThreeWaySwitchTy eLabelOverride = SWITCH_CFG_AUTO;
     /// Maximum distance for drawing labels? [m], defaults to 3nm
     float           maxLabelDist = 5556.0f;
     /// Cut off labels at XP's reported visibility mit?
@@ -188,7 +198,9 @@ public:
     
     /// Do we control X-Plane's AI/Multiplayer planes?
     bool            bHasControlOfAIAircraft = false;
-    
+    /// AI Control overriden in `XPMP2.prf`?
+    ThreeWaySwitchTy eAIOverride = SWITCH_CFG_AUTO;
+
     /// Do we feed X-Plane's maps with our aircraft positions?
     bool            bMapEnabled = true;
     /// Do we show labels with the aircraft icons?
@@ -200,9 +212,13 @@ public:
     
     /// @brief The multicast group that we use, which is the same X-Plane is using itself for its BEACON
     /// @see <X-Plane>/Instructions/Exchanging Data with X-Plane.rtfd, chapter "DISCOVER X-PLANE BY A BEACON"
-    std::string     remoteMCGroup   = "239.255.1.1";
+    std::string     remoteMCGroup = "239.255.1.1";    // for IPv6 try "FF02::1"
     /// The port we use is _different_ from the port the X-Plane BEACON uses, so we don't get into conflict
     int             remotePort      = 49788;
+    /// The interface used to send multicast on. (Empty == auto-discovery)
+    std::string     remoteSendIntf;
+    /// Use auto-discovery for the MC send interface?
+    bool            remoteAutoDiscovery() const { return remoteSendIntf.empty(); }
     /// Time-to-live, or mumber of hops for a multicast message
     int             remoteTTL       = 8;
     /// Buffer size, ie. max message length we send over multicast
@@ -210,9 +226,9 @@ public:
     /// Max transfer frequency per second
     int             remoteTxfFrequ  = 5;
     /// Configuration: Are we to support remote connections?
-    RemoteCfgTy     remoteCfg       = REMOTE_CFG_AUTO;
+    ThreeWaySwitchTy     remoteCfg       = SWITCH_CFG_AUTO;
     /// Configuration file entry: Are we to support remote connections?
-    RemoteCfgTy     remoteCfgFromIni= REMOTE_CFG_AUTO;
+    ThreeWaySwitchTy     remoteCfgFromIni= SWITCH_CFG_AUTO;
     /// Status of remote connections to networked clients
     RemoteStatusTy  remoteStatus    = REMOTE_OFF;
     /// Are we a listener?

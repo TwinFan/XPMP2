@@ -1093,6 +1093,12 @@ const char *    XPMPMultiplayerEnable(void (*_callback)(void*),
     if (XPMPHasControlOfAIAircraft())
         return "";
     
+    // Override in global config?
+    if (glob.eAIOverride == SWITCH_CFG_OFF) {
+        LOG_MSG(logDEBUG, "TCAS/AI Control enforced OFF in an XPMP2.prf config file");
+        return "";
+    }
+    
     // We try up to 2 times...if a controlling plugin release control
     // immediately (based on processing the XPLM_MSG_RELEASE_PLANES message)
     // then we have a chance when trying again right away
@@ -1171,6 +1177,12 @@ void XPMPMultiplayerDisable()
     // short-cut if we are not in control
     if (!XPMPHasControlOfAIAircraft())
         return;
+    
+    // Override in global config?
+    if (glob.eAIOverride == SWITCH_CFG_ON) {
+        LOG_MSG(logDEBUG, "TCAS/AI Control enforced ON in an XPMP2.prf config file");
+        return;
+    }
     
     // Cleanup our values
     XPLMSetActiveAircraftCount(1);      // no active AI plane

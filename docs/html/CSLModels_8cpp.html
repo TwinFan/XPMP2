@@ -122,9 +122,9 @@ Macros</h2></td></tr>
 <tr class="separator:a7c51c1043a3319807a548c63338c3a7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57b224a908596318458992148722a62a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="CSLModels_8cpp.html#a57b224a908596318458992148722a62a">ERR_MATCH_NO_MODELS</a>&#160;&#160;&#160;&quot;MATCH ABORTED - There is not any single CSL model available!&quot;</td></tr>
 <tr class="separator:a57b224a908596318458992148722a62a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ce113642d3c696ffe153c564e800b62"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="CSLModels_8cpp.html#a6ce113642d3c696ffe153c564e800b62">DEBUG_MATCH_INPUT</a>&#160;&#160;&#160;&quot;MATCH INPUT: Type=%s (WTC=%s,Class=%s,Related=%d), Airline=%s, Livery=%s&quot;</td></tr>
+<tr class="memitem:a6ce113642d3c696ffe153c564e800b62"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="CSLModels_8cpp.html#a6ce113642d3c696ffe153c564e800b62">DEBUG_MATCH_INPUT</a>&#160;&#160;&#160;&quot;MATCH INPUT: Type=%s (WTC=%s,Class=%s,Related=%d), Airline=%s (relOp=%d), Livery=%s&quot;</td></tr>
 <tr class="separator:a6ce113642d3c696ffe153c564e800b62"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8fd8477281b98a68c63a0c72d89652e1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="CSLModels_8cpp.html#a8fd8477281b98a68c63a0c72d89652e1">DEBUG_MATCH_FOUND</a>&#160;&#160;&#160;&quot;MATCH FOUND: Type=%s (WTC=%s,Class=%s,Related=%d), Airline=%s, Livery=%s / Quality = %d -&gt; %s&quot;</td></tr>
+<tr class="memitem:a8fd8477281b98a68c63a0c72d89652e1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="CSLModels_8cpp.html#a8fd8477281b98a68c63a0c72d89652e1">DEBUG_MATCH_FOUND</a>&#160;&#160;&#160;&quot;MATCH FOUND: Type=%s (WTC=%s,Class=%s,Related=%d), Airline=%s (relOp=%d), Livery=%s / Quality = %d -&gt; %s&quot;</td></tr>
 <tr class="separator:a8fd8477281b98a68c63a0c72d89652e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86bc798df61159758e44fb2f7c8cee8c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="CSLModels_8cpp.html#a86bc798df61159758e44fb2f7c8cee8c">DEBUG_MATCH_NOTFOUND</a>&#160;&#160;&#160;&quot;MATCH ERROR: Using a RANDOM model: %s %s %s - model %s&quot;</td></tr>
 <tr class="separator:a86bc798df61159758e44fb2f7c8cee8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -138,12 +138,13 @@ Typedefs</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:acc89d808ddbead928b337610cc656926"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#acc89d808ddbead928b337610cc656926">XPMP2::CSLModelGetKeyStr</a> (int _related, const std::string &amp;_type, const std::string &amp;_id)</td></tr>
+<tr class="memdesc:acc89d808ddbead928b337610cc656926"><td class="mdescLeft">&#160;</td><td class="mdescRight">compiles the string used as key in the CSL model map  <a href="namespaceXPMP2.html#acc89d808ddbead928b337610cc656926">More...</a><br /></td></tr>
 <tr class="separator:acc89d808ddbead928b337610cc656926"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d4506a797fa27c8c1eb5ed8a9e0b5d0"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a2d4506a797fa27c8c1eb5ed8a9e0b5d0">XPMP2::CSLModelsConvPackagePath</a> (const std::string &amp;pkgPath, int lnNr, bool bPkgOptional=false)</td></tr>
 <tr class="memdesc:a2d4506a797fa27c8c1eb5ed8a9e0b5d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn a relative package path into a full path.  <a href="namespaceXPMP2.html#a2d4506a797fa27c8c1eb5ed8a9e0b5d0">More...</a><br /></td></tr>
 <tr class="separator:a2d4506a797fa27c8c1eb5ed8a9e0b5d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3a0cb4f8ef4c3acab3c9f31b85fee7f2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a3a0cb4f8ef4c3acab3c9f31b85fee7f2">XPMP2::CSLModelsAdd</a> (CSLModel &amp;_csl)</td></tr>
-<tr class="memdesc:a3a0cb4f8ef4c3acab3c9f31b85fee7f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a readily defined CSL model to all the necessary maps, resets passed-in reference.  <a href="namespaceXPMP2.html#a3a0cb4f8ef4c3acab3c9f31b85fee7f2">More...</a><br /></td></tr>
+<tr class="memdesc:a3a0cb4f8ef4c3acab3c9f31b85fee7f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a readily defined CSL model to all the necessary maps.  <a href="namespaceXPMP2.html#a3a0cb4f8ef4c3acab3c9f31b85fee7f2">More...</a><br /></td></tr>
 <tr class="separator:a3a0cb4f8ef4c3acab3c9f31b85fee7f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a0b363e5af0ee636d5b389bbe6ec105"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a5a0b363e5af0ee636d5b389bbe6ec105">XPMP2::CSLModelsReadPkgId</a> (const std::string &amp;path)</td></tr>
 <tr class="memdesc:a5a0b363e5af0ee636d5b389bbe6ec105"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scans an <code>xsb_aircraft.txt</code> file for <code>EXPORT_NAME</code> entries to fill the list of packages.  <a href="namespaceXPMP2.html#a5a0b363e5af0ee636d5b389bbe6ec105">More...</a><br /></td></tr>
@@ -233,7 +234,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define DEBUG_MATCH_FOUND&#160;&#160;&#160;&quot;MATCH FOUND: Type=%s (WTC=%s,Class=%s,Related=%d), Airline=%s, Livery=%s / Quality = %d -&gt; %s&quot;</td>
+          <td class="memname">#define DEBUG_MATCH_FOUND&#160;&#160;&#160;&quot;MATCH FOUND: Type=%s (WTC=%s,Class=%s,Related=%d), Airline=%s (relOp=%d), Livery=%s / Quality = %d -&gt; %s&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -247,7 +248,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define DEBUG_MATCH_INPUT&#160;&#160;&#160;&quot;MATCH INPUT: Type=%s (WTC=%s,Class=%s,Related=%d), Airline=%s, Livery=%s&quot;</td>
+          <td class="memname">#define DEBUG_MATCH_INPUT&#160;&#160;&#160;&quot;MATCH INPUT: Type=%s (WTC=%s,Class=%s,Related=%d), Airline=%s (relOp=%d), Livery=%s&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">

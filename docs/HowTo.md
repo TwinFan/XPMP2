@@ -39,6 +39,7 @@ Expected folder structure of the installation:
       MapIcons.png
       Obj8DataRefs.txt
       related.txt
+      relOp.txt
   win_x64/XPMP2-Sample.xpl
 ```
 

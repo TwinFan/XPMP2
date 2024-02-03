@@ -311,6 +311,15 @@ void Aircraft::Create (const std::string& _icaoType,
                 (void*)xplm_FlightLoop_Phase_BeforeFlightModel  // refcon
             };
             gFlightLoopID = XPLMCreateFlightLoop(&cfl);
+            
+            // Enforce TCAS/AI Control if global config says so
+            if (glob.eAIOverride == SWITCH_CFG_ON && !XPMPHasControlOfAIAircraft()) {
+                LOG_MSG(logDEBUG, "TCAS/AI Control enforced ON in an XPMP2.prf config file");
+                const char* sz = XPMPMultiplayerEnable();
+                if (sz && sz[0]) {
+                    LOG_MSG(logWARN, "Forced enabling of TCAS/AI failed: %s", sz);
+                }
+            }
         }
         
         // Schedule the flight loop callback to be called next flight loop cycle
@@ -334,7 +343,8 @@ bool Aircraft::IsRelatedTo(const std::string& _icaoType) const
         return true;
     if (!acRelGrp)                                  // this a/c is not in any related group
         return false;
-    return acRelGrp == RelatedGet(_icaoType);       // compare related group to passed-in type
+    // compare related group to passed-in type
+    return acRelGrp == RelatedGet(REL_TXT_DESIGNATOR, _icaoType);
 }
 
 
@@ -391,7 +401,7 @@ int Aircraft::ChangeModel (const std::string& _icaoType,
     acIcaoType      = _icaoType;
     acIcaoAirline   = _icaoAirline;
     acLivery        = _livery;
-    acRelGrp        = RelatedGet(acIcaoType);
+    acRelGrp        = RelatedGet(REL_TXT_DESIGNATOR, acIcaoType);
 
     // Increase the reference counter of the CSL model to track that the object is being used
     if (pCSLMdl)
@@ -443,7 +453,7 @@ bool Aircraft::AssignModel (const std::string& _cslId,
     acIcaoType      = pCSLMdl->GetIcaoType();
     acIcaoAirline   = pCSLMdl->GetIcaoAirline();
     acLivery        = pCSLMdl->GetLivery();
-    acRelGrp = RelatedGet(acIcaoType);
+    acRelGrp        = RelatedGet(REL_TXT_DESIGNATOR, acIcaoType);
 
     // Increase the reference counter of the CSL model to track that the object is being used
     pCSLMdl->IncRefCnt();

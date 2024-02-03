@@ -28,13 +28,6 @@
 
 namespace XPMP2 {
 
-/// Configuration for remote communications support
-enum RemoteCfgTy : int {
-    REMOTE_CFG_OFF = -1,            ///< config: force off
-    REMOTE_CFG_AUTO = 0,            ///< config: on if in a netwoked/multiplayer setup
-    REMOTE_CFG_ON = 1,              ///< config: force on
-};
-
 //
 // MARK: ENQUEUE Data Structure for Caching and Passing from main to network thread
 //

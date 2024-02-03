@@ -311,6 +311,15 @@ void Aircraft::Create (const std::string& _icaoType,
                 (void*)xplm_FlightLoop_Phase_BeforeFlightModel  // refcon
             };
             gFlightLoopID = XPLMCreateFlightLoop(&cfl);
+            
+            // Enforce TCAS/AI Control if global config says so
+            if (glob.eAIOverride == SWITCH_CFG_ON && !XPMPHasControlOfAIAircraft()) {
+                LOG_MSG(logDEBUG, "TCAS/AI Control enforced ON in an XPMP2.prf config file");
+                const char* sz = XPMPMultiplayerEnable();
+                if (sz && sz[0]) {
+                    LOG_MSG(logWARN, "Forced enabling of TCAS/AI failed: %s", sz);
+                }
+            }
         }
         
         // Schedule the flight loop callback to be called next flight loop cycle

@@ -50,6 +50,22 @@ XPMPPlaneID GlobVars::NextPlaneId ()
     return planeId;
 }
 
+/// Convert strings `on`, `auto`, `off` to enums of type `ThreeWaySwitchTy`
+ThreeWaySwitchTy Read3WaySwitch (std::string& sVal,
+                                 const std::string& sKey,
+                                 const std::string& cfgFileName,
+                                 ThreeWaySwitchTy defVal)
+{
+    str_tolower(sVal);
+    if (sVal == "on")              return SWITCH_CFG_ON;
+    else if (sVal == "auto")       return SWITCH_CFG_AUTO;
+    else if (sVal == "off")        return SWITCH_CFG_OFF;
+    else {
+        LOG_MSG(logWARN, "Ignored unknown value '%s' for '%s' in file '%s'",
+                sVal.c_str(), sKey.c_str(), cfgFileName.c_str());
+    }
+    return defVal;
+}
 
 // Read from a generic `XPMP2.prf` or `XPMP2.<logAcronym>.prf` config file
 /// @details Goal is to provide some few configuration options independend
@@ -115,16 +131,16 @@ void GlobVars::ReadConfigFile ()
         if (sKey == "logLvl")              logLvl = (logLevelTy) clamp<int>(iVal, int(logDEBUG), int(logFATAL));
         else if (sKey == "defaultICAO")    defaultICAO = sVal;
         else if (sKey == "carIcaoType")    carIcaoType = sVal;
-        else if (sKey == "remoteSupport") {
-            str_tolower(sVal);
-            if (sVal == "on")              glob.remoteCfg = glob.remoteCfgFromIni = SWITCH_CFG_ON;
-            else if (sVal == "auto")       glob.remoteCfg = glob.remoteCfgFromIni = SWITCH_CFG_AUTO;
-            else if (sVal == "off")        glob.remoteCfg = glob.remoteCfgFromIni = SWITCH_CFG_OFF;
-            else {
-                LOG_MSG(logWARN, "Ignored unknown value '%s' for 'remoteSupport' in file '%s'",
-                        sVal.c_str(), cfgFileName.c_str());
+        else if (sKey == "overrideLabelsDraw")
+            switch (glob.eLabelOverride = Read3WaySwitch(sVal, sKey, cfgFileName, glob.eLabelOverride)) {
+                case SWITCH_CFG_ON:     glob.bDrawLabels = true; break;
+                case SWITCH_CFG_OFF:    glob.bDrawLabels = false; break;
+                case SWITCH_CFG_AUTO:   break;
             }
-        }
+        else if (sKey == "overrideTCAS_Control")
+            glob.eAIOverride = Read3WaySwitch(sVal, sKey, cfgFileName, glob.eAIOverride);
+        else if (sKey == "remoteSupport")
+            glob.remoteCfg = glob.remoteCfgFromIni = Read3WaySwitch(sVal, sKey, cfgFileName, glob.remoteCfg);
         else if (sKey == "remoteMCGroup")  remoteMCGroup = sVal;
         else if (sKey == "remotePort")     remotePort = iVal;
         else if (sKey == "remoteSendIntf") remoteSendIntf = sVal;

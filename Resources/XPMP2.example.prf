@@ -69,10 +69,24 @@ defaultICAO A320
 # type used to find CSL models for ground vehicles
 carIcaoType ZZZC
 
+# Override Label drawing configuration of the plugin
+# on   - Enables drawing of labels independent of the plugin's configuration
+# auto - (default) Have the plugin control the configuration
+# off  - Enforces labels off
+overrideLabelsDraw auto
+
+# Override TCAS/AI control configuration of the plugin
+# on   - Enables TCAS/AI control independent of the plugin's configuration
+# auto - (default) Have the plugin control the configuration
+# off  - Enforces TCAS/AI control off
+overrideTCAS_Control auto
+
 # MAIN SWITCH for supporting sending plane data to XPMP2 Remote Clients in the network
-# off / auto / on
-# with "auto" meaning: "on" if a networked X-Plane setup (display master/slave
-# or network multiplay) is detected.
+# on   - Remote functionality is enabled, any XPMP2-based plugin waits for a
+#        remote client to become available on the network, will then send data
+# auto - (default) Remote functionality is enabled if X-Plane is configured for a networked setup:
+#        display master/slave or network multiplayer
+# off  - Remote functionality is disabled
 remoteSupport auto
 
 #

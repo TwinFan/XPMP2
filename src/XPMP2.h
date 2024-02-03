@@ -187,6 +187,8 @@ public:
     mapAcTy         mapAc;
     /// Shall we draw aircraft labels?
     bool            bDrawLabels = true;
+    /// Label drawing overriden in `XPMP2.prf`?
+    ThreeWaySwitchTy eLabelOverride = SWITCH_CFG_AUTO;
     /// Maximum distance for drawing labels? [m], defaults to 3nm
     float           maxLabelDist = 5556.0f;
     /// Cut off labels at XP's reported visibility mit?
@@ -196,7 +198,9 @@ public:
     
     /// Do we control X-Plane's AI/Multiplayer planes?
     bool            bHasControlOfAIAircraft = false;
-    
+    /// AI Control overriden in `XPMP2.prf`?
+    ThreeWaySwitchTy eAIOverride = SWITCH_CFG_AUTO;
+
     /// Do we feed X-Plane's maps with our aircraft positions?
     bool            bMapEnabled = true;
     /// Do we show labels with the aircraft icons?

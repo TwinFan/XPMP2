@@ -107,6 +107,13 @@
 
 namespace XPMP2 {
 
+/// 3-way switch type
+enum ThreeWaySwitchTy : int {
+    SWITCH_CFG_OFF = -1,            ///< config: force off
+    SWITCH_CFG_AUTO = 0,            ///< config: automatic or default
+    SWITCH_CFG_ON = 1,              ///< config: force on
+};
+
 /// Stores the function and refcon pointer for plane creation/destrcution notifications
 struct XPMPPlaneNotifierTy {
     XPMPPlaneNotifier_f func    = nullptr;
@@ -215,9 +222,9 @@ public:
     /// Max transfer frequency per second
     int             remoteTxfFrequ  = 5;
     /// Configuration: Are we to support remote connections?
-    RemoteCfgTy     remoteCfg       = REMOTE_CFG_AUTO;
+    ThreeWaySwitchTy     remoteCfg       = SWITCH_CFG_AUTO;
     /// Configuration file entry: Are we to support remote connections?
-    RemoteCfgTy     remoteCfgFromIni= REMOTE_CFG_AUTO;
+    ThreeWaySwitchTy     remoteCfgFromIni= SWITCH_CFG_AUTO;
     /// Status of remote connections to networked clients
     RemoteStatusTy  remoteStatus    = REMOTE_OFF;
     /// Are we a listener?

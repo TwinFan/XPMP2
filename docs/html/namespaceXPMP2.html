@@ -393,12 +393,6 @@ Enumerations</h2></td></tr>
 , <a class="el" href="namespaceXPMP2.html#af774c4c796e073f027752d16e437eb8fa711c8257b5d361a0291e920ee19b2b65">REL_TXT_NUM</a>
  }</td></tr>
 <tr class="separator:af774c4c796e073f027752d16e437eb8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73060b65abbe807b35555676346059a8"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8">RemoteCfgTy</a> : int { <a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8aaf330e648f54f093dcf4fa1926a61c5f">REMOTE_CFG_OFF</a> = -1
-, <a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8ab8d962a27d1a09e12344172f6d2a0aee">REMOTE_CFG_AUTO</a> = 0
-, <a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8aac3dbe5290f2ad92ea72f134d265064b">REMOTE_CFG_ON</a> = 1
- }</td></tr>
-<tr class="memdesc:a73060b65abbe807b35555676346059a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configuration for remote communications support.  <a href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8">More...</a><br /></td></tr>
-<tr class="separator:a73060b65abbe807b35555676346059a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f7e2680dc39872f8204f510de0d8429"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a0f7e2680dc39872f8204f510de0d8429">logLevelTy</a> { <br />
 &#160;&#160;<a class="el" href="namespaceXPMP2.html#a0f7e2680dc39872f8204f510de0d8429a9aa3ef18a114dfbb4ec05236fa8de502">logDEBUG</a> = 0
 , <a class="el" href="namespaceXPMP2.html#a0f7e2680dc39872f8204f510de0d8429aed4a1bbf5417bc9d1769c82c18d1b256">logINFO</a>
@@ -411,6 +405,12 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a0f7e2680dc39872f8204f510de0d8429"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logging level.  <a href="namespaceXPMP2.html#a0f7e2680dc39872f8204f510de0d8429">More...</a><br /></td></tr>
 <tr class="separator:a0f7e2680dc39872f8204f510de0d8429"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d5dbc86225b366f50efc9c473629867"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a7d5dbc86225b366f50efc9c473629867">ThreeWaySwitchTy</a> : int { <a class="el" href="namespaceXPMP2.html#a7d5dbc86225b366f50efc9c473629867a76bfadffbd41e2edf3c38223d2ddb166">SWITCH_CFG_OFF</a> = -1
+, <a class="el" href="namespaceXPMP2.html#a7d5dbc86225b366f50efc9c473629867ab6b57cf1a912a1ca345292d373bc3631">SWITCH_CFG_AUTO</a> = 0
+, <a class="el" href="namespaceXPMP2.html#a7d5dbc86225b366f50efc9c473629867ade0aabd617ca876109bb3d4a61bbdc78">SWITCH_CFG_ON</a> = 1
+ }</td></tr>
+<tr class="memdesc:a7d5dbc86225b366f50efc9c473629867"><td class="mdescLeft">&#160;</td><td class="mdescRight">3-way switch type  <a href="namespaceXPMP2.html#a7d5dbc86225b366f50efc9c473629867">More...</a><br /></td></tr>
+<tr class="separator:a7d5dbc86225b366f50efc9c473629867"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -1941,30 +1941,6 @@ The animation dataRef values element. </td></tr>
 
 </div>
 </div>
-<a id="a73060b65abbe807b35555676346059a8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a73060b65abbe807b35555676346059a8">&#9670;&nbsp;</a></span>RemoteCfgTy</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="namespaceXPMP2.html#a73060b65abbe807b35555676346059a8">XPMP2::RemoteCfgTy</a> : int</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Configuration for remote communications support. </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a73060b65abbe807b35555676346059a8aaf330e648f54f093dcf4fa1926a61c5f"></a>REMOTE_CFG_OFF&#160;</td><td class="fielddoc"><p>config: force off </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a73060b65abbe807b35555676346059a8ab8d962a27d1a09e12344172f6d2a0aee"></a>REMOTE_CFG_AUTO&#160;</td><td class="fielddoc"><p>config: on if in a netwoked/multiplayer setup </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a73060b65abbe807b35555676346059a8aac3dbe5290f2ad92ea72f134d265064b"></a>REMOTE_CFG_ON&#160;</td><td class="fielddoc"><p>config: force on </p>
-</td></tr>
-</table>
-
-</div>
-</div>
 <a id="a38a30db370f191740d6f3969ea38f191"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a38a30db370f191740d6f3969ea38f191">&#9670;&nbsp;</a></span>RemoteMsgTy</h2>
 
@@ -2020,6 +1996,30 @@ The animation dataRef values element. </td></tr>
 <tr><td class="fieldname"><a id="a79adca5f1eba1fbafa63e30a2c9af8e7a18e62219e6145f68e3f4e68b0bf734cc"></a>REMOTE_RECV_WAITING&#160;</td><td class="fielddoc"><p>waiting to receive data, periodically sending a token of interest </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a79adca5f1eba1fbafa63e30a2c9af8e7ada7289b8a80e3e01ed3ef6b729a0b323"></a>REMOTE_RECEIVING&#160;</td><td class="fielddoc"><p>actively receiving data </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a7d5dbc86225b366f50efc9c473629867"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d5dbc86225b366f50efc9c473629867">&#9670;&nbsp;</a></span>ThreeWaySwitchTy</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespaceXPMP2.html#a7d5dbc86225b366f50efc9c473629867">XPMP2::ThreeWaySwitchTy</a> : int</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>3-way switch type </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a7d5dbc86225b366f50efc9c473629867a76bfadffbd41e2edf3c38223d2ddb166"></a>SWITCH_CFG_OFF&#160;</td><td class="fielddoc"><p>config: force off </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7d5dbc86225b366f50efc9c473629867ab6b57cf1a912a1ca345292d373bc3631"></a>SWITCH_CFG_AUTO&#160;</td><td class="fielddoc"><p>config: automatic or default </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7d5dbc86225b366f50efc9c473629867ade0aabd617ca876109bb3d4a61bbdc78"></a>SWITCH_CFG_ON&#160;</td><td class="fielddoc"><p>config: force on </p>
 </td></tr>
 </table>
 

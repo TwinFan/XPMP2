@@ -1163,16 +1163,16 @@ void RemoteSenderUpdateStatus ()
     if (XPMPCountPlanes() > 0) {
         switch (glob.remoteCfg) {
             // if conditionally on: Test if we are in a networked setup
-            case REMOTE_CFG_AUTO:
+            case SWITCH_CFG_AUTO:
                 if (glob.bXPNetworkedSetup)
                     expected = glob.remoteStatus == REMOTE_SENDING ? REMOTE_SENDING : REMOTE_SEND_WAITING;
                 break;
             // forcibly on?
-            case REMOTE_CFG_ON:
+            case SWITCH_CFG_ON:
                 expected = glob.remoteStatus == REMOTE_SENDING ? REMOTE_SENDING : REMOTE_SEND_WAITING;
                 break;
             // forcibly off?
-            case REMOTE_CFG_OFF:
+            case SWITCH_CFG_OFF:
                 break;
         }
     }

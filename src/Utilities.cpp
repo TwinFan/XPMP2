@@ -117,9 +117,9 @@ void GlobVars::ReadConfigFile ()
         else if (sKey == "carIcaoType")    carIcaoType = sVal;
         else if (sKey == "remoteSupport") {
             str_tolower(sVal);
-            if (sVal == "on")              glob.remoteCfg = glob.remoteCfgFromIni = REMOTE_CFG_ON;
-            else if (sVal == "auto")       glob.remoteCfg = glob.remoteCfgFromIni = REMOTE_CFG_AUTO;
-            else if (sVal == "off")        glob.remoteCfg = glob.remoteCfgFromIni = REMOTE_CFG_OFF;
+            if (sVal == "on")              glob.remoteCfg = glob.remoteCfgFromIni = SWITCH_CFG_ON;
+            else if (sVal == "auto")       glob.remoteCfg = glob.remoteCfgFromIni = SWITCH_CFG_AUTO;
+            else if (sVal == "off")        glob.remoteCfg = glob.remoteCfgFromIni = SWITCH_CFG_OFF;
             else {
                 LOG_MSG(logWARN, "Ignored unknown value '%s' for 'remoteSupport' in file '%s'",
                         sVal.c_str(), cfgFileName.c_str());
@@ -196,8 +196,8 @@ void GlobVars::UpdateCfgVals ()
     // Ask for remote support
     i = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_SUPPORT_REMOTE, remoteCfg);
     if (i == 0)     remoteCfg = remoteCfgFromIni;       // if plugin says "AUTO", then use config file's value
-    else if (i < 0) remoteCfg = REMOTE_CFG_OFF;
-    else            remoteCfg = REMOTE_CFG_ON;
+    else if (i < 0) remoteCfg = SWITCH_CFG_OFF;
+    else            remoteCfg = SWITCH_CFG_ON;
 
     // Contrails
     contrailAltMin_ft = prefsFuncInt(XPMP_CFG_SEC_PLANES, XPMP_CFG_ITM_CONTR_MIN_ALT, contrailAltMin_ft);

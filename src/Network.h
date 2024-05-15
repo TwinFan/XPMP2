@@ -32,8 +32,8 @@
 #include <winsock2.h>
 #include <ws2ipdef.h>           // required for sockaddr_in6 (?)
 #include <iphlpapi.h>           // for GetAdaptersAddresses
-#include <WS2tcpip.h>           // for socklen_t
-#include <MSWSock.h>            // for LPFN_WSARECVMSG 
+#include <ws2tcpip.h>           // for socklen_t
+#include <mswsock.h>            // for LPFN_WSARECVMSG 
 #else
 #define __APPLE_USE_RFC_3542    // both required for newer constants like IPV6_RECVPKTINFO
 #define _GNU_SOURCE

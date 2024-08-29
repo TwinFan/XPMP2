@@ -32,111 +32,6 @@ project(XPMP2
         VERSION 3.4.0
         DESCRIPTION "Multiplayer library for X-Plane 11 and 12")
 
-# Provide compile macros from the above project version definition
-add_compile_definitions(
-    XPMP2_VERSION="${PROJECT_VERSION}"
-    XPMP2_VER_MAJOR=${PROJECT_VERSION_MAJOR}
-    XPMP2_VER_MINOR=${PROJECT_VERSION_MINOR}
-    XPMP2_VER_PATCH=${PROJECT_VERSION_PATCH}
-)
-
-message ("== Building: ${PROJECT_NAME} ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH} ==")
-message ("Compiler Info:")
-message ("CMAKE_CXX_COMPILER_ID         = ${CMAKE_CXX_COMPILER_ID}")
-message ("CMAKE_CXX_COMPILER_VERSION    = ${CMAKE_CXX_COMPILER_VERSION}")
-message ("CMAKE_CXX_COMPILER            = ${CMAKE_CXX_COMPILER}")
-message ("WIN32 / MSVC / MINGW          = ${WIN32} / ${MSVC} / ${MINGW}")
-message ("UNIX / APPLE                  = ${UNIX} / ${APPLE}")
-if (APPLE)
-    message ("OSX_SDK_PATH                  = $ENV{OSX_SDK_PATH}")
-    message ("CMAKE_OSX_ARCHITECTURES       = ${CMAKE_OSX_ARCHITECTURES}")
-endif()
-
-################################################################################
-# Target Systems
-################################################################################
-
-# Windows: Target Windows 7.0 and later
-if (WIN32)
-    add_compile_definitions(_WIN32_WINNT=0x0601)
-    if (NOT DEFINED ENV{platform})
-        set(ENV{platform} "win")
-    endif()
-elseif(APPLE)
-    # MacOS 10.15 is minimum system requirement for X-Plane 12
-    set(CMAKE_OSX_DEPLOYMENT_TARGET 10.15)
-    add_compile_options(-mmacosx-version-min=10.15)
-    add_link_options(-mmacosx-version-min=10.15)
-endif()
-
-################################################################################
-# C++ Standard required
-################################################################################
-
-set(CMAKE_CXX_STANDARD 17)
-set_property(GLOBAL PROPERTY CXX_STANDARD_REQUIRED 17)
-set_property(GLOBAL PROPERTY CXX_STANDARD 17)
-
-################################################################################
-# Compile Options
-################################################################################
-
-# Enable all X-Plane SDK APIs up to the newest version.
-add_compile_definitions(XPLM200=1 XPLM210=1 XPLM300=1 XPLM301=1 XPLM303=1 XPLM400=1)
-
-# Define platform macros.
-add_compile_definitions(APL=$<BOOL:${APPLE}> IBM=$<BOOL:${WIN32}> LIN=$<AND:$<BOOL:${UNIX}>,$<NOT:$<BOOL:${APPLE}>>>)
-
-# Enable stricter warnings and then disable some we are not interested in.
-# For XPMP2 compile, we don't need to be warned about our self-defined depreciations
-if (MSVC)
-    add_compile_options(/wd4996 /wd4068)
-    add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
-else()
-    add_compile_options(-Wall -Wshadow -Wextra -Wno-deprecated-declarations)
-    if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 9.0 AND NOT APPLE)
-        add_compile_options(-Wno-stringop-truncation)
-    endif()
-
-    # Force-enable exception support. This is most likely redundant, although for C
-    # code the default is the opposite. Since we are mixing C++ and C libraries,
-    # safer to set it on?
-    add_compile_options(-fexceptions)
-
-    # Makes symbols non-exported by default.
-    add_compile_options(-fvisibility=hidden)
-endif()
-
-
-# Debug vs Release build
-if(CMAKE_BUILD_TYPE MATCHES "Debug")
-    add_compile_definitions(DEBUG=1)
-    if (MSVC)
-        add_compile_options(/Zi)
-    else()
-        add_compile_options(-O0 -g -fPIC)
-    endif()
-else()
-    add_compile_definitions(NDEBUG=1)
-    if(MSVC)
-        # Fast code, symbols into separate .pdb file, no global optimization (as it produces huge files)
-        add_compile_options(/Zi /O2 /GL-)
-    else()
-        # Use position-independent code and highest optimization level
-        add_compile_options(-O3 -fPIC)
-    endif()
-endif()
-
-# Mingw Threads (if not already defined by an outer target)
-if (MINGW AND NOT TARGET mingw_stdthreads)
-    option(MINGW_STDTHREADS_GENERATE_STDHEADERS "" ON)
-    add_subdirectory(lib/mingw-std-threads)
-endif()
-
-################################################################################
-# XPMP2 Library
-################################################################################
-
 # Source list
 add_library(XPMP2 STATIC
     inc/XPCAircraft.h
@@ -170,6 +65,108 @@ add_library(XPMP2 STATIC
     src/XPMPMultiplayer.cpp
 )
 
+# Provide compile macros from the above project version definition
+target_compile_definitions(XPMP2 PRIVATE
+    XPMP2_VERSION="${PROJECT_VERSION}"
+    XPMP2_VER_MAJOR=${PROJECT_VERSION_MAJOR}
+    XPMP2_VER_MINOR=${PROJECT_VERSION_MINOR}
+    XPMP2_VER_PATCH=${PROJECT_VERSION_PATCH}
+)
+
+message ("== Building: ${PROJECT_NAME} ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH} ==")
+message ("Compiler Info:")
+message ("CMAKE_CXX_COMPILER_ID         = ${CMAKE_CXX_COMPILER_ID}")
+message ("CMAKE_CXX_COMPILER_VERSION    = ${CMAKE_CXX_COMPILER_VERSION}")
+message ("CMAKE_CXX_COMPILER            = ${CMAKE_CXX_COMPILER}")
+message ("WIN32 / MSVC / MINGW          = ${WIN32} / ${MSVC} / ${MINGW}")
+message ("UNIX / APPLE                  = ${UNIX} / ${APPLE}")
+if (APPLE)
+    message ("OSX_SDK_PATH                  = $ENV{OSX_SDK_PATH}")
+    message ("CMAKE_OSX_ARCHITECTURES       = ${CMAKE_OSX_ARCHITECTURES}")
+endif()
+
+################################################################################
+# Target Systems
+################################################################################
+
+# Windows: Target Windows 7.0 and later
+if (WIN32)
+    target_compile_definitions(XPMP2 PRIVATE _WIN32_WINNT=0x0601)
+    if (NOT DEFINED ENV{platform})
+        set(ENV{platform} "win")
+    endif()
+elseif(APPLE)
+    # MacOS 10.15 is minimum system requirement for X-Plane 12
+    set(CMAKE_OSX_DEPLOYMENT_TARGET 10.15)
+    target_compile_options(XPMP2 PRIVATE -mmacosx-version-min=10.15)
+    target_link_options(XPMP2 PRIVATE  -mmacosx-version-min=10.15)
+endif()
+
+################################################################################
+# C++ Standard required
+################################################################################
+
+set_property(TARGET XPMP2 PROPERTY CXX_STANDARD 17)
+
+################################################################################
+# Compile Options
+################################################################################
+
+# Enable all X-Plane SDK APIs up to the newest version.
+target_compile_definitions(XPMP2 PUBLIC XPLM200=1 XPLM210=1 XPLM300=1 XPLM301=1 XPLM303=1 XPLM400=1)
+
+# Define platform macros.
+target_compile_definitions(XPMP2 PUBLIC APL=$<BOOL:${APPLE}> IBM=$<BOOL:${WIN32}> LIN=$<AND:$<BOOL:${UNIX}>,$<NOT:$<BOOL:${APPLE}>>>)
+
+# Enable stricter warnings and then disable some we are not interested in.
+# For XPMP2 compile, we don't need to be warned about our self-defined depreciations
+if (MSVC)
+    target_compile_options(XPMP2 PRIVATE /wd4996 /wd4068)
+    target_compile_definitions(XPMP2 PRIVATE _CRT_SECURE_NO_WARNINGS)
+else()
+    target_compile_options(XPMP2 PRIVATE -Wall -Wshadow -Wextra -Wno-deprecated-declarations)
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 9.0 AND NOT APPLE)
+        target_compile_options(XPMP2 PRIVATE -Wno-stringop-truncation)
+    endif()
+
+    # Force-enable exception support. This is most likely redundant, although for C
+    # code the default is the opposite. Since we are mixing C++ and C libraries,
+    # safer to set it on?
+    target_compile_options(XPMP2 PRIVATE -fexceptions)
+
+    # Makes symbols non-exported by default.
+    target_compile_options(XPMP2 PRIVATE -fvisibility=hidden)
+endif()
+
+# Debug vs Release build
+if(CMAKE_BUILD_TYPE MATCHES "Debug")
+    target_compile_definitions(XPMP2 PRIVATE DEBUG=1)
+    if (MSVC)
+        target_compile_options(XPMP2 PRIVATE /Zi)
+    else()
+        target_compile_options(XPMP2 PRIVATE -O0 -g -fPIC)
+    endif()
+else()
+    target_compile_definitions(XPMP2 PRIVATE NDEBUG=1)
+    if(MSVC)
+        # Fast code, symbols into separate .pdb file, no global optimization (as it produces huge files)
+        target_compile_options(XPMP2 PRIVATE /Zi /O2 /GL-)
+    else()
+        # Use position-independent code and highest optimization level
+        target_compile_options(XPMP2 PRIVATE -O3 -fPIC)
+    endif()
+endif()
+
+# Mingw Threads (if not already defined by an outer target)
+if (MINGW AND NOT TARGET mingw_stdthreads)
+    option(MINGW_STDTHREADS_GENERATE_STDHEADERS "" ON)
+    add_subdirectory(lib/mingw-std-threads)
+endif()
+
+################################################################################
+# XPMP2 Library
+################################################################################
+
 # Define pre-compiled header
 target_precompile_headers(XPMP2 PRIVATE src/XPMP2.h)
 
@@ -200,7 +197,7 @@ endif()
 # (The actual FMOD lib is not included here, that needs to be done by the plugin target)
 if(INCLUDE_FMOD_SOUND)
     # Compile options
-    add_compile_definitions(INCLUDE_FMOD_SOUND=1)
+    target_compile_definitions(XPMP2 PRIVATE INCLUDE_FMOD_SOUND=1)
     target_sources(XPMP2 PRIVATE
         src/SoundFMOD.h
         src/SoundFMOD.cpp

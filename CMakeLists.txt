@@ -12,6 +12,10 @@
 # 2. Define INCLUDE_FMOD_SOUND cache entry, e.g. using `cmake -G Ninja -D INCLUDE_FMOD_SOUND=1 ..`
 
 cmake_minimum_required(VERSION 3.16)
+include(GenerateExportHeader) #CMake helpers to generate export header
+
+#Add our own cmake helper scripts for find_package(XPlaneSDK)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 # Mac: Need to tell early on that we want a cross platform build
 if(DEFINED ENV{platform})
@@ -28,17 +32,23 @@ else()
     set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64" CACHE STRING "Archs to build")
 endif()
 
+option(XPMP2_BUILD_SHARED_LIBS "Build XPMP2 as a shared libraries" OFF)
+
 project(XPMP2
         VERSION 3.4.0
         DESCRIPTION "Multiplayer library for X-Plane 11 and 12")
 
-# Source list
-add_library(XPMP2 STATIC
+#Give hints to the find_package script
+set(XPLANE_SDK_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/SDK/")
+find_package(XPlaneSDK REQUIRED)
+
+set(SOURCE_FILES
     inc/XPCAircraft.h
     inc/XPMPAircraft.h
     inc/XPMPMultiplayer.h
     inc/XPMPRemote.h
     inc/XPMPPlaneRenderer.h
+    inc/XPMP2Export.h
     src/2D.h
     src/2D.cpp
     src/AIMultiplayer.h
@@ -62,8 +72,39 @@ add_library(XPMP2 STATIC
     src/Utilities.h
     src/Utilities.cpp
     src/XPMP2.h
-    src/XPMPMultiplayer.cpp
-)
+    src/XPMPMultiplayer.cpp)
+
+# Source list
+if(XPMP2_BUILD_SHARED_LIBS)
+    add_library(XPMP2 SHARED ${SOURCE_FILES}) 
+    target_compile_definitions(XPMP2 PUBLIC XPMP2_EXPORTS)
+    target_link_libraries(${PROJECT_NAME} PRIVATE wsock32 ws2_32 iphlpapi XPlaneSDK::XPLM XPlaneSDK::XPWidgets)
+else()
+    # Debug vs Release build
+    if(CMAKE_BUILD_TYPE MATCHES "Debug")
+        target_compile_definitions(XPMP2 PRIVATE DEBUG=1)
+        if (MSVC)
+            target_compile_options(XPMP2 PRIVATE /Zi)
+        else()
+            target_compile_options(XPMP2 PRIVATE -O0 -g -fPIC)
+        endif()
+    else()
+        target_compile_definitions(XPMP2 PRIVATE NDEBUG=1)
+        if(MSVC)
+            # Fast code, symbols into separate .pdb file, no global optimization (as it produces huge files)
+            target_compile_options(XPMP2 PRIVATE /Zi /O2 /GL-)
+        else()
+            # Use position-independent code and highest optimization level
+            target_compile_options(XPMP2 PRIVATE -O3 -fPIC)
+        endif()
+    endif()
+    add_library(XPMP2 STATIC ${SOURCE_FILES})
+    target_compile_definitions(XPMP2 PUBLIC XPMP2_STATIC_DEFINE)
+    target_link_libraries(${PROJECT_NAME} PRIVATE XPlaneSDK::XPLM XPlaneSDK::XPWidgets)
+endif()
+
+#Generate the export header file. It is already part of the public header but we update it just in case
+generate_export_header(XPMP2 EXPORT_FILE_NAME ${CMAKE_CURRENT_SOURCE_DIR}/inc/XPMP2Export.h)
 
 # Provide compile macros from the above project version definition
 target_compile_definitions(XPMP2 PRIVATE
@@ -74,6 +115,7 @@ target_compile_definitions(XPMP2 PRIVATE
 )
 
 message ("== Building: ${PROJECT_NAME} ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH} ==")
+message ("Build Shared Lib              = ${XPMP2_BUILD_SHARED_LIBS}")
 message ("Compiler Info:")
 message ("CMAKE_CXX_COMPILER_ID         = ${CMAKE_CXX_COMPILER_ID}")
 message ("CMAKE_CXX_COMPILER_VERSION    = ${CMAKE_CXX_COMPILER_VERSION}")
@@ -138,25 +180,6 @@ else()
     target_compile_options(XPMP2 PRIVATE -fvisibility=hidden)
 endif()
 
-# Debug vs Release build
-if(CMAKE_BUILD_TYPE MATCHES "Debug")
-    target_compile_definitions(XPMP2 PRIVATE DEBUG=1)
-    if (MSVC)
-        target_compile_options(XPMP2 PRIVATE /Zi)
-    else()
-        target_compile_options(XPMP2 PRIVATE -O0 -g -fPIC)
-    endif()
-else()
-    target_compile_definitions(XPMP2 PRIVATE NDEBUG=1)
-    if(MSVC)
-        # Fast code, symbols into separate .pdb file, no global optimization (as it produces huge files)
-        target_compile_options(XPMP2 PRIVATE /Zi /O2 /GL-)
-    else()
-        # Use position-independent code and highest optimization level
-        target_compile_options(XPMP2 PRIVATE -O3 -fPIC)
-    endif()
-endif()
-
 # Mingw Threads (if not already defined by an outer target)
 if (MINGW AND NOT TARGET mingw_stdthreads)
     option(MINGW_STDTHREADS_GENERATE_STDHEADERS "" ON)
@@ -212,6 +235,7 @@ if(APPLE)
         ../inc/XPMPMultiplayer.h
         ../inc/XPMPPlaneRenderer.h
         ../inc/XPMPRemote.h
+        ../inc/XPMP2Export.h
     )
 
     set_target_properties(XPMP2 PROPERTIES

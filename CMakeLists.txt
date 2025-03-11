@@ -42,7 +42,9 @@ project(XPMP2
         DESCRIPTION "Multiplayer library for X-Plane 11 and 12")
 
 #Give hints to the find_package script
-set(XPLANE_SDK_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/SDK/")
+if(NOT XPLANE_SDK_DIR)
+    set(XPLANE_SDK_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/SDK")
+endif()
 find_package(XPlaneSDK REQUIRED)
 
 set(SOURCE_FILES

@@ -32,7 +32,7 @@ else()
 endif()
 
 project(XPMP2
-        VERSION 3.4.0
+        VERSION 3.4.1
         DESCRIPTION "Multiplayer library for X-Plane 11 and 12")
 
 # Source list

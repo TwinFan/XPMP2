@@ -593,12 +593,32 @@ void SoundSystemXP::SetPosOrientation (uint64_t sndId, const Aircraft& ac, bool 
     FMOD_VECTOR coneVec = FmodHeadPitch2Vec(ac.GetHeading() + pChn->pSnd->coneDir,
                                             std::cos(coneDirRad)*ac.GetPitch() - std::sin(coneDirRad)*ac.GetRoll() + pChn->pSnd->conePitch);
 
-    // Set cone info and orientation
-    FMOD_LOG(gpXPLMSetAudioCone(pChn->pChn,
-                                pChn->pSnd->coneInAngle,
-                                pChn->pSnd->coneOutAngle,
-                                pChn->pSnd->coneOutVol,
-                                &coneVec));
+    // Validate cone parameters before calling gpXPLMSetAudioCone to prevent FMOD error 29
+    if (std::isfinite(pChn->pSnd->coneInAngle) && 
+        std::isfinite(pChn->pSnd->coneOutAngle) && 
+        std::isfinite(pChn->pSnd->coneOutVol) &&
+        pChn->pSnd->coneInAngle >= 0.0f && 
+        pChn->pSnd->coneOutAngle >= 0.0f &&
+        pChn->pSnd->coneInAngle <= 360.0f && 
+        pChn->pSnd->coneOutAngle <= 360.0f &&
+        pChn->pSnd->coneOutVol >= 0.0f && 
+        pChn->pSnd->coneOutVol <= 1.0f &&
+        std::isfinite(coneVec.x) && 
+        std::isfinite(coneVec.y) && 
+        std::isfinite(coneVec.z)) {
+        // Set cone info and orientation
+        FMOD_LOG(gpXPLMSetAudioCone(pChn->pChn,
+                                    pChn->pSnd->coneInAngle,
+                                    pChn->pSnd->coneOutAngle,
+                                    pChn->pSnd->coneOutVol,
+                                    &coneVec));
+    } else {
+        // Log the invalid cone parameters to help debug the issue
+        //LOG_MSG(logWARN, "Skipping audio cone setting due to invalid parameters: "
+        //        "InAngle=%.2f, OutAngle=%.2f, OutVol=%.2f, Vec=(%.2f,%.2f,%.2f)",
+         //       pChn->pSnd->coneInAngle, pChn->pSnd->coneOutAngle, pChn->pSnd->coneOutVol,
+          //      coneVec.x, coneVec.y, coneVec.z);
+    }
 }
 
 // Set sound's volume

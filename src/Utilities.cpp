@@ -19,6 +19,7 @@
 ///             THE SOFTWARE.
 
 #include "XPMP2.h"
+#include <sstream>
 
 namespace XPMP2 {
 
@@ -147,6 +148,29 @@ void GlobVars::ReadConfigFile ()
         else if (sKey == "remoteTTL")      remoteTTL = iVal;
         else if (sKey == "remoteBufSize")  remoteBufSize = (size_t)iVal;
         else if (sKey == "remoteTxfFrequ") remoteTxfFrequ = iVal;
+
+        // Added by PJM
+        else if (sKey == "maxLabelDist") glob.maxLabelDist = std::stof(sVal);
+        else if (sKey == "labelFontScaling") glob.labelFontScaling = std::stof(sVal);
+        else if (sKey == "labelColor") {
+            float red, green, blue;
+            std::stringstream ss(sVal);
+            if (ss >> red >> green >> blue) {
+                glob.labelColor[0] = red;
+                glob.labelColor[1] = green;
+                glob.labelColor[2] = blue;
+            }
+        }
+        else if (sKey == "bLabelCutOffAtVisibility") {
+            if ((sVal == "true") || (sVal == "True")) glob.bLabelCutOffAtVisibility = true;
+            else if ((sVal == "false") || (sVal == "False")) glob.bLabelCutOffAtVisibility = false;
+        }
+        else if (sKey == "bLogMdlMatch") {
+            if ((sVal == "true") || (sVal == "True")) glob.bLogMdlMatch = true;
+            else if ((sVal == "false") || (sVal == "False")) glob.bLogMdlMatch = false;
+        }
+        // done with PJM adds
+
         else {
             LOG_MSG(logWARN, "Ignored unknown config item '%s' from file '%s'",
                     sKey.c_str(), cfgFileName.c_str());

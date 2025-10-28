@@ -174,12 +174,24 @@ void TwoDDrawLabels ()
             const float rat =
             ac.GetCameraDist() < maxLabelDist*0.8f ? 0.0f :                 // first 80%: no fading
             (ac.GetCameraDist() - maxLabelDist*0.8f) / (maxLabelDist*0.2f); // last  20%: fade to gray (remember: acDist <= maxLabelDist!)
+/* PJM - used to be an array of 4; docs say 3
             constexpr float gray[4] = {0.6f, 0.6f, 0.6f, 1.0f};
             float c[4] = {
                 (1.0f-rat) * ac.colLabel[0] + rat * gray[0],     // red
                 (1.0f-rat) * ac.colLabel[1] + rat * gray[1],     // green
                 (1.0f-rat) * ac.colLabel[2] + rat * gray[2],     // blue
                 (1.0f-rat) * ac.colLabel[3] + rat * gray[3]      // alpha? (not used for text anyway)
+            };
+*/
+            constexpr float gray[3] = { 0.6f, 0.6f, 0.6f };
+            // PJM - override label color
+            ac.colLabel[0] = glob.labelColor[0];
+            ac.colLabel[1] = glob.labelColor[1];
+            ac.colLabel[2] = glob.labelColor[2];
+            float c[3] = {
+                (1.0f - rat) * ac.colLabel[0] + rat * gray[0],     // red
+                (1.0f - rat) * ac.colLabel[1] + rat * gray[1],     // green
+                (1.0f - rat) * ac.colLabel[2] + rat * gray[2]      // blue
             };
         
             // Finally: Draw the label
@@ -222,6 +234,30 @@ void TwoDDeactivate ()
     XPLMUnregisterDrawCallback(CPLabelDrawing, xplm_Phase_Window, 1, nullptr);
 }
 
+// PJM additions start
+// Define our hotkey callback and a refcon for it.
+void* gLabelHotKeyRefcon = (void*)"Label Toggle Hotkey Refcon";
+
+// Hotkey ID to be stored after registration.
+XPLMHotKeyID gLabelHotKeyID;
+
+void LabelHotkeyCallback(void* inRefcon)
+{
+    // This function is called when the hotkey is pressed.
+    // Check the refcon to make sure it's ours (optional but good practice).
+    if (inRefcon == gLabelHotKeyRefcon)
+    {
+        if (XPMPDrawingAircraftLabels()) {
+            //LOG_MSG(logDEBUG, "*PJM* label -> OFF: inRefcon == gHotKeyRefcon");
+            XPMPDisableAircraftLabels(); // If currently drawing them, turn them off
+        }
+        else {
+            //LOG_MSG(logDEBUG, "*PJM* label -> ON: inRefcon == gHotKeyRefcon");
+            XPMPEnableAircraftLabels(true); // If not currently drawing them, turn them on
+        }
+    }
+}
+// PJM additions end
 
 // Initialize the module
 void TwoDInit ()
@@ -236,6 +272,15 @@ void TwoDInit ()
         drVisibility    = XPLMFindDataRef("sim/weather/visibility_effective_m");
     drFieldOfView  = XPLMFindDataRef("sim/graphics/view/field_of_view_deg");
     
+    // Register our hotkey for Alt+L.
+    // XPLM_KEY_FLAG_CONTROL will catch the Control key press.
+    gLabelHotKeyID = XPLMRegisterHotKey(
+        XPLM_VK_O,              // Virtual key for 'O' (for 'overlays'; not zero).
+        xplm_DownFlag,          // Trigger on key press; no special modifiers
+        "Toggle [o]verlay labels",  // A description for the user.
+        LabelHotkeyCallback,         // The function to call.
+        gLabelHotKeyRefcon);         // Our custom reference constant.
+
     // Register the drawing callback if need be
     if (glob.bDrawLabels)
         TwoDActivate();
@@ -246,6 +291,12 @@ void TwoDCleanup ()
 {
     // Remove drawing callbacks
     TwoDDeactivate();
+
+    // Unregister our hotkey to clean up.
+    if (gLabelHotKeyID != NULL)
+    {
+        XPLMUnregisterHotKey(gLabelHotKeyID);
+    }
 }
 
 

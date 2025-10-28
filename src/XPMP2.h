@@ -195,6 +195,7 @@ public:
     bool            bLabelCutOffAtVisibility = true;
     /// Label font scaling factor
     float           labelFontScaling = 1.0f;
+    float           labelColor[3] = { 0.0f, 0.0f, 1.0f }; // default to BLUE
     
     /// Do we control X-Plane's AI/Multiplayer planes?
     bool            bHasControlOfAIAircraft = false;

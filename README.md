@@ -3,6 +3,11 @@ XPMP 2 and XPMP2 Remote Client
 
 [![Build all Platforms](https://github.com/TwinFan/XPMP2/actions/workflows/build.yml/badge.svg)](https://github.com/TwinFan/XPMP2/actions/workflows/build.yml)
 
+| Notes for MIT Lincoln Laboratory |
+| -------------------------------- |
+The local changes we've made are all related to the X-Plane text labels that get rendered above the 3D aircraft in the out-the-window views. A config file variable was added to specify the max range of these as well as for the color of them. Additionally, a code change was made such that the lowercase "O" key toggles these [o]verlay labels on and off.
+| END - Notes for MIT Lincoln Laboratory |
+
 The original X-Plane Multiplay Library is the work of many fantastic people,
 with Ben Supnik, Chris Serio, and Chris Collins appearing in recent files and documentation.
 But the origins date back to 2004, and very likely many more were involved. Thanks to all of them!

@@ -137,6 +137,7 @@ static XPLMDataRef drTcasOverride   = nullptr;      ///< sim/operation/override/
 static XPLMDataRef drMapOverride    = nullptr;      ///< sim/operation/override/override_multiplayer_map_layer int
 static XPLMDataRef drTcasModeS      = nullptr;      ///< sim/cockpit2/tcas/targets/modeS_id                 int[64]
 static XPLMDataRef drTcasModeC      = nullptr;      ///< sim/cockpit2/tcas/targets/modeC_code               int[64]
+static XPLMDataRef drTcasSsrMode    = nullptr;      ///< sim/cockpit2/tcas/targets/ssr_mode                 int[64]    y    enum    Transponder mode: off=0, stdby=1, on (mode A)=2, alt (mode C)=3, test=4, GND (mode S)=5, ta_only (mode S)=6, ta/ra=7
 static XPLMDataRef drTcasFlightId   = nullptr;      ///< sim/cockpit2/tcas/targets/flight_id                byte[512]
 static XPLMDataRef drTcasIcaoType   = nullptr;      ///< sim/cockpit2/tcas/targets/icao_type                byte[512]
 static XPLMDataRef drTcasX          = nullptr;      ///< sim/cockpit2/tcas/targets/position/x               float[64]
@@ -348,7 +349,8 @@ size_t AIUpdateTCASTargets ()
     // data arrays for providing TCAS target values
     static std::vector<int>   vModeS;      
     static std::vector<int>   vModeC;      
-    static std::vector<float> vX;          
+    static std::vector<int>   vSsrMode;
+    static std::vector<float> vX;
     static std::vector<float> vY;          
     static std::vector<float> vZ;          
     static std::vector<float> vVertSpeed;  
@@ -378,6 +380,7 @@ size_t AIUpdateTCASTargets ()
     // mirrored to the legacy multiplayer slots
     vModeS.clear();         vModeS.reserve(numSlots);
     vModeC.clear();         vModeC.reserve(numSlots);
+    vSsrMode.clear();       vSsrMode.reserve(numSlots);
     vX.clear();             vX.reserve(numSlots);
     vY.clear();             vY.reserve(numSlots);
     vZ.clear();             vZ.reserve(numSlots);
@@ -420,6 +423,7 @@ size_t AIUpdateTCASTargets ()
             // Add the plane to the list of TCAS targets
             vModeS.push_back(int(ac.GetModeS_ID()));
             vModeC.push_back(int(ac.acRadar.code));
+            vSsrMode.push_back(int(ac.acRadar.mode));
             
             // This plane's position
             vX.push_back(ac.drawInfo.x);
@@ -528,6 +532,7 @@ size_t AIUpdateTCASTargets ()
 #define SET_DR(ty, dr) XPLMSetData##ty(drTcas##dr, v##dr.data(), 1, (int)v##dr.size())
     SET_DR(vi, ModeS);
     SET_DR(vi, ModeC);
+    SET_DR(vi, SsrMode);
     SET_DR(vf, X);
     SET_DR(vf, Y);
     SET_DR(vf, Z);
@@ -821,9 +826,15 @@ void AIMultiClearInfoDataRefs (infoDataRefsTy& drI)
 /// Clears the key (mode_s) of the TCAS target dataRefs
 void AIMultiClearTcasDataRefs ()
 {
+    std::vector<int> nullArr (numSlots, 0);
     if (drTcasModeS) {
-        std::vector<int> nullArr (numSlots, 0);
         XPLMSetDatavi(drTcasModeS, nullArr.data(), 1, (int)numSlots);
+    }
+    if (drTcasModeC) {
+        XPLMSetDatavi(drTcasModeC, nullArr.data(), 1, (int)numSlots);
+    }
+    if (drTcasSsrMode) {
+        XPLMSetDatavi(drTcasSsrMode, nullArr.data(), 1, (int)numSlots);
     }
 }
 
@@ -891,6 +902,7 @@ void AIMultiInit ()
             
             // Now fetch all the other dataRefs...they should work
             drTcasModeC         = XPLMFindDataRef("sim/cockpit2/tcas/targets/modeC_code");
+            drTcasSsrMode       = XPLMFindDataRef("sim/cockpit2/tcas/targets/ssr_mode");
             drTcasFlightId      = XPLMFindDataRef("sim/cockpit2/tcas/targets/flight_id");
             drTcasIcaoType      = XPLMFindDataRef("sim/cockpit2/tcas/targets/icao_type");
             drTcasX             = XPLMFindDataRef("sim/cockpit2/tcas/targets/position/x");

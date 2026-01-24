@@ -170,6 +170,7 @@ int Doc8643::GetWakeCat() const
 {
     switch (wtc[0])
     {
+    case '-':                           // Not assigned, which happens to the first few lines of Doc8643 with light aircraft, so we consider it light
     case 'L': return 0;                 // Light, also catches the "L/M" type, but XP only offers 4 values anyway
     case 'H': return 2;                 // Heavy, like B744
     case 'J': return 3;                 // Super, like A388

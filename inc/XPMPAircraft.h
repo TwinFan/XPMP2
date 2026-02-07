@@ -243,7 +243,9 @@ public:
     int         aiPrio      = 1;
     
     /// @brief Current radar status
-    /// @note Only the condition `mode != Standby` is of interest to XPMP2 for considering the aircraft for TCAS display
+    /// @details Forwarded to X-Plane in dataRefs `sim/cockpit2/tcas/targets/modeC_code` and `.../ssr_mode`.
+    ///          Influences if and how planes show up in X-Plane's TCAS implementation,
+    ///          and if -by proxy- they are visible to 3rd party plugins.
     XPMPPlaneRadar_t acRadar;
     
     /// Contrail: list of objects for contrail generation

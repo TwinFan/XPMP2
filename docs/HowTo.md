@@ -1,18 +1,22 @@
 How to Use XPMP2
 ==
 
-**This page probably requires more attention...**
-but there is a working sample plugin available in
-the `XPMP2-Sample` folder for you to study:
+There is a separate Template Github repository named
+[XPMP2-Sample](https://github.com/TwinFan/XPMP2-Sample),
+which demonsrates using the XPMP2 library,
+and which may serve you as a basis for your own plugin.
 
-## Sample Plugin ##
+## Sample Plugin XPMP2-Sample ##
 
-This package comes with a sample plugin in the `XPMP2-Sample` folder. It is a complete
+[XPMP2-Sample](https://github.com/TwinFan/XPMP2-Sample) is a complete
 plugin including build projects and CMake setup. It displays 3 aircraft flying circles
 in front of the user's plane. Each of the 3 aircraft is using a different technology:
 the now recommended way of subclassing `XPMP2::Aircraft`, the legacy way
 of subclassing `XPCAircraft` (as used by LiveTraffic v1.x), and by calling
 standard C functions.
+
+Instructions how to check out and build XPMP2-Sample are found
+in [Building XPMP2 and the Sample Plugin](Building.html).
 
 For the sample plugin to work you need to follow instruction in
 [Deploying XPMP2-based Plugins](Deploying.html) for

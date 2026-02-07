@@ -75,7 +75,9 @@ and more is available in the
 
 ### Sample Plugin ###
 
-The separate _Public Template_ repository `XPMP2-Sample` provides a complete
+The separate
+[_Public Template_ repository `XPMP2-Sample`](https://github.com/TwinFan/XPMP2-Sample)
+provides a complete
 plugin including build projects and CMake setup and can be the basis for your plugin project.
 It displays 3 aircraft flying circles in front of the user's plane.
 Each of the 3 aircraft is using a different technology:

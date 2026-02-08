@@ -417,7 +417,7 @@ public:
     /// Is this plane currently also being tracked by X-Plane's classic AI/multiplayer?
     bool        IsCurrentlyShownAsAI () const;
     /// Is this plane to be drawn on TCAS? (It will if transponder is not switched off)
-    bool        ShowAsAIPlane () const { return IsVisible() && acRadar.mode > xpmpTransponderMode_Standby; }
+    bool        ShowAsAIPlane () const { return IsVisible() && acRadar.mode > xpmpTransponderMode_Standby && GetModeS_ID() > 0; }
     /// Reset TCAS target slot index to `-1`
     void        ResetTcasTargetIdx () { tcasTargetIdx = -1; }
     

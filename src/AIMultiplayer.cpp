@@ -378,33 +378,33 @@ size_t AIUpdateTCASTargets ()
     // Start filling up TCAS targets, ordered by distance,
     // so that the closest planes are in the lower slots,
     // mirrored to the legacy multiplayer slots
-    vModeS.clear();         vModeS.reserve(numSlots);
-    vModeC.clear();         vModeC.reserve(numSlots);
-    vSsrMode.clear();       vSsrMode.reserve(numSlots);
-    vX.clear();             vX.reserve(numSlots);
-    vY.clear();             vY.reserve(numSlots);
-    vZ.clear();             vZ.reserve(numSlots);
-    vVertSpeed.clear();     vVertSpeed.reserve(numSlots);
-    vHeading.clear();       vHeading.reserve(numSlots);
-    vPitch.clear();         vPitch.reserve(numSlots);
-    vRoll.clear();          vRoll.reserve(numSlots);
-    vGrnd.clear();          vGrnd.reserve(numSlots);
-    vGear.clear();          vGear.reserve(numSlots);
-    vFlap.clear();          vFlap.reserve(numSlots);
-    vSpeedbrake.clear();    vSpeedbrake.reserve(numSlots);
-    vSlat.clear();          vSlat.reserve(numSlots);
-    vWingSweep.clear();     vWingSweep.reserve(numSlots);
-    vThrottle.clear();      vThrottle.reserve(numSlots);
-    vYokePitch.clear();     vYokePitch.reserve(numSlots);
-    vYokeRoll.clear();      vYokeRoll.reserve(numSlots);
-    vYokeYaw.clear();       vYokeYaw.reserve(numSlots);
-    vLights.clear();        vLights.reserve(numSlots);
-    vWakeWingSpan.clear();  vWakeWingSpan.reserve(numSlots);
-    vWakeWingArea.clear();  vWakeWingArea.reserve(numSlots);
-    vWakeCat.clear();       vWakeCat.reserve(numSlots);
-    vWakeMass.clear();      vWakeMass.reserve(numSlots);
-    vWakeAoA.clear();       vWakeAoA.reserve(numSlots);
-    vWakeLift.clear();      vWakeLift.reserve(numSlots);
+    vModeS.assign(numSlots, 0);
+    vModeC.assign(numSlots, 0);
+    vSsrMode.assign(numSlots, 0);
+    vX.assign(numSlots, 0);
+    vY.assign(numSlots, 0);
+    vZ.assign(numSlots, 0);
+    vVertSpeed.assign(numSlots, 0);
+    vHeading.assign(numSlots, 0);
+    vPitch.assign(numSlots, 0);
+    vRoll.assign(numSlots, 0);
+    vGrnd.assign(numSlots, 0);
+    vGear.assign(numSlots, 0);
+    vFlap.assign(numSlots, 0);
+    vSpeedbrake.assign(numSlots, 0);
+    vSlat.assign(numSlots, 0);
+    vWingSweep.assign(numSlots, 0);
+    vThrottle.assign(numSlots, 0);
+    vYokePitch.assign(numSlots, 0);
+    vYokeRoll.assign(numSlots, 0);
+    vYokeYaw.assign(numSlots, 0);
+    vLights.assign(numSlots, 0);
+    vWakeWingSpan.assign(numSlots, 0);
+    vWakeWingArea.assign(numSlots, 0);
+    vWakeCat.assign(numSlots, 0);
+    vWakeMass.assign(numSlots, 0);
+    vWakeAoA.assign(numSlots, 0);
+    vWakeLift.assign(numSlots, 0);
 
     const float now = GetMiscNetwTime();
 
@@ -421,50 +421,51 @@ size_t AIUpdateTCASTargets ()
                 ac.SetTcasTargetIdx((int)slot);
 
             // Add the plane to the list of TCAS targets
-            vModeS.push_back(int(ac.GetModeS_ID()));
-            vModeC.push_back(int(ac.acRadar.code));
-            vSsrMode.push_back(int(ac.acRadar.mode));
+            const size_t idx = slot-1;                      // index in all the v... arrays
+            vModeS.at(idx)          = int(ac.GetModeS_ID());
+            vModeC.at(idx)          = int(ac.acRadar.code);
+            vSsrMode.at(idx)        = int(ac.acRadar.mode);
             
             // This plane's position
-            vX.push_back(ac.drawInfo.x);
-            vY.push_back(ac.drawInfo.y - ac.GetVertOfs());  // align with original altitude
-            vZ.push_back(ac.drawInfo.z);
-            vGrnd.push_back(ac.IsOnGrnd());
+            vX.at(idx)              = ac.drawInfo.x;
+            vY.at(idx)              = ac.drawInfo.y - ac.GetVertOfs();  // align with original altitude
+            vZ.at(idx)              = ac.drawInfo.z;
+            vGrnd.at(idx)           = ac.IsOnGrnd();
             
             // attitude
-            vPitch.push_back(ac.drawInfo.pitch);
-            vRoll.push_back(ac.drawInfo.roll);
-            vHeading.push_back(ac.drawInfo.heading);
+            vPitch.at(idx)          = ac.drawInfo.pitch;
+            vRoll.at(idx)           = ac.drawInfo.roll;
+            vHeading.at(idx)        = ac.drawInfo.heading;
             
             // configuration
-            vGear.push_back(ac.v[V_CONTROLS_GEAR_RATIO]);
-            vFlap.push_back(ac.v[V_CONTROLS_FLAP_RATIO]);
-            vSpeedbrake.push_back(ac.v[V_CONTROLS_SPEED_BRAKE_RATIO]);
-            vSlat.push_back(ac.v[V_CONTROLS_SLAT_RATIO]);
-            vWingSweep.push_back(ac.v[V_CONTROLS_WING_SWEEP_RATIO]);
-            vThrottle.push_back(ac.v[V_CONTROLS_THRUST_RATIO]);
+            vGear.at(idx)           = ac.v[V_CONTROLS_GEAR_RATIO];
+            vFlap.at(idx)           = ac.v[V_CONTROLS_FLAP_RATIO];
+            vSpeedbrake.at(idx)     = ac.v[V_CONTROLS_SPEED_BRAKE_RATIO];
+            vSlat.at(idx)           = ac.v[V_CONTROLS_SLAT_RATIO];
+            vWingSweep.at(idx)      = ac.v[V_CONTROLS_WING_SWEEP_RATIO];
+            vThrottle.at(idx)       = ac.v[V_CONTROLS_THRUST_RATIO];
             
             // Yoke
-            vYokePitch.push_back(ac.v[V_CONTROLS_YOKE_PITCH_RATIO]);
-            vYokeRoll.push_back(ac.v[V_CONTROLS_YOKE_ROLL_RATIO]);
-            vYokeYaw.push_back(ac.v[V_CONTROLS_YOKE_HEADING_RATIO]);
+            vYokePitch.at(idx)      = ac.v[V_CONTROLS_YOKE_PITCH_RATIO];
+            vYokeRoll.at(idx)       = ac.v[V_CONTROLS_YOKE_ROLL_RATIO];
+            vYokeYaw.at(idx)        = ac.v[V_CONTROLS_YOKE_HEADING_RATIO];
             
             // lights
             TcasLightsTy l = {0};
-            l.b.beacon  = ac.v[V_CONTROLS_BEACON_LITES_ON] > 0.5f;
-            l.b.land    = ac.v[V_CONTROLS_LANDING_LITES_ON] > 0.5f;
-            l.b.nav     = ac.v[V_CONTROLS_NAV_LITES_ON] > 0.5f;
-            l.b.strobe  = ac.v[V_CONTROLS_STROBE_LITES_ON] > 0.5f;
-            l.b.taxi    = ac.v[V_CONTROLS_TAXI_LITES_ON] > 0.5f;
-            vLights.push_back(l.i);
+            l.b.beacon              = ac.v[V_CONTROLS_BEACON_LITES_ON] > 0.5f;
+            l.b.land                = ac.v[V_CONTROLS_LANDING_LITES_ON] > 0.5f;
+            l.b.nav                 = ac.v[V_CONTROLS_NAV_LITES_ON] > 0.5f;
+            l.b.strobe              = ac.v[V_CONTROLS_STROBE_LITES_ON] > 0.5f;
+            l.b.taxi                = ac.v[V_CONTROLS_TAXI_LITES_ON] > 0.5f;
+            vLights.at(idx)         = l.i;
 
             // Wake data
-            vWakeWingSpan.push_back(ac.GetWingSpan());
-            vWakeWingArea.push_back(ac.GetWingArea());
-            vWakeCat.push_back(ac.GetWakeCat());
-            vWakeMass.push_back(ac.GetMass());
-            vWakeAoA.push_back(ac.GetAoA());
-            vWakeLift.push_back(ac.GetLift());
+            vWakeWingSpan.at(idx)   = ac.GetWingSpan();
+            vWakeWingArea.at(idx)   = ac.GetWingArea();
+            vWakeCat.at(idx)        = ac.GetWakeCat();
+            vWakeMass.at(idx)       = ac.GetMass();
+            vWakeAoA.at(idx)        = ac.GetAoA();
+            vWakeLift.at(idx)       = ac.GetLift();
 
             // For performance reasons and because differences (cartesian velocity)
             // are smoother if calculated over "longer" time frames,

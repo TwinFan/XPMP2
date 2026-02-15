@@ -61,6 +61,7 @@ XPMP2 writes the folloing TCAS target dataRefs when it has TCAS control:
 ------------------- | --------------------
 `modeS_id`          | `modeS_id`
 `modeC_code`        | `acRadar.code`
+`ssr_mode`          | `acRadar.mode`, one of the `XPMPTransponderMode` enums. Default is `...ModeC`. Can influence the way planes are represented on a TCAS display.
 `flight_id`         | what `GetFlightId()` returns: `acInfoTexts.flightNum` or `acInfoTexts.tailNum` or `acInfoTexts.aptFrom`-`acInfoTexts.aptFrom`, whatever is available first; this is a virtual function that you can override in your implementation
 `icao_type`         | `acIcaoType`
 

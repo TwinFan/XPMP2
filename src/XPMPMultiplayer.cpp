@@ -33,6 +33,23 @@
 // but we use our namespace a lot:
 using namespace XPMP2;
 
+// returns the current transponder mode as human-readable text
+const char* XPMPPlaneRadar_t::GetModeStr() const
+{
+    switch (mode) {
+        case xpmpTransponderMode_Off:           return "off";
+        case xpmpTransponderMode_Standby:       return "standby";
+        case xpmpTransponderMode_ModeA:         return "Mode A";
+        case xpmpTransponderMode_ModeC:         return "Mode C";
+        case xpmpTransponderMode_Test:          return "Test";
+        case xpmpTransponderMode_ModeS_Gnd:     return "Mode S GND";
+        case xpmpTransponderMode_ModeS_TAOnly:  return "Mode S TA-Only";
+        case xpmpTransponderMode_ModeS_TARA:    return "Mode S TA/RA";
+    }
+    return "?";
+}
+
+
 //
 // MARK: Initialization
 //

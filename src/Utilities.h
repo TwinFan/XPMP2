@@ -159,7 +159,7 @@ template <class T>
 inline T dist (const T x1, const T y1, const T z1,
                const T x2, const T y2, const T z2)
 {
-    return std::sqrt(sqr(x1-x2) + sqr(y1-y2) + sqr(z1-z2));
+    return std::hypot(x1-x2, y1-y2, z1-z2);
 }
 
 /// atan2 converted to degrees: the angle between (0|0) and the given point

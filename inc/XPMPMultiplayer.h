@@ -183,14 +183,20 @@ struct XPMPPlaneSurfaces_t {
 
 
 /// @brief These enumerations define the way the transponder of a given plane is operating.
-/// @note Only information used by XPMP2 is `"mode != xpmpTransponderMode_Standby"`,
-///       in which case the plane is considered for TCAS display.
+/// @note XPMP2 considers plane for TCAS display if `"mode > xpmpTransponderMode_Standby".
+///       The actual value is forwarded to X-Plane as SSR Mode,
+///       which influence the way the aircraft shows up in TCAS display (XP >= 12.4.0);
+///       values defined by dataRef `sim/cockpit2/tcas/targets/ssr_mode`:
+///       "Transponder mode: off=0, stdby=1, on (mode A)=2, alt (mode C)=3, test=4, GND (mode S)=5, ta_only (mode S)=6, ta/ra=7"
 enum XPMPTransponderMode {
+    xpmpTransponderMode_Off = 0,        ///< transponder is off         not currently sending -> aircraft not visible on TCAS
     xpmpTransponderMode_Standby,        ///< transponder is in standby, not currently sending -> aircraft not visible on TCAS
-    xpmpTransponderMode_Mode3A,         ///< transponder is on
-    xpmpTransponderMode_ModeC,          ///< transponder is on
-    xpmpTransponderMode_ModeC_Low,      ///< transponder is on
-    xpmpTransponderMode_ModeC_Ident     ///< transponder is on
+    xpmpTransponderMode_ModeA,          ///< transponder is on, Mode A
+    xpmpTransponderMode_ModeC,          ///< transponder is on, Mode C (Alt)
+    xpmpTransponderMode_Test,           ///< transponder is on, Test
+    xpmpTransponderMode_ModeS_Gnd,      ///< transponder is on, Mode S (Gnd)
+    xpmpTransponderMode_ModeS_TAOnly,   ///< transponder is on, Mode S (TA-Only)
+    xpmpTransponderMode_ModeS_TARA,     ///< transponder is on, Mode S (TA/RA)
 };
 
 
@@ -199,6 +205,7 @@ struct XPMPPlaneRadar_t {
     long                    size = sizeof(XPMPPlaneRadar_t);    ///< structure size
     long                    code = 0;                           ///< current radar code, published via dataRef `sim/cockpit2/tcas/targets/modeC_code`
     XPMPTransponderMode     mode = xpmpTransponderMode_ModeC;   ///< current radar mode, if _not_ `xpmpTransponderMode_Standby` then is plane considered for TCAS display
+    const char*             GetModeStr() const;                 ///< returns the current transponder mode as human-readable text
 };
 
 

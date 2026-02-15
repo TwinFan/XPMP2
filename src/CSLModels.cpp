@@ -104,10 +104,11 @@ XPLMObjectRef CSLObj::GetAndLoadObj ()
 
 // Determine which file to load and if we need a copied .obj file
 /// @details 1. Determine if we need to access a copied file at all
-///          2. Compute that copied file name
+///          2. Avoid double-execution by testing if the file name is one for a copied file already
+///          3. Compute that copied file name
 ///             It will include one of the texture ids if texture replacement is involved
 ///             It will always end on ".xpmp2.obj"
-///          3. Test if that copied file already exists
+///          4. Test if that copied file already exists
 ///          The actual copy operation will only be peformed upon load.
 void CSLObj::DetermineWhichObjToLoad ()
 {
@@ -116,7 +117,11 @@ void CSLObj::DetermineWhichObjToLoad ()
     if (!glob.bObjReplDataRefs && !bDoReplTextures)
         return;
     
-    // 2. Compute that copied file name
+    // 2. Test if this determination has previously already led to a copied file name
+    if (path.find(".xpmp2.obj") != std::string::npos)
+        return;
+    
+    // 3. Compute that copied file name
     pathOrig = path;                // Save the original name
     // remove the current extension
     RemoveExtension(path);
@@ -130,7 +135,7 @@ void CSLObj::DetermineWhichObjToLoad ()
     // always add 'xpmp2.obj' as the final extension
     path += ".xpmp2.obj";
     
-    // 3. Test if that copied file already exists
+    // 4. Test if that copied file already exists
     if (ExistsFile(path))
         // It does exist, so no new copy is needed
         pathOrig.clear();
@@ -221,6 +226,7 @@ void CSLObj::Load ()
         return;
     
     // If needed it is now the time to copy the .obj file
+    DetermineWhichObjToLoad();
     if (!TriggerCopyAndReplace())
         return;
     
@@ -808,9 +814,6 @@ void AcTxtLine_OBJ8 (CSLModel& csl,
                 if (tokens.size() >= 6)
                     obj.text_lit = CSLModelsConvPackagePath(tokens[5], lnNr, true);
             } // TEXTURE available
-            
-            // Determine which file to load and if we need a copied .obj file
-            obj.DetermineWhichObjToLoad ();
         } // Package name valid
     } // at least 3 params
     else

@@ -243,7 +243,9 @@ public:
     int         aiPrio      = 1;
     
     /// @brief Current radar status
-    /// @note Only the condition `mode != Standby` is of interest to XPMP2 for considering the aircraft for TCAS display
+    /// @details Forwarded to X-Plane in dataRefs `sim/cockpit2/tcas/targets/modeC_code` and `.../ssr_mode`.
+    ///          Influences if and how planes show up in X-Plane's TCAS implementation,
+    ///          and if -by proxy- they are visible to 3rd party plugins.
     XPMPPlaneRadar_t acRadar;
     
     /// Contrail: list of objects for contrail generation
@@ -415,7 +417,7 @@ public:
     /// Is this plane currently also being tracked by X-Plane's classic AI/multiplayer?
     bool        IsCurrentlyShownAsAI () const;
     /// Is this plane to be drawn on TCAS? (It will if transponder is not switched off)
-    bool        ShowAsAIPlane () const { return IsVisible() && acRadar.mode != xpmpTransponderMode_Standby; }
+    bool        ShowAsAIPlane () const { return IsVisible() && acRadar.mode > xpmpTransponderMode_Standby && GetModeS_ID() > 0; }
     /// Reset TCAS target slot index to `-1`
     void        ResetTcasTargetIdx () { tcasTargetIdx = -1; }
     

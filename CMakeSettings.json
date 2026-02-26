@@ -13,7 +13,7 @@
             "variables": [
                 {
                     "name": "CMAKE_CXX_FLAGS",
-                    "value": "/DWIN32 /D_WINDOWS /DWIN32_LEAN_AND_MEAN /D_CRT_SECURE_NO_WARNINGS /GS- /Gd /Gy- /Zc:wchar_t /Zc:forScope /Zc:inline /Zc:__cplusplus /W4 /EHsc /fp:precise /diagnostics:caret",
+                    "value": "/DWIN32 /D_WINDOWS /DWIN32_LEAN_AND_MEAN /D_CRT_SECURE_NO_WARNINGS /GS- /Gd /Gy- /Zc:inline /Zc:__cplusplus /W4 /EHsc /fp:fast /diagnostics:caret /GL-",
                     "type": "STRING"
                 },
                 {
@@ -36,7 +36,7 @@
             "variables": [
                 {
                     "name": "CMAKE_CXX_FLAGS",
-                    "value": "/DWIN32 /D_WINDOWS /DWIN32_LEAN_AND_MEAN /D_CRT_SECURE_NO_WARNINGS /GS- /Gd /Gy- /Zc:wchar_t /Zc:forScope /Zc:inline /Zc:__cplusplus /W4 /EHsc /fp:precise /diagnostics:caret",
+                    "value": "/DWIN32 /D_WINDOWS /DWIN32_LEAN_AND_MEAN /D_CRT_SECURE_NO_WARNINGS /GS- /Gd /Gy- /Zc:inline /Zc:__cplusplus /W4 /EHsc /fp:fast /diagnostics:caret /GL-",
                     "type": "STRING"
                 },
                 {

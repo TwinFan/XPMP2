@@ -531,12 +531,13 @@ size_t AIUpdateTCASTargets ()
     
     // Feed the dataRefs to X-Plane for TCAS target tracking
 #define SET_DR(ty, dr) XPLMSetData##ty(drTcas##dr, v##dr.data(), 1, (int)v##dr.size())
+#define SET_DR_ONLY_USED(ty, dr) XPLMSetData##ty(drTcas##dr, v##dr.data(), 1, (int)(slot-1))
     SET_DR(vi, ModeS);
     SET_DR(vi, ModeC);
     SET_DR(vi, SsrMode);
-    SET_DR(vf, X);
-    SET_DR(vf, Y);
-    SET_DR(vf, Z);
+    SET_DR_ONLY_USED(vf, X);            // must not set/clean unused slots here, otherwise XP12.4+ throws "Traffic plugin error...gave us target with no ID"
+    SET_DR_ONLY_USED(vf, Y);
+    SET_DR_ONLY_USED(vf, Z);
     SET_DR(vf, VertSpeed);
     SET_DR(vf, Heading);
     SET_DR(vf, Pitch);

@@ -32,7 +32,7 @@ else()
 endif()
 
 project(XPMP2
-        VERSION 3.5.0
+        VERSION 3.5.1
         DESCRIPTION "Multiplayer library for X-Plane 11 and 12")
 
 # Source list
@@ -124,8 +124,8 @@ target_compile_definitions(XPMP2 PUBLIC APL=$<BOOL:${APPLE}> IBM=$<BOOL:${WIN32}
 # Enable stricter warnings and then disable some we are not interested in.
 # For XPMP2 compile, we don't need to be warned about our self-defined depreciations
 if (MSVC)
+    target_compile_options(XPMP2 PRIVATE /DWIN32 /D_WINDOWS /DWIN32_LEAN_AND_MEAN /D_CRT_SECURE_NO_WARNINGS /GS- /Gd /Gy- /Zc:inline /Zc:__cplusplus /W4 /EHsc /fp:fast /diagnostics:caret /GL-)
     target_compile_options(XPMP2 PRIVATE /wd4996 /wd4068)
-    target_compile_definitions(XPMP2 PRIVATE _CRT_SECURE_NO_WARNINGS)
 else()
     target_compile_options(XPMP2 PRIVATE -Wall -Wshadow -Wextra -Wno-deprecated-declarations)
     if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 9.0 AND NOT APPLE)
@@ -145,15 +145,14 @@ endif()
 if(CMAKE_BUILD_TYPE MATCHES "Debug")
     target_compile_definitions(XPMP2 PRIVATE DEBUG=1)
     if (MSVC)
-        target_compile_options(XPMP2 PRIVATE /Zi)
+        target_compile_options(XPMP2 PRIVATE /MDd /Od /RTC1 /Zi)
     else()
         target_compile_options(XPMP2 PRIVATE -O0 -g -fPIC)
     endif()
 else()
     target_compile_definitions(XPMP2 PRIVATE NDEBUG=1)
     if(MSVC)
-        # Fast code, symbols into separate .pdb file, no global optimization (as it produces huge files)
-        target_compile_options(XPMP2 PRIVATE /Zi /O2 /GL-)
+        target_compile_options(XPMP2 PRIVATE /MD /Zi /O2)
     else()
         # Use position-independent code and highest optimization level
         target_compile_options(XPMP2 PRIVATE -O3 -fPIC)

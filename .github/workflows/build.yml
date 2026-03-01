@@ -3,7 +3,7 @@ name: Build all Platforms
 on:
   push:
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
   workflow_dispatch:        # Can also be called manually for whatever reason, e.g. if wanting to build with FMOD sound
     inputs:
       flags:
@@ -69,7 +69,7 @@ jobs:
         if-no-files-found: error
 
   #####################################
-  # Windows with MS Visual Studio
+  # Windows with MS Visual Studio (Release)
   build-win:
     runs-on: windows-2022
     steps:
@@ -90,5 +90,31 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: XPMP2-lib-win
+        path: deploy-lib/*        # this way we keep the folder structure in the artifact
+        if-no-files-found: error
+
+  #####################################
+  # Windows with MS Visual Studio (Debug)
+  build-win-dbg:
+    runs-on: windows-2022
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4       # must checkout before we can use our own actions
+    - name: Build
+      uses: ./.github/actions/build-win
+      id: build
+      with:
+        libName: ${{ env.PRJ_NAME }}
+        buildType: "Debug"
+        flags: ${{ inputs.flags }}
+    - name: Prepare XPMP2 lib
+      shell: bash
+      run: |
+        mkdir -p deploy-lib/lib/win-dbg
+        cp ${{ steps.build.outputs.lib-file-name }} deploy-lib/lib/win-dbg
+    - name: Upload XPMP2 lib
+      uses: actions/upload-artifact@v4
+      with:
+        name: XPMP2-lib-win-dbg
         path: deploy-lib/*        # this way we keep the folder structure in the artifact
         if-no-files-found: error

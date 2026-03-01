@@ -6,6 +6,10 @@ inputs:
   libName:
     description: "Library's name, used as file name"
     required: true
+  buildType:
+    description: "Build type, like RelWithDebInfo or Debug"
+    required: false
+    default: "RelWithDebInfo"
   flags:
     description: "Flags to be passed to CMake"
     required: false

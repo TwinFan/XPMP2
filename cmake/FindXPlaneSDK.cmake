@@ -1,10 +1,18 @@
 # FindXPlaneSDK.cmake
+#
+# Searches fo the X-Plane SDK
+# Define XPlaneSDK_DIR upfront if you know where it is
+# By default, only looks for header directories and returns them in XPlaneSDK_INCLUDE_DIRS.
+# Supports COMPONENTS "XPLM" and "XPWidgets" if interested in library targets to link to
+# Keep in mind that no libraries are provided nor needed for Linux builds.
 
-# Allow the user to set the path manually
-set(XPLANE_SDK_DIR "" CACHE PATH "Path to the X-Plane SDK")
+include(FindPackageHandleStandardArgs)
 
-# Define common search paths for SDK
-if(NOT XPLANE_SDK_DIR)
+# If a path is given, use it
+if(XPlaneSDK_DIR)
+    set(_xplane_sdk_possible_paths "${XPlaneSDK_DIR}")
+else()
+    # Otherwise define common search paths for SDK
     if(WIN32)
         set(_xplane_sdk_possible_paths
             "C:/XPlaneSDK"
@@ -21,72 +29,60 @@ if(NOT XPLANE_SDK_DIR)
             "/opt/XPlaneSDK"
         )
     endif()
-
-    # Search for the SDK root directory
-    find_path(XPLANE_SDK_DIR
-        NAMES XPLM/XPLM.h
-        PATHS ${_xplane_sdk_possible_paths}
-        DOC "Directory containing the X-Plane SDK"
-    )
 endif()
 
-# If not found, display an error message
-if(NOT XPLANE_SDK_DIR)
-    message(FATAL_ERROR "X-Plane SDK not found. Please set XPLANE_SDK_DIR.")
+# Search for the SDK root directory
+find_path(XPlaneSDK_ROOT_DIR
+    NAMES "CHeaders/XPLM/XPLMDefs.h"
+    PATHS ${_xplane_sdk_possible_paths}
+    DOC "Directory containing the X-Plane SDK"
+)
+
+if (XPlaneSDK_ROOT_DIR)
+    # --- Header Directories ---
+    if(IS_DIRECTORY "${XPlaneSDK_ROOT_DIR}/CHeaders/XPLM")
+        SET(XPlaneSDK_XPLM_INCLUDE_DIR "${XPlaneSDK_ROOT_DIR}/CHeaders/XPLM")
+        LIST(APPEND XPlaneSDK_INCLUDE_DIRS ${XPlaneSDK_XPLM_INCLUDE_DIR})
+    endif()
+    if(IS_DIRECTORY "${XPlaneSDK_ROOT_DIR}/CHeaders/Widgets")
+        SET(XPlaneSDK_XPWidgets_INCLUDE_DIR "${XPlaneSDK_ROOT_DIR}/CHeaders/Widgets")
+        LIST(APPEND XPlaneSDK_INCLUDE_DIRS ${XPlaneSDK_XPWidgets_INCLUDE_DIR})
+    endif()
+    if(IS_DIRECTORY "${XPlaneSDK_ROOT_DIR}/CHeaders/Wrappers")
+        SET(XPlaneSDK_Wrappers_INCLUDE_DIR "${XPlaneSDK_ROOT_DIR}/CHeaders/Wrappers")
+        LIST(APPEND XPlaneSDK_INCLUDE_DIRS ${XPlaneSDK_Wrappers_INCLUDE_DIR})
+    endif()
+
+    # --- Library ---
+    # Define common subdirectories for libraries
+    if(WIN32)
+        set(_xplane_lib_path "${XPlaneSDK_ROOT_DIR}/Libraries/Win")
+    elseif(APPLE)
+        set(_xplane_lib_path "${XPlaneSDK_ROOT_DIR}/Libraries/Mac")
+    elseif(UNIX)
+        set(_xplane_lib_path "${XPlaneSDK_ROOT_DIR}/Libraries/Lin")
+    endif()
+
+    # Try finding the components, expected are XPLM and/or XPWidgets
+    foreach (comp IN LISTS XPlaneSDK_FIND_COMPONENTS)
+        # Find the actual library
+        find_library(XPlaneSDK_${comp}_LIBRARY NAMES "${comp}_64" "${comp}" PATHS "${_xplane_lib_path}")
+        # Create an import target for the XPLM component
+        if(XPlaneSDK_${comp}_LIBRARY AND NOT TARGET XPlaneSDK::${comp})
+            add_library(XPlaneSDK::${comp} UNKNOWN IMPORTED)
+            set_target_properties(XPlaneSDK::${comp} PROPERTIES
+                IMPORTED_LOCATION ${XPlaneSDK_${comp}_LIBRARY}
+                INTERFACE_INCLUDE_DIRECTORIES "${XPlaneSDK_${comp}_INCLUDE_DIR}"
+            )
+            set(XPlaneSDK_${comp}_FOUND TRUE)
+            message ("XPlaneSDK_${comp}_LIBRARY = ${XPlaneSDK_${comp}_LIBRARY}")
+        endif()
+    endforeach()
 endif()
 
-# Include directories for the X-Plane SDK
-set(XPLANE_SDK_INCLUDE_DIR ${XPLANE_SDK_DIR}/CHeaders)
-
-# Define common search paths for libraries
-set(_xplane_lib_xplm_name "XPLM")
-set(_xplane_lib_xpwidgets_name "XPWidgets")
-if(WIN32)
-    set(_xplane_lib_possible_paths
-        "${XPLANE_SDK_DIR}/Libraries/Win"
-    )
-	set(_xplane_lib_xplm_name "XPLM_64")
-	set(_xplane_lib_xpwidgets_name "XPWidgets_64")
-elseif(APPLE)
-    set(_xplane_lib_possible_paths
-        "${XPLANE_SDK_DIR}/Libraries/Mac"
-    )
-elseif(UNIX)
-    set(_xplane_lib_possible_paths
-        "${XPLANE_SDK_DIR}/Libraries/Linux"
-    )
-endif()
-
-# Search for the XPLM and XPWidgets libraries
-find_library(XPLM_LIBRARY NAMES ${_xplane_lib_xplm_name} PATHS ${_xplane_lib_possible_paths})
-find_library(XPWIDGETS_LIBRARY NAMES ${_xplane_lib_xpwidgets_name} PATHS ${_xplane_lib_possible_paths})
-
-# If the libraries are not found, display an error
-if(NOT XPLM_LIBRARY)
-    message(FATAL_ERROR "Failed to find XPLM library.")
-endif()
-
-if(NOT XPWIDGETS_LIBRARY)
-    message(FATAL_ERROR "Failed to find XPWidgets library.")
-endif()
-
-# Provide the results to the parent scope
-set(XPLANE_SDK_INCLUDE_DIR ${XPLANE_SDK_INCLUDE_DIR})
-set(XPLANE_SDK_LIBRARIES ${XPLM_LIBRARY} ${XPWIDGETS_LIBRARY})
-
-# Optionally, create an imported target for modern CMake usage
-if(NOT TARGET XPlaneSDK::XPLM)
-    add_library(XPlaneSDK::XPLM UNKNOWN IMPORTED)
-    set_target_properties(XPlaneSDK::XPLM PROPERTIES
-        IMPORTED_LOCATION ${XPLM_LIBRARY}
-        INTERFACE_INCLUDE_DIRECTORIES ${XPLANE_SDK_INCLUDE_DIR}
-    )
-endif()
-
-if(NOT TARGET XPlaneSDK::XPWidgets)
-    add_library(XPlaneSDK::XPWidgets UNKNOWN IMPORTED)
-    set_target_properties(XPlaneSDK::XPWidgets PROPERTIES
-        IMPORTED_LOCATION ${XPWIDGETS_LIBRARY}
-        INTERFACE_INCLUDE_DIRECTORIES ${XPLANE_SDK_INCLUDE_DIR}
-    )
-endif()
+# Provide results back to caller
+find_package_handle_standard_args(XPlaneSDK
+    REQUIRED_VARS XPlaneSDK_ROOT_DIR XPlaneSDK_XPLM_INCLUDE_DIR
+    REASON_FAILURE_MESSAGE "X-Plane SDK not found in ${_xplane_sdk_possible_paths}. Specify location by defining XPlaneSDK_ROOT_DIR."
+    HANDLE_COMPONENTS
+)

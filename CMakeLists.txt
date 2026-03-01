@@ -31,17 +31,20 @@ else()
     set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64" CACHE STRING "Archs to build")
 endif()
 
+option(XPMP2_BUILD_SHARED_LIBS "Build XPMP2 as a shared libraries" OFF)
+
 project(XPMP2
         VERSION 3.5.1
         DESCRIPTION "Multiplayer library for X-Plane 11 and 12")
 
-# Source list
-add_library(XPMP2 STATIC
+# Source file list
+set(SOURCE_FILES
     inc/XPCAircraft.h
     inc/XPMPAircraft.h
     inc/XPMPMultiplayer.h
     inc/XPMPRemote.h
     inc/XPMPPlaneRenderer.h
+    inc/XPMPExport.h
     src/2D.h
     src/2D.cpp
     src/AIMultiplayer.h
@@ -65,8 +68,46 @@ add_library(XPMP2 STATIC
     src/Utilities.h
     src/Utilities.cpp
     src/XPMP2.h
-    src/XPMPMultiplayer.cpp
-)
+    src/XPMPMultiplayer.cpp)
+
+# Support for finding the X-Plane SDK
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+if(NOT XPlaneSDK_DIR)
+    set(XPlaneSDK_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/SDK")
+endif()
+
+if(XPMP2_BUILD_SHARED_LIBS)
+    if (NOT WIN32)
+        message (FATAL_ERROR "Building a shared library is only supported for Windows!")
+    endif()
+    find_package(XPlaneSDK REQUIRED XPLM)                           # For a dynamic library need to link to XPLM
+    add_library(XPMP2 SHARED ${SOURCE_FILES}) 
+    target_compile_definitions(XPMP2 PUBLIC XPMP2_EXPORTS)
+    target_link_libraries(${PROJECT_NAME} PRIVATE wsock32 ws2_32 iphlpapi XPlaneSDK::XPLM)
+else()
+    find_package(XPlaneSDK REQUIRED)                                # For a static library we don't need any SDK lib to link
+    add_library(XPMP2 STATIC ${SOURCE_FILES})
+    target_compile_definitions(XPMP2 PUBLIC XPMP2_STATIC_DEFINE)     # <-- see to remove this later
+endif()
+
+# Debug vs Release build
+if(CMAKE_BUILD_TYPE MATCHES "Debug")
+    target_compile_definitions(XPMP2 PRIVATE DEBUG=1)
+    if (MSVC)
+        target_compile_options(XPMP2 PRIVATE /Zi)
+    else()
+        target_compile_options(XPMP2 PRIVATE -O0 -g -fPIC)
+    endif()
+else()
+    target_compile_definitions(XPMP2 PRIVATE NDEBUG=1)
+    if(MSVC)
+        # Fast code, symbols into separate .pdb file, no global optimization (as it produces huge files)
+        target_compile_options(XPMP2 PRIVATE /Zi /O2 /GL-)
+    else()
+        # Use position-independent code and highest optimization level
+        target_compile_options(XPMP2 PRIVATE -O3 -fPIC)
+    endif()
+endif()
 
 # Provide compile macros from the above project version definition
 target_compile_definitions(XPMP2 PRIVATE
@@ -87,6 +128,8 @@ if (APPLE)
     message ("OSX_SDK_PATH                  = $ENV{OSX_SDK_PATH}")
     message ("CMAKE_OSX_ARCHITECTURES       = ${CMAKE_OSX_ARCHITECTURES}")
 endif()
+message ("X-Plane SDK Headers           = ${XPlaneSDK_INCLUDE_DIRS}")
+message ("Building Shared Lib           = ${XPMP2_BUILD_SHARED_LIBS}")
 
 ################################################################################
 # Target Systems
@@ -141,24 +184,6 @@ else()
     target_compile_options(XPMP2 PRIVATE -fvisibility=hidden)
 endif()
 
-# Debug vs Release build
-if(CMAKE_BUILD_TYPE MATCHES "Debug")
-    target_compile_definitions(XPMP2 PRIVATE DEBUG=1)
-    if (MSVC)
-        target_compile_options(XPMP2 PRIVATE /MDd /Od /RTC1 /Zi)
-    else()
-        target_compile_options(XPMP2 PRIVATE -O0 -g -fPIC)
-    endif()
-else()
-    target_compile_definitions(XPMP2 PRIVATE NDEBUG=1)
-    if(MSVC)
-        target_compile_options(XPMP2 PRIVATE /MD /Zi /O2)
-    else()
-        # Use position-independent code and highest optimization level
-        target_compile_options(XPMP2 PRIVATE -O3 -fPIC)
-    endif()
-endif()
-
 # Mingw Threads (if not already defined by an outer target)
 if (MINGW AND NOT TARGET mingw_stdthreads)
     option(MINGW_STDTHREADS_GENERATE_STDHEADERS "" ON)
@@ -178,7 +203,7 @@ target_include_directories(XPMP2
         ${CMAKE_CURRENT_SOURCE_DIR}/inc
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/lib/fmod/inc
-		${CMAKE_CURRENT_SOURCE_DIR}/lib/SDK/CHeaders/XPLM
+		${XPlaneSDK_INCLUDE_DIRS}
 		${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
@@ -214,6 +239,7 @@ if(APPLE)
         ../inc/XPMPMultiplayer.h
         ../inc/XPMPPlaneRenderer.h
         ../inc/XPMPRemote.h
+        ../inc/XPMPExport.h
     )
 
     set_target_properties(XPMP2 PROPERTIES

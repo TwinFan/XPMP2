@@ -142,7 +142,7 @@ enum DR_VALS : std::uint8_t {
 ///          as it contains many technical implementation details.
 ///          This structure contains some of the CSLModel information in a public
 ///          definition, returned by XPMP2::Aircraft::GetModelInfo().
-struct CSLModelInfo_t {
+struct XPMP2_EXPORT CSLModelInfo_t {
     /// id, just an arbitrary label read from `xsb_aircraft.txt::OBJ8_AIRCRAFT`
     std::string         cslId;
     /// name, formed by last part of path plus id
@@ -175,7 +175,7 @@ struct CSLModelInfo_t {
 
 /// @brief Actual representation of all aircraft in XPMP2.
 /// @note In modern implementations, this class shall be subclassed by your plugin's code.
-class Aircraft {
+class XPMP2_EXPORT Aircraft {
     
 public:
     

@@ -111,6 +111,8 @@ Macros</h2></td></tr>
 <tr class="separator:a11c86e4d5791c99e967f5ef730aac0f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad46d3c941557fa20fd1113f7247f5a97" id="r_ad46d3c941557fa20fd1113f7247f5a97"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad46d3c941557fa20fd1113f7247f5a97">SET_DR</a>(ty,  dr)</td></tr>
 <tr class="separator:ad46d3c941557fa20fd1113f7247f5a97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe385c0fa013664b23a015839a89fcea" id="r_abe385c0fa013664b23a015839a89fcea"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abe385c0fa013664b23a015839a89fcea">SET_DR_ONLY_USED</a>(ty,  dr)</td></tr>
+<tr class="separator:abe385c0fa013664b23a015839a89fcea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0a0ee111d8f8201b9a508b0cde8aa1c" id="r_ad0a0ee111d8f8201b9a508b0cde8aa1c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0a0ee111d8f8201b9a508b0cde8aa1c">FIND_PLANE_DR</a>(membVar,  dataRefTxt,  PlaneNr)</td></tr>
 <tr class="separator:ad0a0ee111d8f8201b9a508b0cde8aa1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a30b831833af3d6dbe08776f2dcda8556" id="r_a30b831833af3d6dbe08776f2dcda8556"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a30b831833af3d6dbe08776f2dcda8556">SHARE_PLANE_DR</a>(membVar,  dataRefTxt,  PlaneNr)</td></tr>
@@ -429,6 +431,28 @@ Taxi lights. </td></tr>
 </div><!-- fragment -->
 </div>
 </div>
+<a id="abe385c0fa013664b23a015839a89fcea" name="abe385c0fa013664b23a015839a89fcea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe385c0fa013664b23a015839a89fcea">&#9670;&#160;</a></span>SET_DR_ONLY_USED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SET_DR_ONLY_USED</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>ty</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>dr</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">XPLMSetData##ty(drTcas##dr, v##dr.data(), 1, (<span class="keywordtype">int</span>)(slot-1))</div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="a30b831833af3d6dbe08776f2dcda8556" name="a30b831833af3d6dbe08776f2dcda8556"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a30b831833af3d6dbe08776f2dcda8556">&#9670;&#160;</a></span>SHARE_PLANE_DR</h2>
 
@@ -522,7 +546,7 @@ Taxi lights. </td></tr>
 </div><div class="memdoc">
 
 <p>Has <a class="el" href="namespaceXPMP2.html">XPMP2</a> control of TCAS targets? </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="XPMPMultiplayer_8h.html#aa9ac95e430045ceaa33a890561e64f4f" title="Tries to grab control of TCAS targets (formerly known as AI/multiplayer) from X-Plane.">XPMPMultiplayerEnable()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="XPMPMultiplayer_8h.html#a39aa332c38a0355e959567746138a4f6" title="Tries to grab control of TCAS targets (formerly known as AI/multiplayer) from X-Plane.">XPMPMultiplayerEnable()</a> </dd></dl>
 
 </div>
 </div>
@@ -543,7 +567,7 @@ Taxi lights. </td></tr>
 
 <p>Release TCAS targets control. </p>
 <p>Afterwards, <a class="el" href="namespaceXPMP2.html">XPMP2</a>'s aircraft will no longer appear on TCAS or on 3rd-party plugins relying on TCAS targets dataRefs.<br  />
- Is called during <a class="el" href="XPMPMultiplayer_8h.html#acc451b7b8df8f182f74cf5d306286443" title="Clean up the multiplayer library.">XPMPMultiplayerCleanup()</a> automatically. </p>
+ Is called during <a class="el" href="XPMPMultiplayer_8h.html#ab11aac640fd728e5f624dc8707b452be" title="Clean up the multiplayer library.">XPMPMultiplayerCleanup()</a> automatically. </p>
 
 </div>
 </div>

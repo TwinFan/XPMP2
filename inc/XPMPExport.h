@@ -12,7 +12,7 @@
 ///             documentation.
 ///
 ///             The XPMP2 build process defines `XPMP2_DLLEXPORT` when
-///             `-D"XPMP2_BUILD_SHARED_LIBS:boolean=TRUE` is passed to the `cmake`
+///             `-D"XPMP2_BUILD_SHARED_LIBS:boolean=TRUE"` is passed to the `cmake`
 ///             call, to build the DLL.
 ///
 ///             If you want to use the `XPMP2.dll` from your plugin you need to

@@ -86,6 +86,9 @@ jobs:
       run: |
         mkdir -p deploy-lib/lib/win
         cp ${{ steps.build.outputs.lib-file-name }} deploy-lib/lib/win
+        if [[ -n "${{ steps.build.outputs.pdb-file-name }}"]]
+          cp ${{ steps.build.outputs.pdb-file-name }} deploy-lib/lib/win-dll
+        fi
     - name: Upload XPMP2 lib
       uses: actions/upload-artifact@v4
       with:
@@ -131,7 +134,7 @@ jobs:
       id: build
       with:
         libName: ${{ env.PRJ_NAME }}
-        flags: -D"XPMP2_BUILD_SHARED_LIBS:boolean=TRUE" ${{ inputs.flags }}
+        flags: -D""XPMP2_BUILD_SHARED_LIBS:boolean=TRUE"" ${{ inputs.flags }}
     - name: Prepare XPMP2 dll
       shell: bash
       run: |

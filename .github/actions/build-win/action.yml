@@ -6,6 +6,10 @@ inputs:
   libName:
     description: "Library's name, used as file name"
     required: true
+  buildType:
+    description: "Build type, like RelWithDebInfo or Debug"
+    required: false
+    default: "RelWithDebInfo"
   flags:
     description: "Flags to be passed to CMake"
     required: false
@@ -14,13 +18,19 @@ outputs:
   lib-file-name:
     description: Path to the resulting lib
     value: ${{ steps.return.outputs.lib-file-name }}
+  pdb-file-name:
+    description: Path to the resulting .pdb file with debug info
+    value: ${{ steps.return.outputs.pdb-file-name }}
+  dll-file-name:
+    description: Path to the resulting DLL
+    value: ${{ steps.return.outputs.dll-file-name }}
 
 runs:
   using: "composite"
   steps:
   - name: Build
     shell: cmd
-    run: ${{ github.action_path }}\build-win.cmd "C:\Program Files\Microsoft Visual Studio\2022\Enterprise" build-win "${{ inputs.flags }}"
+    run: ${{ github.action_path }}\build-win.cmd "C:\Program Files\Microsoft Visual Studio\2022\Enterprise" build-win "${{ inputs.buildType }}" "${{ inputs.flags }}"
   - name: Test for Target
     shell: bash
     env:
@@ -35,4 +45,16 @@ runs:
     shell: bash
     env:
       TARGET_LIB: build-win/${{ inputs.libName }}.lib
-    run: echo "lib-file-name=$(echo $TARGET_LIB)" >> $GITHUB_OUTPUT
+      TARGET_PDB1: build-win/${{ inputs.libName }}.pdb
+      TARGET_PDB2: build-win/CMakeFile/XPMP2.dir/${{ inputs.libName }}.pdb
+      TARGET_DLL: build-win/${{ inputs.libName }}.dll
+    run: |
+      echo "lib-file-name=$(echo $TARGET_LIB)" >> $GITHUB_OUTPUT
+      if [[ -f "$TARGET_PDB1" ]]; then
+        echo "pdb-file-name=$(echo $TARGET_PDB1)" >> $GITHUB_OUTPUT
+      elif [[ -f "$TARGET_PDB2" ]]; then
+        echo "pdb-file-name=$(echo $TARGET_PDB2)" >> $GITHUB_OUTPUT
+      fi
+      if [[ -f "$TARGET_DLL" ]]; then
+        echo "dll-file-name=$(echo $TARGET_DLL)" >> $GITHUB_OUTPUT
+      fi

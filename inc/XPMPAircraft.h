@@ -31,7 +31,7 @@
 ///             https://en.wikipedia.org/wiki/List_of_airline_codes
 ///
 /// @author     Birger Hoppe
-/// @copyright  (c) 2020-2022 Birger Hoppe
+/// @copyright  (c) 2020-2026 Birger Hoppe
 /// @copyright  Permission is hereby granted, free of charge, to any person obtaining a
 ///             copy of this software and associated documentation files (the "Software"),
 ///             to deal in the Software without restriction, including without limitation
@@ -62,6 +62,12 @@
 #include <string>
 #include <vector>
 #include <list>
+
+// Suppress warnings on member attributes needing to have dll-interface
+#if _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4251 4275)
+#endif
 
 //
 // MARK: XPMP2 New Definitions
@@ -792,17 +798,17 @@ protected:
 };
 
 /// Find aircraft by its plane ID, can return nullptr
-Aircraft* AcFindByID (XPMPPlaneID _id);
+XPMP2_EXPORT Aircraft* AcFindByID (XPMPPlaneID _id);
 
 /// (Re)Define default wake turbulence values per WTC
-bool AcSetDefaultWakeData(const std::string& _wtc, const Aircraft::wakeTy& _wake);
+XPMP2_EXPORT bool AcSetDefaultWakeData(const std::string& _wtc, const Aircraft::wakeTy& _wake);
 
 //
 // MARK: XPMP2 Exception class
 //
 
 /// XPMP2 Exception class, e.g. thrown if there are no CSL models or duplicate modeS_ids when creating an Aircraft
-class XPMP2Error : public std::logic_error {
+class XPMP2_EXPORT XPMP2Error : public std::logic_error {
 protected:
     std::string fileName;           ///< filename of the line of code where exception occurred
     int ln;                         ///< line number of the line of code where exception occurred
@@ -826,5 +832,9 @@ public:
 
 
 }   // namespace XPMP2
+
+#if _MSC_VER
+#pragma warning(pop)
+#endif
 
 #endif

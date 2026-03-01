@@ -81,32 +81,15 @@ if(XPMP2_BUILD_SHARED_LIBS)
         message (FATAL_ERROR "Building a shared library is only supported for Windows!")
     endif()
     find_package(XPlaneSDK REQUIRED XPLM)                           # For a dynamic library need to link to XPLM
-    add_library(XPMP2 SHARED ${SOURCE_FILES}) 
-    target_compile_definitions(XPMP2 PUBLIC XPMP2_EXPORTS)
-    target_link_libraries(${PROJECT_NAME} PRIVATE wsock32 ws2_32 iphlpapi XPlaneSDK::XPLM)
+    add_library(XPMP2 SHARED ${SOURCE_FILES} "XPMP2.rc") 
+    set_target_properties(XPMP2 PROPERTIES                          # Add version number to DLL
+        VERSION ${PROJECT_VERSION}
+    )   
+    target_compile_definitions(XPMP2 PUBLIC XPMP2_DLLEXPORT)        # Make sure symbols get exported to DLL, see XPMPExport.h
+    target_link_libraries(XPMP2 PRIVATE wsock32 ws2_32 iphlpapi XPlaneSDK::XPLM)
 else()
     find_package(XPlaneSDK REQUIRED)                                # For a static library we don't need any SDK lib to link
     add_library(XPMP2 STATIC ${SOURCE_FILES})
-    target_compile_definitions(XPMP2 PUBLIC XPMP2_STATIC_DEFINE)     # <-- see to remove this later
-endif()
-
-# Debug vs Release build
-if(CMAKE_BUILD_TYPE MATCHES "Debug")
-    target_compile_definitions(XPMP2 PRIVATE DEBUG=1)
-    if (MSVC)
-        target_compile_options(XPMP2 PRIVATE /Zi)
-    else()
-        target_compile_options(XPMP2 PRIVATE -O0 -g -fPIC)
-    endif()
-else()
-    target_compile_definitions(XPMP2 PRIVATE NDEBUG=1)
-    if(MSVC)
-        # Fast code, symbols into separate .pdb file, no global optimization (as it produces huge files)
-        target_compile_options(XPMP2 PRIVATE /Zi /O2 /GL-)
-    else()
-        # Use position-independent code and highest optimization level
-        target_compile_options(XPMP2 PRIVATE -O3 -fPIC)
-    endif()
 endif()
 
 # Provide compile macros from the above project version definition
@@ -130,6 +113,7 @@ if (APPLE)
 endif()
 message ("X-Plane SDK Headers           = ${XPlaneSDK_INCLUDE_DIRS}")
 message ("Building Shared Lib           = ${XPMP2_BUILD_SHARED_LIBS}")
+message ("Build Type                    = ${CMAKE_BUILD_TYPE}")
 
 ################################################################################
 # Target Systems
@@ -184,6 +168,27 @@ else()
     target_compile_options(XPMP2 PRIVATE -fvisibility=hidden)
 endif()
 
+# Debug vs Release build
+if(CMAKE_BUILD_TYPE MATCHES "Debug")
+    target_compile_definitions(XPMP2 PRIVATE DEBUG=1)
+    if (MSVC)
+        # Multi-threaded-debug (/MDd), No optimizations (/Od), debug info into the lib (/Z7), and some generated run-time checks (/RTC1)
+        target_compile_options(XPMP2 PRIVATE /MDd /Od /RTC1 /Z7)
+    else()
+        # No optimizations (-O0), debug info into the lib (-g), position-independent code (-fPIC)
+        target_compile_options(XPMP2 PRIVATE -O0 -g -fPIC)
+    endif()
+else()
+    target_compile_definitions(XPMP2 PRIVATE NDEBUG=1)
+    if(MSVC)
+        # Multi-threaded (/MD), full optimization (/O2), debug info into separate -pdb file
+        target_compile_options(XPMP2 PRIVATE /MD /O2 /Zi)
+    else()
+        # Full optimizations (-O3), no debug info, position-independent code (-fPIC)
+        target_compile_options(XPMP2 PRIVATE -O3 -fPIC)
+    endif()
+endif()
+
 # Mingw Threads (if not already defined by an outer target)
 if (MINGW AND NOT TARGET mingw_stdthreads)
     option(MINGW_STDTHREADS_GENERATE_STDHEADERS "" ON)
@@ -229,6 +234,18 @@ if(INCLUDE_FMOD_SOUND)
         src/SoundFMOD.h
         src/SoundFMOD.cpp
     )
+    # In case of the DLL we need to link with FMOD, too
+    if(XPMP2_BUILD_SHARED_LIBS)
+        find_library(FMOD_LIBRARY
+            NAMES fmod_vc.lib
+            PATHS ${CMAKE_CURRENT_SOURCE_DIR}/lib/fmod
+        )
+        if (NOT FMOD_LIBRARY)
+            message (FATAL_ERROR "Did not find fmod_vc.lib in ${CMAKE_CURRENT_SOURCE_DIR}/lib/fmod")
+        endif()
+        message ("FMOD_LIBRARY                  = ${FMOD_LIBRARY}")
+        target_link_libraries(XPMP2 PRIVATE ${FMOD_LIBRARY})
+    endif()
 endif()
 
 # make it a framework

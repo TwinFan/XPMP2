@@ -8,7 +8,7 @@
 ///             New implementations should derive directly from XPMP2::Aircraft.
 /// @author     Birger Hoppe
 /// @copyright  The original XPCAircraft.h file in libxplanemp had no copyright note.
-/// @copyright  (c) 2020 Birger Hoppe
+/// @copyright  (c) 2020-2026 Birger Hoppe
 /// @copyright  Permission is hereby granted, free of charge, to any person obtaining a
 ///             copy of this software and associated documentation files (the "Software"),
 ///             to deal in the Software without restriction, including without limitation
@@ -30,10 +30,16 @@
 
 #include "XPMPAircraft.h"
 
+// Suppress warnings on member attributes needing to have dll-interface
+#if _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4251 4275)
+#endif
+
 /// @brief Legacy wrapper class as provided by original libxplanemp
 /// @deprecated Only provided for backwards compile-compatibility.
 ///             New implementations should subclass XPMP2::Aircraft directly.
-class [[deprecated("Subclass XPMP2::Aircraft instead")]]
+class [[deprecated("Subclass XPMP2::Aircraft instead")]] XPMP2_EXPORT
 XPCAircraft : public XPMP2::Aircraft {
     
 public:
@@ -71,5 +77,9 @@ public:
     virtual void UpdatePosition (float _elapsedSinceLastCall, int _flCounter);
 
 };
+
+#if _MSC_VER
+#pragma warning(pop)
+#endif
 
 #endif

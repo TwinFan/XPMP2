@@ -86,7 +86,7 @@ jobs:
       run: |
         mkdir -p deploy-lib/lib/win
         cp ${{ steps.build.outputs.lib-file-name }} deploy-lib/lib/win
-        if [[ -n "${{ steps.build.outputs.pdb-file-name }}"]]
+        if [[ -n "${{ steps.build.outputs.pdb-file-name }}"]]; then
           cp ${{ steps.build.outputs.pdb-file-name }} deploy-lib/lib/win-dll
         fi
     - name: Upload XPMP2 lib
@@ -140,10 +140,10 @@ jobs:
       run: |
         mkdir -p deploy-lib/lib/win-dll
         cp ${{ steps.build.outputs.lib-file-name }} deploy-lib/lib/win-dll
-        if [[ -n "${{ steps.build.outputs.pdb-file-name }}"]]
+        if [[ -n "${{ steps.build.outputs.pdb-file-name }}"]]; then
           cp ${{ steps.build.outputs.pdb-file-name }} deploy-lib/lib/win-dll
         fi
-        if [[ -n "${{ steps.build.outputs.dll-file-name }}"]]
+        if [[ -n "${{ steps.build.outputs.dll-file-name }}"]]; then
           cp ${{ steps.build.outputs.dll-file-name }} deploy-lib/lib/win-dll
         fi
     - name: Upload XPMP2 lib

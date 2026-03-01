@@ -46,7 +46,7 @@ runs:
     env:
       TARGET_LIB: build-win/${{ inputs.libName }}.lib
       TARGET_PDB1: build-win/${{ inputs.libName }}.pdb
-      TARGET_PDB2: build-win/CMakeFile/XPMP2.dir/${{ inputs.libName }}.pdb
+      TARGET_PDB2: build-win/CMakeFiles/XPMP2.dir/${{ inputs.libName }}.pdb
       TARGET_DLL: build-win/${{ inputs.libName }}.dll
     run: |
       echo "lib-file-name=$(echo $TARGET_LIB)" >> $GITHUB_OUTPUT

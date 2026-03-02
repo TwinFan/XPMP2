@@ -46,42 +46,39 @@ runs:
         echo Expected target build not found: "$TARGET_LIB"
         exit 1
       fi
-  - name: Return Static Lib
-    if: steps.tgt_exists.outputs.NameFile == 'false'
-    id: return_static
+  - name: Return Libs
+    id: return
     shell: bash
     env:
       TARGET_LIB: build-win/${{ inputs.libName }}.lib
       TARGET_PDB: build-win/CMakeFiles/XPMP2.dir/${{ inputs.libName }}.pdb
-    run: |
-      echo "lib-file-name=$(echo $TARGET_LIB)" >> $GITHUB_OUTPUT
-      if [[ -f "$TARGET_PDB" ]]; then
-        echo "pdb-file-name=$(echo $TARGET_PDB)" >> $GITHUB_OUTPUT
-      fi
-
-  - name: Return DLL
-    if: steps.tgt_exists.outputs.NameFile == 'true'
-    id: return_dll
-    shell: bash
-    env:
       NAME_FILE: build-win/${{ inputs.libName }}_FileName.txt
     run: |
-      ARTIFACT_NAME=$(cat $NAME_FILE)
-      TARGET_LIB="build-win/$ARTIFACT_NAME.lib"
-      TARGET_PDB="build-win/$ARTIFACT_NAME.pdb"
-      TARGET_DLL="build-win/$ARTIFACT_NAME.dll"
-      if [[ -f $TARGET_LIB ]]; then
+      if [[ ! -f "$NAME_FILE" ]]; then
+        # Static lib with static naming
         echo "lib-file-name=$(echo $TARGET_LIB)" >> $GITHUB_OUTPUT
+        if [[ -f "$TARGET_PDB" ]]; then
+          echo "pdb-file-name=$(echo $TARGET_PDB)" >> $GITHUB_OUTPUT
+        fi
       else
-        echo "Library $TARGET_LIB not found!"
-        exit 1
-      fi
-      if [[ -f "$TARGET_PDB" ]]; then
-        echo "pdb-file-name=$(echo $TARGET_PDB)" >> $GITHUB_OUTPUT
-      fi
-      if [[ -f "$TARGET_DLL" ]]; then
-        echo "dll-file-name=$(echo $TARGET_DLL)" >> $GITHUB_OUTPUT
-      else
-        echo "Library $TARGET_DLL not found!"
-        exit 1
+        # DLL with dynamic naming
+        ARTIFACT_NAME=$(cat $NAME_FILE)
+        DLL_LIB="build-win/$ARTIFACT_NAME.lib"
+        DLL_PDB="build-win/$ARTIFACT_NAME.pdb"
+        DLL_DLL="build-win/$ARTIFACT_NAME.dll"
+        if [[ -f $DLL_LIB ]]; then
+          echo "lib-file-name=$(echo $DLL_LIB)" >> $GITHUB_OUTPUT
+        else
+          echo "Library $DLL_LIB not found!"
+          exit 1
+        fi
+        if [[ -f "$DLL_PDB" ]]; then
+          echo "pdb-file-name=$(echo $DLL_PDB)" >> $GITHUB_OUTPUT
+        fi
+        if [[ -f "$DLL_DLL" ]]; then
+          echo "dll-file-name=$(echo $DLL_DLL)" >> $GITHUB_OUTPUT
+        else
+          echo "Library $DLL_DLL not found!"
+          exit 1
+        fi
       fi

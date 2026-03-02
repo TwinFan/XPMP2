@@ -54,9 +54,9 @@ runs:
       TARGET_LIB: build-win/${{ inputs.libName }}.lib
       TARGET_PDB: build-win/CMakeFiles/XPMP2.dir/${{ inputs.libName }}.pdb
     run: |
-      echo "lib-file-name=$TARGET_LIB" >> $GITHUB_OUTPUT
+      echo "lib-file-name=$(echo $TARGET_LIB)" >> $GITHUB_OUTPUT
       if [[ -f "$TARGET_PDB" ]]; then
-        echo "pdb-file-name=$TARGET_PDB" >> $GITHUB_OUTPUT
+        echo "pdb-file-name=$(echo $TARGET_PDB)" >> $GITHUB_OUTPUT
       fi
 
   - name: Return DLL
@@ -71,16 +71,16 @@ runs:
       TARGET_PDB="build-win/$ARTIFACT_NAME.pdb"
       TARGET_DLL="build-win/$ARTIFACT_NAME.dll"
       if [[ -f $TARGET_LIB ]]; then
-        echo "lib-file-name=$TARGET_LIB" >> $GITHUB_OUTPUT
+        echo "lib-file-name=$(echo $TARGET_LIB)" >> $GITHUB_OUTPUT
       else
         echo "Library $TARGET_LIB not found!"
         exit 1
       fi
       if [[ -f "$TARGET_PDB" ]]; then
-        echo "pdb-file-name=$TARGET_PDB" >> $GITHUB_OUTPUT
+        echo "pdb-file-name=$(echo $TARGET_PDB)" >> $GITHUB_OUTPUT
       fi
       if [[ -f "$TARGET_DLL" ]]; then
-        echo "dll-file-name=$TARGET_DLL" >> $GITHUB_OUTPUT
+        echo "dll-file-name=$(echo $TARGET_DLL)" >> $GITHUB_OUTPUT
       else
         echo "Library $TARGET_DLL not found!"
         exit 1

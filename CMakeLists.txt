@@ -82,11 +82,14 @@ if(XPMP2_BUILD_SHARED_LIBS)
     endif()
     find_package(XPlaneSDK REQUIRED XPLM)                           # For a dynamic library need to link to XPLM
     add_library(XPMP2 SHARED ${SOURCE_FILES} "XPMP2.rc") 
-    set_target_properties(XPMP2 PROPERTIES                          # Add version number to DLL
+    set_target_properties(XPMP2 PROPERTIES                          # Add version number to DLL name to reduce risk of version conflicts
+        OUTPUT_NAME "XPMP2-${PROJECT_VERSION}"
         VERSION ${PROJECT_VERSION}
     )   
     target_compile_definitions(XPMP2 PUBLIC XPMP2_DLLEXPORT)        # Make sure symbols get exported to DLL, see XPMPExport.h
     target_link_libraries(XPMP2 PRIVATE wsock32 ws2_32 iphlpapi XPlaneSDK::XPLM)
+    # Write the dynamic output file name into a file, so that Github actions can pick it up for uplading the artifact
+    file(GENERATE OUTPUT "XPMP2_FileName.txt" CONTENT $<TARGET_FILE_BASE_NAME:XPMP2>)
 else()
     find_package(XPlaneSDK REQUIRED)                                # For a static library we don't need any SDK lib to link
     add_library(XPMP2 STATIC ${SOURCE_FILES})

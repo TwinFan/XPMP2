@@ -97,6 +97,12 @@ The Windows version can also be built as a DLL.
 > Over time, different versions of the `XPMP2.dll` could get
 > into conflict with each other.
 >
+> To reduce the risk of version conflict, the DLL is generated with a version number
+> in its name. Still, version conflicts could only be avoided if only
+> the DLLs provided here in the Github Releases are distributed.
+> Just recompiling the DLL and import library will cause different signature
+> and version conflict.
+>
 > The DLL version has not been extensively tested and should not be used
 > for shipping public versions of a plugin without such extensive tests.
 > 
@@ -115,8 +121,8 @@ so that it looks like
 .github\actions\build-win\build-win.cmd "C:\Program Files\Microsoft Visual Studio\2022\Community" build-win RelWithDebInfo -D"XPMP2_BUILD_SHARED_LIBS:boolean=TRUE"
 ```
 
-You'll find the actual `XPMP2.dll`, the import library `XPMP2.lib`,
-and the debug information `XPMP2.pdb` all in the provided build directory,
+You'll find the actual `XPMP2-#.#.#.dll`, the import library `XPMP2-#.#.#.lib`,
+and the debug information `XPMP2-#.#.#.pdb` all in the provided build directory,
 `build-win` in the above example.
 
 To use the DLL version from within your plugin
@@ -124,8 +130,8 @@ To use the DLL version from within your plugin
 1. Define the compiler macro `XPMP2_DLLIMPORT` before including any
    XPMP2 header so that the all public XPMP2 functions, classes, and structures
    are defined with `__declspec(dllimport)`,
-2. link as usual to `XPMP2.lib`, which now serves as the DLL import library,
-3. ship `XPMP2.dll` alongside your plugin in the same directory.
+2. link to `XPMP2-#.#.#.lib`, which serves as the DLL import library,
+3. ship `XPMP2-#.#.#.dll` alongside your plugin in the same directory.
 
 ## Using an IDE
 

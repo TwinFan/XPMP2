@@ -10,7 +10,7 @@ The `XPMP2-Sample` repo is configured as a _Public Template_,
 so you can immediately [base your own project on it](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
 Please note that `XPMP2-Sample` includes `XPMP2` as a submodule,
 so you need to checkout those, too, e.g. on the command line by doing
-```
+```bash
 git clone --recurse-submodules https://github.com/TwinFan/XPMP2-Sample
 ```
 
@@ -32,23 +32,23 @@ You can avoid separate builds and instead include `XPMP2` directly into your pro
 Recommended steps are:
 
 1. Include XPMP2 as a Github Submodule into your Github project, using something like
-    ```
+    ```bash
     git submodule add --name XPMP2 'https://github.com/TwinFan/XPMP2' lib/XPMP2
     ```
     To update your local version with changes from the XPMP2 repository run something like
-    ```
+    ```bash
     git submodule update --remote
     ```
 2. In your `CMakeLists.txt` file include XPMP2 using something like the following in appropriate places:
     1. If needing FMOD sound support first define
-        ```
+        ```cmake
         set (INCLUDE_FMOD_SOUND 1)              
         add_compile_definitions(INCLUDE_FMOD_SOUND=1)
         include_directories("${CMAKE_CURRENT_SOURCE_DIR}/lib/XPMP2/lib/fmod/logo")
         target_sources(${CMAKE_PROJECT_NAME} lib/XPMP2/lib/fmod/logo/FMOD_Logo.cpp)
         ```
     2. Including building XPMP2 as follows:
-        ```
+        ```cmake
         include_directories("${CMAKE_CURRENT_SOURCE_DIR}/lib/XPMP2/inc")
         add_subdirectory(lib/XPMP2)
         add_dependencies(${CMAKE_PROJECT_NAME} XPMP2)
@@ -63,7 +63,7 @@ Given a proper local setup with a suitable compiler, CMake, and Ninja installed,
 you can just locally build the sources from the `CMakeList.txt` file,
 e.g. like this:
 
-```
+```bash
 mkdir build
 cd build
 cmake -G Ninja ..
@@ -75,9 +75,9 @@ This is precicely how the Mac and Linux builds are done in Github Actions.
 ### Windows
 
 For Windows, there is a build script available that encapsulates the
-Visual Studio environment setup and then runs `CMAKE` and `NAME`.
+Visual Studio environment setup and then runs `CMAKE` and `NMAKE`.
 
-```
+```bash
 .github\actions\build-win\build-win.cmd "C:\Program Files\Microsoft Visual Studio\2022\Community" build-win RelWithDebInfo
 ```
 
@@ -99,15 +99,16 @@ The Windows version can also be built as a DLL.
 >
 > To reduce the risk of version conflict, the DLL is generated with a version number
 > in its name. Still, version conflicts could only be avoided if only
-> the DLLs provided here in the Github Releases are distributed.
-> Even just recompiling the DLL and import library will already cause
-> a different signature and a version conflict.
+> the DLLs provided here in the
+> [Github Releases](https://github.com/TwinFan/XPMP2/releases) are distributed.
+> Even just recompiling the DLL and import library with a slightly different
+> compiler could cause a different signature and a version conflict.
 >
 > The DLL version has not been extensively tested and should not be used
 > for shipping public versions of a plugin without such extensive tests.
 > 
-> All classes and structure are then defined as `__declspec(dllexport)` and
-> the warnings
+> All public functions, classes, and structure are then defined as
+> `__declspec(dllexport)` and the warnings
 > [C4251](https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4251?view=msvc-170)
 > and [C4275](https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-2-c4275?view=msvc-170) are suppressed.
 > The cases listed in the above warning documentation may not apply to XPMP2
@@ -115,11 +116,11 @@ The Windows version can also be built as a DLL.
 > I have, however, briefly ran LiveTraffic with a DLL version just to prove
 > it all basically works.
 
-To build the DLL version of XPMP2 pass one more parameter
+To build the DLL version of XPMP2, pass one more parameter
 `-D"XPMP2_BUILD_SHARED_LIBS:boolean=TRUE"` to `build-win.cmd`
 so that it looks like
 
-```
+```shell
 .github\actions\build-win\build-win.cmd "C:\Program Files\Microsoft Visual Studio\2022\Community" build-win RelWithDebInfo -D"XPMP2_BUILD_SHARED_LIBS:boolean=TRUE"
 ```
 
@@ -130,20 +131,25 @@ and the debug information `XPMP2-#.#.#.pdb` all in the provided build directory,
 To use the DLL version from within your plugin
 
 1. Define the compiler macro `XPMP2_DLLIMPORT` before including any
-   XPMP2 header so that the all public XPMP2 functions, classes, and structures
+   XPMP2 header so that all the public XPMP2 functions, classes, and structures
    are defined with `__declspec(dllimport)`,
 2. link to `XPMP2-#.#.#.lib`, which serves as the DLL import library,
 3. ship `XPMP2-#.#.#.dll` alongside your plugin in the same directory.
 
-If you import the XPMP2 directory as part of your CMake build process,
+If you import the XPMP2 project as part of your CMake build process,
 as explained above in "Including XPMP2 directly...", then define something
-like this to enable building and linking the DLL version with your plugin:
+like this before the `add_subdirectory` call to enable building and linking
+the DLL version with your plugin:
 
 ```cmake
 # Using XPMP2 as DLL
 if (WIN32)
-    set(XPMP2_BUILD_SHARED_LIBS 1)                                  # Tell XPMP2 to build the DLL
-    target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE XPMP2_DLLIMPORT) # Tell my project to import functions from DLL
+    # Tell XPMP2 to build the DLL
+    set(XPMP2_BUILD_SHARED_LIBS 1)
+    # Tell my project to import functions from DLL
+    target_compile_definitions(${CMAKE_PROJECT_NAME}
+        PRIVATE XPMP2_DLLIMPORT
+    )
 endif()
 ```
 

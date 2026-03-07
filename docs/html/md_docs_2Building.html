@@ -84,8 +84,8 @@ Including XPMP2 directly in GitHub project and CMake builds</h1>
 </div><!-- fragment --> To update your local version with changes from the <a class="el" href="namespaceXPMP2.html">XPMP2</a> repository run something like <div class="fragment"><div class="line">git submodule update --remote</div>
 </div><!-- fragment --></li>
 <li>In your <code>CMakeLists.txt</code> file include <a class="el" href="namespaceXPMP2.html">XPMP2</a> using something like the following in appropriate places:<ol type="a">
-<li>If needing FMOD sound support first define <code> set (INCLUDE_FMOD_SOUND 1) \ilinebr&lt;br&gt; add_compile_definitions(INCLUDE_FMOD_SOUND=1) include_directories("${CMAKE_CURRENT_SOURCE_DIR}/lib/XPMP2/lib/fmod/logo") target_sources(${CMAKE_PROJECT_NAME} lib/XPMP2/lib/fmod/logo/FMOD_Logo.cpp) </code></li>
-<li>Including building <a class="el" href="namespaceXPMP2.html">XPMP2</a> as follows: <code> include_directories("${CMAKE_CURRENT_SOURCE_DIR}/lib/XPMP2/inc") add_subdirectory(lib/XPMP2) add_dependencies(${CMAKE_PROJECT_NAME} <a class="el" href="namespaceXPMP2.html">XPMP2</a>) target_link_libraries(${CMAKE_PROJECT_NAME} <a class="el" href="namespaceXPMP2.html">XPMP2</a>) </code></li>
+<li>If needing FMOD sound support first define <code>cmake set (INCLUDE_FMOD_SOUND 1) \ilinebr&lt;br&gt; add_compile_definitions(INCLUDE_FMOD_SOUND=1) include_directories("${CMAKE_CURRENT_SOURCE_DIR}/lib/XPMP2/lib/fmod/logo") target_sources(${CMAKE_PROJECT_NAME} lib/XPMP2/lib/fmod/logo/FMOD_Logo.cpp) </code></li>
+<li>Including building <a class="el" href="namespaceXPMP2.html">XPMP2</a> as follows: <code>cmake include_directories("${CMAKE_CURRENT_SOURCE_DIR}/lib/XPMP2/inc") add_subdirectory(lib/XPMP2) add_dependencies(${CMAKE_PROJECT_NAME} <a class="el" href="namespaceXPMP2.html">XPMP2</a>) target_link_libraries(${CMAKE_PROJECT_NAME} <a class="el" href="namespaceXPMP2.html">XPMP2</a>) </code></li>
 </ol>
 </li>
 </ol>
@@ -99,26 +99,38 @@ Using CMake</h1>
 <div class="line">ninja</div>
 </div><!-- fragment --><p>This is precicely how the Mac and Linux builds are done in Github Actions.</p>
 <h2>Windows</h2>
-<p>For Windows, there is a build script available that encapsulates the Visual Studio environment setup and then runs <code>CMAKE</code> and <code>NAME</code>.</p>
+<p>For Windows, there is a build script available that encapsulates the Visual Studio environment setup and then runs <code>CMAKE</code> and <code>NMAKE</code>.</p>
 <div class="fragment"><div class="line">.github\actions\build-win\build-win.cmd &quot;C:\Program Files\Microsoft Visual Studio\2022\Community&quot; build-win RelWithDebInfo</div>
 </div><!-- fragment --><p>Run <code>build-win.cmd</code> without parameters to learn about options. To learn what the path to your Visual Studio Build Tools folder is open an "x64 Native Tools COmmand Prompt for VS...", an option you'll find in the "Visual Studio..." folder of your Windows Start menu. The folder the prompt opens in is the one to pass to <code>build-win.cmd</code>.</p>
 <h3>DLL</h3>
 <p>The Windows version can also be built as a DLL.</p>
 <blockquote class="doxtable">
 <p>&zwj;<b>WARNING</b></p>
-<p>Shipping <a class="el" href="namespaceXPMP2.html">XPMP2</a> as a DLL is generally not recommended. Over time, different versions of the <code>XPMP2.dll</code> could get into conflict with each other.</p>
+<p>Shipping <a class="el" href="namespaceXPMP2.html">XPMP2</a> as a DLL is generally not recommended. Over time, different versions of the <code><a class="el" href="namespaceXPMP2.html">XPMP2</a>.#.#.#.dll</code> could get into conflict with each other.</p>
+<p>To reduce the risk of version conflict, the DLL is generated with a version number in its name. Still, version conflicts could only be avoided if only the DLLs provided here in the <a href="https://github.com/TwinFan/XPMP2/releases">Github Releases</a> are distributed. Even just recompiling the DLL and import library with a slightly different compiler could cause a different signature and a version conflict.</p>
 <p>The DLL version has not been extensively tested and should not be used for shipping public versions of a plugin without such extensive tests.</p>
-<p>All classes and structure are then defined as <code>__declspec(dllexport)</code> and the warnings <a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4251?view=msvc-170">C4251</a> and <a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-2-c4275?view=msvc-170">C4275</a> are suppressed. The cases listed in the above warning documentation may not apply to <a class="el" href="namespaceXPMP2.html">XPMP2</a> and it may just work, but I have not done intensive analysis on the matter. </p>
+<p>All public functions, classes, and structure are then defined as <code>__declspec(dllexport)</code> and the warnings <a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4251?view=msvc-170">C4251</a> and <a href="https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-2-c4275?view=msvc-170">C4275</a> are suppressed. The cases listed in the above warning documentation may not apply to <a class="el" href="namespaceXPMP2.html">XPMP2</a> and it may just work, but I have not done intensive analysis on the matter. I have, however, briefly ran LiveTraffic with a DLL version just to prove it all basically works. </p>
 </blockquote>
-<p>To build the DLL version of <a class="el" href="namespaceXPMP2.html">XPMP2</a> pass one more parameter <code>-D"XPMP2_BUILD_SHARED_LIBS:boolean=TRUE"</code> to <code>build-win.cmd</code> so that it looks like</p>
+<p>To build the DLL version of <a class="el" href="namespaceXPMP2.html">XPMP2</a>, pass one more parameter <code>-D"XPMP2_BUILD_SHARED_LIBS:boolean=TRUE"</code> to <code>build-win.cmd</code> so that it looks like</p>
 <div class="fragment"><div class="line">.github\actions\build-win\build-win.cmd &quot;C:\Program Files\Microsoft Visual Studio\2022\Community&quot; build-win RelWithDebInfo -D&quot;XPMP2_BUILD_SHARED_LIBS:boolean=TRUE&quot;</div>
-</div><!-- fragment --><p>You'll find the actual <code>XPMP2.dll</code>, the import library <code>XPMP2.lib</code>, and the debug information <code>XPMP2.pdb</code> all in the provided build directory, <code>build-win</code> in the above example.</p>
+</div><!-- fragment --><p>You'll find the actual <code>XPMP2-#.#.#.dll</code>, the import library <code>XPMP2-#.#.#.lib</code>, and the debug information <code>XPMP2-#.#.#.pdb</code> all in the provided build directory, <code>build-win</code> in the above example.</p>
 <p>To use the DLL version from within your plugin</p>
 <ol type="1">
-<li>Define the compiler macro <code>XPMP2_DLLIMPORT</code> before including any <a class="el" href="namespaceXPMP2.html">XPMP2</a> header so that the all public <a class="el" href="namespaceXPMP2.html">XPMP2</a> functions, classes, and structures are defined with <code>__declspec(dllimport)</code>,</li>
-<li>link as usual to <code>XPMP2.lib</code>, which now serves as the DLL import library,</li>
-<li>ship <code>XPMP2.dll</code> alongside your plugin in the same directory.</li>
+<li>Define the compiler macro <code>XPMP2_DLLIMPORT</code> before including any <a class="el" href="namespaceXPMP2.html">XPMP2</a> header so that all the public <a class="el" href="namespaceXPMP2.html">XPMP2</a> functions, classes, and structures are defined with <code>__declspec(dllimport)</code>,</li>
+<li>link to <code>XPMP2-#.#.#.lib</code>, which serves as the DLL import library,</li>
+<li>ship <code>XPMP2-#.#.#.dll</code> alongside your plugin in the same directory.</li>
 </ol>
+<p>If you import the <a class="el" href="namespaceXPMP2.html">XPMP2</a> project as part of your CMake build process, as explained above in "Including XPMP2 directly...", then define something like this before the <code>add_subdirectory</code> call to enable building and linking the DLL version with your plugin:</p>
+<div class="fragment"><div class="line"># Using XPMP2 as DLL</div>
+<div class="line">if (WIN32)</div>
+<div class="line">    # Tell XPMP2 to build the DLL</div>
+<div class="line">    set(XPMP2_BUILD_SHARED_LIBS 1)</div>
+<div class="line">    # Tell my project to import functions from DLL</div>
+<div class="line">    target_compile_definitions(${CMAKE_PROJECT_NAME}</div>
+<div class="line">        PRIVATE XPMP2_DLLIMPORT</div>
+<div class="line">    )</div>
+<div class="line">endif()</div>
+</div><!-- fragment --><p>The resulting <code><a class="el" href="namespaceXPMP2.html">XPMP2</a>.#.#.#.dll</code> will be found in the <code><a class="el" href="namespaceXPMP2.html">XPMP2</a></code> build folder, not in your plugin's build output.</p>
 <h1><a class="anchor" id="autotoc_md5"></a>
 Using an IDE</h1>
 <h2>Windows</h2>

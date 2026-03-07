@@ -73,6 +73,7 @@ $(function(){ initResizable(false); });
 <div class="textblock"><code>#include &lt;string&gt;</code><br />
 <code>#include &lt;cmath&gt;</code><br />
 <code>#include &quot;XPLMDefs.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="XPMPExport_8h_source.html">XPMPExport.h</a>&quot;</code><br />
 </div>
 <p><a href="XPMPMultiplayer_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -218,103 +219,103 @@ Enumerations</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr><td colspan="2"><div class="groupHeader">Initialization</div></td></tr>
-<tr class="memitem:a3bd073b50d5cc4bced6061f5f096dfb5" id="r_a3bd073b50d5cc4bced6061f5f096dfb5"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3bd073b50d5cc4bced6061f5f096dfb5">XPMPMultiplayerInitLegacyData</a> (const char *inCSLFolder, const char *inPluginName, const char *resourceDir, <a class="el" href="#a002b2c41d868c6de5fdaec4edb0282f4">XPMPIntPrefsFuncTy</a> inIntPrefsFunc=nullptr, const char *inDefaultICAO=nullptr, const char *inPluginLogAcronym=nullptr)</td></tr>
-<tr class="memdesc:a3bd073b50d5cc4bced6061f5f096dfb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deprecated legacy initialization of <a class="el" href="namespaceXPMP2.html">XPMP2</a>.  <br /></td></tr>
-<tr class="separator:a3bd073b50d5cc4bced6061f5f096dfb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a470e0e14c153312a294aa32b13fbf132" id="r_a470e0e14c153312a294aa32b13fbf132"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a470e0e14c153312a294aa32b13fbf132">XPMPMultiplayerInit</a> (const char *inPluginName, const char *resourceDir, <a class="el" href="#a002b2c41d868c6de5fdaec4edb0282f4">XPMPIntPrefsFuncTy</a> inIntPrefsFunc=nullptr, const char *inDefaultICAO=nullptr, const char *inPluginLogAcronym=nullptr)</td></tr>
-<tr class="memdesc:a470e0e14c153312a294aa32b13fbf132"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the <a class="el" href="namespaceXPMP2.html">XPMP2</a> library. This shall be your first call to the library.  <br /></td></tr>
-<tr class="separator:a470e0e14c153312a294aa32b13fbf132"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac77f07c5cb4b217f4442533360dfa3de" id="r_ac77f07c5cb4b217f4442533360dfa3de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac77f07c5cb4b217f4442533360dfa3de">XPMPSetPluginName</a> (const char *inPluginName, const char *inPluginLogAcronym=nullptr)</td></tr>
-<tr class="memdesc:ac77f07c5cb4b217f4442533360dfa3de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overrides the plugin's name to be used in Log output.  <br /></td></tr>
-<tr class="separator:ac77f07c5cb4b217f4442533360dfa3de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc451b7b8df8f182f74cf5d306286443" id="r_acc451b7b8df8f182f74cf5d306286443"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acc451b7b8df8f182f74cf5d306286443">XPMPMultiplayerCleanup</a> ()</td></tr>
-<tr class="memdesc:acc451b7b8df8f182f74cf5d306286443"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clean up the multiplayer library.  <br /></td></tr>
-<tr class="separator:acc451b7b8df8f182f74cf5d306286443"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abede567d78446528d8b1ed729a853dd7" id="r_abede567d78446528d8b1ed729a853dd7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abede567d78446528d8b1ed729a853dd7">XPMPContrailsAutoEnabled</a> ()</td></tr>
-<tr class="memdesc:abede567d78446528d8b1ed729a853dd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Are automatic Contrails enabled?  <br /></td></tr>
-<tr class="separator:abede567d78446528d8b1ed729a853dd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13f6e52aceef7a515790b29c005b7a7d" id="r_a13f6e52aceef7a515790b29c005b7a7d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a13f6e52aceef7a515790b29c005b7a7d">XPMPContrailsAvailable</a> ()</td></tr>
-<tr class="memdesc:a13f6e52aceef7a515790b29c005b7a7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Are Contrails available?  <br /></td></tr>
-<tr class="separator:a13f6e52aceef7a515790b29c005b7a7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48a16c1b14d512aa02344af3b6c63d9a" id="r_a48a16c1b14d512aa02344af3b6c63d9a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a48a16c1b14d512aa02344af3b6c63d9a">XPMPMultiplayerInitLegacyData</a> (const char *inCSLFolder, const char *inPluginName, const char *resourceDir, <a class="el" href="#a002b2c41d868c6de5fdaec4edb0282f4">XPMPIntPrefsFuncTy</a> inIntPrefsFunc=nullptr, const char *inDefaultICAO=nullptr, const char *inPluginLogAcronym=nullptr)</td></tr>
+<tr class="memdesc:a48a16c1b14d512aa02344af3b6c63d9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deprecated legacy initialization of <a class="el" href="namespaceXPMP2.html">XPMP2</a>.  <br /></td></tr>
+<tr class="separator:a48a16c1b14d512aa02344af3b6c63d9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98fd021ba6b12f7b82989961e97b695f" id="r_a98fd021ba6b12f7b82989961e97b695f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a98fd021ba6b12f7b82989961e97b695f">XPMPMultiplayerInit</a> (const char *inPluginName, const char *resourceDir, <a class="el" href="#a002b2c41d868c6de5fdaec4edb0282f4">XPMPIntPrefsFuncTy</a> inIntPrefsFunc=nullptr, const char *inDefaultICAO=nullptr, const char *inPluginLogAcronym=nullptr)</td></tr>
+<tr class="memdesc:a98fd021ba6b12f7b82989961e97b695f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the <a class="el" href="namespaceXPMP2.html">XPMP2</a> library. This shall be your first call to the library.  <br /></td></tr>
+<tr class="separator:a98fd021ba6b12f7b82989961e97b695f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2ca2d719ca2540f78fc4d81e9d89d2e" id="r_ad2ca2d719ca2540f78fc4d81e9d89d2e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad2ca2d719ca2540f78fc4d81e9d89d2e">XPMPSetPluginName</a> (const char *inPluginName, const char *inPluginLogAcronym=nullptr)</td></tr>
+<tr class="memdesc:ad2ca2d719ca2540f78fc4d81e9d89d2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overrides the plugin's name to be used in Log output.  <br /></td></tr>
+<tr class="separator:ad2ca2d719ca2540f78fc4d81e9d89d2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab11aac640fd728e5f624dc8707b452be" id="r_ab11aac640fd728e5f624dc8707b452be"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab11aac640fd728e5f624dc8707b452be">XPMPMultiplayerCleanup</a> ()</td></tr>
+<tr class="memdesc:ab11aac640fd728e5f624dc8707b452be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clean up the multiplayer library.  <br /></td></tr>
+<tr class="separator:ab11aac640fd728e5f624dc8707b452be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51fdc7909159dba231090835380477b1" id="r_a51fdc7909159dba231090835380477b1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a51fdc7909159dba231090835380477b1">XPMPContrailsAutoEnabled</a> ()</td></tr>
+<tr class="memdesc:a51fdc7909159dba231090835380477b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Are automatic Contrails enabled?  <br /></td></tr>
+<tr class="separator:a51fdc7909159dba231090835380477b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b62cd3162456e16573db53a394a496c" id="r_a1b62cd3162456e16573db53a394a496c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1b62cd3162456e16573db53a394a496c">XPMPContrailsAvailable</a> ()</td></tr>
+<tr class="memdesc:a1b62cd3162456e16573db53a394a496c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Are Contrails available?  <br /></td></tr>
+<tr class="separator:a1b62cd3162456e16573db53a394a496c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c0639e8466eea09b38ebc5f28d1d493" id="r_a4c0639e8466eea09b38ebc5f28d1d493"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4c0639e8466eea09b38ebc5f28d1d493">XPMPMultiplayerOBJ7SupportEnable</a> (const char *inTexturePath)</td></tr>
 <tr class="memdesc:a4c0639e8466eea09b38ebc5f28d1d493"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used to set the light textures for old OBJ7 models.  <br /></td></tr>
 <tr class="separator:a4c0639e8466eea09b38ebc5f28d1d493"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Sound</div></td></tr>
-<tr class="memitem:ada05d290bf58a20dd3d5eb6df9ec63b2" id="r_ada05d290bf58a20dd3d5eb6df9ec63b2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ada05d290bf58a20dd3d5eb6df9ec63b2">XPMPSoundEnable</a> (bool bEnable=true)</td></tr>
-<tr class="memdesc:ada05d290bf58a20dd3d5eb6df9ec63b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable/Disable Sound.  <br /></td></tr>
-<tr class="separator:ada05d290bf58a20dd3d5eb6df9ec63b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89f7942133a3bc26c8c32eeb2c5f0443" id="r_a89f7942133a3bc26c8c32eeb2c5f0443"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a89f7942133a3bc26c8c32eeb2c5f0443">XPMPSoundIsEnabled</a> ()</td></tr>
-<tr class="memdesc:a89f7942133a3bc26c8c32eeb2c5f0443"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is Sound enabled?  <br /></td></tr>
-<tr class="separator:a89f7942133a3bc26c8c32eeb2c5f0443"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a280d1a336529b2515b74d0d1684f0647" id="r_a280d1a336529b2515b74d0d1684f0647"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a280d1a336529b2515b74d0d1684f0647">XPMPSoundSetMasterVolume</a> (float fVol=1.0f)</td></tr>
-<tr class="memdesc:a280d1a336529b2515b74d0d1684f0647"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set Master Volume.  <br /></td></tr>
-<tr class="separator:a280d1a336529b2515b74d0d1684f0647"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4bd3405ad71d776c058df6aaac6c0e52" id="r_a4bd3405ad71d776c058df6aaac6c0e52"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4bd3405ad71d776c058df6aaac6c0e52">XPMPSoundMute</a> (bool bMute)</td></tr>
-<tr class="memdesc:a4bd3405ad71d776c058df6aaac6c0e52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mute all sounds (temporarily)  <br /></td></tr>
-<tr class="separator:a4bd3405ad71d776c058df6aaac6c0e52"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55b41d1a1fe740080cdeaad09032023c" id="r_a55b41d1a1fe740080cdeaad09032023c"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a55b41d1a1fe740080cdeaad09032023c">XPMPSoundAdd</a> (const char *sName, const char *filePath, bool bLoop, float coneDir=NAN, float conePitch=NAN, float coneInAngle=NAN, float coneOutAngle=NAN, float coneOutVol=NAN)</td></tr>
-<tr class="memdesc:a55b41d1a1fe740080cdeaad09032023c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a sound that can later be referenced from an <a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a>.  <br /></td></tr>
-<tr class="separator:a55b41d1a1fe740080cdeaad09032023c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac48d627a121a745a19afe865f1c05aad" id="r_ac48d627a121a745a19afe865f1c05aad"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac48d627a121a745a19afe865f1c05aad">XPMPSoundEnumerate</a> (const char *prevName, const char **ppFilePath=nullptr)</td></tr>
-<tr class="memdesc:ac48d627a121a745a19afe865f1c05aad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerate all sounds, including the internal ones.  <br /></td></tr>
-<tr class="separator:ac48d627a121a745a19afe865f1c05aad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56bb5d23af0b26387c941e6f5706f594" id="r_a56bb5d23af0b26387c941e6f5706f594"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a56bb5d23af0b26387c941e6f5706f594">XPMPSoundEnable</a> (bool bEnable=true)</td></tr>
+<tr class="memdesc:a56bb5d23af0b26387c941e6f5706f594"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable/Disable Sound.  <br /></td></tr>
+<tr class="separator:a56bb5d23af0b26387c941e6f5706f594"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20f266f194a9786217c4088ce695f7be" id="r_a20f266f194a9786217c4088ce695f7be"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a20f266f194a9786217c4088ce695f7be">XPMPSoundIsEnabled</a> ()</td></tr>
+<tr class="memdesc:a20f266f194a9786217c4088ce695f7be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is Sound enabled?  <br /></td></tr>
+<tr class="separator:a20f266f194a9786217c4088ce695f7be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b69e69690ed15361c9618b6c347faf0" id="r_a7b69e69690ed15361c9618b6c347faf0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7b69e69690ed15361c9618b6c347faf0">XPMPSoundSetMasterVolume</a> (float fVol=1.0f)</td></tr>
+<tr class="memdesc:a7b69e69690ed15361c9618b6c347faf0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set Master Volume.  <br /></td></tr>
+<tr class="separator:a7b69e69690ed15361c9618b6c347faf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a296ec8ac46d30a5b1a5eed02d61e1dfc" id="r_a296ec8ac46d30a5b1a5eed02d61e1dfc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a296ec8ac46d30a5b1a5eed02d61e1dfc">XPMPSoundMute</a> (bool bMute)</td></tr>
+<tr class="memdesc:a296ec8ac46d30a5b1a5eed02d61e1dfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mute all sounds (temporarily)  <br /></td></tr>
+<tr class="separator:a296ec8ac46d30a5b1a5eed02d61e1dfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5b8b2dc535db7ae74b313ff6ea7d1d5" id="r_ad5b8b2dc535db7ae74b313ff6ea7d1d5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad5b8b2dc535db7ae74b313ff6ea7d1d5">XPMPSoundAdd</a> (const char *sName, const char *filePath, bool bLoop, float coneDir=NAN, float conePitch=NAN, float coneInAngle=NAN, float coneOutAngle=NAN, float coneOutVol=NAN)</td></tr>
+<tr class="memdesc:ad5b8b2dc535db7ae74b313ff6ea7d1d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a sound that can later be referenced from an <a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a>.  <br /></td></tr>
+<tr class="separator:ad5b8b2dc535db7ae74b313ff6ea7d1d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a441cf015383ceccabf1c5e34c0863f80" id="r_a441cf015383ceccabf1c5e34c0863f80"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a441cf015383ceccabf1c5e34c0863f80">XPMPSoundEnumerate</a> (const char *prevName, const char **ppFilePath=nullptr)</td></tr>
+<tr class="memdesc:a441cf015383ceccabf1c5e34c0863f80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerate all sounds, including the internal ones.  <br /></td></tr>
+<tr class="separator:a441cf015383ceccabf1c5e34c0863f80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">AI / Multiplayer plane control</div></td></tr>
-<tr class="memitem:aa9ac95e430045ceaa33a890561e64f4f" id="r_aa9ac95e430045ceaa33a890561e64f4f"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa9ac95e430045ceaa33a890561e64f4f">XPMPMultiplayerEnable</a> (void(*_callback)(void *)=nullptr, void *_refCon=nullptr)</td></tr>
-<tr class="memdesc:aa9ac95e430045ceaa33a890561e64f4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tries to grab control of TCAS targets (formerly known as AI/multiplayer) from X-Plane.  <br /></td></tr>
-<tr class="separator:aa9ac95e430045ceaa33a890561e64f4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7b23c9aba24f6a20c764e1131c7149f" id="r_ad7b23c9aba24f6a20c764e1131c7149f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad7b23c9aba24f6a20c764e1131c7149f">XPMPMultiplayerDisable</a> ()</td></tr>
-<tr class="memdesc:ad7b23c9aba24f6a20c764e1131c7149f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release TCAS targets control.  <br /></td></tr>
-<tr class="separator:ad7b23c9aba24f6a20c764e1131c7149f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7681ca8a217b2e52da0f23073cf3a87d" id="r_a7681ca8a217b2e52da0f23073cf3a87d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7681ca8a217b2e52da0f23073cf3a87d">XPMPHasControlOfAIAircraft</a> ()</td></tr>
-<tr class="memdesc:a7681ca8a217b2e52da0f23073cf3a87d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Has <a class="el" href="namespaceXPMP2.html">XPMP2</a> control of TCAS targets?  <br /></td></tr>
-<tr class="separator:a7681ca8a217b2e52da0f23073cf3a87d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39aa332c38a0355e959567746138a4f6" id="r_a39aa332c38a0355e959567746138a4f6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a39aa332c38a0355e959567746138a4f6">XPMPMultiplayerEnable</a> (void(*_callback)(void *)=nullptr, void *_refCon=nullptr)</td></tr>
+<tr class="memdesc:a39aa332c38a0355e959567746138a4f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tries to grab control of TCAS targets (formerly known as AI/multiplayer) from X-Plane.  <br /></td></tr>
+<tr class="separator:a39aa332c38a0355e959567746138a4f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd1da2f8600abf30820d2fa9a882e21b" id="r_afd1da2f8600abf30820d2fa9a882e21b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afd1da2f8600abf30820d2fa9a882e21b">XPMPMultiplayerDisable</a> ()</td></tr>
+<tr class="memdesc:afd1da2f8600abf30820d2fa9a882e21b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release TCAS targets control.  <br /></td></tr>
+<tr class="separator:afd1da2f8600abf30820d2fa9a882e21b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad18a62ba179d07af7bc267cb2db72d6a" id="r_ad18a62ba179d07af7bc267cb2db72d6a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad18a62ba179d07af7bc267cb2db72d6a">XPMPHasControlOfAIAircraft</a> ()</td></tr>
+<tr class="memdesc:ad18a62ba179d07af7bc267cb2db72d6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Has <a class="el" href="namespaceXPMP2.html">XPMP2</a> control of TCAS targets?  <br /></td></tr>
+<tr class="separator:ad18a62ba179d07af7bc267cb2db72d6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Plane Creation API</div></td></tr>
-<tr class="memitem:a7eda6bf53ff88d81d11ada9f7eb87ef8" id="r_a7eda6bf53ff88d81d11ada9f7eb87ef8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7eda6bf53ff88d81d11ada9f7eb87ef8">XPMPCreatePlane</a> (const char *inICAOCode, const char *inAirline, const char *inLivery, <a class="el" href="#a6abe0a72e94cb2e1a9fed06bb48cbc5a">XPMPPlaneData_f</a> inDataFunc, void *inRefcon, <a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> inModeS_id=0)</td></tr>
-<tr class="memdesc:a7eda6bf53ff88d81d11ada9f7eb87ef8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new plane.  <br /></td></tr>
-<tr class="separator:a7eda6bf53ff88d81d11ada9f7eb87ef8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8a8c5decc40b819e22d9ed7618936de" id="r_ab8a8c5decc40b819e22d9ed7618936de"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab8a8c5decc40b819e22d9ed7618936de">XPMPCreatePlaneWithModelName</a> (const char *inModelName, const char *inICAOCode, const char *inAirline, const char *inLivery, <a class="el" href="#a6abe0a72e94cb2e1a9fed06bb48cbc5a">XPMPPlaneData_f</a> inDataFunc, void *inRefcon, <a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> inModeS_id=0)</td></tr>
-<tr class="memdesc:ab8a8c5decc40b819e22d9ed7618936de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new plane, providing a specific CSL model name.  <br /></td></tr>
-<tr class="separator:ab8a8c5decc40b819e22d9ed7618936de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f594eb2243d2c5d11199fec21516611" id="r_a9f594eb2243d2c5d11199fec21516611"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9f594eb2243d2c5d11199fec21516611">XPMPDestroyPlane</a> (<a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> _id)</td></tr>
-<tr class="memdesc:a9f594eb2243d2c5d11199fec21516611"><td class="mdescLeft">&#160;</td><td class="mdescRight">[Deprecated] Removes a plane previously created with <a class="el" href="#a7eda6bf53ff88d81d11ada9f7eb87ef8" title="Creates a new plane.">XPMPCreatePlane()</a>  <br /></td></tr>
-<tr class="separator:a9f594eb2243d2c5d11199fec21516611"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2d501a429773a0a5d241759d183d8f1" id="r_aa2d501a429773a0a5d241759d183d8f1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa2d501a429773a0a5d241759d183d8f1">XPMPSetPlaneVisibility</a> (<a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> _id, bool _bVisible)</td></tr>
-<tr class="memdesc:aa2d501a429773a0a5d241759d183d8f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Show/Hide the aircraft temporarily without destroying the object.  <br /></td></tr>
-<tr class="separator:aa2d501a429773a0a5d241759d183d8f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e546354d777eb3b0e43e14bb1ef88fc" id="r_a7e546354d777eb3b0e43e14bb1ef88fc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7e546354d777eb3b0e43e14bb1ef88fc">XPMPChangePlaneModel</a> (<a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> inPlaneID, const char *inICAOCode, const char *inAirline, const char *inLivery)</td></tr>
-<tr class="memdesc:a7e546354d777eb3b0e43e14bb1ef88fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform model matching again and change the CSL model to the resulting match.  <br /></td></tr>
-<tr class="separator:a7e546354d777eb3b0e43e14bb1ef88fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1bd21559e39ae0bdcce2909bb4d2de0f" id="r_a1bd21559e39ae0bdcce2909bb4d2de0f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1bd21559e39ae0bdcce2909bb4d2de0f">XPMPGetPlaneModelName</a> (<a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> inPlaneID, char *outTxtBuf, int outTxtBufSize)</td></tr>
-<tr class="memdesc:a1bd21559e39ae0bdcce2909bb4d2de0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the name of the model, with which the given plane is rendered.  <br /></td></tr>
-<tr class="separator:a1bd21559e39ae0bdcce2909bb4d2de0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a978d0cad7d8ac8c1b07bf9565969f407" id="r_a978d0cad7d8ac8c1b07bf9565969f407"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> <a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a978d0cad7d8ac8c1b07bf9565969f407">XPMPCreatePlane</a> (const char *inICAOCode, const char *inAirline, const char *inLivery, <a class="el" href="#a6abe0a72e94cb2e1a9fed06bb48cbc5a">XPMPPlaneData_f</a> inDataFunc, void *inRefcon, <a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> inModeS_id=0)</td></tr>
+<tr class="memdesc:a978d0cad7d8ac8c1b07bf9565969f407"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new plane.  <br /></td></tr>
+<tr class="separator:a978d0cad7d8ac8c1b07bf9565969f407"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c08f84174c6a1c8a775ad94aa283e4f" id="r_a1c08f84174c6a1c8a775ad94aa283e4f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> <a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c08f84174c6a1c8a775ad94aa283e4f">XPMPCreatePlaneWithModelName</a> (const char *inModelName, const char *inICAOCode, const char *inAirline, const char *inLivery, <a class="el" href="#a6abe0a72e94cb2e1a9fed06bb48cbc5a">XPMPPlaneData_f</a> inDataFunc, void *inRefcon, <a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> inModeS_id=0)</td></tr>
+<tr class="memdesc:a1c08f84174c6a1c8a775ad94aa283e4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new plane, providing a specific CSL model name.  <br /></td></tr>
+<tr class="separator:a1c08f84174c6a1c8a775ad94aa283e4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec445d6759ab2c309047dcb5eac56faa" id="r_aec445d6759ab2c309047dcb5eac56faa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aec445d6759ab2c309047dcb5eac56faa">XPMPDestroyPlane</a> (<a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> _id)</td></tr>
+<tr class="memdesc:aec445d6759ab2c309047dcb5eac56faa"><td class="mdescLeft">&#160;</td><td class="mdescRight">[Deprecated] Removes a plane previously created with <a class="el" href="#a978d0cad7d8ac8c1b07bf9565969f407" title="Creates a new plane.">XPMPCreatePlane()</a>  <br /></td></tr>
+<tr class="separator:aec445d6759ab2c309047dcb5eac56faa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99d20d45d916c5fd9c9785e2c48d1740" id="r_a99d20d45d916c5fd9c9785e2c48d1740"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a99d20d45d916c5fd9c9785e2c48d1740">XPMPSetPlaneVisibility</a> (<a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> _id, bool _bVisible)</td></tr>
+<tr class="memdesc:a99d20d45d916c5fd9c9785e2c48d1740"><td class="mdescLeft">&#160;</td><td class="mdescRight">Show/Hide the aircraft temporarily without destroying the object.  <br /></td></tr>
+<tr class="separator:a99d20d45d916c5fd9c9785e2c48d1740"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2bcdf3bb49133f9a49f29205b2d57834" id="r_a2bcdf3bb49133f9a49f29205b2d57834"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2bcdf3bb49133f9a49f29205b2d57834">XPMPChangePlaneModel</a> (<a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> inPlaneID, const char *inICAOCode, const char *inAirline, const char *inLivery)</td></tr>
+<tr class="memdesc:a2bcdf3bb49133f9a49f29205b2d57834"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform model matching again and change the CSL model to the resulting match.  <br /></td></tr>
+<tr class="separator:a2bcdf3bb49133f9a49f29205b2d57834"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4472a2abc4cf167afb583c82bcf73b6" id="r_ab4472a2abc4cf167afb583c82bcf73b6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab4472a2abc4cf167afb583c82bcf73b6">XPMPGetPlaneModelName</a> (<a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> inPlaneID, char *outTxtBuf, int outTxtBufSize)</td></tr>
+<tr class="memdesc:ab4472a2abc4cf167afb583c82bcf73b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the name of the model, with which the given plane is rendered.  <br /></td></tr>
+<tr class="separator:ab4472a2abc4cf167afb583c82bcf73b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3a9e464bb3d9b0b4305c38cc595c2090" id="r_a3a9e464bb3d9b0b4305c38cc595c2090"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3a9e464bb3d9b0b4305c38cc595c2090">XPMPGetPlaneICAOAndLivery</a> (<a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> inPlane, char *outICAOCode, char *outLivery)</td></tr>
 <tr class="memdesc:a3a9e464bb3d9b0b4305c38cc595c2090"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ICAO aircraft type designator and livery of the given plane.  <br /></td></tr>
 <tr class="separator:a3a9e464bb3d9b0b4305c38cc595c2090"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e916238215086cd78a919f681e779a5" id="r_a1e916238215086cd78a919f681e779a5"><td class="memItemLeft" align="right" valign="top">XPMPPlaneCallbackResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e916238215086cd78a919f681e779a5">XPMPGetPlaneData</a> (<a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> inPlane, XPMPPlaneDataType inDataType, void *outData)</td></tr>
 <tr class="memdesc:a1e916238215086cd78a919f681e779a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsupported, don't use.  <br /></td></tr>
 <tr class="separator:a1e916238215086cd78a919f681e779a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae86c6e2f9a0969067bd9e4d6cb4080be" id="r_ae86c6e2f9a0969067bd9e4d6cb4080be"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae86c6e2f9a0969067bd9e4d6cb4080be">XPMPGetPlaneModelQuality</a> (<a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> inPlane)</td></tr>
-<tr class="memdesc:ae86c6e2f9a0969067bd9e4d6cb4080be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the match quality of the currently used model, or <code>-1</code> if <code>inPlane</code> is invalid.  <br /></td></tr>
-<tr class="separator:ae86c6e2f9a0969067bd9e4d6cb4080be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1129902046b9da35d95cef8868ea8bca" id="r_a1129902046b9da35d95cef8868ea8bca"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1129902046b9da35d95cef8868ea8bca">XPMPCountPlanes</a> (void)</td></tr>
-<tr class="memdesc:a1129902046b9da35d95cef8868ea8bca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of planes in existence.  <br /></td></tr>
-<tr class="separator:a1129902046b9da35d95cef8868ea8bca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4fed27975ed1ca37de4467acc78a51e2" id="r_a4fed27975ed1ca37de4467acc78a51e2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4fed27975ed1ca37de4467acc78a51e2">XPMPGetNthPlane</a> (long index)</td></tr>
-<tr class="memdesc:a4fed27975ed1ca37de4467acc78a51e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the plane ID of the Nth plane.  <br /></td></tr>
-<tr class="separator:a4fed27975ed1ca37de4467acc78a51e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a64929cc00a8165739b73fa9df86ce9d4" id="r_a64929cc00a8165739b73fa9df86ce9d4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1Aircraft.html">XPMP2::Aircraft</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a64929cc00a8165739b73fa9df86ce9d4">XPMPGetAircraft</a> (<a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> _id)</td></tr>
-<tr class="memdesc:a64929cc00a8165739b73fa9df86ce9d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the underlying aircraft object, or <code>nullptr</code> if <code>_id</code> is invalid */.  <br /></td></tr>
-<tr class="separator:a64929cc00a8165739b73fa9df86ce9d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5da65f6f5feca2ad65d94fa620cec73" id="r_aa5da65f6f5feca2ad65d94fa620cec73"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa5da65f6f5feca2ad65d94fa620cec73">XPMPSetDefaultPlaneICAO</a> (const char *_acIcaoType, const char *_carIcaoType=nullptr)</td></tr>
-<tr class="memdesc:aa5da65f6f5feca2ad65d94fa620cec73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define default aircraft and ground vehicle ICAO types.  <br /></td></tr>
-<tr class="separator:aa5da65f6f5feca2ad65d94fa620cec73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ddee365d87cd2847413169eb95ca877" id="r_a5ddee365d87cd2847413169eb95ca877"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5ddee365d87cd2847413169eb95ca877">XPMPGetPlaneModelQuality</a> (<a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> inPlane)</td></tr>
+<tr class="memdesc:a5ddee365d87cd2847413169eb95ca877"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the match quality of the currently used model, or <code>-1</code> if <code>inPlane</code> is invalid.  <br /></td></tr>
+<tr class="separator:a5ddee365d87cd2847413169eb95ca877"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90c9c307464e98b61f82191976cadb5e" id="r_a90c9c307464e98b61f82191976cadb5e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a90c9c307464e98b61f82191976cadb5e">XPMPCountPlanes</a> (void)</td></tr>
+<tr class="memdesc:a90c9c307464e98b61f82191976cadb5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of planes in existence.  <br /></td></tr>
+<tr class="separator:a90c9c307464e98b61f82191976cadb5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9242c59839da24d8303a93e605f66db2" id="r_a9242c59839da24d8303a93e605f66db2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> <a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9242c59839da24d8303a93e605f66db2">XPMPGetNthPlane</a> (long index)</td></tr>
+<tr class="memdesc:a9242c59839da24d8303a93e605f66db2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the plane ID of the Nth plane.  <br /></td></tr>
+<tr class="separator:a9242c59839da24d8303a93e605f66db2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b07246d6e7eecdd8b93b8563643d6ad" id="r_a1b07246d6e7eecdd8b93b8563643d6ad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> <a class="el" href="classXPMP2_1_1Aircraft.html">XPMP2::Aircraft</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1b07246d6e7eecdd8b93b8563643d6ad">XPMPGetAircraft</a> (<a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> _id)</td></tr>
+<tr class="memdesc:a1b07246d6e7eecdd8b93b8563643d6ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the underlying aircraft object, or <code>nullptr</code> if <code>_id</code> is invalid */.  <br /></td></tr>
+<tr class="separator:a1b07246d6e7eecdd8b93b8563643d6ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36f1217d3edb9b2b31e87b5387bf9b44" id="r_a36f1217d3edb9b2b31e87b5387bf9b44"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a36f1217d3edb9b2b31e87b5387bf9b44">XPMPSetDefaultPlaneICAO</a> (const char *_acIcaoType, const char *_carIcaoType=nullptr)</td></tr>
+<tr class="memdesc:a36f1217d3edb9b2b31e87b5387bf9b44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define default aircraft and ground vehicle ICAO types.  <br /></td></tr>
+<tr class="separator:a36f1217d3edb9b2b31e87b5387bf9b44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Plane Observation API</div></td></tr>
-<tr class="memitem:a29f2ccf7539a95fa8e21777516ff1276" id="r_a29f2ccf7539a95fa8e21777516ff1276"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a29f2ccf7539a95fa8e21777516ff1276">XPMPRegisterPlaneNotifierFunc</a> (<a class="el" href="#ad271d6104508eeee23f3dbe232f10cf8">XPMPPlaneNotifier_f</a> inFunc, void *inRefcon)</td></tr>
-<tr class="memdesc:a29f2ccf7539a95fa8e21777516ff1276"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a callback, which is called when one of the events defined in <a class="el" href="#a85c39111f42dc5515b57593d6d0e59f4" title="Events that trigger a notification callback.">XPMPPlaneNotification</a> happens.  <br /></td></tr>
-<tr class="separator:a29f2ccf7539a95fa8e21777516ff1276"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a582e7c560b373bffc58e303948412a" id="r_a5a582e7c560b373bffc58e303948412a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5a582e7c560b373bffc58e303948412a">XPMPUnregisterPlaneNotifierFunc</a> (<a class="el" href="#ad271d6104508eeee23f3dbe232f10cf8">XPMPPlaneNotifier_f</a> inFunc, void *inRefcon)</td></tr>
-<tr class="memdesc:a5a582e7c560b373bffc58e303948412a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unregisters a notification callback. Both function pointer and refcon must match what was registered.  <br /></td></tr>
-<tr class="separator:a5a582e7c560b373bffc58e303948412a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9b3077caadb84bd7ebdaf99dbf0b629" id="r_aa9b3077caadb84bd7ebdaf99dbf0b629"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa9b3077caadb84bd7ebdaf99dbf0b629">XPMPRegisterPlaneNotifierFunc</a> (<a class="el" href="#ad271d6104508eeee23f3dbe232f10cf8">XPMPPlaneNotifier_f</a> inFunc, void *inRefcon)</td></tr>
+<tr class="memdesc:aa9b3077caadb84bd7ebdaf99dbf0b629"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a callback, which is called when one of the events defined in <a class="el" href="#a85c39111f42dc5515b57593d6d0e59f4" title="Events that trigger a notification callback.">XPMPPlaneNotification</a> happens.  <br /></td></tr>
+<tr class="separator:aa9b3077caadb84bd7ebdaf99dbf0b629"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75805908d6785d73fc339b05d3c0908d" id="r_a75805908d6785d73fc339b05d3c0908d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a75805908d6785d73fc339b05d3c0908d">XPMPUnregisterPlaneNotifierFunc</a> (<a class="el" href="#ad271d6104508eeee23f3dbe232f10cf8">XPMPPlaneNotifier_f</a> inFunc, void *inRefcon)</td></tr>
+<tr class="memdesc:a75805908d6785d73fc339b05d3c0908d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unregisters a notification callback. Both function pointer and refcon must match what was registered.  <br /></td></tr>
+<tr class="separator:a75805908d6785d73fc339b05d3c0908d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Plane Rendering API</div></td></tr>
 <tr class="memitem:aeaa492693af457cc71a36c4353905757" id="r_aeaa492693af457cc71a36c4353905757"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeaa492693af457cc71a36c4353905757">XPMPSetPlaneRenderer</a> (<a class="el" href="#a33d980632d2db20f93ab63a62640fc71">XPMPRenderPlanes_f</a> inRenderer, void *inRef)</td></tr>
 <tr class="memdesc:aeaa492693af457cc71a36c4353905757"><td class="mdescLeft">&#160;</td><td class="mdescRight">The original libxplanemp allowed to override rendering; no longer supported.  <br /></td></tr>
@@ -322,20 +323,20 @@ Functions</h2></td></tr>
 <tr class="memitem:ad29fbf746433548b030b62975aaca77c" id="r_ad29fbf746433548b030b62975aaca77c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad29fbf746433548b030b62975aaca77c">XPMPDumpOneCycle</a> (void)</td></tr>
 <tr class="memdesc:ad29fbf746433548b030b62975aaca77c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Legacy debug-support function, no longer supported.  <br /></td></tr>
 <tr class="separator:ad29fbf746433548b030b62975aaca77c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd2a9a06fb3454f16c89fa96b2072355" id="r_afd2a9a06fb3454f16c89fa96b2072355"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afd2a9a06fb3454f16c89fa96b2072355">XPMPEnableAircraftLabels</a> (bool _enable=true)</td></tr>
-<tr class="memdesc:afd2a9a06fb3454f16c89fa96b2072355"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable or disable drawing of labels with the aircraft.  <br /></td></tr>
-<tr class="separator:afd2a9a06fb3454f16c89fa96b2072355"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6beb3d8ddc618ffe5c8453dc71953d1b" id="r_a6beb3d8ddc618ffe5c8453dc71953d1b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6beb3d8ddc618ffe5c8453dc71953d1b">XPMPDisableAircraftLabels</a> ()</td></tr>
-<tr class="memdesc:a6beb3d8ddc618ffe5c8453dc71953d1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disable drawing of labels with the aircraft.  <br /></td></tr>
-<tr class="separator:a6beb3d8ddc618ffe5c8453dc71953d1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5968dd24de2daa0c56b0e16f9cfe1f1" id="r_ae5968dd24de2daa0c56b0e16f9cfe1f1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae5968dd24de2daa0c56b0e16f9cfe1f1">XPMPDrawingAircraftLabels</a> ()</td></tr>
-<tr class="memdesc:ae5968dd24de2daa0c56b0e16f9cfe1f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns if labels are currently configured to be drawn.  <br /></td></tr>
-<tr class="separator:ae5968dd24de2daa0c56b0e16f9cfe1f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02a02c168c5a49ffebc2c4f1ac21f618" id="r_a02a02c168c5a49ffebc2c4f1ac21f618"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a02a02c168c5a49ffebc2c4f1ac21f618">XPMPSetAircraftLabelDist</a> (float _dist_nm, bool _bCutOffAtVisibility=true)</td></tr>
-<tr class="separator:a02a02c168c5a49ffebc2c4f1ac21f618"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6eaccf0e3195c59a9acfc5c3185ee9bb" id="r_a6eaccf0e3195c59a9acfc5c3185ee9bb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6eaccf0e3195c59a9acfc5c3185ee9bb">XPMPEnableMap</a> (bool _bEnable, bool _bLabels=true)</td></tr>
-<tr class="memdesc:a6eaccf0e3195c59a9acfc5c3185ee9bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable or disable the drawing of aircraft icons on X-Plane's map.  <br /></td></tr>
-<tr class="separator:a6eaccf0e3195c59a9acfc5c3185ee9bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8bd9cc856747d5e698a4b4a0ffcce87" id="r_ac8bd9cc856747d5e698a4b4a0ffcce87"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac8bd9cc856747d5e698a4b4a0ffcce87">XPMPEnableAircraftLabels</a> (bool _enable=true)</td></tr>
+<tr class="memdesc:ac8bd9cc856747d5e698a4b4a0ffcce87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable or disable drawing of labels with the aircraft.  <br /></td></tr>
+<tr class="separator:ac8bd9cc856747d5e698a4b4a0ffcce87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40e4193f6c968b4df38d32b4e3c6a10f" id="r_a40e4193f6c968b4df38d32b4e3c6a10f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a40e4193f6c968b4df38d32b4e3c6a10f">XPMPDisableAircraftLabels</a> ()</td></tr>
+<tr class="memdesc:a40e4193f6c968b4df38d32b4e3c6a10f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disable drawing of labels with the aircraft.  <br /></td></tr>
+<tr class="separator:a40e4193f6c968b4df38d32b4e3c6a10f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a349baf72bc078617f3197eccc7ca4e96" id="r_a349baf72bc078617f3197eccc7ca4e96"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a349baf72bc078617f3197eccc7ca4e96">XPMPDrawingAircraftLabels</a> ()</td></tr>
+<tr class="memdesc:a349baf72bc078617f3197eccc7ca4e96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns if labels are currently configured to be drawn.  <br /></td></tr>
+<tr class="separator:a349baf72bc078617f3197eccc7ca4e96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71b6a67c283f770d3f3f7722c4ef16fb" id="r_a71b6a67c283f770d3f3f7722c4ef16fb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a71b6a67c283f770d3f3f7722c4ef16fb">XPMPSetAircraftLabelDist</a> (float _dist_nm, bool _bCutOffAtVisibility=true)</td></tr>
+<tr class="separator:a71b6a67c283f770d3f3f7722c4ef16fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e1c6bc5dfc5f3a199b1bee1b3f74b33" id="r_a8e1c6bc5dfc5f3a199b1bee1b3f74b33"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e1c6bc5dfc5f3a199b1bee1b3f74b33">XPMPEnableMap</a> (bool _bEnable, bool _bLabels=true)</td></tr>
+<tr class="memdesc:a8e1c6bc5dfc5f3a199b1bee1b3f74b33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable or disable the drawing of aircraft icons on X-Plane's map.  <br /></td></tr>
+<tr class="separator:a8e1c6bc5dfc5f3a199b1bee1b3f74b33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -354,20 +355,20 @@ Variables</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader">CSL Package Handling</h2></td></tr>
 <tr class="memitem:a7e1d2b355d6591712b4039619ed15a88" id="r_a7e1d2b355d6591712b4039619ed15a88"><td class="memItemLeft" align="right" valign="top">*param[out] outModelName Receives pointer to model can be nullptr *param[out] outIcao Receives pointer to ICAO aircraft type designator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7e1d2b355d6591712b4039619ed15a88">Optional</a></td></tr>
 <tr class="separator:a7e1d2b355d6591712b4039619ed15a88"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5eb0c59c136fd2b0d4686f338344c038" id="r_a5eb0c59c136fd2b0d4686f338344c038"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5eb0c59c136fd2b0d4686f338344c038">XPMPLoadCSLPackage</a> (const char *inCSLFolder)</td></tr>
-<tr class="memdesc:a5eb0c59c136fd2b0d4686f338344c038"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads CSL packages from the given folder, searching up to 5 folder levels deep.  <br /></td></tr>
-<tr class="separator:a5eb0c59c136fd2b0d4686f338344c038"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4719ddc5c149bd52c2b9139648ae5355" id="r_a4719ddc5c149bd52c2b9139648ae5355"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4719ddc5c149bd52c2b9139648ae5355">XPMPLoadCSLPackage</a> (const char *inCSLFolder)</td></tr>
+<tr class="memdesc:a4719ddc5c149bd52c2b9139648ae5355"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads CSL packages from the given folder, searching up to 5 folder levels deep.  <br /></td></tr>
+<tr class="separator:a4719ddc5c149bd52c2b9139648ae5355"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af28af53d19bbe6aee20ebd242598be15" id="r_af28af53d19bbe6aee20ebd242598be15"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af28af53d19bbe6aee20ebd242598be15">XPMPLoadPlanesIfNecessary</a> ()</td></tr>
 <tr class="memdesc:af28af53d19bbe6aee20ebd242598be15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Legacy function only provided for backwards compatibility. Does not actually do anything.  <br /></td></tr>
 <tr class="separator:af28af53d19bbe6aee20ebd242598be15"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad630b6e9cf7e0b2d78bf678e271778bd" id="r_ad630b6e9cf7e0b2d78bf678e271778bd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad630b6e9cf7e0b2d78bf678e271778bd">XPMPGetNumberOfInstalledModels</a> ()</td></tr>
-<tr class="memdesc:ad630b6e9cf7e0b2d78bf678e271778bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of loaded CSL models.  <br /></td></tr>
-<tr class="separator:ad630b6e9cf7e0b2d78bf678e271778bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afab8b580a2bb89fd9b42bd29f66c6f3c" id="r_afab8b580a2bb89fd9b42bd29f66c6f3c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afab8b580a2bb89fd9b42bd29f66c6f3c">XPMPGetNumberOfInstalledModels</a> ()</td></tr>
+<tr class="memdesc:afab8b580a2bb89fd9b42bd29f66c6f3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of loaded CSL models.  <br /></td></tr>
+<tr class="separator:afab8b580a2bb89fd9b42bd29f66c6f3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2654479394818662063c295e75e1df7d" id="r_a2654479394818662063c295e75e1df7d"><td class="memItemLeft" align="right" valign="top">*param[out] outModelName Receives pointer to model&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2654479394818662063c295e75e1df7d">name</a> (id). <a class="el" href="#a7e1d2b355d6591712b4039619ed15a88">Optional</a></td></tr>
 <tr class="memdesc:a2654479394818662063c295e75e1df7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fetch information about a CSL model identified by an index.  <br /></td></tr>
 <tr class="separator:a2654479394818662063c295e75e1df7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a206e50db6ce5a70967917e875b73d939" id="r_a206e50db6ce5a70967917e875b73d939"><td class="memItemLeft" align="right" valign="top">*param[out] outModelName Receives pointer to model can be nullptr *param[out] outIcao Receives pointer to ICAO aircraft type designator can be nullptr *param[out] outAirline Receives pointer to ICAO airline code can be nullptr *param[out] outLivery Receives pointer to special livery string can be nullptr *void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a206e50db6ce5a70967917e875b73d939">XPMPGetModelInfo</a> (int inIndex, const char **outModelName, const char **outIcao, const char **outAirline, const char **outLivery)</td></tr>
-<tr class="separator:a206e50db6ce5a70967917e875b73d939"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac17876adae9cedca11d4f6c989c11a7e" id="r_ac17876adae9cedca11d4f6c989c11a7e"><td class="memItemLeft" align="right" valign="top">*param[out] outModelName Receives pointer to model can be nullptr *param[out] outIcao Receives pointer to ICAO aircraft type designator can be nullptr *param[out] outAirline Receives pointer to ICAO airline code can be nullptr *param[out] outLivery Receives pointer to special livery string can be nullptr *<a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac17876adae9cedca11d4f6c989c11a7e">XPMPGetModelInfo</a> (int inIndex, const char **outModelName, const char **outIcao, const char **outAirline, const char **outLivery)</td></tr>
+<tr class="separator:ac17876adae9cedca11d4f6c989c11a7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Initialization and general control functions for <a class="el" href="namespaceXPMP2.html">XPMP2</a>. </p>
@@ -388,7 +389,7 @@ For a list of ICAO airline/operator codes see <a href="https://en.wikipedia.org/
 <dl class="section author"><dt>Author</dt><dd>Ben Supnik and Chris Serio </dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2004, Ben Supnik and Chris Serio. </dd></dl>
 <dl class="section author"><dt>Author</dt><dd>Birger Hoppe </dd></dl>
-<dl class="section copyright"><dt>Copyright</dt><dd>(c) 2020-2022 Birger Hoppe </dd>
+<dl class="section copyright"><dt>Copyright</dt><dd>(c) 2020-2026 Birger Hoppe </dd>
 <dd>
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br  />
  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.<br  />
@@ -1173,7 +1174,7 @@ time offset to avoid lights across planes blink in sync (unused in <a class="el"
 </div><div class="memdoc">
 
 <p>Definition for the type of configuration callback function. </p>
-<p>The plugin using <a class="el" href="namespaceXPMP2.html">XPMP2</a> can provide such a callback function via <a class="el" href="#a470e0e14c153312a294aa32b13fbf132" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a>. It will be called max. every 2s to fetch each of the following configuration values:<br  />
+<p>The plugin using <a class="el" href="namespaceXPMP2.html">XPMP2</a> can provide such a callback function via <a class="el" href="#a98fd021ba6b12f7b82989961e97b695f" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a>. It will be called max. every 2s to fetch each of the following configuration values:<br  />
  <br  />
 <code>section | key                 | type | default | description</code><br  />
 <code>------- | ------------------- | ---- | ------- | -------------------------------------------------------------------------</code><br  />
@@ -1280,7 +1281,7 @@ time offset to avoid lights across planes blink in sync (unused in <a class="el"
   <table class="params">
     <tr><td class="paramname">inPlaneID</td><td>Identifies the affected plane </td></tr>
     <tr><td class="paramname">inNotification</td><td>The event that took place </td></tr>
-    <tr><td class="paramname">inRefcon</td><td>A refcon that you provided in <a class="el" href="#a29f2ccf7539a95fa8e21777516ff1276" title="Registers a callback, which is called when one of the events defined in XPMPPlaneNotification happens...">XPMPRegisterPlaneNotifierFunc()</a> </td></tr>
+    <tr><td class="paramname">inRefcon</td><td>A refcon that you provided in <a class="el" href="#aa9b3077caadb84bd7ebdaf99dbf0b629" title="Registers a callback, which is called when one of the events defined in XPMPPlaneNotification happens...">XPMPRegisterPlaneNotifierFunc()</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -1386,14 +1387,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="a7e546354d777eb3b0e43e14bb1ef88fc" name="a7e546354d777eb3b0e43e14bb1ef88fc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e546354d777eb3b0e43e14bb1ef88fc">&#9670;&#160;</a></span>XPMPChangePlaneModel()</h2>
+<a id="a2bcdf3bb49133f9a49f29205b2d57834" name="a2bcdf3bb49133f9a49f29205b2d57834"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2bcdf3bb49133f9a49f29205b2d57834">&#9670;&#160;</a></span>XPMPChangePlaneModel()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int XPMPChangePlaneModel </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> int XPMPChangePlaneModel </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a></td>          <td class="paramname"><span class="paramname"><em>inPlaneID</em></span>, </td>
         </tr>
@@ -1430,14 +1431,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="abede567d78446528d8b1ed729a853dd7" name="abede567d78446528d8b1ed729a853dd7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abede567d78446528d8b1ed729a853dd7">&#9670;&#160;</a></span>XPMPContrailsAutoEnabled()</h2>
+<a id="a51fdc7909159dba231090835380477b1" name="a51fdc7909159dba231090835380477b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51fdc7909159dba231090835380477b1">&#9670;&#160;</a></span>XPMPContrailsAutoEnabled()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool XPMPContrailsAutoEnabled </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> bool XPMPContrailsAutoEnabled </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -1450,14 +1451,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="a13f6e52aceef7a515790b29c005b7a7d" name="a13f6e52aceef7a515790b29c005b7a7d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a13f6e52aceef7a515790b29c005b7a7d">&#9670;&#160;</a></span>XPMPContrailsAvailable()</h2>
+<a id="a1b62cd3162456e16573db53a394a496c" name="a1b62cd3162456e16573db53a394a496c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b62cd3162456e16573db53a394a496c">&#9670;&#160;</a></span>XPMPContrailsAvailable()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool XPMPContrailsAvailable </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> bool XPMPContrailsAvailable </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -1470,14 +1471,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="a1129902046b9da35d95cef8868ea8bca" name="a1129902046b9da35d95cef8868ea8bca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1129902046b9da35d95cef8868ea8bca">&#9670;&#160;</a></span>XPMPCountPlanes()</h2>
+<a id="a90c9c307464e98b61f82191976cadb5e" name="a90c9c307464e98b61f82191976cadb5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90c9c307464e98b61f82191976cadb5e">&#9670;&#160;</a></span>XPMPCountPlanes()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">long XPMPCountPlanes </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> long XPMPCountPlanes </td>
           <td>(</td>
           <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -1489,14 +1490,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="a7eda6bf53ff88d81d11ada9f7eb87ef8" name="a7eda6bf53ff88d81d11ada9f7eb87ef8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7eda6bf53ff88d81d11ada9f7eb87ef8">&#9670;&#160;</a></span>XPMPCreatePlane()</h2>
+<a id="a978d0cad7d8ac8c1b07bf9565969f407" name="a978d0cad7d8ac8c1b07bf9565969f407"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a978d0cad7d8ac8c1b07bf9565969f407">&#9670;&#160;</a></span>XPMPCreatePlane()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> XPMPCreatePlane </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> <a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> XPMPCreatePlane </td>
           <td>(</td>
           <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>inICAOCode</em></span>, </td>
         </tr>
@@ -1530,7 +1531,7 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 <p>Creates a new plane. </p>
 <dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000004">Deprecated</a></b></dt><dd>Subclass <a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a> instead </dd></dl>
-<p>Effectively calls <a class="el" href="#ab8a8c5decc40b819e22d9ed7618936de" title="Creates a new plane, providing a specific CSL model name.">XPMPCreatePlaneWithModelName()</a> with <code>inModelName = nullptr</code> </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Effectively calls <a class="el" href="#a1c08f84174c6a1c8a775ad94aa283e4f" title="Creates a new plane, providing a specific CSL model name.">XPMPCreatePlaneWithModelName()</a> with <code>inModelName = nullptr</code> </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">inICAOCode</td><td>ICAO aircraft type designator, like 'A320', 'B738', 'C172' </td></tr>
     <tr><td class="paramname">inAirline</td><td>ICAO airline code, like 'BAW', 'DLH', can be an empty string </td></tr>
@@ -1544,14 +1545,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="ab8a8c5decc40b819e22d9ed7618936de" name="ab8a8c5decc40b819e22d9ed7618936de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab8a8c5decc40b819e22d9ed7618936de">&#9670;&#160;</a></span>XPMPCreatePlaneWithModelName()</h2>
+<a id="a1c08f84174c6a1c8a775ad94aa283e4f" name="a1c08f84174c6a1c8a775ad94aa283e4f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c08f84174c6a1c8a775ad94aa283e4f">&#9670;&#160;</a></span>XPMPCreatePlaneWithModelName()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> XPMPCreatePlaneWithModelName </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> <a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> XPMPCreatePlaneWithModelName </td>
           <td>(</td>
           <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>inModelName</em></span>, </td>
         </tr>
@@ -1605,14 +1606,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="a9f594eb2243d2c5d11199fec21516611" name="a9f594eb2243d2c5d11199fec21516611"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9f594eb2243d2c5d11199fec21516611">&#9670;&#160;</a></span>XPMPDestroyPlane()</h2>
+<a id="aec445d6759ab2c309047dcb5eac56faa" name="aec445d6759ab2c309047dcb5eac56faa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec445d6759ab2c309047dcb5eac56faa">&#9670;&#160;</a></span>XPMPDestroyPlane()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void XPMPDestroyPlane </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void XPMPDestroyPlane </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a></td>          <td class="paramname"><span class="paramname"><em>_id</em></span></td><td>)</td>
           <td></td>
@@ -1620,19 +1621,19 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
       </table>
 </div><div class="memdoc">
 
-<p>[Deprecated] Removes a plane previously created with <a class="el" href="#a7eda6bf53ff88d81d11ada9f7eb87ef8" title="Creates a new plane.">XPMPCreatePlane()</a> </p>
+<p>[Deprecated] Removes a plane previously created with <a class="el" href="#a978d0cad7d8ac8c1b07bf9565969f407" title="Creates a new plane.">XPMPCreatePlane()</a> </p>
 <dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000006">Deprecated</a></b></dt><dd>Delete subclassed <a class="el" href="classXPMP2_1_1Aircraft.html" title="Actual representation of all aircraft in XPMP2.">XPMP2::Aircraft</a> object instead. </dd></dl>
 
 </div>
 </div>
-<a id="a6beb3d8ddc618ffe5c8453dc71953d1b" name="a6beb3d8ddc618ffe5c8453dc71953d1b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6beb3d8ddc618ffe5c8453dc71953d1b">&#9670;&#160;</a></span>XPMPDisableAircraftLabels()</h2>
+<a id="a40e4193f6c968b4df38d32b4e3c6a10f" name="a40e4193f6c968b4df38d32b4e3c6a10f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40e4193f6c968b4df38d32b4e3c6a10f">&#9670;&#160;</a></span>XPMPDisableAircraftLabels()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void XPMPDisableAircraftLabels </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void XPMPDisableAircraftLabels </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -1641,18 +1642,18 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 </div><div class="memdoc">
 
 <p>Disable drawing of labels with the aircraft. </p>
-<p>Effectively calls <a class="el" href="#afd2a9a06fb3454f16c89fa96b2072355" title="Enable or disable drawing of labels with the aircraft.">XPMPEnableAircraftLabels()</a> </p>
+<p>Effectively calls <a class="el" href="#ac8bd9cc856747d5e698a4b4a0ffcce87" title="Enable or disable drawing of labels with the aircraft.">XPMPEnableAircraftLabels()</a> </p>
 
 </div>
 </div>
-<a id="ae5968dd24de2daa0c56b0e16f9cfe1f1" name="ae5968dd24de2daa0c56b0e16f9cfe1f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae5968dd24de2daa0c56b0e16f9cfe1f1">&#9670;&#160;</a></span>XPMPDrawingAircraftLabels()</h2>
+<a id="a349baf72bc078617f3197eccc7ca4e96" name="a349baf72bc078617f3197eccc7ca4e96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a349baf72bc078617f3197eccc7ca4e96">&#9670;&#160;</a></span>XPMPDrawingAircraftLabels()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool XPMPDrawingAircraftLabels </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> bool XPMPDrawingAircraftLabels </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -1684,14 +1685,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="afd2a9a06fb3454f16c89fa96b2072355" name="afd2a9a06fb3454f16c89fa96b2072355"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afd2a9a06fb3454f16c89fa96b2072355">&#9670;&#160;</a></span>XPMPEnableAircraftLabels()</h2>
+<a id="ac8bd9cc856747d5e698a4b4a0ffcce87" name="ac8bd9cc856747d5e698a4b4a0ffcce87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8bd9cc856747d5e698a4b4a0ffcce87">&#9670;&#160;</a></span>XPMPEnableAircraftLabels()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void XPMPEnableAircraftLabels </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void XPMPEnableAircraftLabels </td>
           <td>(</td>
           <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>_enable</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span></td><td>)</td>
           <td></td>
@@ -1703,14 +1704,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="a6eaccf0e3195c59a9acfc5c3185ee9bb" name="a6eaccf0e3195c59a9acfc5c3185ee9bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6eaccf0e3195c59a9acfc5c3185ee9bb">&#9670;&#160;</a></span>XPMPEnableMap()</h2>
+<a id="a8e1c6bc5dfc5f3a199b1bee1b3f74b33" name="a8e1c6bc5dfc5f3a199b1bee1b3f74b33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e1c6bc5dfc5f3a199b1bee1b3f74b33">&#9670;&#160;</a></span>XPMPEnableMap()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void XPMPEnableMap </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void XPMPEnableMap </td>
           <td>(</td>
           <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>_bEnable</em></span>, </td>
         </tr>
@@ -1734,14 +1735,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="a64929cc00a8165739b73fa9df86ce9d4" name="a64929cc00a8165739b73fa9df86ce9d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a64929cc00a8165739b73fa9df86ce9d4">&#9670;&#160;</a></span>XPMPGetAircraft()</h2>
+<a id="a1b07246d6e7eecdd8b93b8563643d6ad" name="a1b07246d6e7eecdd8b93b8563643d6ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b07246d6e7eecdd8b93b8563643d6ad">&#9670;&#160;</a></span>XPMPGetAircraft()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classXPMP2_1_1Aircraft.html">XPMP2::Aircraft</a> * XPMPGetAircraft </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> <a class="el" href="classXPMP2_1_1Aircraft.html">XPMP2::Aircraft</a> * XPMPGetAircraft </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a></td>          <td class="paramname"><span class="paramname"><em>_id</em></span></td><td>)</td>
           <td></td>
@@ -1753,14 +1754,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="a206e50db6ce5a70967917e875b73d939" name="a206e50db6ce5a70967917e875b73d939"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a206e50db6ce5a70967917e875b73d939">&#9670;&#160;</a></span>XPMPGetModelInfo()</h2>
+<a id="ac17876adae9cedca11d4f6c989c11a7e" name="ac17876adae9cedca11d4f6c989c11a7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac17876adae9cedca11d4f6c989c11a7e">&#9670;&#160;</a></span>XPMPGetModelInfo()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">*param[out] outModelName Receives pointer to model can be nullptr *param[out] outIcao Receives pointer to ICAO aircraft type designator can be nullptr *param[out] outAirline Receives pointer to ICAO airline code can be nullptr *param[out] outLivery Receives pointer to special livery string can be nullptr *void XPMPGetModelInfo </td>
+          <td class="memname">*param[out] outModelName Receives pointer to model can be nullptr *param[out] outIcao Receives pointer to ICAO aircraft type designator can be nullptr *param[out] outAirline Receives pointer to ICAO airline code can be nullptr *param[out] outLivery Receives pointer to special livery string can be nullptr *<a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void XPMPGetModelInfo </td>
           <td>(</td>
           <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>inIndex</em></span>, </td>
         </tr>
@@ -1789,14 +1790,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="a4fed27975ed1ca37de4467acc78a51e2" name="a4fed27975ed1ca37de4467acc78a51e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4fed27975ed1ca37de4467acc78a51e2">&#9670;&#160;</a></span>XPMPGetNthPlane()</h2>
+<a id="a9242c59839da24d8303a93e605f66db2" name="a9242c59839da24d8303a93e605f66db2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9242c59839da24d8303a93e605f66db2">&#9670;&#160;</a></span>XPMPGetNthPlane()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> XPMPGetNthPlane </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> <a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> XPMPGetNthPlane </td>
           <td>(</td>
           <td class="paramtype">long</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
           <td></td>
@@ -1808,14 +1809,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="ad630b6e9cf7e0b2d78bf678e271778bd" name="ad630b6e9cf7e0b2d78bf678e271778bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad630b6e9cf7e0b2d78bf678e271778bd">&#9670;&#160;</a></span>XPMPGetNumberOfInstalledModels()</h2>
+<a id="afab8b580a2bb89fd9b42bd29f66c6f3c" name="afab8b580a2bb89fd9b42bd29f66c6f3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afab8b580a2bb89fd9b42bd29f66c6f3c">&#9670;&#160;</a></span>XPMPGetNumberOfInstalledModels()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int XPMPGetNumberOfInstalledModels </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> int XPMPGetNumberOfInstalledModels </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -1882,18 +1883,18 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 </div><div class="memdoc">
 
 <p>Returns ICAO aircraft type designator and livery of the given plane. </p>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000007">Deprecated</a></b></dt><dd>This legacy function is defined in a rather unsafe way. Instead, use <a class="el" href="#a64929cc00a8165739b73fa9df86ce9d4" title="Returns the underlying aircraft object, or nullptr if _id is invalid */.">XPMPGetAircraft()</a> and access PMP2::Aircraft::acIcaoType and <a class="el" href="classXPMP2_1_1Aircraft.html#af063f61fd342af70536d202f0e665c32" title="Livery code of this plane.">XPMP2::Aircraft::acLivery</a> directly. </dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000007">Deprecated</a></b></dt><dd>This legacy function is defined in a rather unsafe way. Instead, use <a class="el" href="#a1b07246d6e7eecdd8b93b8563643d6ad" title="Returns the underlying aircraft object, or nullptr if _id is invalid */.">XPMPGetAircraft()</a> and access PMP2::Aircraft::acIcaoType and <a class="el" href="classXPMP2_1_1Aircraft.html#af063f61fd342af70536d202f0e665c32" title="Livery code of this plane.">XPMP2::Aircraft::acLivery</a> directly. </dd></dl>
 
 </div>
 </div>
-<a id="a1bd21559e39ae0bdcce2909bb4d2de0f" name="a1bd21559e39ae0bdcce2909bb4d2de0f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1bd21559e39ae0bdcce2909bb4d2de0f">&#9670;&#160;</a></span>XPMPGetPlaneModelName()</h2>
+<a id="ab4472a2abc4cf167afb583c82bcf73b6" name="ab4472a2abc4cf167afb583c82bcf73b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4472a2abc4cf167afb583c82bcf73b6">&#9670;&#160;</a></span>XPMPGetPlaneModelName()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int XPMPGetPlaneModelName </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> int XPMPGetPlaneModelName </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a></td>          <td class="paramname"><span class="paramname"><em>inPlaneID</em></span>, </td>
         </tr>
@@ -1924,14 +1925,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="ae86c6e2f9a0969067bd9e4d6cb4080be" name="ae86c6e2f9a0969067bd9e4d6cb4080be"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae86c6e2f9a0969067bd9e4d6cb4080be">&#9670;&#160;</a></span>XPMPGetPlaneModelQuality()</h2>
+<a id="a5ddee365d87cd2847413169eb95ca877" name="a5ddee365d87cd2847413169eb95ca877"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ddee365d87cd2847413169eb95ca877">&#9670;&#160;</a></span>XPMPGetPlaneModelQuality()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int XPMPGetPlaneModelQuality </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> int XPMPGetPlaneModelQuality </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a></td>          <td class="paramname"><span class="paramname"><em>inPlane</em></span></td><td>)</td>
           <td></td>
@@ -1943,14 +1944,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="a7681ca8a217b2e52da0f23073cf3a87d" name="a7681ca8a217b2e52da0f23073cf3a87d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7681ca8a217b2e52da0f23073cf3a87d">&#9670;&#160;</a></span>XPMPHasControlOfAIAircraft()</h2>
+<a id="ad18a62ba179d07af7bc267cb2db72d6a" name="ad18a62ba179d07af7bc267cb2db72d6a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad18a62ba179d07af7bc267cb2db72d6a">&#9670;&#160;</a></span>XPMPHasControlOfAIAircraft()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool XPMPHasControlOfAIAircraft </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> bool XPMPHasControlOfAIAircraft </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -1959,18 +1960,18 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 </div><div class="memdoc">
 
 <p>Has <a class="el" href="namespaceXPMP2.html">XPMP2</a> control of TCAS targets? </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="#aa9ac95e430045ceaa33a890561e64f4f" title="Tries to grab control of TCAS targets (formerly known as AI/multiplayer) from X-Plane.">XPMPMultiplayerEnable()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a39aa332c38a0355e959567746138a4f6" title="Tries to grab control of TCAS targets (formerly known as AI/multiplayer) from X-Plane.">XPMPMultiplayerEnable()</a> </dd></dl>
 
 </div>
 </div>
-<a id="a5eb0c59c136fd2b0d4686f338344c038" name="a5eb0c59c136fd2b0d4686f338344c038"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5eb0c59c136fd2b0d4686f338344c038">&#9670;&#160;</a></span>XPMPLoadCSLPackage()</h2>
+<a id="a4719ddc5c149bd52c2b9139648ae5355" name="a4719ddc5c149bd52c2b9139648ae5355"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4719ddc5c149bd52c2b9139648ae5355">&#9670;&#160;</a></span>XPMPLoadCSLPackage()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const char * XPMPLoadCSLPackage </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> const char * XPMPLoadCSLPackage </td>
           <td>(</td>
           <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>inCSLFolder</em></span></td><td>)</td>
           <td></td>
@@ -2010,14 +2011,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="acc451b7b8df8f182f74cf5d306286443" name="acc451b7b8df8f182f74cf5d306286443"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acc451b7b8df8f182f74cf5d306286443">&#9670;&#160;</a></span>XPMPMultiplayerCleanup()</h2>
+<a id="ab11aac640fd728e5f624dc8707b452be" name="ab11aac640fd728e5f624dc8707b452be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab11aac640fd728e5f624dc8707b452be">&#9670;&#160;</a></span>XPMPMultiplayerCleanup()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void XPMPMultiplayerCleanup </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void XPMPMultiplayerCleanup </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -2030,14 +2031,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="ad7b23c9aba24f6a20c764e1131c7149f" name="ad7b23c9aba24f6a20c764e1131c7149f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad7b23c9aba24f6a20c764e1131c7149f">&#9670;&#160;</a></span>XPMPMultiplayerDisable()</h2>
+<a id="afd1da2f8600abf30820d2fa9a882e21b" name="afd1da2f8600abf30820d2fa9a882e21b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd1da2f8600abf30820d2fa9a882e21b">&#9670;&#160;</a></span>XPMPMultiplayerDisable()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void XPMPMultiplayerDisable </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void XPMPMultiplayerDisable </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -2047,18 +2048,18 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 <p>Release TCAS targets control. </p>
 <p>Afterwards, <a class="el" href="namespaceXPMP2.html">XPMP2</a>'s aircraft will no longer appear on TCAS or on 3rd-party plugins relying on TCAS targets dataRefs.<br  />
- Is called during <a class="el" href="#acc451b7b8df8f182f74cf5d306286443" title="Clean up the multiplayer library.">XPMPMultiplayerCleanup()</a> automatically. </p>
+ Is called during <a class="el" href="#ab11aac640fd728e5f624dc8707b452be" title="Clean up the multiplayer library.">XPMPMultiplayerCleanup()</a> automatically. </p>
 
 </div>
 </div>
-<a id="aa9ac95e430045ceaa33a890561e64f4f" name="aa9ac95e430045ceaa33a890561e64f4f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa9ac95e430045ceaa33a890561e64f4f">&#9670;&#160;</a></span>XPMPMultiplayerEnable()</h2>
+<a id="a39aa332c38a0355e959567746138a4f6" name="a39aa332c38a0355e959567746138a4f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39aa332c38a0355e959567746138a4f6">&#9670;&#160;</a></span>XPMPMultiplayerEnable()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const char * XPMPMultiplayerEnable </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> const char * XPMPMultiplayerEnable </td>
           <td>(</td>
           <td class="paramtype">void(*</td>          <td class="paramname"><span class="paramname"><em>_callback&#160;</em></span>)(void *)<span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span>, </td>
         </tr>
@@ -2085,14 +2086,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="a470e0e14c153312a294aa32b13fbf132" name="a470e0e14c153312a294aa32b13fbf132"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a470e0e14c153312a294aa32b13fbf132">&#9670;&#160;</a></span>XPMPMultiplayerInit()</h2>
+<a id="a98fd021ba6b12f7b82989961e97b695f" name="a98fd021ba6b12f7b82989961e97b695f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98fd021ba6b12f7b82989961e97b695f">&#9670;&#160;</a></span>XPMPMultiplayerInit()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const char * XPMPMultiplayerInit </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> const char * XPMPMultiplayerInit </td>
           <td>(</td>
           <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>inPluginName</em></span>, </td>
         </tr>
@@ -2136,14 +2137,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="a3bd073b50d5cc4bced6061f5f096dfb5" name="a3bd073b50d5cc4bced6061f5f096dfb5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3bd073b50d5cc4bced6061f5f096dfb5">&#9670;&#160;</a></span>XPMPMultiplayerInitLegacyData()</h2>
+<a id="a48a16c1b14d512aa02344af3b6c63d9a" name="a48a16c1b14d512aa02344af3b6c63d9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48a16c1b14d512aa02344af3b6c63d9a">&#9670;&#160;</a></span>XPMPMultiplayerInitLegacyData()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const char * XPMPMultiplayerInitLegacyData </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> const char * XPMPMultiplayerInitLegacyData </td>
           <td>(</td>
           <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>inCSLFolder</em></span>, </td>
         </tr>
@@ -2177,7 +2178,7 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 <p>Deprecated legacy initialization of <a class="el" href="namespaceXPMP2.html">XPMP2</a>. </p>
 <dl class="section note"><dt>Note</dt><dd>Parameters changed compared to libxplanemp!</dd></dl>
-<p>Effectively calls, in this order, <a class="el" href="#a470e0e14c153312a294aa32b13fbf132" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a> and <a class="el" href="#a5eb0c59c136fd2b0d4686f338344c038" title="Loads CSL packages from the given folder, searching up to 5 folder levels deep.">XPMPLoadCSLPackage()</a>. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="#a470e0e14c153312a294aa32b13fbf132" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a> and <a class="el" href="#a5eb0c59c136fd2b0d4686f338344c038" title="Loads CSL packages from the given folder, searching up to 5 folder levels deep.">XPMPLoadCSLPackage()</a> for details on the parameters. </dd></dl>
+<p>Effectively calls, in this order, <a class="el" href="#a98fd021ba6b12f7b82989961e97b695f" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a> and <a class="el" href="#a4719ddc5c149bd52c2b9139648ae5355" title="Loads CSL packages from the given folder, searching up to 5 folder levels deep.">XPMPLoadCSLPackage()</a>. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="#a98fd021ba6b12f7b82989961e97b695f" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a> and <a class="el" href="#a4719ddc5c149bd52c2b9139648ae5355" title="Loads CSL packages from the given folder, searching up to 5 folder levels deep.">XPMPLoadCSLPackage()</a> for details on the parameters. </dd></dl>
 
 </div>
 </div>
@@ -2201,14 +2202,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="a29f2ccf7539a95fa8e21777516ff1276" name="a29f2ccf7539a95fa8e21777516ff1276"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a29f2ccf7539a95fa8e21777516ff1276">&#9670;&#160;</a></span>XPMPRegisterPlaneNotifierFunc()</h2>
+<a id="aa9b3077caadb84bd7ebdaf99dbf0b629" name="aa9b3077caadb84bd7ebdaf99dbf0b629"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9b3077caadb84bd7ebdaf99dbf0b629">&#9670;&#160;</a></span>XPMPRegisterPlaneNotifierFunc()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void XPMPRegisterPlaneNotifierFunc </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void XPMPRegisterPlaneNotifierFunc </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="#ad271d6104508eeee23f3dbe232f10cf8">XPMPPlaneNotifier_f</a></td>          <td class="paramname"><span class="paramname"><em>inFunc</em></span>, </td>
         </tr>
@@ -2231,14 +2232,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="a02a02c168c5a49ffebc2c4f1ac21f618" name="a02a02c168c5a49ffebc2c4f1ac21f618"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a02a02c168c5a49ffebc2c4f1ac21f618">&#9670;&#160;</a></span>XPMPSetAircraftLabelDist()</h2>
+<a id="a71b6a67c283f770d3f3f7722c4ef16fb" name="a71b6a67c283f770d3f3f7722c4ef16fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71b6a67c283f770d3f3f7722c4ef16fb">&#9670;&#160;</a></span>XPMPSetAircraftLabelDist()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void XPMPSetAircraftLabelDist </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void XPMPSetAircraftLabelDist </td>
           <td>(</td>
           <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>_dist_nm</em></span>, </td>
         </tr>
@@ -2259,14 +2260,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="aa5da65f6f5feca2ad65d94fa620cec73" name="aa5da65f6f5feca2ad65d94fa620cec73"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa5da65f6f5feca2ad65d94fa620cec73">&#9670;&#160;</a></span>XPMPSetDefaultPlaneICAO()</h2>
+<a id="a36f1217d3edb9b2b31e87b5387bf9b44" name="a36f1217d3edb9b2b31e87b5387bf9b44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36f1217d3edb9b2b31e87b5387bf9b44">&#9670;&#160;</a></span>XPMPSetDefaultPlaneICAO()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void XPMPSetDefaultPlaneICAO </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void XPMPSetDefaultPlaneICAO </td>
           <td>(</td>
           <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>_acIcaoType</em></span>, </td>
         </tr>
@@ -2314,14 +2315,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="aa2d501a429773a0a5d241759d183d8f1" name="aa2d501a429773a0a5d241759d183d8f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa2d501a429773a0a5d241759d183d8f1">&#9670;&#160;</a></span>XPMPSetPlaneVisibility()</h2>
+<a id="a99d20d45d916c5fd9c9785e2c48d1740" name="a99d20d45d916c5fd9c9785e2c48d1740"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99d20d45d916c5fd9c9785e2c48d1740">&#9670;&#160;</a></span>XPMPSetPlaneVisibility()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void XPMPSetPlaneVisibility </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void XPMPSetPlaneVisibility </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a></td>          <td class="paramname"><span class="paramname"><em>_id</em></span>, </td>
         </tr>
@@ -2337,14 +2338,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="ac77f07c5cb4b217f4442533360dfa3de" name="ac77f07c5cb4b217f4442533360dfa3de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac77f07c5cb4b217f4442533360dfa3de">&#9670;&#160;</a></span>XPMPSetPluginName()</h2>
+<a id="ad2ca2d719ca2540f78fc4d81e9d89d2e" name="ad2ca2d719ca2540f78fc4d81e9d89d2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2ca2d719ca2540f78fc4d81e9d89d2e">&#9670;&#160;</a></span>XPMPSetPluginName()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void XPMPSetPluginName </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void XPMPSetPluginName </td>
           <td>(</td>
           <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>inPluginName</em></span>, </td>
         </tr>
@@ -2357,7 +2358,7 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 </div><div class="memdoc">
 
 <p>Overrides the plugin's name to be used in Log output. </p>
-<p>The same as providing a plugin name with <a class="el" href="#a470e0e14c153312a294aa32b13fbf132" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a>. If no name is provided, it defaults to the plugin's name as set in XPluginStart(). </p><dl class="section note"><dt>Note</dt><dd>Replaces the compile-time macro <code>XPMP_CLIENT_LONGNAME</code> needed in <code>libxplanemp</code>. </dd></dl>
+<p>The same as providing a plugin name with <a class="el" href="#a98fd021ba6b12f7b82989961e97b695f" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a>. If no name is provided, it defaults to the plugin's name as set in XPluginStart(). </p><dl class="section note"><dt>Note</dt><dd>Replaces the compile-time macro <code>XPMP_CLIENT_LONGNAME</code> needed in <code>libxplanemp</code>. </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">inPluginName</td><td>Your plugin's name, used as map layer name, and as folder name under <code>Aircraft</code> </td></tr>
@@ -2368,14 +2369,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="a55b41d1a1fe740080cdeaad09032023c" name="a55b41d1a1fe740080cdeaad09032023c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a55b41d1a1fe740080cdeaad09032023c">&#9670;&#160;</a></span>XPMPSoundAdd()</h2>
+<a id="ad5b8b2dc535db7ae74b313ff6ea7d1d5" name="ad5b8b2dc535db7ae74b313ff6ea7d1d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5b8b2dc535db7ae74b313ff6ea7d1d5">&#9670;&#160;</a></span>XPMPSoundAdd()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const char * XPMPSoundAdd </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> const char * XPMPSoundAdd </td>
           <td>(</td>
           <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>sName</em></span>, </td>
         </tr>
@@ -2421,7 +2422,7 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 <p><a class="el" href="namespaceXPMP2.html">XPMP2</a> loads a number of default sounds from what X-Plane ships. This function allows to add your own. It will try to load the sound immediately. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">sName</td><td>A descriptive name, used as a key to refer to this sound later </td></tr>
-    <tr><td class="paramname">filePath</td><td>Path to the sound file; a relative path is relative to <code>resourceDir</code> as set by <a class="el" href="#a470e0e14c153312a294aa32b13fbf132" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a> </td></tr>
+    <tr><td class="paramname">filePath</td><td>Path to the sound file; a relative path is relative to <code>resourceDir</code> as set by <a class="el" href="#a98fd021ba6b12f7b82989961e97b695f" title="Initializes the XPMP2 library. This shall be your first call to the library.">XPMPMultiplayerInit()</a> </td></tr>
     <tr><td class="paramname">bLoop</td><td>Is this sound to be played in a loop? </td></tr>
     <tr><td class="paramname">coneDir</td><td>[opt] Which direction relative to plane's heading does the cone point to? (180 would be typical for jet engines) </td></tr>
     <tr><td class="paramname">conePitch</td><td>[opt] Which pitch does the cone point to (up/down)? (0 would be typical, ie. level with the plane) </td></tr>
@@ -2435,14 +2436,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="ada05d290bf58a20dd3d5eb6df9ec63b2" name="ada05d290bf58a20dd3d5eb6df9ec63b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ada05d290bf58a20dd3d5eb6df9ec63b2">&#9670;&#160;</a></span>XPMPSoundEnable()</h2>
+<a id="a56bb5d23af0b26387c941e6f5706f594" name="a56bb5d23af0b26387c941e6f5706f594"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56bb5d23af0b26387c941e6f5706f594">&#9670;&#160;</a></span>XPMPSoundEnable()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool XPMPSoundEnable </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> bool XPMPSoundEnable </td>
           <td>(</td>
           <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>bEnable</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span></td><td>)</td>
           <td></td>
@@ -2455,14 +2456,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="ac48d627a121a745a19afe865f1c05aad" name="ac48d627a121a745a19afe865f1c05aad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac48d627a121a745a19afe865f1c05aad">&#9670;&#160;</a></span>XPMPSoundEnumerate()</h2>
+<a id="a441cf015383ceccabf1c5e34c0863f80" name="a441cf015383ceccabf1c5e34c0863f80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a441cf015383ceccabf1c5e34c0863f80">&#9670;&#160;</a></span>XPMPSoundEnumerate()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const char * XPMPSoundEnumerate </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> const char * XPMPSoundEnumerate </td>
           <td>(</td>
           <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>prevName</em></span>, </td>
         </tr>
@@ -2487,14 +2488,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="a89f7942133a3bc26c8c32eeb2c5f0443" name="a89f7942133a3bc26c8c32eeb2c5f0443"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a89f7942133a3bc26c8c32eeb2c5f0443">&#9670;&#160;</a></span>XPMPSoundIsEnabled()</h2>
+<a id="a20f266f194a9786217c4088ce695f7be" name="a20f266f194a9786217c4088ce695f7be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20f266f194a9786217c4088ce695f7be">&#9670;&#160;</a></span>XPMPSoundIsEnabled()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool XPMPSoundIsEnabled </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> bool XPMPSoundIsEnabled </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -2506,14 +2507,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="a4bd3405ad71d776c058df6aaac6c0e52" name="a4bd3405ad71d776c058df6aaac6c0e52"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4bd3405ad71d776c058df6aaac6c0e52">&#9670;&#160;</a></span>XPMPSoundMute()</h2>
+<a id="a296ec8ac46d30a5b1a5eed02d61e1dfc" name="a296ec8ac46d30a5b1a5eed02d61e1dfc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a296ec8ac46d30a5b1a5eed02d61e1dfc">&#9670;&#160;</a></span>XPMPSoundMute()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void XPMPSoundMute </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void XPMPSoundMute </td>
           <td>(</td>
           <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>bMute</em></span></td><td>)</td>
           <td></td>
@@ -2531,14 +2532,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="a280d1a336529b2515b74d0d1684f0647" name="a280d1a336529b2515b74d0d1684f0647"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a280d1a336529b2515b74d0d1684f0647">&#9670;&#160;</a></span>XPMPSoundSetMasterVolume()</h2>
+<a id="a7b69e69690ed15361c9618b6c347faf0" name="a7b69e69690ed15361c9618b6c347faf0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b69e69690ed15361c9618b6c347faf0">&#9670;&#160;</a></span>XPMPSoundSetMasterVolume()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void XPMPSoundSetMasterVolume </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void XPMPSoundSetMasterVolume </td>
           <td>(</td>
           <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>fVol</em></span><span class="paramdefsep"> = </span><span class="paramdefval">1.0f</span></td><td>)</td>
           <td></td>
@@ -2556,14 +2557,14 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
-<a id="a5a582e7c560b373bffc58e303948412a" name="a5a582e7c560b373bffc58e303948412a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5a582e7c560b373bffc58e303948412a">&#9670;&#160;</a></span>XPMPUnregisterPlaneNotifierFunc()</h2>
+<a id="a75805908d6785d73fc339b05d3c0908d" name="a75805908d6785d73fc339b05d3c0908d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75805908d6785d73fc339b05d3c0908d">&#9670;&#160;</a></span>XPMPUnregisterPlaneNotifierFunc()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void XPMPUnregisterPlaneNotifierFunc </td>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> void XPMPUnregisterPlaneNotifierFunc </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="#ad271d6104508eeee23f3dbe232f10cf8">XPMPPlaneNotifier_f</a></td>          <td class="paramname"><span class="paramname"><em>inFunc</em></span>, </td>
         </tr>
@@ -2679,9 +2680,9 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 <p>These enumerations define the way the transponder of a given plane is operating. </p>
 <dl class="section note"><dt>Note</dt><dd><a class="el" href="namespaceXPMP2.html">XPMP2</a> considers plane for TCAS display if <code>"mode &gt; xpmpTransponderMode_Standby". / The actual value is forwarded to X-Plane as SSR Mode, / which influence the way the aircraft shows up in TCAS display (XP &gt;= 12.4.0); / values defined by dataRef</code>sim/cockpit2/tcas/targets/ssr_mode`: / "Transponder mode: off=0, stdby=1, on (mode A)=2, alt (mode C)=3, test=4, GND (mode S)=5, ta_only (mode S)=6, ta/ra=7" enum XPMPTransponderMode { xpmpTransponderMode_Off = 0, ///&lt; transponder is off not currently sending -&gt; aircraft not visible on TCAS xpmpTransponderMode_Standby, ///&lt; transponder is in standby, not currently sending -&gt; aircraft not visible on TCAS xpmpTransponderMode_ModeA, ///&lt; transponder is on, Mode A xpmpTransponderMode_ModeC, ///&lt; transponder is on, Mode C (Alt) xpmpTransponderMode_Test, ///&lt; transponder is on, Test xpmpTransponderMode_ModeS_Gnd, ///&lt; transponder is on, Mode S (Gnd) xpmpTransponderMode_ModeS_TAOnly, ///&lt; transponder is on, Mode S (TA-Only) xpmpTransponderMode_ModeS_TARA, ///&lt; transponder is on, Mode S (TA/RA) };</dd></dl>
-<p>/ defines information about an aircraft visible to radar. struct XPMPPlaneRadar_t { long size = sizeof(XPMPPlaneRadar_t); ///&lt; structure size long code = 0; ///&lt; current radar code, published via dataRef <code>sim/cockpit2/tcas/targets/modeC_code</code> XPMPTransponderMode mode = xpmpTransponderMode_ModeC; ///&lt; current radar mode, if <em>not</em> <code>xpmpTransponderMode_Standby</code> then is plane considered for TCAS display const char* GetModeStr() const; ///&lt; returns the current transponder mode as human-readable text };</p>
+<p>/ defines information about an aircraft visible to radar. struct XPMP2_EXPORT XPMPPlaneRadar_t { long size = sizeof(XPMPPlaneRadar_t); ///&lt; structure size long code = 0; ///&lt; current radar code, published via dataRef <code>sim/cockpit2/tcas/targets/modeC_code</code> XPMPTransponderMode mode = xpmpTransponderMode_ModeC; ///&lt; current radar mode, if <em>not</em> <code>xpmpTransponderMode_Standby</code> then is plane considered for TCAS display const char* GetModeStr() const; ///&lt; returns the current transponder mode as human-readable text };</p>
 <p>/ Textual information of planes to be passed on / via shared dataRefs to other plugins. /</p>
-<p>The texts are not used within <a class="el" href="namespaceXPMP2.html">XPMP2</a> in any way, just passed on to dataRefs struct XPMPInfoTexts_t { long size = sizeof(XPMPInfoTexts_t);///&lt; structure size char tailNum[10] = {0}; ///&lt; registration, tail number char icaoAcType[5] = {0}; ///&lt; ICAO aircraft type designator, 3-4 chars char manufacturer[40] = {0}; ///&lt; a/c manufacturer, human readable char model[40] = {0}; ///&lt; a/c model, human readable char icaoAirline[4] = {0}; ///&lt; ICAO airline code char airline[40] = {0}; ///&lt; airline, human readable char flightNum [10] = {0}; ///&lt; flight number char aptFrom [5] = {0}; ///&lt; Origin airport (ICAO) char aptTo [5] = {0}; ///&lt; Destination airport (ICAO) };</p>
+<p>The texts are not used within <a class="el" href="namespaceXPMP2.html">XPMP2</a> in any way, just passed on to dataRefs struct XPMP2_EXPORT XPMPInfoTexts_t { long size = sizeof(XPMPInfoTexts_t);///&lt; structure size char tailNum[10] = {0}; ///&lt; registration, tail number char icaoAcType[5] = {0}; ///&lt; ICAO aircraft type designator, 3-4 chars char manufacturer[40] = {0}; ///&lt; a/c manufacturer, human readable char model[40] = {0}; ///&lt; a/c model, human readable char icaoAirline[4] = {0}; ///&lt; ICAO airline code char airline[40] = {0}; ///&lt; airline, human readable char flightNum [10] = {0}; ///&lt; flight number char aptFrom [5] = {0}; ///&lt; Origin airport (ICAO) char aptTo [5] = {0}; ///&lt; Destination airport (ICAO) };</p>
 <p>/ This enum defines the different categories of aircraft information we can query about. / </p><dl class="section note"><dt>Note</dt><dd>While these enums are defined in a way that they could be combined together, / there is no place, which makes use of this possibility. Each value will be used / individually only. Because of this, the definition has been changed in <a class="el" href="namespaceXPMP2.html">XPMP2</a> / to an actual enum type for clarity. / </dd>
 <dd>
 This enum is only used with deprecated concepts / (class <a class="el" href="classXPCAircraft.html" title="Legacy wrapper class as provided by original libxplanemp.">XPCAircraft</a> and direct use of callback functions.) enum XPMPPlaneDataType { xpmpDataType_Position = 1L &lt;&lt; 1, ///&lt; position data in <a class="el" href="#structXPMPPlanePosition__t" title="This data structure contains the basic position info for an aircraft.">XPMPPlanePosition_t</a> xpmpDataType_Surfaces = 1L &lt;&lt; 2, ///&lt; physical appearance in <a class="el" href="#structXPMPPlaneSurfaces__t" title="External physical configuration of the plane.">XPMPPlaneSurfaces_t</a> xpmpDataType_Radar = 1L &lt;&lt; 3, ///&lt; radar information in XPMPPlaneRadar_t xpmpDataType_InfoTexts = 1L &lt;&lt; 4, ///&lt; informational texts in XPMPInfoTexts_t };</dd></dl>

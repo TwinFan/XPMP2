@@ -6,6 +6,11 @@
 ///             XPMP2::UDPReceiver: listens to and receives UDP datagram\n
 ///             XPMP2::UDPMulticast: sends and receives multicast UDP datagrams\n
 ///             XPMP2::TCPConnection: receives incoming TCP connection\n
+/// @note       These classes and functions are declared with `XPMP2_EXPORT`,
+///             although they are not in the public headers. This is because
+///             some plugins have made use of them, including my own LiveTraffic.
+///             To support using the Windows DLL, they are then also required
+///             to be ex/imported.
 /// @author     Birger Hoppe
 /// @copyright  (c) 2019-2024 Birger Hoppe
 /// @copyright  Permission is hereby granted, free of charge, to any person obtaining a
@@ -49,7 +54,7 @@ constexpr SOCKET INVALID_SOCKET = -1;
 namespace XPMP2 {
 
 /// Helper definition for all these IPv4/6 differences
-struct SockAddrTy
+struct XPMP2_EXPORT SockAddrTy
 {
     union {
         sockaddr        sa;             // unspecific
@@ -93,7 +98,7 @@ struct SockAddrTy
 /// @details This exception is raised when the address
 ///          and port combinaison cannot be resolved or if the socket cannot be
 ///          opened.
-class NetRuntimeError : public std::runtime_error
+class XPMP2_EXPORT NetRuntimeError : public std::runtime_error
 {
 public:
     std::string errTxt;             ///< OS text for what `errno` says, output of strerror_s()
@@ -105,7 +110,7 @@ public:
 
 /// @brief Base class for any socket-based networking
 /// @exception XPMP2::NetRuntimeError in case of any errors
-class SocketNetworking
+class XPMP2_EXPORT SocketNetworking
 {
 protected:
     SOCKET              f_socket        = INVALID_SOCKET;
@@ -193,7 +198,7 @@ protected:
 
 
 /// Receives UDP messages
-class UDPReceiver : public SocketNetworking
+class XPMP2_EXPORT UDPReceiver : public SocketNetworking
 {
 public:
     /// Default constructor is not doing anything
@@ -207,7 +212,7 @@ protected:
 
 /// @brief UDP Multicast, always binding to INADDR_ANY
 /// @exception XPMP2::NetRuntimeError in case of any errors
-class UDPMulticast : public SocketNetworking
+class XPMP2_EXPORT UDPMulticast : public SocketNetworking
 {
 protected:
     std::string multicastAddr;          ///< the multicast address
@@ -279,7 +284,7 @@ protected:
 
 
 /// Listens to TCP connections and opens a session socket upon connect
-class TCPConnection : public SocketNetworking
+class XPMP2_EXPORT TCPConnection : public SocketNetworking
 {
 protected:
     SOCKET              f_session_socket = INVALID_SOCKET;  ///< session socket, ie. the socket opened when a counterparty connects
@@ -312,7 +317,7 @@ protected:
 
 
 /// Numerical IP address, used for both ipv4 and ipv6, for ease of handling
-struct InetAddrTy {
+struct XPMP2_EXPORT InetAddrTy {
     union {
         std::uint32_t   addr[4] = {0,0,0,0};
         struct in_addr  in_addr;
@@ -340,7 +345,7 @@ struct InetAddrTy {
 };
 
 /// Is given address a local one?
-bool NetwIsLocalAddr (const InetAddrTy& addr);
+bool XPMP2_EXPORT NetwIsLocalAddr (const InetAddrTy& addr);
 /// Is given address a local one?
 inline bool NetwIsLocalAddr (const SockAddrTy& sa)
 { return NetwIsLocalAddr(InetAddrTy(sa)); }
@@ -353,9 +358,9 @@ inline bool NetwIsLocalAddr (const sockaddr* pSa)
 /// @param fMust Return only interfaces having these interface flags like `IFF_MULTICAST`, `IFF_BROADCAST`
 /// @param fSkip Skipt interfaces having these interface flags like `IFF_LOOPBACK`
 /// @return A vector of strings of interface names
-std::vector<std::string> NetwGetInterfaces (uint8_t family, uint32_t fMust = 0, uint32_t fSkip = 0);
+std::vector<std::string> XPMP2_EXPORT NetwGetInterfaces (uint8_t family, uint32_t fMust = 0, uint32_t fSkip = 0);
 /// Return comma-separated string will all known local interfaces, calls NetwGetInterfaces()
-std::string NetwGetInterfaceNames (uint8_t family, uint32_t fMust = 0, uint32_t fSkip = 0);
+std::string XPMP2_EXPORT NetwGetInterfaceNames (uint8_t family, uint32_t fMust = 0, uint32_t fSkip = 0);
 
 } // namespace XPMP2
 

@@ -34,7 +34,7 @@ endif()
 option(XPMP2_BUILD_SHARED_LIBS "Build XPMP2 as a shared libraries" OFF)
 
 project(XPMP2
-        VERSION 3.5.1
+        VERSION 3.5.2
         DESCRIPTION "Multiplayer library for X-Plane 11 and 12")
 
 # Source file list

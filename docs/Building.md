@@ -94,14 +94,14 @@ The Windows version can also be built as a DLL.
 > **WARNING**
 >
 > Shipping XPMP2 as a DLL is generally not recommended.
-> Over time, different versions of the `XPMP2.dll` could get
+> Over time, different versions of the `XPMP2.#.#.#.dll` could get
 > into conflict with each other.
 >
 > To reduce the risk of version conflict, the DLL is generated with a version number
 > in its name. Still, version conflicts could only be avoided if only
 > the DLLs provided here in the Github Releases are distributed.
-> Just recompiling the DLL and import library will cause different signature
-> and version conflict.
+> Even just recompiling the DLL and import library will already cause
+> a different signature and a version conflict.
 >
 > The DLL version has not been extensively tested and should not be used
 > for shipping public versions of a plugin without such extensive tests.
@@ -112,6 +112,8 @@ The Windows version can also be built as a DLL.
 > and [C4275](https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-2-c4275?view=msvc-170) are suppressed.
 > The cases listed in the above warning documentation may not apply to XPMP2
 > and it may just work, but I have not done intensive analysis on the matter.
+> I have, however, briefly ran LiveTraffic with a DLL version just to prove
+> it all basically works.
 
 To build the DLL version of XPMP2 pass one more parameter
 `-D"XPMP2_BUILD_SHARED_LIBS:boolean=TRUE"` to `build-win.cmd`
@@ -132,6 +134,21 @@ To use the DLL version from within your plugin
    are defined with `__declspec(dllimport)`,
 2. link to `XPMP2-#.#.#.lib`, which serves as the DLL import library,
 3. ship `XPMP2-#.#.#.dll` alongside your plugin in the same directory.
+
+If you import the XPMP2 directory as part of your CMake build process,
+as explained above in "Including XPMP2 directly...", then define something
+like this to enable building and linking the DLL version with your plugin:
+
+```cmake
+# Using XPMP2 as DLL
+if (WIN32)
+    set(XPMP2_BUILD_SHARED_LIBS 1)                                  # Tell XPMP2 to build the DLL
+    target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE XPMP2_DLLIMPORT) # Tell my project to import functions from DLL
+endif()
+```
+
+The resulting `XPMP2.#.#.#.dll` will be found in the `XPMP2` build folder,
+not in your plugin's build output.
 
 ## Using an IDE
 

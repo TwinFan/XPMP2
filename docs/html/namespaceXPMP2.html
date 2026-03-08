@@ -771,6 +771,12 @@ Functions</h2></td></tr>
 <tr class="memitem:aef750c9760f73d3569e147a03167bcf8" id="r_aef750c9760f73d3569e147a03167bcf8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aef750c9760f73d3569e147a03167bcf8">SoundCleanup</a> ()</td></tr>
 <tr class="memdesc:aef750c9760f73d3569e147a03167bcf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Graceful shoutdown.  <br /></td></tr>
 <tr class="separator:aef750c9760f73d3569e147a03167bcf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac54445033986fb70be652f15a7f4adac" id="r_ac54445033986fb70be652f15a7f4adac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac54445033986fb70be652f15a7f4adac">PushMsg</a> (const std::string &amp;sMsg)</td></tr>
+<tr class="memdesc:ac54445033986fb70be652f15a7f4adac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Store a message for immediate (XP thread) or later output (worker thread)  <br /></td></tr>
+<tr class="separator:ac54445033986fb70be652f15a7f4adac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47b059f40a8d267d7a3dc9b59ed3b668" id="r_a47b059f40a8d267d7a3dc9b59ed3b668"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a47b059f40a8d267d7a3dc9b59ed3b668">FlushMsgs</a> ()</td></tr>
+<tr class="memdesc:a47b059f40a8d267d7a3dc9b59ed3b668"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flush all pending messages to Log.txt.  <br /></td></tr>
+<tr class="separator:a47b059f40a8d267d7a3dc9b59ed3b668"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31bf3417dd55d1948c0914b240464700" id="r_a31bf3417dd55d1948c0914b240464700"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a7d5dbc86225b366f50efc9c473629867">ThreeWaySwitchTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a31bf3417dd55d1948c0914b240464700">Read3WaySwitch</a> (std::string &amp;sVal, const std::string &amp;sKey, const std::string &amp;cfgFileName, <a class="el" href="#a7d5dbc86225b366f50efc9c473629867">ThreeWaySwitchTy</a> defVal)</td></tr>
 <tr class="memdesc:a31bf3417dd55d1948c0914b240464700"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert strings <code>on</code>, <code>auto</code>, <code>off</code> to enums of type <code>ThreeWaySwitchTy</code>  <br /></td></tr>
 <tr class="separator:a31bf3417dd55d1948c0914b240464700"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -819,6 +825,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a702442291a9a8c28d272172c50f4ce8b" id="r_a702442291a9a8c28d272172c50f4ce8b"><td class="memItemLeft" align="right" valign="top">std::valarray&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a702442291a9a8c28d272172c50f4ce8b">HeadPitchRoll2Normal</a> (const float head, const float pitch, const float roll)</td></tr>
 <tr class="memdesc:a702442291a9a8c28d272172c50f4ce8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert heading/pitch/roll to unit and normal vector, ie. returns 6 values, first 3 like HeadPitch2Vec, second three the normal vector (pointing "up")  <br /></td></tr>
 <tr class="separator:a702442291a9a8c28d272172c50f4ce8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77443eefd28c8026d4ba9e3f24a5e05c" id="r_a77443eefd28c8026d4ba9e3f24a5e05c"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a77443eefd28c8026d4ba9e3f24a5e05c">UpdateCachedValuesGetNetwTime</a> ()</td></tr>
+<tr class="memdesc:a77443eefd28c8026d4ba9e3f24a5e05c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update cached values during a flight loop callback in XP's main thread to have them when called from a non-main thread.  <br /></td></tr>
+<tr class="separator:a77443eefd28c8026d4ba9e3f24a5e05c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7bd62c34848dba746470c71ae2c801cb" id="r_a7bd62c34848dba746470c71ae2c801cb"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7bd62c34848dba746470c71ae2c801cb">GetMiscNetwTime</a> ()</td></tr>
 <tr class="memdesc:a7bd62c34848dba746470c71ae2c801cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get synched network time from X-Plane (sim/network/misc/network_time_sec) as used in Log.txt.  <br /></td></tr>
 <tr class="separator:a7bd62c34848dba746470c71ae2c801cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1147,6 +1156,7 @@ Variables</h2></td></tr>
 <tr class="memdesc:a46675aca62eb955a94fa1eb18f65426f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The one and only global variable structure.  <br /></td></tr>
 <tr class="separator:a46675aca62eb955a94fa1eb18f65426f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a561ac1a3a5b1e667ec224d4fc88e0dd6" id="r_a561ac1a3a5b1e667ec224d4fc88e0dd6"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a561ac1a3a5b1e667ec224d4fc88e0dd6">LOG_LEVEL</a> []</td></tr>
+<tr class="memdesc:a561ac1a3a5b1e667ec224d4fc88e0dd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logging level text.  <br /></td></tr>
 <tr class="separator:a561ac1a3a5b1e667ec224d4fc88e0dd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6039e202d33d94341faf242efd9053bd" id="r_a6039e202d33d94341faf242efd9053bd"><td class="memItemLeft" align="right" valign="top">constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6039e202d33d94341faf242efd9053bd">RSRC_RELATED</a> = &quot;related.txt&quot;</td></tr>
 <tr class="separator:a6039e202d33d94341faf242efd9053bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -3668,6 +3678,25 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
+<a id="a47b059f40a8d267d7a3dc9b59ed3b668" name="a47b059f40a8d267d7a3dc9b59ed3b668"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47b059f40a8d267d7a3dc9b59ed3b668">&#9670;&#160;</a></span>FlushMsgs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::FlushMsgs </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Flush all pending messages to Log.txt. </p>
+
+</div>
+</div>
 <a id="ae15d28b2f10f4adcc878f74611f9e1a2" name="ae15d28b2f10f4adcc878f74611f9e1a2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae15d28b2f10f4adcc878f74611f9e1a2">&#9670;&#160;</a></span>FmodHeadPitch2Vec()</h2>
 
@@ -4908,6 +4937,25 @@ template&lt;class IteratorT &gt; </div>
 
 </div>
 </div>
+<a id="ac54445033986fb70be652f15a7f4adac" name="ac54445033986fb70be652f15a7f4adac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac54445033986fb70be652f15a7f4adac">&#9670;&#160;</a></span>PushMsg()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::PushMsg </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>sMsg</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Store a message for immediate (XP thread) or later output (worker thread) </p>
+
+</div>
+</div>
 <a id="a0dde56f3584558b8f103c27cc375e052" name="a0dde56f3584558b8f103c27cc375e052"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0dde56f3584558b8f103c27cc375e052">&#9670;&#160;</a></span>rad2deg()</h2>
 
@@ -5920,6 +5968,26 @@ template&lt;class T &gt; </div>
 </div><div class="memdoc">
 
 <p>Initialize the module. </p>
+
+</div>
+</div>
+<a id="a77443eefd28c8026d4ba9e3f24a5e05c" name="a77443eefd28c8026d4ba9e3f24a5e05c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77443eefd28c8026d4ba9e3f24a5e05c">&#9670;&#160;</a></span>UpdateCachedValuesGetNetwTime()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::UpdateCachedValuesGetNetwTime </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Update cached values during a flight loop callback in XP's main thread to have them when called from a non-main thread. </p>
+<dl class="section return"><dt>Returns</dt><dd>the value of <a class="el" href="#a7bd62c34848dba746470c71ae2c801cb" title="Get synched network time from X-Plane (sim/network/misc/network_time_sec) as used in Log....">GetMiscNetwTime()</a> </dd></dl>
 
 </div>
 </div>
@@ -6954,6 +7022,8 @@ template&lt;class T &gt; </div>
 <div class="line">    <span class="stringliteral">&quot;DEBUG&quot;</span>, <span class="stringliteral">&quot;INFO &quot;</span>, <span class="stringliteral">&quot;WARN &quot;</span>, <span class="stringliteral">&quot;ERROR&quot;</span>, <span class="stringliteral">&quot;FATAL&quot;</span>, <span class="stringliteral">&quot;MSG  &quot;</span></div>
 <div class="line">}</div>
 </div><!-- fragment -->
+<p>Logging level text. </p>
+
 </div>
 </div>
 <a id="adc8267815964ad1365f52da5b5f2584e" name="adc8267815964ad1365f52da5b5f2584e"></a>

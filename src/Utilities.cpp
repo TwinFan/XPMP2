@@ -29,6 +29,12 @@ GlobVars glob (logDEBUG, true);
 GlobVars glob;
 #endif
 
+/// Store a message for immediate (XP thread) or later output (worker thread)
+void PushMsg (const std::string& sMsg);
+
+/// Flush all pending messages to Log.txt
+void FlushMsgs ();
+
 //
 // MARK: Configuration
 //
@@ -725,13 +731,28 @@ std::valarray<float> HeadPitchRoll2Normal(const float head, const float pitch, c
 // MARK: Misc
 //
 
+// Update cached values during a flight loop callback in XP's main thread to have them when called from a non-main thread
+float UpdateCachedValuesGetNetwTime ()
+{
+    // Flush msg buffer
+    FlushMsgs();
+    // Cache and return current network time
+    return GetMiscNetwTime();
+}
+
 // Get total running time from X-Plane (sim/time/total_running_time_sec)
 float GetMiscNetwTime()
 {
     static XPLMDataRef drMiscNetwTime = nullptr;
-    if (!drMiscNetwTime)
-        drMiscNetwTime = XPLMFindDataRef("sim/network/misc/network_time_sec");
-    return XPLMGetDataf(drMiscNetwTime);
+    static float fCacheVal = NAN;
+    // If running in main thread we can ask X-Plane
+    if (glob.IsXPThread()) {
+        if (!drMiscNetwTime)
+            drMiscNetwTime = XPLMFindDataRef("sim/network/misc/network_time_sec");
+        return fCacheVal = XPLMGetDataf(drMiscNetwTime);
+    }
+    // Otherwise we revert to a cached value
+    return fCacheVal;
 }
 
 // Return the network time as a string like used in the XP's Log.txt
@@ -804,9 +825,9 @@ fileName(_szFile), ln(_ln), funcName(_szFunc)
     msg = LogGetString(_szFile, _ln, _szFunc, logFATAL, _szMsg, args);
     va_end (args);
     
-    // write to log (flushed immediately -> expensive!)
+    // write to log
     if (logFATAL >= glob.logLvl)
-        XPLMDebugString ( msg.c_str() );
+        PushMsg ( msg.c_str() );
 }
 
 const char* XPMP2Error::what() const noexcept
@@ -818,9 +839,18 @@ const char* XPMP2Error::what() const noexcept
 //MARK: Log
 //
 
+/// Logging level text
 const char* LOG_LEVEL[] = {
     "DEBUG", "INFO ", "WARN ", "ERROR", "FATAL", "MSG  "
 };
+
+/// The temporary store for messages coming from worker threads
+static std::queue<std::string> qMsgs;
+
+/// Lock to control access to qMsgs
+static std::mutex mtxMsgs;
+/// atomic flag for faster test if there are any msgs to be flushed
+static std::atomic_flag fMsgsEmpty;
 
 // returns ptr to static buffer filled with log string
 const char* LogGetString (const char* szPath, int ln, const char* szFunc,
@@ -863,14 +893,45 @@ const char* LogGetString (const char* szPath, int ln, const char* szFunc,
     return aszMsg;
 }
 
+// Log Text to log file
 void LogMsg ( const char* szPath, int ln, const char* szFunc, logLevelTy lvl, const char* szMsg, ... )
 {
     va_list args;
     
     va_start (args, szMsg);
-    // write to log (flushed immediately -> expensive!)
-    XPLMDebugString ( LogGetString(szPath, ln, szFunc, lvl, szMsg, args) );
+    PushMsg ( LogGetString(szPath, ln, szFunc, lvl, szMsg, args) );
     va_end (args);
+}
+
+// Store a message for immediate (XP thread) or later output (worker thread)
+void PushMsg (const std::string& sMsg)
+{
+    // If we are in XP's main thread we can just write...but only after waiting msgs
+    if (glob.IsXPThread()) {
+        FlushMsgs();
+        XPLMDebugString(sMsg.c_str());
+    }
+    // In a worker thread we have to add the message to the queue
+    else {
+        std::lock_guard<std::mutex> lock(mtxMsgs);  // access to queue guarded by lock
+        qMsgs.push(sMsg);                           // add msg to queue
+        fMsgsEmpty.clear();                         // clear the atomic flag...the queue is no longer empty
+    }
+}
+
+// Flush all pending messages to Log.txt
+void FlushMsgs ()
+{
+    // only if the flag says there's something waiting will we do the more expensive lock operation
+    if (!fMsgsEmpty.test_and_set())
+    {
+        LOG_ASSERT(glob.IsXPThread());
+        std::lock_guard<std::mutex> lock(mtxMsgs);  // access to queue guarded by lock
+        while (!qMsgs.empty()) {                    // flush all waiting queue entries out to Log.txt
+            XPLMDebugString(qMsgs.front().c_str());
+            qMsgs.pop();
+        }
+    }
 }
 
 }       // namespace XPMP2

@@ -203,6 +203,10 @@ std::valarray<float> HeadPitchRoll2Normal(const float head, const float pitch, c
 // MARK: Misc
 //
 
+/// @brief Update cached values during a flight loop callback in XP's main thread to have them when called from a non-main thread
+/// @returns the value of GetMiscNetwTime()
+float UpdateCachedValuesGetNetwTime ();
+
 /// Get synched network time from X-Plane (sim/network/misc/network_time_sec) as used in Log.txt
 float GetMiscNetwTime ();
 

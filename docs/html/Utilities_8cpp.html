@@ -83,6 +83,12 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ac54445033986fb70be652f15a7f4adac" id="r_ac54445033986fb70be652f15a7f4adac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#ac54445033986fb70be652f15a7f4adac">XPMP2::PushMsg</a> (const std::string &amp;sMsg)</td></tr>
+<tr class="memdesc:ac54445033986fb70be652f15a7f4adac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Store a message for immediate (XP thread) or later output (worker thread)  <br /></td></tr>
+<tr class="separator:ac54445033986fb70be652f15a7f4adac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47b059f40a8d267d7a3dc9b59ed3b668" id="r_a47b059f40a8d267d7a3dc9b59ed3b668"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a47b059f40a8d267d7a3dc9b59ed3b668">XPMP2::FlushMsgs</a> ()</td></tr>
+<tr class="memdesc:a47b059f40a8d267d7a3dc9b59ed3b668"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flush all pending messages to Log.txt.  <br /></td></tr>
+<tr class="separator:a47b059f40a8d267d7a3dc9b59ed3b668"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31bf3417dd55d1948c0914b240464700" id="r_a31bf3417dd55d1948c0914b240464700"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceXPMP2.html#a7d5dbc86225b366f50efc9c473629867">ThreeWaySwitchTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a31bf3417dd55d1948c0914b240464700">XPMP2::Read3WaySwitch</a> (std::string &amp;sVal, const std::string &amp;sKey, const std::string &amp;cfgFileName, <a class="el" href="namespaceXPMP2.html#a7d5dbc86225b366f50efc9c473629867">ThreeWaySwitchTy</a> defVal)</td></tr>
 <tr class="memdesc:a31bf3417dd55d1948c0914b240464700"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert strings <code>on</code>, <code>auto</code>, <code>off</code> to enums of type <code>ThreeWaySwitchTy</code>  <br /></td></tr>
 <tr class="separator:a31bf3417dd55d1948c0914b240464700"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -134,6 +140,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a702442291a9a8c28d272172c50f4ce8b" id="r_a702442291a9a8c28d272172c50f4ce8b"><td class="memItemLeft" align="right" valign="top">std::valarray&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a702442291a9a8c28d272172c50f4ce8b">XPMP2::HeadPitchRoll2Normal</a> (const float head, const float pitch, const float roll)</td></tr>
 <tr class="memdesc:a702442291a9a8c28d272172c50f4ce8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert heading/pitch/roll to unit and normal vector, ie. returns 6 values, first 3 like HeadPitch2Vec, second three the normal vector (pointing "up")  <br /></td></tr>
 <tr class="separator:a702442291a9a8c28d272172c50f4ce8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77443eefd28c8026d4ba9e3f24a5e05c" id="r_a77443eefd28c8026d4ba9e3f24a5e05c"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a77443eefd28c8026d4ba9e3f24a5e05c">XPMP2::UpdateCachedValuesGetNetwTime</a> ()</td></tr>
+<tr class="memdesc:a77443eefd28c8026d4ba9e3f24a5e05c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update cached values during a flight loop callback in XP's main thread to have them when called from a non-main thread.  <br /></td></tr>
+<tr class="separator:a77443eefd28c8026d4ba9e3f24a5e05c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7bd62c34848dba746470c71ae2c801cb" id="r_a7bd62c34848dba746470c71ae2c801cb"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a7bd62c34848dba746470c71ae2c801cb">XPMP2::GetMiscNetwTime</a> ()</td></tr>
 <tr class="memdesc:a7bd62c34848dba746470c71ae2c801cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get synched network time from X-Plane (sim/network/misc/network_time_sec) as used in Log.txt.  <br /></td></tr>
 <tr class="separator:a7bd62c34848dba746470c71ae2c801cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -165,6 +174,7 @@ Variables</h2></td></tr>
 <tr class="memdesc:a46675aca62eb955a94fa1eb18f65426f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The one and only global variable structure.  <br /></td></tr>
 <tr class="separator:a46675aca62eb955a94fa1eb18f65426f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a561ac1a3a5b1e667ec224d4fc88e0dd6" id="r_a561ac1a3a5b1e667ec224d4fc88e0dd6"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceXPMP2.html#a561ac1a3a5b1e667ec224d4fc88e0dd6">XPMP2::LOG_LEVEL</a> []</td></tr>
+<tr class="memdesc:a561ac1a3a5b1e667ec224d4fc88e0dd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logging level text.  <br /></td></tr>
 <tr class="separator:a561ac1a3a5b1e667ec224d4fc88e0dd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>

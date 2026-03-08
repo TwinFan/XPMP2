@@ -125,6 +125,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa67678f2ee226bff884e41529866d817" id="r_aa67678f2ee226bff884e41529866d817"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa67678f2ee226bff884e41529866d817">SetAllMute</a> (bool bMute)=0</td></tr>
 <tr class="memdesc:aa67678f2ee226bff884e41529866d817"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mute all sounds (temporarily)  <br /></td></tr>
 <tr class="separator:aa67678f2ee226bff884e41529866d817"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15c11fee0c046d6e8322271cd70701ab" id="r_a15c11fee0c046d6e8322271cd70701ab"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a15c11fee0c046d6e8322271cd70701ab">GetAudioDeviceName</a> (int i, std::string &amp;devName) const =0</td></tr>
+<tr class="memdesc:a15c11fee0c046d6e8322271cd70701ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return possible audio devices, returns if <code>i</code> was valid and <code>devName</code> filled.  <br /></td></tr>
+<tr class="separator:a15c11fee0c046d6e8322271cd70701ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a0a2ce07a5647720cdee24da0e24457" id="r_a0a0a2ce07a5647720cdee24da0e24457"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0a0a2ce07a5647720cdee24da0e24457">SetAudioDevice</a> (int i)=0</td></tr>
+<tr class="memdesc:a0a0a2ce07a5647720cdee24da0e24457"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a specific audio device as the output device, returns if it was found.  <br /></td></tr>
+<tr class="separator:a0a0a2ce07a5647720cdee24da0e24457"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e01a0763a30b0cda5cfb158fea8c67d" id="r_a9e01a0763a30b0cda5cfb158fea8c67d"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9e01a0763a30b0cda5cfb158fea8c67d">GetActiveAudioDevice</a> () const =0</td></tr>
+<tr class="memdesc:a9e01a0763a30b0cda5cfb158fea8c67d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get currently active audio device index.  <br /></td></tr>
+<tr class="separator:a9e01a0763a30b0cda5cfb158fea8c67d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0066d19520f101224f9f4bd9797923a3" id="r_a0066d19520f101224f9f4bd9797923a3"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0066d19520f101224f9f4bd9797923a3">IsValid</a> (uint64_t sndId)</td></tr>
 <tr class="memdesc:a0066d19520f101224f9f4bd9797923a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the sound id available?  <br /></td></tr>
 <tr class="separator:a0066d19520f101224f9f4bd9797923a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -264,6 +273,68 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Enumerate all loaded sounds. </p>
+
+</div>
+</div>
+<a id="a9e01a0763a30b0cda5cfb158fea8c67d" name="a9e01a0763a30b0cda5cfb158fea8c67d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e01a0763a30b0cda5cfb158fea8c67d">&#9670;&#160;</a></span>GetActiveAudioDevice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int XPMP2::SoundSystem::GetActiveAudioDevice </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get currently active audio device index. </p>
+
+<p>Implemented in <a class="el" href="classXPMP2_1_1SoundSystemFMOD.html#ac0890173ac3477cd83e161758582bf45">XPMP2::SoundSystemFMOD</a>, and <a class="el" href="classXPMP2_1_1SoundSystemXP.html#a6d59f91a9cc4bcf5bad7a09c6d795bae">XPMP2::SoundSystemXP</a>.</p>
+
+</div>
+</div>
+<a id="a15c11fee0c046d6e8322271cd70701ab" name="a15c11fee0c046d6e8322271cd70701ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15c11fee0c046d6e8322271cd70701ab">&#9670;&#160;</a></span>GetAudioDeviceName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool XPMP2::SoundSystem::GetAudioDeviceName </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>i</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>devName</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return possible audio devices, returns if <code>i</code> was valid and <code>devName</code> filled. </p>
+
+<p>Implemented in <a class="el" href="classXPMP2_1_1SoundSystemFMOD.html#a8f58f89bc049bdfb6aa8ee0be420a2f4">XPMP2::SoundSystemFMOD</a>, and <a class="el" href="classXPMP2_1_1SoundSystemXP.html#a6f1b7b6d1b4871e0eec43958a2567db5">XPMP2::SoundSystemXP</a>.</p>
 
 </div>
 </div>
@@ -477,6 +548,35 @@ Protected Attributes</h2></td></tr>
 <p>Mute all sounds (temporarily) </p>
 
 <p>Implemented in <a class="el" href="classXPMP2_1_1SoundSystemFMOD.html#a1c65e8ab8ac53f4deda879f9eb5f260c">XPMP2::SoundSystemFMOD</a>, and <a class="el" href="classXPMP2_1_1SoundSystemXP.html#a441e38147ecc7e68e72f658a1c1ce089">XPMP2::SoundSystemXP</a>.</p>
+
+</div>
+</div>
+<a id="a0a0a2ce07a5647720cdee24da0e24457" name="a0a0a2ce07a5647720cdee24da0e24457"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a0a2ce07a5647720cdee24da0e24457">&#9670;&#160;</a></span>SetAudioDevice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool XPMP2::SoundSystem::SetAudioDevice </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>i</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set a specific audio device as the output device, returns if it was found. </p>
+
+<p>Implemented in <a class="el" href="classXPMP2_1_1SoundSystemFMOD.html#accdf4b3f5ecdc9e96b87ee9a5a290d5d">XPMP2::SoundSystemFMOD</a>, and <a class="el" href="classXPMP2_1_1SoundSystemXP.html#ac2978417d1c7f4c18e2f8a709ac19f06">XPMP2::SoundSystemXP</a>.</p>
 
 </div>
 </div>

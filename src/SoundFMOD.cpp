@@ -73,7 +73,7 @@ SoundFile(_pSndSys, _filePath, _bLoop, _coneDir, _conePitch, _coneInAngle, _cone
                                       nullptr, &pSound));
     LOG_ASSERT(pSound);
 }
-    
+
 // Destructor removes the sound object
 SoundFMOD::~SoundFMOD()
 {
@@ -82,14 +82,14 @@ SoundFMOD::~SoundFMOD()
     pSound = nullptr;
     bLoaded = false;
 }
-    
+
 // Has loading the sound sample finished?
 bool SoundFMOD::isReady ()
 {
     // Cached values
     if (!pSound) return false;
     if (bLoaded) return true;
-
+    
     // Otherwise query FMOD
     FMOD_OPENSTATE state = FMOD_OPENSTATE_LOADING;
     if ((FMOD_Sound_GetOpenState(pSound, &state, nullptr, nullptr, nullptr) == FMOD_OK) &&
@@ -151,11 +151,11 @@ SoundSystemFMOD::SoundSystemFMOD()
     
     // Set pointer to myself
     me = this;
-
+    
     // Enable FMOD logging
     if (glob.logLvl == logDEBUG)
         SoundLogEnable(true);
-
+    
     // Create FMOD system and first of all determine its version,
     // which depends a bit if run under XP11 or XP12 and the OS we are on.
     // There are subtle difference in settings.
@@ -190,7 +190,7 @@ SoundSystemFMOD::~SoundSystemFMOD()
     pFmodSystem = nullptr;
     fmodVer = 0;
 }
-    
+
 // Callback function called by FMOD for logging purposes
 FMOD_RESULT F_CALLBACK SoundSystemFMOD::SoundLogCB(FMOD_DEBUG_FLAGS flags,
                                                    const char * file,
@@ -265,7 +265,7 @@ FMOD_RESULT F_CALLBACK SoundSystemFMOD::ChnCB(FMOD_CHANNELCONTROL *channelcontro
         callbacktype != FMOD_CHANNELCONTROL_CALLBACK_END)
         return FMOD_OK;
     if (!me) return FMOD_ERR_INTERNAL;
-
+    
     // The sound has stop, remove it from the tracking
     FMOD_CHANNEL* pFmodChn = (FMOD_CHANNEL*)channelcontrol;
     uint64_t sndId = GetSndId(pFmodChn);
@@ -281,7 +281,7 @@ uint64_t SoundSystemFMOD::Play (const std::string& sndName, float vol, const Air
 {
     FMOD_CHANNEL* pFmodChn = nullptr;
     uint64_t sndId = 0;
-
+    
     // Find the sound a check if it is ready
     try {
         // find the sound, may throw if not found, return if sound isn't ready yet
@@ -289,7 +289,7 @@ uint64_t SoundSystemFMOD::Play (const std::string& sndName, float vol, const Air
         if (!pSnd->isReady()) throw std::runtime_error("Sound not yet ready");
         SoundFMOD* pSndFmod = dynamic_cast<SoundFMOD*>(pSnd.get());
         if (!pSndFmod) throw std::runtime_error("Sound has not been loaded for FMOD system");
-
+        
         // Start playing the sound, but in a paused state to avoid crackling
         FMOD_TEST(FMOD_System_PlaySound(pFmodSystem, pSndFmod->GetSnd(), pChnGrp, true, &pFmodChn));
         if (!pFmodChn) throw std::runtime_error("FMOD_System_PlaySound returned NULL channel");
@@ -315,7 +315,7 @@ uint64_t SoundSystemFMOD::Play (const std::string& sndName, float vol, const Air
         if (bLowPass) {
             FMOD_LOG(FMOD_Channel_SetLowPassGain(pFmodChn, FMOD_LOW_PASS_GAIN));
         }
-
+        
         // Success
         return sndId;
     }
@@ -337,12 +337,12 @@ void SoundSystemFMOD::Unpause (uint64_t sndId)
 {
     SoundChannel* pChn = GetChn(sndId);
     if (!pChn || !pChn->pChn) return;
-
+    
     if (pChn->ShallUnpause()) {
         FMOD_LOG(FMOD_Channel_SetPaused(pChn->pChn, false));
     }
 }
-    
+
 // Stop the sound
 void SoundSystemFMOD::Stop (uint64_t sndId)
 {
@@ -380,7 +380,7 @@ void SoundSystemFMOD::SetPosOrientation (uint64_t sndId, const Aircraft& ac, boo
     const float coneDirRad = deg2rad(pChn->pSnd->coneDir);
     FMOD_VECTOR coneVec = FmodHeadPitch2Vec(ac.GetHeading() + pChn->pSnd->coneDir,
                                             std::cos(coneDirRad)*ac.GetPitch() - std::sin(coneDirRad)*ac.GetRoll() + pChn->pSnd->conePitch);
-
+    
     // Set cone info and orientation
     FMOD_LOG(FMOD_Channel_Set3DConeOrientation(pChn->pChn, &coneVec));
 }
@@ -400,7 +400,7 @@ void SoundSystemFMOD::SetMute (uint64_t sndId, bool bMute)
 {
     SoundChannel* pChn = GetChn(sndId);
     if (!pChn || !pChn->pChn) return;
-
+    
     pChn->bMuted = bMute;                   // Save its mute status
     FMOD_LOG(FMOD_Channel_SetMute(pChn->pChn, bMute));
 }
@@ -442,10 +442,10 @@ void SoundSystemFMOD::Update ()
             }
         }
     }
-
+    
     // Set low pass gain in case we're in an internal view
     SetLowPassGain(!IsViewExternal());
-
+    
     // Tell FMOD we're done
     FMOD_LOG(FMOD_System_Update(pFmodSystem));
 }
@@ -461,6 +461,53 @@ void SoundSystemFMOD::SetAllMute (bool bMute)
 {
     FMOD_LOG(FMOD_ChannelGroup_SetMute(pChnGrp, bMute));
 }
+
+// Return list of possible audio devices
+bool SoundSystemFMOD::GetAudioDeviceName (int i, std::string& devName) const
+{
+    // Get number of drivers first
+    int numDevices = 0;
+    if (pFmodSystem && (FMOD_System_GetNumDrivers(pFmodSystem, &numDevices) == FMOD_OK))
+    {
+        // Then the individual name
+        if (i < numDevices)
+        {
+            char name[256];
+            if (FMOD_System_GetDriverInfo(pFmodSystem, i, name, sizeof(name), nullptr, nullptr, nullptr, nullptr) == FMOD_OK)
+            {
+                devName = name;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+// Set a specific audio device as the output device, returns if it was found
+bool SoundSystemFMOD::SetAudioDevice (int i)
+{
+    // Get number of drivers first
+    int numDevices = 0;
+    if (pFmodSystem && (FMOD_System_GetNumDrivers(pFmodSystem, &numDevices) == FMOD_OK))
+    {
+        if (i < numDevices) {
+            FMOD_LOG(FMOD_System_SetDriver(pFmodSystem, i));
+            return true;
+        }
+    }
+    return false;
+}
+
+// Get currently active audio device index
+int SoundSystemFMOD::GetActiveAudioDevice () const
+{
+    int activeDev = 0;
+    if (pFmodSystem) {
+        FMOD_LOG(FMOD_System_GetDriver(pFmodSystem, &activeDev));
+    }
+    return activeDev;
+}
+
 
 // Set low pass gain on all active sounds
 void SoundSystemFMOD::SetLowPassGain (bool bOn)

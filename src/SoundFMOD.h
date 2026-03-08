@@ -111,6 +111,13 @@ public:
     /// Mute all sounds (temporarily)
     void SetAllMute (bool bMute) override;
     
+    /// Return list of possible audio devices
+    bool GetAudioDeviceName (int i, std::string& devName) const override;
+    /// Set a specific audio device as the output device, returns if it was found
+    bool SetAudioDevice (int i) override;
+    /// Get currently active audio device index
+    int GetActiveAudioDevice () const override;
+
     /// Is the sound id available?
     bool IsValid (uint64_t sndId) override;
     

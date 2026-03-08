@@ -593,12 +593,32 @@ void SoundSystemXP::SetPosOrientation (uint64_t sndId, const Aircraft& ac, bool 
     FMOD_VECTOR coneVec = FmodHeadPitch2Vec(ac.GetHeading() + pChn->pSnd->coneDir,
                                             std::cos(coneDirRad)*ac.GetPitch() - std::sin(coneDirRad)*ac.GetRoll() + pChn->pSnd->conePitch);
 
-    // Set cone info and orientation
-    FMOD_LOG(gpXPLMSetAudioCone(pChn->pChn,
-                                pChn->pSnd->coneInAngle,
-                                pChn->pSnd->coneOutAngle,
-                                pChn->pSnd->coneOutVol,
-                                &coneVec));
+    // Validate cone parameters before calling gpXPLMSetAudioCone to prevent FMOD error 29
+    if (std::isfinite(pChn->pSnd->coneInAngle) && 
+        std::isfinite(pChn->pSnd->coneOutAngle) && 
+        std::isfinite(pChn->pSnd->coneOutVol) &&
+        pChn->pSnd->coneInAngle >= 0.0f && 
+        pChn->pSnd->coneOutAngle >= 0.0f &&
+        pChn->pSnd->coneInAngle <= 360.0f && 
+        pChn->pSnd->coneOutAngle <= 360.0f &&
+        pChn->pSnd->coneOutVol >= 0.0f && 
+        pChn->pSnd->coneOutVol <= 1.0f &&
+        std::isfinite(coneVec.x) && 
+        std::isfinite(coneVec.y) && 
+        std::isfinite(coneVec.z)) {
+        // Set cone info and orientation
+        FMOD_LOG(gpXPLMSetAudioCone(pChn->pChn,
+                                    pChn->pSnd->coneInAngle,
+                                    pChn->pSnd->coneOutAngle,
+                                    pChn->pSnd->coneOutVol,
+                                    &coneVec));
+    } else {
+        // Log the invalid cone parameters to help debug the issue
+        //LOG_MSG(logWARN, "Skipping audio cone setting due to invalid parameters: "
+        //        "InAngle=%.2f, OutAngle=%.2f, OutVol=%.2f, Vec=(%.2f,%.2f,%.2f)",
+         //       pChn->pSnd->coneInAngle, pChn->pSnd->coneOutAngle, pChn->pSnd->coneOutVol,
+          //      coneVec.x, coneVec.y, coneVec.z);
+    }
 }
 
 // Set sound's volume
@@ -635,6 +655,29 @@ void SoundSystemXP::SetAllMute (bool bMute)
     bAllMuted = bMute;                      // save the global mute status
     AllChnSetVol();                         // update all channels
 }
+
+// Return list of possible audio devices: For X-Plane device, we don't interfere and only return "X-Plane"
+bool SoundSystemXP::GetAudioDeviceName (int i, std::string& devName) const
+{
+    if (i == 0) {
+        devName = "X-Plane";
+        return true;
+    }
+    return false;
+}
+
+/// Set a specific audio device as the output device: For X-Plane, we only support "X-Plane" (0) and don't actually interfere with X-Plane's output control
+bool SoundSystemXP::SetAudioDevice (int i)
+{
+    return i == 0;
+}
+
+// Get currently active audio device index
+int SoundSystemXP::GetActiveAudioDevice () const
+{
+    return 0;
+}
+
 
 // Update an individual channel's volume
 void SoundSystemXP::ChnSetVol (const SoundChannel& chn)
@@ -1136,4 +1179,42 @@ const char* XPMPSoundEnumerate (const char* prevName, const char** ppFilePath)
         if (ppFilePath) *ppFilePath = nullptr;
         return nullptr;
     }
+}
+
+// List all possible audio devices if using separate FMOD instance
+bool XPMPSoundGetAudioDeviceName(int i, std::string& devName)
+{
+    if (XPMP2::gpSndSys)
+        return XPMP2::gpSndSys->GetAudioDeviceName(i, devName);
+    return false;
+}
+
+// Set the sound output device if using a separate FMOD instance
+bool XPMPSoundSetAudioDeviceName(const std::string& deviceName)
+{
+    std::string s;
+    for (int i = 0; XPMPSoundGetAudioDeviceName(i, s); i++)
+        if (s == deviceName)
+            return XPMPSoundSetAudioDevice(i);
+    return false;
+}
+
+// Set the sound output device if using a separate FMOD instance
+bool XPMPSoundSetAudioDevice(int i)
+{
+    if (XPMP2::gpSndSys)
+        return XPMP2::gpSndSys->SetAudioDevice(i);
+    return false;
+}
+
+// Returns the index and name of the active audio device
+int XPMPSoundGetActiveAudioDevice (std::string* pDevName)
+{
+    if (!XPMP2::gpSndSys)
+        return 0;
+
+    const int ret = XPMP2::gpSndSys->GetActiveAudioDevice();
+    if (pDevName)
+        XPMPSoundGetAudioDeviceName(ret, *pDevName);
+    return ret;
 }

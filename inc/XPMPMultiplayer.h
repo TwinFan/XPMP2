@@ -450,6 +450,27 @@ XPMP2_EXPORT const char* XPMPSoundAdd (const char* sName,
 ///       longer than immediately, make yourself a string copy.
 XPMP2_EXPORT const char* XPMPSoundEnumerate (const char* prevName, const char** ppFilePath = nullptr);
 
+/// @brief List all possible audio devices if using separate FMOD instance
+/// @param i 0-based index of the device name to fetch
+/// @param[out] devName Name of the audio device
+/// @returns if `i` was valid and `devName` is filled; call with increasing `i` until `false` is returned
+XPMP2_EXPORT bool XPMPSoundGetAudioDeviceName(int i, std::string& devName);
+
+/// @brief Set the sound output device if using a separate FMOD instance
+/// @param deviceName The name of the device to use as output, obtain via XPMPSoundGetAudioDevices()
+/// @returns if device name was found
+XPMP2_EXPORT bool XPMPSoundSetAudioDeviceName(const std::string& deviceName);
+
+/// @brief Set the sound output device if using a separate FMOD instance
+/// @param i The device to use as output, see XPMPSoundGetAudioDevices()
+/// @returns if `i` was in range
+XPMP2_EXPORT bool XPMPSoundSetAudioDevice(int i);
+
+/// @brief Returns the index and name of the active audio device
+/// @param[out] pDevName (Optional) A pointer to a `std::string` that receives the audio device's name
+/// @returns the index of the active audio device
+XPMP2_EXPORT int XPMPSoundGetActiveAudioDevice (std::string* pDevName = nullptr);
+
 /// @}
 
 /// @name Sound Macros

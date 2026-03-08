@@ -135,6 +135,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1c65e8ab8ac53f4deda879f9eb5f260c" id="r_a1c65e8ab8ac53f4deda879f9eb5f260c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c65e8ab8ac53f4deda879f9eb5f260c">SetAllMute</a> (bool bMute) override</td></tr>
 <tr class="memdesc:a1c65e8ab8ac53f4deda879f9eb5f260c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mute all sounds (temporarily)  <br /></td></tr>
 <tr class="separator:a1c65e8ab8ac53f4deda879f9eb5f260c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f58f89bc049bdfb6aa8ee0be420a2f4" id="r_a8f58f89bc049bdfb6aa8ee0be420a2f4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8f58f89bc049bdfb6aa8ee0be420a2f4">GetAudioDeviceName</a> (int i, std::string &amp;devName) const override</td></tr>
+<tr class="memdesc:a8f58f89bc049bdfb6aa8ee0be420a2f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return list of possible audio devices.  <br /></td></tr>
+<tr class="separator:a8f58f89bc049bdfb6aa8ee0be420a2f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:accdf4b3f5ecdc9e96b87ee9a5a290d5d" id="r_accdf4b3f5ecdc9e96b87ee9a5a290d5d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#accdf4b3f5ecdc9e96b87ee9a5a290d5d">SetAudioDevice</a> (int i) override</td></tr>
+<tr class="memdesc:accdf4b3f5ecdc9e96b87ee9a5a290d5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a specific audio device as the output device, returns if it was found.  <br /></td></tr>
+<tr class="separator:accdf4b3f5ecdc9e96b87ee9a5a290d5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0890173ac3477cd83e161758582bf45" id="r_ac0890173ac3477cd83e161758582bf45"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac0890173ac3477cd83e161758582bf45">GetActiveAudioDevice</a> () const override</td></tr>
+<tr class="memdesc:ac0890173ac3477cd83e161758582bf45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get currently active audio device index.  <br /></td></tr>
+<tr class="separator:ac0890173ac3477cd83e161758582bf45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab05fd107638bdc810f682c180e90a095" id="r_ab05fd107638bdc810f682c180e90a095"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab05fd107638bdc810f682c180e90a095">IsValid</a> (uint64_t sndId) override</td></tr>
 <tr class="memdesc:ab05fd107638bdc810f682c180e90a095"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the sound id available?  <br /></td></tr>
 <tr class="separator:ab05fd107638bdc810f682c180e90a095"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -303,6 +312,68 @@ Static Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Callback function for when sound ends, allows for internal bookkeeping. </p>
+
+</div>
+</div>
+<a id="ac0890173ac3477cd83e161758582bf45" name="ac0890173ac3477cd83e161758582bf45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0890173ac3477cd83e161758582bf45">&#9670;&#160;</a></span>GetActiveAudioDevice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int XPMP2::SoundSystemFMOD::GetActiveAudioDevice </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get currently active audio device index. </p>
+
+<p>Implements <a class="el" href="classXPMP2_1_1SoundSystem.html#a9e01a0763a30b0cda5cfb158fea8c67d">XPMP2::SoundSystem</a>.</p>
+
+</div>
+</div>
+<a id="a8f58f89bc049bdfb6aa8ee0be420a2f4" name="a8f58f89bc049bdfb6aa8ee0be420a2f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f58f89bc049bdfb6aa8ee0be420a2f4">&#9670;&#160;</a></span>GetAudioDeviceName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::SoundSystemFMOD::GetAudioDeviceName </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>i</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>devName</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return list of possible audio devices. </p>
+
+<p>Implements <a class="el" href="classXPMP2_1_1SoundSystem.html#a15c11fee0c046d6e8322271cd70701ab">XPMP2::SoundSystem</a>.</p>
 
 </div>
 </div>
@@ -544,6 +615,35 @@ Static Protected Attributes</h2></td></tr>
 <p>Mute all sounds (temporarily) </p>
 
 <p>Implements <a class="el" href="classXPMP2_1_1SoundSystem.html#aa67678f2ee226bff884e41529866d817">XPMP2::SoundSystem</a>.</p>
+
+</div>
+</div>
+<a id="accdf4b3f5ecdc9e96b87ee9a5a290d5d" name="accdf4b3f5ecdc9e96b87ee9a5a290d5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#accdf4b3f5ecdc9e96b87ee9a5a290d5d">&#9670;&#160;</a></span>SetAudioDevice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::SoundSystemFMOD::SetAudioDevice </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>i</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set a specific audio device as the output device, returns if it was found. </p>
+
+<p>Implements <a class="el" href="classXPMP2_1_1SoundSystem.html#a0a0a2ce07a5647720cdee24da0e24457">XPMP2::SoundSystem</a>.</p>
 
 </div>
 </div>

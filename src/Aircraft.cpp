@@ -511,7 +511,8 @@ float Aircraft::FlightLoopCB(float _elapsedSinceLastCall, float, int _flCounter,
 {
     // This is a plugin entry function, so we try to catch all exceptions
     try {
-        glob.xpCycleNum=XPLMGetCycleNumber();       // Store current cycle number in glob.xpCycleNum
+        glob.xpCycleNum=XPLMGetCycleNumber();               // Store current cycle number in glob.xpCycleNum
+        const float now = UpdateCachedValuesGetNetwTime();  // As this is a main thread call, let's update some values we can get only now
 
         // Update configuration
         glob.UpdateCfgVals();
@@ -519,9 +520,8 @@ float Aircraft::FlightLoopCB(float _elapsedSinceLastCall, float, int _flCounter,
         // Need the camera's position to calculate the a/c's distance to it
         glob.UpdateCameraPos();
 
-        // As we need the current timestamp more often we read it here once
-        const float now = GetMiscNetwTime();
-        RemoteAcEnqueueStarts(now);            // give remote model the chance for some prep work
+        // give remote model the chance for some prep work
+        RemoteAcEnqueueStarts(now);
 
         // Tell Sound module that we are about to start updaing
         SoundUpdatesBegin();

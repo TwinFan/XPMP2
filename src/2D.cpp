@@ -195,7 +195,17 @@ int CPLabelDrawing (XPLMDrawingPhase     /*inPhase*/,
                     int                  /*inIsBefore*/,
                     void *               /*inRefcon*/)
 {
-    TwoDDrawLabels();
+    // Library entry point, catch all exceptions
+    try {
+        TwoDDrawLabels();
+    }
+    catch(const std::exception& e) {
+        LOG_MSG(logERR, "Exception caught: %s", e.what());
+    }
+    catch (...) {
+        LOG_MSG(logERR, "Unknown Exception caught");
+    }
+
     return 1;
 }
 

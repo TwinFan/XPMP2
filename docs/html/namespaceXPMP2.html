@@ -428,10 +428,10 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a99c2922b0eb1d20121a15724e899d640" id="r_a99c2922b0eb1d20121a15724e899d640"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a99c2922b0eb1d20121a15724e899d640">AcFindByID</a> (<a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> _id)</td></tr>
+<tr class="memitem:a99c2922b0eb1d20121a15724e899d640" id="r_a99c2922b0eb1d20121a15724e899d640"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> <a class="el" href="classXPMP2_1_1Aircraft.html">Aircraft</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a99c2922b0eb1d20121a15724e899d640">AcFindByID</a> (<a class="el" href="XPMPMultiplayer_8h.html#a87979de887848ee82a37f994db78af77">XPMPPlaneID</a> _id)</td></tr>
 <tr class="memdesc:a99c2922b0eb1d20121a15724e899d640"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find aircraft by its plane ID, can return nullptr.  <br /></td></tr>
 <tr class="separator:a99c2922b0eb1d20121a15724e899d640"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab797d58a094d9a7fcc68525c59a18686" id="r_ab797d58a094d9a7fcc68525c59a18686"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab797d58a094d9a7fcc68525c59a18686">AcSetDefaultWakeData</a> (const std::string &amp;_wtc, const <a class="el" href="structXPMP2_1_1Aircraft_1_1wakeTy.html">Aircraft::wakeTy</a> &amp;_wake)</td></tr>
+<tr class="memitem:ab797d58a094d9a7fcc68525c59a18686" id="r_ab797d58a094d9a7fcc68525c59a18686"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab797d58a094d9a7fcc68525c59a18686">AcSetDefaultWakeData</a> (const std::string &amp;_wtc, const <a class="el" href="structXPMP2_1_1Aircraft_1_1wakeTy.html">Aircraft::wakeTy</a> &amp;_wake)</td></tr>
 <tr class="memdesc:ab797d58a094d9a7fcc68525c59a18686"><td class="mdescLeft">&#160;</td><td class="mdescRight">(Re)Define default wake turbulence values per WTC  <br /></td></tr>
 <tr class="separator:ab797d58a094d9a7fcc68525c59a18686"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93dd489d301924f0d1ff5cdf98bc03ae" id="r_a93dd489d301924f0d1ff5cdf98bc03ae"><td class="memItemLeft" align="right" valign="top">std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a93dd489d301924f0d1ff5cdf98bc03ae">PJWHash16</a> (const char *s)</td></tr>
@@ -646,15 +646,15 @@ Functions</h2></td></tr>
 <tr class="memitem:a045fec6933c3f33536f815561b047957" id="r_a045fec6933c3f33536f815561b047957"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a045fec6933c3f33536f815561b047957">GetIntfNext</a> (SetLocalIntfAddrTy::const_iterator &amp;i, uint8_t family, uint32_t fMust, uint32_t fSkip=0)</td></tr>
 <tr class="memdesc:a045fec6933c3f33536f815561b047957"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <em>next</em> interface index of a broadcast interface for the given protocol family.  <br /></td></tr>
 <tr class="separator:a045fec6933c3f33536f815561b047957"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84b7b260c538378b5555c748ea7fb8e6" id="r_a84b7b260c538378b5555c748ea7fb8e6"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a84b7b260c538378b5555c748ea7fb8e6">NetwGetInterfaces</a> (uint8_t family, uint32_t fMust=0, uint32_t fSkip=0)</td></tr>
-<tr class="memdesc:a84b7b260c538378b5555c748ea7fb8e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return list of known local interfaces.  <br /></td></tr>
-<tr class="separator:a84b7b260c538378b5555c748ea7fb8e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a86c2561751fb38da1f17e2fb86f6ddf8" id="r_a86c2561751fb38da1f17e2fb86f6ddf8"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a86c2561751fb38da1f17e2fb86f6ddf8">NetwGetInterfaceNames</a> (uint8_t family, uint32_t fMust=0, uint32_t fSkip=0)</td></tr>
-<tr class="memdesc:a86c2561751fb38da1f17e2fb86f6ddf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return comma-separated string will all known local interfaces, calls <a class="el" href="#a84b7b260c538378b5555c748ea7fb8e6" title="Return list of known local interfaces.">NetwGetInterfaces()</a>  <br /></td></tr>
-<tr class="separator:a86c2561751fb38da1f17e2fb86f6ddf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3798b0e785d88d7aa07545f0a6428492" id="r_a3798b0e785d88d7aa07545f0a6428492"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3798b0e785d88d7aa07545f0a6428492">NetwIsLocalAddr</a> (const <a class="el" href="structXPMP2_1_1InetAddrTy.html">InetAddrTy</a> &amp;addr)</td></tr>
-<tr class="memdesc:a3798b0e785d88d7aa07545f0a6428492"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is given address a local one?  <br /></td></tr>
-<tr class="separator:a3798b0e785d88d7aa07545f0a6428492"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f3e2afd87f2e78a5c22a6baaf1ef581" id="r_a2f3e2afd87f2e78a5c22a6baaf1ef581"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2f3e2afd87f2e78a5c22a6baaf1ef581">NetwGetInterfaces</a> (uint8_t family, uint32_t fMust=0, uint32_t fSkip=0)</td></tr>
+<tr class="memdesc:a2f3e2afd87f2e78a5c22a6baaf1ef581"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return list of known local interfaces.  <br /></td></tr>
+<tr class="separator:a2f3e2afd87f2e78a5c22a6baaf1ef581"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a423581a1332a18a7b009d4e5c86bf264" id="r_a423581a1332a18a7b009d4e5c86bf264"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a423581a1332a18a7b009d4e5c86bf264">NetwGetInterfaceNames</a> (uint8_t family, uint32_t fMust=0, uint32_t fSkip=0)</td></tr>
+<tr class="memdesc:a423581a1332a18a7b009d4e5c86bf264"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return comma-separated string will all known local interfaces, calls <a class="el" href="#a2f3e2afd87f2e78a5c22a6baaf1ef581" title="Return list of known local interfaces.">NetwGetInterfaces()</a>  <br /></td></tr>
+<tr class="separator:a423581a1332a18a7b009d4e5c86bf264"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a399a540e60c0f90149b887bcbbac02ea" id="r_a399a540e60c0f90149b887bcbbac02ea"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a399a540e60c0f90149b887bcbbac02ea">NetwIsLocalAddr</a> (const <a class="el" href="structXPMP2_1_1InetAddrTy.html">InetAddrTy</a> &amp;addr)</td></tr>
+<tr class="memdesc:a399a540e60c0f90149b887bcbbac02ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is given address a local one?  <br /></td></tr>
+<tr class="separator:a399a540e60c0f90149b887bcbbac02ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5570e14bbb7bf98024d1bfb6f65e5d28" id="r_a5570e14bbb7bf98024d1bfb6f65e5d28"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5570e14bbb7bf98024d1bfb6f65e5d28">NetwIsLocalAddr</a> (const <a class="el" href="structXPMP2_1_1SockAddrTy.html">SockAddrTy</a> &amp;sa)</td></tr>
 <tr class="memdesc:a5570e14bbb7bf98024d1bfb6f65e5d28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is given address a local one?  <br /></td></tr>
 <tr class="separator:a5570e14bbb7bf98024d1bfb6f65e5d28"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -771,6 +771,12 @@ Functions</h2></td></tr>
 <tr class="memitem:aef750c9760f73d3569e147a03167bcf8" id="r_aef750c9760f73d3569e147a03167bcf8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aef750c9760f73d3569e147a03167bcf8">SoundCleanup</a> ()</td></tr>
 <tr class="memdesc:aef750c9760f73d3569e147a03167bcf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Graceful shoutdown.  <br /></td></tr>
 <tr class="separator:aef750c9760f73d3569e147a03167bcf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac54445033986fb70be652f15a7f4adac" id="r_ac54445033986fb70be652f15a7f4adac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac54445033986fb70be652f15a7f4adac">PushMsg</a> (const std::string &amp;sMsg)</td></tr>
+<tr class="memdesc:ac54445033986fb70be652f15a7f4adac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Store a message for immediate (XP thread) or later output (worker thread)  <br /></td></tr>
+<tr class="separator:ac54445033986fb70be652f15a7f4adac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47b059f40a8d267d7a3dc9b59ed3b668" id="r_a47b059f40a8d267d7a3dc9b59ed3b668"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a47b059f40a8d267d7a3dc9b59ed3b668">FlushMsgs</a> ()</td></tr>
+<tr class="memdesc:a47b059f40a8d267d7a3dc9b59ed3b668"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flush all pending messages to Log.txt.  <br /></td></tr>
+<tr class="separator:a47b059f40a8d267d7a3dc9b59ed3b668"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31bf3417dd55d1948c0914b240464700" id="r_a31bf3417dd55d1948c0914b240464700"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a7d5dbc86225b366f50efc9c473629867">ThreeWaySwitchTy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a31bf3417dd55d1948c0914b240464700">Read3WaySwitch</a> (std::string &amp;sVal, const std::string &amp;sKey, const std::string &amp;cfgFileName, <a class="el" href="#a7d5dbc86225b366f50efc9c473629867">ThreeWaySwitchTy</a> defVal)</td></tr>
 <tr class="memdesc:a31bf3417dd55d1948c0914b240464700"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert strings <code>on</code>, <code>auto</code>, <code>off</code> to enums of type <code>ThreeWaySwitchTy</code>  <br /></td></tr>
 <tr class="separator:a31bf3417dd55d1948c0914b240464700"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -819,6 +825,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a702442291a9a8c28d272172c50f4ce8b" id="r_a702442291a9a8c28d272172c50f4ce8b"><td class="memItemLeft" align="right" valign="top">std::valarray&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a702442291a9a8c28d272172c50f4ce8b">HeadPitchRoll2Normal</a> (const float head, const float pitch, const float roll)</td></tr>
 <tr class="memdesc:a702442291a9a8c28d272172c50f4ce8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert heading/pitch/roll to unit and normal vector, ie. returns 6 values, first 3 like HeadPitch2Vec, second three the normal vector (pointing "up")  <br /></td></tr>
 <tr class="separator:a702442291a9a8c28d272172c50f4ce8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77443eefd28c8026d4ba9e3f24a5e05c" id="r_a77443eefd28c8026d4ba9e3f24a5e05c"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a77443eefd28c8026d4ba9e3f24a5e05c">UpdateCachedValuesGetNetwTime</a> ()</td></tr>
+<tr class="memdesc:a77443eefd28c8026d4ba9e3f24a5e05c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update cached values during a flight loop callback in XP's main thread to have them when called from a non-main thread.  <br /></td></tr>
+<tr class="separator:a77443eefd28c8026d4ba9e3f24a5e05c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7bd62c34848dba746470c71ae2c801cb" id="r_a7bd62c34848dba746470c71ae2c801cb"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7bd62c34848dba746470c71ae2c801cb">GetMiscNetwTime</a> ()</td></tr>
 <tr class="memdesc:a7bd62c34848dba746470c71ae2c801cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get synched network time from X-Plane (sim/network/misc/network_time_sec) as used in Log.txt.  <br /></td></tr>
 <tr class="separator:a7bd62c34848dba746470c71ae2c801cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1147,6 +1156,7 @@ Variables</h2></td></tr>
 <tr class="memdesc:a46675aca62eb955a94fa1eb18f65426f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The one and only global variable structure.  <br /></td></tr>
 <tr class="separator:a46675aca62eb955a94fa1eb18f65426f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a561ac1a3a5b1e667ec224d4fc88e0dd6" id="r_a561ac1a3a5b1e667ec224d4fc88e0dd6"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a561ac1a3a5b1e667ec224d4fc88e0dd6">LOG_LEVEL</a> []</td></tr>
+<tr class="memdesc:a561ac1a3a5b1e667ec224d4fc88e0dd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logging level text.  <br /></td></tr>
 <tr class="separator:a561ac1a3a5b1e667ec224d4fc88e0dd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6039e202d33d94341faf242efd9053bd" id="r_a6039e202d33d94341faf242efd9053bd"><td class="memItemLeft" align="right" valign="top">constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6039e202d33d94341faf242efd9053bd">RSRC_RELATED</a> = &quot;related.txt&quot;</td></tr>
 <tr class="separator:a6039e202d33d94341faf242efd9053bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -3668,6 +3678,25 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
+<a id="a47b059f40a8d267d7a3dc9b59ed3b668" name="a47b059f40a8d267d7a3dc9b59ed3b668"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47b059f40a8d267d7a3dc9b59ed3b668">&#9670;&#160;</a></span>FlushMsgs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::FlushMsgs </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Flush all pending messages to Log.txt. </p>
+
+</div>
+</div>
 <a id="ae15d28b2f10f4adcc878f74611f9e1a2" name="ae15d28b2f10f4adcc878f74611f9e1a2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae15d28b2f10f4adcc878f74611f9e1a2">&#9670;&#160;</a></span>FmodHeadPitch2Vec()</h2>
 
@@ -4651,14 +4680,14 @@ template&lt;class IteratorT &gt; </div>
 
 </div>
 </div>
-<a id="a86c2561751fb38da1f17e2fb86f6ddf8" name="a86c2561751fb38da1f17e2fb86f6ddf8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a86c2561751fb38da1f17e2fb86f6ddf8">&#9670;&#160;</a></span>NetwGetInterfaceNames()</h2>
+<a id="a423581a1332a18a7b009d4e5c86bf264" name="a423581a1332a18a7b009d4e5c86bf264"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a423581a1332a18a7b009d4e5c86bf264">&#9670;&#160;</a></span>NetwGetInterfaceNames()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::string XPMP2::NetwGetInterfaceNames </td>
+          <td class="memname">std::string <a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> XPMP2::NetwGetInterfaceNames </td>
           <td>(</td>
           <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>family</em></span>, </td>
         </tr>
@@ -4675,18 +4704,18 @@ template&lt;class IteratorT &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Return comma-separated string will all known local interfaces, calls <a class="el" href="#a84b7b260c538378b5555c748ea7fb8e6" title="Return list of known local interfaces.">NetwGetInterfaces()</a> </p>
+<p>Return comma-separated string will all known local interfaces, calls <a class="el" href="#a2f3e2afd87f2e78a5c22a6baaf1ef581" title="Return list of known local interfaces.">NetwGetInterfaces()</a> </p>
 
 </div>
 </div>
-<a id="a84b7b260c538378b5555c748ea7fb8e6" name="a84b7b260c538378b5555c748ea7fb8e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a84b7b260c538378b5555c748ea7fb8e6">&#9670;&#160;</a></span>NetwGetInterfaces()</h2>
+<a id="a2f3e2afd87f2e78a5c22a6baaf1ef581" name="a2f3e2afd87f2e78a5c22a6baaf1ef581"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f3e2afd87f2e78a5c22a6baaf1ef581">&#9670;&#160;</a></span>NetwGetInterfaces()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt; std::string &gt; XPMP2::NetwGetInterfaces </td>
+          <td class="memname">std::vector&lt; std::string &gt; <a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> XPMP2::NetwGetInterfaces </td>
           <td>(</td>
           <td class="paramtype">uint8_t</td>          <td class="paramname"><span class="paramname"><em>family</em></span>, </td>
         </tr>
@@ -4716,14 +4745,14 @@ template&lt;class IteratorT &gt; </div>
 
 </div>
 </div>
-<a id="a3798b0e785d88d7aa07545f0a6428492" name="a3798b0e785d88d7aa07545f0a6428492"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3798b0e785d88d7aa07545f0a6428492">&#9670;&#160;</a></span>NetwIsLocalAddr() <span class="overload">[1/3]</span></h2>
+<a id="a399a540e60c0f90149b887bcbbac02ea" name="a399a540e60c0f90149b887bcbbac02ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a399a540e60c0f90149b887bcbbac02ea">&#9670;&#160;</a></span>NetwIsLocalAddr() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool XPMP2::NetwIsLocalAddr </td>
+          <td class="memname">bool <a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> XPMP2::NetwIsLocalAddr </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structXPMP2_1_1InetAddrTy.html">InetAddrTy</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>addr</em></span></td><td>)</td>
           <td></td>
@@ -4905,6 +4934,25 @@ template&lt;class IteratorT &gt; </div>
 </div><div class="memdoc">
 
 <p>Default config function just always returns the provided default value. </p>
+
+</div>
+</div>
+<a id="ac54445033986fb70be652f15a7f4adac" name="ac54445033986fb70be652f15a7f4adac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac54445033986fb70be652f15a7f4adac">&#9670;&#160;</a></span>PushMsg()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void XPMP2::PushMsg </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>sMsg</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Store a message for immediate (XP thread) or later output (worker thread) </p>
 
 </div>
 </div>
@@ -5920,6 +5968,26 @@ template&lt;class T &gt; </div>
 </div><div class="memdoc">
 
 <p>Initialize the module. </p>
+
+</div>
+</div>
+<a id="a77443eefd28c8026d4ba9e3f24a5e05c" name="a77443eefd28c8026d4ba9e3f24a5e05c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77443eefd28c8026d4ba9e3f24a5e05c">&#9670;&#160;</a></span>UpdateCachedValuesGetNetwTime()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float XPMP2::UpdateCachedValuesGetNetwTime </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Update cached values during a flight loop callback in XP's main thread to have them when called from a non-main thread. </p>
+<dl class="section return"><dt>Returns</dt><dd>the value of <a class="el" href="#a7bd62c34848dba746470c71ae2c801cb" title="Get synched network time from X-Plane (sim/network/misc/network_time_sec) as used in Log....">GetMiscNetwTime()</a> </dd></dl>
 
 </div>
 </div>
@@ -6954,6 +7022,8 @@ template&lt;class T &gt; </div>
 <div class="line">    <span class="stringliteral">&quot;DEBUG&quot;</span>, <span class="stringliteral">&quot;INFO &quot;</span>, <span class="stringliteral">&quot;WARN &quot;</span>, <span class="stringliteral">&quot;ERROR&quot;</span>, <span class="stringliteral">&quot;FATAL&quot;</span>, <span class="stringliteral">&quot;MSG  &quot;</span></div>
 <div class="line">}</div>
 </div><!-- fragment -->
+<p>Logging level text. </p>
+
 </div>
 </div>
 <a id="adc8267815964ad1365f52da5b5f2584e" name="adc8267815964ad1365f52da5b5f2584e"></a>

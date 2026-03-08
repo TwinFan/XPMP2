@@ -85,6 +85,7 @@
 		25997FB62476A33E00F36447 /* XSBAircraftFormat.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = XSBAircraftFormat.md; sourceTree = "<group>"; };
 		2599B91823BF636E00F92BB5 /* Aircraft.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Aircraft.cpp; sourceTree = "<group>"; };
 		2599B92123BF63F600F92BB5 /* XPMP2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPMP2.h; sourceTree = "<group>"; };
+		25AA0D882F5CC8B7005F4E02 /* XPMPExport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XPMPExport.h; sourceTree = "<group>"; };
 		25AE8CB323E376E1000BE21E /* 2D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = 2D.cpp; sourceTree = "<group>"; };
 		25AE8CB423E376E2000BE21E /* 2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = 2D.h; sourceTree = "<group>"; };
 		25B8D14A2A50CF2A00D8DAE9 /* SharedDataRefs.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SharedDataRefs.md; sourceTree = "<group>"; };
@@ -182,9 +183,10 @@
 			children = (
 				25D680B623BE95FB00C83CC5 /* XPCAircraft.h */,
 				253485A923C289E4002BA65A /* XPMPAircraft.h */,
+				25AA0D882F5CC8B7005F4E02 /* XPMPExport.h */,
 				25D680B723BE95FB00C83CC5 /* XPMPMultiplayer.h */,
-				2541FA45253C902200AEA532 /* XPMPRemote.h */,
 				25D680B823BE95FB00C83CC5 /* XPMPPlaneRenderer.h */,
+				2541FA45253C902200AEA532 /* XPMPRemote.h */,
 			);
 			path = inc;
 			sourceTree = "<group>";
@@ -488,7 +490,7 @@
 				);
 				XPMP2_VER_MAJOR = 3;
 				XPMP2_VER_MINOR = 5;
-				XPMP2_VER_PATCH = 0;
+				XPMP2_VER_PATCH = 2;
 				XPSDK_ROOT = lib/SDK;
 			};
 			name = Debug;
@@ -594,7 +596,7 @@
 				);
 				XPMP2_VER_MAJOR = 3;
 				XPMP2_VER_MINOR = 5;
-				XPMP2_VER_PATCH = 0;
+				XPMP2_VER_PATCH = 2;
 				XPSDK_ROOT = lib/SDK;
 			};
 			name = Release;

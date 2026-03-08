@@ -61,8 +61,6 @@ static std::future<bool> gFutCpy;
 static std::string gThreadCSLkey;
 /// The path of the CSL object that the current thread is running for
 static std::string gThreadPath;
-/// Error information in case CopyAndReplace goes wrong
-static std::string gErrTxt;
 
 //
 // MARK: Separate Thread functionality
@@ -83,13 +81,18 @@ bool CSLObj::CopyAndReplace ()
     bool doneTextureLit = false;            // did we replace TEXTURE_LIT already?
     
     bool bRet = false;
-    gErrTxt.clear();
     try {
         // open input and output files
         std::ifstream fIn (pathOrig);
-        if (!fIn) { gErrTxt = "Couldn't open input/original file"; return false; }
+        if (!fIn) {
+            LOG_MSG(logERR, "Couldn't open input/original file: %s", pathOrig.c_str());
+            return false;
+        }
         std::ofstream fOut (path, std::ios_base::out | std::ios_base::trunc);
-        if (!fOut) { gErrTxt = "Couldn't open output file for (over)writing"; return false; }
+        if (!fOut) {
+            LOG_MSG(logERR, "Couldn't open output file for (over)writing: %s", path.c_str());
+            return false;
+        }
         
         // Process each line
         int lnNr = 0;
@@ -158,7 +161,7 @@ bool CSLObj::CopyAndReplace ()
         
         // If we haven't reach EOF we probably had a problem
         if (!fIn.eof()) {
-            gErrTxt = "Didn't reach EOF of input file, unknown error";
+            LOG_MSG(logERR, "Didn't reach EOF of input file, unknown error");
             bRet = false;
         } else
             bRet = true;
@@ -168,11 +171,11 @@ bool CSLObj::CopyAndReplace ()
         fIn.close();
     }
     catch(const std::exception& e) {
-        gErrTxt = e.what();
+        LOG_MSG(logERR, "Exception: %s", e.what());
         bRet = false;
     }
     catch (...) {
-        gErrTxt = "Unknown exception";
+        LOG_MSG(logERR, "Unknown exception");
         bRet = false;
     }
     
@@ -193,7 +196,6 @@ void CSLObj::SetCopyResult (bool bResult)
     } else {
         // Copying failed!
         LOG_MSG(logERR, ERR_CPY_FAILED, StripXPSysDir(path).c_str(), StripXPSysDir(pathOrig).c_str());
-        LOG_MSG(logERR, "%s", gErrTxt.c_str());
         path = std::move(pathOrig);     // fall back to original
         xpObjState = OLS_UNAVAIL;
     }

@@ -243,6 +243,13 @@ public:
     /// Mute all sounds (temporarily)
     virtual void SetAllMute (bool bMute) = 0;
     
+    /// Return possible audio devices, returns if `i` was valid and `devName` filled
+    virtual bool GetAudioDeviceName (int i, std::string& devName) const = 0;
+    /// Set a specific audio device as the output device, returns if it was found
+    virtual bool SetAudioDevice (int i) = 0;
+    /// Get currently active audio device index
+    virtual int GetActiveAudioDevice () const = 0;
+    
     /// Is the sound id available?
     virtual bool IsValid (uint64_t sndId);
 
@@ -300,6 +307,13 @@ public:
     void SetMasterVolume (float volMaster) override;
     /// Mute all sounds (temporarily)
     void SetAllMute (bool bMute) override;
+
+    /// Return possible audio devices: For X-Plane device, we don't interfere and only return "X-Plane"
+    bool GetAudioDeviceName (int i, std::string& devName) const override;
+    /// Set a specific audio device as the output device: For X-Plane, we only support "X-Plane" and don't actually interfere with X-Plane's output control
+    bool SetAudioDevice (int i) override;
+    /// Get currently active audio device index
+    int GetActiveAudioDevice () const override;
 
 protected:
     /// Callback required by XPLMPlayPCMOnBus

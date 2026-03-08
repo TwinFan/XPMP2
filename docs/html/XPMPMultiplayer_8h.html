@@ -259,6 +259,18 @@ Functions</h2></td></tr>
 <tr class="memitem:a441cf015383ceccabf1c5e34c0863f80" id="r_a441cf015383ceccabf1c5e34c0863f80"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a441cf015383ceccabf1c5e34c0863f80">XPMPSoundEnumerate</a> (const char *prevName, const char **ppFilePath=nullptr)</td></tr>
 <tr class="memdesc:a441cf015383ceccabf1c5e34c0863f80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerate all sounds, including the internal ones.  <br /></td></tr>
 <tr class="separator:a441cf015383ceccabf1c5e34c0863f80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32eed70e4ce9e7a967303aa99133f4bd" id="r_a32eed70e4ce9e7a967303aa99133f4bd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32eed70e4ce9e7a967303aa99133f4bd">XPMPSoundGetAudioDeviceName</a> (int i, std::string &amp;devName)</td></tr>
+<tr class="memdesc:a32eed70e4ce9e7a967303aa99133f4bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">List all possible audio devices if using separate FMOD instance.  <br /></td></tr>
+<tr class="separator:a32eed70e4ce9e7a967303aa99133f4bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ca51216e9d5680fbef79581941de3be" id="r_a8ca51216e9d5680fbef79581941de3be"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8ca51216e9d5680fbef79581941de3be">XPMPSoundSetAudioDeviceName</a> (const std::string &amp;deviceName)</td></tr>
+<tr class="memdesc:a8ca51216e9d5680fbef79581941de3be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the sound output device if using a separate FMOD instance.  <br /></td></tr>
+<tr class="separator:a8ca51216e9d5680fbef79581941de3be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fefc43a1f5f7009c9c062e77051294e" id="r_a1fefc43a1f5f7009c9c062e77051294e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1fefc43a1f5f7009c9c062e77051294e">XPMPSoundSetAudioDevice</a> (int i)</td></tr>
+<tr class="memdesc:a1fefc43a1f5f7009c9c062e77051294e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the sound output device if using a separate FMOD instance.  <br /></td></tr>
+<tr class="separator:a1fefc43a1f5f7009c9c062e77051294e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafeac2c067e63ac5aff1b86e3689351b" id="r_aafeac2c067e63ac5aff1b86e3689351b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aafeac2c067e63ac5aff1b86e3689351b">XPMPSoundGetActiveAudioDevice</a> (std::string *pDevName=nullptr)</td></tr>
+<tr class="memdesc:aafeac2c067e63ac5aff1b86e3689351b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the index and name of the active audio device.  <br /></td></tr>
+<tr class="separator:aafeac2c067e63ac5aff1b86e3689351b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">AI / Multiplayer plane control</div></td></tr>
 <tr class="memitem:a39aa332c38a0355e959567746138a4f6" id="r_a39aa332c38a0355e959567746138a4f6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a39aa332c38a0355e959567746138a4f6">XPMPMultiplayerEnable</a> (void(*_callback)(void *)=nullptr, void *_refCon=nullptr)</td></tr>
 <tr class="memdesc:a39aa332c38a0355e959567746138a4f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tries to grab control of TCAS targets (formerly known as AI/multiplayer) from X-Plane.  <br /></td></tr>
@@ -2488,6 +2500,63 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
 
 </div>
 </div>
+<a id="aafeac2c067e63ac5aff1b86e3689351b" name="aafeac2c067e63ac5aff1b86e3689351b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafeac2c067e63ac5aff1b86e3689351b">&#9670;&#160;</a></span>XPMPSoundGetActiveAudioDevice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> int XPMPSoundGetActiveAudioDevice </td>
+          <td>(</td>
+          <td class="paramtype">std::string *</td>          <td class="paramname"><span class="paramname"><em>pDevName</em></span><span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the index and name of the active audio device. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">pDevName</td><td>(Optional) A pointer to a <code>std::string</code> that receives the audio device's name </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the index of the active audio device </dd></dl>
+
+</div>
+</div>
+<a id="a32eed70e4ce9e7a967303aa99133f4bd" name="a32eed70e4ce9e7a967303aa99133f4bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32eed70e4ce9e7a967303aa99133f4bd">&#9670;&#160;</a></span>XPMPSoundGetAudioDeviceName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> bool XPMPSoundGetAudioDeviceName </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>i</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>devName</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>List all possible audio devices if using separate FMOD instance. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">i</td><td>0-based index of the device name to fetch </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">devName</td><td>Name of the audio device </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>if <code>i</code> was valid and <code>devName</code> is filled; call with increasing <code>i</code> until <code>false</code> is returned </dd></dl>
+
+</div>
+</div>
 <a id="a20f266f194a9786217c4088ce695f7be" name="a20f266f194a9786217c4088ce695f7be"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a20f266f194a9786217c4088ce695f7be">&#9670;&#160;</a></span>XPMPSoundIsEnabled()</h2>
 
@@ -2529,6 +2598,58 @@ Now changed to proper enum type as it is used in bitfields in XPMP2::xpmp_LightS
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a1fefc43a1f5f7009c9c062e77051294e" name="a1fefc43a1f5f7009c9c062e77051294e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1fefc43a1f5f7009c9c062e77051294e">&#9670;&#160;</a></span>XPMPSoundSetAudioDevice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> bool XPMPSoundSetAudioDevice </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>i</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the sound output device if using a separate FMOD instance. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>The device to use as output, see XPMPSoundGetAudioDevices() </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>if <code>i</code> was in range </dd></dl>
+
+</div>
+</div>
+<a id="a8ca51216e9d5680fbef79581941de3be" name="a8ca51216e9d5680fbef79581941de3be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ca51216e9d5680fbef79581941de3be">&#9670;&#160;</a></span>XPMPSoundSetAudioDeviceName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="XPMPExport_8h.html#a88b0f7528c7729da030f3124dc62abb7">XPMP2_EXPORT</a> bool XPMPSoundSetAudioDeviceName </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>deviceName</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the sound output device if using a separate FMOD instance. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">deviceName</td><td>The name of the device to use as output, obtain via XPMPSoundGetAudioDevices() </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>if device name was found </dd></dl>
 
 </div>
 </div>

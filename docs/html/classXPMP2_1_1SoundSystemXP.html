@@ -122,6 +122,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a441e38147ecc7e68e72f658a1c1ce089" id="r_a441e38147ecc7e68e72f658a1c1ce089"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a441e38147ecc7e68e72f658a1c1ce089">SetAllMute</a> (bool bMute) override</td></tr>
 <tr class="memdesc:a441e38147ecc7e68e72f658a1c1ce089"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mute all sounds (temporarily)  <br /></td></tr>
 <tr class="separator:a441e38147ecc7e68e72f658a1c1ce089"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f1b7b6d1b4871e0eec43958a2567db5" id="r_a6f1b7b6d1b4871e0eec43958a2567db5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f1b7b6d1b4871e0eec43958a2567db5">GetAudioDeviceName</a> (int i, std::string &amp;devName) const override</td></tr>
+<tr class="memdesc:a6f1b7b6d1b4871e0eec43958a2567db5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return possible audio devices: For X-Plane device, we don't interfere and only return "X-Plane".  <br /></td></tr>
+<tr class="separator:a6f1b7b6d1b4871e0eec43958a2567db5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2978417d1c7f4c18e2f8a709ac19f06" id="r_ac2978417d1c7f4c18e2f8a709ac19f06"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac2978417d1c7f4c18e2f8a709ac19f06">SetAudioDevice</a> (int i) override</td></tr>
+<tr class="memdesc:ac2978417d1c7f4c18e2f8a709ac19f06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a specific audio device as the output device: For X-Plane, we only support "X-Plane" and don't actually interfere with X-Plane's output control.  <br /></td></tr>
+<tr class="separator:ac2978417d1c7f4c18e2f8a709ac19f06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d59f91a9cc4bcf5bad7a09c6d795bae" id="r_a6d59f91a9cc4bcf5bad7a09c6d795bae"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d59f91a9cc4bcf5bad7a09c6d795bae">GetActiveAudioDevice</a> () const override</td></tr>
+<tr class="memdesc:a6d59f91a9cc4bcf5bad7a09c6d795bae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get currently active audio device index.  <br /></td></tr>
+<tr class="separator:a6d59f91a9cc4bcf5bad7a09c6d795bae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classXPMP2_1_1SoundSystem"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classXPMP2_1_1SoundSystem')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classXPMP2_1_1SoundSystem.html">XPMP2::SoundSystem</a></td></tr>
 <tr class="memitem:a7ce2b1e9fe5f3b3247d019f859fcfb59 inherit pub_methods_classXPMP2_1_1SoundSystem" id="r_a7ce2b1e9fe5f3b3247d019f859fcfb59"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classXPMP2_1_1SoundSystem.html#a7ce2b1e9fe5f3b3247d019f859fcfb59">SoundSystem</a> ()</td></tr>
 <tr class="memdesc:a7ce2b1e9fe5f3b3247d019f859fcfb59 inherit pub_methods_classXPMP2_1_1SoundSystem"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construtor.  <br /></td></tr>
@@ -279,6 +288,68 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Update an individual channel's volume. </p>
+
+</div>
+</div>
+<a id="a6d59f91a9cc4bcf5bad7a09c6d795bae" name="a6d59f91a9cc4bcf5bad7a09c6d795bae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d59f91a9cc4bcf5bad7a09c6d795bae">&#9670;&#160;</a></span>GetActiveAudioDevice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int XPMP2::SoundSystemXP::GetActiveAudioDevice </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get currently active audio device index. </p>
+
+<p>Implements <a class="el" href="classXPMP2_1_1SoundSystem.html#a9e01a0763a30b0cda5cfb158fea8c67d">XPMP2::SoundSystem</a>.</p>
+
+</div>
+</div>
+<a id="a6f1b7b6d1b4871e0eec43958a2567db5" name="a6f1b7b6d1b4871e0eec43958a2567db5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f1b7b6d1b4871e0eec43958a2567db5">&#9670;&#160;</a></span>GetAudioDeviceName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::SoundSystemXP::GetAudioDeviceName </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>i</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>devName</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return possible audio devices: For X-Plane device, we don't interfere and only return "X-Plane". </p>
+
+<p>Implements <a class="el" href="classXPMP2_1_1SoundSystem.html#a15c11fee0c046d6e8322271cd70701ab">XPMP2::SoundSystem</a>.</p>
 
 </div>
 </div>
@@ -441,6 +512,36 @@ Protected Attributes</h2></td></tr>
 <p>Mute all sounds (temporarily) </p>
 
 <p>Implements <a class="el" href="classXPMP2_1_1SoundSystem.html#aa67678f2ee226bff884e41529866d817">XPMP2::SoundSystem</a>.</p>
+
+</div>
+</div>
+<a id="ac2978417d1c7f4c18e2f8a709ac19f06" name="ac2978417d1c7f4c18e2f8a709ac19f06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2978417d1c7f4c18e2f8a709ac19f06">&#9670;&#160;</a></span>SetAudioDevice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool XPMP2::SoundSystemXP::SetAudioDevice </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>i</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set a specific audio device as the output device: For X-Plane, we only support "X-Plane" and don't actually interfere with X-Plane's output control. </p>
+<p>Set a specific audio device as the output device: For X-Plane, we only support "X-Plane" (0) and don't actually interfere with X-Plane's output control. </p>
+
+<p>Implements <a class="el" href="classXPMP2_1_1SoundSystem.html#a0a0a2ce07a5647720cdee24da0e24457">XPMP2::SoundSystem</a>.</p>
 
 </div>
 </div>

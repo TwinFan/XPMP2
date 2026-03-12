@@ -187,8 +187,8 @@ else()
         # Multi-threaded (/MD), full optimization (/O2), debug info into separate -pdb file
         target_compile_options(XPMP2 PRIVATE /MD /O2 /Zi)
     else()
-        # Full optimizations (-O3), no debug info, position-independent code (-fPIC)
-        target_compile_options(XPMP2 PRIVATE -O3 -fPIC)
+        # Full optimizations (-O3), no debug info, position-independent code (-fPIC), minimal debug info for stack traces
+        target_compile_options(XPMP2 PRIVATE -O3 -fPIC -g1)
     endif()
 endif()
 

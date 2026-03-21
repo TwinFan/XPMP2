@@ -85,6 +85,8 @@ constexpr double M_per_FT   = 0.3048;   // meter per 1 foot
 constexpr int M_per_NM      = 1852;     // meter per one nautical mile
 /// Convert m/s to knots
 constexpr double KT_per_M_per_S = 1.94384;  // 1m/s = 1.94384kt
+/// Convert m/s to feet/min (for vertical speeds)
+constexpr double FT_p_MIN_per_M_p_S = 196.85039370079;
 /// @brief standard gravitational acceleration [m/s²]
 /// @see https://en.wikipedia.org/wiki/Gravity_of_Earth
 constexpr float G_EARTH     = 9.80665f;

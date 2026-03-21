@@ -492,7 +492,7 @@ size_t AIUpdateTCASTargets ()
                     // vertical movement (roughly...y is not exact, but let's keep things simple here)
                     XPLMSetDatavf(drTcasVY, &ac.v_y, int(slot), 1);
                     // convert from m/s to ft/min
-                    float vertSpd = ac.v_y * float(KT_per_M_per_S);
+                    float vertSpd = ac.v_y * float(FT_p_MIN_per_M_p_S);
                     XPLMSetDatavf(drTcasVertSpeed, &vertSpd, int(slot), 1);
                 }
                 ac.prev_x = ac.drawInfo.x;
@@ -623,17 +623,50 @@ void AIAssignSlots (size_t fromSlot, size_t toSlot)
 #ifdef DEBUG
     // it is expected that the range of slots is exactly filled
     // and all planes are used!
-    if (!(std::all_of(gSlots.begin()+(long)fromSlot,
-                           gSlots.begin()+(long)toSlot,
-                           [](const Aircraft* pAc){return pAc!=nullptr;})))
     {
-        LOG_MSG(logDEBUG, "Not all gSlots continuously assigned!");
-    }
-    if (!(std::all_of(vAcByDist.begin()+(long)fromSlot-1,
-                           vAcByDist.begin()+(long)toSlot-1,
-                           [](const Aircraft* pAc){return pAc==nullptr;})))
-    {
-        LOG_MSG(logDEBUG, "Not all vAcByDist used!");
+        std::string msg;
+        char s[100];
+        const Aircraft* pAc = nullptr;
+        if (!(std::all_of(gSlots.begin()+(long)fromSlot,
+                          gSlots.begin()+(long)toSlot,
+                          [](const Aircraft* pAc){return pAc!=nullptr;})))
+        {
+            msg.clear();
+            for (size_t slot = fromSlot; slot <= toSlot; ++slot)
+            {
+                pAc = gSlots[slot];
+                if (pAc)
+                    snprintf(s, sizeof(s), "%zu. %u, ", slot, pAc->GetModeS_ID());
+                else
+                    snprintf(s, sizeof(s), "%zu. <null>, ", slot);
+                msg += s;
+            }
+            if (msg.length() >= 2) {
+                msg.pop_back();
+                msg.pop_back();
+            }
+            LOG_MSG(logDEBUG, "Not all gSlots continuously assigned!\n%s", msg.c_str());
+        }
+        if (!(std::all_of(vAcByDist.begin()+(long)fromSlot-1,
+                          vAcByDist.begin()+(long)toSlot-1,
+                          [](const Aircraft* pAc){return pAc==nullptr;})))
+        {
+            msg.clear();
+            for (size_t slot = fromSlot-1; slot <= toSlot-1; ++slot)
+            {
+                pAc = vAcByDist[slot];
+                if (pAc)
+                    snprintf(s, sizeof(s), "%zu. %u, ", slot+1, pAc->GetModeS_ID());
+                else
+                    snprintf(s, sizeof(s), "%zu. <null>, ", slot+1);
+                msg += s;
+            }
+            if (msg.length() >= 2) {
+                msg.pop_back();
+                msg.pop_back();
+            }
+            LOG_MSG(logDEBUG, "Not all vAcByDist used!\n%s", msg.c_str());
+        }
     }
 #endif
 }

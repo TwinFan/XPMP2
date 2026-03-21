@@ -479,20 +479,21 @@ size_t AIUpdateTCASTargets ()
                 if (ac.prev_ts > 0.0001f) {
                     // yes, so we can calculate velocity
                     const float d_t = secSinceBase - ac.prev_ts;                 // time that had passed in seconds
-                    const float d_x = ac.drawInfo.x - ac.prev_x;
-                    const float d_y = ac.drawInfo.y - ac.prev_y;
-                    const float d_z = ac.drawInfo.z - ac.prev_z;
+                    ac.v_x = (ac.drawInfo.x - ac.prev_x) / d_t;
+                    ac.v_y = (ac.drawInfo.y - ac.prev_y) / d_t;
+                    ac.v_z = (ac.drawInfo.z - ac.prev_z) / d_t;
+
                     // horizontal movement
-                    float f = d_x / d_t;
-                    XPLMSetDatavf(drTcasVX, &f, int(slot), 1);
-                    f = d_z / d_t;
-                    XPLMSetDatavf(drTcasVZ, &f, int(slot), 1);
+                    XPLMSetDatavf(drTcasVX, &ac.v_x, int(slot), 1);
+                    XPLMSetDatavf(drTcasVZ, &ac.v_z, int(slot), 1);
+                    // based on horizontal coordinates calculate a (rough) ground speed
+                    ac.gs_kn = std::sqrt(ac.v_x * ac.v_x + ac.v_z * ac.v_z) * float(KT_per_M_per_S);
+
                     // vertical movement (roughly...y is not exact, but let's keep things simple here)
-                    f = d_y / d_t;
-                    XPLMSetDatavf(drTcasVY, &f, int(slot), 1);
+                    XPLMSetDatavf(drTcasVY, &ac.v_y, int(slot), 1);
                     // convert from m/s to ft/min
-                    f *= 60.0f / float(M_per_FT);
-                    XPLMSetDatavf(drTcasVertSpeed, &f, int(slot), 1);
+                    float vertSpd = ac.v_y * float(KT_per_M_per_S);
+                    XPLMSetDatavf(drTcasVertSpeed, &vertSpd, int(slot), 1);
                 }
                 ac.prev_x = ac.drawInfo.x;
                 ac.prev_y = ac.drawInfo.y;

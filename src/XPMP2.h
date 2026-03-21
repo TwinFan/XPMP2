@@ -63,6 +63,7 @@
 #include <shared_mutex>
 #include <regex>
 #include <bitset>
+#include <chrono>
 
 // FMOD Sound, must be included before XPLMSound.h
 #if INCLUDE_FMOD_SOUND + 0 >= 1

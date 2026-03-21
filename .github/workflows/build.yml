@@ -37,7 +37,7 @@ jobs:
         cp -a ./inc deploy-lib
         mv ${{ steps.build.outputs.lib-file-name }} deploy-lib/lib/lin
     - name: Upload XPMP2 lib
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: XPMP2-lib-lin
         path: deploy-lib/*        # this way we keep the folder structure in the artifact
@@ -62,7 +62,7 @@ jobs:
         mkdir -p deploy-lib/lib
         mv ${{ steps.build.outputs.lib-file-name }} deploy-lib/lib
     - name: Upload XPMP2 Framework
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: XPMP2-lib-mac
         path: deploy-lib/*        # this way we keep the folder structure in the artifact
@@ -90,7 +90,7 @@ jobs:
           cp ${{ steps.build.outputs.pdb-file-name }} deploy-lib/lib/win
         fi
     - name: Upload XPMP2 lib
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: XPMP2-lib-win
         path: deploy-lib/*        # this way we keep the folder structure in the artifact
@@ -116,7 +116,7 @@ jobs:
         mkdir -p deploy-lib/lib/win-dbg
         cp ${{ steps.build.outputs.lib-file-name }} deploy-lib/lib/win-dbg
     - name: Upload XPMP2 lib
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: XPMP2-lib-win-dbg
         path: deploy-lib/*        # this way we keep the folder structure in the artifact
@@ -147,7 +147,7 @@ jobs:
           cp ${{ steps.build.outputs.dll-file-name }} deploy-lib/lib/win-dll
         fi
     - name: Upload XPMP2 lib
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: XPMP2-lib-win-dll
         path: deploy-lib/*        # this way we keep the folder structure in the artifact

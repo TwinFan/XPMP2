@@ -697,7 +697,7 @@ void AIMultiUpdate ()
             // (these excludes invisible planes and those with transponder off)
             if (ac.ShowAsAIPlane())
                 // Priority distance means that we add artificial distance for higher-numbered AI priorities
-                gMapAcByDist.emplace(ac.GetCameraDist() + ac.aiPrio * AI_PRIO_MULTIPLIER,
+                gMapAcByDist.emplace(ac.GetCameraDist() + float(ac.aiPrio * AI_PRIO_MULTIPLIER),
                                      ac.GetModeS_ID());
             else
                 // for non-shown aircraft make sure no slot is remembered

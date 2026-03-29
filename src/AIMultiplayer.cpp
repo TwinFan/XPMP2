@@ -297,7 +297,7 @@ size_t AIUpdateMultiplayerDataRefs()
                     XPLMSetDataf(mdr.v_y, ac.v_y = (ac.drawInfo.y - ac.prev_y) / d_s);
                     XPLMSetDataf(mdr.v_z, ac.v_z = (ac.drawInfo.z - ac.prev_z) / d_s);
                     // based on horizontal coordinates calculate a (rough) ground speed
-                    ac.gs_kn = std::sqrt(ac.v_x*ac.v_x + ac.v_z*ac.v_z) * float(KT_per_M_per_S);
+                    ac.gs_kn = std::hypot(ac.v_x, ac.v_z) * float(KT_per_M_per_S);
                 }
                 ac.prev_x = ac.drawInfo.x;
                 ac.prev_y = ac.drawInfo.y;
@@ -487,7 +487,7 @@ size_t AIUpdateTCASTargets ()
                     XPLMSetDatavf(drTcasVX, &ac.v_x, int(slot), 1);
                     XPLMSetDatavf(drTcasVZ, &ac.v_z, int(slot), 1);
                     // based on horizontal coordinates calculate a (rough) ground speed
-                    ac.gs_kn = std::sqrt(ac.v_x * ac.v_x + ac.v_z * ac.v_z) * float(KT_per_M_per_S);
+                    ac.gs_kn = std::hypot(ac.v_x, ac.v_z) * float(KT_per_M_per_S);
 
                     // vertical movement (roughly...y is not exact, but let's keep things simple here)
                     XPLMSetDatavf(drTcasVY, &ac.v_y, int(slot), 1);

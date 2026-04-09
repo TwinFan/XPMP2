@@ -862,7 +862,7 @@ void Aircraft::SetInvalid()
 
     // Set the flag
     bValid = false;
-    LOG_MSG(logERR, ERR_SET_INVALID, modeS_id);
+    LOG_MSG(logDEBUG, ERR_SET_INVALID, modeS_id);
 
     // Cleanup the object as good as possible
     try {

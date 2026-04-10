@@ -210,9 +210,6 @@ static float tLastSlotSwitching = 0.0f;
 // How many planes did we produce last cycle?
 static size_t numTargetsLastTime = 0;
 
-/// Base time for storing time differences for calculating cartesian speeds
-static const std::chrono::system_clock::time_point baseTimePt = std::chrono::system_clock::now();
-
 //
 // MARK: Aircraft functions related to TCAS
 //
@@ -286,23 +283,12 @@ size_t AIUpdateMultiplayerDataRefs()
             // For performance reasons and because differences (cartesian velocity)
             // are smoother if calculated over "longer" time frames,
             // the following updates are done about every second only
-            const float secSinceBase = std::chrono::duration<float>(std::chrono::system_clock::now() - baseTimePt).count();
-            if (bSlotChanged || secSinceBase >= ac.prev_ts + 1.0f)
+            if (bSlotChanged || ac.bWriteTCASDataRefs)
             {
-                // do we have any prev x/y/z values at all?
-                if (ac.prev_ts > 0.0001f) {
-                    // yes, so we can calculate velocity
-                    const float d_s = secSinceBase - ac.prev_ts;                 // time that had passed in seconds
-                    XPLMSetDataf(mdr.v_x, ac.v_x = (ac.drawInfo.x - ac.prev_x) / d_s);
-                    XPLMSetDataf(mdr.v_y, ac.v_y = (ac.drawInfo.y - ac.prev_y) / d_s);
-                    XPLMSetDataf(mdr.v_z, ac.v_z = (ac.drawInfo.z - ac.prev_z) / d_s);
-                    // based on horizontal coordinates calculate a (rough) ground speed
-                    ac.gs_kn = std::hypot(ac.v_x, ac.v_z) * float(KT_per_M_per_S);
-                }
-                ac.prev_x = ac.drawInfo.x;
-                ac.prev_y = ac.drawInfo.y;
-                ac.prev_z = ac.drawInfo.z;
-                ac.prev_ts = secSinceBase;
+                // cartesian velocities
+                XPLMSetDataf(mdr.v_x, ac.v_x);
+                XPLMSetDataf(mdr.v_y, ac.v_y);
+                XPLMSetDataf(mdr.v_z, ac.v_z);
 
                 // configuration (cont.)
                 XPLMSetDataf(mdr.spoiler,       ac.v[V_CONTROLS_SPOILER_RATIO]);
@@ -407,9 +393,6 @@ size_t AIUpdateTCASTargets ()
     vWakeAoA.assign(numSlots, 0);
     vWakeLift.assign(numSlots, 0);
 
-    // Seconds passed since plugin load
-    const float secSinceBase = std::chrono::duration<float>(std::chrono::system_clock::now() - baseTimePt).count();
-
     // Loop over all filled slots
     size_t slot = 1;
     for (; slot < gSlots.size() && gSlots[slot] != nullptr; ++slot)
@@ -473,32 +456,17 @@ size_t AIUpdateTCASTargets ()
             // are smoother if calculated over "longer" time frames,
             // the following updates are done about every second only,
             // or if the a/c changed slot (to make sure all dataRef values are in synch)
-            if (bSlotChanged || (secSinceBase >= ac.prev_ts + 1.0f))
+            if (bSlotChanged || ac.bWriteTCASDataRefs)
             {
-                // do we have any prev x/y/z values at all?
-                if (ac.prev_ts > 0.0001f) {
-                    // yes, so we can calculate velocity
-                    const float d_t = secSinceBase - ac.prev_ts;                 // time that had passed in seconds
-                    ac.v_x = (ac.drawInfo.x - ac.prev_x) / d_t;
-                    ac.v_y = (ac.drawInfo.y - ac.prev_y) / d_t;
-                    ac.v_z = (ac.drawInfo.z - ac.prev_z) / d_t;
+                // horizontal movement
+                XPLMSetDatavf(drTcasVX, &ac.v_x, int(slot), 1);
+                XPLMSetDatavf(drTcasVZ, &ac.v_z, int(slot), 1);
 
-                    // horizontal movement
-                    XPLMSetDatavf(drTcasVX, &ac.v_x, int(slot), 1);
-                    XPLMSetDatavf(drTcasVZ, &ac.v_z, int(slot), 1);
-                    // based on horizontal coordinates calculate a (rough) ground speed
-                    ac.gs_kn = std::hypot(ac.v_x, ac.v_z) * float(KT_per_M_per_S);
-
-                    // vertical movement (roughly...y is not exact, but let's keep things simple here)
-                    XPLMSetDatavf(drTcasVY, &ac.v_y, int(slot), 1);
-                    // convert from m/s to ft/min
-                    float vertSpd = ac.v_y * float(FT_p_MIN_per_M_p_S);
-                    XPLMSetDatavf(drTcasVertSpeed, &vertSpd, int(slot), 1);
-                }
-                ac.prev_x = ac.drawInfo.x;
-                ac.prev_y = ac.drawInfo.y;
-                ac.prev_z = ac.drawInfo.z;
-                ac.prev_ts = secSinceBase;
+                // vertical movement (roughly...y is not exact, but let's keep things simple here)
+                XPLMSetDatavf(drTcasVY, &ac.v_y, int(slot), 1);
+                // convert from m/s to ft/min
+                float vertSpd = ac.v_y * float(FT_p_MIN_per_M_p_S);
+                XPLMSetDatavf(drTcasVertSpeed, &vertSpd, int(slot), 1);
                 
                 // Flight or tail number as FlightID
                 char s[8];

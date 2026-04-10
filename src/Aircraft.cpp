@@ -118,6 +118,9 @@ std::vector<XPLMDataRef> ahDataRefs;
 /// Standard name for "no model"
 static std::string noMdlName("<none>");
 
+/// Base time for storing time differences for calculating cartesian speeds
+static const std::chrono::system_clock::time_point baseTimePt = std::chrono::system_clock::now();
+
 //
 // MARK: Wake Support
 //
@@ -513,7 +516,9 @@ float Aircraft::FlightLoopCB(float _elapsedSinceLastCall, float, int _flCounter,
     try {
         glob.xpCycleNum=XPLMGetCycleNumber();               // Store current cycle number in glob.xpCycleNum
         const float now = UpdateCachedValuesGetNetwTime();  // As this is a main thread call, let's update some values we can get only now
-
+        // Seconds passed since plugin load
+        const float secSinceBase = std::chrono::duration<float>(std::chrono::system_clock::now() - baseTimePt).count();
+        
         // Update configuration
         glob.UpdateCfgVals();
 
@@ -544,7 +549,7 @@ float Aircraft::FlightLoopCB(float _elapsedSinceLastCall, float, int _flCounter,
                     if (ac.bClampToGround || glob.bClampAll)
                         ac.ClampToGround();
                     // Do some expensive stuff every second only
-                    ac.DoEverySecondUpdates(now);
+                    ac.DoEverySecondUpdates(now, secSinceBase);
                     // If required reset touch down animation
                     if (!std::isnan(ac.tsResetTouchDown) && (now >= ac.tsResetTouchDown)) {
                         ac.SetTouchDown(false);
@@ -605,14 +610,20 @@ void Aircraft::DoMove ()
 }
 
 // Processes once every second only stuff that doesn't require being computed every flight loop
-void Aircraft::DoEverySecondUpdates (float now)
+void Aircraft::DoEverySecondUpdates (float now, float secSinceBase)
 {
-    // Update plane's distance/bearing every second only
+    // Update plane's distance/bearing every second only (XP's network time)
     if (CheckEverySoOften(camTimLstUpd, 1.0f, now)) {
         GetLocation(lat1s, lon1s, alt1s_ft);        // convert position
         UpdateDistBearingCamera(glob.posCamera);
         ComputeMapLabel();
         ContrailAutoUpdate();
+    }
+    
+    // Update velocities also every second (CPU time)
+    const float actual_prev_ts = prev_ts;
+    if (CheckEverySoOften(prev_ts, 1.0f, secSinceBase)) {
+        UpdateVelocities(prev_ts - actual_prev_ts);
     }
 }
 
@@ -656,6 +667,28 @@ void Aircraft::UpdateDistBearingCamera (const XPLMCameraPosition_t& posCam)
                       drawInfo.x, drawInfo.y, drawInfo.z);
     // Bearing (note: x points east, z points south
     camBearing = angleLocCoord(posCam.x, posCam.z, drawInfo.x, drawInfo.z);
+}
+
+/// Internal: Update cartesian velocities (about every second)
+void Aircraft::UpdateVelocities (float d_t)
+{
+    // Shouldn't divide by zero, and with reasonable distances only
+    if (0.000001f < d_t && d_t < 5.0f)
+    {
+        // Update velocities based on distance since last check
+        v_x = (drawInfo.x - prev_x) / d_t;
+        v_y = (drawInfo.y - prev_y) / d_t;
+        v_z = (drawInfo.z - prev_z) / d_t;
+        
+        // based on horizontal velocities calculate a (rough) ground speed
+        gs_kn = std::hypot(v_x, v_z) * float(KT_per_M_per_S);
+        
+        // these new values need to be written out to TCAS targets
+        bWriteTCASDataRefs = true;
+    }
+    prev_x = drawInfo.x;
+    prev_y = drawInfo.y;
+    prev_z = drawInfo.z;
 }
 
 

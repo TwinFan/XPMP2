@@ -294,6 +294,9 @@ void GlobVars::ReadVersions ()
         bXPUsingModernGraphicsDriver = XPLMGetDatai(drUsingModernDriver) != 0;
     else
         bXPUsingModernGraphicsDriver = false;
+    
+    // and other XP features that we may need (also from threads)
+    bXPUseNativePaths = XPLMIsFeatureEnabled("XPLM_USE_NATIVE_PATHS");
 }
 
 
@@ -569,7 +572,7 @@ bool Posix2HFSPath(const char *path, char *result, int resultSize)
 std::string TOPOSIX (const std::string& p)
 {
     // no actual conversion if XPLM_USE_NATIVE_PATHS is activated
-    if (XPLMIsFeatureEnabled("XPLM_USE_NATIVE_PATHS"))
+    if (glob.bXPUseNativePaths)
         return p;
     else {
         char posix[1024];
@@ -584,7 +587,7 @@ std::string TOPOSIX (const std::string& p)
 std::string FROMPOSIX (const std::string& p)
 {
     // no actual conversion if XPLM_USE_NATIVE_PATHS is activated
-    if (XPLMIsFeatureEnabled("XPLM_USE_NATIVE_PATHS"))
+    if (glob.bXPUseNativePaths)
         return p;
     else {
         char hfs[1024];

@@ -235,6 +235,9 @@ void GlobVars::UpdateCfgVals ()
     // Ask for model matching logging
     bLogMdlMatch = prefsFuncInt(XPMP_CFG_SEC_DEBUG, XPMP_CFG_ITM_MODELMATCHING, bLogMdlMatch) != 0;
     
+    // Update other XP features that we may need (also from threads)
+    bXPUseNativePaths = XPLMIsFeatureEnabled("XPLM_USE_NATIVE_PATHS");
+
     // Fetch the network / multiplayer setup from X-Plane, which theoretically can change over time
     static XPLMDataRef drIsExternalVisual       = XPLMFindDataRef("sim/network/dataout/is_external_visual");        // int/boolean
     static XPLMDataRef drIsMultiplayer          = XPLMFindDataRef("sim/network/dataout/is_multiplayer_session");    // int/boolean

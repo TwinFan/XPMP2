@@ -235,6 +235,9 @@ void GlobVars::UpdateCfgVals ()
     // Ask for model matching logging
     bLogMdlMatch = prefsFuncInt(XPMP_CFG_SEC_DEBUG, XPMP_CFG_ITM_MODELMATCHING, bLogMdlMatch) != 0;
     
+    // Update other XP features that we may need (also from threads)
+    bXPUseNativePaths = XPLMIsFeatureEnabled("XPLM_USE_NATIVE_PATHS");
+
     // Fetch the network / multiplayer setup from X-Plane, which theoretically can change over time
     static XPLMDataRef drIsExternalVisual       = XPLMFindDataRef("sim/network/dataout/is_external_visual");        // int/boolean
     static XPLMDataRef drIsMultiplayer          = XPLMFindDataRef("sim/network/dataout/is_multiplayer_session");    // int/boolean
@@ -294,6 +297,9 @@ void GlobVars::ReadVersions ()
         bXPUsingModernGraphicsDriver = XPLMGetDatai(drUsingModernDriver) != 0;
     else
         bXPUsingModernGraphicsDriver = false;
+    
+    // and other XP features that we may need (also from threads)
+    bXPUseNativePaths = XPLMIsFeatureEnabled("XPLM_USE_NATIVE_PATHS");
 }
 
 
@@ -569,7 +575,7 @@ bool Posix2HFSPath(const char *path, char *result, int resultSize)
 std::string TOPOSIX (const std::string& p)
 {
     // no actual conversion if XPLM_USE_NATIVE_PATHS is activated
-    if (XPLMIsFeatureEnabled("XPLM_USE_NATIVE_PATHS"))
+    if (glob.bXPUseNativePaths)
         return p;
     else {
         char posix[1024];
@@ -584,7 +590,7 @@ std::string TOPOSIX (const std::string& p)
 std::string FROMPOSIX (const std::string& p)
 {
     // no actual conversion if XPLM_USE_NATIVE_PATHS is activated
-    if (XPLMIsFeatureEnabled("XPLM_USE_NATIVE_PATHS"))
+    if (glob.bXPUseNativePaths)
         return p;
     else {
         char hfs[1024];
@@ -763,9 +769,9 @@ std::string GetMiscNetwTimeStr (float _time)
         _time = GetMiscNetwTime();
     
     const unsigned runH = unsigned(_time / 3600.0f);
-    _time -= runH * 3600.0f;
+    _time -= float(runH) * 3600.0f;
     const unsigned runM = unsigned(_time / 60.0f);
-    _time -= runM * 60.0f;
+    _time -= float(runM) * 60.0f;
     
     snprintf(aszTimeStr, sizeof(aszTimeStr), "%u:%02u:%06.3f",
              runH, runM, _time);

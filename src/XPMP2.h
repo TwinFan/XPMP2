@@ -63,6 +63,7 @@
 #include <shared_mutex>
 #include <regex>
 #include <bitset>
+#include <chrono>
 
 // FMOD Sound, must be included before XPLMSound.h
 #if INCLUDE_FMOD_SOUND + 0 >= 1
@@ -261,6 +262,8 @@ public:
     int             verXPLM = -1;
     /// Using a modern graphics driver, ie. Vulkan/Metal?
     bool            bXPUsingModernGraphicsDriver = false;
+    /// Native path feature enabled?
+    bool            bXPUseNativePaths = false;
     /// Is X-Plane configured for networked multi-computer or multiplayer setup?
     bool            bXPNetworkedSetup = false;
     /// This plugin's id

@@ -34,7 +34,7 @@ endif()
 option(XPMP2_BUILD_SHARED_LIBS "Build XPMP2 as a shared libraries" OFF)
 
 project(XPMP2
-        VERSION 3.6.0
+        VERSION 3.6.1
         DESCRIPTION "Multiplayer library for X-Plane 11 and 12")
 
 # Source file list
@@ -187,8 +187,8 @@ else()
         # Multi-threaded (/MD), full optimization (/O2), debug info into separate -pdb file
         target_compile_options(XPMP2 PRIVATE /MD /O2 /Zi)
     else()
-        # Full optimizations (-O3), no debug info, position-independent code (-fPIC)
-        target_compile_options(XPMP2 PRIVATE -O3 -fPIC)
+        # Full optimizations (-O3), no debug info, position-independent code (-fPIC), minimal debug info for stack traces
+        target_compile_options(XPMP2 PRIVATE -O3 -fPIC -g1)
     endif()
 endif()
 

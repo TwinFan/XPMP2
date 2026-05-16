@@ -1200,7 +1200,7 @@ IteratorT iterRnd (IteratorT lower, IteratorT upper)
         return lower;
     // Contains more than one, so make a random choice
     const float rnd = float(std::rand()) / float(RAND_MAX); // should be less than 1.0
-    const long adv = long(rnd * dist);                      // therefor, should be less than `dist`
+    const long adv = long(rnd * float(dist));               // therefor, should be less than `dist`
     if (adv < dist)                                         // but let's make sure
         std::advance(lower, long(adv));
     else

@@ -283,23 +283,12 @@ size_t AIUpdateMultiplayerDataRefs()
             // For performance reasons and because differences (cartesian velocity)
             // are smoother if calculated over "longer" time frames,
             // the following updates are done about every second only
-            const float now = GetMiscNetwTime();
-            if (bSlotChanged || now >= ac.prev_ts + 1.0f)
+            if (bSlotChanged || ac.bWriteTCASDataRefs)
             {
-                // do we have any prev x/y/z values at all?
-                if (ac.prev_ts > 0.0001f) {
-                    // yes, so we can calculate velocity
-                    const float d_s = now - ac.prev_ts;                 // time that had passed in seconds
-                    XPLMSetDataf(mdr.v_x, ac.v_x = (ac.drawInfo.x - ac.prev_x) / d_s);
-                    XPLMSetDataf(mdr.v_y, ac.v_y = (ac.drawInfo.y - ac.prev_y) / d_s);
-                    XPLMSetDataf(mdr.v_z, ac.v_z = (ac.drawInfo.z - ac.prev_z) / d_s);
-                    // based on horizontal coordinates calculate a (rough) ground speed
-                    ac.gs_kn = std::sqrt(ac.v_x*ac.v_x + ac.v_z*ac.v_z) * float(KT_per_M_per_S);
-                }
-                ac.prev_x = ac.drawInfo.x;
-                ac.prev_y = ac.drawInfo.y;
-                ac.prev_z = ac.drawInfo.z;
-                ac.prev_ts = now;
+                // cartesian velocities
+                XPLMSetDataf(mdr.v_x, ac.v_x);
+                XPLMSetDataf(mdr.v_y, ac.v_y);
+                XPLMSetDataf(mdr.v_z, ac.v_z);
 
                 // configuration (cont.)
                 XPLMSetDataf(mdr.spoiler,       ac.v[V_CONTROLS_SPOILER_RATIO]);
@@ -353,8 +342,7 @@ size_t AIUpdateTCASTargets ()
     static std::vector<float> vX;
     static std::vector<float> vY;          
     static std::vector<float> vZ;          
-    static std::vector<float> vVertSpeed;  
-    static std::vector<float> vHeading;    
+    static std::vector<float> vHeading;
     static std::vector<float> vPitch;      
     static std::vector<float> vRoll;       
     static std::vector<int>   vGrnd;
@@ -384,7 +372,6 @@ size_t AIUpdateTCASTargets ()
     vX.assign(numSlots, 0);
     vY.assign(numSlots, 0);
     vZ.assign(numSlots, 0);
-    vVertSpeed.assign(numSlots, 0);
     vHeading.assign(numSlots, 0);
     vPitch.assign(numSlots, 0);
     vRoll.assign(numSlots, 0);
@@ -405,8 +392,6 @@ size_t AIUpdateTCASTargets ()
     vWakeMass.assign(numSlots, 0);
     vWakeAoA.assign(numSlots, 0);
     vWakeLift.assign(numSlots, 0);
-
-    const float now = GetMiscNetwTime();
 
     // Loop over all filled slots
     size_t slot = 1;
@@ -471,31 +456,17 @@ size_t AIUpdateTCASTargets ()
             // are smoother if calculated over "longer" time frames,
             // the following updates are done about every second only,
             // or if the a/c changed slot (to make sure all dataRef values are in synch)
-            if (bSlotChanged || (now >= ac.prev_ts + 1.0f))
+            if (bSlotChanged || ac.bWriteTCASDataRefs)
             {
-                // do we have any prev x/y/z values at all?
-                if (ac.prev_ts > 0.0001f) {
-                    // yes, so we can calculate velocity
-                    const float d_t = now - ac.prev_ts;                 // time that had passed in seconds
-                    const float d_x = ac.drawInfo.x - ac.prev_x;
-                    const float d_y = ac.drawInfo.y - ac.prev_y;
-                    const float d_z = ac.drawInfo.z - ac.prev_z;
-                    float f = d_x / d_t;
-                    XPLMSetDatavf(drTcasVX, &f, int(slot), 1);
-                    f = d_y / d_t;
-                    XPLMSetDatavf(drTcasVY, &f, int(slot), 1);
-                    f = d_z / d_t;
-                    XPLMSetDatavf(drTcasVZ, &f, int(slot), 1);
-                    
-                    // vertical speed (roughly...y is not exact, but let's keep things simple here),
-                    // convert from m/s to ft/min
-                    f = (d_y / d_t) * (60.0f / float(M_per_FT));
-                    XPLMSetDatavf(drTcasVertSpeed, &f, int(slot), 1);
-                }
-                ac.prev_x = ac.drawInfo.x;
-                ac.prev_y = ac.drawInfo.y;
-                ac.prev_z = ac.drawInfo.z;
-                ac.prev_ts = now;
+                // horizontal movement
+                XPLMSetDatavf(drTcasVX, &ac.v_x, int(slot), 1);
+                XPLMSetDatavf(drTcasVZ, &ac.v_z, int(slot), 1);
+
+                // vertical movement (roughly...y is not exact, but let's keep things simple here)
+                XPLMSetDatavf(drTcasVY, &ac.v_y, int(slot), 1);
+                // convert from m/s to ft/min
+                float vertSpd = ac.v_y * float(FT_p_MIN_per_M_p_S);
+                XPLMSetDatavf(drTcasVertSpeed, &vertSpd, int(slot), 1);
                 
                 // Flight or tail number as FlightID
                 char s[8];
@@ -529,16 +500,35 @@ size_t AIUpdateTCASTargets ()
         CATCH_AC(ac)
     }
     
+    // Reduce 'slot' to the actual number of planes being shown
+    --slot;
+    
+    // Validation if all ModeS ids are set properly
+    if (logDEBUG >= glob.logLvl) {
+        const auto it = std::find(vModeS.begin(), vModeS.end(), 0);             // find the first zer0
+        if (std::distance(vModeS.begin(), it) < long(slot)) {                   // must not be in the first `slot` elements!
+            std::string s;
+            std::for_each_n(vModeS.begin(), slot,
+                            [&s](int modeSID)
+            {
+                s += std::to_string(modeSID);
+                s += ", ";
+            });
+            if (s.length() >= 2) { s.pop_back(); s.pop_back(); }
+            LOG_MSG(logWARN, "Have %zu slots, found a zero too early:\n%s",
+                    slot, s.c_str());
+        }
+    }
+    
     // Feed the dataRefs to X-Plane for TCAS target tracking
 #define SET_DR(ty, dr) XPLMSetData##ty(drTcas##dr, v##dr.data(), 1, (int)v##dr.size())
-#define SET_DR_ONLY_USED(ty, dr) XPLMSetData##ty(drTcas##dr, v##dr.data(), 1, (int)(slot-1))
+#define SET_DR_ONLY_USED(ty, dr) if (slot>0) XPLMSetData##ty(drTcas##dr, v##dr.data(), 1, (int)slot)
     SET_DR(vi, ModeS);
     SET_DR(vi, ModeC);
     SET_DR(vi, SsrMode);
     SET_DR_ONLY_USED(vf, X);            // must not set/clean unused slots here, otherwise XP12.4+ throws "Traffic plugin error...gave us target with no ID"
     SET_DR_ONLY_USED(vf, Y);
     SET_DR_ONLY_USED(vf, Z);
-    SET_DR(vf, VertSpeed);
     SET_DR(vf, Heading);
     SET_DR(vf, Pitch);
     SET_DR(vf, Roll);
@@ -601,17 +591,50 @@ void AIAssignSlots (size_t fromSlot, size_t toSlot)
 #ifdef DEBUG
     // it is expected that the range of slots is exactly filled
     // and all planes are used!
-    if (!(std::all_of(gSlots.begin()+(long)fromSlot,
-                           gSlots.begin()+(long)toSlot,
-                           [](const Aircraft* pAc){return pAc!=nullptr;})))
     {
-        LOG_MSG(logDEBUG, "Not all gSlots continuously assigned!");
-    }
-    if (!(std::all_of(vAcByDist.begin()+(long)fromSlot-1,
-                           vAcByDist.begin()+(long)toSlot-1,
-                           [](const Aircraft* pAc){return pAc==nullptr;})))
-    {
-        LOG_MSG(logDEBUG, "Not all vAcByDist used!");
+        std::string msg;
+        char s[100];
+        const Aircraft* pAc = nullptr;
+        if (!(std::all_of(gSlots.begin()+(long)fromSlot,
+                          gSlots.begin()+(long)toSlot,
+                          [](const Aircraft* pAc){return pAc!=nullptr;})))
+        {
+            msg.clear();
+            for (size_t slot = fromSlot; slot <= toSlot; ++slot)
+            {
+                pAc = gSlots[slot];
+                if (pAc)
+                    snprintf(s, sizeof(s), "%zu. %u, ", slot, pAc->GetModeS_ID());
+                else
+                    snprintf(s, sizeof(s), "%zu. <null>, ", slot);
+                msg += s;
+            }
+            if (msg.length() >= 2) {
+                msg.pop_back();
+                msg.pop_back();
+            }
+            LOG_MSG(logDEBUG, "Not all gSlots continuously assigned!\n%s", msg.c_str());
+        }
+        if (!(std::all_of(vAcByDist.begin()+(long)fromSlot-1,
+                          vAcByDist.begin()+(long)toSlot-1,
+                          [](const Aircraft* pAc){return pAc==nullptr;})))
+        {
+            msg.clear();
+            for (size_t slot = fromSlot-1; slot <= toSlot-1; ++slot)
+            {
+                pAc = vAcByDist[slot];
+                if (pAc)
+                    snprintf(s, sizeof(s), "%zu. %u, ", slot+1, pAc->GetModeS_ID());
+                else
+                    snprintf(s, sizeof(s), "%zu. <null>, ", slot+1);
+                msg += s;
+            }
+            if (msg.length() >= 2) {
+                msg.pop_back();
+                msg.pop_back();
+            }
+            LOG_MSG(logDEBUG, "Not all vAcByDist used!\n%s", msg.c_str());
+        }
     }
 #endif
 }
@@ -642,7 +665,7 @@ void AIMultiUpdate ()
             // (these excludes invisible planes and those with transponder off)
             if (ac.ShowAsAIPlane())
                 // Priority distance means that we add artificial distance for higher-numbered AI priorities
-                gMapAcByDist.emplace(ac.GetCameraDist() + ac.aiPrio * AI_PRIO_MULTIPLIER,
+                gMapAcByDist.emplace(ac.GetCameraDist() + float(ac.aiPrio * AI_PRIO_MULTIPLIER),
                                      ac.GetModeS_ID());
             else
                 // for non-shown aircraft make sure no slot is remembered

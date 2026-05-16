@@ -85,6 +85,8 @@ constexpr double M_per_FT   = 0.3048;   // meter per 1 foot
 constexpr int M_per_NM      = 1852;     // meter per one nautical mile
 /// Convert m/s to knots
 constexpr double KT_per_M_per_S = 1.94384;  // 1m/s = 1.94384kt
+/// Convert m/s to feet/min (for vertical speeds)
+constexpr double FT_p_MIN_per_M_p_S = 196.85039370079;
 /// @brief standard gravitational acceleration [m/s²]
 /// @see https://en.wikipedia.org/wiki/Gravity_of_Earth
 constexpr float G_EARTH     = 9.80665f;
@@ -285,6 +287,7 @@ protected:
     bool bValid                 = true;     ///< is this object valid? (Will be reset in case of exceptions)
     bool bVisible               = true;     ///< Shall this plane be drawn at the moment and be visible to TCAS/interfaces?
     bool bRender                = true;     ///< Shall the CSL model be drawn in 3D world? (if !bRender && bVivile then still visible on TCAS/interfaces, Remote Client uses this for local senders' planes to take over TCAS but not drawing)
+    bool bWriteTCASDataRefs     = false;    ///< Time to write the less often updated TCAS target dataRefs?
     
     XPMP2::CSLModel*    pCSLMdl = nullptr;  ///< the CSL model in use
     int                 matchQuality = -1;  ///< quality of the match with the CSL model
@@ -292,7 +295,7 @@ protected:
     
     // this is data from about a second ago to calculate cartesian velocities
     float               prev_x = 0.0f, prev_y = 0.0f, prev_z = 0.0f;
-    float               prev_ts = 0.0f;     ///< last update of `prev_x/y/z` in XP's network time
+    float               prev_ts = 0.0f;     ///< last update of `prev_x/y/z` in seconds CPU time since plugin start
     float               gs_kn = 0.0f;       /// ground speed in [kn] based on above v_x/z
     
     /// Reverse-engineered lat/lon/alt, updated only once per second
@@ -754,13 +757,15 @@ protected:
     /// Internal: This puts the instance into XP's sky and makes it move
     void DoMove ();
     /// Internal: Processes once every second only stuff that doesn't require being computed every flight loop
-    void DoEverySecondUpdates (float now);
+    void DoEverySecondUpdates (float now, float secSinceBase);
     /// Internal: Create/move contrails, implemented in Contrail.cpp
     void ContrailMove ();
     /// Internal: (Re)Assess if contrails are to be created
     void ContrailAutoUpdate ();
     /// Internal: Update the plane's distance/bearing from the camera location
     void UpdateDistBearingCamera (const XPLMCameraPosition_t& posCam);
+    /// Internal: Update cartesian velocities (about every second)
+    void UpdateVelocities (float d_t);
     /// Clamp to ground: Make sure the plane is not below ground, corrects Aircraft::drawInfo if needed.
     void ClampToGround ();
     /// Create the instances required to represent the plane, return if successful

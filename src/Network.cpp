@@ -626,9 +626,9 @@ long SocketNetworking::recv(std::string* _pFromAddr,
     socklen_t   fromlen = sizeof(safrom);
     long ret =
 #if IBM
-    (long) recvfrom(f_socket, buf, (int)bufSize, 0, &safrom.sa, &fromlen);
+    (long) recvfrom(f_socket, buf, (int)bufSize-1, 0, &safrom.sa, &fromlen);
 #else
-    recvfrom(f_socket, buf, bufSize, 0, &safrom.sa, &fromlen);
+    recvfrom(f_socket, buf, bufSize-1, 0, &safrom.sa, &fromlen);
 #endif
     if (ret >= 0)  {                    // we did receive something
         buf[ret] = 0;                   // zero-termination

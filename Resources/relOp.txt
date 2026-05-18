@@ -6,8 +6,124 @@
 ; of airlines using same/similar liveries.
 ; No ICAO operator code can occur in the file more than once.
 
+; ===========================================================================
+; Existing groups (kept as-is)
+; ===========================================================================
+
 ; Aer Lingus
 EIN EUK
 
 ; Ryan Air
 RYR RUK
+
+; ===========================================================================
+; North American mainline + mergers + codeshare regionals.
+;
+; Rationale: real-world regional carriers (Republic, SkyWest, Endeavor,
+; Envoy, PSA, etc.) operate codeshare flights under their mainline parent's
+; flight number and wear that parent's livery. When CSL packages lack a
+; specific *_RPA / *_SKW / *_EDV model, grouping each regional with its
+; primary mainline parent lets the matcher fall back to the parent's livery,
+; which is what is visible at the real airport in any case.
+;
+; Each regional is grouped with the parent it serves MOST often when
+; codesharing across multiple majors (e.g. SkyWest flies for AAL/DAL/UAL
+; but its largest contract is United Express, so SKW is grouped with UAL).
+; Merged carriers (US Airways, Continental, Northwest, AirTran, Virgin
+; America, TWA) are grouped with the surviving mainline brand.
+; ===========================================================================
+
+; American Airlines family
+;   AAL = American Airlines mainline
+;   USA = US Airways (merged into AAL, 2015)
+;   TWA = Trans World Airlines (merged into AAL, 2001)
+;   ENY = Envoy Air (wholly-owned AA Eagle subsidiary)
+;   JIA = PSA Airlines (wholly-owned AA Eagle subsidiary)
+;   PDT = Piedmont Airlines (wholly-owned AA Eagle subsidiary)
+;   MQA = American Eagle Airlines (older AMR Eagle holding code)
+;   RPA = Republic Airways (largest codeshare partner for American Eagle)
+AAL USA TWA ENY JIA PDT MQA RPA
+
+; United Airlines family
+;   UAL = United Airlines mainline
+;   COA = Continental Airlines (merged into UAL, 2010)
+;   SKW = SkyWest Airlines (largest United Express codeshare partner)
+;   ASH = Mesa Airlines (currently exclusively United Express)
+;   GJS = GoJet Airlines (United Express codeshare)
+;   AWI = Air Wisconsin (United Express codeshare)
+;   UCA = CommutAir (United Express codeshare)
+UAL COA SKW ASH GJS AWI UCA
+
+; Delta Air Lines family
+;   DAL = Delta Air Lines mainline
+;   NWA = Northwest Airlines (merged into DAL, 2008)
+;   EDV = Endeavor Air (wholly-owned Delta Connection subsidiary)
+DAL NWA EDV
+
+; Southwest Airlines / AirTran
+;   SWA = Southwest Airlines
+;   TRS = AirTran Airways (merged into SWA, 2014)
+SWA TRS
+
+; Alaska Airlines / Horizon / Virgin America
+;   ASA = Alaska Airlines
+;   QXE = Horizon Air (wholly-owned Alaska subsidiary)
+;   VRD = Virgin America (merged into ASA, 2018)
+ASA QXE VRD
+
+; Air Canada family
+;   ACA = Air Canada mainline
+;   JZA = Jazz Aviation (operates Air Canada Express)
+;   ROU = Air Canada Rouge (leisure subsidiary)
+;   PVL = Pivot Airlines (Canadian charter, no dedicated CSL livery —
+;         fall back to Air Canada livery is more correct than the random
+;         Austrian/Cyprus/etc. picks the matcher otherwise produces)
+ACA JZA ROU PVL
+
+; US/global fractional and on-demand business-jet operators.
+; None of these have dedicated CSL liveries, but they fly visually
+; similar Citations / Gulfstreams / Bombardiers and putting them in a
+; single group prevents the matcher from randomly assigning, say, a
+; NetJets aircraft to Pacific Airways or Air China. Strictly the
+; liveries are not identical, but they all share the white-with-thin-
+; pinstripe business-jet aesthetic, which is closer than any commercial
+; airline livery would be.
+;   EJA = NetJets (US, world's largest fractional operator)
+;   LXJ = Flexjet (US fractional, ex-Bombardier)
+;   VJA = VistaJet (global)
+;   EJM = Executive Jet Management (NetJets subsidiary, charter side)
+;   FTD = Flight Options (now part of Flexjet/Sentient ops)
+;   TWY = Wayfarer Jets
+EJA LXJ VJA EJM FTD TWY
+
+; ===========================================================================
+; European group mergers and sister carriers
+; ===========================================================================
+
+; KLM Royal Dutch Airlines / KLM Cityhopper
+KLM KLC
+
+; Air France / HOP!
+AFR HOP
+
+; Lufthansa Group
+;   DLH = Lufthansa mainline
+;   CLH = Lufthansa CityLine (regional)
+;   EWG = Eurowings (low-cost subsidiary)
+DLH CLH EWG
+
+; International Airlines Group (British Airways side; Aer Lingus already grouped above)
+;   BAW = British Airways
+;   CFE = BA CityFlyer
+BAW CFE
+
+; ===========================================================================
+; Asia-Pacific group affiliations
+; ===========================================================================
+
+; China Southern Airlines family
+;   CSN = China Southern Airlines (mainline)
+;   CXA = Xiamen Airlines (China Southern owns the largest stake; uses a
+;         visually similar white/blue livery scheme — closest fallback
+;         when no specific CXA model is available in the CSL)
+CSN CXA

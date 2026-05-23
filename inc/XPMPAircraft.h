@@ -292,6 +292,7 @@ protected:
     XPMP2::CSLModel*    pCSLMdl = nullptr;  ///< the CSL model in use
     int                 matchQuality = -1;  ///< quality of the match with the CSL model
     int                 acRelGrp = 0;       ///< related group, ie. line in `related.txt` in which this a/c appears, if any
+    bool                bGndVehicle = false;///< Is ground vehicle? (cached for performance reasons)
     
     // this is data from about a second ago to calculate cartesian velocities
     float               prev_x = 0.0f, prev_y = 0.0f, prev_z = 0.0f;
@@ -416,7 +417,7 @@ public:
     /// @details For example, `IsRelatedTo("GLID")` returns if `*this` is a glider
     bool        IsRelatedTo (const std::string& _icaoType) const;
     /// Is this object a ground vehicle? (related to `glob.carIcaoType`)
-    bool        IsGroundVehicle() const;
+    bool        IsGroundVehicle() const { return bGndVehicle; }
     /// Is this object a glider?
     bool        IsGlider() const { return IsRelatedTo("GLID"); }
     /// @brief return the current TCAS target index (into `sim/cockpit2/tcas/targets`), 1-based, `-1` if not used

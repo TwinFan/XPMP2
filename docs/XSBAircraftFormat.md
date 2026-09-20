@@ -175,7 +175,7 @@ Defines matching parameters for XPMP2 matching algorithm.
   as textures in the referenced `.obj` file
   (see [its `TEXTURE` command](https://developer.x-plane.com/article/obj8-file-format-specification/#TEXTURE_lttex_file_namegt)). Most plugins will expect this `<operator>`
   code to be one of the
-  [ICAO-defined operator codes](https://en.wikipedia.org/wiki/List_of_airline_codes).
+  [ICAO-defined operator codes](https://en.wikipedia.org/wiki/List_of_airline_codes). Alternatively, XPMP2 matches it also against the Call Sign, so if the Call Sign starts with what's defined here, that's also considered a match.
 
   You can use a single dash `-` if you don't want to define an operator,
   but need to place a value to be able to define a livery with the 3rd parameter:

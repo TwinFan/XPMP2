@@ -15,9 +15,10 @@ Matching takes place
 Input
 --
 
-Matching is based on 3 input parameters:
+Matching is based on 4 input parameters:
 - The ICAO **aircraft type designator** of the plane,
 - the ICAO **operator code** to identify the airline,
+- a **Call Sign** as a fallback to identify the airline,
 - a text to identify a **special livery**.
 
 All parameters are optional. Pass an empty string if you can't provide details.
@@ -64,7 +65,7 @@ according to the following priority from broad to fine-grained attributes:
    exactly matching aircraft with wrong livery)
 9.  ICAO aircraft type designator - like A320, A388, B738, B741, C172, MD82, ..
 10. Related operator group - see above, groups similar-looking airlines like EIN for EUK
-11. ICAO airline / operator - like AAL, AFR, BAW, DLH, SWA, WJA, ...
+11. ICAO airline / operator - like AAL, AFR, BAW, DLH, SWA, WJA, ... -OR- does the Call Sign *begin with* the `<operator>` code as per xsb\_aircraft.txt `MATCHES` definition
 12. Special Livery
 
 The better a potential CSL model matches with the passed-in parameters
@@ -94,22 +95,23 @@ logging of model matching: In your configuration callback return
 With model matching logging activated, XPMP2 writes info into `Log.txt` like this:
 
 ```
-.../CSLFindMatch: MATCH INPUT: Type=BE36 (WTC=L,Class=L1P,Related=128), Airline=N13, Livery=N136HP
-.../CSLFindMatch: MATCH FOUND: Type=BE20 (WTC=L,Class=L2T,Related=128), Airline=SLG, Livery= / Quality = 56 -> model BB_GA/BE20_CGSAE
+...CSLFindMatch: MATCH INPUT: Type=B739 (WTC=M,Class=L2J,Related=56), Airline=UAL (relOp=0) / Call Sign=UAL1274, Livery=N30401
+...CSLModels.cpp:1361/CSLFindMatch: MATCH FOUND: Type=B739 (WTC=M,Class=L2J,Related=56), Airline=UAL (relOp=0), Livery= / Quality = 38 -> BB_Boeing B739_UAL
 
-.../CSLFindMatch: MATCH INPUT: Type=B737 (WTC=M,Class=L2J,Related=56), Airline=SWA, Livery=N462WN
-.../CSLFindMatch: MATCH FOUND: Type=B737 (WTC=M,Class=L2J,Related=56), Airline=SWA, Livery= / Quality = 2 -> model BB_Boeing/B737_SWA
+...CSLModels.cpp:1249/CSLFindMatch: MATCH INPUT: Type=E75L (WTC=M,Class=L2J,Related=89), Airline=ASH (relOp=0) / Call Sign=ASH6114, Livery=N89342
+...CSLModels.cpp:1361/CSLFindMatch: MATCH FOUND: Type=E190 (WTC=M,Class=L2J,Related=89), Airline=LZB (relOp=0), Livery= / Quality = 64 -> BB_Jets E190_LZB
 
-.../CSLFindMatch: MATCH INPUT: Type=DHC6 (WTC=L,Class=L2T,Related=108), Airline=CVU, Livery=N190GC
-.../CSLFindMatch: MATCH FOUND: Type=BE20 (WTC=L,Class=L2T,Related=128), Airline=JEI, Livery= / Quality = 16 -> model BB_GA/BE20_DIKOB
-
-.../CSLFindMatch: MATCH INPUT: Type=H500 (WTC=L,Class=H1T,Related=177), Airline=N91, Livery=N911WY
-.../CSLFindMatch: MATCH FOUND: Type=B06 (WTC=L,Class=H1T,Related=177), Airline=PAT, Livery= / Quality = 8 -> model BB_Heli/B06_US3_31A
+...CSLModels.cpp:1249/CSLFindMatch: MATCH INPUT: Type=B737 (WTC=M,Class=L2J,Related=56), Airline=SWA (relOp=16) / Call Sign=SWA4322, Livery=N907WN
+...CSLModels.cpp:1361/CSLFindMatch: MATCH FOUND: Type=B737 (WTC=M,Class=L2J,Related=56), Airline=SWA (relOp=16), Livery= / Quality = 2 -> BB_Boeing B737_SWA
 ```
 
 Note that "quality" is reported inverse here in `Log.txt` (as it is used in
 XPMP2's code): Lower numbers are better matches.
 
-For example: The first match (Quality = 56) is a comparably bad one...
-just look at the aircraft class: Wanted is a "L1P" aircraft (one piston engine),
-the best we found is an L2T (two turbo engines).
+For example: The second match (Quality = 64) is a comparably bad one as the plane isn't
+the exact type (E190 instead of E75L) and the livery doesn't match at all with
+Operator/Call Sign "ASH".
+
+The last one is a near-perfect match (Quality = 2) with exact type B737 and exact operator SWA.
+(There is just one way to make it even better: With airframe-specific livery based on
+registration.)

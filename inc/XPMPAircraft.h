@@ -199,6 +199,7 @@ public:
     /// @see https://www.icao.int/publications/DOC8643/Pages/Search.aspx
     std::string acIcaoType;
     std::string acIcaoAirline;          ///< ICAO Airline code of this plane
+    std::string acCallSign;             ///< Call sign of this flight
     std::string acLivery;               ///< Livery code of this plane
     
     /// @brief Holds position (in local coordinates!) and orientation (pitch, heading roll) of the aircraft.
@@ -377,11 +378,13 @@ public:
     /// @param _livery Special livery designator, can be an empty string
     /// @param _modeS_id (optional) **Unique** identification of the plane [0x01..0xFFFFFF], e.g. the 24bit mode S transponder code. XPMP2 assigns an arbitrary unique number of not given
     /// @param _cslId (optional) specific unique model id to be used (package name/short id, as defined in the `OBJ8_AIRCRAFT` line)
+    /// @param _callSign (optional) Call Sign of this flight
     Aircraft (const std::string& _icaoType,
               const std::string& _icaoAirline,
               const std::string& _livery,
               XPMPPlaneID _modeS_id = 0,
-              const std::string& _cslId = "");
+              const std::string& _cslId    = "",
+              const std::string& _callSign = "");
     /// Default constructor creates an empty, invalid(!) and invisible shell; call XPMP2::Aircraft::Create() to actually create a plane
     Aircraft ();
     /// Destructor cleans up all resources acquired
@@ -400,12 +403,14 @@ public:
     /// @param _modeS_id (optional) **Unique** identification of the plane [0x01..0xFFFFFF], e.g. the 24bit mode S transponder code. XPMP2 assigns an arbitrary unique number of not given
     /// @param _cslId (optional) specific unique model id to be used (package name/short id, as defined in the `OBJ8_AIRCRAFT` line)
     /// @param _pCSLModel (optional) The actual model to use (no matching or search by `_cslId` if model is given this way)
+    /// @param _callSign (optional) Call Sign of this flight
     void Create (const std::string& _icaoType,
                  const std::string& _icaoAirline,
                  const std::string& _livery,
                  XPMPPlaneID _modeS_id = 0,
-                 const std::string& _cslId = "",
-                 CSLModel* _pCSLModel = nullptr);
+                 const std::string& _cslId    = "",
+                 CSLModel* _pCSLModel         = nullptr,
+                 const std::string& _callSign = "");
     /// @}
     /// @name Information
     /// @{
@@ -444,14 +449,16 @@ public:
     /// @param _icaoType ICAO aircraft type designator, like 'A320', 'B738', 'C172'
     /// @param _icaoAirline ICAO airline code, like 'BAW', 'DLH', can be an empty string
     /// @param _livery Special livery designator, can be an empty string
+    /// @param _callSign Call sign, used in place of icaoAirline if that doesn't produce a match
     /// @return match quality, the lower the better
     int ChangeModel (const std::string& _icaoType,
                      const std::string& _icaoAirline,
-                     const std::string& _livery);
+                     const std::string& _livery   = "",
+                     const std::string& _callSign = "");
     
     /// @brief Finds a match again, using the existing parameters, eg. after more models have been loaded
     /// @return match quality, the lower the better
-    int ReMatchModel () { return ChangeModel(acIcaoType,acIcaoAirline,acLivery); }
+    int ReMatchModel () { return ChangeModel(acIcaoType,acIcaoAirline,acLivery,acCallSign); }
     
     /// @brief Assigns the given model
     /// @param _cslId Search for this id (package/short)

@@ -194,13 +194,14 @@ Aircraft::Aircraft(const std::string& _icaoType,
                    const std::string& _icaoAirline,
                    const std::string& _livery,
                    XPMPPlaneID _modeS_id,
-                   const std::string& _cslId) :
+                   const std::string& _cslId,
+                   const std::string& _callSign) :
 drawInfo({sizeof(drawInfo), 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}),
 // create an approrpiately sized 'v' array and initialize with zeroes
 v(DR_NAMES.size(), 0.0f)
 {
     // Create the plane right away
-    Create(_icaoType, _icaoAirline, _livery, _modeS_id, _cslId);
+    Create(_icaoType, _icaoAirline, _livery, _modeS_id, _cslId, nullptr, _callSign);
 }
 
 // Default constructor creates an empty, invalid(!) and invisible shell; call XPMP2::Aircraft::Create() to actually create a plane
@@ -242,7 +243,8 @@ void Aircraft::Create (const std::string& _icaoType,
                        const std::string& _livery,
                        XPMPPlaneID _modeS_id,
                        const std::string& _cslId,
-                       CSLModel* _pCSLModel)
+                       CSLModel* _pCSLModel,
+                       const std::string& _callSign)
 {
     // Must be called from XP's main thread only as we are calling XPLM SDK functions!!
     LOG_ASSERT(glob.IsXPThread());
@@ -284,13 +286,14 @@ void Aircraft::Create (const std::string& _icaoType,
             // however, remember the passed-in type details if given
             if (!_icaoType.empty())     acIcaoType = _icaoType;
             if (!_icaoAirline.empty())  acIcaoAirline = _icaoAirline;
+            if (!_callSign.empty())     acCallSign = _callSign;
             if (!_livery.empty())       acLivery = _livery;
         }
     }
     
     // Let Matching happen, if we still don't have a model
     if (!pCSLMdl)
-        ChangeModel(_icaoType, _icaoAirline, _livery);
+        ChangeModel(_icaoType, _icaoAirline, _livery, _callSign);
     LOG_ASSERT(pCSLMdl);
     
     // Setup sound for this aircraft
@@ -368,12 +371,14 @@ std::string XPMP2::Aircraft::GetFlightId() const
 // (Potentially) change the plane's model after doing a new match attempt
 int Aircraft::ChangeModel (const std::string& _icaoType,
                            const std::string& _icaoAirline,
-                           const std::string& _livery)
+                           const std::string& _livery,
+                           const std::string& _callSign)
 {
     // Let matching happen
     CSLModel* pMdl = nullptr;
     int q = CSLModelMatching(_icaoType,
                              _icaoAirline,
+                             _callSign,
                              _livery,
                              pMdl);
 
@@ -396,6 +401,7 @@ int Aircraft::ChangeModel (const std::string& _icaoType,
     matchQuality    = q;
     acIcaoType      = _icaoType;
     acIcaoAirline   = _icaoAirline;
+    acCallSign      = _callSign;
     acLivery        = _livery;
     acRelGrp        = RelatedGet(REL_TXT_DESIGNATOR, acIcaoType);
     bGndVehicle     = IsRelatedTo(glob.carIcaoType);
@@ -449,6 +455,7 @@ bool Aircraft::AssignModel (const std::string& _cslId,
     matchQuality    = 0;
     acIcaoType      = pCSLMdl->GetIcaoType();
     acIcaoAirline   = pCSLMdl->GetIcaoAirline();
+    acCallSign.clear();         // don't have a way to deduct the call sign just from a model
     acLivery        = pCSLMdl->GetLivery();
     acRelGrp        = RelatedGet(REL_TXT_DESIGNATOR, acIcaoType);
     bGndVehicle     = IsRelatedTo(glob.carIcaoType);

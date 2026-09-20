@@ -352,11 +352,13 @@ void XPMPGetModelInfo2(int inIndex, std::string& outModelName,  std::string& out
 // test model match quality for given parameters
 int         XPMPModelMatchQuality(const char *              inICAO,
                                   const char *              inAirline,
-                                  const char *              inLivery)
+                                  const char *              inLivery,
+                                  const char *              inCallSign)
 {
     CSLModel* pModel;
     return CSLModelMatching(inICAO      ? inICAO : "",
                             inAirline   ? inAirline : "",
+                            inCallSign  ? inCallSign : "",
                             inLivery    ? inLivery : "",
                             pModel);
 }
@@ -445,12 +447,14 @@ void XPMPSetPlaneVisibility(XPMPPlaneID _id, bool _bVisible)
 int     XPMPChangePlaneModel(XPMPPlaneID            _id,
                              const char *           inICAO,
                              const char *           inAirline,
-                             const char *           inLivery)
+                             const char *           inLivery,
+                             const char *           inCallSign)
 {
     Aircraft* pAc = AcFindByID(_id);
     if (pAc)
         return pAc->ChangeModel(inICAO      ? inICAO : "",
                                 inAirline   ? inAirline : "",
+                                inCallSign  ? inCallSign : "",
                                 inLivery    ? inLivery : "");
     else
         return -1;

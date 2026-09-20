@@ -53,7 +53,7 @@ namespace XPMP2 {
 #define WARN_OBJ8_ONLY_VERTOFS  "Version is '%s', unsupported for reading vertical offset, file %s"
 
 #define ERR_MATCH_NO_MODELS     "MATCH ABORTED - There is not any single CSL model available!"
-#define DEBUG_MATCH_INPUT       "MATCH INPUT: Type=%s (WTC=%s,Class=%s,Related=%d), Airline=%s (relOp=%d), Livery=%s"
+#define DEBUG_MATCH_INPUT       "MATCH INPUT: Type=%s (WTC=%s,Class=%s,Related=%d), Airline=%s (relOp=%d) / Call Sign=%s, Livery=%s"
 #define DEBUG_MATCH_FOUND       "MATCH FOUND: Type=%s (WTC=%s,Class=%s,Related=%d), Airline=%s (relOp=%d), Livery=%s / Quality = %d -> %s"
 #define DEBUG_MATCH_NOTFOUND    "MATCH ERROR: Using a RANDOM model: %s %s %s - model %s"
 
@@ -1217,6 +1217,7 @@ IteratorT iterRnd (IteratorT lower, IteratorT upper)
 ///             the match quality: The lower the number the better the quality.
 bool CSLFindMatch (const std::string& _type,
                    const std::string& _airline,
+                   const std::string& _callSign,
                    const std::string& _livery,
                    bool bIgnoreNoMatch,
                    int& quality,
@@ -1244,7 +1245,7 @@ bool CSLFindMatch (const std::string& _type,
     LOG_MATCHING(logINFO, DEBUG_MATCH_INPUT,
                  _type.c_str(),
                  doc8643.wtc, doc8643.classification, related,
-                 _airline.c_str(), relOp,
+                 _airline.c_str(), relOp, _callSign.c_str(),
                  _livery.c_str());
     
     // A string copy makes comparisons easier later on
@@ -1296,7 +1297,8 @@ bool CSLFindMatch (const std::string& _type,
             std::bitset<DOC8643_MATCH_PARAMS> matchQual;
             // Lower part matches on very detailed parameters
             matchQual.set(0, _livery.empty()    || mc.livery         != _livery);
-            matchQual.set(1, _airline.empty()   || mc.getAirline()   != _airline);
+            matchQual.set(1, (_airline.empty()  || mc.getAirline()   != _airline) &&   // airline matches with airline, -OR- first part of call sign matches
+                             (_callSign.empty() || mc.getAirline().empty() || _callSign.compare(0, mc.getAirline().length(), mc.getAirline()) != 0));
             matchQual.set(2, relOp == 0         || mc.getRelOp()     != relOp);
             matchQual.set(3, _type.empty()      || mdl.GetIcaoType() != _type);
             matchQual.set(4,                    // this matches if airline _and_ related group match (so we value a matching livery in a "related" model higher than an exact model with improper livery)
@@ -1370,6 +1372,7 @@ bool CSLFindMatch (const std::string& _type,
 ///             then there is a second pass based on the default ICAO type.
 int CSLModelMatching (const std::string& _type,
                       const std::string& _airline,
+                      const std::string& _callSign,
                       const std::string& _livery,
                       CSLModel* &pModel)
 {
@@ -1390,7 +1393,7 @@ int CSLModelMatching (const std::string& _type,
     // If no type is given at all we use the default type:
     for (std::string type = _type.empty() ? glob.defaultICAO : _type;;)
     {
-        if (CSLFindMatch(type, _airline, _livery,
+        if (CSLFindMatch(type, _airline, _callSign, _livery,
                          // First pass not using Doc8643 matching?
                          type != glob.defaultICAO && !Doc8643IsTypeValid(type),
                          quality, pModel))

@@ -1,5 +1,4 @@
-`xsb_aircraft.txt` File format
-==
+# `xsb_aircraft.txt` File format
 
 The `xsb_aircraft.txt` file describes the content of one CSL model package.
 XPMP2 reads the file to learn about available CSL models and which ICAO aircraft
@@ -7,7 +6,7 @@ type designators, airlines, and special liveries they match.
 
 The [original file format](https://github.com/kuroneko/libxplanemp/wiki/LegacyCSL#aircraft-directory-text-file-format)
 supported more commands necessary to support older formats like `.acf` or
-OBJ7. XPMP2 only supported OBJ8 models and processes only the commands
+OBJ7. XPMP2 only supports OBJ8 models and processes only the commands
 listed here. Others are ignored. They may raise warnings in `Log.txt` but
 otherwise do no harm.
 
@@ -44,20 +43,18 @@ XPMP2 expects the _combination_ of `EXPORT_NAME` and `OBJ8_AIRCRAFT` name
 to be unique and ignores any duplicates (with a warning written to `Log.txt`).
 
 Each aircraft definition then includes:
-- One or more `OBJ8` commands to defines which `.obj` file(s) to load for the
+- One or more `OBJ8` commands to define which `.obj` file(s) to load for the
   CSL model.
   The OBJ8 file format is
   [defined by Laminar](https://developer.x-plane.com/article/obj8-file-format-specification/).
 - Optionally one `VERT_OFFSET` command to define the vertical offset that
   needs to be applied to make the model sitting right on its wheel when
-  placed on solid ground.
-  If missing, then XPMP2 will read the `.obj` and find the lowest feature of
-  the model and use this as reference.
+  placed on solid ground.  
 - One or more matching definitions using any of the commands `ICAO`, `AIRLINE`,
   `LIVERY`, or `MATCHES`. With XPMP2, all four commands are synonyms and
   handle 1 to 3 parameters:
   - ICAO aircraft type designator
-  - ICAO airline operator code
+  - ICAO airline operator code (to match against the operator or call sign)
   - special livery text
 
 Commands
@@ -110,6 +107,12 @@ displayed when the CSL model is needed, assuming that their local coordinate
 reference is the same, ie. they will all be placed at the same location.
 (And only _if_ all `.obj` files are found and loaded will the model be rendered.)
 
+#### "`SOLID YES`"
+Historically, other parameters than `SOLID YES` were supported,
+but the functionality is no longer needed since instancing was introduced.
+In fact, XPMP2 just ignores the 1st and 2nd parameter altogether.
+
+#### `.obj` file Location
 The location is relative to the given `<package_name>` (which can be and often is
 in the current `xsb_aircraft.txt` file, but could also be defined in another one):
 - If a `<relativePathTo>` is given it needs to start in the same directory
@@ -117,10 +120,7 @@ in the current `xsb_aircraft.txt` file, but could also be defined in another one
 - if no `<relativePathTo>` is given then the `<file.obj>` is expected to be
   in the same directory as the `<package_name>`'s `xsb_aircraft.txt` file.
 
-Historically, other parameters than `SOLID YES` were supported,
-but the distinction is no longer needed. In fact, XPMP2 just ignores the
-2nd and 3rd parameter altogether.
-
+#### Textures (optional)
 The 4th and 5th parameters are optional. They define a different texture
 (livery) to use than originally specified in `<file.obj>`. To be able to use this
 differing texture, XPMP2 creates a copy of `<file.obj>`, namely
@@ -135,11 +135,11 @@ VERT_OFFSET <float_num>
 ```
 
 Defines the vertical offset for correct placement of the model on the ground
-with gears down.
+with gears down in meters between ground and center of gravity.
 
-If the `VERT_OFFSET` command is missing, then XPMP2 will read the `.obj` file(s)
-searching for the lowest feature defined in it and will use that point as
-the reference for the vertical offset.
+If missing, then XPMP2 will read the `.obj` and find the lowest feature of
+the model and use this as reference. While that often works great,
+there are cases when this process fails to find the perfect vertical offset.
 
 ### `OFFSET`
 
@@ -148,7 +148,8 @@ OFFSET <unknown> <unknown> <vertical_offset>
 ```
 
 The `OFFSET` command appears in PilotEdge packages.
-The meaning of the first two parameters remains a mystery.
+The meaning of the first two parameters remains a mystery
+and are ignored by XPMP2.
 
 The 3rd parameter has the same meaning as `VERT_OFFSET`, see above.
 
@@ -173,10 +174,12 @@ Defines matching parameters for XPMP2 matching algorithm.
 - `<operator>` (optional) defines the aircraft's operator, often an airline.
   Different operators will fly different liveries, which in turn are defined
   as textures in the referenced `.obj` file
-  (see [its `TEXTURE` command](https://developer.x-plane.com/article/obj8-file-format-specification/#TEXTURE_lttex_file_namegt)). Most plugins will expect this `<operator>`
+  (see [its `TEXTURE` command](https://developer.x-plane.com/article/obj8-file-format-specification/#TEXTURE_lttex_file_namegt)).
+- Most plugins will expect this `<operator>`
   code to be one of the
-  [ICAO-defined operator codes](https://en.wikipedia.org/wiki/List_of_airline_codes). Alternatively, XPMP2 matches it also against the Call Sign, so if the Call Sign starts with what's defined here, that's also considered a match.
-
+  [ICAO-defined operator codes](https://en.wikipedia.org/wiki/List_of_airline_codes).
+  Alternatively, XPMP2 matches it also against the Call Sign,
+  so if the Call Sign *starts* with what's defined here, that's also considered a match.
   You can use a single dash `-` if you don't want to define an operator,
   but need to place a value to be able to define a livery with the 3rd parameter:
 - `<livery>` (optional, can only be defined together with `<operator>`)

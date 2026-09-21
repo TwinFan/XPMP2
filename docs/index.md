@@ -49,7 +49,7 @@ Linux and Mac OS builds are provided. The details are
 
 This part will probably need more attention, but find some [first
 information here](HowTo.html) and study the working sample plugin
-in the `XPMP2-Sample` folder.
+available as separate [Github repo XPMP2-Sample](https://github.com/TwinFan/XPMP2-Sample).
 
 ### API and Code Documentation
 
@@ -68,11 +68,12 @@ online:
 
 ### Backward Compatibility
 
-If you are familiar with the original `libxplanemp` and are using it already
-in your plugins, then you will find
-[these information on backward compatibility](BackwardsCompatibility.md)
-useful, which explain how you can replace `libxplanemp` with XPMP2
-with limited effort.
+XPMP2 came into being as replacement for the original `libxplanemp` and should still
+be largely compatible. But time has moved on and backwards compatibility is
+no longer a prime goal. Still,
+[this information on backward compatibility](BackwardsCompatibility.md)
+is retained just in case you still find some old plugin that needs
+`libxplanemp` replaced with XPMP2.
 
 ### Deploying Your Plugin
 
@@ -122,7 +123,7 @@ featuring LiveTraffic screenshots and
 
 ### Original libxplanemp
 
-- [TwinFan's libxplanemp fork](https://github.com/TwinFan/libxplanemp) on GitHub
+- [TwinFan's libxplanemp fork](https://github.com/TwinFan/libxplanemp) on GitHub (now read-only and archived, but accessible)
   - [wiki explaining differences to the kuroneko fork](https://github.com/TwinFan/libxplanemp/wiki)
 - [kuroneko's fork](https://github.com/kuroneko/libxplanemp) on GitHub, a long-time standard and basis of other important forks
   - [kuroneko's wiki](https://github.com/kuroneko/libxplanemp/wiki) including notes on CSL development

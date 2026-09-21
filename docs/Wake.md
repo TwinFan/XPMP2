@@ -31,7 +31,7 @@ which is looked up based on the `icaoType`.
 If the `icaoType` isn't found then a default WTC of `M` is assumed.
 
 So even if you don't provide any overrides in your plugin implementation,
-there's are reasonable factors in place to provide about matching wakes:
+there are factors in place to provide some reasonable wakes:
 
 WTC | Span [m]| Area [m^2] | Weight [kg] | Reference
 ----|---------|------------|-------------|----------------------------
@@ -66,12 +66,12 @@ as `virtual` functions that you can override in your own aircraft class:
 
 There's one specific case a plugin may want to consider, which is the
 transition between ground and airborne operation:
-There is no wake behind a taxiing wake because there is no lift produced.
+There is no wake behind a taxiing plane because there is no lift produced.
 Wake gradually appears during the take-off roll and
 fades during rollout after landing.
 
 If you want to simulate this you should override `XPMP2::Aircraft::GetLift()`.
 See LiveTraffic's `LTAircraft::GetLift()` for an example in its
 [`LTAircraft.cpp` file](https://github.com/TwinFan/LiveTraffic/blob/master/Src/LTAircraft.cpp),
-which take information as input that XPMP2 doesn't have but only the
-plugin that controls the aircraft in motion.
+which takes input information that XPMP2 just doesn't have access to,
+but only the plugin that controls the aircraft's motion.

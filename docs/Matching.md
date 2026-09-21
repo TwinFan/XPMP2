@@ -41,8 +41,13 @@ Internally, two more parameters are added:
 
 Aircraft / airline / livery combinations available for the user are listed in the
 `xsb_aircraft.txt` files in the user's CSL model folders.
-XPMP2 reads all of these files into a cache when your plugin calls
-`XPMPLoadCSLPackage`, i.e. typically at startup.
+[See here](XSBAircraftFormat.html) for the format of that file and
+how it defines the Aircraft / airline / livery information.
+The Aircraft type determines a lot of technical aspects like
+"has rotor" or Wake Turbulence Category etc., which are looked
+up from files like `Doc8643.txt`. 
+XPMP2 reads all of the CSL model information and other reference inforomation
+into a cache when your plugin calls `XPMPLoadCSLPackage`, i.e. typically at startup.
 
 Procedure
 --
@@ -66,7 +71,7 @@ according to the following priority from broad to fine-grained attributes:
 9.  ICAO aircraft type designator - like A320, A388, B738, B741, C172, MD82, ..
 10. Related operator group - see above, groups similar-looking airlines like EIN for EUK
 11. ICAO airline / operator - like AAL, AFR, BAW, DLH, SWA, WJA, ... -OR- does the Call Sign *begin with* the `<operator>` code as per xsb\_aircraft.txt `MATCHES` definition
-12. Special Livery
+12. Special Livery, typically specific to a single airframe
 
 The better a potential CSL model matches with the passed-in parameters
 the more of the above attributes match, the higher is the "match quality".
@@ -74,7 +79,8 @@ Higher priority attributes count more than lower ones: technically it is a bit m
 with the number 1 attribute at the most significant bit.
 
 The model with the best match quality is picked. If there are several models
-ending up with the same match quality, then XPMP2 takes a random pick.
+ending up with the same match quality, then XPMP2 takes a random pick
+from the set of equally rated models.
 This often happens if there are several models available for the expected
 ICAO aircraft type designator, but none of them has the correct livery
 for the requested operator.

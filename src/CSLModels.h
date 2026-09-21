@@ -284,12 +284,14 @@ CSLModel* CSLModelByKey(const std::string& _cslKey,
 /// @brief Find a matching model
 /// @param _type ICAO aircraft type like "A319"
 /// @param _airline ICAO airline code like "DLH"
+/// @param _callSign Flight's Call Sign like "DLH4711", used if airline code doesn't produce a match
 /// @param _livery Any specific livery code, in LiveTraffic e.g. the tail number
 /// @param[out] pModel Receives the pointer to the matching CSL model, or NULL if nothing found
 /// @return The number of passes needed to find a match, the lower the better the quality,
 ///         negative is error.
 int CSLModelMatching (const std::string& _type,
                       const std::string& _airline,
+                      const std::string& _callSign,
                       const std::string& _livery,
                       CSLModel* &pModel);
 

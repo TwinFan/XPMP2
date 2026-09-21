@@ -602,10 +602,12 @@ XPMP2_EXPORT void XPMPGetModelInfo2(int inIndex, std::string& outModelName,  std
 /// @param inICAO ICAO aircraft type designator, optional, can be `nullptr`
 /// @param inAirline ICAO airline code, optional, can be `nullptr`
 /// @param inLivery Special livery text, optional, can be `nullptr`
+/// @param inCallSign Call Sign, optional, can be `nullptr`
 /// @return Match quality, the lower the better
 XPMP2_EXPORT int XPMPModelMatchQuality(const char *              inICAO,
                                        const char *              inAirline,
-                                       const char *              inLivery);
+                                       const char *              inLivery = nullptr,
+                                       const char *              inCallSign = nullptr);
 
 
 /// @brief Is `inICAO` a valid ICAO aircraft type designator?
@@ -709,11 +711,13 @@ XPMP2_EXPORT void            XPMPSetPlaneVisibility(XPMPPlaneID _id, bool _bVisi
 /// @param inICAOCode ICAO aircraft type designator, like 'A320', 'B738', 'C172'
 /// @param inAirline ICAO airline code, like 'BAW', 'DLH', can be an empty string
 /// @param inLivery Special livery designator, can be an empty string
+/// @param inCallSign Call Sign, used if airline doesn't produce a match, can be empty string
 /// @return Match quality, the lower the better / -1 if `inPlaneID` is invalid
 XPMP2_EXPORT int     XPMPChangePlaneModel(XPMPPlaneID            inPlaneID,
                                           const char *           inICAOCode,
                                           const char *           inAirline,
-                                          const char *           inLivery);
+                                          const char *           inLivery = "",
+                                          const char *           inCallSign = "");
 
 
 /// @brief Return the name of the model, with which the given plane is rendered

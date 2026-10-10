@@ -27,6 +27,7 @@
 #define ERR_RSRC_FILE_UNAVAIL "File '%s' is missing in resource directory '%s'"
 #define INFO_DEFAULT_ICAO       "Default ICAO aircraft type now is %s"
 #define INFO_CAR_ICAO           "Ground vehicle ICAO type now is %s"
+#define INFO_DEFAULT_LIVERY     "Default Livery Airline code now is '%s'"
 #define INFO_LOAD_CSL_PACKAGE   "Loading CSL package from %s"
 
 // The global functions implemented here are not in our namespace for legacy reasons,
@@ -550,6 +551,17 @@ void XPMPSetDefaultPlaneICAO(const char* _acIcaoType,
         LOG_MSG(logINFO, INFO_CAR_ICAO, _carIcaoType);
     }
 }
+
+// Define default livery aircraft code for cases where no exact livery match is found
+XPMP2_EXPORT void    XPMPSetDefaultLivery(const char* _airlineCode)
+{
+    if (!_airlineCode)
+        glob.defaultLiveryAirline.clear();
+    else
+        glob.defaultLiveryAirline = _airlineCode;
+    LOG_MSG(logINFO, INFO_DEFAULT_LIVERY, glob.defaultLiveryAirline.c_str());
+}
+
 
 //
 // MARK: Plane Observation

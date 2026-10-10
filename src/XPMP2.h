@@ -181,6 +181,8 @@ public:
     std::string     defaultICAO = "A320";
     /// Ground vehicle type identifier (map decides icon based on this)
     std::string     carIcaoType = "ZZZC";
+    /// Default livery airline code (by default empty)
+    std::string     defaultLiveryAirline;
     /// Resource directory, to store local definitions of vertical offsets (clamping)
     std::string     resourceDir;
     

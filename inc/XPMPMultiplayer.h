@@ -782,6 +782,10 @@ XPMP2_EXPORT XPMP2::Aircraft* XPMPGetAircraft (XPMPPlaneID _id);
 XPMP2_EXPORT void    XPMPSetDefaultPlaneICAO(const char* _acIcaoType,
                                              const char* _carIcaoType = nullptr);
 
+/// @brief Define default livery aircraft code for cases where no exact livery match is found
+/// @param _airlineCode Default livery airline code. Pass an empty string to clear and return to the default behaviour of a random pick.
+XPMP2_EXPORT void    XPMPSetDefaultLivery(const char* _airlineCode = "");
+
 /// @}
 
 /************************************************************************************

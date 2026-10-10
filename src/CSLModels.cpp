@@ -1224,7 +1224,7 @@ bool CSLFindMatch (const std::string& _type,
                    CSLModel* &pModel)
 {
     // How many parameters will we compare?
-    constexpr unsigned DOC8643_MATCH_PARAMS = 12;
+    constexpr unsigned DOC8643_MATCH_PARAMS = 13;
     constexpr unsigned DOC8643_MATCH_WORST_QUAL = 2 << DOC8643_MATCH_PARAMS;
     
     // if there aren't any models we won't find any either
@@ -1297,24 +1297,26 @@ bool CSLFindMatch (const std::string& _type,
             std::bitset<DOC8643_MATCH_PARAMS> matchQual;
             // Lower part matches on very detailed parameters
             matchQual.set(0, _livery.empty()    || mc.livery         != _livery);
-            matchQual.set(1, (_airline.empty()  || mc.getAirline()   != _airline) &&   // airline matches with airline, -OR- first part of call sign matches
+            matchQual.set(1, glob.defaultLiveryAirline.empty() ||                      // default livery
+                             glob.defaultLiveryAirline != mc.getAirline());
+            matchQual.set(2, (_airline.empty()  || mc.getAirline()   != _airline) &&   // airline matches with airline, -OR- first part of call sign matches
                              (_callSign.empty() || mc.getAirline().empty() || _callSign.compare(0, mc.getAirline().length(), mc.getAirline()) != 0));
-            matchQual.set(2, relOp == 0         || mc.getRelOp()     != relOp);
-            matchQual.set(3, _type.empty()      || mdl.GetIcaoType() != _type);
-            matchQual.set(4,                    // this matches if airline _and_ related group match (so we value a matching livery in a "related" model higher than an exact model with improper livery)
+            matchQual.set(3, relOp == 0         || mc.getRelOp()     != relOp);
+            matchQual.set(4, _type.empty()      || mdl.GetIcaoType() != _type);
+            matchQual.set(5,                    // this matches if airline _and_ related group match (so we value a matching livery in a "related" model higher than an exact model with improper livery)
                           _airline.empty() || related == 0 ||
                           mc.getAirline() != _airline || mdl.GetRelatedGrp()  != related);
-            matchQual.set(5,                    // this matches if related operators group _and_ related group match (so we value a matching group livery in a "related" model higher than an exact model with improper livery)
+            matchQual.set(6,                    // this matches if related operators group _and_ related group match (so we value a matching group livery in a "related" model higher than an exact model with improper livery)
                           relOp == 0       || related == 0 ||
                           mc.getRelOp()   != relOp    || mdl.GetRelatedGrp()  != related);
-            matchQual.set(6, related == 0       || mdl.GetRelatedGrp()  != related);
+            matchQual.set(7, related == 0       || mdl.GetRelatedGrp()  != related);
             // Upper part matches on generic "size/type of aircraft" parameters,
             // which are expected to match anyway if the above (like group/ICAO type) match
-            matchQual.set(7, bDocEmpty          || mdl.GetClassEngType()!= doc8643.GetClassEngType());
-            matchQual.set(8, bDocEmpty          || mdl.GetClassNumEng() != doc8643.GetClassNumEng());
-            matchQual.set(9, bDocEmpty          || mdl.GetWTC()         != wtc);
-            matchQual.set(10,bDocEmpty          || mdl.GetClassType()   != doc8643.GetClassType());
-            matchQual.set(11,bDocEmpty          || mdl.HasRotor()       != doc8643.HasRotor());
+            matchQual.set(8, bDocEmpty          || mdl.GetClassEngType()!= doc8643.GetClassEngType());
+            matchQual.set(9, bDocEmpty          || mdl.GetClassNumEng() != doc8643.GetClassNumEng());
+            matchQual.set(10,bDocEmpty          || mdl.GetWTC()         != wtc);
+            matchQual.set(11,bDocEmpty          || mdl.GetClassType()   != doc8643.GetClassType());
+            matchQual.set(12,bDocEmpty          || mdl.HasRotor()       != doc8643.HasRotor());
             
             // If we are to ignore the doc8643 matches (in case of no doc8643 found)
             // then we completely ignore models which don't match at all
